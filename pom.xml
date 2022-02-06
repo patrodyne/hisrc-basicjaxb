@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.jvnet.jaxb2_commons</groupId>
+	<groupId>org.patrodyne.jvnet</groupId>
 	<artifactId>jaxb2-basics-project</artifactId>
 	<packaging>pom</packaging>
 	<version>0.12.1-SNAPSHOT</version>
@@ -14,36 +14,23 @@
 		<url>https://github.com/patrodyne/hisrc-basicjaxb/issues</url>
 	</issueManagement>
 	<inceptionYear>2005</inceptionYear>
-	<mailingLists>
-		<mailingList>
-			<name>Users List</name>
-			<subscribe>users-subscribe@jaxb.java.net</subscribe>
-			<unsubscribe>users-unsubscribe@jaxb.java.net</unsubscribe>
-			<post>users@jaxb.java.net</post>
-			<archive>http://java.net/projects/jaxb/lists/users/archive</archive>
-		</mailingList>
-	</mailingLists>
 	<developers>
 		<developer>
-			<id>lexi</id>
-			<name>Aleksei Valikov</name>
-			<email>valikov@gmx.net</email>
+			<id>patrodyne</id>
+			<name>Rick O'Sullivan</name>
+			<email>rick.osullivan@patrodyne.org</email>
+			<roles>
+				<role>maintainer</role>
+			</roles>
 		</developer>
 		<developer>
-			<id>kohsuke</id>
-			<name>Kohsuke Kawaguchi</name>
-			<email>kohsuke.kawaguchi@sun.com</email>
+			<id>highsource</id>
+			<name>Aleksei Valikov</name>
+			<roles>
+				<role>architect (late)</role>
+			</roles>
 		</developer>
 	</developers>
-	<contributors>
-		<!--contributor>
-			<name></name>
-			<email></email>
-			<organization></organization>
-			<organizationUrl></organizationUrl>
-			<timezone></timezone>
-		</contributor-->
-	</contributors>
 	<licenses>
 		<license>
 			<name>BSD 3-Clause License</name>
@@ -52,9 +39,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:git:git@github.com:highsource/jaxb2-basics.git</connection>
-		<developerConnection>scm:git:git@github.com:highsource/jaxb2-basics.git</developerConnection>
-		<url>https://github.com/highsource/jaxb2-basics</url>
+		<connection>scm:git:git@github.com:patrodyne/hisrc-basicjaxb.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/patrodyne/hisrc-basicjaxb.git</developerConnection>
+		<url>https://github.com/patrodyne/hisrc-basicjaxb/tree/master</url>
 	</scm>
 	<modules>
 		<module>ant</module>
@@ -155,14 +142,15 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<!-- OSS Repository Hosting <https://central.sonatype.org/publish/publish-guide/> -->
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 		<repository>
 			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
 	<dependencyManagement>
@@ -326,7 +314,7 @@
 					<configuration>
 						<mavenExecutorId>forked-path</mavenExecutorId>
 						<useReleaseProfile>false</useReleaseProfile>
-						<arguments>-Psonatype-oss-release -Psamples</arguments>
+						<arguments>-Psonatype-oss-release</arguments>
 					</configuration>
 				</plugin>
 				<plugin>
