@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 	<version>0.12.1-SNAPSHOT</version>
 	<name>JAXB2 Basics - Project</name>
-	<url>https://github.com/highsource/jaxb2-basics</url>
+	<url>https://github.com/patrodyne/hisrc-basicjaxb</url>
 	<description>JAXB2 Basics is a part of JAXB2 Commons project which implements plugins and tools for JAXB 2.x reference implementation.</description>
 	<issueManagement>
 		<system>GitHub Issues</system>
