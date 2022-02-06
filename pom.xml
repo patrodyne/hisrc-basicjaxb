@@ -46,9 +46,9 @@
 	</contributors>
 	<licenses>
 		<license>
-			<name>BSD-Style License</name>
-			<url>http://www.opensource.org/licenses/bsd-license.php</url>
-			<distribution>repo</distribution>
+			<name>BSD 3-Clause License</name>
+			<url>https://raw.githubusercontent.com/patrodyne/hisrc-basicjaxb/master/LICENSE.md</url>
+			<distribution>repo or manual</distribution>
 		</license>
 	</licenses>
 	<scm>
