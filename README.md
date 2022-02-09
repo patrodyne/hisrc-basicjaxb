@@ -1,37 +1,58 @@
-# JAXB2 Basics
+# HiSrc BasicJAXB
 
-JAXB2 Basics is an [open source](https://github.com/highsource/jaxb2-basics/blob/master/LICENSE) project
-which provides useful plugins and tools for [JAXB 2.x reference implementation](https://jaxb.java.net/).
+A library of XJC plugins and tools to extend JAXB.
 
-# Documentation
+## Description
 
-Please refer to the [wiki](https://github.com/highsource/jaxb2-basics/wiki) for documentation.
+This repository is a fork of [JAXB2 Basics][2]. The original project was developed by the admirable
+Alexey Valikov (a.k.a Highsource). This repository contains Java projects to build Maven artifact(s)
+related to the Java Architecture for XML Binding (JAXB) framework. It is one of a family of repositories
+forked from Highsource that provide tools for JAXB and JPA processing. Names have been changed to reflect
+the familial connection between the repositories and to fix a conformance issue with the original 'maven-jaxb2-plugin' name. 
 
-JAXB2 Basics can only be used with JAXB/XJC 2.3.0 and higher. JAXB/XJC versions 2.2.x and earlier are no longer supported.
+### List of repositories in this family
 
-JAXB2 Basics can only be used with Java 1.7 and above.
+| Patrodyne                   | Highsource                  | Purpose                                                |
+| --------------------------- | --------------------------- | ------------------------------------------------------ |
+| [hisrc-basicjaxb-annox][11] | [annox][21]                 | Parse XML Schema to find Java annotation declarations. |
+| [hisrc-basicjaxb][12]       | [jaxb2-basics][22]          | A library of XJC plugins and tools to extend JAXB.     |
+| [hisrc-higherjaxb][13]      | [maven-jaxb2-plugin][23]    | Maven plugin to generated Java source from XML Schema. |
+| [hisrc-hyperjaxb-annox][15] | [jaxb2-annotate-plugin][25] | XJC plugin to add arbitrary Java annotations to JAXB.  |
+| [hisrc-hyperjaxb][14]       | [hyperjaxb3][24]            | Maven and XJC plugins to add JPA annotations to JAXB.  |
 
-## Using JAXB2 Basics
+### Graph of repositories relationships
 
-* [Using JAXB2 Basics Plugins](https://github.com/highsource/jaxb2-basics/wiki/Using-JAXB2-Basics-Plugins)
+![Patrodyne-Highsource Graph][1]
 
-## JAXB2 Basics Plugins
-* [SimpleEquals Plugin](https://github.com/highsource/jaxb2-basics/wiki/JAXB2-SimpleEquals-Plugin) - generates runtime-free reflection-free `equals(...)` methods.
-* [SimpleHashCode Plugin](https://github.com/highsource/jaxb2-basics/wiki/JAXB2-SimpleHashCode-Plugin) - generates runtime-free reflection-free `hashCode()` methods.
-* Equals Plugin - generates reflection-free strategic `equals(...)` method.
-* HashCode Plugin - generates reflection-free strategic `hashCode()` method.
-* ToString Plugin - generates reflection-free strategic `toString()` methods.
-* Copyable Plugin - generates reflection-free strategic `copy(...)` deep copying.
-* Mergeable Plugin - generates reflection-free strategic `merge(...)` methods to merge data from two source objects into the given object.
-* Inheritance Plugin - makes schema-derived classes extend certain class or implement certain interfaces.
-* Wildcard Plugin - allows you to specify the wildcard mode for the wildcard properties.
-* AutoInheritance Plugin - makes classes derived from global elements or complex types extend or implement certain classes or interfaces automatically.
-* [Setters Plugin](https://github.com/highsource/jaxb2-basics/wiki/JAXB2-Setters-Plugin) - generates setters for collections.
-* [Simplify Plugin](https://github.com/highsource/jaxb2-basics/wiki/JAXB2-Simplify-Plugin) - simplifies weird properties like `aOrBOrC`.
-* [EnumValue Plugin](https://github.com/highsource/jaxb2-basics/wiki/JAXB2-EnumValue-Plugin) - makes all the generated enums implement the `EnumValue<T>` interface.
-* JAXBIndex Plugin - generated `jaxb.index` files listing schema-derived classes.
-* [FixJAXB1058 Plugin](https://github.com/highsource/jaxb2-basics/wiki/JAXB2-FixJAXB1058-Plugin) - fixes [JAXB-1058](https://java.net/jira/browse/JAXB-1058).
+### Goals
 
-## Credits ##
+The initial goals of this fork are:
 
-* Many thanks to **James Annesley** for his ideas and help with the [SimpleEquals Plugin](https://github.com/highsource/jaxb2-basics/wiki/JAXB2-SimpleEquals-Plugin) and the [SimpleHashCode Plugin](https://github.com/highsource/jaxb2-basics/wiki/JAXB2-SimpleHashCode-Plugin).
+* Produce a mostly warning and error free build under Java 8 and Java 11.
+* Provide new build scripts to facilitate installation, deployment and release.
+* Release fresh artifacts to Maven Central in the 'org.patrodyne.jvnet' group.
+
+### Status
+
+In progress,
+
+* Obsolete build scripts have been removed.
+* New build scripts have been added.
+* POMs have been refactored with renamed artifacts.
+* POMs have been updated to reduce warnings and errors.
+* Changes to Java sources is in progress.
+* Verification of unit and integration tests is in progress.
+
+<!-- References -->
+
+  [1]: https://raw.githubusercontent.com/patrodyne/hisrc-hyperjaxb/master/etc/hisrc-repositories.svg
+  [11]: https://github.com/patrodyne/hisrc-hyperjaxb-annox
+  [12]: https://github.com/patrodyne/hisrc-hyperjaxb
+  [13]: https://github.com/patrodyne/hisrc-higherjaxb
+  [14]: https://github.com/patrodyne/hisrc-hyperjaxb-annox
+  [15]: https://github.com/patrodyne/hisrc-hyperjaxb
+  [21]: https://github.com/highsource/annox
+  [22]: https://github.com/highsource/jaxb2-basics
+  [23]: https://github.com/highsource/maven-jaxb2-plugin
+  [24]: https://github.com/highsource/hyperjaxb3
+  [25]: https://github.com/highsource/jaxb2-annotate-plugin
