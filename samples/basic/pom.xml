@@ -3,12 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>jaxb2-basics-sample-basic</artifactId>
+	<artifactId>hisrc-basicjaxb-sample-basic</artifactId>
 	<packaging>pom</packaging>
 	<name>JAXB2 Basics - Sample [basic]</name>
 	<parent>
-		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>jaxb2-basics-samples</artifactId>
+		<groupId>org.patrodyne.jvnet</groupId>
+		<artifactId>hisrc-basicjaxb-samples</artifactId>
 		<version>0.12.1-SNAPSHOT</version>
 	</parent>
 	<dependencies>
@@ -17,16 +17,16 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics-plugins</artifactId>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-plugins</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics-testing</artifactId>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-testing</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics-ant</artifactId>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-ant</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>

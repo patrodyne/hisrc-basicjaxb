@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>jaxb2-basics-project</artifactId>
+		<groupId>org.patrodyne.jvnet</groupId>
+		<artifactId>hisrc-basicjaxb-project</artifactId>
 		<version>0.12.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>jaxb2-basics</artifactId>
+	<artifactId>hisrc-basicjaxb</artifactId>
 	<packaging>jar</packaging>
 	<name>JAXB2 Basics - Basic Plugins</name>
 	<dependencies>
@@ -29,12 +29,12 @@
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics-runtime</artifactId>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-runtime</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics-tools</artifactId>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-tools</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
@@ -56,13 +56,13 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.jaxb2.maven2</groupId>
-			<artifactId>maven-jaxb2-plugin-core</artifactId>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-higherjaxb-maven-plugin-core</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.jaxb2.maven2</groupId>
-			<artifactId>maven-jaxb2-plugin-testing</artifactId>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-higherjaxb-maven-plugin-testing</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -103,8 +103,8 @@
 										</pluginExecution>
 										<pluginExecution>
 											<pluginExecutionFilter>
-												<groupId>org.jvnet.jaxb2.maven2</groupId>
-												<artifactId>maven-jaxb2-plugin</artifactId>
+												<groupId>org.patrodyne.jvnet</groupId>
+												<artifactId>hisrc-higherjaxb2-maven-plugin</artifactId>
    												<versionRange>[0.8.1,)</versionRange>
 												<goals>
 													<goal>generate</goal>

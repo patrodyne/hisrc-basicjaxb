@@ -4,17 +4,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>jaxb2-basics-test-episodes</artifactId>
+		<groupId>org.patrodyne.jvnet</groupId>
+		<artifactId>hisrc-basicjaxb-test-episodes</artifactId>
 		<version>0.12.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>jaxb2-basics-test-episodes-b</artifactId>
+	<artifactId>hisrc-basicjaxb-test-episodes-b</artifactId>
 	<packaging>jar</packaging>
 	<name>JAXB2 Basics - Test [episodes-b]</name>
 	<dependencies>
 		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics-test-episodes-a</artifactId>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-test-episodes-a</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
@@ -22,8 +22,8 @@
 		<defaultGoal>test</defaultGoal>
 		<plugins>
 			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-higherjaxb2-maven-plugin</artifactId>
 				<configuration>
 					<extension>true</extension>
 					<args>
@@ -35,14 +35,14 @@
 					</args>
 					<plugins>
 						<plugin>
-							<groupId>org.jvnet.jaxb2_commons</groupId>
-							<artifactId>jaxb2-basics</artifactId>
+							<groupId>org.patrodyne.jvnet</groupId>
+							<artifactId>hisrc-basicjaxb</artifactId>
 						</plugin>
 					</plugins>
 					<episodes>
 						<episode>
-							<groupId>org.jvnet.jaxb2_commons</groupId>
-							<artifactId>jaxb2-basics-test-episodes-a</artifactId>
+							<groupId>org.patrodyne.jvnet</groupId>
+							<artifactId>hisrc-basicjaxb-test-episodes-a</artifactId>
 						</episode>
 					</episodes>
 				</configuration>

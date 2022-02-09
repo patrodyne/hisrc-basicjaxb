@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>jaxb2-basics-tests</artifactId>
+		<groupId>org.patrodyne.jvnet</groupId>
+		<artifactId>hisrc-basicjaxb-tests</artifactId>
 		<version>0.12.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>jaxb2-basics-test-zj</artifactId>
+	<artifactId>hisrc-basicjaxb-test-zj</artifactId>
 	<packaging>jar</packaging>
 	<name>JAXB2 Basics - Test [zj]</name>
 	<dependencies>
@@ -22,8 +22,8 @@
 		<defaultGoal>test</defaultGoal>
 		<plugins>
 			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-higherjaxb2-maven-plugin</artifactId>
 				<configuration>
 					<args>
 						<arg>-XtoString</arg>
@@ -33,8 +33,8 @@
 					</args>
 					<plugins>
 						<plugin>
-							<groupId>org.jvnet.jaxb2_commons</groupId>
-							<artifactId>jaxb2-basics</artifactId>
+							<groupId>org.patrodyne.jvnet</groupId>
+							<artifactId>hisrc-basicjaxb</artifactId>
 						</plugin>
 					</plugins>
 				</configuration>

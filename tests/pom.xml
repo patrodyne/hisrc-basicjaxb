@@ -3,12 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>jaxb2-basics-tests</artifactId>
+	<artifactId>hisrc-basicjaxb-tests</artifactId>
 	<packaging>pom</packaging>
 	<name>JAXB2 Basics - Tests</name>
 	<parent>
-		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>jaxb2-basics-project</artifactId>
+		<groupId>org.patrodyne.jvnet</groupId>
+		<artifactId>hisrc-basicjaxb-project</artifactId>
 		<version>0.12.1-SNAPSHOT</version>
 	</parent>
 	<modules>
@@ -30,16 +30,16 @@
 			<artifactId>jaxb-runtime</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics-runtime</artifactId>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-runtime</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.activation</groupId>
 			<artifactId>javax.activation</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics-testing</artifactId>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-testing</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

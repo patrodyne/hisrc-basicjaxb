@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>jaxb2-basics-tests</artifactId>
+		<groupId>org.patrodyne.jvnet</groupId>
+		<artifactId>hisrc-basicjaxb-tests</artifactId>
 		<version>0.12.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>jaxb2-basics-test-superclass</artifactId>
+	<artifactId>hisrc-basicjaxb-test-superclass</artifactId>
 	<packaging>pom</packaging>
 	<name>JAXB2 Basics - Test [superclass]</name>
 	<modules>

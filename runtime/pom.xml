@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>jaxb2-basics-project</artifactId>
+		<groupId>org.patrodyne.jvnet</groupId>
+		<artifactId>hisrc-basicjaxb-project</artifactId>
 		<version>0.12.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>jaxb2-basics-runtime</artifactId>
+	<artifactId>hisrc-basicjaxb-runtime</artifactId>
 	<packaging>jar</packaging>
 	<name>JAXB2 Basics - Runtime</name>
 	<dependencies>

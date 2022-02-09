@@ -66,10 +66,10 @@
 	<properties>
 		<activation.version>1.2.0</activation.version>
 		<cxf.version>3.3.0</cxf.version>
+		<hisrc-higherjaxb-maven-plugin.version>0.14.1-SNAPSHOT</hisrc-higherjaxb-maven-plugin.version>
 		<jaxb-core.version>2.3.0.1</jaxb-core.version>
 		<jaxb.version>2.3.1</jaxb.version>
 		<junit.version>4.13.2</junit.version>
-		<maven-jaxb2-plugin.version>0.14.1-SNAPSHOT</maven-jaxb2-plugin.version>
 		<maven.compiler.source>8</maven.compiler.source>
 		<maven.compiler.target>8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -79,50 +79,50 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics-plugins</artifactId>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-plugins</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics-ant</artifactId>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-ant</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics-runtime</artifactId>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-runtime</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics-tools</artifactId>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-tools</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics-testing</artifactId>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-testing</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jvnet.jaxb2_commons</groupId>
-				<artifactId>jaxb2-basics</artifactId>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- Maven JAXB2 Plugin -->
 			<dependency>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>${maven-jaxb2-plugin.version}</version>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-higherjaxb2-maven-plugin</artifactId>
+				<version>${hisrc-higherjaxb-maven-plugin.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin-core</artifactId>
-				<version>${maven-jaxb2-plugin.version}</version>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-higherjaxb-maven-plugin-core</artifactId>
+				<version>${hisrc-higherjaxb-maven-plugin.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin-testing</artifactId>
-				<version>${maven-jaxb2-plugin.version}</version>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-higherjaxb-maven-plugin-testing</artifactId>
+				<version>${hisrc-higherjaxb-maven-plugin.version}</version>
 			</dependency>
 			<!-- JAXB -->
 			<dependency>
@@ -313,9 +313,9 @@
 					<version>3.0.1</version>
 				</plugin>
 				<plugin>
-					<groupId>org.jvnet.jaxb2.maven2</groupId>
-					<artifactId>maven-jaxb2-plugin</artifactId>
-					<version>${maven-jaxb2-plugin.version}</version>
+					<groupId>org.patrodyne.jvnet</groupId>
+					<artifactId>hisrc-higherjaxb2-maven-plugin</artifactId>
+					<version>${hisrc-higherjaxb-maven-plugin.version}</version>
 					<executions>
 						<execution>
 							<id>generate</id>

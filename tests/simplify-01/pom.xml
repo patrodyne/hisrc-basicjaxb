@@ -4,22 +4,22 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>jaxb2-basics-tests</artifactId>
+		<groupId>org.patrodyne.jvnet</groupId>
+		<artifactId>hisrc-basicjaxb-tests</artifactId>
 		<version>0.12.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>jaxb2-basics-test-simplify-01</artifactId>
+	<artifactId>hisrc-basicjaxb-test-simplify-01</artifactId>
 	<packaging>jar</packaging>
 	<name>JAXB2 Basics - Test [simplify-01]</name>
 	<dependencies>
 		<dependency>
-			<groupId>org.jvnet.jaxb2.maven2</groupId>
-			<artifactId>maven-jaxb2-plugin-testing</artifactId>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-higherjaxb-maven-plugin-testing</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics</artifactId>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>joda-time</groupId>
@@ -30,8 +30,8 @@
 		<defaultGoal>test</defaultGoal>
 		<plugins>
 			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-higherjaxb2-maven-plugin</artifactId>
 				<configuration>
 					<extension>true</extension>
 					<args>
@@ -40,8 +40,8 @@
 					</args>
 					<plugins>
 						<plugin>
-							<groupId>org.jvnet.jaxb2_commons</groupId>
-							<artifactId>jaxb2-basics</artifactId>
+							<groupId>org.patrodyne.jvnet</groupId>
+							<artifactId>hisrc-basicjaxb</artifactId>
 						</plugin>
 					</plugins>
 				</configuration>

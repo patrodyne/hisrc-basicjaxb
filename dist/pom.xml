@@ -4,65 +4,65 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.jvnet.jaxb2_commons</groupId>
-		<artifactId>jaxb2-basics-project</artifactId>
+		<groupId>org.patrodyne.jvnet</groupId>
+		<artifactId>hisrc-basicjaxb-project</artifactId>
 		<version>0.12.1-SNAPSHOT</version>
 	</parent>
-	<groupId>org.jvnet.jaxb2_commons</groupId>
-	<artifactId>jaxb2-basics-dist</artifactId>
+	<groupId>org.patrodyne.jvnet</groupId>
+	<artifactId>hisrc-basicjaxb-dist</artifactId>
 	<packaging>pom</packaging>
 	<name>JAXB2 Basics - Distribution</name>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>jaxb2-basics-plugins</artifactId>
+			<artifactId>hisrc-basicjaxb-plugins</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>jaxb2-basics-sample-po</artifactId>
-			<version>${project.version}</version>
-			<type>zip</type>
-			<classifier>maven-src</classifier>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>jaxb2-basics-sample-po</artifactId>
-			<version>${project.version}</version>
-			<type>zip</type>
-			<classifier>ant-src</classifier>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>jaxb2-basics-sample-po-simple</artifactId>
+			<artifactId>hisrc-basicjaxb-sample-po</artifactId>
 			<version>${project.version}</version>
 			<type>zip</type>
 			<classifier>maven-src</classifier>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>jaxb2-basics-sample-po-simple</artifactId>
+			<artifactId>hisrc-basicjaxb-sample-po</artifactId>
 			<version>${project.version}</version>
 			<type>zip</type>
 			<classifier>ant-src</classifier>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>jaxb2-basics-sample-basic</artifactId>
+			<artifactId>hisrc-basicjaxb-sample-po-simple</artifactId>
 			<version>${project.version}</version>
 			<type>zip</type>
 			<classifier>maven-src</classifier>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>jaxb2-basics-sample-basic</artifactId>
+			<artifactId>hisrc-basicjaxb-sample-po-simple</artifactId>
 			<version>${project.version}</version>
 			<type>zip</type>
 			<classifier>ant-src</classifier>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>jaxb2-basics-sample-cxf</artifactId>
+			<artifactId>hisrc-basicjaxb-sample-basic</artifactId>
+			<version>${project.version}</version>
+			<type>zip</type>
+			<classifier>maven-src</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>hisrc-basicjaxb-sample-basic</artifactId>
+			<version>${project.version}</version>
+			<type>zip</type>
+			<classifier>ant-src</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>hisrc-basicjaxb-sample-cxf</artifactId>
 			<version>${project.version}</version>
 			<type>zip</type>
 			<classifier>maven-src</classifier>
