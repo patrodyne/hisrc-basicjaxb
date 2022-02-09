@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -10,6 +11,13 @@
 	<artifactId>jaxb2-basics-test-zj</artifactId>
 	<packaging>jar</packaging>
 	<name>JAXB2 Basics - Test [zj]</name>
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 	<build>
 		<defaultGoal>test</defaultGoal>
 		<plugins>
@@ -24,8 +32,8 @@
 						<arg>-Xcopyable</arg>
 					</args>
 					<plugins>
-                                        	<plugin>
-                                                	<groupId>org.jvnet.jaxb2_commons</groupId>
+						<plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
 							<artifactId>jaxb2-basics</artifactId>
 						</plugin>
 					</plugins>

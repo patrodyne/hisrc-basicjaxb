@@ -1,6 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="jaxb2-basics-sample-basic-ant" default="install">
 	<property name="artifactId" value="jaxb2-basics-sample-basic-ant"/>
+	<property name="build.compiler" value="extJavac"/>
 	<path id="compile.path">
 		<fileset dir="${basedir}/lib">
 			<include name="commons-lang3-*.jar"/>
@@ -89,10 +90,12 @@
 			<schema dir="${basedir}/src/main/resources">
 			 	<include name="**/*.xsd"/>
 			</schema>
+			<produces dir="${basedir}/target/generated-sources/xjc" includes="**/*.java" />
 			<!-- Plugins -->
 			<classpath>
 				<fileset dir="${basedir}/lib">
 					<include name="jaxb2-basics-plugins-*.jar"/>
+					<include name="slf4j-*.jar"/>
 				</fileset>
 			</classpath>
 		</xjc>
@@ -103,9 +106,7 @@
 			destdir="${basedir}/target/classes" 
 			srcdir="${basedir}/src/main/java:${basedir}/target/generated-sources/xjc"
 			classpathref="compile.path"
-			includeantruntime="false"
-			source="1.7"
-			target="1.7">
+			includeantruntime="false">
 		</javac>
 		<copy todir="${basedir}/target/classes">
 			<fileset dir="${basedir}/src/main/resources"/>
@@ -120,9 +121,7 @@
 			destdir="${basedir}/target/test-classes" 
 			srcdir="${basedir}/src/test/java:${basedir}/target/generated-sources/xjc"
 			classpathref="test-compile.path"
-			includeantruntime="false"
-			source="1.7"
-			target="1.7">
+			includeantruntime="false">
 		</javac>
 		<copy todir="${basedir}/target/test-classes">
 			<fileset dir="${basedir}/src/test/resources"/>

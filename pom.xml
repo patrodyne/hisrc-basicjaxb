@@ -1,19 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.patrodyne.jvnet</groupId>
-	<artifactId>jaxb2-basics-project</artifactId>
-	<packaging>pom</packaging>
+	<artifactId>hisrc-basicjaxb-project</artifactId>
 	<version>0.12.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>JAXB2 Basics - Project</name>
-	<url>https://github.com/patrodyne/hisrc-basicjaxb</url>
 	<description>JAXB2 Basics is a part of JAXB2 Commons project which implements plugins and tools for JAXB 2.x reference implementation.</description>
-	<issueManagement>
-		<system>GitHub Issues</system>
-		<url>https://github.com/patrodyne/hisrc-basicjaxb/issues</url>
-	</issueManagement>
+	<url>https://github.com/patrodyne/hisrc-basicjaxb</url>
 	<inceptionYear>2005</inceptionYear>
+	<licenses>
+		<license>
+			<name>BSD 3-Clause License</name>
+			<url>https://raw.githubusercontent.com/patrodyne/hisrc-basicjaxb/master/LICENSE.md</url>
+			<distribution>repo or manual</distribution>
+		</license>
+	</licenses>
 	<developers>
 		<developer>
 			<id>patrodyne</id>
@@ -31,18 +35,6 @@
 			</roles>
 		</developer>
 	</developers>
-	<licenses>
-		<license>
-			<name>BSD 3-Clause License</name>
-			<url>https://raw.githubusercontent.com/patrodyne/hisrc-basicjaxb/master/LICENSE.md</url>
-			<distribution>repo or manual</distribution>
-		</license>
-	</licenses>
-	<scm>
-		<connection>scm:git:git@github.com:patrodyne/hisrc-basicjaxb.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/patrodyne/hisrc-basicjaxb.git</developerConnection>
-		<url>https://github.com/patrodyne/hisrc-basicjaxb/tree/master</url>
-	</scm>
 	<modules>
 		<module>ant</module>
 		<module>runtime</module>
@@ -51,97 +43,15 @@
 		<module>basic</module>
 		<module>plugins</module>
 	</modules>
-	<profiles>
-		<profile>
-			<id>samples</id>
-			<modules>
-				<module>samples</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>tests</id>
-			<modules>
-				<module>tests</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>dist</id>
-			<modules>
-				<module>dist</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>all</id>
-			<modules>
-				<module>samples</module>
-				<module>tests</module>
-				<module>dist</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>sonatype-oss-release</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-source-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>attach-sources</id>
-								<goals>
-									<goal>jar-no-fork</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>attach-javadocs</id>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jaxb.version>3.0.0-M4</jaxb.version>
-		<activation.version>1.2.0</activation.version>
-		<maven-jaxb2-plugin.version>0.14.0</maven-jaxb2-plugin.version>
-		<cxf-codegen-plugin.version>3.2.4</cxf-codegen-plugin.version>
-		<slf4j.version>1.7.7</slf4j.version>
-	</properties>
-	<prerequisites>
-		<maven>3.1</maven>
-	</prerequisites>
-	<dependencies>
-		<!-- JUnit -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+	<scm>
+		<connection>scm:git:git@github.com:patrodyne/hisrc-basicjaxb.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/patrodyne/hisrc-basicjaxb.git</developerConnection>
+		<url>https://github.com/patrodyne/hisrc-basicjaxb/tree/master</url>
+	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/patrodyne/hisrc-basicjaxb/issues</url>
+	</issueManagement>
 	<!-- OSS Repository Hosting <https://central.sonatype.org/publish/publish-guide/> -->
 	<distributionManagement>
 		<snapshotRepository>
@@ -153,6 +63,19 @@
 			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
+	<properties>
+		<activation.version>1.2.0</activation.version>
+		<cxf.version>3.3.0</cxf.version>
+		<jaxb-core.version>2.3.0.1</jaxb-core.version>
+		<jaxb.version>2.3.1</jaxb.version>
+		<junit.version>4.13.2</junit.version>
+		<maven-jaxb2-plugin.version>0.14.1-SNAPSHOT</maven-jaxb2-plugin.version>
+		<maven.compiler.source>8</maven.compiler.source>
+		<maven.compiler.target>8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<slf4j.version>1.7.33</slf4j.version>
+	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -193,14 +116,19 @@
 			</dependency>
 			<dependency>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin-core</artifactId>
+				<version>${maven-jaxb2-plugin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin-testing</artifactId>
 				<version>${maven-jaxb2-plugin.version}</version>
 			</dependency>
 			<!-- JAXB -->
 			<dependency>
-				<groupId>jakarta.xml.bind</groupId>
-				<artifactId>jakarta.xml.bind-api</artifactId>
-				<version>3.0.0-RC3</version>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>${jaxb.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.glassfish.jaxb</groupId>
@@ -209,13 +137,23 @@
 			</dependency>
 			<dependency>
 				<groupId>org.glassfish.jaxb</groupId>
-				<artifactId>jaxb-core</artifactId>
+				<artifactId>jaxb-xjc</artifactId>
 				<version>${jaxb.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.glassfish.jaxb</groupId>
-				<artifactId>jaxb-xjc</artifactId>
+				<artifactId>codemodel</artifactId>
 				<version>${jaxb.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jaxb</groupId>
+				<artifactId>xsom</artifactId>
+				<version>${jaxb.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.activation</groupId>
+				<artifactId>javax.activation-api</artifactId>
+				<version>${activation.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.sun.activation</groupId>
@@ -226,7 +164,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.11</version>
+				<version>${junit.version}</version>
 			</dependency>
 			<!-- Joda-Time -->
 			<dependency>
@@ -277,6 +215,12 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring</artifactId>
 				<version>2.0.7</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-logging</groupId>
+						<artifactId>commons-logging</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<!-- XMLUnit -->
 			<dependency>
@@ -308,38 +252,13 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>2.5.3</version>
-					<configuration>
-						<mavenExecutorId>forked-path</mavenExecutorId>
-						<useReleaseProfile>false</useReleaseProfile>
-						<arguments>-Psonatype-oss-release</arguments>
-					</configuration>
-				</plugin>
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.7.0</version>
-					<configuration>
-						<source>1.7</source>
-						<target>1.7</target>
-					</configuration>
-				</plugin>
-				<plugin>
 					<artifactId>maven-antrun-plugin</artifactId>
-					<version>1.8</version>
+					<version>3.0.0</version>
 					<dependencies>
-						<!--dependency>
-							<groupId>sun.jdk</groupId>
-							<artifactId>tools</artifactId>
-							<version>1.5.0</version>
-							<scope>system</scope>
-							<systemPath>${java.home}/../lib/tools.jar</systemPath>
-						</dependency-->
 						<dependency>
 							<groupId>junit</groupId>
 							<artifactId>junit</artifactId>
-							<version>3.8.1</version>
+							<version>${junit.version}</version>
 							<scope>runtime</scope>
 						</dependency>
 						<dependency>
@@ -350,69 +269,35 @@
 					</dependencies>
 				</plugin>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<version>2.8.2</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>3.0.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>3.0.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>3.1.0</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-clean-plugin</artifactId>
-					<version>3.1.0</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-install-plugin</artifactId>
-					<version>2.5.2</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-site-plugin</artifactId>
-					<version>3.7.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>3.1.0</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.21.0</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.1.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
-					<version>3.1.0</version>
+					<version>3.3.0</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>3.2.0</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>3.0.0-M5</version>
+					<configuration>
+						<mavenExecutorId>forked-path</mavenExecutorId>
+						<useReleaseProfile>false</useReleaseProfile>
+						<arguments>-Psonatype-oss-release</arguments>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-invoker-plugin</artifactId>
+					<version>3.2.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>versions-maven-plugin</artifactId>
+					<version>2.9.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.felix</groupId>
 					<artifactId>maven-bundle-plugin</artifactId>
-					<version>3.5.0</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-invoker-plugin</artifactId>
-					<version>3.1.0</version>
+					<version>5.1.4</version>
 				</plugin>
 				<plugin>
 					<groupId>org.owasp</groupId>
@@ -420,14 +305,12 @@
 					<version>3.2.1</version>
 				</plugin>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-shade-plugin</artifactId>
 					<version>3.1.1</version>
 				</plugin>
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-gpg-plugin</artifactId>
-					<version>1.6</version>
+					<version>3.0.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.jvnet.jaxb2.maven2</groupId>
@@ -444,18 +327,157 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+
 		<plugins>
 			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.1.0</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.2.0</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.2</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.9.0</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>3.0.0-M1</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>3.0.0-M2</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.10.0</version>
+			</plugin>
+			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
+				<version>3.2.1</version> 
 				<executions>
 					<execution>
-						<id>attach-source</id>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.3.1</version> 
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<phase>verify</phase>
 						<goals>
 							<goal>jar</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>enforce-java-maven</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireJavaVersion>
+									<version>1.8</version>
+								</requireJavaVersion>
+								<requireMavenVersion>
+									<version>3.1</version>
+								</requireMavenVersion>
+							</rules>    
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>samples</id>
+			<modules>
+				<module>samples</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>tests</id>
+			<modules>
+				<module>tests</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>dist</id>
+			<modules>
+				<module>dist</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>all</id>
+			<modules>
+				<module>samples</module>
+				<module>tests</module>
+			</modules>
+		</profile>
+		<profile>
+			<!-- OSS Repository Hosting <https://central.sonatype.org/publish/publish-guide/> -->
+			<id>sonatype-oss-release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-source-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
