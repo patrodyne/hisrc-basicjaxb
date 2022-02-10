@@ -39,12 +39,10 @@
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-xjc</artifactId>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.javaparser</groupId>
@@ -104,7 +102,7 @@
 										<pluginExecution>
 											<pluginExecutionFilter>
 												<groupId>org.patrodyne.jvnet</groupId>
-												<artifactId>hisrc-higherjaxb2-maven-plugin</artifactId>
+												<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
    												<versionRange>[0.8.1,)</versionRange>
 												<goals>
 													<goal>generate</goal>

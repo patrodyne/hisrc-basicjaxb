@@ -27,7 +27,7 @@
 		<plugins>
 			<plugin>
 				<groupId>org.patrodyne.jvnet</groupId>
-				<artifactId>hisrc-higherjaxb2-maven-plugin</artifactId>
+				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
 				<configuration>
 					<extension>true</extension>
 					<args>
