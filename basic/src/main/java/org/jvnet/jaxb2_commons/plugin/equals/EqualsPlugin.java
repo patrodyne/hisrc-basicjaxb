@@ -204,22 +204,22 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 					final String name = fieldOutline.getPropertyInfo().getName(
 							true);
 
-					final JExpression leftFieldHasSetValue = (leftFieldAccessor
-							.isAlwaysSet() || leftFieldAccessor.hasSetValue() == null) ? JExpr.TRUE
-							: leftFieldAccessor.hasSetValue();
-
-					final JExpression rightFieldHasSetValue = (rightFieldAccessor
-							.isAlwaysSet() || rightFieldAccessor.hasSetValue() == null) ? JExpr.TRUE
-							: rightFieldAccessor.hasSetValue();
-
 					final JVar lhsValue = block.decl(
 							leftFieldAccessor.getType(), "lhs" + name);
 					leftFieldAccessor.toRawValue(block, lhsValue);
-
+					
 					final JVar rhsValue = block.decl(
 							rightFieldAccessor.getType(), "rhs" + name);
 					rightFieldAccessor.toRawValue(block, rhsValue);
 
+					final JExpression leftValueHasSetValue = lhsValue.type().isPrimitive()
+							? JExpr.TRUE
+							: lhsValue.ne(JExpr._null());
+
+					final JExpression rightValueHasSetValue = lhsValue.type().isPrimitive()
+							? JExpr.TRUE
+							: rhsValue.ne(JExpr._null());
+					
 					final JExpression leftFieldLocator = codeModel
 							.ref(LocatorUtils.class).staticInvoke("property")
 							.arg(leftLocator)
@@ -234,8 +234,8 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 							JOp.not(JExpr.invoke(equalsStrategy, "equals")
 									.arg(leftFieldLocator)
 									.arg(rightFieldLocator).arg(lhsValue)
-									.arg(rhsValue).arg(leftFieldHasSetValue)
-									.arg(rightFieldHasSetValue)))._then()
+									.arg(rhsValue).arg(leftValueHasSetValue)
+									.arg(rightValueHasSetValue)))._then()
 							._return(JExpr.FALSE);
 				}
 			}
