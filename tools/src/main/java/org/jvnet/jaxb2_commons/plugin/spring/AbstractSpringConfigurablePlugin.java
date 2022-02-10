@@ -1,8 +1,10 @@
 package org.jvnet.jaxb2_commons.plugin.spring;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.support.AbstractXmlApplicationContext;
@@ -15,7 +17,7 @@ import com.sun.tools.xjc.outline.Outline;
 public abstract class AbstractSpringConfigurablePlugin extends
 		AbstractParameterizablePlugin {
 
-	protected Log logger = LogFactory.getLog(getClass());
+	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	private AbstractXmlApplicationContext applicationContext;
 

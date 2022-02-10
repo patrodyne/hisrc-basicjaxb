@@ -9,8 +9,9 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -25,7 +26,7 @@ public abstract class AbstractPlugin extends Plugin {
 	/**
 	 * Plugin logger.
 	 */
-	protected Log logger = LogFactory.getLog(getClass());
+	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public void onActivated(Options options) throws BadCommandLineException {
