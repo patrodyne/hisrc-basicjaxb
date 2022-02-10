@@ -1,4 +1,4 @@
-Copyright &copy; 2022, Rick O'Sullivan
+Copyright &copy; 2022, Rick O'Sullivan;
 Copyright &copy; 2005-2021, Alexey Valikov.
 
 Redistribution and use in source and binary forms, with or without
