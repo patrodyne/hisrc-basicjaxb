@@ -4,19 +4,20 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 
 import org.junit.Assert;
 import junit.framework.TestCase;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractSamplesTest extends TestCase {
 
-	protected Log logger = LogFactory.getLog(getTestClass());
+	protected Logger logger = LoggerFactory.getLogger(getTestClass());
 
 	protected String getContextPath() {
 		return getTestClass().getPackage().getName();
