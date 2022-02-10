@@ -3,15 +3,18 @@ package org.jvnet.jaxb2_commons.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.JAXBIntrospector;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.Unmarshaller;
+import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.JAXBIntrospector;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,6 +26,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.Locator;
 
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CClassInfo;
@@ -37,6 +41,7 @@ import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyVisitor;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
+import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.tools.xjc.model.CValuePropertyInfo;
 import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -159,6 +164,22 @@ public class CustomizationUtils {
 
 	public static List<CPluginCustomization> findCustomizations(CClassInfo classInfo, QName name) {
 		final CCustomizations customizations = CustomizationUtils.getCustomizations(classInfo);
+
+		final List<CPluginCustomization> pluginCustomizations = new LinkedList<CPluginCustomization>();
+
+		for (CPluginCustomization pluginCustomization : customizations) {
+			if (fixNull(pluginCustomization.element.getNamespaceURI()).equals(name.getNamespaceURI())
+					&& fixNull(pluginCustomization.element.getLocalName()).equals(name.getLocalPart())) {
+				pluginCustomization.markAsAcknowledged();
+				pluginCustomizations.add(pluginCustomization);
+			}
+		}
+
+		return pluginCustomizations;
+	}
+
+	public static List<CPluginCustomization> findCustomizations(CTypeInfo typeInfo, QName name) {
+		final CCustomizations customizations = CustomizationUtils.getCustomizations(typeInfo);
 
 		final List<CPluginCustomization> pluginCustomizations = new LinkedList<CPluginCustomization>();
 
@@ -563,6 +584,10 @@ public class CustomizationUtils {
 		return classInfo.getCustomizations();
 	}
 
+	public static CCustomizations getCustomizations(final CTypeInfo typeInfo) {
+		return typeInfo.getCustomizations();
+	}
+
 	public static CCustomizations getCustomizations(final CEnumLeafInfo enumLeafInfo) {
 		return enumLeafInfo.getCustomizations();
 	}
@@ -665,4 +690,102 @@ public class CustomizationUtils {
 		customizable.getCustomizations().add(customization);
 		return customization;
 	}
+	
+	public static Map<CPluginCustomization,String> getInfo(String label, CPropertyInfo propInfo)
+	{
+		Map<CPluginCustomization,String> infoMap = new HashMap<>();
+		for (final CPluginCustomization customization : CustomizationUtils.getCustomizations(propInfo))
+		{
+	        final Element element = customization.element;
+	        final Locator locator = customization.locator;
+			String msg = label +" "
+					+ "[" + getName(element)
+					+ "] at [" + getLocation(locator)
+					+ "] in the property [" + propInfo.parent()
+					+ "." + propInfo.getName(true)
+					+ "] acknowldeged=" + customization.isAcknowledged();
+			infoMap.put(customization, msg);
+		}
+		return infoMap;
+	}
+	
+	public static Map<CPluginCustomization,String> getInfo(String label, CClassInfo classInfo, CPropertyInfo propInfo)
+	{
+		Map<CPluginCustomization,String> infoMap = new HashMap<>();
+		for (final CPluginCustomization customization : CustomizationUtils.getCustomizations(classInfo))
+		{
+	        final Element element = customization.element;
+	        final Locator locator = customization.locator;
+			String msg = label +" "
+					+ "[" + getName(element)
+					+ "] at [" + getLocation(locator)
+					+ "] in the property [" + classInfo.getName()
+					+ "." + propInfo.getName(true)
+					+ "] acknowldeged=" + customization.isAcknowledged();
+			infoMap.put(customization, msg);
+		}
+		return infoMap;
+	}
+	
+	public static Map<CPluginCustomization,String> getInfo(String label, CTypeInfo typeInfo)
+	{
+		Map<CPluginCustomization,String> infoMap = new HashMap<>();
+		for (final CPluginCustomization customization : CustomizationUtils.getCustomizations(typeInfo))
+		{
+	        final Element element = customization.element;
+	        final Locator locator = customization.locator;
+			String msg = label + " "
+					+ "[" + getName(element)
+					+ "] at [" + getLocation(locator)
+					+ "] in the type [" + typeInfo.getType()
+					+ "] acknowldeged=" + customization.isAcknowledged();
+			infoMap.put(customization, msg);
+		}
+		return infoMap;
+	}
+	
+	public static Map<CPluginCustomization,String> getInfo(String label, CClassInfo classInfo)
+	{
+		Map<CPluginCustomization,String> infoMap = new HashMap<>();
+		for (final CPluginCustomization customization : CustomizationUtils.getCustomizations(classInfo))
+		{
+	        final Element element = customization.element;
+	        final Locator locator = customization.locator;
+			String msg = label + " "
+					+ "[" + getName(element)
+					+ "] at [" + getLocation(locator)
+					+ "] in the class [" + classInfo.getName()
+					+ "] acknowldeged=" + customization.isAcknowledged();
+			infoMap.put(customization, msg);
+		}
+		return infoMap;
+	}
+	
+	public static String getInfo(String label, CPluginCustomization customization) {
+        final Element element = customization.element;
+        final Locator locator = customization.locator;
+		String msg =label + " "
+			+ "[" + getName(element)
+			+ "] at [" + getLocation(locator)
+			+ "] acknowldeged=" + customization.isAcknowledged();
+		return msg;
+	}
+
+	public static QName getName(Element element)
+	{
+		String prefix = element.getPrefix() == null ? XMLConstants.DEFAULT_NS_PREFIX : element.getPrefix();
+		return new QName(element.getNamespaceURI(), element.getLocalName(),	prefix);
+	}
+
+	public static String getLocation(org.xml.sax.Locator locator) {
+		String location = "<unknown>";
+		if ( locator != null )
+		{
+			location = locator.getSystemId()
+				+ "(line=" + locator.getLineNumber() 
+				+ ",col=" + locator.getColumnNumber() + ")";
+		}
+		return location;
+	}
+
 }
