@@ -54,14 +54,14 @@
 	</issueManagement>
 	<!-- OSS Repository Hosting <https://central.sonatype.org/publish/publish-guide/> -->
 	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
 		<repository>
 			<id>ossrh</id>
-			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
 	</distributionManagement>
 	<properties>
 		<activation.version>1.2.0</activation.version>
@@ -277,15 +277,6 @@
 					<version>3.2.0</version>
 				</plugin>
 				<plugin>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>3.0.0-M5</version>
-					<configuration>
-						<mavenExecutorId>forked-path</mavenExecutorId>
-						<useReleaseProfile>false</useReleaseProfile>
-						<arguments>-Psonatype-oss-release</arguments>
-					</configuration>
-				</plugin>
-				<plugin>
 					<artifactId>maven-invoker-plugin</artifactId>
 					<version>3.2.2</version>
 				</plugin>
@@ -307,10 +298,6 @@
 				<plugin>
 					<artifactId>maven-shade-plugin</artifactId>
 					<version>3.1.1</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-gpg-plugin</artifactId>
-					<version>3.0.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.patrodyne.jvnet</groupId>
@@ -356,6 +343,19 @@
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>3.0.0-M2</version>
+				<!-- Disable in favor of nexus-staging-maven-plugin -->
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>3.0.0-M5</version>
+				<configuration>
+					<tagNameFormat>@{project.version}</tagNameFormat>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<releaseProfiles>nexus-deploy</releaseProfiles>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-site-plugin</artifactId>
@@ -438,34 +438,14 @@
 			</modules>
 		</profile>
 		<profile>
-			<!-- OSS Repository Hosting <https://central.sonatype.org/publish/publish-guide/> -->
-			<id>sonatype-oss-release</id>
+			<!-- https://help.sonatype.com/repomanager2/staging-releases/configuring-your-project-for-deployment -->
+			<!-- https://www.baeldung.com/maven-deploy-nexus -->
+			<id>nexus-deploy</id>
 			<build>
 				<plugins>
 					<plugin>
-						<artifactId>maven-source-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>attach-sources</id>
-								<goals>
-									<goal>jar-no-fork</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>attach-javadocs</id>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
 						<artifactId>maven-gpg-plugin</artifactId>
+						<version>3.0.1</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
@@ -475,6 +455,28 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.10</version>
+						<extensions>true</extensions>
+						<executions>
+							<execution>
+								<id>default-deploy</id>
+								<phase>deploy</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+						</executions>
+						<!-- Skip staging the components locally when connecting to the repository manager -->
+						<!-- We do not need staging for a simple deployment of -SNAPSHOT artifacts to Nexus -->
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<skipStaging>true</skipStaging>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
