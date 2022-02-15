@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.patrodyne.jvnet</groupId>
 	<artifactId>hisrc-basicjaxb-project</artifactId>
-	<version>0.12.1-SNAPSHOT</version>
+	<version>0.12.1</version>
 	<packaging>pom</packaging>
 	<name>JAXB2 Basics - Project</name>
 	<description>JAXB2 Basics is a part of JAXB2 Commons project which implements plugins and tools for JAXB 2.x reference implementation.</description>
@@ -47,7 +45,8 @@
 		<connection>scm:git:git@github.com:patrodyne/hisrc-basicjaxb.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/patrodyne/hisrc-basicjaxb.git</developerConnection>
 		<url>https://github.com/patrodyne/hisrc-basicjaxb/tree/master</url>
-	</scm>
+	  <tag>0.12.1</tag>
+  </scm>
 	<issueManagement>
 		<system>GitHub Issues</system>
 		<url>https://github.com/patrodyne/hisrc-basicjaxb/issues</url>
