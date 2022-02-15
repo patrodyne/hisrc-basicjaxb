@@ -53,16 +53,6 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.patrodyne.jvnet</groupId>
-			<artifactId>hisrc-higherjaxb-maven-plugin-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.patrodyne.jvnet</groupId>
-			<artifactId>hisrc-higherjaxb-maven-plugin-testing</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 	<build>
 		<defaultGoal>install</defaultGoal>

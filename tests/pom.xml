@@ -12,6 +12,7 @@
 		<version>0.12.1-SNAPSHOT</version>
 	</parent>
 	<modules>
+		<module>basic</module>
 		<module>episodes</module>
 		<module>ignoring</module>
 		<module>issues</module>
