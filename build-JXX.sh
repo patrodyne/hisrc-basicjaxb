@@ -30,6 +30,6 @@ fi
   BUILD_OPTS="--fail-at-end $@"
   mvn ${DEBUG_OPTS} ${BUILD_OPTS}
 # mvn -DskipTests=true -Pnexus-deploy clean deploy
-# mvn -DskipTests=true -DdryRun=true release:clean
+# mvn -DskipTests=true -DdryRun=false release:clean
 # mvn -DskipTests=true -DdryRun=true release:prepare
 # mvn -DskipTests=true -DdryRun=true release:perform
