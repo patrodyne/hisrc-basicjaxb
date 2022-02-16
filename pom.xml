@@ -65,7 +65,7 @@
 	<properties>
 		<activation.version>1.2.0</activation.version>
 		<cxf.version>3.3.0</cxf.version>
-		<hisrc-higherjaxb-maven-plugin.version>0.14.1-SNAPSHOT</hisrc-higherjaxb-maven-plugin.version>
+		<hisrc-higherjaxb-maven-plugin.version>0.14.1</hisrc-higherjaxb-maven-plugin.version>
 		<jaxb-core.version>2.3.0.1</jaxb-core.version>
 		<jaxb.version>2.3.1</jaxb.version>
 		<junit.version>4.13.2</junit.version>
@@ -471,10 +471,12 @@
 						</executions>
 						<!-- Skip staging the components locally when connecting to the repository manager -->
 						<!-- We do not need staging for a simple deployment of -SNAPSHOT artifacts to Nexus -->
+						<!-- Auto close the staging repository and release -->
 						<configuration>
 							<serverId>ossrh</serverId>
 							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
 							<skipStaging>true</skipStaging>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
 						</configuration>
 					</plugin>
 				</plugins>
