@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<!-- Usage: ant -f replace-version.xml -->
+<project name="replace-version" default="main">
+
+	<target name="main">
+
+		<replace dir="${basedir}">
+			<include name="**/*pom.xml"/>
+			<replacetoken><![CDATA[version>0.12.2-SNAPSHOT</version>]]></replacetoken>
+			<replacevalue><![CDATA[version>0.12.2-SNAPSHOT</version>]]></replacevalue>
+		</replace>
+
+	</target>
+
+</project>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4: -->
