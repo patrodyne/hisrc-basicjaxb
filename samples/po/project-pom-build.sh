@@ -22,11 +22,11 @@ menu_options()
 		"c)"	"Display dependencies that have newer version available" \
 		"d)"	"Display the dependency tree" \
 		"e)"	"Resolve plugins and report dependencies" \
-		"f)"	"Download source and javadoc jars to the local repository" \
-		"g)"	"Analyze dependencies and report on: (un)used and/or (un)declared" \
-		"h)"	"Clean and unit/integration test" \
-		"i)"	"Clean and package this project to the target directory" \
-		"j)"	"Clean and install the shared library to the local repository" \
+		"f)"	"Analyze dependencies and report on: (un)used and/or (un)declared" \
+		"g)"	"Clean and unit/integration test" \
+		"h)"	"Clean and package this project to the target directory" \
+		"i)"	"Clean and install the shared library to the local repository" \
+		"j)"	"Download source and javadoc jars to the local repository" \
 		"v)"	"Vim into current directory" \
 		3>&2 2>&1 1>&3)
 }
@@ -40,11 +40,11 @@ menu_actions()
 			"c)")	${BUILDER} versions:display-dependency-updates ;;
 			"d)")	${BUILDER} dependency:tree ;;
 			"e)")	${BUILDER} dependency:resolve-plugins ;;
-			"f)")	${BUILDER} dependency:sources ;;
-			"g)")	${BUILDER} dependency:analyze ;;
-			"h)")	${BUILDER} -DskipTests=false clean test ;;
-			"i)")	${BUILDER} -DskipTests=true  clean package ;;
-			"j)")	${BUILDER} -DskipTests=true  clean install ;;
+			"f)")	${BUILDER} dependency:analyze ;;
+			"g)")	${BUILDER} -DskipTests=false clean test ;;
+			"h)")	${BUILDER} -DskipTests=true  clean package ;;
+			"i)")	${BUILDER} -DskipTests=true  clean install ;;
+			"j)")	${BUILDER} dependency:sources ;;
 			"v)")	vim . ;;
 		esac	
 		read -p "Press any key to continue..." anykey
