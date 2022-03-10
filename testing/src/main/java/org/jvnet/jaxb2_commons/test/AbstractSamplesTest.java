@@ -43,8 +43,8 @@ public abstract class AbstractSamplesTest extends TestCase {
 		}
 		logger.debug("Finished testing samples.");
 
-		Assert.assertTrue("Totally [" + failed + "/" + sampleFiles.length
-				+ "] failed the check.", failed == 0);
+		Assert.assertTrue("Summary [" + failed + "/" + sampleFiles.length
+				+ "] failed the check. Check previous errors for details.", failed == 0);
 	}
 
 	protected File getBaseDir() {
