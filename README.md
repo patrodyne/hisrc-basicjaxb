@@ -41,8 +41,8 @@ with the original `maven-jaxb2-plugin` name.
 The new goals for this fork are:
 
 * Add sample projects to GitHub releases.
-* Update dependencies with newer versions excluding the Jakarta namespace.
-* Update dependencies with newer versions including the Jakarta namespace.
+* Update dependencies with newer versions *excluding* the Jakarta namespace.
+* Update dependencies with newer versions *including* the Jakarta namespace.
 
 ### Status
 
