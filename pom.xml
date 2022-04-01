@@ -65,7 +65,7 @@
 	<properties>
 		<activation.version>1.2.0</activation.version>
 		<cxf.version>3.3.0</cxf.version>
-		<hisrc-higherjaxb-maven-plugin.version>0.14.1</hisrc-higherjaxb-maven-plugin.version>
+		<hisrc-higherjaxb-maven-plugin.version>0.14.2-SNAPSHOT</hisrc-higherjaxb-maven-plugin.version>
 		<jaxb-core.version>2.3.0.1</jaxb-core.version>
 		<jaxb.version>2.3.1</jaxb.version>
 		<junit.version>4.13.2</junit.version>
@@ -297,6 +297,24 @@
 				<plugin>
 					<artifactId>maven-shade-plugin</artifactId>
 					<version>3.1.1</version>
+				</plugin>
+				<plugin>
+					<groupId>com.ruleoftech</groupId>
+					<artifactId>markdown-page-generator-plugin</artifactId>
+					<version>2.4.0</version>
+					<executions>
+						<execution>
+							<?m2e execute onConfiguration,onIncremental?>
+							<id>process-explorer-markdown</id>
+							<phase>process-resources</phase>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+							<configuration>
+								<pegdownExtensions>ABBREVIATIONS,AUTOLINKS,DEFINITIONS,FOOTNOTES,STRIKETHROUGH,SUPERSCRIPT,TABLES</pegdownExtensions>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
 				<plugin>
 					<groupId>org.patrodyne.jvnet</groupId>

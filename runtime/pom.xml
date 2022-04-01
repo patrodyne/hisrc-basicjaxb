@@ -23,13 +23,12 @@
 			<artifactId>jaxb-runtime</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -60,6 +59,19 @@
 						<goals>    
 							<goal>manifest</goal>
 						</goals>   
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.ruleoftech</groupId>
+				<artifactId>markdown-page-generator-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>process-explorer-markdown</id>
+						<configuration>
+							<inputDirectory>${basedir}/src/main/resources/org/patrodyne/jvnet/basicjaxb/explore</inputDirectory>
+							<outputDirectory>${project.build.outputDirectory}/org/patrodyne/jvnet/basicjaxb/explore</outputDirectory>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
