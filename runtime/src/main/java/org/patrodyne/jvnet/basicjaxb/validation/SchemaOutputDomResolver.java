@@ -16,7 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Node;
 
 /**
- * Controls where a JAXB implementation puts the generates schema.
+ * Controls where a JAXB implementation puts the generated schema.
  * This implementation puts the schema into a DOM instance.
  * 
  * @author Rick O'Sullivan

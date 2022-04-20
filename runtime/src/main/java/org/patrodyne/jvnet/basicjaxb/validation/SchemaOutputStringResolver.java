@@ -8,7 +8,7 @@ import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 
 /**
- * Controls where a JAXB implementation puts the generates schema.
+ * Controls where a JAXB implementation puts the generated schema.
  * This implementation puts the schema into a String instance.
  * 
  * @author Rick O'Sullivan
