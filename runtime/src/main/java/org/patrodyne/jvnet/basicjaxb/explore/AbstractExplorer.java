@@ -243,8 +243,8 @@ abstract public class AbstractExplorer extends JFrame
 		JScrollPane errorPane = new JScrollPane(getErrorWriter().getTextArea());
 
 		JSplitPane streamPane = new JSplitPane(VERTICAL_SPLIT, consolePane, errorPane);
-		streamPane.setResizeWeight(CONFIG_STREAM_PANE_WEIGHT);
 		streamPane.setOneTouchExpandable(true);
+		streamPane.setResizeWeight(CONFIG_STREAM_PANE_WEIGHT);
 		setStreamPane(streamPane);
 
 		String html = getResourceAsString(getClass(), htmlName);

@@ -221,10 +221,10 @@ public class Explorer extends AbstractExplorer
 		{
 			int currentHashCode = 1;
 	        {
-	            String theLastName;
-	            theLastName = this.firstName;
-	            ObjectLocator theLastNameLocator = LocatorUtils.property(locator, "firstName", theLastName);
-	            currentHashCode = strategy.hashCode(theLastNameLocator, currentHashCode, theLastName, (this.firstName != null));
+	            String theFirstName;
+	            theFirstName = this.firstName;
+	            ObjectLocator theFirstNameLocator = LocatorUtils.property(locator, "firstName", theFirstName);
+	            currentHashCode = strategy.hashCode(theFirstNameLocator, currentHashCode, theFirstName, (this.firstName != null));
 	        }
 	        {
 	            String theLastName;
@@ -251,16 +251,16 @@ public class Explorer extends AbstractExplorer
 	        final Contact that = ((Contact) object);
 	        // firstName
 	        {
-	        	String lhsLastName = this.firstName;
-	        	String rhsLastName = that.firstName;
-	        	ObjectLocator lhsLastNameLocator = LocatorUtils.property(thisLocator, "firstName", lhsLastName);
-	        	ObjectLocator rhsLastNameLocator = LocatorUtils.property(thatLocator, "firstName", rhsLastName);
-	        	boolean lhsLastNameNotNull = (lhsLastName != null);
-	        	boolean rhsLastNameNotNull = (rhsLastName != null);
+	        	String lhsFirstName = this.firstName;
+	        	String rhsFirstName = that.firstName;
+	        	ObjectLocator lhsFirstNameLocator = LocatorUtils.property(thisLocator, "firstName", lhsFirstName);
+	        	ObjectLocator rhsFirstNameLocator = LocatorUtils.property(thatLocator, "firstName", rhsFirstName);
+	        	boolean lhsFirstNameIsSet = (lhsFirstName != null);
+	        	boolean rhsFirstNameIsSet = (rhsFirstName != null);
 	        	if ( !strategy.equals(
-	        			lhsLastNameLocator, rhsLastNameLocator,
-	        			lhsLastName, rhsLastName,
-	        			lhsLastNameNotNull, rhsLastNameNotNull) )
+	        			lhsFirstNameLocator, rhsFirstNameLocator,
+	        			lhsFirstName, rhsFirstName,
+	        			lhsFirstNameIsSet, rhsFirstNameIsSet) )
 	        		return false;
 	        }
 	        // lastName
@@ -269,12 +269,12 @@ public class Explorer extends AbstractExplorer
 	        	String rhsLastName = that.lastName;
 	        	ObjectLocator lhsLastNameLocator = LocatorUtils.property(thisLocator, "lastName", lhsLastName);
 	        	ObjectLocator rhsLastNameLocator = LocatorUtils.property(thatLocator, "lastName", rhsLastName);
-	        	boolean lhsLastNameNotNull = (lhsLastName != null);
-	        	boolean rhsLastNameNotNull = (rhsLastName != null);
+	        	boolean lhsLastNameIsSet = (lhsLastName != null);
+	        	boolean rhsLastNameIsSet = (rhsLastName != null);
 	        	if ( !strategy.equals(
 	        			lhsLastNameLocator, rhsLastNameLocator,
 	        			lhsLastName, rhsLastName,
-	        			lhsLastNameNotNull, rhsLastNameNotNull) )
+	        			lhsLastNameIsSet, rhsLastNameIsSet) )
 	        		return false;
 	        }
 	        return true;
