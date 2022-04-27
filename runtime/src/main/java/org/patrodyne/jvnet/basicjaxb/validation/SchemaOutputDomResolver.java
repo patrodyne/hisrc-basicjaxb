@@ -45,7 +45,7 @@ public class SchemaOutputDomResolver extends SchemaOutputResolver
 		return new DOMSource(getSchemaNode());
 	}
 	
-	public String getSchemaNodeString() throws IOException, TransformerException
+	public String getSchemaDomNodeString() throws IOException, TransformerException
 	{
 		TransformerFactory tf = TransformerFactory.newInstance();
 		tf.setAttribute("indent-number", 2);

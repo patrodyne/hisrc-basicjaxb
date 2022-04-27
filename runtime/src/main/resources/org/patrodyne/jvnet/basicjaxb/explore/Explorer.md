@@ -1,230 +1,155 @@
-# An exhibit of Markdown TEST TEST
+# HiSrc BasicJAXB Runtime Library
 
-This note demonstrates some of what [Markdown][1] is capable of doing.
+Explorer is a Swing application to explore features of the HiSrc BasicJAXB Runtime library.
 
-*Note: Feel free to play with this page. Unlike regular notes, this doesn't automatically save itself.*
+## AbstractExplorer
 
-## Basic formatting
+Projects create their own custom Explorer by extending AbstractExplorer and providing an HTML lesson page then adding JMenuItem(s) to trigger exploratory code.
 
-Paragraphs can be written like so. A paragraph is the basic block of Markdown. A paragraph is what text will turn into when there is no reason it should become anything else.
+The AbstractExplorer (that you see here) displays three panels: an HTML lesson, a print console and an error console. The lesson file is read as a resource relative to the Explorer class. Text is sent to the print console by calling `println(text)` and error messages are sent to the error console by calling `errorln(msg)`. Additionally, 'standard out'/'standard error' streams are sent to their respective consoles.
 
-Paragraphs must be separated by a blank line.
+## Object Method Strategies
 
-Basic formatting of *italics*, **bold** and __strong__ is supported. This *can be **nested** like* so. Currently, mistakes *cannot* be ~~scratched.~~; however...
+The focus of the HiSrc framework is the automatic generation of Java classes from XML
+Schema(s). The XJC compiler from JAXB does the actual code generation using plug-ins from the HiSrc framework. Then JAXB is used to unmarshal/marshal XML instances to/from Java objects. 
 
-You can also make `inline code` to add code into other things. Also see **Code Block** below.
+XJC generates POJO classes with the standard and simple Java `Object` methods:
 
-Tag formatting can be used to <s>strike out</s> a mistake or <u>highlight</u> a point.
++ `hashCode()` - numeric value used for object identification or indexing. 
++ `equals(obj)` - determines when and how to objects are equal.
++ `toString()` - textual representation of an object.
 
-## Lists
+By default, these methods work at the object level. For example, two distinct `Employee` object instances are considered _not equal_ even when they contain the same employee values because they have different object identifiers. The _HiSrc BasicJAXB Runtime Library_ provides strategies to implement these and other `Object` methods that take all values into account.
 
-### Ordered list
+## Explore HashCode and Equals
 
-1. Item 1
-	1. Sub-item 1
-	2. Sub-item 2
-2. A second item
-3. Number 3
-4. Ⅳ
+Let's [explore][1] two strategies provided by this library: `JAXBHashCodeStrategy` and `JAXBEqualsStrategy`. We'll look at the other strategies in future explorations.
 
-*Note: the fourth item uses the Unicode character for [Roman numeral four][2].*
+> **Hint:** As we cover each topic, you can run the code by clicking on the links or using the menu bar above.
 
-### Unordered list
+Normally, the HiSrc framework uses its Maven plugin(s) to generate Java classes from XML schema files; but, this exploration is a demonstration of a _lower level_ library; thus, we will go in the reverse direction. We will define a Java class, named `Person` with JAXB annotations then generate the XML Schema from the class. To keep it simple, the `Person` class is defined as an inner class within the `Explorer` class and declares only two fields: `firstName` and `lastName`.
 
-* An item
-	* A sub-item
-	* Another sub-item
-* Another item
-* Yet another item
-* And there's more...
+~~~
+@XmlRootElement
+public static class Person implements HashCode2, Equals2
+{
+    public String firstName;
+    public String lastName;
+    ...
+}
+~~~
 
-#### Plus/Minus bullets
+Notice, we declare `Person` to implement the HiSrc interfaces (`HashCode2`, `Equals2`) for the `JAXBHashCodeStrategy` and `JAXBEqualsStrategy` and override the relevant `Object` methods with our custom code. This implementation introduces another HiSrc utility interface, `ObjectLocator`.
 
-+ An item
-	- A sub-item
-	- Another sub-item
+### ObjectLocator
 
-### Definition list
+The `ObjectLocator` interface extends `javax.xml.bind.ValidationEventLocator` used by JAXB to report XML schema (in)validation events. It does this by adding a path from the event back to the root object. HiSrc strategies use the `ObjectLocator` to trace the location of events like a _field not equal_ event. For example, `DefaultEqualsStrategy` delegates the event notification to [SLF4J][2], for logging. Applications can configure [SLF4J][2] to ignore all reporting or override the default tracing with their own custom event coding.
 
-*ReText*
-:  A semantic personal publishing platform 
+The locators are optional. `ObjectLocator` parameters can be null when calling the HiSrc strategies. When not used, the strategies report a more general location message.
 
-*Markdown*
-:  Text-to-HTML conversion tool
+> Normally, applications configure [SLF4J][2] to ignore the `ObjectLocator` events. Applications can choose to report events, when needed, to debug unexpected inequality issues. They are most commonly used in unit tests to verify round trip conformance (_XML instance_ to _Java Object_ to _XML instance_).
 
-## Paragraph Modifiers
+### Generate Xml Schema
 
-### Code blocks
+This example starts with a `Person` class and uses it to generates the XML Schema. We do it this way because this a low level HiSrc library. In future explorations, we will reverse this workflow and generate the JAXB classes from XML Schema using the higher level HiSrc plug-ins.
 
-#### * Indent by tab or 4 spaces
+~~~
+private JAXBContext createJAXBContext() throws JAXBException
+{
+    return JAXBContext.newInstance(Person.class);
+}
+~~~
 
-	Code blocks are very useful for developers and other people
-	who look at code or other things that are written in plain text.
-	As you can see, it uses a fixed-width font.
+The `JAXBContext` class provides the client's entry point to the JAXB API. It provides an abstraction for managing the XML/Java binding information necessary to implement the JAXB binding framework operations: unmarshal, marshal and validate. For display, we use JAXB's `SchemaOutputResolver` to generate a textual representation in two ways:
 
-#### * Wrap in 3+ tildas or backticks
++ [Generate Xml Schema From String](!generateXmlSchemaFromString)
++ [Generate Xml Schema From Dom](!generateXmlSchemaFromDom)
 
+The first way (above) outputs the XML Schema to a `String` backed `SchemaOutputResolver`. The second way outputs the XML Schema to a `DOMSource` backed resolver. The output from both approaches are similar but the second way enables us to generate a _schema validator object_ that can be wired into the marshaller and unmarshaller objects.
 
-```
-Code blocks are very useful for developers and other people
-who look at code or other things that are written in plain text.
-As you can see, it uses a fixed-width font.
-```
++ [Generate Xml Schema Validator From Dom](!generateXmlSchemaValidatorFromDom)
 
-Button ...
+> **Note:** This exploration does not wire in the _schema validator object_ automatically. This allows you explore the effect of unmarshalling an invalid schema, as described below. If you generate the validator, it will be active for the current session. Restart this application to clear the validator and explore the other actions below.
 
-	#button {
-		border: none;
-	}
+### Marshal Person Objects to XML
 
-... example.
+For this demo, `Person` is a JAXB annotated class with fields for first and last name. The demo is initialized with three instances: 
 
++ [Person 1, Arthur Dent](!marshalPerson1)
++ [Person 2, Arthur Dent](!marshalPerson2)
++ [Person 3, Ford Prefect](!marshalPerson3)
 
-#### * Wide block
+All three instances are distinct Java objects. The first two objects refer to "Arthur Dent" and the third object identifies "Ford Prefect".
 
-```
-         1         2         3         4         5         6         7         8         9        10         1         2         3         4         5         6         7         8         9        10
-12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
-```
+### Compare Objects
 
-### Quote
+The HiSrc framework provides an `ObjectLocator` and `HashCodeStrategy2` to generate a hash code that is based on the object values. In this case, the hash code and equality is based on the person's first and last name. 
 
-> Here is a quote. What this is -- should be self explanatory. Quotes are automatically indented when they are used.
+#### Compare Hash Codes
 
-## Headings
+Select [Compare Hash Codes](!compareHashCodes) to show the HiSrc hash and the System hash for the three `Person` instances. The HiSrc hash codes for Person 1 & 2 are the same because these two objects both identify "Arthur Dent" while the hash code for Person #3 is different from the others because that object identifies "Ford Prefect". However, the system hash codes for all three objects are unique because they are individual JVM objects.
 
-There are six levels of headings. They correspond with the six levels of HTML headings. You've probably noticed them already in the page. Each level down uses one more hash character.
+Here's how the `Person` class uses the HiSrc interfaces for the `hashCode()` method. See [Explorer.java][1] for the field level details.
 
-### Headings *can* also contain <u>formatting</u>
+~~~
+public int hashCode()
+{
+    ObjectLocator thisLocator = new DefaultRootObjectLocator(this);
+    HashCodeStrategy2 strategy = JAXBHashCodeStrategy.getInstance();
+    return this.hashCode(thisLocator, strategy);
+}
+~~~
 
-### They can even contain `inline code`
+#### Compare Equality
 
-I don't recommend using more than three or four levels of headings here, because, when you're smallest heading isn't too small, and you're largest heading isn't too big, and you want each size up to look noticeably larger and more important, there there are only so many sizes that you can use.
+Select [Compare Equality](!compareEquality) to compare (A) `person1` with `person2` and (B) `person2` with `person3`.
 
-Alternative Heading
-===================
+Case (A) compares two individual objects for "Arthur Dent" and finds that they are equal.
 
-Alternatively headings can be underscored using === and ---.
+Case (B) compares an "Arthur Dent" object with a "Ford Prefect" object and finds that they are _not_ equal. Further, case (B) provides a trace log to report the first non-equal field.
 
-Alternative Sub-Heading
------------------------
+Here's how the `Person` class uses the HiSrc interfaces for the `equals(Object that)` method. See [Explorer.java][1] for the field level details.
 
-Of course, demonstrating what headings look like messes up the structure of the page.
+> **Note:** The `ObjectLocator` parameters are optional; they can be null. When they are null, the field level locator utility will use basic location tracing. When the root level locators are used, the field level locators create a nested path that is used for trace level logging. HiSrc uses [SLF4J][2] as its logging framework and that framework is usually configured to skip trace level messaging.
 
-## Abbreviations
+~~~
+public boolean equals(Object that)
+{
+    // Create locators for enhanced debugging.
+    ObjectLocator thisLocator = new DefaultRootObjectLocator(this);
+    ObjectLocator thatLocator = new DefaultRootObjectLocator(that);
+    
+    // Return deep object equality.
+    JAXBEqualsStrategy strategy = new JAXBEqualsStrategy();
+    return equals(thisLocator, thatLocator, that, strategy);
+}
+~~~
 
-Markdown converts text to HTML (hover to see the definition).
+> **Important:** The HiSrc `JAXBEqualsStrategy` extends `DefaultEqualsStrategy` and both include logic to differentiate objects that use _default_ vs _set_ values. In JAXB, an effort is made to track how an element or attribute receives its value. If the XML Schema defines a _default_ value for an element or attribute and the XML instance does not set the value then the JAXB generated class will return the default value from the accessor while keeping the field value null. This may surprise a maintainer when reviewing the Java code but it is how JAXB is designed to work! This allows JAXB to detect when a property is a **set value** versus a **default value** and can help with round tripping.
 
-*Note: Definitions can be anywhere in the document.*
+### Roundtrip
 
-*[HTML]: HyperText Markup Language
+In JAXB, a _round trip_ is an _xml-to-object-to-xml_ or an _object-to-xml-to-object_ sequence. Ideally, the initial XML and final XML instance will be the same. There are mechanisms, such as `JAXBElement`, that can be used to preserve the fine details and are often used. However, most projects do not require an exact reproduction of the XML and are satisfied with being `equal-by-value`.
 
-## URLs
+#### Valid Roundtrip
 
-URLs can be made in a handful of ways:
+The `JAXBEqualsStrategy` can be used to verify deep `equal-by-value`. Select [Roundtrip Valid](!roundtripValid) to marshal the `person1` object into its XML representation then unmarshal the XML back into a second object; finally, this test will use the object's equal method to verify equal by value.
 
-* A named link to [MarkItDown][3]. The easiest way to do these is to select what you want to make a link and hit `Ctrl+L`.
-* Another named link to [MarkItDown](http://www.markitdown.net/)
-* Sometimes you just want a URL like <http://www.markitdown.net/>.
+#### Invalid Roundtrip
 
-## Footnotes
+Select [Roundtrip Invalid](!roundtripInvalid) to create a bit of chaos. This exploration intentionally corrupts the XML by replacing the `lastName` tag with a random `babelFish` tag. Because of this, the corrupted XML will not have a `lastName` value but will have unknown tag from the XML Schema point of view.
 
-Footnotes [^1] will be added to the bottom of the document.
+If you have not selected _Generate Xml Schema Validator From Dom_ then JAXB will attempt to complete the roundtrip but the final XML will contain this bit of chaos:
 
-## Horizontal rule
+~~~
+<lastName>lastName</lastName>
+~~~
 
-A horizontal rule is a line that goes across the middle of the page.
+To detect this chaos programatically, use [Generate Xml Schema Validator From Dom](!generateXmlSchemaValidatorFromDom) then execute [Roundtrip Invalid](!roundtripInvalid). This time, JAXB validation will throw an exception.
 
----
-
-It's sometimes handy for breaking things up.
-
-## Images
-
-Markdown uses an image syntax that is intended to resemble the syntax for links, allowing for two styles: inline and reference.
-
-Inline images looks like this: ![ReText](https://raw.githubusercontent.com/retext-project/retext/master/ReText/icons/retext.png "ReText (Optional Title)")
-
-### Inline Image Syntax:
-
-    An exclamation mark: !;
-    followed by a set of square brackets for the alt attribute text;
-    followed by a set of parentheses for the URL or path to the image,
-    and an optional title attribute enclosed in double or single quotes.
-
-Reference-style images looks like this: ![ReText][6]
-
-#### Reference Image Syntax:
-
-    “id” is the name of a defined image reference.
-
-As of this writing, Markdown has no syntax for specifying the dimensions of an image; if this is important to you, you can simply use regular HTML `<img>` tags.
-
-<img src="https://raw.githubusercontent.com/retext-project/retext/4ef5eb32d06fcf99d4d314e1b787fcaa2f1f56fc/ReText/icons/retext.svg" alt="ReText" width="100"/>
-
-## Tables
-
-Tables aren't part of the core Markdown spec, but they are part of Github Flavored Markdown (GFM). 
-
-Colons can be used to align columns.
-
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-
-There must be at least 3 dashes separating each header cell.
-The outer pipes (|) are optional, and you don't need to make the 
-raw Markdown line up prettily. You can also use inline Markdown.
-
-Markdown | Less | Pretty
---- | --- | ---
-*Still* | `renders` | **nicely**
-1 | 2 | 3
-
-## MathJAX
-
-MathJax supports most of the standard [LaTeX syntax][7], as well as some AMS extensions. You can use both LaTeX- and TeX-styles of boundaries:
-
-	\( LaTeX inline formula \)		$ Plain TeX inline formula (not recommended) $
-	\[ LaTeX standalone formula \]	$$ Plain TeX standalone formula $$
-
-### Example: Tex
-
-	$$ x = \frac{-b \pm \sqrt{b^{2} -4ac}}{2a} $$
-
-$$ x = \frac{-b \pm \sqrt{b^{2} -4ac}}{2a} $$
-
-By default, all delimiters except the single-dollar ones ($...$) are enabled. If you want to enable the single-dollar delimiter, go to Preferences and add `mathjax` to "Markdown syntax extensions" field. This is not recommended because then you wan't be able use more than one "real" dollar sign in your document. 
-
-### Example: `\begin...\end` expressions:
-
-	\begin{eqnarray}
-	x' &=& &x \sin\phi &+& z \cos\phi \\
-	z' &=& - &x \cos\phi &+& z \sin\phi \\
-	\end{eqnarray}
-
-\begin{eqnarray}
-x' &=& &x \sin\phi &+& z \cos\phi \\
-z' &=& - &x \cos\phi &+& z \sin\phi \\
-\end{eqnarray}
-
-
-## Finally
-
-There's actually a lot more to Markdown than this. See the official [introduction][4] and [syntax][5] for more information. However, be aware that this is not using the official implementation, and this might work subtly differently in some of the little things.
-
-<!-- Footnotes -->
-
-[^1]: A footnote with a link back to the original reference
+## End of this Exploration
 
 <!-- References -->
 
-  [1]: http://daringfireball.net/projects/markdown/
-  [2]: http://www.fileformat.info/info/unicode/char/2163/index.htm
-  [3]: http://www.markitdown.net/
-  [4]: http://daringfireball.net/projects/markdown/basics
-  [5]: http://daringfireball.net/projects/markdown/syntax
-  [6]: https://raw.githubusercontent.com/retext-project/retext/master/ReText/icons/retext.png "ReText (Optional Title)"
-  [7]: https://en.wikibooks.org/wiki/LaTeX/Mathematics
+[1]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/runtime/src/main/java/org/patrodyne/jvnet/basicjaxb/explore/Explorer.java
+[2]: https://www.slf4j.org/
