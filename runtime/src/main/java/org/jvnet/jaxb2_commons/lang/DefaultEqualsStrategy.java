@@ -3,12 +3,77 @@ package org.jvnet.jaxb2_commons.lang;
 import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.item;
 import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.property;
 
+import java.util.Collection;
+
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("deprecation")
 public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy {
+	
+	protected Logger logger = LoggerFactory.getLogger(getClass());
+	
+	public boolean isDebugEnabled()
+	{
+		return logger.isDebugEnabled();
+	}
 
-	public boolean equals(ObjectLocator leftLocator,
+	/**
+	 * Subclasses should override this method to log the trace message, as desired.
+	 * 
+	 * @param message The debug message of unequal values.
+	 */
+	public void trace(String message)
+	{
+		logger.trace(message);
+	}
+
+	private void traceNotEqual(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Object lhs, Object rhs)
+	{
+		if ( isDebugEnabled() )
+		{
+			trace("Objects are NOT equal!");
+			traceNotEqual("LHS", lhsLocator, lhs);
+			traceNotEqual("RHS", rhsLocator, rhs);
+		}
+	}
+
+	private void traceNotEqual(String label, ObjectLocator locator, Object obj)
+	{
+		String value = "null";
+		String message = "";
+		
+		if ( obj != null )
+		{
+			if (obj instanceof Collection<?>)
+				value = obj.getClass().getName() + "[" + ((Collection<?>) obj).size() +"]";
+			else if ( obj != null && obj.getClass().isArray() )
+				value = obj.getClass().getName() + "[" + ((Object[]) obj).length +"]";
+			else
+				value = obj.toString();
+		}
+		
+		if (locator != null)
+			message = label + ": " + "{"+locator.getPathAsString()+"} -> " + value;
+		else
+			message = label + ": " + "{} -> " + value;
+		
+		trace(message);
+	}
+
+	public boolean equals(ObjectLocator leftLocator, ObjectLocator rightLocator, Object lhs, Object rhs)
+	{
+		if ( equalsObject(leftLocator, rightLocator, lhs, rhs) )
+			return true;
+		else
+		{
+			traceNotEqual(leftLocator, rightLocator, lhs, rhs);
+			return false;
+		}
+	}
+	
+	protected boolean equalsObject(ObjectLocator leftLocator,
 			ObjectLocator rightLocator, Object lhs, Object rhs) {
 
 		if (lhs == rhs) {
@@ -126,19 +191,37 @@ public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy {
 		return lhs.equals(leftLocator, rightLocator, rhs, this);
 	}
 
-	public boolean equals(ObjectLocator leftLocator,
-			ObjectLocator rightLocator, boolean left, boolean right) {
-		return left == right;
+	public boolean equals(ObjectLocator leftLocator, ObjectLocator rightLocator, boolean left, boolean right)
+	{
+		if ( left == right )
+			return true;
+		else
+		{
+			traceNotEqual(leftLocator, rightLocator, left, right);
+			return false;
+		}
 	}
 
-	public boolean equals(ObjectLocator leftLocator,
-			ObjectLocator rightLocator, byte left, byte right) {
-		return left == right;
+	public boolean equals(ObjectLocator leftLocator, ObjectLocator rightLocator, byte left, byte right)
+	{
+		if ( left == right )
+			return true;
+		else
+		{
+			traceNotEqual(leftLocator, rightLocator, left, right);
+			return false;
+		}
 	}
 
-	public boolean equals(ObjectLocator leftLocator,
-			ObjectLocator rightLocator, char left, char right) {
-		return left == right;
+	public boolean equals(ObjectLocator leftLocator, ObjectLocator rightLocator, char left, char right)
+	{
+		if ( left == right )
+			return true;
+		else
+		{
+			traceNotEqual(leftLocator, rightLocator, left, right);
+			return false;
+		}
 	}
 
 	public boolean equals(ObjectLocator leftLocator,
@@ -154,19 +237,37 @@ public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy {
 				Float.floatToIntBits(right));
 	}
 
-	public boolean equals(ObjectLocator leftLocator,
-			ObjectLocator rightLocator, long left, long right) {
-		return left == right;
+	public boolean equals(ObjectLocator leftLocator, ObjectLocator rightLocator, long left, long right)
+	{
+		if ( left == right )
+			return true;
+		else
+		{
+			traceNotEqual(leftLocator, rightLocator, left, right);
+			return false;
+		}
 	}
 
-	public boolean equals(ObjectLocator leftLocator,
-			ObjectLocator rightLocator, int left, int right) {
-		return left == right;
+	public boolean equals(ObjectLocator leftLocator, ObjectLocator rightLocator, int left, int right)
+	{
+		if ( left == right )
+			return true;
+		else
+		{
+			traceNotEqual(leftLocator, rightLocator, left, right);
+			return false;
+		}
 	}
 
-	public boolean equals(ObjectLocator leftLocator,
-			ObjectLocator rightLocator, short left, short right) {
-		return left == right;
+	public boolean equals(ObjectLocator leftLocator, ObjectLocator rightLocator, short left, short right)
+	{
+		if ( left == right )
+			return true;
+		else
+		{
+			traceNotEqual(leftLocator, rightLocator, left, right);
+			return false;
+		}
 	}
 
 	public boolean equals(ObjectLocator leftLocator,
