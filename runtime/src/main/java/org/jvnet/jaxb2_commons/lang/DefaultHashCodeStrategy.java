@@ -3,12 +3,21 @@ package org.jvnet.jaxb2_commons.lang;
 import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.item;
 
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("deprecation")
 public class DefaultHashCodeStrategy implements HashCodeStrategy2, HashCodeStrategy {
 
 	private int iConstant;
 
+	protected Logger logger = LoggerFactory.getLogger(getClass());
+	
+	public boolean isTraceEnabled()
+	{
+		return logger.isTraceEnabled();
+	}
+	
 	public DefaultHashCodeStrategy() {
 		this.iConstant = 37;
 	}

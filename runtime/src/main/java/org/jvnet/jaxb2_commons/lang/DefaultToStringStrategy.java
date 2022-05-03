@@ -6,11 +6,20 @@ import static org.jvnet.jaxb2_commons.locator.util.LocatorUtils.property;
 import java.util.Collection;
 
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("deprecation")
 public class DefaultToStringStrategy implements ToStringStrategy2,
 		ToStringStrategy {
 
+	protected Logger logger = LoggerFactory.getLogger(getClass());
+	
+	public boolean isTraceEnabled()
+	{
+		return logger.isTraceEnabled();
+	}
+	
 	/**
 	 * Whether to use the field names, the default is <code>true</code>.
 	 */

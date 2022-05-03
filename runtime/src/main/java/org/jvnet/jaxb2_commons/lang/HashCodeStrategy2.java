@@ -3,7 +3,8 @@ package org.jvnet.jaxb2_commons.lang;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
 public interface HashCodeStrategy2 {
-	
+
+	public boolean isTraceEnabled();
 	public int hashCode(ObjectLocator locator, int hashCode, boolean value, boolean valueSet);
 	public int hashCode(ObjectLocator locator, int hashCode, byte value, boolean valueSet);
 	public int hashCode(ObjectLocator locator, int hashCode, char value, boolean valueSet);

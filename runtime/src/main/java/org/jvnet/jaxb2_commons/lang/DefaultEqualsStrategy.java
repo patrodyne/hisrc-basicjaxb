@@ -14,15 +14,15 @@ public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy {
 	
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
-	public boolean isDebugEnabled()
+	public boolean isTraceEnabled()
 	{
-		return logger.isDebugEnabled();
+		return logger.isTraceEnabled();
 	}
 
 	/**
 	 * Subclasses should override this method to log the trace message, as desired.
 	 * 
-	 * @param message The debug message of unequal values.
+	 * @param message The trace message of unequal values.
 	 */
 	public void trace(String message)
 	{
@@ -31,7 +31,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy {
 
 	private void traceNotEqual(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Object lhs, Object rhs)
 	{
-		if ( isDebugEnabled() )
+		if ( isTraceEnabled() )
 		{
 			trace("Objects are NOT equal!");
 			traceNotEqual("LHS", lhsLocator, lhs);

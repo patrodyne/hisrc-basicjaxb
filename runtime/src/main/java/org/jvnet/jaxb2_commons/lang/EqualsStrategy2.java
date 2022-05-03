@@ -4,6 +4,8 @@ import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
 public interface EqualsStrategy2 {
 
+	public boolean isTraceEnabled();
+
 	public boolean equals(ObjectLocator leftLocator,
 			ObjectLocator rightLocator, boolean left, boolean right, boolean leftSet, boolean rightSet);
 
@@ -57,5 +59,4 @@ public interface EqualsStrategy2 {
 
 	public boolean equals(ObjectLocator leftLocator,
 			ObjectLocator rightLocator, Object[] left, Object[] right, boolean leftSet, boolean rightSet);
-
 }

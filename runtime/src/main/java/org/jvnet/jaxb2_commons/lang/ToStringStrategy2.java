@@ -3,6 +3,7 @@ package org.jvnet.jaxb2_commons.lang;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
 public interface ToStringStrategy2 {
+	public boolean isTraceEnabled();
 /*
 	public StringBuilder append(ObjectLocator locator, StringBuilder stringBuilder, boolean value);
 	public StringBuilder append(ObjectLocator locator, StringBuilder stringBuilder, byte value);
