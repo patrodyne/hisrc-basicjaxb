@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 import org.jvnet.jaxb2_commons.lang.Equals2;
 import org.jvnet.jaxb2_commons.lang.EqualsStrategy2;
 import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
+import org.jvnet.jaxb2_commons.locator.DefaultRootObjectLocator;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
@@ -24,9 +25,11 @@ import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JOp;
@@ -116,20 +119,49 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 				theClass);
 	}
 
-	protected JMethod generateObject$equals(final ClassOutline classOutline,
-			final JDefinedClass theClass) {
+	protected JMethod generateObject$equals(final ClassOutline classOutline, final JDefinedClass theClass)
+	{
 		final JCodeModel codeModel = theClass.owner();
-		final JMethod objectEquals = theClass.method(JMod.PUBLIC,
-				codeModel.BOOLEAN, "equals");
+		final JMethod objectEquals = theClass.method(JMod.PUBLIC, codeModel.BOOLEAN, "equals");
 		objectEquals.annotate(Override.class);
 		{
-			final JVar object = objectEquals.param(Object.class, "object");
+			final JVar that = objectEquals.param(Object.class, "object");
 			final JBlock body = objectEquals.body();
-			final JVar equalsStrategy = body.decl(JMod.FINAL,
-					codeModel.ref(EqualsStrategy2.class), "strategy",
-					createEqualsStrategy(codeModel));
-			body._return(JExpr.invoke("equals").arg(JExpr._null())
-					.arg(JExpr._null()).arg(object).arg(equalsStrategy));
+
+			final JVar thisLocator = body.decl
+			(
+				JMod.NONE,	codeModel.ref(ObjectLocator.class), "thisLocator",
+				JExpr._null()
+			);
+			
+			final JVar thatLocator = body.decl
+			(
+				JMod.NONE,	codeModel.ref(ObjectLocator.class), "thatLocator",
+				JExpr._null()
+			);
+
+			final JVar equalsStrategy = body.decl
+			(
+				JMod.FINAL, codeModel.ref(EqualsStrategy2.class), "strategy",
+				createEqualsStrategy(codeModel)
+			);
+			
+			final JInvocation thisRootLocator = JExpr._new(codeModel.ref(DefaultRootObjectLocator.class))
+				.arg(JExpr._this());
+
+			final JInvocation thatRootLocator = JExpr._new(codeModel.ref(DefaultRootObjectLocator.class))
+				.arg(that);
+
+			JConditional ifTraceEnabled = body._if(equalsStrategy.invoke("isTraceEnabled"));
+			ifTraceEnabled._then()
+				.assign(thisLocator, thisRootLocator)
+				.assign(thatLocator, thatRootLocator);
+			
+			body._return(JExpr.invoke("equals")
+				.arg(thisLocator)
+				.arg(thatLocator)
+				.arg(that)
+				.arg(equalsStrategy));
 		}
 		return objectEquals;
 	}

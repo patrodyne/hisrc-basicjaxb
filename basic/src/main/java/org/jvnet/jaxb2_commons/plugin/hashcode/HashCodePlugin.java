@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 import org.jvnet.jaxb2_commons.lang.HashCode2;
 import org.jvnet.jaxb2_commons.lang.HashCodeStrategy2;
 import org.jvnet.jaxb2_commons.lang.JAXBHashCodeStrategy;
+import org.jvnet.jaxb2_commons.locator.DefaultRootObjectLocator;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
@@ -24,9 +25,11 @@ import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
@@ -121,17 +124,37 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 		return generateObject$hashCode(theClass);
 	}
 
-	private JMethod generateObject$hashCode(final JDefinedClass theClass) {
-		final JMethod object$hashCode = theClass.method(JMod.PUBLIC,
-				theClass.owner().INT, "hashCode");
+	private JMethod generateObject$hashCode(final JDefinedClass theClass)
+	{
+		final JCodeModel codeModel = theClass.owner();
+		final JMethod object$hashCode = theClass.method(JMod.PUBLIC, theClass.owner().INT, "hashCode");
 		object$hashCode.annotate(Override.class);
 		{
 			final JBlock body = object$hashCode.body();
-			final JVar hashCodeStrategy = body.decl(JMod.FINAL, theClass
-					.owner().ref(HashCodeStrategy2.class), "strategy",
-					createHashCodeStrategy(theClass.owner()));
-			body._return(JExpr._this().invoke("hashCode").arg(JExpr._null())
-					.arg(hashCodeStrategy));
+
+			final JVar theLocator = body.decl
+			(
+				JMod.NONE,	codeModel.ref(ObjectLocator.class), "theLocator",
+				JExpr._null()
+			);
+			
+			final JVar hashCodeStrategy = body.decl
+			(
+				JMod.FINAL, theClass.owner().ref(HashCodeStrategy2.class), "strategy",
+				createHashCodeStrategy(theClass.owner())
+			);
+			
+			final JInvocation theRootLocator = JExpr._new(codeModel.ref(DefaultRootObjectLocator.class))
+				.arg(JExpr._this());
+			
+			JConditional ifTraceEnabled = body._if(hashCodeStrategy.invoke("isTraceEnabled"));
+			ifTraceEnabled._then()
+				.assign(theLocator, theRootLocator);
+			
+			body._return(JExpr._this().invoke("hashCode")
+				.arg(theLocator)
+				.arg(hashCodeStrategy)
+			);
 		}
 		return object$hashCode;
 	}

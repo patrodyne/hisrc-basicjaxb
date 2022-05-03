@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 import org.jvnet.jaxb2_commons.lang.JAXBToStringStrategy;
 import org.jvnet.jaxb2_commons.lang.ToString2;
 import org.jvnet.jaxb2_commons.lang.ToStringStrategy2;
+import org.jvnet.jaxb2_commons.locator.DefaultRootObjectLocator;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.plugin.Customizations;
@@ -23,9 +24,11 @@ import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
@@ -117,25 +120,42 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 				classOutline, theClass);
 	}
 
-	protected JMethod generateObject$toString(final ClassOutline classOutline,
-			final JDefinedClass theClass) {
+	protected JMethod generateObject$toString(final ClassOutline classOutline, final JDefinedClass theClass)
+	{
 		final JCodeModel codeModel = theClass.owner();
-		final JMethod object$toString = theClass.method(JMod.PUBLIC,
-				codeModel.ref(String.class), "toString");
+		final JMethod object$toString = theClass.method(JMod.PUBLIC, codeModel.ref(String.class), "toString");
 		object$toString.annotate(Override.class);
 		{
 			final JBlock body = object$toString.body();
 
-			final JVar toStringStrategy =
-
-			body.decl(JMod.FINAL, codeModel.ref(ToStringStrategy2.class),
-					"strategy", createToStringStrategy(codeModel));
-
-			final JVar buffer = body.decl(JMod.FINAL,
-					codeModel.ref(StringBuilder.class), "buffer",
-					JExpr._new(codeModel.ref(StringBuilder.class)));
-			body.invoke("append").arg(JExpr._null()).arg(buffer)
-					.arg(toStringStrategy);
+			final JVar theLocator = body.decl
+			(
+				JMod.NONE,	codeModel.ref(ObjectLocator.class), "theLocator",
+				JExpr._null()
+			);
+			
+			final JVar toStringStrategy = body.decl
+			(
+				JMod.FINAL, codeModel.ref(ToStringStrategy2.class),	"strategy",
+				createToStringStrategy(codeModel)
+			);
+			
+			final JInvocation theRootLocator = JExpr._new(codeModel.ref(DefaultRootObjectLocator.class))
+				.arg(JExpr._this());
+			
+			JConditional ifTraceEnabled = body._if(toStringStrategy.invoke("isTraceEnabled"));
+			ifTraceEnabled._then()
+				.assign(theLocator, theRootLocator);
+			
+			final JVar buffer = body.decl
+			(
+				JMod.FINAL,	codeModel.ref(StringBuilder.class), "buffer",
+					JExpr._new(codeModel.ref(StringBuilder.class))
+			);
+			body.invoke("append")
+				.arg(theLocator)
+				.arg(buffer)
+				.arg(toStringStrategy);
 			body._return(buffer.invoke("toString"));
 		}
 		return object$toString;
