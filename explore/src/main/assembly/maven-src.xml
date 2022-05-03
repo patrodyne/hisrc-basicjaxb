@@ -1,0 +1,37 @@
+<assembly>
+	<id>maven-src</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<fileSets>
+		<fileSet>
+			<includes>
+				<include>README*</include>
+				<include>LICENSE*</include>
+				<include>NOTICE*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>src</directory>
+		</fileSet>
+	</fileSets>
+	<files>
+		<file>
+			<source>${basedir}/../project-build.sh</source>
+			<destName>build.sh</destName>
+			<filtered>false</filtered>
+			<fileMode>0774</fileMode>
+		</file>
+		<file>
+			<source>${basedir}/project-explore.sh</source>
+			<destName>explore.sh</destName>
+			<filtered>false</filtered>
+			<fileMode>0774</fileMode>
+		</file>
+		<file>
+			<source>${basedir}/project-pom.xml</source>
+			<destName>pom.xml</destName>
+			<filtered>true</filtered>
+		</file>
+	</files>
+</assembly>

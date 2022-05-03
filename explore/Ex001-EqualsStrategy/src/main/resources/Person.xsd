@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<schema version="1.1"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://jvnet.patrodyne.org/basicjaxb/ex001/model"
+	targetNamespace="http://jvnet.patrodyne.org/basicjaxb/ex001/model" 
+>
+  
+  <!-- Person element declares an anonymous complex type to generate @XmlRootElement. -->
+  <element name="Person">
+	  <complexType>
+	    <sequence>
+	      <element name="FirstName" type="string" minOccurs="0" />
+	      <element name="LastName" type="string" minOccurs="0" />
+	    </sequence>
+	  </complexType>
+  </element>
+  
+</schema>

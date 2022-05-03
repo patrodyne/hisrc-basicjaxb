@@ -311,7 +311,7 @@
 								<goal>generate</goal>
 							</goals>
 							<configuration>
-								<pegdownExtensions>ABBREVIATIONS,AUTOLINKS,DEFINITIONS,FOOTNOTES,STRIKETHROUGH,SUPERSCRIPT,TABLES</pegdownExtensions>
+								<pegdownExtensions>ABBREVIATIONS,AUTOLINKS,DEFINITIONS,FENCED_CODE_BLOCKS,FOOTNOTES,STRIKETHROUGH,SUPERSCRIPT,TABLES</pegdownExtensions>
 							</configuration>
 						</execution>
 					</executions>
@@ -432,6 +432,7 @@
 		<profile>
 			<id>samples</id>
 			<modules>
+				<module>explore</module>
 				<module>samples</module>
 			</modules>
 		</profile>
@@ -450,6 +451,7 @@
 		<profile>
 			<id>all</id>
 			<modules>
+				<module>explore</module>
 				<module>samples</module>
 				<module>tests</module>
 			</modules>
