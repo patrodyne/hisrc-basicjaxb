@@ -523,17 +523,17 @@ public class Explorer extends AbstractExplorer
 			ObjectLocator thatLocator = new DefaultRootObjectLocator(that);
 			
 			// Log debug messages to standard output.
-			JAXBEqualsStrategy strategy = new JAXBEqualsStrategy()
-			{
-				@Override
-				public boolean isDebugEnabled() { return true; }
-				
-				@Override
-				public void trace(String message)
-				{
-					System.out.println(message);
-				}
-			};
+			JAXBEqualsStrategy strategy = new JAXBEqualsStrategy();
+//			{
+//				@Override
+//				public boolean isTraceEnabled() { return true; }
+//				
+//				@Override
+//				public void trace(String message)
+//				{
+//					System.out.println(message);
+//				}
+//			};
 			
 			// Return deep object equality.
 			return equals(thisLocator, thatLocator, that, strategy);

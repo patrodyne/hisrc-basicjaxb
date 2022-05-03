@@ -10,6 +10,8 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.prefs.Preferences;
@@ -32,8 +34,10 @@ import org.apache.commons.io.output.WriterOutputStream;
  * An abstract Swing JFrame to support exploration of HiSrc libraries.
  * This class provides JPanes to:
  * 
- * 1) Display HTML documentation.
- * 2) Organize output streams.
+ * <ol>
+ *   <li>Display HTML documentation.</li>
+ *   <li>Organize output streams.</li>
+ * </ol>
  * 
  * @author Rick O'Sullivan
  */
@@ -182,7 +186,12 @@ abstract public class AbstractExplorer extends JFrame
 
 	public void errorln(Exception ex)
 	{
-		errorln(ex.getClass().getSimpleName()+": "+ex.getMessage());
+		if ( ex != null )
+		{
+			StringWriter sw = new StringWriter();
+			ex.printStackTrace(new PrintWriter(sw));
+			errorln(sw.toString());
+		}
 	}
 	
 	public String getResourceAsString(Class<?> clazz, String resourceName)

@@ -151,5 +151,5 @@ To detect this chaos programatically, use [Generate Xml Schema Validator From Do
 
 <!-- References -->
 
-[1]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/runtime/src/main/java/org/patrodyne/jvnet/basicjaxb/explore/Explorer.java
+[1]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/runtime/src/test/java/org/patrodyne/jvnet/basicjaxb/explore/Explorer.java
 [2]: https://www.slf4j.org/

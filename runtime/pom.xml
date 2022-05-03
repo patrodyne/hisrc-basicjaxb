@@ -31,6 +31,11 @@
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
@@ -73,9 +78,8 @@
 					<execution>
 						<id>process-explorer-markdown</id>
 						<configuration>
-							<pegdownExtensions>FENCED_CODE_BLOCKS</pegdownExtensions>
-							<inputDirectory>${basedir}/src/main/resources/org/patrodyne/jvnet/basicjaxb/explore</inputDirectory>
-							<outputDirectory>${project.build.outputDirectory}/org/patrodyne/jvnet/basicjaxb/explore</outputDirectory>
+							<inputDirectory>${basedir}/src/test/resources/org/patrodyne/jvnet/basicjaxb/explore</inputDirectory>
+							<outputDirectory>${project.build.testOutputDirectory}/org/patrodyne/jvnet/basicjaxb/explore</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
