@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.JViewport;
 import javax.swing.event.HyperlinkEvent;
@@ -66,6 +67,10 @@ abstract public class AbstractExplorer extends JFrame
 	private JSplitPane lessonPane;
 	public JSplitPane getLessonPane() { return lessonPane; }
 	public void setLessonPane(JSplitPane lessonPane) { this.lessonPane = lessonPane; }
+	
+	private JToolBar toolBar;
+	public JToolBar getToolBar() { return toolBar; }
+	public void setToolBar(JToolBar toolBar) { this.toolBar = toolBar; }
 	
 	public HtmlPane getHtmlPane()
 	{
@@ -218,9 +223,9 @@ abstract public class AbstractExplorer extends JFrame
 	
 	private void createLayout(String htmlName)
 	{
-		JToolBar toolBar = createToolBar();
+		setToolBar(createToolBar());
 		JPanel contentPanel = createContentPanel(htmlName);
-		add(toolBar, BorderLayout.WEST);
+		add(getToolBar(), BorderLayout.WEST);
 		add(contentPanel, BorderLayout.CENTER);
 		addWindowListener(new WindowAdapter()
 		{
@@ -274,21 +279,21 @@ abstract public class AbstractExplorer extends JFrame
 	
 	private JToolBar createToolBar()
 	{
-		JButton clearButton = createImageButton("/actions/edit-clear.png");
+		JButton clearButton = createImageButton(AbstractExplorer.class, OILPATH+"/actions/edit-clear.png");
 		clearButton.setToolTipText("Clear output panels.");
 		clearButton.addActionListener((ae) -> {
 			getConsoleWriter().clear();
 			getErrorWriter().clear();
 		});
 		
-		JButton zoomInButton = createImageButton("/actions/zoom-in-3.png");
+		JButton zoomInButton = createImageButton(AbstractExplorer.class, OILPATH+"/actions/zoom-in-3.png");
 		zoomInButton.setToolTipText("Larger text size.");
 		zoomInButton.addActionListener((ae) -> {
 			getConsoleWriter().largerText();
 			getErrorWriter().largerText();
 		});
 		
-		JButton zoomOutButton = createImageButton("/actions/zoom-out-3.png");
+		JButton zoomOutButton = createImageButton(AbstractExplorer.class, OILPATH+"/actions/zoom-out-3.png");
 		zoomOutButton.setToolTipText("Smaller text size.");
 		zoomOutButton.addActionListener((ae) -> {
 			getConsoleWriter().smallerText();
@@ -303,9 +308,21 @@ abstract public class AbstractExplorer extends JFrame
 		return toolBar;
 	}
 	
-	private JButton createImageButton(String path)
+	protected ImageIcon createImageIcon(Class<?> clazz, String path)
 	{
-		return new JButton(new ImageIcon(AbstractExplorer.class.getResource(OILPATH+path)));
+		return new ImageIcon(clazz.getResource(path));
+	}
+	
+	protected JButton createImageButton(Class<?> clazz, String path)
+	{
+		return new JButton(createImageIcon(clazz, path));
+	}
+	
+	protected JToggleButton createImageToggleButton(Class<?> clazz, String iconPath1, String iconPath2)
+	{
+		JToggleButton toggleButton = new JToggleButton(createImageIcon(clazz, iconPath1));
+		toggleButton.setSelectedIcon(createImageIcon(clazz, iconPath2));
+		return toggleButton;
 	}
 	
 	private JPanel createContentPanel(String htmlName)
