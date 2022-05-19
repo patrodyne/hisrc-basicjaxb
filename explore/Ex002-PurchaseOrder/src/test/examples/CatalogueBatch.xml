@@ -1,0 +1,1120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns2:CatalogueBatch batchTime="2022-05-04T18:00:00.00" Created="2022-05-04T16:04:28.948" Updated="2022-05-04T16:04:28.948" Stage="Open"
+	xmlns:ns2="http://jvnet.patrodyne.org/basicjaxb/ex002/model">
+    <Catalogue CatalogueName="Spring Catalogue" Created="2022-05-04T16:04:28.948" Updated="2022-05-04T16:04:28.948" Stage="Open">
+        <CatalogueType>Spring</CatalogueType>
+        <Discount>0.80</Discount>
+        <Products PartNum="ZHRN-U2615" Created="2022-05-04T16:04:28.981" Updated="2022-05-04T16:04:28.981" Stage="Open">
+            <Picture>☕</Picture>
+            <Description>hot beverage</Description>
+            <Price>49.26</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F33D" Created="2022-05-04T16:04:28.985" Updated="2022-05-04T16:04:28.985" Stage="Open">
+            <Picture>🌽</Picture>
+            <Description>ear of maize</Description>
+            <Price>23.71</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F33E" Created="2022-05-04T16:04:28.988" Updated="2022-05-04T16:04:28.988" Stage="Open">
+            <Picture>🌾</Picture>
+            <Description>ear of rice</Description>
+            <Price>52.81</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F33F" Created="2022-05-04T16:04:28.990" Updated="2022-05-04T16:04:28.990" Stage="Open">
+            <Picture>🌿</Picture>
+            <Description>herb</Description>
+            <Price>25.98</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F344" Created="2022-05-04T16:04:28.992" Updated="2022-05-04T16:04:28.992" Stage="Open">
+            <Picture>🍄</Picture>
+            <Description>mushroom</Description>
+            <Price>54.38</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F345" Created="2022-05-04T16:04:28.994" Updated="2022-05-04T16:04:28.994" Stage="Open">
+            <Picture>🍅</Picture>
+            <Description>tomato</Description>
+            <Price>31.83</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F346" Created="2022-05-04T16:04:28.997" Updated="2022-05-04T16:04:28.997" Stage="Open">
+            <Picture>🍆</Picture>
+            <Description>aubergine</Description>
+            <Price>39.02</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F347" Created="2022-05-04T16:04:28.999" Updated="2022-05-04T16:04:28.999" Stage="Open">
+            <Picture>🍇</Picture>
+            <Description>grapes</Description>
+            <Price>60.78</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F348" Created="2022-05-04T16:04:29.000" Updated="2022-05-04T16:04:29.000" Stage="Open">
+            <Picture>🍈</Picture>
+            <Description>melon</Description>
+            <Price>16.83</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F349" Created="2022-05-04T16:04:29.002" Updated="2022-05-04T16:04:29.002" Stage="Open">
+            <Picture>🍉</Picture>
+            <Description>watermelon</Description>
+            <Price>73.59</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34A" Created="2022-05-04T16:04:29.004" Updated="2022-05-04T16:04:29.004" Stage="Open">
+            <Picture>🍊</Picture>
+            <Description>tangerine</Description>
+            <Price>60.42</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34B" Created="2022-05-04T16:04:29.006" Updated="2022-05-04T16:04:29.006" Stage="Open">
+            <Picture>🍋</Picture>
+            <Description>lemon</Description>
+            <Price>5.62</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34C" Created="2022-05-04T16:04:29.007" Updated="2022-05-04T16:04:29.007" Stage="Open">
+            <Picture>🍌</Picture>
+            <Description>banana</Description>
+            <Price>19.82</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34D" Created="2022-05-04T16:04:29.010" Updated="2022-05-04T16:04:29.010" Stage="Open">
+            <Picture>🍍</Picture>
+            <Description>pineapple</Description>
+            <Price>27.66</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34E" Created="2022-05-04T16:04:29.012" Updated="2022-05-04T16:04:29.012" Stage="Open">
+            <Picture>🍎</Picture>
+            <Description>red apple</Description>
+            <Price>14.46</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34F" Created="2022-05-04T16:04:29.014" Updated="2022-05-04T16:04:29.014" Stage="Open">
+            <Picture>🍏</Picture>
+            <Description>green apple</Description>
+            <Price>47.82</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F350" Created="2022-05-04T16:04:29.017" Updated="2022-05-04T16:04:29.017" Stage="Open">
+            <Picture>🍐</Picture>
+            <Description>pear</Description>
+            <Price>45.35</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F351" Created="2022-05-04T16:04:29.019" Updated="2022-05-04T16:04:29.019" Stage="Open">
+            <Picture>🍑</Picture>
+            <Description>peach</Description>
+            <Price>19.71</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F352" Created="2022-05-04T16:04:29.020" Updated="2022-05-04T16:04:29.020" Stage="Open">
+            <Picture>🍒</Picture>
+            <Description>cherries</Description>
+            <Price>20.14</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F353" Created="2022-05-04T16:04:29.022" Updated="2022-05-04T16:04:29.022" Stage="Open">
+            <Picture>🍓</Picture>
+            <Description>strawberry</Description>
+            <Price>78.42</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F354" Created="2022-05-04T16:04:29.024" Updated="2022-05-04T16:04:29.024" Stage="Open">
+            <Picture>🍔</Picture>
+            <Description>hamburger</Description>
+            <Price>40.66</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F355" Created="2022-05-04T16:04:29.026" Updated="2022-05-04T16:04:29.026" Stage="Open">
+            <Picture>🍕</Picture>
+            <Description>slice of pizza</Description>
+            <Price>21.17</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F356" Created="2022-05-04T16:04:29.028" Updated="2022-05-04T16:04:29.028" Stage="Open">
+            <Picture>🍖</Picture>
+            <Description>meat on bone</Description>
+            <Price>79.66</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F357" Created="2022-05-04T16:04:29.030" Updated="2022-05-04T16:04:29.030" Stage="Open">
+            <Picture>🍗</Picture>
+            <Description>poultry leg</Description>
+            <Price>29.47</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F358" Created="2022-05-04T16:04:29.032" Updated="2022-05-04T16:04:29.032" Stage="Open">
+            <Picture>🍘</Picture>
+            <Description>rice cracker</Description>
+            <Price>54.10</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F359" Created="2022-05-04T16:04:29.034" Updated="2022-05-04T16:04:29.034" Stage="Open">
+            <Picture>🍙</Picture>
+            <Description>rice ball</Description>
+            <Price>21.82</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35A" Created="2022-05-04T16:04:29.035" Updated="2022-05-04T16:04:29.035" Stage="Open">
+            <Picture>🍚</Picture>
+            <Description>cooked rice</Description>
+            <Price>30.33</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35B" Created="2022-05-04T16:04:29.036" Updated="2022-05-04T16:04:29.036" Stage="Open">
+            <Picture>🍛</Picture>
+            <Description>curry and rice</Description>
+            <Price>60.12</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35C" Created="2022-05-04T16:04:29.038" Updated="2022-05-04T16:04:29.038" Stage="Open">
+            <Picture>🍜</Picture>
+            <Description>steaming bowl</Description>
+            <Price>76.16</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35D" Created="2022-05-04T16:04:29.039" Updated="2022-05-04T16:04:29.039" Stage="Open">
+            <Picture>🍝</Picture>
+            <Description>spaghetti</Description>
+            <Price>21.54</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35E" Created="2022-05-04T16:04:29.040" Updated="2022-05-04T16:04:29.040" Stage="Open">
+            <Picture>🍞</Picture>
+            <Description>bread</Description>
+            <Price>33.16</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35F" Created="2022-05-04T16:04:29.042" Updated="2022-05-04T16:04:29.042" Stage="Open">
+            <Picture>🍟</Picture>
+            <Description>french fries</Description>
+            <Price>37.78</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F360" Created="2022-05-04T16:04:29.044" Updated="2022-05-04T16:04:29.044" Stage="Open">
+            <Picture>🍠</Picture>
+            <Description>roasted sweet potato</Description>
+            <Price>61.75</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F361" Created="2022-05-04T16:04:29.046" Updated="2022-05-04T16:04:29.046" Stage="Open">
+            <Picture>🍡</Picture>
+            <Description>dango</Description>
+            <Price>4.34</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F362" Created="2022-05-04T16:04:29.047" Updated="2022-05-04T16:04:29.047" Stage="Open">
+            <Picture>🍢</Picture>
+            <Description>oden</Description>
+            <Price>32.44</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F363" Created="2022-05-04T16:04:29.049" Updated="2022-05-04T16:04:29.049" Stage="Open">
+            <Picture>🍣</Picture>
+            <Description>sushi</Description>
+            <Price>36.26</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F364" Created="2022-05-04T16:04:29.050" Updated="2022-05-04T16:04:29.050" Stage="Open">
+            <Picture>🍤</Picture>
+            <Description>fried shrimp</Description>
+            <Price>46.61</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F365" Created="2022-05-04T16:04:29.052" Updated="2022-05-04T16:04:29.052" Stage="Open">
+            <Picture>🍥</Picture>
+            <Description>fish cake with swirl design</Description>
+            <Price>66.95</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F366" Created="2022-05-04T16:04:29.053" Updated="2022-05-04T16:04:29.053" Stage="Open">
+            <Picture>🍦</Picture>
+            <Description>soft ice cream</Description>
+            <Price>19.11</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F367" Created="2022-05-04T16:04:29.054" Updated="2022-05-04T16:04:29.054" Stage="Open">
+            <Picture>🍧</Picture>
+            <Description>shaved ice</Description>
+            <Price>68.46</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F368" Created="2022-05-04T16:04:29.056" Updated="2022-05-04T16:04:29.056" Stage="Open">
+            <Picture>🍨</Picture>
+            <Description>ice cream</Description>
+            <Price>47.18</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F369" Created="2022-05-04T16:04:29.057" Updated="2022-05-04T16:04:29.057" Stage="Open">
+            <Picture>🍩</Picture>
+            <Description>doughnut</Description>
+            <Price>54.72</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36A" Created="2022-05-04T16:04:29.058" Updated="2022-05-04T16:04:29.058" Stage="Open">
+            <Picture>🍪</Picture>
+            <Description>cookie</Description>
+            <Price>54.90</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36B" Created="2022-05-04T16:04:29.060" Updated="2022-05-04T16:04:29.060" Stage="Open">
+            <Picture>🍫</Picture>
+            <Description>chocolate bar</Description>
+            <Price>27.18</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36C" Created="2022-05-04T16:04:29.062" Updated="2022-05-04T16:04:29.062" Stage="Open">
+            <Picture>🍬</Picture>
+            <Description>candy</Description>
+            <Price>23.29</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36D" Created="2022-05-04T16:04:29.064" Updated="2022-05-04T16:04:29.064" Stage="Open">
+            <Picture>🍭</Picture>
+            <Description>lollipop</Description>
+            <Price>51.74</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36E" Created="2022-05-04T16:04:29.065" Updated="2022-05-04T16:04:29.065" Stage="Open">
+            <Picture>🍮</Picture>
+            <Description>custard</Description>
+            <Price>1.52</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36F" Created="2022-05-04T16:04:29.066" Updated="2022-05-04T16:04:29.066" Stage="Open">
+            <Picture>🍯</Picture>
+            <Description>honey pot</Description>
+            <Price>79.74</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F370" Created="2022-05-04T16:04:29.067" Updated="2022-05-04T16:04:29.067" Stage="Open">
+            <Picture>🍰</Picture>
+            <Description>shortcake</Description>
+            <Price>3.95</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F371" Created="2022-05-04T16:04:29.070" Updated="2022-05-04T16:04:29.070" Stage="Open">
+            <Picture>🍱</Picture>
+            <Description>bento box</Description>
+            <Price>39.65</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F372" Created="2022-05-04T16:04:29.071" Updated="2022-05-04T16:04:29.071" Stage="Open">
+            <Picture>🍲</Picture>
+            <Description>pot of food</Description>
+            <Price>28.37</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F373" Created="2022-05-04T16:04:29.073" Updated="2022-05-04T16:04:29.073" Stage="Open">
+            <Picture>🍳</Picture>
+            <Description>cooking</Description>
+            <Price>9.11</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F374" Created="2022-05-04T16:04:29.074" Updated="2022-05-04T16:04:29.074" Stage="Open">
+            <Picture>🍴</Picture>
+            <Description>fork and knife</Description>
+            <Price>2.31</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F375" Created="2022-05-04T16:04:29.076" Updated="2022-05-04T16:04:29.076" Stage="Open">
+            <Picture>🍵</Picture>
+            <Description>teacup without handle</Description>
+            <Price>68.62</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F437" Created="2022-05-04T16:04:29.077" Updated="2022-05-04T16:04:29.077" Stage="Open">
+            <Picture>🐷</Picture>
+            <Description>pork</Description>
+            <Price>43.77</Price>
+        </Products>
+    </Catalogue>
+    <Catalogue CatalogueName="Summer Catalogue" Created="2022-05-04T16:04:29.113" Updated="2022-05-04T16:04:29.113" Stage="Open">
+        <CatalogueType>Summer</CatalogueType>
+        <Discount>0.50</Discount>
+        <Products PartNum="ZHRN-U2615" Created="2022-05-04T16:04:29.115" Updated="2022-05-04T16:04:29.115" Stage="Open">
+            <Picture>☕</Picture>
+            <Description>hot beverage</Description>
+            <Price>30.79</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F33D" Created="2022-05-04T16:04:29.118" Updated="2022-05-04T16:04:29.118" Stage="Open">
+            <Picture>🌽</Picture>
+            <Description>ear of maize</Description>
+            <Price>14.82</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F33E" Created="2022-05-04T16:04:29.119" Updated="2022-05-04T16:04:29.119" Stage="Open">
+            <Picture>🌾</Picture>
+            <Description>ear of rice</Description>
+            <Price>33.01</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F33F" Created="2022-05-04T16:04:29.120" Updated="2022-05-04T16:04:29.120" Stage="Open">
+            <Picture>🌿</Picture>
+            <Description>herb</Description>
+            <Price>16.24</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F344" Created="2022-05-04T16:04:29.122" Updated="2022-05-04T16:04:29.122" Stage="Open">
+            <Picture>🍄</Picture>
+            <Description>mushroom</Description>
+            <Price>33.99</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F345" Created="2022-05-04T16:04:29.123" Updated="2022-05-04T16:04:29.123" Stage="Open">
+            <Picture>🍅</Picture>
+            <Description>tomato</Description>
+            <Price>19.90</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F346" Created="2022-05-04T16:04:29.125" Updated="2022-05-04T16:04:29.125" Stage="Open">
+            <Picture>🍆</Picture>
+            <Description>aubergine</Description>
+            <Price>24.39</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F347" Created="2022-05-04T16:04:29.127" Updated="2022-05-04T16:04:29.127" Stage="Open">
+            <Picture>🍇</Picture>
+            <Description>grapes</Description>
+            <Price>37.99</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F348" Created="2022-05-04T16:04:29.128" Updated="2022-05-04T16:04:29.128" Stage="Open">
+            <Picture>🍈</Picture>
+            <Description>melon</Description>
+            <Price>10.52</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F349" Created="2022-05-04T16:04:29.129" Updated="2022-05-04T16:04:29.129" Stage="Open">
+            <Picture>🍉</Picture>
+            <Description>watermelon</Description>
+            <Price>46.00</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34A" Created="2022-05-04T16:04:29.131" Updated="2022-05-04T16:04:29.131" Stage="Open">
+            <Picture>🍊</Picture>
+            <Description>tangerine</Description>
+            <Price>37.76</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34B" Created="2022-05-04T16:04:29.132" Updated="2022-05-04T16:04:29.132" Stage="Open">
+            <Picture>🍋</Picture>
+            <Description>lemon</Description>
+            <Price>3.51</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34C" Created="2022-05-04T16:04:29.133" Updated="2022-05-04T16:04:29.133" Stage="Open">
+            <Picture>🍌</Picture>
+            <Description>banana</Description>
+            <Price>12.39</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34D" Created="2022-05-04T16:04:29.134" Updated="2022-05-04T16:04:29.134" Stage="Open">
+            <Picture>🍍</Picture>
+            <Description>pineapple</Description>
+            <Price>17.29</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34E" Created="2022-05-04T16:04:29.135" Updated="2022-05-04T16:04:29.135" Stage="Open">
+            <Picture>🍎</Picture>
+            <Description>red apple</Description>
+            <Price>9.04</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34F" Created="2022-05-04T16:04:29.136" Updated="2022-05-04T16:04:29.136" Stage="Open">
+            <Picture>🍏</Picture>
+            <Description>green apple</Description>
+            <Price>29.89</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F350" Created="2022-05-04T16:04:29.138" Updated="2022-05-04T16:04:29.138" Stage="Open">
+            <Picture>🍐</Picture>
+            <Description>pear</Description>
+            <Price>28.35</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F351" Created="2022-05-04T16:04:29.139" Updated="2022-05-04T16:04:29.139" Stage="Open">
+            <Picture>🍑</Picture>
+            <Description>peach</Description>
+            <Price>12.32</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F352" Created="2022-05-04T16:04:29.140" Updated="2022-05-04T16:04:29.140" Stage="Open">
+            <Picture>🍒</Picture>
+            <Description>cherries</Description>
+            <Price>12.59</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F353" Created="2022-05-04T16:04:29.141" Updated="2022-05-04T16:04:29.141" Stage="Open">
+            <Picture>🍓</Picture>
+            <Description>strawberry</Description>
+            <Price>49.01</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F354" Created="2022-05-04T16:04:29.142" Updated="2022-05-04T16:04:29.142" Stage="Open">
+            <Picture>🍔</Picture>
+            <Description>hamburger</Description>
+            <Price>25.42</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F355" Created="2022-05-04T16:04:29.143" Updated="2022-05-04T16:04:29.143" Stage="Open">
+            <Picture>🍕</Picture>
+            <Description>slice of pizza</Description>
+            <Price>13.23</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F356" Created="2022-05-04T16:04:29.145" Updated="2022-05-04T16:04:29.145" Stage="Open">
+            <Picture>🍖</Picture>
+            <Description>meat on bone</Description>
+            <Price>49.79</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F357" Created="2022-05-04T16:04:29.147" Updated="2022-05-04T16:04:29.147" Stage="Open">
+            <Picture>🍗</Picture>
+            <Description>poultry leg</Description>
+            <Price>18.42</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F358" Created="2022-05-04T16:04:29.148" Updated="2022-05-04T16:04:29.148" Stage="Open">
+            <Picture>🍘</Picture>
+            <Description>rice cracker</Description>
+            <Price>33.81</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F359" Created="2022-05-04T16:04:29.150" Updated="2022-05-04T16:04:29.150" Stage="Open">
+            <Picture>🍙</Picture>
+            <Description>rice ball</Description>
+            <Price>13.64</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35A" Created="2022-05-04T16:04:29.151" Updated="2022-05-04T16:04:29.151" Stage="Open">
+            <Picture>🍚</Picture>
+            <Description>cooked rice</Description>
+            <Price>18.96</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35B" Created="2022-05-04T16:04:29.152" Updated="2022-05-04T16:04:29.152" Stage="Open">
+            <Picture>🍛</Picture>
+            <Description>curry and rice</Description>
+            <Price>37.58</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35C" Created="2022-05-04T16:04:29.153" Updated="2022-05-04T16:04:29.153" Stage="Open">
+            <Picture>🍜</Picture>
+            <Description>steaming bowl</Description>
+            <Price>47.60</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35D" Created="2022-05-04T16:04:29.155" Updated="2022-05-04T16:04:29.155" Stage="Open">
+            <Picture>🍝</Picture>
+            <Description>spaghetti</Description>
+            <Price>13.47</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35E" Created="2022-05-04T16:04:29.156" Updated="2022-05-04T16:04:29.156" Stage="Open">
+            <Picture>🍞</Picture>
+            <Description>bread</Description>
+            <Price>20.73</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35F" Created="2022-05-04T16:04:29.157" Updated="2022-05-04T16:04:29.157" Stage="Open">
+            <Picture>🍟</Picture>
+            <Description>french fries</Description>
+            <Price>23.62</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F360" Created="2022-05-04T16:04:29.158" Updated="2022-05-04T16:04:29.158" Stage="Open">
+            <Picture>🍠</Picture>
+            <Description>roasted sweet potato</Description>
+            <Price>38.60</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F361" Created="2022-05-04T16:04:29.160" Updated="2022-05-04T16:04:29.160" Stage="Open">
+            <Picture>🍡</Picture>
+            <Description>dango</Description>
+            <Price>2.72</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F362" Created="2022-05-04T16:04:29.161" Updated="2022-05-04T16:04:29.161" Stage="Open">
+            <Picture>🍢</Picture>
+            <Description>oden</Description>
+            <Price>20.28</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F363" Created="2022-05-04T16:04:29.163" Updated="2022-05-04T16:04:29.163" Stage="Open">
+            <Picture>🍣</Picture>
+            <Description>sushi</Description>
+            <Price>22.66</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F364" Created="2022-05-04T16:04:29.165" Updated="2022-05-04T16:04:29.165" Stage="Open">
+            <Picture>🍤</Picture>
+            <Description>fried shrimp</Description>
+            <Price>29.13</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F365" Created="2022-05-04T16:04:29.166" Updated="2022-05-04T16:04:29.166" Stage="Open">
+            <Picture>🍥</Picture>
+            <Description>fish cake with swirl design</Description>
+            <Price>41.85</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F366" Created="2022-05-04T16:04:29.167" Updated="2022-05-04T16:04:29.167" Stage="Open">
+            <Picture>🍦</Picture>
+            <Description>soft ice cream</Description>
+            <Price>11.95</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F367" Created="2022-05-04T16:04:29.169" Updated="2022-05-04T16:04:29.169" Stage="Open">
+            <Picture>🍧</Picture>
+            <Description>shaved ice</Description>
+            <Price>42.79</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F368" Created="2022-05-04T16:04:29.170" Updated="2022-05-04T16:04:29.170" Stage="Open">
+            <Picture>🍨</Picture>
+            <Description>ice cream</Description>
+            <Price>29.49</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F369" Created="2022-05-04T16:04:29.172" Updated="2022-05-04T16:04:29.172" Stage="Open">
+            <Picture>🍩</Picture>
+            <Description>doughnut</Description>
+            <Price>34.20</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36A" Created="2022-05-04T16:04:29.174" Updated="2022-05-04T16:04:29.174" Stage="Open">
+            <Picture>🍪</Picture>
+            <Description>cookie</Description>
+            <Price>34.31</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36B" Created="2022-05-04T16:04:29.175" Updated="2022-05-04T16:04:29.175" Stage="Open">
+            <Picture>🍫</Picture>
+            <Description>chocolate bar</Description>
+            <Price>16.99</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36C" Created="2022-05-04T16:04:29.176" Updated="2022-05-04T16:04:29.176" Stage="Open">
+            <Picture>🍬</Picture>
+            <Description>candy</Description>
+            <Price>14.56</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36D" Created="2022-05-04T16:04:29.177" Updated="2022-05-04T16:04:29.177" Stage="Open">
+            <Picture>🍭</Picture>
+            <Description>lollipop</Description>
+            <Price>32.34</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36E" Created="2022-05-04T16:04:29.178" Updated="2022-05-04T16:04:29.178" Stage="Open">
+            <Picture>🍮</Picture>
+            <Description>custard</Description>
+            <Price>0.95</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36F" Created="2022-05-04T16:04:29.180" Updated="2022-05-04T16:04:29.180" Stage="Open">
+            <Picture>🍯</Picture>
+            <Description>honey pot</Description>
+            <Price>49.84</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F370" Created="2022-05-04T16:04:29.181" Updated="2022-05-04T16:04:29.181" Stage="Open">
+            <Picture>🍰</Picture>
+            <Description>shortcake</Description>
+            <Price>2.47</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F371" Created="2022-05-04T16:04:29.182" Updated="2022-05-04T16:04:29.182" Stage="Open">
+            <Picture>🍱</Picture>
+            <Description>bento box</Description>
+            <Price>24.78</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F372" Created="2022-05-04T16:04:29.183" Updated="2022-05-04T16:04:29.183" Stage="Open">
+            <Picture>🍲</Picture>
+            <Description>pot of food</Description>
+            <Price>17.73</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F373" Created="2022-05-04T16:04:29.184" Updated="2022-05-04T16:04:29.184" Stage="Open">
+            <Picture>🍳</Picture>
+            <Description>cooking</Description>
+            <Price>5.70</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F374" Created="2022-05-04T16:04:29.185" Updated="2022-05-04T16:04:29.185" Stage="Open">
+            <Picture>🍴</Picture>
+            <Description>fork and knife</Description>
+            <Price>1.45</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F375" Created="2022-05-04T16:04:29.186" Updated="2022-05-04T16:04:29.186" Stage="Open">
+            <Picture>🍵</Picture>
+            <Description>teacup without handle</Description>
+            <Price>42.89</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F437" Created="2022-05-04T16:04:29.188" Updated="2022-05-04T16:04:29.188" Stage="Open">
+            <Picture>🐷</Picture>
+            <Description>pork</Description>
+            <Price>27.36</Price>
+        </Products>
+    </Catalogue>
+    <Catalogue CatalogueName="Autumn Catalogue" Created="2022-05-04T16:04:29.210" Updated="2022-05-04T16:04:29.210" Stage="Open">
+        <CatalogueType>Autumn</CatalogueType>
+        <Discount>0.75</Discount>
+        <Products PartNum="ZHRN-U2615" Created="2022-05-04T16:04:29.212" Updated="2022-05-04T16:04:29.212" Stage="Open">
+            <Picture>☕</Picture>
+            <Description>hot beverage</Description>
+            <Price>46.18</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F33D" Created="2022-05-04T16:04:29.214" Updated="2022-05-04T16:04:29.214" Stage="Open">
+            <Picture>🌽</Picture>
+            <Description>ear of maize</Description>
+            <Price>22.23</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F33E" Created="2022-05-04T16:04:29.215" Updated="2022-05-04T16:04:29.215" Stage="Open">
+            <Picture>🌾</Picture>
+            <Description>ear of rice</Description>
+            <Price>49.51</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F33F" Created="2022-05-04T16:04:29.217" Updated="2022-05-04T16:04:29.217" Stage="Open">
+            <Picture>🌿</Picture>
+            <Description>herb</Description>
+            <Price>24.36</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F344" Created="2022-05-04T16:04:29.218" Updated="2022-05-04T16:04:29.218" Stage="Open">
+            <Picture>🍄</Picture>
+            <Description>mushroom</Description>
+            <Price>50.98</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F345" Created="2022-05-04T16:04:29.220" Updated="2022-05-04T16:04:29.220" Stage="Open">
+            <Picture>🍅</Picture>
+            <Description>tomato</Description>
+            <Price>29.84</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F346" Created="2022-05-04T16:04:29.221" Updated="2022-05-04T16:04:29.221" Stage="Open">
+            <Picture>🍆</Picture>
+            <Description>aubergine</Description>
+            <Price>36.58</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F347" Created="2022-05-04T16:04:29.223" Updated="2022-05-04T16:04:29.223" Stage="Open">
+            <Picture>🍇</Picture>
+            <Description>grapes</Description>
+            <Price>56.99</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F348" Created="2022-05-04T16:04:29.224" Updated="2022-05-04T16:04:29.224" Stage="Open">
+            <Picture>🍈</Picture>
+            <Description>melon</Description>
+            <Price>15.78</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F349" Created="2022-05-04T16:04:29.226" Updated="2022-05-04T16:04:29.226" Stage="Open">
+            <Picture>🍉</Picture>
+            <Description>watermelon</Description>
+            <Price>68.99</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34A" Created="2022-05-04T16:04:29.227" Updated="2022-05-04T16:04:29.227" Stage="Open">
+            <Picture>🍊</Picture>
+            <Description>tangerine</Description>
+            <Price>56.64</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34B" Created="2022-05-04T16:04:29.228" Updated="2022-05-04T16:04:29.228" Stage="Open">
+            <Picture>🍋</Picture>
+            <Description>lemon</Description>
+            <Price>5.27</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34C" Created="2022-05-04T16:04:29.229" Updated="2022-05-04T16:04:29.229" Stage="Open">
+            <Picture>🍌</Picture>
+            <Description>banana</Description>
+            <Price>18.58</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34D" Created="2022-05-04T16:04:29.230" Updated="2022-05-04T16:04:29.230" Stage="Open">
+            <Picture>🍍</Picture>
+            <Description>pineapple</Description>
+            <Price>25.94</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34E" Created="2022-05-04T16:04:29.232" Updated="2022-05-04T16:04:29.232" Stage="Open">
+            <Picture>🍎</Picture>
+            <Description>red apple</Description>
+            <Price>13.55</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34F" Created="2022-05-04T16:04:29.233" Updated="2022-05-04T16:04:29.233" Stage="Open">
+            <Picture>🍏</Picture>
+            <Description>green apple</Description>
+            <Price>44.83</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F350" Created="2022-05-04T16:04:29.234" Updated="2022-05-04T16:04:29.234" Stage="Open">
+            <Picture>🍐</Picture>
+            <Description>pear</Description>
+            <Price>42.52</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F351" Created="2022-05-04T16:04:29.235" Updated="2022-05-04T16:04:29.235" Stage="Open">
+            <Picture>🍑</Picture>
+            <Description>peach</Description>
+            <Price>18.48</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F352" Created="2022-05-04T16:04:29.237" Updated="2022-05-04T16:04:29.237" Stage="Open">
+            <Picture>🍒</Picture>
+            <Description>cherries</Description>
+            <Price>18.89</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F353" Created="2022-05-04T16:04:29.239" Updated="2022-05-04T16:04:29.239" Stage="Open">
+            <Picture>🍓</Picture>
+            <Description>strawberry</Description>
+            <Price>73.52</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F354" Created="2022-05-04T16:04:29.240" Updated="2022-05-04T16:04:29.240" Stage="Open">
+            <Picture>🍔</Picture>
+            <Description>hamburger</Description>
+            <Price>38.12</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F355" Created="2022-05-04T16:04:29.241" Updated="2022-05-04T16:04:29.241" Stage="Open">
+            <Picture>🍕</Picture>
+            <Description>slice of pizza</Description>
+            <Price>19.85</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F356" Created="2022-05-04T16:04:29.242" Updated="2022-05-04T16:04:29.242" Stage="Open">
+            <Picture>🍖</Picture>
+            <Description>meat on bone</Description>
+            <Price>74.69</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F357" Created="2022-05-04T16:04:29.244" Updated="2022-05-04T16:04:29.244" Stage="Open">
+            <Picture>🍗</Picture>
+            <Description>poultry leg</Description>
+            <Price>27.63</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F358" Created="2022-05-04T16:04:29.245" Updated="2022-05-04T16:04:29.245" Stage="Open">
+            <Picture>🍘</Picture>
+            <Description>rice cracker</Description>
+            <Price>50.72</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F359" Created="2022-05-04T16:04:29.246" Updated="2022-05-04T16:04:29.246" Stage="Open">
+            <Picture>🍙</Picture>
+            <Description>rice ball</Description>
+            <Price>20.45</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35A" Created="2022-05-04T16:04:29.247" Updated="2022-05-04T16:04:29.247" Stage="Open">
+            <Picture>🍚</Picture>
+            <Description>cooked rice</Description>
+            <Price>28.43</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35B" Created="2022-05-04T16:04:29.248" Updated="2022-05-04T16:04:29.248" Stage="Open">
+            <Picture>🍛</Picture>
+            <Description>curry and rice</Description>
+            <Price>56.36</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35C" Created="2022-05-04T16:04:29.250" Updated="2022-05-04T16:04:29.250" Stage="Open">
+            <Picture>🍜</Picture>
+            <Description>steaming bowl</Description>
+            <Price>71.40</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35D" Created="2022-05-04T16:04:29.251" Updated="2022-05-04T16:04:29.251" Stage="Open">
+            <Picture>🍝</Picture>
+            <Description>spaghetti</Description>
+            <Price>20.20</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35E" Created="2022-05-04T16:04:29.253" Updated="2022-05-04T16:04:29.253" Stage="Open">
+            <Picture>🍞</Picture>
+            <Description>bread</Description>
+            <Price>31.09</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35F" Created="2022-05-04T16:04:29.254" Updated="2022-05-04T16:04:29.254" Stage="Open">
+            <Picture>🍟</Picture>
+            <Description>french fries</Description>
+            <Price>35.42</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F360" Created="2022-05-04T16:04:29.256" Updated="2022-05-04T16:04:29.256" Stage="Open">
+            <Picture>🍠</Picture>
+            <Description>roasted sweet potato</Description>
+            <Price>57.89</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F361" Created="2022-05-04T16:04:29.257" Updated="2022-05-04T16:04:29.257" Stage="Open">
+            <Picture>🍡</Picture>
+            <Description>dango</Description>
+            <Price>4.07</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F362" Created="2022-05-04T16:04:29.259" Updated="2022-05-04T16:04:29.259" Stage="Open">
+            <Picture>🍢</Picture>
+            <Description>oden</Description>
+            <Price>30.41</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F363" Created="2022-05-04T16:04:29.260" Updated="2022-05-04T16:04:29.260" Stage="Open">
+            <Picture>🍣</Picture>
+            <Description>sushi</Description>
+            <Price>33.99</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F364" Created="2022-05-04T16:04:29.262" Updated="2022-05-04T16:04:29.262" Stage="Open">
+            <Picture>🍤</Picture>
+            <Description>fried shrimp</Description>
+            <Price>43.70</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F365" Created="2022-05-04T16:04:29.263" Updated="2022-05-04T16:04:29.263" Stage="Open">
+            <Picture>🍥</Picture>
+            <Description>fish cake with swirl design</Description>
+            <Price>62.77</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F366" Created="2022-05-04T16:04:29.264" Updated="2022-05-04T16:04:29.264" Stage="Open">
+            <Picture>🍦</Picture>
+            <Description>soft ice cream</Description>
+            <Price>17.92</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F367" Created="2022-05-04T16:04:29.265" Updated="2022-05-04T16:04:29.265" Stage="Open">
+            <Picture>🍧</Picture>
+            <Description>shaved ice</Description>
+            <Price>64.19</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F368" Created="2022-05-04T16:04:29.267" Updated="2022-05-04T16:04:29.267" Stage="Open">
+            <Picture>🍨</Picture>
+            <Description>ice cream</Description>
+            <Price>44.23</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F369" Created="2022-05-04T16:04:29.268" Updated="2022-05-04T16:04:29.268" Stage="Open">
+            <Picture>🍩</Picture>
+            <Description>doughnut</Description>
+            <Price>51.30</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36A" Created="2022-05-04T16:04:29.269" Updated="2022-05-04T16:04:29.269" Stage="Open">
+            <Picture>🍪</Picture>
+            <Description>cookie</Description>
+            <Price>51.47</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36B" Created="2022-05-04T16:04:29.270" Updated="2022-05-04T16:04:29.270" Stage="Open">
+            <Picture>🍫</Picture>
+            <Description>chocolate bar</Description>
+            <Price>25.48</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36C" Created="2022-05-04T16:04:29.271" Updated="2022-05-04T16:04:29.271" Stage="Open">
+            <Picture>🍬</Picture>
+            <Description>candy</Description>
+            <Price>21.83</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36D" Created="2022-05-04T16:04:29.272" Updated="2022-05-04T16:04:29.272" Stage="Open">
+            <Picture>🍭</Picture>
+            <Description>lollipop</Description>
+            <Price>48.50</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36E" Created="2022-05-04T16:04:29.274" Updated="2022-05-04T16:04:29.274" Stage="Open">
+            <Picture>🍮</Picture>
+            <Description>custard</Description>
+            <Price>1.43</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36F" Created="2022-05-04T16:04:29.275" Updated="2022-05-04T16:04:29.275" Stage="Open">
+            <Picture>🍯</Picture>
+            <Description>honey pot</Description>
+            <Price>74.76</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F370" Created="2022-05-04T16:04:29.276" Updated="2022-05-04T16:04:29.276" Stage="Open">
+            <Picture>🍰</Picture>
+            <Description>shortcake</Description>
+            <Price>3.71</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F371" Created="2022-05-04T16:04:29.278" Updated="2022-05-04T16:04:29.278" Stage="Open">
+            <Picture>🍱</Picture>
+            <Description>bento box</Description>
+            <Price>37.17</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F372" Created="2022-05-04T16:04:29.279" Updated="2022-05-04T16:04:29.279" Stage="Open">
+            <Picture>🍲</Picture>
+            <Description>pot of food</Description>
+            <Price>26.60</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F373" Created="2022-05-04T16:04:29.280" Updated="2022-05-04T16:04:29.280" Stage="Open">
+            <Picture>🍳</Picture>
+            <Description>cooking</Description>
+            <Price>8.54</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F374" Created="2022-05-04T16:04:29.282" Updated="2022-05-04T16:04:29.282" Stage="Open">
+            <Picture>🍴</Picture>
+            <Description>fork and knife</Description>
+            <Price>2.17</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F375" Created="2022-05-04T16:04:29.283" Updated="2022-05-04T16:04:29.283" Stage="Open">
+            <Picture>🍵</Picture>
+            <Description>teacup without handle</Description>
+            <Price>64.33</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F437" Created="2022-05-04T16:04:29.284" Updated="2022-05-04T16:04:29.284" Stage="Open">
+            <Picture>🐷</Picture>
+            <Description>pork</Description>
+            <Price>41.03</Price>
+        </Products>
+    </Catalogue>
+    <Catalogue CatalogueName="Winter Catalogue" Created="2022-05-04T16:04:29.308" Updated="2022-05-04T16:04:29.308" Stage="Open">
+        <CatalogueType>Winter</CatalogueType>
+        <Discount>1.00</Discount>
+        <Products PartNum="ZHRN-U2615" Created="2022-05-04T16:04:29.310" Updated="2022-05-04T16:04:29.310" Stage="Open">
+            <Picture>☕</Picture>
+            <Description>hot beverage</Description>
+            <Price>61.57</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F33D" Created="2022-05-04T16:04:29.311" Updated="2022-05-04T16:04:29.311" Stage="Open">
+            <Picture>🌽</Picture>
+            <Description>ear of maize</Description>
+            <Price>29.64</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F33E" Created="2022-05-04T16:04:29.313" Updated="2022-05-04T16:04:29.313" Stage="Open">
+            <Picture>🌾</Picture>
+            <Description>ear of rice</Description>
+            <Price>66.01</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F33F" Created="2022-05-04T16:04:29.314" Updated="2022-05-04T16:04:29.314" Stage="Open">
+            <Picture>🌿</Picture>
+            <Description>herb</Description>
+            <Price>32.48</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F344" Created="2022-05-04T16:04:29.315" Updated="2022-05-04T16:04:29.315" Stage="Open">
+            <Picture>🍄</Picture>
+            <Description>mushroom</Description>
+            <Price>67.97</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F345" Created="2022-05-04T16:04:29.316" Updated="2022-05-04T16:04:29.316" Stage="Open">
+            <Picture>🍅</Picture>
+            <Description>tomato</Description>
+            <Price>39.79</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F346" Created="2022-05-04T16:04:29.317" Updated="2022-05-04T16:04:29.317" Stage="Open">
+            <Picture>🍆</Picture>
+            <Description>aubergine</Description>
+            <Price>48.77</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F347" Created="2022-05-04T16:04:29.318" Updated="2022-05-04T16:04:29.318" Stage="Open">
+            <Picture>🍇</Picture>
+            <Description>grapes</Description>
+            <Price>75.98</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F348" Created="2022-05-04T16:04:29.319" Updated="2022-05-04T16:04:29.319" Stage="Open">
+            <Picture>🍈</Picture>
+            <Description>melon</Description>
+            <Price>21.04</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F349" Created="2022-05-04T16:04:29.320" Updated="2022-05-04T16:04:29.320" Stage="Open">
+            <Picture>🍉</Picture>
+            <Description>watermelon</Description>
+            <Price>91.99</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34A" Created="2022-05-04T16:04:29.321" Updated="2022-05-04T16:04:29.321" Stage="Open">
+            <Picture>🍊</Picture>
+            <Description>tangerine</Description>
+            <Price>75.52</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34B" Created="2022-05-04T16:04:29.322" Updated="2022-05-04T16:04:29.322" Stage="Open">
+            <Picture>🍋</Picture>
+            <Description>lemon</Description>
+            <Price>7.02</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34C" Created="2022-05-04T16:04:29.323" Updated="2022-05-04T16:04:29.323" Stage="Open">
+            <Picture>🍌</Picture>
+            <Description>banana</Description>
+            <Price>24.77</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34D" Created="2022-05-04T16:04:29.324" Updated="2022-05-04T16:04:29.324" Stage="Open">
+            <Picture>🍍</Picture>
+            <Description>pineapple</Description>
+            <Price>34.58</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34E" Created="2022-05-04T16:04:29.325" Updated="2022-05-04T16:04:29.325" Stage="Open">
+            <Picture>🍎</Picture>
+            <Description>red apple</Description>
+            <Price>18.07</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F34F" Created="2022-05-04T16:04:29.327" Updated="2022-05-04T16:04:29.327" Stage="Open">
+            <Picture>🍏</Picture>
+            <Description>green apple</Description>
+            <Price>59.77</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F350" Created="2022-05-04T16:04:29.328" Updated="2022-05-04T16:04:29.328" Stage="Open">
+            <Picture>🍐</Picture>
+            <Description>pear</Description>
+            <Price>56.69</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F351" Created="2022-05-04T16:04:29.330" Updated="2022-05-04T16:04:29.330" Stage="Open">
+            <Picture>🍑</Picture>
+            <Description>peach</Description>
+            <Price>24.64</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F352" Created="2022-05-04T16:04:29.331" Updated="2022-05-04T16:04:29.331" Stage="Open">
+            <Picture>🍒</Picture>
+            <Description>cherries</Description>
+            <Price>25.18</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F353" Created="2022-05-04T16:04:29.333" Updated="2022-05-04T16:04:29.333" Stage="Open">
+            <Picture>🍓</Picture>
+            <Description>strawberry</Description>
+            <Price>98.02</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F354" Created="2022-05-04T16:04:29.334" Updated="2022-05-04T16:04:29.334" Stage="Open">
+            <Picture>🍔</Picture>
+            <Description>hamburger</Description>
+            <Price>50.83</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F355" Created="2022-05-04T16:04:29.335" Updated="2022-05-04T16:04:29.335" Stage="Open">
+            <Picture>🍕</Picture>
+            <Description>slice of pizza</Description>
+            <Price>26.46</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F356" Created="2022-05-04T16:04:29.336" Updated="2022-05-04T16:04:29.336" Stage="Open">
+            <Picture>🍖</Picture>
+            <Description>meat on bone</Description>
+            <Price>99.58</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F357" Created="2022-05-04T16:04:29.337" Updated="2022-05-04T16:04:29.337" Stage="Open">
+            <Picture>🍗</Picture>
+            <Description>poultry leg</Description>
+            <Price>36.84</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F358" Created="2022-05-04T16:04:29.338" Updated="2022-05-04T16:04:29.338" Stage="Open">
+            <Picture>🍘</Picture>
+            <Description>rice cracker</Description>
+            <Price>67.62</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F359" Created="2022-05-04T16:04:29.339" Updated="2022-05-04T16:04:29.339" Stage="Open">
+            <Picture>🍙</Picture>
+            <Description>rice ball</Description>
+            <Price>27.27</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35A" Created="2022-05-04T16:04:29.340" Updated="2022-05-04T16:04:29.340" Stage="Open">
+            <Picture>🍚</Picture>
+            <Description>cooked rice</Description>
+            <Price>37.91</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35B" Created="2022-05-04T16:04:29.341" Updated="2022-05-04T16:04:29.341" Stage="Open">
+            <Picture>🍛</Picture>
+            <Description>curry and rice</Description>
+            <Price>75.15</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35C" Created="2022-05-04T16:04:29.343" Updated="2022-05-04T16:04:29.343" Stage="Open">
+            <Picture>🍜</Picture>
+            <Description>steaming bowl</Description>
+            <Price>95.20</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35D" Created="2022-05-04T16:04:29.346" Updated="2022-05-04T16:04:29.346" Stage="Open">
+            <Picture>🍝</Picture>
+            <Description>spaghetti</Description>
+            <Price>26.93</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35E" Created="2022-05-04T16:04:29.347" Updated="2022-05-04T16:04:29.347" Stage="Open">
+            <Picture>🍞</Picture>
+            <Description>bread</Description>
+            <Price>41.45</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F35F" Created="2022-05-04T16:04:29.348" Updated="2022-05-04T16:04:29.348" Stage="Open">
+            <Picture>🍟</Picture>
+            <Description>french fries</Description>
+            <Price>47.23</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F360" Created="2022-05-04T16:04:29.350" Updated="2022-05-04T16:04:29.350" Stage="Open">
+            <Picture>🍠</Picture>
+            <Description>roasted sweet potato</Description>
+            <Price>77.19</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F361" Created="2022-05-04T16:04:29.351" Updated="2022-05-04T16:04:29.351" Stage="Open">
+            <Picture>🍡</Picture>
+            <Description>dango</Description>
+            <Price>5.43</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F362" Created="2022-05-04T16:04:29.352" Updated="2022-05-04T16:04:29.352" Stage="Open">
+            <Picture>🍢</Picture>
+            <Description>oden</Description>
+            <Price>40.55</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F363" Created="2022-05-04T16:04:29.353" Updated="2022-05-04T16:04:29.353" Stage="Open">
+            <Picture>🍣</Picture>
+            <Description>sushi</Description>
+            <Price>45.32</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F364" Created="2022-05-04T16:04:29.354" Updated="2022-05-04T16:04:29.354" Stage="Open">
+            <Picture>🍤</Picture>
+            <Description>fried shrimp</Description>
+            <Price>58.26</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F365" Created="2022-05-04T16:04:29.355" Updated="2022-05-04T16:04:29.355" Stage="Open">
+            <Picture>🍥</Picture>
+            <Description>fish cake with swirl design</Description>
+            <Price>83.69</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F366" Created="2022-05-04T16:04:29.357" Updated="2022-05-04T16:04:29.357" Stage="Open">
+            <Picture>🍦</Picture>
+            <Description>soft ice cream</Description>
+            <Price>23.89</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F367" Created="2022-05-04T16:04:29.358" Updated="2022-05-04T16:04:29.358" Stage="Open">
+            <Picture>🍧</Picture>
+            <Description>shaved ice</Description>
+            <Price>85.58</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F368" Created="2022-05-04T16:04:29.360" Updated="2022-05-04T16:04:29.360" Stage="Open">
+            <Picture>🍨</Picture>
+            <Description>ice cream</Description>
+            <Price>58.97</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F369" Created="2022-05-04T16:04:29.361" Updated="2022-05-04T16:04:29.361" Stage="Open">
+            <Picture>🍩</Picture>
+            <Description>doughnut</Description>
+            <Price>68.40</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36A" Created="2022-05-04T16:04:29.362" Updated="2022-05-04T16:04:29.362" Stage="Open">
+            <Picture>🍪</Picture>
+            <Description>cookie</Description>
+            <Price>68.62</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36B" Created="2022-05-04T16:04:29.363" Updated="2022-05-04T16:04:29.363" Stage="Open">
+            <Picture>🍫</Picture>
+            <Description>chocolate bar</Description>
+            <Price>33.97</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36C" Created="2022-05-04T16:04:29.365" Updated="2022-05-04T16:04:29.365" Stage="Open">
+            <Picture>🍬</Picture>
+            <Description>candy</Description>
+            <Price>29.11</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36D" Created="2022-05-04T16:04:29.366" Updated="2022-05-04T16:04:29.366" Stage="Open">
+            <Picture>🍭</Picture>
+            <Description>lollipop</Description>
+            <Price>64.67</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36E" Created="2022-05-04T16:04:29.367" Updated="2022-05-04T16:04:29.367" Stage="Open">
+            <Picture>🍮</Picture>
+            <Description>custard</Description>
+            <Price>1.90</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F36F" Created="2022-05-04T16:04:29.368" Updated="2022-05-04T16:04:29.368" Stage="Open">
+            <Picture>🍯</Picture>
+            <Description>honey pot</Description>
+            <Price>99.68</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F370" Created="2022-05-04T16:04:29.369" Updated="2022-05-04T16:04:29.369" Stage="Open">
+            <Picture>🍰</Picture>
+            <Description>shortcake</Description>
+            <Price>4.94</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F371" Created="2022-05-04T16:04:29.370" Updated="2022-05-04T16:04:29.370" Stage="Open">
+            <Picture>🍱</Picture>
+            <Description>bento box</Description>
+            <Price>49.56</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F372" Created="2022-05-04T16:04:29.371" Updated="2022-05-04T16:04:29.371" Stage="Open">
+            <Picture>🍲</Picture>
+            <Description>pot of food</Description>
+            <Price>35.46</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F373" Created="2022-05-04T16:04:29.372" Updated="2022-05-04T16:04:29.372" Stage="Open">
+            <Picture>🍳</Picture>
+            <Description>cooking</Description>
+            <Price>11.39</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F374" Created="2022-05-04T16:04:29.373" Updated="2022-05-04T16:04:29.373" Stage="Open">
+            <Picture>🍴</Picture>
+            <Description>fork and knife</Description>
+            <Price>2.89</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F375" Created="2022-05-04T16:04:29.374" Updated="2022-05-04T16:04:29.374" Stage="Open">
+            <Picture>🍵</Picture>
+            <Description>teacup without handle</Description>
+            <Price>85.77</Price>
+        </Products>
+        <Products PartNum="ZHRN-U1F437" Created="2022-05-04T16:04:29.375" Updated="2022-05-04T16:04:29.375" Stage="Open">
+            <Picture>🐷</Picture>
+            <Description>pork</Description>
+            <Price>54.71</Price>
+        </Products>
+    </Catalogue>
+</ns2:CatalogueBatch>

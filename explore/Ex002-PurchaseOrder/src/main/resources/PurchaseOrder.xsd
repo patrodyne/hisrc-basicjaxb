@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- See https://www.w3.org/TR/xmlschema-0/#po.xsd -->
+<schema version="1.1" elementFormDefault="unqualified" attributeFormDefault="unqualified"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://jvnet.patrodyne.org/basicjaxb/ex002/model"
+	xmlns:basic="http://jaxb2-commons.dev.java.net/basic"
+	targetNamespace="http://jvnet.patrodyne.org/basicjaxb/ex002/model" 
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" 
+	jaxb:extensionBindingPrefixes="basic"
+>
+	<annotation>
+		<documentation xml:lang="en">
+		 Sample purchase order schema for patrodyne.org.
+		</documentation>
+	</annotation>
+
+	<complexType name="Stageable">
+        <attribute name="Created" use="optional" type="dateTime" >
+			<annotation>
+				<appinfo><basic:ignored/></appinfo>
+			</annotation>
+		</attribute>
+        <attribute name="Updated" use="optional" type="dateTime" >
+			<annotation>
+				<appinfo><basic:ignored/></appinfo>
+			</annotation>
+		</attribute>
+		<attribute name="Stage" type="tns:stage" use="required" />
+	</complexType>
+
+	<element name="Comment" type="string"/>
+
+	<element name="PurchaseOrder" type="tns:PurchaseOrder" />
+	<complexType name="PurchaseOrder">
+		<sequence>
+			<element name="OrderDate" type="dateTime" minOccurs="1" />
+			<element name="Preference" type="tns:Preference" minOccurs="1" maxOccurs="1" />
+			<element name="ShipTo" type="tns:Address" />
+			<element name="BillTo" type="tns:Address" />
+			<element ref="tns:Comment" minOccurs="0" />
+			<element name="Items" type="tns:Item" minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+		<attribute name="OrderNum" type="string" use="required" />
+	</complexType>
+	
+	<element name="PurchaseOrderBatch">
+		<complexType>
+			<sequence>
+				<element name="PurchaseOrder" type="tns:PurchaseOrder" minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+			<attribute name="BatchTime" type="dateTime" use="required" />
+		</complexType>
+	</element>
+
+	<complexType name="Preference">
+		<sequence>
+			<element name="CarrierType" type="tns:carrierType" />
+			<element name="PaymentType" type="tns:paymentType" />
+		</sequence>
+		<attribute name="OrderNum" type="string" use="required" />
+	</complexType>
+
+	<element name="Address" type="tns:Address" />
+	<complexType name="Address">
+		<sequence>
+			<element name="Name" type="string" />
+			<element name="Street" type="string" />
+			<element name="City" type="string" />
+			<element name="State" type="string" />
+			<element name="Zip" type="string" />
+		</sequence>
+		<attribute name="Country" type="NMTOKEN" fixed="US" />
+	</complexType>
+
+	<element name="AddressBatch">
+		<complexType>
+			<sequence>
+				<element name="Address" type="tns:Address" minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+			<attribute name="BatchTime" type="dateTime" use="required" />
+		</complexType>
+	</element>
+
+	<element name="Catalogue" type="tns:Catalogue" />
+	<complexType name="Catalogue">
+		<sequence>
+			<element name="CatalogueType" type="tns:catalogueType" />
+			<element name="Discount" type="tns:money" />
+			<element name="Products" type="tns:Product" minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+		<attribute name="CatalogueName" type="string" use="required" />
+	</complexType>
+	
+	<element name="CatalogueBatch">
+		<complexType>
+			<sequence>
+				<element name="Catalogue" type="tns:Catalogue" minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+			<attribute name="BatchTime" type="dateTime" use="required" />
+		</complexType>
+	</element>
+		
+	<complexType name="Product">
+		<sequence>
+			<element name="Picture" type="string" />
+			<element name="Description" type="string" />
+			<element name="Price" type="tns:money" />
+		</sequence>
+		<attribute name="PartNum" type="tns:sku" use="required" />
+	</complexType>
+
+	<complexType name="CatalogueProductJoin">
+		<attribute name="CatalogueId" type="long" use="required" />
+		<attribute name="ProductId" type="long" use="required" />
+	</complexType>
+
+	<complexType name="ProductCataloguesJoin">
+		<sequence>
+			<element name="Product" type="tns:Product" />
+			<element name="Catalogues" type="tns:Catalogue" minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Item">
+		<sequence>
+			<element name="Product" type="tns:Product" />
+			<element name="Quantity">
+				<simpleType>
+					<restriction base="positiveInteger">
+						<maxExclusive value="100" />
+					</restriction>
+				</simpleType>
+			</element>
+			<element ref="tns:Comment" minOccurs="0" />
+			<element name="ShipDate" type="dateTime" minOccurs="0" />
+		</sequence>
+		<attribute name="ItemNum" type="string" use="required" />
+	</complexType>
+
+	<!-- Stock Keeping Unit, a code for identifying products -->
+	<simpleType name="sku">
+		<restriction base="string">
+			<pattern value="\d{3}-[A-Z]{2}" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="stage">
+        <restriction base="string">
+            <enumeration value="Hold" />
+            <enumeration value="Open" />
+            <enumeration value="Active" />
+            <enumeration value="Closed" />
+            <enumeration value="Canceled" />
+        </restriction>
+    </simpleType>
+
+	<simpleType name="carrierType">
+        <restriction base="string">
+            <enumeration value="Air" />
+            <enumeration value="Ground" />
+        </restriction>
+    </simpleType>
+
+	<simpleType name="paymentType">
+        <restriction base="string">
+            <enumeration value="Credit" />
+            <enumeration value="Debit" />
+        </restriction>
+    </simpleType>
+
+	<simpleType name="catalogueType">
+        <restriction base="string">
+            <enumeration value="Winter" />
+            <enumeration value="Spring" />
+            <enumeration value="Summer" />
+            <enumeration value="Autumn" />
+        </restriction>
+    </simpleType>
+    
+    <simpleType name="money">
+        <restriction base="decimal">
+            <fractionDigits value="2" />
+        </restriction>
+    </simpleType>
+
+</schema>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4 noexpandtab: -->

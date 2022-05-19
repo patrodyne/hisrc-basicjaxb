@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE bindings>
+<jaxb:bindings version="2.1"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" 
+	xmlns:inh="http://jaxb2-commons.dev.java.net/basic/inheritance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	extensionBindingPrefixes="inh"
+>
+<!-- 
+	See https://jakarta.ee/xml/ns/jaxb/bindingschema_3_0.xsd
+	xsi:schemaLocation="
+		http://java.sun.com/xml/ns/jaxb https://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd
+		http://java.sun.com/xml/ns/persistence/orm https://java.sun.com/xml/ns/persistence/orm/orm_2_0.xsd"
+ -->
+
+	<!--  Global Bindings -->
+	<jaxb:bindings>
+
+		<!--
+			Microsoft WCF service WSDL generated from a programming language such as C#
+			using DataContractSerializer may contain XML Schema constructs which result in
+			JAXBElement<T> in generated code. A JAXBElement<T> type can also sometimes be
+			generated when a WSDL contains advanced XML schema features such as
+			substitution groups or elements that are BOTH OPTIONAL AND NILLABLE. In all
+			such cases, JAXBElement<T> provides round-trip support of values in XML
+			instances. However, JAXBElement<T> is not natural to a Java developer. So the
+			generateElementProperty customization can be used to generate an alternate
+			developer friendly but lossy binding. The different bindings along with the
+			trade-offs are discussed below.
+	
+			See http://docs.oracle.com/cd/E19159-01/820-1072/ahiid/index.html
+	
+			When processing a WCF service WSDL, it is recommended that the
+			generateElementProperty customization be set to 'false' in globalBindings.
+		-->
+
+		<!-- Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512". -->
+
+		<!-- JPA section 2.1, entities must be top-level classes. -->
+		<jaxb:globalBindings generateElementProperty="false" generateIsSetMethod="false" localScoping="toplevel">
+			<!-- JPA section 2.1, entities must implement the serializable interface. -->
+			<jaxb:serializable uid="20220501" />
+		</jaxb:globalBindings>
+			
+	</jaxb:bindings>
+
+	<!-- Warning: Bindings in the XSD override bindings defined here! -->
+  	<jaxb:bindings schemaLocation="PurchaseOrder.xsd" node="/xsd:schema" >
+        <jaxb:bindings node="//xsd:complexType[not(@name='Stageable' or contains(@name, 'Join'))]" multiple="true">
+           	<inh:extends>org.patrodyne.jvnet.basicjaxb.ex002.model.Stageable</inh:extends>
+		</jaxb:bindings>
+        <jaxb:bindings node="//xsd:element[contains(@name, 'Batch')]/xsd:complexType" multiple="true">
+            <inh:implements>org.patrodyne.jvnet.basicjaxb.ex002.model.Batch</inh:implements>
+		</jaxb:bindings>
+  	</jaxb:bindings>
+
+</jaxb:bindings>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4 noexpandtab: -->
