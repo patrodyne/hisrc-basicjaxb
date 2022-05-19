@@ -226,6 +226,8 @@
 							<hideClasses>
 								<hideClass>org.patrodyne.jvnet.basicjaxb.ex002.model.ObjectFactory</hideClass>
 							</hideClasses>
+							<hideFields>false</hideFields>
+							<hideMethods>true</hideMethods>
 							<outputFilename>PurchaseOrderTemp.puml</outputFilename>
 						</configuration>
 					</execution>
