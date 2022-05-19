@@ -66,35 +66,43 @@ public class StrategyClassUtils {
 		}
 	}
 
-	public static <T> Boolean superClassImplements(ClassOutline classOutline,
-			Ignoring ignoring, Class<? extends T> theInterface) {
-		if (classOutline.implClass != null
-				&& classOutline.implClass._extends() != null) {
-			if (JClassUtils.isInstanceOf(classOutline.implClass._extends(),
-					theInterface)) {
+	public static <T> Boolean superClassImplements(ClassOutline classOutline, Ignoring ignoring, Class<? extends T> theInterface)
+	{
+		if (classOutline.implClass != null && classOutline.implClass._extends() != null)
+		{
+			if (JClassUtils.isInstanceOf(classOutline.implClass._extends(), theInterface))
+			{
 				return Boolean.TRUE;
 			}
 		}
 
-		if (classOutline.target.getBaseClass() != null) {
-			if (!ignoring.isIgnored(classOutline.parent().getClazz(
-					classOutline.target.getBaseClass()))) {
+		if (classOutline.target.getBaseClass() != null)
+		{
+			if (!ignoring.isIgnored(classOutline.parent().getClazz(classOutline.target.getBaseClass())))
+			{
 				return Boolean.TRUE;
-			} else {
+			}
+			else
+			{
 				return Boolean.FALSE;
 			}
 		}
 
-		if (classOutline.target.getRefBaseClass() != null) {
-			try {
-				if (theInterface.isAssignableFrom(Class
-						.forName(classOutline.target.getRefBaseClass()
-								.fullName()))) {
+		if (classOutline.target.getRefBaseClass() != null)
+		{
+			try
+			{
+				if (theInterface.isAssignableFrom(Class.forName(classOutline.target.getRefBaseClass().fullName())))
+				{
 					return Boolean.TRUE;
-				} else {
+				}
+				else
+				{
 					return Boolean.FALSE;
 				}
-			} catch (ClassNotFoundException ignored) {
+			}
+			catch (ClassNotFoundException ignored)
+			{
 				// We'll assume it does implement
 				return Boolean.TRUE;
 			}
