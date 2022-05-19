@@ -29,6 +29,12 @@
 			<fileMode>0774</fileMode>
 		</file>
 		<file>
+			<source>${basedir}/project-plantuml.sh</source>
+			<destName>plantuml.sh</destName>
+			<filtered>false</filtered>
+			<fileMode>0774</fileMode>
+		</file>
+		<file>
 			<source>${basedir}/project-pom.xml</source>
 			<destName>pom.xml</destName>
 			<filtered>true</filtered>
