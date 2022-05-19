@@ -14,6 +14,11 @@ public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy {
 	
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
+	public boolean isDebugEnabled()
+	{
+		return logger.isDebugEnabled();
+	}
+	
 	public boolean isTraceEnabled()
 	{
 		return logger.isTraceEnabled();

@@ -13,6 +13,11 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy2, HashCodeStrat
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
+	public boolean isDebugEnabled()
+	{
+		return logger.isDebugEnabled();
+	}
+	
 	public boolean isTraceEnabled()
 	{
 		return logger.isTraceEnabled();

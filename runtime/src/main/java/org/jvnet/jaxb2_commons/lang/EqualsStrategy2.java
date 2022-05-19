@@ -4,6 +4,7 @@ import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 
 public interface EqualsStrategy2 {
 
+	public boolean isDebugEnabled();
 	public boolean isTraceEnabled();
 
 	public boolean equals(ObjectLocator leftLocator,

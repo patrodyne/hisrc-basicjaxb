@@ -15,35 +15,99 @@ public class DefaultToStringStrategy implements ToStringStrategy2,
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	
+	public boolean isDebugEnabled()
+	{
+		return logger.isDebugEnabled();
+	}
+
 	public boolean isTraceEnabled()
 	{
 		return logger.isTraceEnabled();
 	}
+
+	/**
+	 * The value to use when fullDetail is <code>null</code>,
+	 * the default value is <code>DEBUG | TRACE | false</code>.
+	 */
+	private boolean fullDetail = false;
+	public boolean isFullDetail()
+	{
+		return isDebugEnabled() || isTraceEnabled() || fullDetail;
+	}
+	public void setFullDetail(boolean fullDetail)
+	{
+		this.fullDetail = fullDetail;
+	}
 	
 	/**
-	 * Whether to use the field names, the default is <code>true</code>.
+	 * Whether to use the field names,
+	 * the default is <code>TRACE | false</code>.
 	 */
-	private boolean useFieldNames = true;
+	private boolean useFieldNames = false;
+	public boolean isUseFieldNames()
+	{
+		return isTraceEnabled() || useFieldNames;
+	}
+	public void setUseFieldNames(boolean useFieldNames)
+	{
+		this.useFieldNames = useFieldNames;
+	}
 
 	/**
-	 * Whether to mark default field values, the default is <code>true</code>.
+	 * Whether to use short class names,
+	 * the default is <code>true & !TRACE</code>.
 	 */
-	private boolean useDefaultFieldValueMarkers = true;
+	private boolean useShortClassName = true;
+	public boolean isUseShortClassName()
+	{
+		return useShortClassName && !isTraceEnabled() ;
+	}
+	public void setUseShortClassName(boolean useShortClassName)
+	{
+		this.useShortClassName = useShortClassName;
+	}
 
 	/**
-	 * Whether to use the class name, the default is <code>true</code>.
+	 * Whether to use the class name,
+	 * the default is <code>true</code>.
 	 */
 	private boolean useClassName = true;
+	public boolean isUseClassName()
+	{
+		return useClassName;
+	}
+	public void setUseClassName(boolean useClassName)
+	{
+		this.useClassName = useClassName;
+	}
 
 	/**
-	 * Whether to use short class names, the default is <code>false</code>.
-	 */
-	private boolean useShortClassName = false;
-
-	/**
-	 * Whether to use the identity hash code, the default is <code>true</code>.
+	 * Whether to use the identity hash code,
+	 * the default is <code>true</code>.
 	 */
 	private boolean useIdentityHashCode = true;
+	public boolean isUseIdentityHashCode()
+	{
+		return useIdentityHashCode;
+	}
+	public void setUseIdentityHashCode(boolean useIdentityHashCode)
+	{
+		this.useIdentityHashCode = useIdentityHashCode;
+	}
+
+	/**
+	 * Whether to mark default field values,
+	 * the default is <code>true</code>.
+	 */
+	private boolean useDefaultFieldValueMarkers = true;
+	public boolean isUseDefaultFieldValueMarkers()
+	{
+		return useDefaultFieldValueMarkers;
+	}
+	public void setUseDefaultFieldValueMarkers(boolean useDefaultFieldValueMarkers)
+	{
+		this.useDefaultFieldValueMarkers = useDefaultFieldValueMarkers;
+	}
 
 	/**
 	 * The content start <code>'['</code>.
@@ -96,12 +160,6 @@ public class DefaultToStringStrategy implements ToStringStrategy2,
 	private String arrayEnd = "}";
 
 	/**
-	 * The value to use when fullDetail is <code>null</code>, the default value
-	 * is <code>true</code>.
-	 */
-	private boolean fullDetail = true;
-
-	/**
 	 * The <code>null</code> text <code>'&lt;null&gt;'</code>.
 	 */
 	private String nullText = "<null>";
@@ -115,18 +173,6 @@ public class DefaultToStringStrategy implements ToStringStrategy2,
 	 * The summary size text start <code>'&gt;'</code>.
 	 */
 	private String sizeEndText = ">";
-
-	public boolean isFullDetail() {
-		return fullDetail;
-	}
-
-	public boolean isUseIdentityHashCode() {
-		return useIdentityHashCode;
-	}
-
-	public boolean isUseDefaultFieldValueMarkers() {
-		return useDefaultFieldValueMarkers;
-	}
 
 	protected String getShortClassName(@SuppressWarnings("rawtypes") Class cls) {
 		return ClassUtils.getShortClassName(cls);
@@ -143,8 +189,8 @@ public class DefaultToStringStrategy implements ToStringStrategy2,
 	 *            the <code>Object</code> whose name to output
 	 */
 	protected void appendClassName(StringBuilder buffer, Object object) {
-		if (useClassName && object != null) {
-			if (useShortClassName) {
+		if (isUseClassName() && object != null) {
+			if (isUseShortClassName()) {
 				buffer.append(getShortClassName(object.getClass()));
 			} else {
 				buffer.append(object.getClass().getName());
@@ -237,7 +283,7 @@ public class DefaultToStringStrategy implements ToStringStrategy2,
 	 */
 	protected void appendFieldStart(ObjectLocator parentLocator, Object parent,
 			String fieldName, StringBuilder buffer) {
-		if (useFieldNames && fieldName != null) {
+		if (isUseFieldNames() && fieldName != null) {
 			buffer.append(fieldName);
 			buffer.append(fieldNameValueSeparator);
 		}
@@ -261,7 +307,7 @@ public class DefaultToStringStrategy implements ToStringStrategy2,
 	 */
 	protected void appendFieldStart(ObjectLocator parentLocator, Object parent,
 			String fieldName, StringBuilder buffer, boolean valueSet) {
-		if (useFieldNames && fieldName != null) {
+		if (isUseFieldNames() && fieldName != null) {
 			buffer.append(fieldName);
 			buffer.append(fieldNameValueSeparator);
 		}
