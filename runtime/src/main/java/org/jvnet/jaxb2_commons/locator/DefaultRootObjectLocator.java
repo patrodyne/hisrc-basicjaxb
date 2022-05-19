@@ -1,6 +1,7 @@
 package org.jvnet.jaxb2_commons.locator;
 
 import static java.lang.Integer.toHexString;
+import static java.lang.System.identityHashCode;
 
 import java.text.MessageFormat;
 
@@ -24,6 +25,6 @@ public final class DefaultRootObjectLocator extends AbstractObjectLocator
 	@Override
 	protected String getStepAsString() {
 		return "("+ getObject().getClass().getSimpleName() + "@" +
-			toHexString(getObject().hashCode()) + ")";
+			toHexString(identityHashCode(getObject())) + ")";
 	}
 }
