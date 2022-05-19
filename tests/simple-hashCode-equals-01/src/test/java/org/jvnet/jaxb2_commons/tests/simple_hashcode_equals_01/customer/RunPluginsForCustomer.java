@@ -5,40 +5,33 @@ import java.net.URL;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.jvnet.jaxb2_commons.tests.simple_hashcode_equals_01.RunPlugins;
 
-import com.sun.codemodel.JCodeModel;
-import com.sun.tools.xjc.ConsoleErrorReporter;
-import com.sun.tools.xjc.ModelLoader;
-import com.sun.tools.xjc.Options;
-import com.sun.tools.xjc.model.Model;
-
-public class RunPluginsForCustomer {
-
+public class RunPluginsForCustomer extends RunPlugins
+{
 	@Before
-	public void setUp() {
+	public void setUp()
+	{
 		System.setProperty("javax.xml.accessExternalSchema", "all");
 	}
 
 	@Test
-	public void compilesCustomer() throws Exception {
-
+	public void compileCustomerSchema() throws Exception
+	{
 		new File("target/generated-sources/xjc").mkdirs();
-
 		URL schema = getClass().getResource("/customer.xsd");
 		URL binding = getClass().getResource("/customer.xjb");
-		final String[] arguments = new String[] { "-xmlschema",
-				schema.toExternalForm(), "-b", binding.toExternalForm(), "-d",
-				"target/generated-sources/xjc", "-extension",
-				"-XsimpleHashCode",
-//				"-XsimpleEquals", "-XsimpleToString" 
-				};
-
-		Options options = new Options();
-		options.parseArguments(arguments);
-		ConsoleErrorReporter receiver = new ConsoleErrorReporter();
-		Model model = ModelLoader.load(options, new JCodeModel(), receiver);
-		model.generateCode(options, receiver);
-		com.sun.codemodel.CodeWriter cw = options.createCodeWriter();
-		model.codeModel.build(cw);
+		
+		final String[] arguments = new String[] {
+			"-xmlschema", schema.toExternalForm(),
+			"-b", binding.toExternalForm(),
+			"-d", "target/generated-sources/xjc",
+			"-extension",
+			"-XsimpleHashCode",
+			"-XsimpleEquals",
+			"-XsimpleToString"
+		};
+		
+		runPlugins(arguments);
 	}
 }

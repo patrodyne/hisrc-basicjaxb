@@ -9,34 +9,40 @@ import org.junit.Test;
 public class CustomerTest {
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws Exception
+	{
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() throws Exception
+	{
 	}
 
 	@Test
-	public void test() {
-		// generate the customer class first.
-		Customer2 eclipse = new Customer2();
-		Customer jaxb2 = new Customer();
-		eclipse.setAddress("address");
-		eclipse.setBlueEyes(true);
-		eclipse.setFamilyName("familyName");
-		eclipse.setGivenName("firstName");
-		eclipse.getMiddleInitials().add("m");
-		eclipse.setPostCode("pc");
-		eclipse.setSingle(true);
-		jaxb2.setAddress(eclipse.getAddress());
-		jaxb2.setBlueEyes(eclipse.isBlueEyes());
-		jaxb2.setFamilyName(eclipse.getFamilyName());
-		jaxb2.setGivenName(eclipse.getGivenName());
-		jaxb2.getMiddleInitials().addAll(eclipse.getMiddleInitials());
-		jaxb2.setPostCode(eclipse.getPostCode());
-		jaxb2.setSingle(eclipse.isSingle());
+	public void testCustomerEquals()
+	{
+		// First, generate the customer class with Maven plugin or RunPluginsForCustomer.
+		// Second compare hand-created class with auto-generated class.
+		
+		Customer2 customerHand = new Customer2();
+		Customer customerAuto = new Customer();
+		
+		customerHand.setAddress("address");
+		customerHand.setBlueEyes(true);
+		customerHand.setFamilyName("familyName");
+		customerHand.setGivenName("firstName");
+		customerHand.getMiddleInitials().add("m");
+		customerHand.setPostCode("pc");
+		customerHand.setSingle(true);
+		
+		customerAuto.setAddress(customerHand.getAddress());
+		customerAuto.setBlueEyes(customerHand.isBlueEyes());
+		customerAuto.setFamilyName(customerHand.getFamilyName());
+		customerAuto.setGivenName(customerHand.getGivenName());
+		customerAuto.getMiddleInitials().addAll(customerHand.getMiddleInitials());
+		customerAuto.setPostCode(customerHand.getPostCode());
+		customerAuto.setSingle(customerHand.isSingle());
 
-		assertEquals(eclipse.hashCode(), jaxb2.hashCode());
+		assertEquals(customerHand.hashCode(), customerAuto.hashCode());
 	}
-
 }
