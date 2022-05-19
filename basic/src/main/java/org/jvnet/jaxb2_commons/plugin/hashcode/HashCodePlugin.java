@@ -47,7 +47,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 
 	@Override
 	public String getUsage() {
-		return "TBD";
+		return "  -XhashCode         :  generates reflection-free 'hashCode' methods";
 	}
 
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;

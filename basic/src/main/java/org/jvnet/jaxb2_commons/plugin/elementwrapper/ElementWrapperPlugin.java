@@ -39,7 +39,7 @@ public class ElementWrapperPlugin extends AbstractModelPlugin {
 
 	@Override
 	public String getUsage() {
-		return "Generates @XmlElementWrapper annotations.";
+		return "  -XelementWrapper   :  generates @XmlElementWrapper annotations";
 	}
 
 	@Override

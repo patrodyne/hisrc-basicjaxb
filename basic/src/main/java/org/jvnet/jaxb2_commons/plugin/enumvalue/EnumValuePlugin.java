@@ -33,7 +33,7 @@ public class EnumValuePlugin extends AbstractParameterizablePlugin {
 
 	@Override
 	public String getUsage() {
-		return "Forces generated @XmlEnums implement the org.jvnet.jaxb2_commons.lang.EnumValue<T> interface.";
+		return "  -XenumValue        :  generated @XmlEnums implement org.jvnet.jaxb2_commons.lang.EnumValue<T> interface";
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(

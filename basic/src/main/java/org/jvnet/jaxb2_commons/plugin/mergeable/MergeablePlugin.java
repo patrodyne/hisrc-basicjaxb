@@ -42,12 +42,12 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 
 	@Override
 	public String getOptionName() {
-		return "Xmergeable";
+		return "";
 	}
 
 	@Override
 	public String getUsage() {
-		return "TBD";
+		return "  -Xmergeable        :  generate reflection-free methods to merge data from two objects into a target object";
 	}
 
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;

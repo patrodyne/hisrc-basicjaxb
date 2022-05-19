@@ -48,7 +48,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 
 	@Override
 	public String getUsage() {
-		return "TBD";
+		return "  -Xequals           :  generates reflection-free 'equals' methods";
 	}
 
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;

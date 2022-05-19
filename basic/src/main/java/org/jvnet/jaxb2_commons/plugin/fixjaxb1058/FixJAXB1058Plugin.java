@@ -29,7 +29,7 @@ public class FixJAXB1058Plugin extends Plugin {
 
 	@Override
 	public String getUsage() {
-		return "  -XfixJAXB1058 :  Fixes JAXB-1058 (see https://java.net/jira/browse/JAXB-1058)";
+		return "  -XfixJAXB1058      :  Fixes JAXB-1058 (see https://github.com/highsource/jaxb2-basics/issues/14)";
 	}
 
 	private Accessor<JMethod> DummyListField_$get;

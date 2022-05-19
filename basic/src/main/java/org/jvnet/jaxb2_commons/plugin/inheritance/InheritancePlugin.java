@@ -42,7 +42,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin {
 
 	@Override
 	public String getUsage() {
-		return "TBD";
+		return "  -Xinheritance      :  makes schema-derived classes extend certain class or implement certain interfaces";
 	}
 
 	@Override

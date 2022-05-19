@@ -71,7 +71,7 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin {
 
 	@Override
 	public String getUsage() {
-		return "TBD";
+		return "  -XautoInheritance  :  automatically extend global elements / complex types from a class or interface";
 	}
 
 	@Override

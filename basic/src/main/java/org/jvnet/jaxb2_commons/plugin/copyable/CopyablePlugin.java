@@ -39,6 +39,15 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 
+/**
+ * With this plug-in you can "copy onto" another object, use strategies to customize copying 
+ * (how exactly should this or that be copied), use locators to check what exactly is being
+ * copied at the moment and so on. But the main reason for dependency is to avoid generating
+ * the same cloning code all over the place for each of the fields of each of the generated
+ * classes. The copying algorithmic is held in copy strategies.
+ * 
+ * @author Alexey Valikov
+ */
 public class CopyablePlugin extends AbstractParameterizablePlugin {
 
 	@Override
@@ -48,7 +57,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 
 	@Override
 	public String getUsage() {
-		return "TBD";
+		return "  -Xcopyable         :  generates reflection-free deep copying";
 	}
 
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;

@@ -36,7 +36,7 @@ public class SettersPlugin extends AbstractParameterizablePlugin {
 
 	@Override
 	public String getUsage() {
-		return "Generates setters for collections.";
+		return "  -Xsetters          :  generates setters for collections.";
 	}
 
 	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler) {

@@ -16,7 +16,7 @@ public class JaxbIndexPlugin extends com.sun.tools.xjc.Plugin {
 	}
 
 	public String getUsage() {
-		return "-Xjaxbindex:	generate per-package jaxb.index file";
+		return "  -Xjaxbindex        : generate per-package jaxb.index file";
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin {
 
 	@Override
 	public String getUsage() {
-		return "TBD";
+		return "  -XtoString         :  generate reflection-free 'toString' methods";
 	}
 
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;

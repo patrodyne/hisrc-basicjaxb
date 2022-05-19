@@ -51,11 +51,7 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin {
 
 	@Override
 	public String getUsage() {
-		return "This plugin allows simplifying \"complex\" properties"
-				+ " (ex. aOrBOrC generated from repeatable choices)"
-				+ " into several \"simple\" properties (ex. a, b, c).\n"
-				+ " Please visit http://confluence.highsource.org/display/J2B/Simplify+Plugin"
-				+ " for plugin documentation.";
+		return "  -Xsimplify         :  simplifies 'choice' properties like fooOrBarOrBaz";
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(

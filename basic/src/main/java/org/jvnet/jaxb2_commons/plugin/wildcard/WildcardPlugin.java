@@ -24,7 +24,7 @@ public class WildcardPlugin extends AbstractParameterizablePlugin {
 
 	@Override
 	public String getUsage() {
-		return "Allows specifying the wildcard mode in wildcard properties.";
+		return "  -Xwildcard         :  specify the wildcard mode for wildcard properties.";
 	}
 
 	@Override
