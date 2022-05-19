@@ -1,25 +1,17 @@
 package org.jvnet.jaxb2_commons.plugin.simpletostring;
 
-import java.util.Arrays;
+import static org.jvnet.jaxb2_commons.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.jaxb2_commons.plugin.util.FieldOutlineUtils.filter;
+import static org.jvnet.jaxb2_commons.plugin.util.StrategyClassUtils.superClassNotIgnored;
+import static org.jvnet.jaxb2_commons.util.FieldUtils.getPossibleTypes;
+
 import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.jvnet.jaxb2_commons.lang.JAXBToStringStrategy;
-import org.jvnet.jaxb2_commons.lang.ToString2;
-import org.jvnet.jaxb2_commons.lang.ToStringStrategy2;
-import org.jvnet.jaxb2_commons.locator.ObjectLocator;
-import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
-import org.jvnet.jaxb2_commons.plugin.Customizations;
-import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
-import org.jvnet.jaxb2_commons.plugin.Ignoring;
-import org.jvnet.jaxb2_commons.plugin.util.FieldOutlineUtils;
-import org.jvnet.jaxb2_commons.plugin.util.StrategyClassUtils;
-import org.jvnet.jaxb2_commons.util.ClassUtils;
-import org.jvnet.jaxb2_commons.util.FieldAccessorFactory;
-import org.jvnet.jaxb2_commons.util.PropertyFieldAccessorFactory;
+import org.jvnet.jaxb2_commons.plugin.codegenerator.AbstractCodeGeneratorPlugin;
+import org.jvnet.jaxb2_commons.plugin.codegenerator.CodeGenerator;
 import org.jvnet.jaxb2_commons.xjc.outline.FieldAccessorEx;
-import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JCodeModel;
@@ -28,208 +20,171 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
-import com.sun.tools.xjc.outline.Outline;
 
-public class SimpleToStringPlugin extends AbstractParameterizablePlugin {
+public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringArguments>
+{
+	private static final String CONTENT_START = "[";
+	private static final String CONTENT_END = "]";
+	private static final String FIELD_SEPARATOR = ", ";
 
 	@Override
-	public String getOptionName() {
+	public String getOptionName()
+	{
 		return "XsimpleToString";
 	}
 
 	@Override
-	public String getUsage() {
-		// TODO
-		return "TBD";
-	}
-
-	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;
-
-	public FieldAccessorFactory getFieldAccessorFactory() {
-		return fieldAccessorFactory;
-	}
-
-	public void setFieldAccessorFactory(
-			FieldAccessorFactory fieldAccessorFactory) {
-		this.fieldAccessorFactory = fieldAccessorFactory;
-	}
-
-	private String toStringStrategyClass = JAXBToStringStrategy.class.getName();
-
-	public void setToStringStrategyClass(String toStringStrategy) {
-		this.toStringStrategyClass = toStringStrategy;
-	}
-
-	public String getToStringStrategyClass() {
-		return toStringStrategyClass;
-	}
-
-	public JExpression createToStringStrategy(JCodeModel codeModel) {
-		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
-				ToStringStrategy2.class, getToStringStrategyClass());
-	}
-
-	private Ignoring ignoring = new CustomizedIgnoring(
-			org.jvnet.jaxb2_commons.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME,
-			Customizations.IGNORED_ELEMENT_NAME,
-			Customizations.GENERATED_ELEMENT_NAME);
-
-	public Ignoring getIgnoring() {
-		return ignoring;
-	}
-
-	public void setIgnoring(Ignoring ignoring) {
-		this.ignoring = ignoring;
+	public String getUsage()
+	{
+		return "  -XsimpleToString   :  generate reflection-free runtime-free 'toString' methods";
 	}
 
 	@Override
-	public Collection<QName> getCustomizationElementNames() {
-		return Arrays
-				.asList(org.jvnet.jaxb2_commons.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME,
-						Customizations.IGNORED_ELEMENT_NAME,
-						Customizations.GENERATED_ELEMENT_NAME);
+	protected QName getSpecialIgnoredElementName()
+	{
+		return IGNORED_ELEMENT_NAME;
+	}
+
+	private boolean fullClassName = false;
+	public boolean isFullClassName() { return fullClassName; }
+	public void setFullClassName(boolean fullClassName) { this.fullClassName = fullClassName; }
+
+	private boolean showFieldNames = false;
+	public boolean isShowFieldNames() { return showFieldNames; }
+	public void setShowFieldNames(boolean showFieldNames) { this.showFieldNames = showFieldNames; }
+
+	private boolean showChildItems = false;
+	public boolean isShowChildItems() { return showChildItems; }
+	public void setShowChildItems(boolean showChildItems) { this.showChildItems = showChildItems; }
+	
+	@Override
+	protected CodeGenerator<ToStringArguments> createCodeGenerator(JCodeModel codeModel)
+	{
+		return new ToStringCodeGenerator(codeModel);
 	}
 
 	@Override
-	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler) {
-		for (final ClassOutline classOutline : outline.getClasses())
-			if (!getIgnoring().isIgnored(classOutline)) {
-				processClassOutline(classOutline);
-			}
-		return true;
+	protected void generate(ClassOutline classOutline, JDefinedClass theClass)
+	{
+		final JMethod toStringFieldsMethod = generateToStringFieldsMethod(classOutline, theClass);
+		generateToStringMethod(theClass, toStringFieldsMethod);
 	}
 
-	protected void processClassOutline(ClassOutline classOutline) {
-		final JDefinedClass theClass = classOutline.implClass;
-		ClassUtils._implements(theClass, theClass.owner().ref(ToString2.class));
-
-		@SuppressWarnings("unused")
-		final JMethod object$toString = generateObject$toString(classOutline,
-				theClass);
-		@SuppressWarnings("unused")
-		final JMethod toString$append = generateToString$append(classOutline,
-				theClass);
-		@SuppressWarnings("unused")
-		final JMethod toString$appendFields = generateToString$appendFields(
-				classOutline, theClass);
-	}
-
-	protected JMethod generateObject$toString(final ClassOutline classOutline,
-			final JDefinedClass theClass) {
+	// Method: toString
+	private void generateToStringMethod(JDefinedClass theClass,	final JMethod toStringFieldsMethod)
+	{
 		final JCodeModel codeModel = theClass.owner();
-		final JMethod object$toString = theClass.method(JMod.PUBLIC,
-				codeModel.ref(String.class), "toString");
-		object$toString.annotate(Override.class);
+		final JMethod toStringMethod = theClass.method(JMod.PUBLIC, codeModel.ref(String.class), "toString");
 		{
-			final JBlock body = object$toString.body();
+			toStringMethod.annotate(Override.class);
+			final JBlock body = toStringMethod.body();
 
-			final JVar toStringStrategy =
+			final JVar stringBuilder = body.decl
+			(
+				JMod.FINAL, codeModel.ref(StringBuilder.class), "stringBuilder",
+				JExpr._new(codeModel.ref(StringBuilder.class))
+			);
+			
+			if ( isFullClassName() )
+				body.add(stringBuilder.invoke("append").arg(JExpr._this().invoke("getClass").invoke("getName")));
+			else
+				body.add(stringBuilder.invoke("append").arg(JExpr._this().invoke("getClass").invoke("getSimpleName")));
+			body.add(stringBuilder.invoke("append").arg(JExpr.lit('@')));
+			body.add(stringBuilder.invoke("append").arg
+			(
+				codeModel.ref(Integer.class).staticInvoke("toHexString").arg
+				(
+					codeModel.ref(System.class).staticInvoke("identityHashCode").arg(JExpr._this()))
+				)
+			);
 
-			body.decl(JMod.FINAL, codeModel.ref(ToStringStrategy2.class),
-					"strategy", createToStringStrategy(codeModel));
+			body.add(stringBuilder.invoke("append").arg(JExpr.lit(CONTENT_START)));
+			body.invoke(toStringFieldsMethod.name()).arg(stringBuilder);
+			body.add(stringBuilder.invoke("append").arg(JExpr.lit(CONTENT_END)));
 
-			final JVar buffer = body.decl(JMod.FINAL,
-					codeModel.ref(StringBuilder.class), "buffer",
-					JExpr._new(codeModel.ref(StringBuilder.class)));
-			body.invoke("append").arg(JExpr._null()).arg(buffer)
-					.arg(toStringStrategy);
-			body._return(buffer.invoke("toString"));
+			body._return(stringBuilder.invoke("toString"));
 		}
-		return object$toString;
 	}
 
-	protected JMethod generateToString$append(final ClassOutline classOutline,
-			final JDefinedClass theClass) {
+	// Method: toStringFields
+	private JMethod generateToStringFieldsMethod(ClassOutline classOutline, JDefinedClass theClass)
+	{
 		final JCodeModel codeModel = theClass.owner();
-		final JMethod toString$append = theClass.method(JMod.PUBLIC,
-				codeModel.ref(StringBuilder.class), "append");
-		toString$append.annotate(Override.class);
+		final JMethod toStringFieldsMethod = theClass.method(JMod.PROTECTED, codeModel.VOID, "toStringFields");
+		toStringFieldsMethod.param(codeModel.ref(StringBuilder.class), "stringBuilder");
 		{
-
-			final JVar locator = toString$append.param(ObjectLocator.class,
-					"locator");
-			final JVar buffer = toString$append.param(StringBuilder.class,
-					"buffer");
-			final JVar toStringStrategy = toString$append.param(
-					ToStringStrategy2.class, "strategy");
-
-			final JBlock body = toString$append.body();
-
-			body.invoke(toStringStrategy, "appendStart").arg(locator)
-					.arg(JExpr._this()).arg(buffer);
-			body.invoke("appendFields").arg(locator).arg(buffer)
-					.arg(toStringStrategy);
-			body.invoke(toStringStrategy, "appendEnd").arg(locator)
-					.arg(JExpr._this()).arg(buffer);
-			body._return(buffer);
-		}
-		return toString$append;
-	}
-
-	protected JMethod generateToString$appendFields(ClassOutline classOutline,
-			final JDefinedClass theClass) {
-		final JCodeModel codeModel = theClass.owner();
-
-		final JMethod toString$appendFields = theClass.method(JMod.PUBLIC,
-				codeModel.ref(StringBuilder.class), "appendFields");
-		toString$appendFields.annotate(Override.class);
-		{
-			final JVar locator = toString$appendFields.param(
-					ObjectLocator.class, "locator");
-			final JVar buffer = toString$appendFields.param(
-					StringBuilder.class, "buffer");
-			final JVar toStringStrategy = toString$appendFields.param(
-					ToStringStrategy2.class, "strategy");
-			final JBlock body = toString$appendFields.body();
-
-			final Boolean superClassImplementsToString = StrategyClassUtils
-					.superClassImplements(classOutline, ignoring,
-							ToString2.class);
-
-			if (superClassImplementsToString == null) {
-				// No superclass
-			} else if (superClassImplementsToString.booleanValue()) {
-				body.invoke(JExpr._super(), "appendFields").arg(locator)
-						.arg(buffer).arg(toStringStrategy);
-			} else {
-				// Superclass does not implement ToString
+			final JVar stringBuilder = toStringFieldsMethod.params().get(0);
+			final JBlock body = toStringFieldsMethod.body();
+			
+			String fieldSeparator = null;
+			if ( superClassNotIgnored(classOutline, getIgnoring()) != null )
+			{
+				body.add(JExpr._super().invoke(toStringFieldsMethod.name()).arg(stringBuilder));
+				fieldSeparator = FIELD_SEPARATOR;
 			}
+			
+			final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
 
-			final FieldOutline[] declaredFields = FieldOutlineUtils.filter(
-					classOutline.getDeclaredFields(), getIgnoring());
-
-			if (declaredFields.length > 0) {
-
-				for (final FieldOutline fieldOutline : declaredFields) {
-					final JBlock block = body.block();
+			if (declaredFields.length > 0)
+			{
+				for (final FieldOutline fieldOutline : declaredFields)
+				{
 					final FieldAccessorEx fieldAccessor = getFieldAccessorFactory()
 							.createFieldAccessor(fieldOutline, JExpr._this());
-					final JVar theValue = block.decl(
-							fieldAccessor.getType(),
-							"the"
-									+ fieldOutline.getPropertyInfo().getName(
-											true));
-					final JExpression valueIsSet = (fieldAccessor.isAlwaysSet() || fieldAccessor
-							.hasSetValue() == null) ? JExpr.TRUE
-							: fieldAccessor.hasSetValue();
+					
+					if ( !fieldAccessor.isConstant() )
+					{
+						final JBlock block = body.block();
 
-					fieldAccessor.toRawValue(block, theValue);
+						String propertyName = fieldOutline.getPropertyInfo().getName(true);
+						
+						final JVar value = block.decl(fieldAccessor.getType(), "the" + propertyName);
+						fieldAccessor.toRawValue(block, value);
+						
+						final JType exposedType = fieldAccessor.getType();
 
-					block.invoke(toStringStrategy, "appendField")
-							.arg(locator)
-							.arg(JExpr._this())
-							.arg(JExpr.lit(fieldOutline.getPropertyInfo()
-									.getName(false))).arg(buffer).arg(theValue)
-							.arg(valueIsSet);
+						final JExpression hasSetValue =
+							( fieldAccessor.isAlwaysSet() || fieldAccessor.hasSetValue() == null )
+								? JExpr.TRUE
+								: fieldAccessor.hasSetValue();
+
+						String fieldName = null;
+						if ( isShowFieldNames() )
+							fieldName = fieldOutline.getPropertyInfo().getName(false);
+						
+						ToStringArguments arguments = new ToStringArguments
+						(
+							codeModel,
+							stringBuilder,
+							value,
+							hasSetValue,
+							fieldSeparator,
+							fieldName,
+							isShowChildItems()
+						);
+
+						final Collection<JType> possibleTypes =	getPossibleTypes(fieldOutline, Aspect.EXPOSED);
+						final boolean isAlwaysSet = fieldAccessor.isAlwaysSet();
+						
+						getCodeGenerator().generate
+						(
+							block,
+							exposedType,
+							possibleTypes,
+							isAlwaysSet,
+							arguments
+						);
+						
+						fieldSeparator = FIELD_SEPARATOR;
+					}
 				}
 			}
-			body._return(buffer);
 		}
-		return toString$appendFields;
+		return toStringFieldsMethod;
 	}
-
 }
