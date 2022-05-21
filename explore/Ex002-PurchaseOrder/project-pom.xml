@@ -177,12 +177,12 @@
 								<!-- Note: XJC plugins are run in order given.  -->
 								<arg>-no-header</arg>
 								<arg>-Xinheritance</arg>
-								<arg>-Xequals</arg>
 								<arg>-XhashCode</arg>
+								<arg>-Xequals</arg>
 								<arg>-XtoString</arg>
 								<!--
-								<arg>-XsimpleEquals</arg>
 								<arg>-XsimpleHashCode</arg>
+								<arg>-XsimpleEquals</arg>
 								<arg>-XsimpleToString</arg>
 								<arg>-XsimpleToString-fullClassName=false</arg>
 								<arg>-XsimpleToString-showFieldNames=false</arg>

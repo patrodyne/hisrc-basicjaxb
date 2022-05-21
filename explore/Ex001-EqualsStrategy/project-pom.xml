@@ -156,8 +156,8 @@
 						<configuration>
 							<args>
 								<arg>-no-header</arg>
-								<arg>-Xequals</arg>
 								<arg>-XhashCode</arg>
+								<arg>-Xequals</arg>
 								<arg>-XtoString</arg>
 							</args>
 							<plugins>

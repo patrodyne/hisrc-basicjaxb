@@ -180,8 +180,8 @@ public class Explorer extends AbstractExplorer
 				getMarshaller().setSchema(schemaValidator);
 				getUnmarshaller().setSchema(schemaValidator);
 				
-				println("Schema Validator:\n\n" + schemaValidator);
-				println();
+				getValidateButton().setSelected(true);
+				println("Schema Validation is ON.");
 			}
 			else
 				errorln("Please create marshaller and unmarshaller!");
@@ -789,14 +789,18 @@ public class Explorer extends AbstractExplorer
 		return menuBar;
 	}
 
+	private JToggleButton validateButton;
+	public JToggleButton getValidateButton() { return validateButton; }
+	public void setValidateButton(JToggleButton validateButton) { this.validateButton = validateButton; }
+
 	public void modifyToolBar()
 	{
 		getToolBar().addSeparator();
 		String validateOffPath = OILPATH+"/actions/flag-red.png";
 		String validateOnPath = OILPATH+"/actions/flag-green.png";
-		JToggleButton validateButton = createImageToggleButton(Explorer.class, validateOffPath, validateOnPath);
-		validateButton.addActionListener((event) -> toggleValidateSchema(event));
-		validateButton.setToolTipText("Toggle schema validation");
+		setValidateButton(createImageToggleButton(Explorer.class, validateOffPath, validateOnPath));
+		getValidateButton().addActionListener((event) -> toggleValidateSchema(event));
+		getValidateButton().setToolTipText("Toggle schema validation");
 		getToolBar().add(validateButton);
 	}
 	
@@ -804,10 +808,7 @@ public class Explorer extends AbstractExplorer
 	{
 		JToggleButton toggleButton = (JToggleButton) event.getSource();
 		if ( toggleButton.isSelected() )
-		{
 			generateXmlSchemaValidatorFromDom();
-			println("Schema Validation is ON.");
-		}
 		else
 		{
 			setMarshaller(createMarshaller(getJaxbContext()));
@@ -844,7 +845,7 @@ public class Explorer extends AbstractExplorer
 		return jaxbContext;
 	}
 
-	protected Marshaller createMarshaller(JAXBContext jaxbContext)
+	private Marshaller createMarshaller(JAXBContext jaxbContext)
 	{
 		Marshaller marshaller = null;
 		try
@@ -864,7 +865,7 @@ public class Explorer extends AbstractExplorer
 		return marshaller;
 	}
 	
-	protected Unmarshaller createUnmarshaller(JAXBContext jaxbContext)
+	private Unmarshaller createUnmarshaller(JAXBContext jaxbContext)
 	{
 		Unmarshaller unmarshaller = null;
 		try
@@ -883,7 +884,7 @@ public class Explorer extends AbstractExplorer
 		return unmarshaller;
 	}
 
-	protected String marshalToString(Object instance)
+	private String marshalToString(Object instance)
 	{
 		String xml = null;
 		try ( StringWriter writer = new StringWriter() )
@@ -899,23 +900,7 @@ public class Explorer extends AbstractExplorer
 	}
 
 	@SuppressWarnings("unchecked")
-	protected <T> T unmarshalFromString(String xml)
-	{
-		T instance = null;
-		try ( StringReader reader = new StringReader(xml) )
-		{
-			instance = (T) getUnmarshaller().unmarshal(reader);
-		}
-		catch (JAXBException ex)
-		{
-			errorln(ex);
-		}
-		return instance;
-	}
-
-
-	@SuppressWarnings("unchecked")
-	protected <T> T unmarshalFromString(String xml, Class<?> clazz)
+	private <T> T unmarshalFromString(String xml, Class<?> clazz)
 	{
 		T instance = null;
 		try ( StringReader reader = new StringReader(xml) )
@@ -928,5 +913,4 @@ public class Explorer extends AbstractExplorer
 		}
 		return instance;
 	}
-
 }
