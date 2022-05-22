@@ -13,14 +13,35 @@
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb</artifactId>
+			<exclusions>
+				<!-- Fix java.util.ServiceConfigurationError: com.sun.tools.xjc.Plugin: ...Plugin not a subtype -->
+				<exclusion>
+					<groupId>org.glassfish.jaxb</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-runtime</artifactId>
+			<exclusions>
+				<!-- Fix java.util.ServiceConfigurationError: com.sun.tools.xjc.Plugin: ...Plugin not a subtype -->
+				<exclusion>
+					<groupId>org.glassfish.jaxb</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-tools</artifactId>
+			<exclusions>
+				<!-- Fix java.util.ServiceConfigurationError: com.sun.tools.xjc.Plugin: ...Plugin not a subtype -->
+				<exclusion>
+					<groupId>org.glassfish.jaxb</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 	<build>
