@@ -10,6 +10,9 @@ BUILDER="output ant"
 FGTITLE="$(basename $(pwd))"
 BGTITLE="$(date --rfc-3339=sec) $(pwd)"
 
+# export ANT_OPTS="-Dcom.sun.tools.internal.xjc.Options.findServices=true"
+export ANT_OPTS="-Dcom.sun.tools.xjc.Options.findServices=true"
+
 menu_options()
 {
 	clear

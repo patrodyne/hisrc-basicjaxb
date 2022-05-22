@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="jaxb2-basics-sample-basic-ant" default="install">
-	<property name="artifactId" value="jaxb2-basics-sample-basic-ant"/>
+<project name="hisrc-basicjaxb-sample-basic-ant" default="test">
+	<property name="artifactId" value="hisrc-basicjaxb-sample-basic-ant"/>
 	<property name="build.compiler" value="extJavac"/>
 	<path id="compile.path">
 		<fileset dir="${basedir}/lib">
 			<include name="commons-lang3-*.jar"/>
 			<include name="jaxb-api-*.jar"/>
-			<include name="jaxb2-basics-runtime-*.jar"/>
+			<include name="hisrc-basicjaxb-runtime-*.jar"/>
 		</fileset>
 	</path>
 	<path id="test-compile.path">
@@ -19,9 +19,9 @@
 			<include name="stax-api-*.jar"/>
 			<include name="jsr173_api-*.jar"/>
 
-			<include name="jaxb2-basics-runtime-*.jar"/>
+			<include name="hisrc-basicjaxb-runtime-*.jar"/>
 			<include name="junit-*.jar"/>
-			<include name="jaxb2-basics-testing-*.jar"/>
+			<include name="hisrc-basicjaxb-testing-*.jar"/>
 			<include name="xmlunit-*.jar"/>
 			<include name="commons-lang3-*.jar"/>
 
@@ -39,9 +39,9 @@
 			<include name="stax-api-*.jar"/>
 			<include name="jsr173_api-*.jar"/>
 
-			<include name="jaxb2-basics-runtime-*.jar"/>
+			<include name="hisrc-basicjaxb-runtime-*.jar"/>
 			<include name="junit-*.jar"/>
-			<include name="jaxb2-basics-testing-*.jar"/>
+			<include name="hisrc-basicjaxb-testing-*.jar"/>
 			<include name="xmlunit-*.jar"/>
 			<include name="commons-io-*.jar"/>
 			<include name="commons-lang3-*.jar"/>
@@ -69,7 +69,7 @@
 					<include name="stax-api-*.jar"/>
 
 					<include name="jaxb-xjc-*.jar"/>
-					<include name="jaxb2-basics-ant-*.jar"/>
+					<include name="hisrc-basicjaxb-ant-*.jar"/>
 
 					<include name="jcl-over-slf4j-*.jar"/>
 				</fileset>
@@ -94,7 +94,7 @@
 			<!-- Plugins -->
 			<classpath>
 				<fileset dir="${basedir}/lib">
-					<include name="jaxb2-basics-plugins-*.jar"/>
+					<include name="hisrc-basicjaxb-plugins-*.jar"/>
 					<include name="slf4j-*.jar"/>
 				</fileset>
 			</classpath>

@@ -32,6 +32,7 @@
 		<file>
 			<source>${basedir}/project-build.xml</source>
 			<destName>build.xml</destName>
+			<filtered>false</filtered>
 		</file>
 	</files>
 </assembly>
