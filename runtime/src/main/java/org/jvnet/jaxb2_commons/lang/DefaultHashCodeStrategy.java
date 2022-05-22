@@ -11,7 +11,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy2, HashCodeStrat
 
 	private int iConstant;
 
-	protected Logger logger = LoggerFactory.getLogger(getClass());
+	protected Logger logger = LoggerFactory.getLogger(DefaultHashCodeStrategy.class);
 	
 	public boolean isDebugEnabled()
 	{

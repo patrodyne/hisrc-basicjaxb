@@ -127,7 +127,7 @@ The log level for the `JAXBEqualsStrategy` determines what is logged by the HiSr
 
 ### simplelogger.properties
 ~~~
-org.slf4j.simpleLogger.log.org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy=TRACE
+org.slf4j.simpleLogger.log.org.jvnet.jaxb2_commons.lang.DefaultEqualsStrategy=TRACE
 ~~~
 
 Set `JAXBEqualsStrategy` to `TRACE` to produce log messages when two entities _are not_ equal. Setting `JAXBEqualsStrategy` to `DEBUG`, `INFO`, `WARN`, `ERROR` or `OFF` produces no log output.
@@ -146,7 +146,7 @@ The `XtoString` plug-in is configurable using the `simplelogger.properties` file
 
 ### simplelogger.properties
 ~~~
-org.slf4j.simpleLogger.log.org.jvnet.jaxb2_commons.lang.JAXBToStringStrategy=INFO
+org.slf4j.simpleLogger.log.org.jvnet.jaxb2_commons.lang.DefaultToStringStrategy=INFO
 ~~~
 
 Each mode is, in fact, a log level for `JAXBToStringStrategy`. As provided, the log level is `INFO` for a compact representation from the _toString_ method. Edit the `simplelogger.properties` file and change this logger to `DEBUG` to expand child lists or to `TRACE` for the most verbose representation.
@@ -177,7 +177,7 @@ After unmarshalling each batch (from the menu or earlier links), click on each e
 
 Let's introduce some chaos [亂][11] into our sampling! This experiment works the same as the previous section except that `sample2` is surrounded by a _chaos_ method. The _chaos_ method randomly picks one property to disrupt. If the property is complex or a list, the _chaos_ is delegated deeper until one primative field is selected for disruption.
 
-After `sample2` is disrupted, we check for inequality. If `JAXBEqualsStrategy=TRACE` then you should see the location of the disruption in the error log console.
+After `sample2` is disrupted, we check for inequality. If `DefaultEqualsStrategy=TRACE` then you should see the location of the disruption in the error log console.
 
 After unmarshalling each batch (from the menu or earlier links), click on each experiment below to verify inequality for a random sample and a randomly disrupted field:
 

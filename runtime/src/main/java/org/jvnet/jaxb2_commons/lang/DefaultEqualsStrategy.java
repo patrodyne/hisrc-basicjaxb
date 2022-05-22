@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("deprecation")
 public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy {
 	
-	protected Logger logger = LoggerFactory.getLogger(getClass());
+	protected Logger logger = LoggerFactory.getLogger(DefaultEqualsStrategy.class);
 	
 	public boolean isDebugEnabled()
 	{

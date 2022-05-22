@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class DefaultToStringStrategy implements ToStringStrategy2,
 		ToStringStrategy {
 
-	protected Logger logger = LoggerFactory.getLogger(getClass());
+	protected Logger logger = LoggerFactory.getLogger(DefaultToStringStrategy.class);
 	
 	public boolean isDebugEnabled()
 	{
