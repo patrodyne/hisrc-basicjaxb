@@ -99,6 +99,25 @@
 						</execution>
 					</executions>
 				</plugin>
+				<plugin>
+					<artifactId>plantuml-generator-maven-plugin</artifactId>
+					<groupId>de.elnarion.maven</groupId>
+					<version>1.5.3</version>
+					<executions>
+						<execution>
+							<?m2e ignore?>
+							<id>generate-plantuml-diagram</id>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+							<phase>process-classes</phase>
+							<configuration>
+								<fieldClassifierListToIgnore>STATIC</fieldClassifierListToIgnore>
+								<removeMethods>true</removeMethods>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
@@ -180,6 +199,26 @@
 						<configuration>
 							<inputDirectory>\${basedir}/src/test/resources/org/patrodyne/jvnet/basicjaxb/ex001</inputDirectory>
 							<outputDirectory>\${project.build.testOutputDirectory}/org/patrodyne/jvnet/basicjaxb/ex001</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>plantuml-generator-maven-plugin</artifactId>
+				<groupId>de.elnarion.maven</groupId>
+				<executions>
+					<execution>
+						<id>generate-plantuml-diagram</id>
+						<configuration>
+							<scanPackages>
+								<scanPackage>org.patrodyne.jvnet.basicjaxb.ex001.model</scanPackage>
+							</scanPackages>
+							<hideClasses>
+								<hideClass>org.patrodyne.jvnet.basicjaxb.ex001.model.ObjectFactory</hideClass>
+							</hideClasses>
+							<hideFields>false</hideFields>
+							<hideMethods>true</hideMethods>
+							<outputFilename>PersonTemp.puml</outputFilename>
 						</configuration>
 					</execution>
 				</executions>
