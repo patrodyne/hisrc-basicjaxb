@@ -42,7 +42,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin {
 
 	@Override
 	public String getOptionName() {
-		return "";
+		return "Xmergeable";
 	}
 
 	@Override
