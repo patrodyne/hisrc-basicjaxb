@@ -99,10 +99,10 @@ public class DefaultToStringStrategy implements ToStringStrategy2,
 	 * Whether to mark default field values,
 	 * the default is <code>true</code>.
 	 */
-	private boolean useDefaultFieldValueMarkers = true;
+	private boolean useDefaultFieldValueMarkers = false;
 	public boolean isUseDefaultFieldValueMarkers()
 	{
-		return useDefaultFieldValueMarkers;
+		return useDefaultFieldValueMarkers || isDebugEnabled() ;
 	}
 	public void setUseDefaultFieldValueMarkers(boolean useDefaultFieldValueMarkers)
 	{
