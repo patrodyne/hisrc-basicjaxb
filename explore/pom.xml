@@ -13,8 +13,8 @@
 	<name>JAXB2 Basics - Explore</name>
 	<modules>
 		<module>Ex001-EqualsStrategy</module>
+		<module>Ex002-PurchaseOrder</module>
 		<!--
-		<module>Ex002-ToStringStrategy</module>
 		<module>Ex003-CopyStrategy</module>
 		<module>Ex004-MergeStrategy</module>
 		-->
