@@ -1,5 +1,7 @@
 package org.jvnet.jaxb2_commons.test;
 
+import static java.util.Arrays.sort;
+
 import java.io.File;
 import java.util.Collection;
 import java.util.Map;
@@ -26,25 +28,27 @@ public abstract class AbstractSamplesTest extends TestCase {
 	protected abstract void checkSample(File sample) throws Exception;
 
 	public void testSamples() throws Exception {
-		logger.debug("Testing samples.");
+		logger.debug("Testing samples, start");
 		int failed = 0;
 		final File[] sampleFiles = getSampleFiles();
 		for (final File sampleFile : sampleFiles) {
-			logger.debug("Testing sample [" + sampleFile.getName() + "].");
+			logger.debug("Testing sample, start [" + sampleFile.getName() + "].");
+			String result = "SUCCESS";
 			try {
 				checkSample(sampleFile);
 			} catch (Throwable ex) {
-				logger.error("Sample [" + sampleFile.getName()
+				logger.error("Testing sample [" + sampleFile.getName()
 						+ "] failed the check.", ex);
 				failed++;
+				result="FAILURE";
 			}
-			logger.debug("Finished testing sample [" + sampleFile.getName()
-					+ "].");
+			logger.info("Testing sample, " + result + " [" + sampleFile.getName() + "].");
 		}
-		logger.debug("Finished testing samples.");
+		logger.debug("Testing samples, finish");
 
-		Assert.assertTrue("Summary [" + failed + "/" + sampleFiles.length
-				+ "] failed the check. Use DEBUG level. Check previous errors for details.", failed == 0);
+		String summary = "Testing summary [" + failed + "/" + sampleFiles.length + "] failed";
+		// logger.info(summary);
+		Assert.assertTrue(summary + " the check. Check previous errors for details.", failed == 0);
 	}
 
 	protected File getBaseDir() {
@@ -77,7 +81,9 @@ public abstract class AbstractSamplesTest extends TestCase {
 				+ "].");
 		final Collection<File> files = FileUtils.listFiles(samplesDirectory,
 				new String[] { "xml" }, true);
-		return files.toArray(new File[files.size()]);
+		File[] fileArray = files.toArray(new File[files.size()]);
+		sort(fileArray);
+		return fileArray;
 	}
 
 	protected ClassLoader getContextClassLoader() {
