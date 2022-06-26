@@ -1,11 +1,15 @@
 package org.patrodyne.jvnet.basicjaxb.explore;
 
 import java.awt.Font;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.io.Writer;
 
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultEditorKit;
 
 /**
  * This class extends from Writer to redirect output to a JTextArea.
@@ -32,8 +36,17 @@ public class ConsoleWriter extends Writer
 		this.textArea = new JTextArea();
 		this.textArea.setEditable(false);
 		this.textArea.setFont(new Font("monospaced", Font.PLAIN, points));
+		this.textArea.addMouseListener(createContextMenuListener());
 	}
 	
+	private MouseListener createContextMenuListener()
+	{
+		JPopupMenu contextMenu = new JPopupMenu();
+		contextMenu.add(new JMenuItem( new DefaultEditorKit.CopyAction() ));
+		contextMenu.add(new JMenuItem( new SelectAllAction() ));
+		return new ContextMenuListener(contextMenu);
+	}
+
 	/** Increase text font (float) size. */
 	public void largerText()
 	{

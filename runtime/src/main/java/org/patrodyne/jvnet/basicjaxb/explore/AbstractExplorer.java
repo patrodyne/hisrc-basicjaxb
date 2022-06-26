@@ -330,7 +330,7 @@ abstract public class AbstractExplorer extends JFrame
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new BorderLayout());
 
-		Integer fontPoints = new Integer(getPreferences().get(CONSOLE_FONT_POINTS, DEFAULT_CONSOLE_FONT_POINTS));
+		Integer fontPoints = Integer.valueOf(getPreferences().get(CONSOLE_FONT_POINTS, DEFAULT_CONSOLE_FONT_POINTS));
 		
 		setConsoleWriter(new ConsoleWriter(fontPoints));
 		setPrintStream(new PrintStream(new WriterOutputStream(getConsoleWriter(), CONFIG_CHARSET)));
@@ -369,13 +369,13 @@ abstract public class AbstractExplorer extends JFrame
 		Preferences prefs = getPreferences();
 		setSize
 		(
-			new Integer(prefs.get(WINDOW_WIDTH, DEFAULT_WINDOW_WIDTH)),
-			new Integer(prefs.get(WINDOW_HEIGHT, DEFAULT_WINDOW_HEIGHT))
+			Integer.valueOf(prefs.get(WINDOW_WIDTH, DEFAULT_WINDOW_WIDTH)),
+			Integer.valueOf(prefs.get(WINDOW_HEIGHT, DEFAULT_WINDOW_HEIGHT))
 		);
 		setLocation
 		(
-			new Integer(prefs.get(WINDOW_LEFT, DEFAULT_WINDOW_LEFT)),
-			new Integer(prefs.get(WINDOW_TOP, DEFAULT_WINDOW_TOP))
+			Integer.valueOf(prefs.get(WINDOW_LEFT, DEFAULT_WINDOW_LEFT)),
+			Integer.valueOf(prefs.get(WINDOW_TOP, DEFAULT_WINDOW_TOP))
 		);
 		setVisible(true);
 		getLessonPane().setDividerLocation(CONFIG_EXPLORE_PANE_WEIGHT);

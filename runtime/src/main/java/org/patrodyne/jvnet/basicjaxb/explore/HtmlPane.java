@@ -1,11 +1,15 @@
 package org.patrodyne.jvnet.basicjaxb.explore;
 
 import java.awt.Desktop;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URI;
 
 import javax.swing.JEditorPane;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.event.HyperlinkEvent;
+import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
@@ -38,6 +42,15 @@ public class HtmlPane extends JEditorPane
 		});
 		setText(html);
 		setCaretPosition(0);
+		addMouseListener(createContextMenuListener());
+	}
+	
+	private MouseListener createContextMenuListener()
+	{
+		JPopupMenu contextMenu = new JPopupMenu();
+		contextMenu.add(new JMenuItem( new DefaultEditorKit.CopyAction() ));
+		contextMenu.add(new JMenuItem( new SelectAllAction() ));
+		return new ContextMenuListener(contextMenu);
 	}
 
 	private HTMLEditorKit createEditorKit()
