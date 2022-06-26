@@ -4,9 +4,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
 >
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>hisrc-basicjaxb-ex001</artifactId>
+	<artifactId>hisrc-basicjaxb-explore-ex001</artifactId>
 	<packaging>pom</packaging>
-	<name>JAXB2 Basics - Ex001 - EqualsStrategy</name>
+	<name>JAXB2 Basics Explore - Ex001 - EqualsStrategy</name>
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
 		<artifactId>hisrc-basicjaxb-explore</artifactId>
@@ -44,6 +44,7 @@
 	</dependencies>
 	<build>
 		<defaultGoal>package</defaultGoal>
+		<finalName>hisrc-basicjaxb-ex001-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
