@@ -98,7 +98,7 @@ public class Explorer extends AbstractExplorer
 		}
 		catch (Exception ex)
 		{
-			ex.printStackTrace();
+			errorln(ex);
 		}
 	}
 
