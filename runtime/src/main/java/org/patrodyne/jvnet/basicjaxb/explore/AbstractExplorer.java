@@ -1,10 +1,13 @@
 package org.patrodyne.jvnet.basicjaxb.explore;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
 import static javax.swing.JSplitPane.HORIZONTAL_SPLIT;
 import static javax.swing.JSplitPane.VERTICAL_SPLIT;
 import static javax.swing.SwingConstants.VERTICAL;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -196,6 +199,38 @@ abstract public class AbstractExplorer extends JFrame
 			StringWriter sw = new StringWriter();
 			ex.printStackTrace(new PrintWriter(sw));
 			errorln(sw.toString());
+		}
+	}
+	
+	public void errorDialog(String title, Exception ex)
+	{
+		StringWriter sw = new StringWriter();
+		ex.printStackTrace(new PrintWriter(sw));
+        JTextArea jta = new JTextArea(sw.toString());
+        jta.setTabSize(getErrorWriter().getTextArea().getTabSize());
+        jta.setFont(getErrorWriter().getTextArea().getFont());
+        JScrollPane jsp = new JScrollPane(jta);
+        jsp.setPreferredSize(half(getSize()));
+        showMessageDialog(null, jsp, title, ERROR_MESSAGE);
+	}
+	
+	private Dimension half(Dimension dim)
+	{
+		Double hgt = dim.getHeight() / 2.0;
+		Double wth = dim.getWidth() / 2.0;
+		hgt.intValue();
+		return new Dimension(wth.intValue(), hgt.intValue());
+	}
+	
+	public void sleep(long millis)
+	{
+		try
+		{
+			Thread.sleep(millis);
+		}
+		catch (InterruptedException ex)
+		{
+			errorln(ex);
 		}
 	}
 	
