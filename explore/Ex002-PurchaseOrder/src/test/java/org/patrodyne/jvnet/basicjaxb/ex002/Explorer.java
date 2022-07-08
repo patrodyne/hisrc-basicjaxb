@@ -801,7 +801,7 @@ public class Explorer extends AbstractExplorer
 		setValidateButton(createImageToggleButton(Explorer.class, validateOffPath, validateOnPath));
 		getValidateButton().addActionListener((event) -> toggleValidateSchema(event));
 		getValidateButton().setToolTipText("Toggle schema validation");
-		getToolBar().add(validateButton);
+		getToolBar().add(getValidateButton());
 	}
 	
 	private void toggleValidateSchema(ActionEvent event)
