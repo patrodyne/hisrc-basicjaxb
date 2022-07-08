@@ -18,7 +18,7 @@ import javax.swing.text.DefaultEditorKit;
  */
 public class ConsoleWriter extends Writer
 {
-	// Represents this OutputStream's text area.
+	// Represents this Writer's text area.
 	private JTextArea textArea;
 	public JTextArea getTextArea()
 	{
@@ -36,6 +36,7 @@ public class ConsoleWriter extends Writer
 		this.textArea = new JTextArea();
 		this.textArea.setEditable(false);
 		this.textArea.setFont(new Font("monospaced", Font.PLAIN, points));
+		this.textArea.setTabSize(4);
 		this.textArea.addMouseListener(createContextMenuListener());
 	}
 	
@@ -78,6 +79,7 @@ public class ConsoleWriter extends Writer
 		throws IOException
 	{
 		getTextArea().append(new String(chars, offset, count));
+		getTextArea().setCaretPosition(getTextArea().getDocument().getLength());
 	}
 
 	/**
