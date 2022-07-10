@@ -19,7 +19,7 @@ import com.sun.codemodel.JVar;
 public class ToStringArguments implements Arguments<ToStringArguments>
 {
 	public ToStringArguments(JCodeModel codeModel, JVar stringBuilder, JVar value, JExpression hasSetValue,
-		String fieldSeparator, String fieldName, boolean showChildItems)
+		String fieldSeparator, String fieldName, boolean showChildItems, boolean hasDefaultValue)
 	{
 		this.codeModel = Validate.notNull(codeModel);
 		this.stringBuilder = Validate.notNull(stringBuilder);
@@ -28,6 +28,7 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 		this.fieldSeparator = fieldSeparator;
 		this.fieldName = fieldName;
 		this.showChildItems = showChildItems;
+		this.hasDefaultValue = hasDefaultValue;
 	}
 
 	private final JCodeModel codeModel;
@@ -51,10 +52,13 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 	private boolean showChildItems;
 	public boolean isShowChildItems() { return showChildItems; }
 
+	private boolean hasDefaultValue;
+	public boolean hasDefaultValue() { return hasDefaultValue; }
+
 	private ToStringArguments spawn(JVar value, JExpression hasSetValue)
 	{
 		return new ToStringArguments(getCodeModel(), stringBuilder(), value, hasSetValue,
-			getFieldSeparator(), getFieldName(), isShowChildItems());
+			getFieldSeparator(), getFieldName(), isShowChildItems(), hasDefaultValue());
 	}
 
 	public ToStringArguments property(JBlock block, String propertyName,

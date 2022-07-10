@@ -22,6 +22,8 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
+import com.sun.tools.xjc.model.CDefaultValue;
+import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
@@ -157,6 +159,9 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 						if ( isShowFieldNames() )
 							fieldName = fieldOutline.getPropertyInfo().getName(false);
 						
+						CPropertyInfo propertyInfo = fieldAccessor.getPropertyInfo();
+						CDefaultValue defaultValue = propertyInfo.defaultValue;
+						
 						ToStringArguments arguments = new ToStringArguments
 						(
 							codeModel,
@@ -165,7 +170,8 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 							hasSetValue,
 							fieldSeparator,
 							fieldName,
-							isShowChildItems()
+							isShowChildItems(),
+							(defaultValue != null)
 						);
 
 						final Collection<JType> possibleTypes =	getPossibleTypes(fieldOutline, Aspect.EXPOSED);
