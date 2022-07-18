@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.text.NumberFormat;
 import java.util.prefs.Preferences;
 
 import javax.swing.ImageIcon;
@@ -232,6 +233,11 @@ abstract public class AbstractExplorer extends JFrame
 		{
 			errorln(ex);
 		}
+	}
+	
+	public String ns(long nt1, long nt2)
+	{
+		return NumberFormat.getIntegerInstance().format(nt2-nt1) + " ns" ;
 	}
 	
 	public String getResourceAsString(Class<?> clazz, String resourceName)
