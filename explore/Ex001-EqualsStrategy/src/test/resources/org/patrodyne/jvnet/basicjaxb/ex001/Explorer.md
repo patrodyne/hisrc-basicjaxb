@@ -11,7 +11,7 @@ This project is the first exploration of the HiSrc BasicJAXB library. It include
 The focus of the HiSrc framework is the automatic generation of Java classes from XML
 Schema(s). The XJC compiler from JAXB does the actual code generation using plug-ins from the HiSrc framework. Then JAXB is used to unmarshal/marshal XML instances to/from Java objects. 
 
-XJC generates POJO classes with the standard and simple Java `Object` methods:
+XJC generates POJO classes with the standard but simplistic Java `Object` methods:
 
 + `hashCode()` - numeric value used for object identification or indexing. 
 + `equals(obj)` - determines when and how to objects are equal.
