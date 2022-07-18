@@ -75,6 +75,8 @@ public class HtmlPane extends JEditorPane
 		styleSheet.addRule("table { border-width: thin; border-style: solid; border-spacing: 0; overflow: auto; font-family: monospace; font-size: medium; }");
 		styleSheet.addRule("th, td { border-width: thin; border-style: solid; padding: 3; }");
 		styleSheet.addRule("th { text-align: center; font-weight: bold; }");
+		styleSheet.addRule("ul li ul { list-style-type: circle; margin-left-ltr: 25; margin-right-rtl: 25; margin-top: 0; margin-bottom: 0; }");
+		styleSheet.addRule("ul li ul li ul { list-style-type: square; margin-left-ltr: 25; margin-right-rtl: 25; margin-top: 0; margin-bottom: 0; }");
 		return kit;
 	}
 }
