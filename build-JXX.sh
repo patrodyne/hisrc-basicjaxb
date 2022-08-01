@@ -25,10 +25,17 @@ if [ ! -d "${JAVA_HOME}" ]; then
 	echo "Please configure Java home path."
 	exit 1
 fi
-# DEBUG_OPTS="-X -Dorg.slf4j.simpleLogger.showLogName=true"
-# BUILD_OPTS="--fail-at-end -DskipTests=true $@"
-  BUILD_OPTS="--fail-at-end $@"
-  mvn ${DEBUG_OPTS} ${BUILD_OPTS}
+
+BASEDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+source ${BASEDIR}/build-INC.sh
+
+if [ $# -eq 0 ]; then
+  ${BASEDIR}/build.sh
+else
+  mvn --fail-at-end ${JVM_SYS_PROPS} "$@"
+fi
+
+# mvn -DskipTests=true clean install
 # mvn -DskipTests=true -Pnexus-deploy clean deploy
 # mvn -DskipTests=true -DdryRun=false release:clean
 # mvn -DskipTests=true -DdryRun=true release:prepare
