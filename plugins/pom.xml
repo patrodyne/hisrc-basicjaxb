@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb-plugins</artifactId>
 	<packaging>jar</packaging>
-	<name>JAXB2 Basics - Full Plugins JAR</name>
+	<name>HiSrc BasicJAXB - Full Plugins JAR</name>
 	<dependencies>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>

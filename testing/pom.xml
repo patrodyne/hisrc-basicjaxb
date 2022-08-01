@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb-testing</artifactId>
 	<packaging>jar</packaging>
-	<name>JAXB2 Basics - Testing</name>
+	<name>HiSrc BasicJAXB - Testing</name>
 	<dependencies>
 		<dependency>
 			<groupId>xmlunit</groupId>

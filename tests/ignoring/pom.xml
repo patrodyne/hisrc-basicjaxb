@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb-test-ignoring</artifactId>
 	<packaging>jar</packaging>
-	<name>JAXB2 Basics - Test [ignoring]</name>
+	<name>HiSrc BasicJAXB - Test [ignoring]</name>
 	<build>
 		<defaultGoal>test</defaultGoal>
 		<plugins>

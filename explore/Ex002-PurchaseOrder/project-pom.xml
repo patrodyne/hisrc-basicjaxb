@@ -7,7 +7,7 @@
 	<artifactId>hisrc-basicjaxb-ex002</artifactId>
 	<version>${project.version}</version>
 	<packaging>jar</packaging>
-	<name>JAXB2 Basics - Ex002 - PurchaseOrder</name>
+	<name>HiSrc BasicJAXB - Ex002 - PurchaseOrder</name>
 
 	<properties>
 		<maven.compiler.source>8</maven.compiler.source>
@@ -141,6 +141,9 @@
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M5</version>
+				<configuration>
+					<systemPropertiesFile>${basedir}/src/test/resources/jvmsystem.properties</systemPropertiesFile>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-install-plugin</artifactId>

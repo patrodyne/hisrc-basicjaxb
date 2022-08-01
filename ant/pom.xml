@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb-ant</artifactId>
 	<packaging>jar</packaging>
-	<name>JAXB2 Basics - Ant Task</name>
+	<name>HiSrc BasicJAXB - Ant Task</name>
 	<dependencies>
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>

@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb-tests-simple-hashCode-equals-01</artifactId>
 	<packaging>jar</packaging>
-	<name>JAXB2 Basics - Test [simple-hashCode-equals-01]</name>
+	<name>HiSrc BasicJAXB - Test [simple-hashCode-equals-01]</name>
 	<dependencies>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>

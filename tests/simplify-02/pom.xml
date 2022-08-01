@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb-test-simplify-02</artifactId>
 	<packaging>jar</packaging>
-	<name>JAXB2 Basics - Test [simplify-02]</name>
+	<name>HiSrc BasicJAXB - Test [simplify-02]</name>
 	<dependencies>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>

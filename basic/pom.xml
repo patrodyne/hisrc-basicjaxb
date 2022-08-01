@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb</artifactId>
 	<packaging>jar</packaging>
-	<name>JAXB2 Basics - Basic Plugins</name>
+	<name>HiSrc BasicJAXB - Basic Plugins</name>
 	<dependencies>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>

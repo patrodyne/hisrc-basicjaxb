@@ -11,7 +11,7 @@
 	<groupId>org.patrodyne.jvnet</groupId>
 	<artifactId>hisrc-basicjaxb-dist</artifactId>
 	<packaging>pom</packaging>
-	<name>JAXB2 Basics - Distribution</name>
+	<name>HiSrc BasicJAXB - Distribution</name>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>

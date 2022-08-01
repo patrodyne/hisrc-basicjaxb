@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb-runtime</artifactId>
 	<packaging>jar</packaging>
-	<name>JAXB2 Basics - Runtime</name>
+	<name>HiSrc BasicJAXB - Runtime</name>
 	<dependencies>
 		<dependency>
 			<groupId>javax.activation</groupId>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>com.vividsolutions</groupId>
 			<artifactId>jts</artifactId>
-			<version>1.8</version>
+			<version>1.13</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

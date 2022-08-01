@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb-test-episodes</artifactId>
 	<packaging>pom</packaging>
-	<name>JAXB2 Basics - Test [episodes]</name>
+	<name>HiSrc BasicJAXB - Test [episodes]</name>
 	<modules>
 		<module>a</module>
 		<module>b</module>

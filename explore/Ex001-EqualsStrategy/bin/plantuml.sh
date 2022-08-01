@@ -10,13 +10,14 @@ IMGTYPE="svg"
 PLANTUML_HOME="/opt/java/plantuml"
 PLANTUML_TEMP="target/generated-docs/PersonTemp.puml"
 PLANTUML_FILE="target/generated-docs/Person.puml"
-PLANTUML_DEST="src/main/resources/Person.${IMGTYPE}"
+PLANTUML_DEST="src/test/resources/Person.${IMGTYPE}"
 # Configure END
 
 # Pre-process PUML
 cat "${PLANTUML_TEMP}" | \
 	sed 's/java.math.BigDecimal/BigDecimal/' | \
-	sed 's/javax.xml.datatype.XMLGregorianCalendar/XMLGregorianCalendar/' \
+	sed 's/java.util.List/List/' | \
+	sed 's/javax.xml.datatype.XMLGregorianCalendar/XMLGregCal/' \
 	>"${PLANTUML_FILE}"
 
 # Generate IMG

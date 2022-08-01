@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb-test-episodes-a</artifactId>
 	<packaging>jar</packaging>
-	<name>JAXB2 Basics - Test [episodes-a]</name>
+	<name>HiSrc BasicJAXB - Test [episodes-a]</name>
 	<build>
 		<defaultGoal>test</defaultGoal>
 		<plugins>

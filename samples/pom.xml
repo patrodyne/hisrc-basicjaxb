@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb-samples</artifactId>
 	<packaging>pom</packaging>
-	<name>JAXB2 Basics - Samples</name>
+	<name>HiSrc BasicJAXB - Samples</name>
 	<modules>
 		<module>po</module>
 		<module>basic</module>

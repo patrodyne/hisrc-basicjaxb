@@ -7,7 +7,10 @@
 #
 # Gnome scaling
 # export GDK_SCALE=2
+
+BASEDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+source ${BASEDIR}/build-inc.sh
+
 mvn test-compile exec:java \
-	-Dsun.java2d.xrender=false \
 	-Dexec.classpathScope="test" \
-	-Dexec.mainClass="org.patrodyne.jvnet.basicjaxb.ex002.Explorer"
+	-Dexec.mainClass="org.patrodyne.jvnet.basicjaxb.ex001.Explorer"

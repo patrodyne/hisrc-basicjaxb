@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb-test-superclass</artifactId>
 	<packaging>pom</packaging>
-	<name>JAXB2 Basics - Test [superclass]</name>
+	<name>HiSrc BasicJAXB - Test [superclass]</name>
 	<modules>
 		<module>a</module>
 		<module>b</module>

@@ -14,23 +14,25 @@
 		<fileSet>
 			<directory>src</directory>
 		</fileSet>
+		<fileSet>
+			<directory>bin</directory>
+			<includes>
+				<include>*.sh</include>
+			</includes>
+			<outputDirectory>./</outputDirectory>
+			<fileMode>0774</fileMode>
+		</fileSet>
 	</fileSets>
 	<files>
 		<file>
+			<source>${basedir}/../project-build-inc.sh</source>
+			<destName>build-inc.sh</destName>
+			<filtered>false</filtered>
+			<fileMode>0774</fileMode>
+		</file>
+		<file>
 			<source>${basedir}/../project-build.sh</source>
 			<destName>build.sh</destName>
-			<filtered>false</filtered>
-			<fileMode>0774</fileMode>
-		</file>
-		<file>
-			<source>${basedir}/project-explore.sh</source>
-			<destName>explore.sh</destName>
-			<filtered>false</filtered>
-			<fileMode>0774</fileMode>
-		</file>
-		<file>
-			<source>${basedir}/project-plantuml.sh</source>
-			<destName>plantuml.sh</destName>
 			<filtered>false</filtered>
 			<fileMode>0774</fileMode>
 		</file>

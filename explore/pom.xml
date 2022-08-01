@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>hisrc-basicjaxb-explore</artifactId>
 	<packaging>pom</packaging>
-	<name>JAXB2 Basics - Explore</name>
+	<name>HiSrc BasicJAXB - Explore</name>
 	<modules>
 		<module>Ex001-EqualsStrategy</module>
 		<module>Ex002-PurchaseOrder</module>
