@@ -5,12 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
-		<artifactId>hisrc-basicjaxb-project</artifactId>
+		<artifactId>hisrc-basicjaxb-higher</artifactId>
 		<version>0.12.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>hisrc-basicjaxb-explore</artifactId>
+	<artifactId>hisrc-basicjaxb-higher-explore</artifactId>
 	<packaging>pom</packaging>
-	<name>HiSrc BasicJAXB - Explore</name>
+	<name>HiSrc BasicJAXB - Higher Explore</name>
 	<modules>
 		<module>Ex001-EqualsStrategy</module>
 		<module>Ex002-PurchaseOrder</module>

@@ -8,7 +8,7 @@
 	<name>HiSrc BasicJAXB - Sample [basic]</name>
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
-		<artifactId>hisrc-basicjaxb-samples</artifactId>
+		<artifactId>hisrc-basicjaxb-higher-samples</artifactId>
 		<version>0.12.2-SNAPSHOT</version>
 	</parent>
 	<dependencies>

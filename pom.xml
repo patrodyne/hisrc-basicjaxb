@@ -66,7 +66,6 @@
 		<activation.version>1.2.0</activation.version>
 		<ant.version>1.10.12</ant.version>
 		<cxf.version>3.3.0</cxf.version>
-		<hisrc-higherjaxb-maven-plugin.version>0.14.2-SNAPSHOT</hisrc-higherjaxb-maven-plugin.version>
 		<jaxb-core.version>2.3.0.1</jaxb-core.version>
 		<jaxb.version>2.3.1</jaxb.version>
 		<junit.version>4.13.2</junit.version>
@@ -107,22 +106,6 @@
 				<groupId>org.patrodyne.jvnet</groupId>
 				<artifactId>hisrc-basicjaxb</artifactId>
 				<version>${project.version}</version>
-			</dependency>
-			<!-- Maven JAXB2 Plugin -->
-			<dependency>
-				<groupId>org.patrodyne.jvnet</groupId>
-				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
-				<version>${hisrc-higherjaxb-maven-plugin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.patrodyne.jvnet</groupId>
-				<artifactId>hisrc-higherjaxb-maven-plugin-core</artifactId>
-				<version>${hisrc-higherjaxb-maven-plugin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.patrodyne.jvnet</groupId>
-				<artifactId>hisrc-higherjaxb-maven-plugin-testing</artifactId>
-				<version>${hisrc-higherjaxb-maven-plugin.version}</version>
 			</dependency>
 			<!-- JAXB -->
 			<dependency>
@@ -319,19 +302,6 @@
 						</execution>
 					</executions>
 				</plugin>
-				<plugin>
-					<groupId>org.patrodyne.jvnet</groupId>
-					<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
-					<version>${hisrc-higherjaxb-maven-plugin.version}</version>
-					<executions>
-						<execution>
-							<id>generate</id>
-							<goals>
-								<goal>generate</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
 			</plugins>
 		</pluginManagement>
 
@@ -453,16 +423,9 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>samples</id>
+			<id>higher</id>
 			<modules>
-				<module>explore</module>
-				<module>samples</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>tests</id>
-			<modules>
-				<module>tests</module>
+				<module>higher</module>
 			</modules>
 		</profile>
 		<profile>
@@ -474,9 +437,7 @@
 		<profile>
 			<id>all</id>
 			<modules>
-				<module>explore</module>
-				<module>samples</module>
-				<module>tests</module>
+				<module>higher</module>
 			</modules>
 		</profile>
 		<profile>

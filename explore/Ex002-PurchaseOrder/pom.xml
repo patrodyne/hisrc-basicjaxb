@@ -9,7 +9,7 @@
 	<name>HiSrc BasicJAXB - Explore [Ex002 PurchaseOrder]</name>
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
-		<artifactId>hisrc-basicjaxb-explore</artifactId>
+		<artifactId>hisrc-basicjaxb-higher-explore</artifactId>
 		<version>0.12.2-SNAPSHOT</version>
 	</parent>
 	<dependencies>
