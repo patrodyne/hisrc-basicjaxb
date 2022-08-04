@@ -10,7 +10,7 @@ IMGTYPE="svg"
 PLANTUML_HOME="/opt/java/plantuml"
 PLANTUML_TEMP="target/generated-docs/PurchaseOrderTemp.puml"
 PLANTUML_FILE="target/generated-docs/PurchaseOrder.puml"
-PLANTUML_DEST="src/test/resources/PurchaseOrder.${IMGTYPE}"
+PLANTUML_DEST="src/main/resources/PurchaseOrder.${IMGTYPE}"
 # Configure END
 
 # Pre-process PUML

@@ -164,5 +164,5 @@ To detect this chaos programatically, use [Generate Xml Schema Validator From Do
 
 <!-- References -->
 
-[1]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/explore/Ex001-EqualsStrategy/src/test/java/org/patrodyne/jvnet/basicjaxb/ex001/Explorer.java?ts=4
+[1]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/explore/Ex001-EqualsStrategy/src/test/java/org/patrodyne/jvnet/basicjaxb/ex001/Explorer.java?ts=4
 [2]: https://www.slf4j.org/

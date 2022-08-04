@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Fix long lines in JTextArea not rendering
 #   -Dsun.java2d.xrender=false \

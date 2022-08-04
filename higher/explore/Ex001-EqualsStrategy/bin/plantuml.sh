@@ -10,7 +10,7 @@ IMGTYPE="svg"
 PLANTUML_HOME="/opt/java/plantuml"
 PLANTUML_TEMP="target/generated-docs/PersonTemp.puml"
 PLANTUML_FILE="target/generated-docs/Person.puml"
-PLANTUML_DEST="src/test/resources/Person.${IMGTYPE}"
+PLANTUML_DEST="src/main/resources/Person.${IMGTYPE}"
 # Configure END
 
 # Pre-process PUML

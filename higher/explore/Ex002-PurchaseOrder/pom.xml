@@ -44,7 +44,7 @@
 	</dependencies>
 	<build>
 		<defaultGoal>package</defaultGoal>
-		<finalName>hisrc-basicjaxb-ex002-${project.version}</finalName>
+		<finalName>hisrc-basicjaxb-ex002-${hisrc-basicjaxb.version}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>

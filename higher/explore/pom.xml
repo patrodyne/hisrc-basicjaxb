@@ -11,6 +11,10 @@
 	<artifactId>hisrc-basicjaxb-higher-explore</artifactId>
 	<packaging>pom</packaging>
 	<name>HiSrc BasicJAXB - Higher Explore</name>
+	<properties>
+		<hisrc-basicjaxb.version>0.12.2</hisrc-basicjaxb.version>
+		<hisrc-higherjaxb-maven-plugin.version>0.14.2</hisrc-higherjaxb-maven-plugin.version>
+	</properties>
 	<modules>
 		<module>Ex001-EqualsStrategy</module>
 		<module>Ex002-PurchaseOrder</module>

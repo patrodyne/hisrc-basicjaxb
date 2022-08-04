@@ -3,9 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>org.patrodyne.jvnet</groupId>
 	<artifactId>hisrc-basicjaxb-ex002</artifactId>
-	<version>${project.version}</version>
+	<version>${hisrc-basicjaxb.version}</version>
 	<packaging>jar</packaging>
 	<name>HiSrc BasicJAXB - Ex002 - PurchaseOrder</name>
 
@@ -14,6 +15,11 @@
 		<maven.compiler.target>8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<hisrc-basicjaxb.version>${hisrc-basicjaxb.version}</hisrc-basicjaxb.version>
+		<hisrc-higherjaxb-maven-plugin.version>${hisrc-higherjaxb-maven-plugin.version}</hisrc-higherjaxb-maven-plugin.version>
+		<jaxb.version>${jaxb.version}</jaxb.version>
+		<junit.version>${junit.version}</junit.version>
+		<slf4j.version>${slf4j.version}</slf4j.version>
 	</properties>
 
 	<dependencies>
@@ -21,36 +27,36 @@
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
-			<version>${jaxb.version}</version>
+			<version>\${jaxb.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-			<version>${jaxb.version}</version>
+			<version>\${jaxb.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-runtime</artifactId>
-			<version>${project.version}</version>
+			<version>\${hisrc-basicjaxb.version}</version>
 		</dependency>
 		<!-- Testing -->
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-testing</artifactId>
-			<version>${project.version}</version>
+			<version>\${hisrc-basicjaxb.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
+			<version>\${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j.version}</version>
+			<version>\${slf4j.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -169,7 +175,7 @@
 			<plugin>
 				<groupId>org.patrodyne.jvnet</groupId>
 				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
-				<version>${hisrc-higherjaxb-maven-plugin.version}</version>
+				<version>\${hisrc-higherjaxb-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -196,7 +202,7 @@
 								<plugin>
 									<groupId>org.patrodyne.jvnet</groupId>
 									<artifactId>hisrc-basicjaxb</artifactId>
-									<version>${project.version}</version>
+									<version>\${hisrc-basicjaxb.version}</version>
 								</plugin>
 							</plugins>
 						</configuration>
