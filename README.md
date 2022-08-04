@@ -27,22 +27,22 @@ with the original `maven-jaxb2-plugin` name.
 
 ### Releases
 
+#### GitHub Releases, Demonstrations
+
+* [HiSrc BasicJAXB v0.12.2, Explorations][31]
+
 #### Maven Central Repository
 
 * [Maven Central Repository Search](https://search.maven.org/search?q=g:org.patrodyne.jvnet)
 * [Maven Central Repository Index](https://repo1.maven.org/maven2/org/patrodyne/jvnet/)
 
-#### GitHub Zip Releases
-
-* TBD
-
 ### Goals
 
-The new goals for this fork are:
+New goals for the next release are:
 
-* Add sample projects to GitHub releases.
-* Update dependencies with newer versions *excluding* the Jakarta namespace.
 * Update dependencies with newer versions *including* the Jakarta namespace.
+* Update JUnit v4 to JUnit v5.
+* Add more explorations for other BasicJAXB plugins.
 
 ### Status
 
@@ -52,9 +52,14 @@ The new goals for this fork are:
 
 #### In Progress
 
-* Adding sample projects to GitHub releases.
+* Review Jakarta dependencies.
 
 ### Fork History
+
+#### Version 0.12.2
+
+* Added demonstration explorations as GitHub releases.
+* Updated dependencies with newer versions *excluding* the Jakarta namespace.
 
 #### Version 0.12.1
 
@@ -80,3 +85,4 @@ The new goals for this fork are:
   [23]: https://github.com/highsource/maven-jaxb2-plugin#readme
   [24]: https://github.com/highsource/jaxb2-annotate-plugin#readme
   [25]: https://github.com/highsource/hyperjaxb3#readme
+  [31]: https://github.com/patrodyne/hisrc-basicjaxb/releases

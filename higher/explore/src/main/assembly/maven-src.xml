@@ -22,6 +22,14 @@
 			<outputDirectory>./</outputDirectory>
 			<fileMode>0774</fileMode>
 		</fileSet>
+		<fileSet>
+			<directory>bin</directory>
+			<includes>
+				<include>*.cmd</include>
+			</includes>
+			<outputDirectory>./</outputDirectory>
+			<fileMode>0664</fileMode>
+		</fileSet>
 	</fileSets>
 	<files>
 		<file>
