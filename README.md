@@ -85,4 +85,4 @@ New goals for the next release are:
   [23]: https://github.com/highsource/maven-jaxb2-plugin#readme
   [24]: https://github.com/highsource/jaxb2-annotate-plugin#readme
   [25]: https://github.com/highsource/hyperjaxb3#readme
-  [31]: https://github.com/patrodyne/hisrc-basicjaxb/releases
+  [31]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/0.12.2
