@@ -1,7 +1,10 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" elementFormDefault="qualified"
-	attributeFormDefault="unqualified" targetNamespace="urn:t" xmlns:tns="urn:t"
-	jaxb:version="2.1">
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="urn:t"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:tns="urn:t"
+	jaxb:version="3.0"
+>
 
 	<xs:annotation>
 		<xs:appinfo>

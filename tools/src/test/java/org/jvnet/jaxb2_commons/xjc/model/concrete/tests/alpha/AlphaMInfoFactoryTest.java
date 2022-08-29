@@ -48,7 +48,7 @@ public class AlphaMInfoFactoryTest {
 		options.parseArguments(arguments);
 		ConsoleErrorReporter receiver = new ConsoleErrorReporter();
 		Model model = ModelLoader.load(options, new JCodeModel(), receiver);
-		Assert.assertNotNull(model);
+		Assert.assertNotNull("Schema language neutral model loaded?", model);
 
 		final XJCCMInfoFactory factory = new XJCCMInfoFactory(model);
 

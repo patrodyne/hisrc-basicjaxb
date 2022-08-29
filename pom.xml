@@ -63,11 +63,13 @@
 		</snapshotRepository>
 	</distributionManagement>
 	<properties>
-		<activation.version>1.2.0</activation.version>
+		<activation-api.version>2.1.0</activation-api.version>
+		<activation-imp.version>1.0.0</activation-imp.version>
 		<ant.version>1.10.12</ant.version>
 		<cxf.version>3.3.0</cxf.version>
-		<jaxb-core.version>2.3.0.1</jaxb-core.version>
-		<jaxb.version>2.3.1</jaxb.version>
+		<jaxb-api.version>3.0.1</jaxb-api.version>
+		<jaxb-imp.version>3.0.2</jaxb-imp.version>
+		<jaxb-core.version>2.3.0.1</jaxb-core.version> <!-- cxf -->
 		<junit.version>4.13.2</junit.version>
 		<maven.compiler.source>8</maven.compiler.source>
 		<maven.compiler.target>8</maven.compiler.target>
@@ -109,39 +111,53 @@
 			</dependency>
 			<!-- JAXB -->
 			<dependency>
-				<groupId>javax.xml.bind</groupId>
-				<artifactId>jaxb-api</artifactId>
-				<version>${jaxb.version}</version>
+				<groupId>jakarta.xml.bind</groupId>
+				<artifactId>jakarta.xml.bind-api</artifactId>
+				<version>${jaxb-api.version}</version>
+				<exclusions>
+					<!-- In favor of jakarta.activation:jakarta.activation-api -->
+					<exclusion>
+						<groupId>com.sun.activation</groupId>
+						<artifactId>jakarta.activation</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.glassfish.jaxb</groupId>
 				<artifactId>jaxb-runtime</artifactId>
-				<version>${jaxb.version}</version>
+				<version>${jaxb-imp.version}</version>
+				<exclusions>
+					<!-- In favor of jakarta.activation:jakarta.activation-api -->
+					<exclusion>
+						<groupId>com.sun.activation</groupId>
+						<artifactId>jakarta.activation</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.glassfish.jaxb</groupId>
 				<artifactId>jaxb-xjc</artifactId>
-				<version>${jaxb.version}</version>
+				<version>${jaxb-imp.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.glassfish.jaxb</groupId>
 				<artifactId>codemodel</artifactId>
-				<version>${jaxb.version}</version>
+				<version>${jaxb-imp.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.glassfish.jaxb</groupId>
 				<artifactId>xsom</artifactId>
-				<version>${jaxb.version}</version>
+				<version>${jaxb-imp.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>javax.activation</groupId>
-				<artifactId>javax.activation-api</artifactId>
-				<version>${activation.version}</version>
+				<groupId>jakarta.activation</groupId>
+				<artifactId>jakarta.activation-api</artifactId>
+				<version>${activation-api.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.sun.activation</groupId>
-				<artifactId>javax.activation</artifactId>
-				<version>${activation.version}</version>
+				<groupId>org.eclipse.angus</groupId>
+				<artifactId>angus-activation</artifactId>
+				<version>${activation-imp.version}</version>
 			</dependency>
 			<!-- JUnit -->
 			<dependency>
@@ -312,6 +328,7 @@
 			  <version>0.1</version>
 			  <executions>
 				<execution>
+				  <?m2e ignore?>
 				  <id>directories</id>
 				  <goals>
 					<goal>highest-basedir</goal>

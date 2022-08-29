@@ -50,7 +50,7 @@ The plug-in generates a `Person` class that implements the HiSrc interfaces (`Ha
 
 ### ObjectLocator
 
-The `ObjectLocator` interface extends `javax.xml.bind.ValidationEventLocator` used by JAXB to report XML schema (in)validation events. It does this by adding a path from the event back to the root object. HiSrc strategies use the `ObjectLocator` to trace the location of events like a _field not equal_ event. For example, `DefaultEqualsStrategy` delegates the event notification to [SLF4J][2], for logging. Applications can configure [SLF4J][2] to ignore all reporting or override the default tracing with their own custom event coding.
+The `ObjectLocator` interface extends `jakarta.xml.bind.ValidationEventLocator` used by JAXB to report XML schema (in)validation events. It does this by adding a path from the event back to the root object. HiSrc strategies use the `ObjectLocator` to trace the location of events like a _field not equal_ event. For example, `DefaultEqualsStrategy` delegates the event notification to [SLF4J][2], for logging. Applications can configure [SLF4J][2] to ignore all reporting or override the default tracing with their own custom event coding.
 
 >**Hint:** The POM for this project declares the `org.slf4j:slf4j-simple` dependency to implement the [SLF4J][2] API. This implementation is configured in the `src/test/resources/simplelogger.properties` file. Event notification can be activated by setting the logger level to `...DefaultEqualsStrategy=TRACE`.
 

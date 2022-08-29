@@ -1,9 +1,12 @@
-<xsd:schema targetNamespace="urn:test" xmlns:test="urn:test"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" jaxb:version="2.1"
-	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" elementFormDefault="qualified"
-	attributeFormDefault="unqualified" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
-
-	jaxb:extensionBindingPrefixes="xjc">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:test" elementFormDefault="qualified" attributeFormDefault="unqualified" 
+	xmlns:test="urn:test"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	jaxb:extensionBindingPrefixes="xjc"
+	jaxb:version="3.0"
+>
 
 	<xsd:annotation>
 		<xsd:appinfo>

@@ -11,6 +11,10 @@
 	<artifactId>hisrc-basicjaxb-higher-samples</artifactId>
 	<packaging>pom</packaging>
 	<name>HiSrc BasicJAXB - Higher Samples</name>
+	<properties>
+		<hisrc-basicjaxb.version>0.12.3-SNAPSHOT</hisrc-basicjaxb.version>
+		<hisrc-higherjaxb-maven-plugin.version>0.14.3-SNAPSHOT</hisrc-higherjaxb-maven-plugin.version>
+	</properties>
 	<modules>
 		<module>po</module>
 		<module>basic</module>

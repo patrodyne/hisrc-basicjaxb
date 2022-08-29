@@ -6,8 +6,9 @@
 	xmlns:tns="http://jvnet.patrodyne.org/basicjaxb/ex002/model"
 	xmlns:basic="http://jaxb2-commons.dev.java.net/basic"
 	targetNamespace="http://jvnet.patrodyne.org/basicjaxb/ex002/model" 
-	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" 
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb" 
 	jaxb:extensionBindingPrefixes="basic"
+	jaxb:version="3.0"
 >
 	<annotation>
 		<documentation xml:lang="en">

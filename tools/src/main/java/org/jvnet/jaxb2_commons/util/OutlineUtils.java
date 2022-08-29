@@ -2,11 +2,12 @@ package org.jvnet.jaxb2_commons.util;
 
 import java.util.Iterator;
 
+import org.glassfish.jaxb.core.api.impl.NameConverter;
+
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 import com.sun.tools.xjc.outline.PackageOutline;
-import com.sun.xml.bind.api.impl.NameConverter;
 
 public class OutlineUtils {
 

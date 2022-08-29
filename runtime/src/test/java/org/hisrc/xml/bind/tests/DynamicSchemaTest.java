@@ -3,23 +3,24 @@ package org.hisrc.xml.bind.tests;
 
 import java.io.IOException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.MarshalException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.SchemaOutputResolver;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.MarshalException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.SchemaOutputResolver;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+import javax.xml.XMLConstants;
 import javax.xml.transform.Result;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.glassfish.jaxb.core.v2.WellKnownNamespace;
 import org.junit.Test;
 import org.xml.sax.SAXException;
-
-import com.sun.xml.bind.v2.WellKnownNamespace;
 
 public class DynamicSchemaTest {
 
@@ -52,12 +53,13 @@ public class DynamicSchemaTest {
 
 		@SuppressWarnings("deprecation")
 		final SchemaFactory schemaFactory = SchemaFactory
-				.newInstance(WellKnownNamespace.XML_SCHEMA);
+				.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		final Schema schema = schemaFactory.newSchema(new DOMSource(result
 				.getNode()));
 
 		final Marshaller marshaller = context.createMarshaller();
 		marshaller.setSchema(schema);
+		// TODO: assertion
 		// Works
 		marshaller.marshal(new A("works"), System.out);
 		// Fails

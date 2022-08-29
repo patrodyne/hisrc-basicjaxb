@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.glassfish.jaxb.core.v2.model.core.ID;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.plugin.Customizations;
 import org.jvnet.jaxb2_commons.plugin.CustomizedIgnoring;
@@ -30,7 +31,6 @@ import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.CTypeRef;
 import com.sun.tools.xjc.model.CValuePropertyInfo;
 import com.sun.tools.xjc.model.Model;
-import com.sun.xml.bind.v2.model.core.ID;
 
 public class SimplifyPlugin extends AbstractParameterizablePlugin {
 

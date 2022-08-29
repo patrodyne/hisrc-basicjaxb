@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
+import org.glassfish.jaxb.core.v2.model.core.WildcardMode;
 import org.jvnet.jaxb2_commons.plugin.AbstractParameterizablePlugin;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.xml.sax.ErrorHandler;
@@ -13,7 +14,6 @@ import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.Model;
-import com.sun.xml.bind.v2.model.core.WildcardMode;
 
 public class WildcardPlugin extends AbstractParameterizablePlugin {
 

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.xml.namespace.NamespaceContext;
 
+import org.glassfish.jaxb.core.v2.model.core.TypeRef;
 import org.jvnet.jaxb2_commons.xjc.model.concrete.origin.XJCCMClassInfoOrigin;
 import org.jvnet.jaxb2_commons.xjc.model.concrete.origin.XJCCMClassRefOrigin;
 import org.jvnet.jaxb2_commons.xjc.model.concrete.origin.XJCCMElementInfoOrigin;
@@ -65,7 +66,6 @@ import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.Outline;
 import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIEnum;
 import com.sun.tools.xjc.util.NamespaceContextAdapter;
-import com.sun.xml.bind.v2.model.core.TypeRef;
 import com.sun.xml.xsom.XSAttributeUse;
 import com.sun.xml.xsom.XSComponent;
 import com.sun.xml.xsom.XmlString;

@@ -14,30 +14,50 @@
 		<maven.compiler.target>8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<cxf.version>${cxf.version}</cxf.version>
+		<hisrc-basicjaxb.version>${hisrc-basicjaxb.version}</hisrc-basicjaxb.version>
+		<jaxb-api.version>${jaxb-api.version}</jaxb-api.version>
+		<jaxb-imp.version>${jaxb-imp.version}</jaxb-imp.version>
+		<junit.version>${junit.version}</junit.version>
+		<slf4j.version>${slf4j.version}</slf4j.version>
 	</properties>
 
 	<dependencies>
 		<!-- JAXB -->
 		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>${jaxb.version}</version>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>\${jaxb-api.version}</version>
+			<exclusions>
+				<!-- In favor of jakarta.activation:jakarta.activation-api -->
+				<exclusion>
+					<groupId>com.sun.activation</groupId>
+					<artifactId>jakarta.activation</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-			<version>${jaxb.version}</version>
+			<version>\${jaxb-imp.version}</version>
+			<exclusions>
+				<!-- In favor of jakarta.activation:jakarta.activation-api -->
+				<exclusion>
+					<groupId>com.sun.activation</groupId>
+					<artifactId>jakarta.activation</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-runtime</artifactId>
-			<version>${project.version}</version>
+			<version>\${hisrc-basicjaxb.version}</version>
 		</dependency>
 		<!-- Apache CXF -->
 		<dependency>
-			<groupId>javax.xml.ws</groupId>
-			<artifactId>jaxws-api</artifactId>
-			<version>${jaxb.version}</version>
+			<groupId>jakarta.xml.ws</groupId>
+			<artifactId>jakarta.xml.ws-api</artifactId>
+			<version>\${jaxb-api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
@@ -47,18 +67,18 @@
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>${cxf.version}</version>
+			<version>\${cxf.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>${cxf.version}</version>
+			<version>\${cxf.version}</version>
 		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j.version}</version>
+			<version>\${slf4j.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -135,10 +155,11 @@
 					</ignoredUnusedDeclaredDependencies>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-codegen-plugin</artifactId>
-				<version>${cxf.version}</version>
+				<version>\${cxf.version}</version>
 				<executions>
 					<execution>
 						<id>generate-sources</id>
@@ -148,15 +169,6 @@
 						</goals>
 						<configuration>
 							<encoding>UTF-8</encoding>
-							<additionalJvmArgs>
-								-Dorg.slf4j.simpleLogger.logFile=System.out \
-								-Dorg.slf4j.simpleLogger.showDateTime=false \
-								-Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss:SSS \
-								-Dorg.slf4j.simpleLogger.showThreadName=false \
-								-Dorg.slf4j.simpleLogger.showLogName=true \
-								-Dorg.slf4j.simpleLogger.showShortLogName=true \
-								-Dorg.slf4j.simpleLogger.defaultLogLevel=INFO
-							</additionalJvmArgs>
 							<wsdlOptions>
 								<wsdlOption>
 									<wsdl>\${project.basedir}/src/main/resources/main.wsdl</wsdl>
@@ -178,27 +190,50 @@
 				</executions>
 				<dependencies>
 					<dependency>
-						<groupId>com.sun.xml.bind</groupId>
-						<artifactId>jaxb-xjc</artifactId>
-						<version>${jaxb.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.sun.xml.bind</groupId>
-						<artifactId>jaxb-impl</artifactId>
-						<version>${jaxb.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>com.sun.xml.bind</groupId>
-						<artifactId>jaxb-core</artifactId>
-						<version>${jaxb-core.version}</version>
-					</dependency>
-					<dependency>
 						<groupId>org.patrodyne.jvnet</groupId>
 						<artifactId>hisrc-basicjaxb</artifactId>
-						<version>${project.version}</version>
+						<version>\${hisrc-basicjaxb.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
+
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>maven-replacer-plugin</artifactId>
+				<version>1.4.1</version>
+				<executions>
+					<execution>
+						<id>replace-for-jakarta</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+						<configuration>
+							<filesToInclude>target/generated-sources/cxf/**/*.java</filesToInclude>
+							<preserveDir>true</preserveDir>
+							<replacements>
+                                <replacement>
+                                    <token>javax.xml.bind</token>
+                                    <value>jakarta.xml.bind</value>
+                                </replacement>
+                                <replacement>
+                                    <token>javax.annotation</token>
+                                    <value>jakarta.annotation</value>
+                                </replacement>
+                                <replacement>
+                                    <token>javax.jws</token>
+                                    <value>jakarta.jws</value>
+                                </replacement>
+                                <replacement>
+                                    <token>javax.xml.ws</token>
+                                    <value>jakarta.xml.ws</value>
+                                </replacement>
+                            </replacements>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>
