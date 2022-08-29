@@ -41,18 +41,30 @@ with the original `maven-jaxb2-plugin` name.
 New goals for the next release are:
 
 * Update dependencies with newer versions *including* the Jakarta namespace.
+* Convert DOS line endings to Unix newlines.
 * Update JUnit v4 to JUnit v5.
-* Add more explorations for other BasicJAXB plugins.
+* Rename packages:
+    * `org.jvnet.annox -> org.jvnet.basicjaxb-annox.*`
+    * `org.jvnet.jaxb2_commons -> org.jvnet.basicjaxb.*`
+    * `org.jvnet.mjiip -> org.jvnet.higherjaxb`
+    * `org.jvnet.jaxb2.maven2 -> org.jvnet.higherjaxb.mojo`
+	* `org.jvnet.hyperjaxb[23] -> org.jvnet.hyperjaxb`
+* Rename namespaces:
+	* `"http://annox.dev.java.net" -> "http://jvnet.org/basicjaxb/annox"`
+	* `"http://jaxb2-commons.dev.java.net/basic" -> "http://jvnet.org/basicjaxb/plugin"`
+	* `"http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" -> "http://jvnet.org/hyperjaxb/ejb/schemas/customizations"`
+* Replace Spring DI with Jakarta CDI.
 
 ### Status
 
 #### Completed
 
-* Planning for next release.
+* Update dependencies with newer versions *including* the Jakarta namespace.
+* Replace 'eclipse-only' lifecyle profile with 'm2e' XML directive.
 
 #### In Progress
 
-* Review Jakarta dependencies.
+* Convert DOS line endings to Unix newlines.
 
 ### Fork History
 
