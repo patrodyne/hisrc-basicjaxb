@@ -1,6 +1,7 @@
 package org.jvnet.jaxb2_commons.test;
 
 import static java.util.Arrays.sort;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.Collection;
@@ -9,15 +10,12 @@ import java.util.Map;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 
-import org.junit.Assert;
-import junit.framework.TestCase;
-
 import org.apache.commons.io.FileUtils;
-
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractSamplesTest extends TestCase {
+public abstract class AbstractSamplesTest {
 
 	protected Logger logger = LoggerFactory.getLogger(getTestClass());
 
@@ -27,6 +25,7 @@ public abstract class AbstractSamplesTest extends TestCase {
 
 	protected abstract void checkSample(File sample) throws Exception;
 
+	@Test
 	public void testSamples() throws Exception {
 		logger.debug("Testing samples, start");
 		int failed = 0;
@@ -48,7 +47,7 @@ public abstract class AbstractSamplesTest extends TestCase {
 
 		String summary = "Testing summary [" + failed + "/" + sampleFiles.length + "] failed";
 		// logger.info(summary);
-		Assert.assertTrue(summary + " the check. Check previous errors for details.", failed == 0);
+		assertTrue(failed == 0, summary + " the check. Check previous errors for details.");
 	}
 
 	protected File getBaseDir() {

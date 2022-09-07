@@ -61,10 +61,12 @@ New goals for the next release are:
 
 * Update dependencies with newer versions *including* the Jakarta namespace.
 * Replace 'eclipse-only' lifecyle profile with 'm2e' XML directive.
+* Convert DOS line endings to Unix newlines.
+* Update JUnit v4 to JUnit v5.
 
 #### In Progress
 
-* Convert DOS line endings to Unix newlines.
+* Reviewing
 
 ### Fork History
 

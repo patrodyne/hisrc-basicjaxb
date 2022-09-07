@@ -3,15 +3,16 @@ package org.jvnet.jaxb2_commons.plugin.simplify.tests01;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class Gh6Test {
 
 	private JAXBContext context;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		context = JAXBContext.newInstance(getClass().getPackage().getName());
 	}
@@ -23,6 +24,7 @@ public class Gh6Test {
 		item.getStrings();
 	}
 	
+	@Test
 	public void testElementsPropertyAsElementPropertyType() throws Exception {
 
 		@SuppressWarnings("unchecked")
@@ -31,7 +33,7 @@ public class Gh6Test {
 						getClass().getResourceAsStream("simplifyElementsPropertyAsElementProperty.xml")))
 				.getValue();
 
-		Assert.assertEquals(3, value.getStrings().size());
-		Assert.assertEquals(3, value.getInts().size());
+		assertEquals(3, value.getStrings().size());
+		assertEquals(3, value.getInts().size());
 	}
 }

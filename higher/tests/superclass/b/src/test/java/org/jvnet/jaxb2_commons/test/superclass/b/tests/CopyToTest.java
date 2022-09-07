@@ -1,7 +1,8 @@
 package org.jvnet.jaxb2_commons.test.superclass.b.tests;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 import org.jvnet.jaxb2_commons.test.superclass.b.AnotherObjectType;
 
 public class CopyToTest {
@@ -12,9 +13,9 @@ public class CopyToTest {
 		source.setId("Id");
 		source.setData("Data");
 		final AnotherObjectType target = (AnotherObjectType) source.clone();
-		Assert.assertEquals("Id", target.getId());
-		Assert.assertEquals("Data", target.getData());
-		Assert.assertEquals(source, target);
-		Assert.assertEquals(source.hashCode(), target.hashCode());
+		assertEquals("Id", target.getId());
+		assertEquals("Data", target.getData());
+		assertEquals(source, target);
+		assertEquals(source.hashCode(), target.hashCode());
 	}
 }

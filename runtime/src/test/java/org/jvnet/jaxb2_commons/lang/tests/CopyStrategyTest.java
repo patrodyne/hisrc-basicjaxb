@@ -8,9 +8,8 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.Test;
 import org.jvnet.jaxb2_commons.lang.CopyStrategy2;
 import org.jvnet.jaxb2_commons.lang.CopyTo2;
 import org.jvnet.jaxb2_commons.lang.JAXBCopyStrategy;
@@ -20,8 +19,9 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Polygon;
 
-public class CopyStrategyTest extends TestCase {
+public class CopyStrategyTest {
 
+	@Test
 	public void testPolygon() {
 		final GeometryFactory geometryFactory = new GeometryFactory();
 		final Polygon polygon = geometryFactory.createPolygon(
@@ -37,6 +37,7 @@ public class CopyStrategyTest extends TestCase {
 
 	}
 
+	@Test
 	public void testAny() throws Exception {
 		JAXBContext context = JAXBContext.newInstance(A.class);
 

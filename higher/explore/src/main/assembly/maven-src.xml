@@ -33,13 +33,13 @@
 	</fileSets>
 	<files>
 		<file>
-			<source>${basedir}/../project-build-inc.sh</source>
+			<source>${basedir}/../../project-pom-build-inc.sh</source>
 			<destName>build-inc.sh</destName>
 			<filtered>false</filtered>
 			<fileMode>0774</fileMode>
 		</file>
 		<file>
-			<source>${basedir}/../project-build.sh</source>
+			<source>${basedir}/../../project-pom-build.sh</source>
 			<destName>build.sh</destName>
 			<filtered>false</filtered>
 			<fileMode>0774</fileMode>

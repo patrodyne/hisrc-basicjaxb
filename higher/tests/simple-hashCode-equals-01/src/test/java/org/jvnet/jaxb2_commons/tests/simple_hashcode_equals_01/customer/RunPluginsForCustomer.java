@@ -3,13 +3,13 @@ package org.jvnet.jaxb2_commons.tests.simple_hashcode_equals_01.customer;
 import java.io.File;
 import java.net.URL;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.jaxb2_commons.tests.simple_hashcode_equals_01.RunPlugins;
 
 public class RunPluginsForCustomer extends RunPlugins
 {
-	@Before
+	@BeforeEach
 	public void setUp()
 	{
 		System.setProperty("javax.xml.accessExternalSchema", "all");

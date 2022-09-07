@@ -3,8 +3,8 @@ package org.jvnet.jaxb2_commons.plugin.simplify.tests02;
 import java.io.File;
 import java.net.URL;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.sun.codemodel.JCodeModel;
 import com.sun.tools.xjc.ConsoleErrorReporter;
@@ -14,7 +14,7 @@ import com.sun.tools.xjc.model.Model;
 
 public class RunSimplifyPlugin {
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		System.setProperty("javax.xml.accessExternalSchema", "all");
 	}

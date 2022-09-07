@@ -18,7 +18,7 @@
 		<hisrc-basicjaxb.version>${hisrc-basicjaxb.version}</hisrc-basicjaxb.version>
 		<jaxb-api.version>${jaxb-api.version}</jaxb-api.version>
 		<jaxb-imp.version>${jaxb-imp.version}</jaxb-imp.version>
-		<junit.version>${junit.version}</junit.version>
+		<junit-jupiter.version>${junit-jupiter.version}</junit-jupiter.version>
 		<slf4j.version>${slf4j.version}</slf4j.version>
 	</properties>
 
@@ -84,7 +84,7 @@
 	</dependencies>
 
 	<build>
-		<defaultGoal>install</defaultGoal>
+		<defaultGoal>package</defaultGoal>
 
 		<pluginManagement>
 			<plugins>

@@ -1,7 +1,11 @@
 package org.hisrc.xml.bind.tests.addelement;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.LinkedList;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -9,9 +13,6 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 public class AddElementTest {
 
@@ -21,7 +22,7 @@ public class AddElementTest {
 		JAXBContext context = JAXBContext.newInstance(Element.class);
 		final Element element = (Element) context.createUnmarshaller()
 				.unmarshal(getClass().getResource("element.xml"));
-		Assert.assertEquals("beta", element.getChildren().get(1).getValue());
+		assertEquals("beta", element.getChildren().get(1).getValue());
 	}
 
 	@XmlRootElement(name = "element")

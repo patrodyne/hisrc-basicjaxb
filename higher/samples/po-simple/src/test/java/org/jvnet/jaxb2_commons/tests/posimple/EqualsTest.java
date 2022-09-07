@@ -1,5 +1,7 @@
 package org.jvnet.jaxb2_commons.tests.posimple;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 
 import jakarta.xml.bind.JAXBElement;
@@ -15,7 +17,6 @@ public class EqualsTest extends AbstractSamplesTest {
 				.createUnmarshaller().unmarshal(sample);
 		final JAXBElement<?> rhs = (JAXBElement<?>) createContext()
 				.createUnmarshaller().unmarshal(sample);
-		assertTrue("Values must be equal.",
-				lhs.getValue().equals(rhs.getValue()));
+		assertTrue(lhs.getValue().equals(rhs.getValue()), "Values must be equal.");
 	}
 }

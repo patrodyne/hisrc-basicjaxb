@@ -1,7 +1,9 @@
 package org.jvnet.jaxb2_commons.tests.issues;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 public class JIIB36Test {
 
@@ -11,9 +13,9 @@ public class JIIB36Test {
 		final IssueJIIB36 one = new IssueJIIB36();
 		final IssueJIIB36 two = new IssueJIIB36();
 
-		Assert.assertTrue(one.equals(two));
-		Assert.assertTrue(two.equals(one));
-		Assert.assertEquals(one.hashCode(), two.hashCode());
+		assertTrue(one.equals(two));
+		assertTrue(two.equals(one));
+		assertEquals(one.hashCode(), two.hashCode());
 
 	}
 }

@@ -2,6 +2,8 @@
 #
 # build.sh: Display a menu of build actions for this POM project.
 #
+# See: https://github.com/patrodyne/hisrc-hyperjaxb/blob/master/etc/BUILD_TOOLS.md
+#
 # Reference: https://maven.apache.org/what-is-maven.html
 #			 https://en.wikibooks.org/wiki/Bash_Shell_Scripting/Whiptail
 #
@@ -25,10 +27,11 @@ menu_options()
 		"d)"	"Display the dependency tree" \
 		"e)"	"Resolve plugins and report dependencies" \
 		"f)"	"Analyze dependencies and report on: (un)used and/or (un)declared" \
-		"g)"	"Clean and install the shared libraries to the local repository" \
-		"h)"	"Clean and package all modules: libraries, samples, tests, etc." \
-		"i)"	"Unit/Integration test all modules" \
-		"j)"	"Download source and javadoc jars to the local repository" \
+		"g)"	"Download source and javadoc jars to the local repository" \
+		"h)"	"Clean and install the shared libraries to the local repository" \
+		"i)"	"Clean and package all modules: libraries, samples, tests, etc." \
+		"j)"	"Unit/Integration test all modules" \
+		"k)"	"Generate a site for each project" \
 		"v)"	"Vim into current directory" \
 		3>&2 2>&1 1>&3)
 }
@@ -43,10 +46,11 @@ menu_actions()
 			"d)")	${BUILDER} dependency:tree ;;
 			"e)")	${BUILDER} dependency:resolve-plugins ;;
 			"f)")	${BUILDER} dependency:analyze ;;
-			"g)")	${BUILDER} -DskipTests=true clean install ;;
-			"h)")	${BUILDER} -DskipTests=true -Pall clean package ;;
-			"i)")	${BUILDER} -DskipTests=false -Pall test ;;
-			"j)")	${BUILDER} dependency:sources ;;
+			"g)")	${BUILDER} dependency:sources ;;
+			"h)")	${BUILDER} -DskipTests=true clean install ;;
+			"i)")	${BUILDER} -DskipTests=true -Pall clean package ;;
+			"j)")	${BUILDER} -DskipTests=false -Pall test ;;
+			"k)")	${BUILDER} -DskipTests=false -Pall site ;;
 			"v)")	vim . ;;
 		esac	
 		read -p "Press any key to continue..." anykey

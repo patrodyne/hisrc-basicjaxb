@@ -19,7 +19,6 @@
 		<hisrc-higherjaxb-maven-plugin.version>${hisrc-higherjaxb-maven-plugin.version}</hisrc-higherjaxb-maven-plugin.version>
 		<jaxb-api.version>${jaxb-api.version}</jaxb-api.version>
 		<jaxb-imp.version>${jaxb-imp.version}</jaxb-imp.version>
-		<junit.version>${junit.version}</junit.version>
 		<slf4j.version>${slf4j.version}</slf4j.version>
 	</properties>
 
@@ -61,13 +60,13 @@
 			<version>\${hisrc-basicjaxb.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- Logging -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>\${junit.version}</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>\${slf4j.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
@@ -77,7 +76,7 @@
 	</dependencies>
 
 	<build>
-		<defaultGoal>test</defaultGoal>
+		<defaultGoal>package</defaultGoal>
 
 		<pluginManagement>
 			<plugins>
@@ -96,6 +95,18 @@
 				<plugin>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>3.0.0-M5</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-surefire-report-plugin</artifactId>
+					<version>3.0.0-M5</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-jxr-plugin</artifactId>
+					<version>3.1.1</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>3.4.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -251,5 +262,15 @@
 			</plugin>
 		</plugins>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jxr-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
 <!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4 noexpandtab:-->

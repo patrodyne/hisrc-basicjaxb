@@ -1,10 +1,11 @@
 package org.jvnet.jaxb2_commons.lang.tests;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
+
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.jvnet.jaxb2_commons.lang.CopyStrategy2;
 import org.jvnet.jaxb2_commons.lang.CopyTo2;
 import org.jvnet.jaxb2_commons.lang.JAXBCopyStrategy;
@@ -12,7 +13,7 @@ import org.jvnet.jaxb2_commons.locator.DefaultRootObjectLocator;
 import org.jvnet.jaxb2_commons.locator.ObjectLocator;
 import org.jvnet.jaxb2_commons.locator.util.LocatorUtils;
 
-public class CyclicTests extends TestCase {
+public class CyclicTests {
 
 	public interface CopyToInstance extends CopyTo2 {
 	}
@@ -60,6 +61,7 @@ public class CyclicTests extends TestCase {
 		}
 	}
 
+	@Test
 	public void testCycle() throws Exception {
 		final A a = new A();
 		final B b = new B();

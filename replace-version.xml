@@ -5,7 +5,7 @@
 
 	<target name="main">
 
-		<replace dir="${basedir}">
+		<replace dir="${basedir}" summary="true">
 			<include name="**/*pom.xml"/>
 			<replacetoken><![CDATA[version>0.12.2-SNAPSHOT</version>]]></replacetoken>
 			<replacevalue><![CDATA[version>0.12.3-SNAPSHOT</version>]]></replacevalue>

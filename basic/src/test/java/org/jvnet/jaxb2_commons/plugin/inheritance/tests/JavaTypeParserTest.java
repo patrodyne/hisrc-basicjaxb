@@ -8,13 +8,17 @@ import japa.parser.ast.type.ClassOrInterfaceType;
 import japa.parser.ast.type.ReferenceType;
 import japa.parser.ast.type.Type;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class JavaTypeParserTest extends TestCase {
+public class JavaTypeParserTest {
 
+	@Test
 	public void testParse() throws Exception {
 
 		final String text = "public class Dummy implements java.util.Comparator<java.lang.Integer>{}";

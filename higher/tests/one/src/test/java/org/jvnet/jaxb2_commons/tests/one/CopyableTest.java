@@ -1,8 +1,8 @@
 package org.jvnet.jaxb2_commons.tests.one;
 
-import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Assert;
+import java.io.File;
 
 import org.jvnet.jaxb2_commons.lang.JAXBCopyStrategy;
 import org.jvnet.jaxb2_commons.lang.JAXBEqualsStrategy;
@@ -16,8 +16,8 @@ public class CopyableTest extends AbstractSamplesTest {
 		final Object original = createContext().createUnmarshaller().unmarshal(
 				sample);
 		final Object copy = JAXBCopyStrategy.getInstance().copy(null, original);
-		Assert.assertTrue("Source and copy must be equal.",
-				JAXBEqualsStrategy.INSTANCE.equals(null, null, original, copy));
+		assertTrue(JAXBEqualsStrategy.INSTANCE.equals(null, null, original, copy),
+			"Source and copy must be equal.");
 	}
 
 }

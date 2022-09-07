@@ -2,7 +2,7 @@ package org.jvnet.jaxb2_commons.tests.JAXB_1058;
 
 import java.io.File;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.sun.codemodel.JCodeModel;
 import com.sun.tools.xjc.ConsoleErrorReporter;

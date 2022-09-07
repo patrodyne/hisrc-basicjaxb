@@ -1,10 +1,11 @@
 package org.jvnet.jaxb2_commons.reflection.util.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.jvnet.jaxb2_commons.reflection.util.Accessor;
 import org.jvnet.jaxb2_commons.reflection.util.FieldAccessor;
 
@@ -28,10 +29,10 @@ public class FieldAccessorTest {
 		final Accessor<String> schemeAccessor =
 			new FieldAccessor<String>(URI.class, "scheme", String.class);
 
-		Assert.assertEquals("urn", schemeAccessor.get(uri));
+		assertEquals("urn", schemeAccessor.get(uri));
 		schemeAccessor.set(uri, "nru");
-		Assert.assertEquals("nru", schemeAccessor.get(uri));
-		Assert.assertEquals("nru", uri.getScheme());
+		assertEquals("nru", schemeAccessor.get(uri));
+		assertEquals("nru", uri.getScheme());
 
 	}
 

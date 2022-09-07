@@ -2,6 +2,8 @@
 #
 # build.sh: Display a menu of build actions for this POM project.
 #
+# See: https://github.com/patrodyne/hisrc-hyperjaxb/blob/master/etc/BUILD_TOOLS.md
+#
 # Reference: https://maven.apache.org/what-is-maven.html
 #			 https://en.wikibooks.org/wiki/Bash_Shell_Scripting/Whiptail
 #
@@ -9,7 +11,8 @@
 #		from the sub-project to invoke this script.
 
 BASEDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-BUILDER="output mvn"
+source ${BASEDIR}/build-inc.sh
+BUILDER="output mvn ${JVM_SYS_PROPS}"
 FGTITLE="$(basename $(pwd))"
 BGTITLE="$(date --rfc-3339=sec) $(pwd)"
 
@@ -23,10 +26,11 @@ menu_options()
 		"d)"	"Display the dependency tree" \
 		"e)"	"Resolve plugins and report dependencies" \
 		"f)"	"Analyze dependencies and report on: (un)used and/or (un)declared" \
-		"g)"	"Clean and unit/integration test" \
-		"h)"	"Clean and package this project to the target directory" \
-		"i)"	"Clean and install the shared library to the local repository" \
-		"j)"	"Download source and javadoc jars to the local repository" \
+		"g)"	"Download source and javadoc jars to the local repository" \
+		"h)"	"Clean and unit/integration test" \
+		"i)"	"Clean and package this project to the target directory" \
+		"j)"	"Clean and install the shared library to the local repository" \
+		"k)"	"Generate a site for each project" \
 		"v)"	"Vim into current directory" \
 		3>&2 2>&1 1>&3)
 }
@@ -41,10 +45,11 @@ menu_actions()
 			"d)")	${BUILDER} dependency:tree ;;
 			"e)")	${BUILDER} dependency:resolve-plugins ;;
 			"f)")	${BUILDER} dependency:analyze ;;
-			"g)")	${BUILDER} -DskipTests=false clean test ;;
-			"h)")	${BUILDER} -DskipTests=true  clean package ;;
-			"i)")	${BUILDER} -DskipTests=true  clean install ;;
-			"j)")	${BUILDER} dependency:sources ;;
+			"g)")	${BUILDER} dependency:sources ;;
+			"h)")	${BUILDER} -DskipTests=false clean test ;;
+			"i)")	${BUILDER} -DskipTests=true  clean package ;;
+			"j)")	${BUILDER} -DskipTests=true  clean install ;;
+			"k)")	${BUILDER} -DskipTests=false clean site ;;
 			"v)")	vim . ;;
 		esac	
 		read -p "Press any key to continue..." anykey

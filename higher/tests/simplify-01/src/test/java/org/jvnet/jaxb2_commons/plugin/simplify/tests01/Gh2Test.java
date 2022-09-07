@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.xml.datatype.Duration;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class Gh2Test {
 
