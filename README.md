@@ -44,15 +44,31 @@ New goals for the next release are:
 * Convert DOS line endings to Unix newlines.
 * Update JUnit v4 to JUnit v5.
 * Rename packages:
-    * `org.jvnet.annox -> org.jvnet.basicjaxb-annox.*`
-    * `org.jvnet.jaxb2_commons -> org.jvnet.basicjaxb.*`
-    * `org.jvnet.mjiip -> org.jvnet.higherjaxb`
-    * `org.jvnet.jaxb2.maven2 -> org.jvnet.higherjaxb.mojo`
-	* `org.jvnet.hyperjaxb[23] -> org.jvnet.hyperjaxb`
+    * BasicJAXB Annotations
+        * `OLD: org.jvnet.annox`
+        * `NEW: org.jvnet.basicjaxb-annox`
+    * BasicJAXB XJC Plugin
+        * `OLD: org.jvnet.jaxb2_commons`
+        * `NEW: org.jvnet.basicjaxb`
+    * HigherJAXB Maven Plugin
+        * `OLD: org.jvnet.mjiip`
+        * `NEW: org.jvnet.higherjaxb`
+    * HigherJAXB Maven Mojo
+        * `OLD: org.jvnet.jaxb2.maven2`
+        * `NEW: org.jvnet.higherjaxb.mojo`
+    * HyperJAXB Persistence
+        * `OLD: org.jvnet.hyperjaxb[23]`
+        * `NEW: org.jvnet.hyperjaxb`
 * Rename namespaces:
-	* `"http://annox.dev.java.net" -> "http://jvnet.org/basicjaxb/annox"`
-	* `"http://jaxb2-commons.dev.java.net/basic" -> "http://jvnet.org/basicjaxb/plugin"`
-	* `"http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" -> "http://jvnet.org/hyperjaxb/ejb/schemas/customizations"`
+    * BasicJAXB XJC Annotations
+        * `OLD: http://annox.dev.java.net`
+        * `NEW: http://jvnet.org/basicjaxb/xjc/annox`
+    * BasicJAXB XJC Plugin
+        * `OLD: http://jaxb2-commons.dev.java.net/basic`
+        * `NEW: http://jvnet.org/basicjaxb/xjc`
+    * HyperJAXB Persistence
+        * `OLD: http://hyperjaxb3.jvnet.org/ejb/schemas/customizations`
+        * `NEW: http://jvnet.org/hyperjaxb/jpa`
 * Replace Spring DI with Jakarta CDI.
 
 ### Status
