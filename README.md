@@ -43,6 +43,7 @@ New goals for the next release are:
 * Update dependencies with newer versions *including* the Jakarta namespace.
 * Convert DOS line endings to Unix newlines.
 * Update JUnit v4 to JUnit v5.
+* Replace Spring DI with Jakarta CDI.
 * Rename packages:
     * BasicJAXB Annotations
         * `OLD: org.jvnet.annox`
@@ -69,7 +70,6 @@ New goals for the next release are:
     * HyperJAXB Persistence
         * `OLD: http://hyperjaxb3.jvnet.org/ejb/schemas/customizations`
         * `NEW: http://jvnet.org/hyperjaxb/jpa`
-* Replace Spring DI with Jakarta CDI.
 
 ### Status
 

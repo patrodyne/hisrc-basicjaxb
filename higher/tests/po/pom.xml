@@ -39,7 +39,7 @@
 							<groupId>org.patrodyne.jvnet</groupId>
 							<artifactId>hisrc-basicjaxb</artifactId>
 						</plugin>
-                                       </plugins>
+					</plugins>
 				</configuration>
 			</plugin>
 		</plugins>
