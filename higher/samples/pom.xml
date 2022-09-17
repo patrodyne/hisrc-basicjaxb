@@ -15,6 +15,7 @@
 		<ant-atleast.version>1.10.4</ant-atleast.version>
 		<hisrc-basicjaxb.version>0.12.3-SNAPSHOT</hisrc-basicjaxb.version>
 		<hisrc-higherjaxb-maven-plugin.version>0.14.3-SNAPSHOT</hisrc-higherjaxb-maven-plugin.version>
+		<root.basedir>${basedir}/../..</root.basedir>
 	</properties>
 	<modules>
 		<module>po</module>

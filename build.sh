@@ -13,7 +13,7 @@
 
 BASEDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source ${BASEDIR}/build-INC.sh
-BUILDER="output mvn ${JVM_SYS_PROPS}"
+BUILDER="output mvn -T 4 ${JVM_SYS_PROPS}"
 FGTITLE="$(basename $(pwd))"
 BGTITLE="$(date --rfc-3339=sec) $(pwd)"
 

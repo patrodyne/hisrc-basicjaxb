@@ -11,6 +11,9 @@
 	<artifactId>hisrc-basicjaxb-test-episodes</artifactId>
 	<packaging>pom</packaging>
 	<name>HiSrc BasicJAXB - Test [episodes]</name>
+	<properties>
+		<root.basedir>${basedir}/../../..</root.basedir>
+	</properties>
 	<modules>
 		<module>a</module>
 		<module>b</module>

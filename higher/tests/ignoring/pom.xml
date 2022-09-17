@@ -11,6 +11,9 @@
 	<artifactId>hisrc-basicjaxb-test-ignoring</artifactId>
 	<packaging>jar</packaging>
 	<name>HiSrc BasicJAXB - Test [ignoring]</name>
+	<properties>
+		<root.basedir>${basedir}/../../..</root.basedir>
+	</properties>
 	<build>
 		<defaultGoal>test</defaultGoal>
 		<plugins>

@@ -9,6 +9,9 @@
 	<artifactId>hisrc-basicjaxb-tools</artifactId>
 	<packaging>jar</packaging>
 	<name>HiSrc BasicJAXB - Tools</name>
+	<properties>
+		<root.basedir>${basedir}/..</root.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>

@@ -11,6 +11,9 @@
 	<artifactId>hisrc-basicjaxb-test-superclass-a</artifactId>
 	<packaging>jar</packaging>
 	<name>HiSrc BasicJAXB - Test [superclass-a]</name>
+	<properties>
+		<root.basedir>${basedir}/../../../..</root.basedir>
+	</properties>
 	<build>
 		<defaultGoal>test</defaultGoal>
 		<plugins>

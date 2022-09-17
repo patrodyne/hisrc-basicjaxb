@@ -25,6 +25,9 @@
 		<module>wildcard</module>
 		<module>zj</module>
 	</modules>
+	<properties>
+		<root.basedir>${basedir}/../..</root.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>

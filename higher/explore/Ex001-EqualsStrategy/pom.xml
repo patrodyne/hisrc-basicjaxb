@@ -12,6 +12,9 @@
 		<artifactId>hisrc-basicjaxb-higher-explore</artifactId>
 		<version>0.12.3-SNAPSHOT</version>
 	</parent>
+	<properties>
+		<root.basedir>${basedir}/../../..</root.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>

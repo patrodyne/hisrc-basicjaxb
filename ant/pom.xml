@@ -9,6 +9,9 @@
 	<artifactId>hisrc-basicjaxb-ant</artifactId>
 	<packaging>jar</packaging>
 	<name>HiSrc BasicJAXB - Ant Task</name>
+	<properties>
+		<root.basedir>${basedir}/..</root.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>

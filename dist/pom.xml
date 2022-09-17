@@ -12,6 +12,9 @@
 	<artifactId>hisrc-basicjaxb-dist</artifactId>
 	<packaging>pom</packaging>
 	<name>HiSrc BasicJAXB - Distribution</name>
+	<properties>
+		<root.basedir>${basedir}/..</root.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>

@@ -11,6 +11,9 @@
 	<artifactId>hisrc-basicjaxb-tests-simple-hashCode-equals-01</artifactId>
 	<packaging>jar</packaging>
 	<name>HiSrc BasicJAXB - Test [simple-hashCode-equals-01]</name>
+	<properties>
+		<root.basedir>${basedir}/../../..</root.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>

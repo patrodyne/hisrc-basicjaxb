@@ -11,6 +11,9 @@
 	<artifactId>hisrc-basicjaxb-test-po</artifactId>
 	<packaging>jar</packaging>
 	<name>HiSrc BasicJAXB - Test [po]</name>
+	<properties>
+		<root.basedir>${basedir}/../../..</root.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>

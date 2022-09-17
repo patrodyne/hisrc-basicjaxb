@@ -9,6 +9,9 @@
 	<artifactId>hisrc-basicjaxb-runtime</artifactId>
 	<packaging>jar</packaging>
 	<name>HiSrc BasicJAXB - Runtime</name>
+	<properties>
+		<root.basedir>${basedir}/..</root.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>jakarta.activation</groupId>

@@ -11,6 +11,9 @@
 	<artifactId>hisrc-basicjaxb-test-zj</artifactId>
 	<packaging>jar</packaging>
 	<name>HiSrc BasicJAXB - Test [zj]</name>
+	<properties>
+		<root.basedir>${basedir}/../../..</root.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>

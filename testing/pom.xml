@@ -9,6 +9,9 @@
 	<artifactId>hisrc-basicjaxb-testing</artifactId>
 	<packaging>jar</packaging>
 	<name>HiSrc BasicJAXB - Testing</name>
+	<properties>
+		<root.basedir>${basedir}/..</root.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
