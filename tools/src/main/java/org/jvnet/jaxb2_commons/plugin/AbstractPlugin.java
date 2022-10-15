@@ -19,49 +19,59 @@ import org.xml.sax.SAXParseException;
 import com.sun.tools.xjc.BadCommandLineException;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.Plugin;
+import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.Outline;
 
-public abstract class AbstractPlugin extends Plugin {
-
+/**
+ * An abstract XJC plugin to add or modify the XJC outline. An outline captures
+ * which code is generated for which model component. A {@link Model} is a
+ * schema language neutral representation of the result of a schema parsing. XJC
+ * uses this model to turn this into a series of Java source code.
+ */
+public abstract class AbstractPlugin extends Plugin
+{
 	/**
 	 * Plugin logger.
 	 */
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
-	public void onActivated(Options options) throws BadCommandLineException {
+	public void onActivated(Options options) throws BadCommandLineException
+	{
 		super.onActivated(options);
-		try {
+		try
+		{
 			init(options);
-		} catch (Exception ex) {
-			throw new BadCommandLineException(
-					"Could not initialize the plugin [" + getOptionName()
-							+ "].", ex);
+		}
+		catch (Exception ex)
+		{
+			throw new BadCommandLineException( "Could not initialize the plugin [" + getOptionName() + "].", ex);
 		}
 	}
 
 	@Override
-	public boolean run(Outline outline, Options options,
-			ErrorHandler errorHandler) throws SAXException {
-		/*
-		 * try { init(options); } catch (Exception ex) { SAXParseException saxex
-		 * = new SAXParseException( "Could not initialize Spring context.",
-		 * null, ex); errorHandler.fatalError(saxex); throw saxex; }
-		 */
-		try {
+	public boolean run(Outline outline, Options options, ErrorHandler errorHandler) throws SAXException
+	{
+		try
+		{
 			beforeRun(outline, options);
 			return run(outline, options);
-		} catch (Exception ex) {
-			final SAXParseException saxex = new SAXParseException(
-					"Error during plugin execution.", null, ex);
+		}
+		catch (Exception ex)
+		{
+			final SAXParseException saxex = new SAXParseException( "Error during plugin execution.", null, ex);
 			errorHandler.error(saxex);
 			throw saxex;
-		} finally {
-			try {
+		}
+		finally
+		{
+			try
+			{
 				afterRun(outline, options);
-			} catch (Exception ex) {
-				final SAXParseException saxex = new SAXParseException(
-						"Error during plugin execution.", null, ex);
+			}
+			catch (Exception ex)
+			{
+				final SAXParseException saxex = new SAXParseException("Error after plugin execution.", null, ex);
 				errorHandler.error(saxex);
 				throw saxex;
 
@@ -69,54 +79,57 @@ public abstract class AbstractPlugin extends Plugin {
 		}
 	}
 
-	protected void beforeRun(Outline outline, Options options) throws Exception {
-
+	protected void beforeRun(Outline outline, Options options) throws Exception
+	{
+		// Sub-class may override.
 	}
 
-	protected boolean run(Outline outline, Options options) throws Exception {
+	protected boolean run(Outline outline, Options options) throws Exception
+	{
+		// Sub-class may implement.
 		return true;
 	}
 
-	protected void afterRun(Outline outline, Options options) throws Exception {
-
+	protected void afterRun(Outline outline, Options options) throws Exception
+	{
+		// Sub-class may override.
 	}
 
-	protected void init(Options options) throws Exception {
+	protected void init(Options options) throws Exception
+	{
+		// Sub-class may override.
 	}
 
-	public Collection<QName> getCustomizationElementNames() {
+	public Collection<QName> getCustomizationElementNames()
+	{
 		return Collections.<QName> emptyList();
 	}
 
 	private List<String> customizationURIs;
-
-	private Set<QName> customizationElementNames;
-
 	@Override
-	public List<String> getCustomizationURIs() {
-		if (this.customizationURIs == null) {
+	public List<String> getCustomizationURIs()
+	{
+		if (this.customizationURIs == null)
+		{
 			final Collection<QName> customizationElementNames = getCustomizationElementNames();
-			this.customizationURIs = new ArrayList<String>(
-					customizationElementNames.size());
-			for (QName customizationElementName : customizationElementNames) {
-				final String namespaceURI = customizationElementName
-						.getNamespaceURI();
-				if (!(namespaceURI== null || namespaceURI.length() == 0)) { 
+			this.customizationURIs = new ArrayList<String>(customizationElementNames.size());
+			for (QName customizationElementName : customizationElementNames)
+			{
+				final String namespaceURI = customizationElementName .getNamespaceURI();
+				
+				if (!(namespaceURI== null || namespaceURI.length() == 0))
 					this.customizationURIs.add(namespaceURI);
-				}
 			}
 		}
 		return this.customizationURIs;
 	}
 
+	private Set<QName> customizationElementNames;
 	@Override
-	public boolean isCustomizationTagName(String namespaceURI, String localName) {
-		if (this.customizationElementNames == null) {
-			this.customizationElementNames = new HashSet<QName>(
-					getCustomizationElementNames());
-		}
-		return this.customizationElementNames.contains(new QName(namespaceURI,
-				localName));
+	public boolean isCustomizationTagName(String namespaceURI, String localName)
+	{
+		if (this.customizationElementNames == null)
+			this.customizationElementNames = new HashSet<QName>(getCustomizationElementNames());
+		return this.customizationElementNames.contains(new QName(namespaceURI, localName));
 	}
-
 }
