@@ -2,12 +2,12 @@
 <xs:schema
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
-	xmlns:basic="http://jaxb2-commons.dev.java.net/basic"
-	xmlns:copyable="http://jaxb2-commons.dev.java.net/basic/copyable"
-	xmlns:equals="http://jaxb2-commons.dev.java.net/basic/equals"
-	xmlns:hashCode="http://jaxb2-commons.dev.java.net/basic/hashCode"
-	xmlns:mergeable="http://jaxb2-commons.dev.java.net/basic/mergeable"
-	xmlns:toString="http://jaxb2-commons.dev.java.net/basic/toString"
+	xmlns:basic="http://jvnet.org/basicjaxb/xjc"
+	xmlns:copyable="http://jvnet.org/basicjaxb/xjc/copyable"
+	xmlns:equals="http://jvnet.org/basicjaxb/xjc/equals"
+	xmlns:hashCode="http://jvnet.org/basicjaxb/xjc/hashCode"
+	xmlns:mergeable="http://jvnet.org/basicjaxb/xjc/mergeable"
+	xmlns:toString="http://jvnet.org/basicjaxb/xjc/toString"
 	jaxb:extensionBindingPrefixes="basic copyable equals hashCode mergeable toString"
 	jaxb:version="3.0"
 >

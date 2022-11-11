@@ -4,7 +4,7 @@
 	xmlns="urn:test" targetNamespace="urn:test"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="https://jakarta.ee/xml/ns/jaxb https://jakarta.ee/xml/ns/jaxb/bindingschema_3_0.xsd"
-	xmlns:simplify="http://jaxb2-commons.dev.java.net/basic/simplify"
+	xmlns:simplify="http://jvnet.org/basicjaxb/xjc/simplify"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	jaxb:extensionBindingPrefixes="simplify"
 	jaxb:version="3.0"
@@ -98,7 +98,7 @@
 		<xs:annotation>
 			<xs:appinfo>
 				<jaxb:class
-					ref="org.jvnet.jaxb2_commons.plugin.simplify.tests01.BaseElementRef" />
+					ref="org.jvnet.basicjaxb.plugin.simplify.tests01.BaseElementRef" />
 			</xs:appinfo>
 		</xs:annotation>
 	</xs:element>

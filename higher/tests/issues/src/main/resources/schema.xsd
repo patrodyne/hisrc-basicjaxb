@@ -2,14 +2,14 @@
 <xs:schema
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
-	xmlns:basic="http://jaxb2-commons.dev.java.net/basic"
-	xmlns:copyable="http://jaxb2-commons.dev.java.net/basic/copyable"
-	xmlns:equals="http://jaxb2-commons.dev.java.net/basic/equals"
-	xmlns:hashCode="http://jaxb2-commons.dev.java.net/basic/hashCode"
-	xmlns:mergeable="http://jaxb2-commons.dev.java.net/basic/mergeable"
-	xmlns:toString="http://jaxb2-commons.dev.java.net/basic/toString"
-	xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
-	xmlns:wildcard="http://jaxb2-commons.dev.java.net/basic/wildcard"
+	xmlns:basic="http://jvnet.org/basicjaxb/xjc"
+	xmlns:copyable="http://jvnet.org/basicjaxb/xjc/copyable"
+	xmlns:equals="http://jvnet.org/basicjaxb/xjc/equals"
+	xmlns:hashCode="http://jvnet.org/basicjaxb/xjc/hashCode"
+	xmlns:mergeable="http://jvnet.org/basicjaxb/xjc/mergeable"
+	xmlns:toString="http://jvnet.org/basicjaxb/xjc/toString"
+	xmlns:inheritance="http://jvnet.org/basicjaxb/xjc/inheritance"
+	xmlns:wildcard="http://jvnet.org/basicjaxb/xjc/wildcard"
 	jaxb:extensionBindingPrefixes="basic copyable equals hashCode mergeable toString inheritance wildcard"
 	jaxb:version="3.0"
 >
@@ -20,12 +20,12 @@
 				localScoping="toplevel"
 				fixedAttributeAsConstantProperty="true"/>
 			<jaxb:schemaBindings>
-				<jaxb:package name="org.jvnet.jaxb2_commons.tests.issues" />
+				<jaxb:package name="org.jvnet.basicjaxb.tests.issues" />
 
 
 			</jaxb:schemaBindings>
 
-			<inheritance:objectFactory packageName="org.jvnet.jaxb2_commons.tests.issues">
+			<inheritance:objectFactory packageName="org.jvnet.basicjaxb.tests.issues">
 				<inheritance:implements>java.lang.Cloneable</inheritance:implements>
 			</inheritance:objectFactory>
 		</xs:appinfo>
@@ -235,7 +235,7 @@
 	<xs:complexType name="issueJIIB48Type">
 		<xs:annotation>
 			<xs:appinfo>
-				<inheritance:implements>org.jvnet.jaxb2_commons.tests.issues.IssueJIIB48Interface&lt;java.lang.String&gt;</inheritance:implements>
+				<inheritance:implements>org.jvnet.basicjaxb.tests.issues.IssueJIIB48Interface&lt;java.lang.String&gt;</inheritance:implements>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -246,7 +246,7 @@
 	<xs:complexType name="issueJIIB53AType">
 		<xs:annotation>
 			<xs:appinfo>
-				<inheritance:extends>org.jvnet.jaxb2_commons.tests.issues.IssueJIIB53ABaseClass</inheritance:extends>
+				<inheritance:extends>org.jvnet.basicjaxb.tests.issues.IssueJIIB53ABaseClass</inheritance:extends>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -257,7 +257,7 @@
 	<xs:complexType name="issueJIIB53BType">
 		<xs:annotation>
 			<xs:appinfo>
-				<inheritance:extends>org.jvnet.jaxb2_commons.tests.issues.IssueJIIB53AType</inheritance:extends>
+				<inheritance:extends>org.jvnet.basicjaxb.tests.issues.IssueJIIB53AType</inheritance:extends>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>

@@ -3,8 +3,8 @@
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
-	xmlns:hashCode="http://jaxb2-commons.dev.java.net/basic/hashCode"
-	xmlns:equals="http://jaxb2-commons.dev.java.net/basic/hashCode"
+	xmlns:hashCode="http://jvnet.org/basicjaxb/xjc/hashCode"
+	xmlns:equals="http://jvnet.org/basicjaxb/xjc/hashCode"
 	jaxb:extensionBindingPrefixes="xjc"
 >
 
@@ -14,7 +14,7 @@
 			generateIsSetMethod="true">
 		</jaxb:globalBindings-->
 		<jaxb:schemaBindings>
-			<jaxb:package name="org.jvnet.jaxb2_commons.tests.simple_hashcode_equals_01.customer"/>
+			<jaxb:package name="org.jvnet.basicjaxb.tests.simple_hashcode_equals_01.customer"/>
 		</jaxb:schemaBindings>
 		<!--jaxb:bindings node="...">
 			choiceContentProperty="true"

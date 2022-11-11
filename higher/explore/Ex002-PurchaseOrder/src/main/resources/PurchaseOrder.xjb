@@ -2,7 +2,7 @@
 <jaxb:bindings jaxb:version="3.0"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb" 
-	xmlns:inh="http://jaxb2-commons.dev.java.net/basic/inheritance"
+	xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	extensionBindingPrefixes="inh"
 >

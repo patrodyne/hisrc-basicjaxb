@@ -95,7 +95,7 @@
     </target>
 
 	<target name="generate-sources" depends="init">
-		<taskdef name="xjc" classname="org.jvnet.jaxb2_commons.xjc.XJC2Task">
+		<taskdef name="xjc" classname="org.jvnet.basicjaxb.xjc.XJC2Task">
             <classpath refid="xjc-task.path"/>
 		</taskdef>
 		<mkdir dir="\${basedir}/target/generated-sources/xjc"/>

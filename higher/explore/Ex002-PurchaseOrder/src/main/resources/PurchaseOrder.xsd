@@ -4,7 +4,7 @@
 <schema version="1.1" elementFormDefault="unqualified" attributeFormDefault="unqualified"
 	xmlns="http://www.w3.org/2001/XMLSchema"
 	xmlns:tns="http://jvnet.patrodyne.org/basicjaxb/ex002/model"
-	xmlns:basic="http://jaxb2-commons.dev.java.net/basic"
+	xmlns:basic="http://jvnet.org/basicjaxb/xjc"
 	targetNamespace="http://jvnet.patrodyne.org/basicjaxb/ex002/model" 
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb" 
 	jaxb:extensionBindingPrefixes="basic"

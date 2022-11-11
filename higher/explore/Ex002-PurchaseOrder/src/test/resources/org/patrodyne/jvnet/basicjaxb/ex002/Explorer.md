@@ -127,7 +127,7 @@ The log level for the `JAXBEqualsStrategy` determines what is logged by the HiSr
 
 ### simplelogger.properties
 ~~~
-org.slf4j.simpleLogger.log.org.jvnet.jaxb2_commons.lang.DefaultEqualsStrategy=TRACE
+org.slf4j.simpleLogger.log.org.jvnet.basicjaxb.lang.DefaultEqualsStrategy=TRACE
 ~~~
 
 Set `JAXBEqualsStrategy` to `TRACE` to produce log messages when two entities _are not_ equal. Setting `JAXBEqualsStrategy` to `DEBUG`, `INFO`, `WARN`, `ERROR` or `OFF` produces no log output.
@@ -146,7 +146,7 @@ The `XtoString` plug-in is configurable using the `simplelogger.properties` file
 
 ### simplelogger.properties
 ~~~
-org.slf4j.simpleLogger.log.org.jvnet.jaxb2_commons.lang.DefaultToStringStrategy=INFO
+org.slf4j.simpleLogger.log.org.jvnet.basicjaxb.lang.DefaultToStringStrategy=INFO
 ~~~
 
 Each mode is, in fact, a log level for `JAXBToStringStrategy`. As provided, the log level is `INFO` for a compact representation from the _toString_ method. Edit the `simplelogger.properties` file and change this logger to `DEBUG` to expand child lists or to `TRACE` for the most verbose representation.

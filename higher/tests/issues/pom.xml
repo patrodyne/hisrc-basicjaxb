@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
 		<artifactId>hisrc-basicjaxb-higher-tests</artifactId>
-		<version>0.12.3-SNAPSHOT</version>
+		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>hisrc-basicjaxb-test-issues</artifactId>
 	<packaging>jar</packaging>
@@ -22,7 +22,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
-			<artifactId>hisrc-basicjaxb</artifactId>
+			<artifactId>hisrc-basicjaxb-plugins</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -41,21 +41,21 @@
 					<args>
 						<arg>-XtoString</arg>
 						<arg>-Xequals</arg>
-						<arg>-Xequals-equalsStrategyClass=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB42EqualsStrategy</arg>
+						<arg>-Xequals-equalsStrategyClass=org.jvnet.basicjaxb.tests.issues.IssueJIIB42EqualsStrategy</arg>
 						<arg>-XhashCode</arg>
 						<arg>-Xcopyable</arg>
 						<arg>-Xmergeable</arg>
-						<arg>-Xmergeable-mergeStrategyClass=org.jvnet.jaxb2_commons.lang.JAXBMergeStrategy</arg>
+						<arg>-Xmergeable-mergeStrategyClass=org.jvnet.basicjaxb.lang.JAXBMergeStrategy</arg>
 						<arg>-Xinheritance</arg>
 						<arg>-Xsetters</arg>
 						<arg>-Xsetters-mode=direct</arg>
 						<arg>-Xwildcard</arg>
 						<arg>-XautoInheritance</arg>
-						<arg>-XautoInheritance-xmlRootElementsExtend=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseClass</arg>
-						<arg>-XautoInheritance-xmlRootElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceOne</arg>
-						<arg>-XautoInheritance-xmlRootElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceTwo</arg>
-						<arg>-XautoInheritance-jaxbElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceThree</arg>
-						<arg>-XautoInheritance-jaxbElementsImplement=org.jvnet.jaxb2_commons.tests.issues.IssueJIIB14BaseInterfaceFour</arg>
+						<arg>-XautoInheritance-xmlRootElementsExtend=org.jvnet.basicjaxb.tests.issues.IssueJIIB14BaseClass</arg>
+						<arg>-XautoInheritance-xmlRootElementsImplement=org.jvnet.basicjaxb.tests.issues.IssueJIIB14BaseInterfaceOne</arg>
+						<arg>-XautoInheritance-xmlRootElementsImplement=org.jvnet.basicjaxb.tests.issues.IssueJIIB14BaseInterfaceTwo</arg>
+						<arg>-XautoInheritance-jaxbElementsImplement=org.jvnet.basicjaxb.tests.issues.IssueJIIB14BaseInterfaceThree</arg>
+						<arg>-XautoInheritance-jaxbElementsImplement=org.jvnet.basicjaxb.tests.issues.IssueJIIB14BaseInterfaceFour</arg>
 						<arg>-XenumValue</arg>
 						<arg>-Xcustomizations</arg>
 						<arg>-Xcustomizations-directory=${basedir}/src/main/resources</arg>
@@ -64,7 +64,7 @@
 					<plugins>
 						<plugin>
 							<groupId>org.patrodyne.jvnet</groupId>
-							<artifactId>hisrc-basicjaxb</artifactId>
+							<artifactId>hisrc-basicjaxb-plugins</artifactId>
 						</plugin>
 					</plugins>
 				</configuration>

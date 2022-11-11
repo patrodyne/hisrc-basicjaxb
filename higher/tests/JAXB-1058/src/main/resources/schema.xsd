@@ -14,7 +14,7 @@
 			<jaxb:globalBindings generateMixedExtensions="true" generateIsSetMethod="true"/>
 
 			<jaxb:schemaBindings>
-				<jaxb:package name="org.jvnet.jaxb2_commons.tests.JAXB_1058" />
+				<jaxb:package name="org.jvnet.basicjaxb.tests.JAXB_1058" />
 			</jaxb:schemaBindings>
 		</xs:appinfo>
 	</xs:annotation>

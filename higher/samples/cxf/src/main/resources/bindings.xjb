@@ -6,7 +6,7 @@
 
 	<jaxb:bindings schemaLocation="schema.xsd" node="/xsd:schema">
 		<jaxb:schemaBindings>
-			<jaxb:package name="org.jvnet.jaxb2_commons.tests.cxf.schema"/>
+			<jaxb:package name="org.jvnet.basicjaxb.tests.cxf.schema"/>
 		</jaxb:schemaBindings>
 	</jaxb:bindings>
 </jaxb:bindings>

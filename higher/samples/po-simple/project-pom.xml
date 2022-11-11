@@ -173,7 +173,7 @@
 							<plugins>
 								<plugin>
 									<groupId>org.patrodyne.jvnet</groupId>
-									<artifactId>hisrc-basicjaxb</artifactId>
+									<artifactId>hisrc-basicjaxb-plugins</artifactId>
 									<version>\${hisrc-basicjaxb.version}</version>
 								</plugin>
 							</plugins>

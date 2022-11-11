@@ -4,84 +4,58 @@
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
 		<artifactId>hisrc-basicjaxb-project</artifactId>
-		<version>0.12.3-SNAPSHOT</version>
+		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>hisrc-basicjaxb-plugins</artifactId>
 	<packaging>jar</packaging>
-	<name>HiSrc BasicJAXB - Full Plugins JAR</name>
+	<name>HiSrc BasicJAXB - Basic Plugins</name>
 	<properties>
 		<root.basedir>${basedir}/..</root.basedir>
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.patrodyne.jvnet</groupId>
-			<artifactId>hisrc-basicjaxb</artifactId>
-			<exclusions>
-				<!-- Fix java.util.ServiceConfigurationError: com.sun.tools.xjc.Plugin: ...Plugin not a subtype -->
-				<exclusion>
-					<groupId>org.glassfish.jaxb</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>codemodel</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-runtime</artifactId>
-			<exclusions>
-				<!-- Fix java.util.ServiceConfigurationError: com.sun.tools.xjc.Plugin: ...Plugin not a subtype -->
-				<exclusion>
-					<groupId>org.glassfish.jaxb</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-tools</artifactId>
-			<exclusions>
-				<!-- Fix java.util.ServiceConfigurationError: com.sun.tools.xjc.Plugin: ...Plugin not a subtype -->
-				<exclusion>
-					<groupId>org.glassfish.jaxb</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-xjc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.javaparser</groupId>
+			<artifactId>javaparser</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<configuration>
-					<ignoredUnusedDeclaredDependencies>
-						<ignoredUnusedDeclaredDependency>org.patrodyne.jvnet:hisrc-basicjaxb:jar:</ignoredUnusedDeclaredDependency>
-						<ignoredUnusedDeclaredDependency>org.patrodyne.jvnet:hisrc-basicjaxb-runtime:jar:</ignoredUnusedDeclaredDependency>
-						<ignoredUnusedDeclaredDependency>org.patrodyne.jvnet:hisrc-basicjaxb-tools:jar:</ignoredUnusedDeclaredDependency>
-					</ignoredUnusedDeclaredDependencies>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-shade-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<createDependencyReducedPom>false</createDependencyReducedPom>
-							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-							</transformers>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
-		</plugins>
+		<defaultGoal>install</defaultGoal>
 	</build>
 </project>
