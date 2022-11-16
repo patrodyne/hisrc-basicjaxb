@@ -1,4 +1,4 @@
-# HiSrc BasicJAXB Ex001 EqualsStrategy
+# HiSrc BasicJAXB Ex001: EqualsStrategy
 
 This project is the first exploration of the HiSrc BasicJAXB library. It includes a Swing application named _Explorer_ to demonstrate three features of the HiSrc BasicJAXB Runtime library: `JAXBHashCodeStrategy`, `JAXBEqualsStrategy` and `JAXBToStringStrategy`. This _Explorer_ application is designed to present a narrative lesson together with dynamic output for real-time experimentation. Feel free to modify the _Explorer.java_ source file to add or modify the action methods with your own investigative code. The `Explorer` class is an extension of `AbstractExplorer` which contains the more boring mechanics of this implementation. Feel free to create an `Explorer` class in your own projects to help explain the purpose of your work too.
 
@@ -26,7 +26,11 @@ Let's [explore][1] two strategies provided by this library: `JAXBHashCodeStrateg
 > **Hint:** As we cover each topic, you can run the code by clicking on the links or using the menu bar above.
 
 The HiSrc framework uses its Maven plugin(s) to generate Java classes from XML schema files.
-The schema file for this project is in the `src/main/resources/Person.xsd` file. To keep the design simple, the schema declares `Person` type to be an XML element with an anonymous complex type and the `Person` type and declares only two sub-elements: `FirstName` and `LastName`. The POM for this project configures this Maven plug-in to generate the JAXB source code for the `Person` type. Also, the Maven plug-in is configured to include the `equals` and `hashCode` XJC plug-ins from our HiSrc framework.
+The schema file for this project is in the `src/main/resources/Person.xsd` file. To keep the design simple, the schema declares the `Person` type to be an XML element with an anonymous complex type; and, the complex type declares just two sub-elements: `FirstName` and `LastName`.
+
+>**Note:** By convention, when XJC parses a top-level element with a anonymous complex type, it will add the `@XmlRootElement` annotation to the generated class.
+
+The POM for this project configures this Maven plug-in to generate the JAXB source code for the `Person` type. Also, the Maven plug-in is configured to include the `equals` and `hashCode` XJC plug-ins from our HiSrc framework.
 
 ~~~
 <plugin>
@@ -45,8 +49,6 @@ The schema file for this project is in the `src/main/resources/Person.xsd` file.
 ~~~
 
 The plug-in generates a `Person` class that implements the HiSrc interfaces (`HashCode2`, `Equals2`) for the `JAXBHashCodeStrategy` and `JAXBEqualsStrategy`. It overrides the relevant `Object` methods with the custom strategies. This implementation introduces another HiSrc interface, named `ObjectLocator`.
-
->**Note:** By convention, when XJC parses a top-level element with a anonymous complex type, it will add the `@XmlRootElement` annotation to the generated class.
 
 ### ObjectLocator
 

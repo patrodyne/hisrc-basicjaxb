@@ -152,7 +152,7 @@
 	</target>
 
     <!-- https://junit.org/junit5/docs/snapshot/user-guide/#running-tests-build-ant -->
-    <target name="test.junit.launcher" depends="compile">
+    <target name="test.junit.launcher" depends="test-compile">
         <junitlauncher haltOnFailure="true" printSummary="true">
             <classpath refid="test.path"/>
             <testclasses outputdir="\${basedir}/target/junit-reports">
@@ -188,7 +188,7 @@
 	/>
 
 	<target name="package" depends="test">
-		<jar destfile="\${basedir}/target/${artifactId}.jar"
+		<jar destfile="\${basedir}/target/\${artifactId}.jar"
 			basedir="\${basedir}/target/classes"/> 
 	</target>
 

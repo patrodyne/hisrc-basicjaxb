@@ -1,12 +1,12 @@
-# HiSrc BasicJAXB Ex002 PurchaseOrder
+# HiSrc BasicJAXB Ex002: PurchaseOrder
 
 Let's [explore][1] the three most commonly used plug-ins in the _HiSrc BasicJAXB_ framework: `hashCode`, `equals` and `toString`. These plug-ins extend the [XJC][7] API to implement their eponymous Object methods. Unlike their default Object methods, these overrides incorporate the declared field values from the schema definition. To make it interesting, we will use the _Purchase Order_ model to define the XML Schema and generate classes.
 
-> **Hint:** As you read through this exploration, feel free to edit your copy of "Explore.java" to experiment with the conepts being presented.
+> **Hint:** As you read through this exploration, feel free to edit your copy of `Explore.java` to experiment with the concepts being presented.
 
 ## Purchase Order Schema
 
-A purchase order (PO) is a commercial document issued by a buyer to a seller, indicating types, quantities, and agreed prices for products or services.
+A purchase order (PO) is a commercial document issued by a buyer to a seller, indicating types, quantities, and negotiated prices for products or services.
 
 In our [model][2], a purchase order has billing/shipping addresses, carrier/payment preferences and item lines. The items have product references, quantity and a shipping date. Products are grouped separately into catalogues. Our schema includes a concept for _Stageable_ to represent the current processing stage of an entity: open, hold, active, closed or canceled.
 
@@ -57,9 +57,9 @@ After unmarshalling the example files, this _Explorer_ keeps a list of the popul
 ### Experiments
 
 + From scratch, without unmarshalling,
-	+ Attempts to marshal with validation OFF will return empty batches.
-	+ Attempts to marshal with validation ON will throw a `BatchTime` is required exception.
-+ Unmarshalling the invalid catalogue batch (i.e. validation OFF) then marshaling it with validation turned on will result with an validation exception because `BatchTime` is a required attribute.
+	+ An attempt to marshal with validation OFF will return empty batches.
+	+ An attempt to marshal with validation ON will throw a `BatchTime` is required exception.
+	+ Unmarshalling the invalid catalogue batch (i.e. validation OFF) then marshaling it with validation turned on will result with an validation exception because `BatchTime` is a required attribute.
 
 ## Maven / HiSrc JAXB Basic Plug-Ins
 
@@ -77,7 +77,7 @@ This project configures three HiSrc JAXB Basic plug-ins in the Maven [POM][6]. H
     <plugins>
         <plugin>
             <groupId>org.patrodyne.jvnet</groupId>
-            <artifactId>hisrc-basicjaxb</artifactId>
+            <artifactId>hisrc-basicjaxb-plugins</artifactId>
         </plugin>
     </plugins>
 </configuration>
@@ -85,7 +85,7 @@ This project configures three HiSrc JAXB Basic plug-ins in the Maven [POM][6]. H
 
 ### Description
 
-These three plug-ins use default 'strategy' classes. This design allows you to provide alternative strategies for custom solutions. We will leave the study of custom strategy classes to a future exploration. For this exploration and in most cases, the default strategies work well!
+These three plug-ins use their default 'strategy' classes. This design allows you to provide alternative strategies for custom solutions. We will leave the study of custom strategy classes to a future exploration. For this exploration and in most cases, the default strategies work well!
 
 + **XhashCode** - reflection-free, strategy-based 'hash code' implementation
 + **Xequals** - reflection-free, strategy-based 'equals' implementation
@@ -109,7 +109,7 @@ After unmarshalling, click these links to compare the object versus the plug-in 
 
 ## Compare Equals
 
-The equals method for class `Object` implements the most discriminating possible equivalence relation on objects; that is, for any non-null reference values x and y, this method returns true if and only if x and y refer to the same object (x == y has the value true).
+The equals method for class `Object` implements the most discriminating possible equivalence relation on objects; that is, for any non-null reference values x and y, this method returns true if and only if x and y refer to the same object (`x == y` has the value true).
 
 > **Note:** It is generally necessary to override the _hashCode_ method whenever the _equals_ method is overridden, so as to maintain the general contract for the _hashCode_ method, which states that equal objects must have equal hash codes.
 
@@ -130,9 +130,17 @@ The log level for the `JAXBEqualsStrategy` determines what is logged by the HiSr
 org.slf4j.simpleLogger.log.org.jvnet.basicjaxb.lang.DefaultEqualsStrategy=TRACE
 ~~~
 
-Set `JAXBEqualsStrategy` to `TRACE` to produce log messages when two entities _are not_ equal. Setting `JAXBEqualsStrategy` to `DEBUG`, `INFO`, `WARN`, `ERROR` or `OFF` produces no log output.
+Set `JAXBEqualsStrategy` to `TRACE` to produce log messages when two entities _are not_ equal. In `TRACE` mode, the `DefaultEqualsStrategy` logs messages for each field pair that are not equal. The log messages show the *Left Hand Side (LHS)* and *Right Hand Side (RHS)* values like this:
 
-> **Important:** This mode should only be used for deep trouble-shooting or testing! 
+~~~
+12:29:59:023 TRACE DefaultEqualsStrategy - Objects are NOT equal!
+12:29:59:023 TRACE DefaultEqualsStrategy - LHS: {(Catalogue@64a71f9a).catalogueType} -> SPRING
+12:29:59:023 TRACE DefaultEqualsStrategy - RHS: {(Catalogue@68911945).catalogueType} -> WINTER
+~~~
+
+Setting `JAXBEqualsStrategy` to `DEBUG`, `INFO`, `WARN`, `ERROR` or `OFF` produces no log output.
+
+> **Important:** The `TRACE` mode should only be used for deep trouble-shooting or testing! 
 
 ## Compare toString
 
@@ -215,7 +223,7 @@ Change the Maven [POM][6] for your copy of this project to use the alternative _
     <plugins>
         <plugin>
             <groupId>org.patrodyne.jvnet</groupId>
-            <artifactId>hisrc-basicjaxb</artifactId>
+            <artifactId>hisrc-basicjaxb-plugins</artifactId>
         </plugin>
     </plugins>
 </configuration>
