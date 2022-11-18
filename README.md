@@ -29,6 +29,7 @@ with the original `maven-jaxb2-plugin` name.
 
 #### GitHub Releases, Demonstrations
 
+* [HiSrc BasicJAXB v2.0.0, Explorations][32]
 * [HiSrc BasicJAXB v0.12.2, Explorations][31]
 
 #### Maven Central Repository
@@ -40,11 +41,17 @@ with the original `maven-jaxb2-plugin` name.
 
 New goals for the next release are:
 
-* Update version to 2.0.0 due to jakarta and other name changes.
+* Clean up Java compiler _lint_ warnings.
 
 ### Status
 
-#### Completed
+#### In Progress
+
+* Clean up Java compiler _lint_ warnings.
+
+### Fork History
+
+#### Version 2.0.0
 
 * Update dependencies with newer versions *including* the Jakarta namespace.
 * Replace 'eclipse-only' lifecyle profile with 'm2e' XML directive.
@@ -77,8 +84,7 @@ New goals for the next release are:
     * HyperJAXB Persistence
         * `OLD: http://hyperjaxb3.jvnet.org/ejb/schemas/customizations`
         * `NEW: http://jvnet.org/hyperjaxb/jpa`
-
-### Fork History
+* Update version to 2.0.0 due to Jakarta EE and other name changes.
 
 #### Version 0.12.2
 
@@ -110,3 +116,4 @@ New goals for the next release are:
   [24]: https://github.com/highsource/jaxb2-annotate-plugin#readme
   [25]: https://github.com/highsource/hyperjaxb3#readme
   [31]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/0.12.2
+  [32]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.0.0
