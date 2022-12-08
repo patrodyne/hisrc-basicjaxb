@@ -16,13 +16,8 @@
 
 	<xs:annotation>
 		<xs:appinfo>
-			<jaxb:globalBindings generateIsSetMethod="true"
-				localScoping="toplevel"
-				fixedAttributeAsConstantProperty="true"/>
 			<jaxb:schemaBindings>
 				<jaxb:package name="org.jvnet.basicjaxb.tests.issues" />
-
-
 			</jaxb:schemaBindings>
 
 			<inheritance:objectFactory packageName="org.jvnet.basicjaxb.tests.issues">

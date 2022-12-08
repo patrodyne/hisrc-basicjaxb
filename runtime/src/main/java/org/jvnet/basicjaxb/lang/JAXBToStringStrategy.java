@@ -4,8 +4,15 @@ import jakarta.xml.bind.JAXBElement;
 
 import org.jvnet.basicjaxb.locator.ObjectLocator;
 
-public class JAXBToStringStrategy extends DefaultToStringStrategy {
-
+public class JAXBToStringStrategy extends DefaultToStringStrategy
+{
+	private static final JAXBToStringStrategy INSTANCE2 = new JAXBToStringStrategy();
+//	private static final ToStringStrategy INSTANCE = INSTANCE2;
+	public static JAXBToStringStrategy getInstance()
+	{
+		return INSTANCE2;
+	}
+	
 	private String jaxbElementStart = "<";
 
 	private String jaxbElementEnd = ">";
@@ -40,13 +47,5 @@ public class JAXBToStringStrategy extends DefaultToStringStrategy {
 		appendContentEnd(stringBuilder);
 		appendJAXBElementEnd(stringBuilder);
 		return stringBuilder;
-	}
-	
-	public static final JAXBToStringStrategy INSTANCE2 = new JAXBToStringStrategy();
-	@SuppressWarnings("deprecation")
-	public static final ToStringStrategy INSTANCE = INSTANCE2;
-
-	public static JAXBToStringStrategy getInstance() {
-		return INSTANCE2;
 	}
 }

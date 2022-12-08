@@ -8,8 +8,15 @@ import java.lang.reflect.Modifier;
 import org.jvnet.basicjaxb.locator.ObjectLocator;
 
 @SuppressWarnings("deprecation")
-public class DefaultCopyStrategy implements CopyStrategy2, CopyStrategy {
-
+public class DefaultCopyStrategy implements CopyStrategy2, CopyStrategy
+{
+	private static final DefaultCopyStrategy INSTANCE2 = new DefaultCopyStrategy();
+//	private static final CopyStrategy INSTANCE = INSTANCE2;
+	public static DefaultCopyStrategy getInstance()
+	{
+		return INSTANCE2;
+	}
+	
 	protected Object copyInternal(ObjectLocator locator, Object object) {
 		if (object == null) {
 			return null;
@@ -362,12 +369,5 @@ public class DefaultCopyStrategy implements CopyStrategy2, CopyStrategy {
 	@Override
 	public Object[] copy(ObjectLocator locator, Object[] value, boolean valueSet) {
 		return copy(locator, value);
-	}
-
-	public static final DefaultCopyStrategy INSTANCE2 = new DefaultCopyStrategy();
-	public static final CopyStrategy INSTANCE = INSTANCE2;
-
-	public static DefaultCopyStrategy getInstance() {
-		return INSTANCE2;
 	}
 }

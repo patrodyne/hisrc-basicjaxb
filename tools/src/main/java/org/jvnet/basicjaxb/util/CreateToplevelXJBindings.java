@@ -123,10 +123,7 @@ public class CreateToplevelXJBindings extends DefaultHandler
 	{		
 		Tag tag = new Tag(localName, attributes);
 		if ( tag.isRelevant() )
-		{
 			tags.push(tag);
-			//println("START: " + tag);
-		}
 	}
 
 	@Override
@@ -135,7 +132,6 @@ public class CreateToplevelXJBindings extends DefaultHandler
 		Tag tag = new Tag(localName);
 		if ( tag.isRelevant() )
 		{
-			//println("END: " + tag);
 			if ( tag.isComplexType() )
 			{
 				if ( !nested || (countComplexTypeTags() > 1) )
@@ -242,7 +238,7 @@ public class CreateToplevelXJBindings extends DefaultHandler
 			if ( !arg.startsWith("--") )
 				sourceName = arg;
 			else if ( arg.startsWith("--nested") )
-				nested = new Boolean(parseArg(arg, "true"));
+				nested = Boolean.parseBoolean(parseArg(arg, "true"));
 			else if ( arg.startsWith("--oldSuffix") )
 				oldSuffix = parseArg(arg, DEFAULT_SUFFIX);
 			else if ( arg.startsWith("--newSuffix") )

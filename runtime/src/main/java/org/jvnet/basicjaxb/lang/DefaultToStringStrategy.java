@@ -10,9 +10,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("deprecation")
-public class DefaultToStringStrategy implements ToStringStrategy2,
-		ToStringStrategy {
-
+public class DefaultToStringStrategy implements ToStringStrategy2, ToStringStrategy
+{
+	private static final DefaultToStringStrategy INSTANCE2 = new DefaultToStringStrategy();
+//	private static final ToStringStrategy INSTANCE = INSTANCE2;
+	public static DefaultToStringStrategy getInstance()
+	{
+		return INSTANCE2;
+	}
+	
 	protected Logger logger = LoggerFactory.getLogger(DefaultToStringStrategy.class);
 	
 	public boolean isDebugEnabled()
@@ -1263,12 +1269,5 @@ public class DefaultToStringStrategy implements ToStringStrategy2,
 		appendFieldEnd(parentLocator, parent, fieldName, stringBuilder,
 				valueSet);
 		return stringBuilder;
-	}
-
-	public static final DefaultToStringStrategy INSTANCE2 = new DefaultToStringStrategy();
-	public static final ToStringStrategy INSTANCE = INSTANCE2;
-	
-	public static DefaultToStringStrategy getInstance() {
-		return INSTANCE2;
 	}
 }

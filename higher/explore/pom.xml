@@ -12,8 +12,8 @@
 	<packaging>pom</packaging>
 	<name>HiSrc BasicJAXB - Higher Explore</name>
 	<properties>
-		<hisrc-basicjaxb.version>2.0.0</hisrc-basicjaxb.version>
-		<hisrc-higherjaxb-maven-plugin.version>2.0.0</hisrc-higherjaxb-maven-plugin.version>
+		<hisrc-basicjaxb.version>2.0.1-SNAPSHOT</hisrc-basicjaxb.version>
+		<hisrc-higherjaxb-maven-plugin.version>2.0.1-SNAPSHOT</hisrc-higherjaxb-maven-plugin.version>
 		<root.basedir>${basedir}/../..</root.basedir>
 	</properties>
 	<modules>

@@ -16,7 +16,7 @@ public class RunToStringPlugin extends RunHigherjaxbMojo {
 	}
 
 	@Override
-	protected void configureMojo(AbstractHigherjaxbParmMojo mojo) {
+	protected void configureMojo(AbstractHigherjaxbParmMojo<?> mojo) {
 		super.configureMojo(mojo);
 		mojo.setForceRegenerate(true);
 	}

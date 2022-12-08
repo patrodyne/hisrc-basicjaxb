@@ -8,8 +8,15 @@ import java.util.Set;
 
 import org.jvnet.basicjaxb.locator.ObjectLocator;
 
-public class JAXBMergeCollectionsStrategy extends JAXBMergeStrategy {
-
+public class JAXBMergeCollectionsStrategy extends JAXBMergeStrategy
+{
+	private static final JAXBMergeCollectionsStrategy INSTANCE2 = new JAXBMergeCollectionsStrategy();
+//	private static final MergeStrategy INSTANCE = INSTANCE2;
+	public static JAXBMergeCollectionsStrategy getInstance()
+	{
+		return INSTANCE2;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Object mergeInternal(ObjectLocator leftLocator,
@@ -34,13 +41,5 @@ public class JAXBMergeCollectionsStrategy extends JAXBMergeStrategy {
 			return super.mergeInternal(leftLocator, rightLocator,
 					leftCollection, rightCollection);
 		}
-	}
-
-	public static final JAXBMergeCollectionsStrategy INSTANCE2 = new JAXBMergeCollectionsStrategy();
-	@SuppressWarnings("deprecation")
-	public static final MergeStrategy INSTANCE = INSTANCE2;
-
-	public static JAXBMergeCollectionsStrategy getInstance() {
-		return INSTANCE2;
 	}
 }

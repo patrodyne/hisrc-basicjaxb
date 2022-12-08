@@ -13,8 +13,8 @@
 	<name>HiSrc BasicJAXB - Higher Samples</name>
 	<properties>
 		<ant-atleast.version>1.10.4</ant-atleast.version>
-		<hisrc-basicjaxb.version>2.0.0</hisrc-basicjaxb.version>
-		<hisrc-higherjaxb-maven-plugin.version>2.0.0</hisrc-higherjaxb-maven-plugin.version>
+		<hisrc-basicjaxb.version>2.0.1-SNAPSHOT</hisrc-basicjaxb.version>
+		<hisrc-higherjaxb-maven-plugin.version>2.0.1-SNAPSHOT</hisrc-higherjaxb-maven-plugin.version>
 		<root.basedir>${basedir}/../..</root.basedir>
 	</properties>
 	<modules>

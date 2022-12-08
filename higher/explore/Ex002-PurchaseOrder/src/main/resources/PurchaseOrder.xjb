@@ -13,36 +13,16 @@
 		http://java.sun.com/xml/ns/persistence/orm https://java.sun.com/xml/ns/persistence/orm/orm_2_0.xsd"
  -->
 
-	<!--  Global Bindings -->
-	<jaxb:bindings>
-
-		<!--
-			Microsoft WCF service WSDL generated from a programming language such as C#
-			using DataContractSerializer may contain XML Schema constructs which result in
-			JAXBElement<T> in generated code. A JAXBElement<T> type can also sometimes be
-			generated when a WSDL contains advanced XML schema features such as
-			substitution groups or elements that are BOTH OPTIONAL AND NILLABLE. In all
-			such cases, JAXBElement<T> provides round-trip support of values in XML
-			instances. However, JAXBElement<T> is not natural to a Java developer. So the
-			generateElementProperty customization can be used to generate an alternate
-			developer friendly but lossy binding. The different bindings along with the
-			trade-offs are discussed below.
-	
-			See http://docs.oracle.com/cd/E19159-01/820-1072/ahiid/index.html
-	
-			When processing a WCF service WSDL, it is recommended that the
-			generateElementProperty customization be set to 'false' in globalBindings.
-		-->
-
-		<!-- Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512". -->
-
-		<!-- JPA section 2.1, entities must be top-level classes. -->
-		<jaxb:globalBindings generateElementProperty="false" generateIsSetMethod="false" localScoping="toplevel">
-			<!-- JPA section 2.1, entities must implement the serializable interface. -->
-			<jaxb:serializable uid="20220501" />
-		</jaxb:globalBindings>
-			
-	</jaxb:bindings>
+	<!--  Global Bindings
+		* JPA section 2.1, entities must be top-level classes.
+		* JPA section 2.1, entities must implement the serializable interface.
+		* When processing a Microsoft WCF service WSDL, it is recommended that the
+		  generateElementProperty customization be set to 'false' in globalBindings.
+		* Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512".
+	-->
+	<jaxb:globalBindings generateElementProperty="false" generateIsSetMethod="false" localScoping="toplevel">
+		<jaxb:serializable uid="20220501" />
+	</jaxb:globalBindings>
 
 	<!-- Warning: Bindings in the XSD override bindings defined here! -->
   	<jaxb:bindings schemaLocation="PurchaseOrder.xsd" node="/xsd:schema" >

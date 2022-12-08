@@ -7,7 +7,15 @@
 	jaxb:extensionBindingPrefixes="xjc simplify"
 >
 
-	<jaxb:globalBindings choiceContentProperty="true">
+	<!--  Global Bindings
+		* JPA section 2.1, entities must be top-level classes.
+		* JPA section 2.1, entities must implement the serializable interface.
+		* When processing a Microsoft WCF service WSDL, it is recommended that the
+		  generateElementProperty customization be set to 'false' in globalBindings.
+		* Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512".
+	-->
+	<jaxb:globalBindings localScoping="toplevel" choiceContentProperty="true">
+		<jaxb:serializable uid="20211201" />
 		<xjc:javaType name="java.util.Date" xmlType="xs:dateTime"
 			adapter="org.jvnet.basicjaxb.plugin.simplify.tests01.DateAdapter" />
 	</jaxb:globalBindings>

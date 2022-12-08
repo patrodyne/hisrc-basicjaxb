@@ -25,6 +25,12 @@ import org.jvnet.basicjaxb.xml.bind.model.origin.MClassInfoOrigin;
 import org.glassfish.jaxb.core.v2.model.core.ClassInfo;
 import org.glassfish.jaxb.core.v2.model.core.PropertyInfo;
 
+/**
+ * CMClassInfo implements MClassInfo.
+ * 
+ * @param <T> The underlying Java type that object represents.
+ * @param <C> The declaration class the ClassInfo object is wrapping.
+ */
 public class CMClassInfo<T, C extends T> implements MClassInfo<T, C> {
 
 	private final MClassInfoOrigin origin;
@@ -148,17 +154,16 @@ public class CMClassInfo<T, C extends T> implements MClassInfo<T, C> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void removeProperty(MPropertyInfo<T, C> propertyInfo) {
+	public void removeProperty(MPropertyInfo<T, C> propertyInfo)
+	{
 		Validate.notNull(propertyInfo);
 		this.properties.remove(propertyInfo);
 		this.propertiesMap.remove(propertyInfo.getPrivateName());
 
-		if (getOrigin() instanceof ClassInfoOrigin
-				&& propertyInfo.getOrigin() instanceof PropertyInfoOrigin) {
-			ClassInfo<T, C> ci = (ClassInfo<T, C>) ((ClassInfoOrigin) getOrigin())
-					.getSource();
-			PropertyInfo<T, C> pi = (PropertyInfo<T, C>) ((PropertyInfoOrigin) propertyInfo
-					.getOrigin()).getSource();
+		if (getOrigin() instanceof ClassInfoOrigin && propertyInfo.getOrigin() instanceof PropertyInfoOrigin)
+		{
+			ClassInfo<T, C> ci = ((ClassInfoOrigin<T, C, ClassInfo<T, C>>) getOrigin()).getSource();
+			PropertyInfo<T, C> pi = ((PropertyInfoOrigin<T, C, PropertyInfo<T, C>>) propertyInfo.getOrigin()).getSource();
 			ci.getProperties().remove(pi);
 		}
 	}

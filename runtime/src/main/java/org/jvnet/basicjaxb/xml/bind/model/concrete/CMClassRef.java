@@ -12,21 +12,20 @@ import org.jvnet.basicjaxb.xml.bind.model.MTypeInfoVisitor;
 import org.jvnet.basicjaxb.xml.bind.model.origin.MClassRefOrigin;
 import org.jvnet.basicjaxb.xml.bind.model.util.XmlTypeUtils;
 
-public class CMClassRef<T, C extends T> implements MClassRef<T, C> {
-
+public class CMClassRef<T, C extends T> implements MClassRef<T, C>
+{
 	private CMCustomizations customizations = new CMCustomizations();
 	private final MClassRefOrigin origin;
 	private final C targetType;
-	private final Class<?> targetClass;
 	private final MPackageInfo _package;
 	private final String name;
 	private final String localName;
 	private final MContainer container;
 	private final QName typeName;
 
-	public CMClassRef(MClassRefOrigin origin, C targetType,
-			Class<?> targetClass, MPackageInfo _package, MContainer container,
-			String localName) {
+	public CMClassRef(MClassRefOrigin origin, C targetType, Class<?> targetClass, MPackageInfo _package,
+		MContainer container, String localName)
+	{
 		super();
 		Validate.notNull(origin);
 		Validate.notNull(targetType);
@@ -38,79 +37,88 @@ public class CMClassRef<T, C extends T> implements MClassRef<T, C> {
 		this.localName = localName;
 		this._package = _package;
 		this.container = container;
-		this.targetClass = targetClass;
-		this.typeName = targetClass == null ? null : XmlTypeUtils
-				.getTypeName(targetClass);
+		this.typeName = targetClass == null ? null : XmlTypeUtils.getTypeName(targetClass);
 	}
 
 	@Override
-	public MClassRefOrigin getOrigin() {
+	public MClassRefOrigin getOrigin()
+	{
 		return this.origin;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public String getLocalName() {
+	public String getLocalName()
+	{
 		return localName;
 	}
 
-	public C getTargetType() {
+	public C getTargetType()
+	{
 		return targetType;
 	}
 
 	@Override
-	public QName getTypeName() {
+	public QName getTypeName()
+	{
 		return typeName;
 	}
 
 	@Override
-	public boolean isSimpleType() {
+	public boolean isSimpleType()
+	{
 		return false;
 	}
 
-	public <V> V acceptTypeInfoVisitor(MTypeInfoVisitor<T, C, V> visitor) {
+	public <V> V acceptTypeInfoVisitor(MTypeInfoVisitor<T, C, V> visitor)
+	{
 		return visitor.visitClassRef(this);
 	}
 
-	public MCustomizations getCustomizations() {
+	public MCustomizations getCustomizations()
+	{
 		return customizations;
 	}
 
-	public MPackageInfo getPackageInfo() {
+	public MPackageInfo getPackageInfo()
+	{
 		return _package;
 	}
 
-	public MContainer getContainer() {
+	public MContainer getContainer()
+	{
 		return container;
 	}
 
-	public String getContainerLocalName(String delimiter) {
+	public String getContainerLocalName(String delimiter)
+	{
 		final String localName = getLocalName();
-		if (localName == null) {
+		if (localName == null)
 			return null;
-		} else {
+		else
+		{
 			final MContainer container = getContainer();
-			if (container == null) {
+			if (container == null)
 				return localName;
-			} else {
-				final String containerLocalName = container
-						.getContainerLocalName(delimiter);
-				return containerLocalName == null ? localName
-						: containerLocalName + delimiter + localName;
+			else
+			{
+				final String containerLocalName = container.getContainerLocalName(delimiter);
+				return containerLocalName == null ? localName : containerLocalName + delimiter + localName;
 			}
 		}
 	}
 
-	public C getTargetClass() {
+	public C getTargetClass()
+	{
 		return targetType;
 	}
 
 	@Override
-	public <V> V acceptClassTypeInfoVisitor(
-			MClassTypeInfoVisitor<T, C, V> visitor) {
+	public <V> V acceptClassTypeInfoVisitor(MClassTypeInfoVisitor<T, C, V> visitor)
+	{
 		return visitor.visitClassRef(this);
 	}
-
 }

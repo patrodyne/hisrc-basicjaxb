@@ -15,7 +15,7 @@ public class RunMergeablePlugin extends RunHigherjaxbMojo {
 	}
 
 	@Override
-	protected void configureMojo(AbstractHigherjaxbParmMojo mojo) {
+	protected void configureMojo(AbstractHigherjaxbParmMojo<?> mojo) {
 		super.configureMojo(mojo);
 		mojo.setForceRegenerate(true);
 	}

@@ -7,8 +7,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("deprecation")
-public class DefaultHashCodeStrategy implements HashCodeStrategy2, HashCodeStrategy {
-
+public class DefaultHashCodeStrategy implements HashCodeStrategy2, HashCodeStrategy
+{
+	private static final DefaultHashCodeStrategy INSTANCE2 = new DefaultHashCodeStrategy();
+//	private static final HashCodeStrategy INSTANCE = INSTANCE2;
+	public static DefaultHashCodeStrategy getInstance()
+	{
+		return INSTANCE2;
+	}
+	
 	private int iConstant;
 
 	protected Logger logger = LoggerFactory.getLogger(DefaultHashCodeStrategy.class);
@@ -396,12 +403,5 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy2, HashCodeStrat
 	@Override
 	public int hashCode(ObjectLocator locator, int hashCode, Object[] value, boolean valueSet) {
 		return valueSet ? hashCode(locator, hashCode * iConstant, value) : (hashCode * iConstant + 1);
-	}
-
-	public static final DefaultHashCodeStrategy INSTANCE2 = new DefaultHashCodeStrategy();
-	public static final HashCodeStrategy INSTANCE = INSTANCE2;
-	
-	public static DefaultHashCodeStrategy getInstance() {
-		return INSTANCE2;
 	}
 }

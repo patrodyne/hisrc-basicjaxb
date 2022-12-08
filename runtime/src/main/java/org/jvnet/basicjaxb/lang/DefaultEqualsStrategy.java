@@ -10,7 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("deprecation")
-public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy {
+public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy
+{
+	private static DefaultEqualsStrategy INSTANCE2 = new DefaultEqualsStrategy();
+//	private static EqualsStrategy INSTANCE = INSTANCE2;
+	public static DefaultEqualsStrategy getInstance()
+	{
+		return INSTANCE2;
+	}
 	
 	protected Logger logger = LoggerFactory.getLogger(DefaultEqualsStrategy.class);
 	
@@ -652,12 +659,5 @@ public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy {
 			boolean leftSet, boolean rightSet) {
 		return (leftSet && rightSet) ? equals(leftLocator, rightLocator, left,
 				right) : leftSet == rightSet;
-	}
-
-	public static DefaultEqualsStrategy INSTANCE2 = new DefaultEqualsStrategy();
-	public static EqualsStrategy INSTANCE = INSTANCE2;
-
-	public static DefaultEqualsStrategy getInstance() {
-		return INSTANCE2;
 	}
 }

@@ -25,135 +25,117 @@ import com.sun.tools.xjc.model.nav.NClass;
 import com.sun.tools.xjc.model.nav.NType;
 import com.sun.tools.xjc.outline.Outline;
 
-public class CMModelOutlineGenerator implements MModelOutlineGenerator {
-
+public class CMModelOutlineGenerator implements MModelOutlineGenerator
+{
 	private final Outline outline;
-	private final Model model;
 
-	public CMModelOutlineGenerator(Outline outline, Model model) {
+	public CMModelOutlineGenerator(Outline outline, Model model)
+	{
 		Validate.notNull(outline);
 		Validate.notNull(model);
 		this.outline = outline;
-		this.model = model;
 	}
 
-	public MModelOutline generate(MModelInfo<NType, NClass> modelInfo) {
-
-		final CMModelOutline modelOutline = new CMModelOutline(modelInfo,
-				outline.getCodeModel());
-
-		for (MClassInfo<NType, NClass> classInfo : modelInfo.getClassInfos()) {
-			generatePackageOutline(modelOutline, modelInfo,
-					classInfo.getPackageInfo());
-		}
-
-		for (MElementInfo<NType, NClass> elementInfo : modelInfo
-				.getElementInfos()) {
-			generatePackageOutline(modelOutline, modelInfo,
-					elementInfo.getPackageInfo());
-		}
-
-		for (MEnumLeafInfo<NType, NClass> enumLeafInfo : modelInfo
-				.getEnumLeafInfos()) {
-			generatePackageOutline(modelOutline, modelInfo,
-					enumLeafInfo.getPackageInfo());
-		}
-
-		for (MClassInfo<NType, NClass> classInfo : modelInfo.getClassInfos()) {
+	public MModelOutline generate(MModelInfo<NType, NClass> modelInfo)
+	{
+		final CMModelOutline modelOutline = new CMModelOutline(modelInfo, outline.getCodeModel());
+		
+		for (MClassInfo<NType, NClass> classInfo : modelInfo.getClassInfos())
+			generatePackageOutline(modelOutline, modelInfo, classInfo.getPackageInfo());
+		
+		for (MElementInfo<NType, NClass> elementInfo : modelInfo.getElementInfos())
+			generatePackageOutline(modelOutline, modelInfo, elementInfo.getPackageInfo());
+		
+		for (MEnumLeafInfo<NType, NClass> enumLeafInfo : modelInfo.getEnumLeafInfos())
+			generatePackageOutline(modelOutline, modelInfo, enumLeafInfo.getPackageInfo());
+		
+		for (MClassInfo<NType, NClass> classInfo : modelInfo.getClassInfos())
 			generateClassOutline(modelOutline, modelInfo, classInfo);
-		}
-
-		for (MElementInfo<NType, NClass> elementInfo : modelInfo
-				.getElementInfos()) {
+		
+		for (MElementInfo<NType, NClass> elementInfo : modelInfo.getElementInfos())
 			generateElementOutline(modelOutline, modelInfo, elementInfo);
-		}
-
-		for (MEnumLeafInfo<NType, NClass> enumLeafInfo : modelInfo
-				.getEnumLeafInfos()) {
+		
+		for (MEnumLeafInfo<NType, NClass> enumLeafInfo : modelInfo.getEnumLeafInfos())
 			generateEnumOutline(modelOutline, modelInfo, enumLeafInfo);
-		}
-
-		// TODO Auto-generated method stub
+		
 		return modelOutline;
 	}
 
-	private void generatePackageOutline(CMModelOutline modelOutline,
-			MModelInfo<NType, NClass> modelInfo, MPackageInfo packageInfo) {
-		if (modelOutline.getPackageOutline(packageInfo) == null &&
-
-		packageInfo.getOrigin() instanceof PackageOutlineGeneratorFactory) {
-			final MPackageOutlineGenerator generator = ((PackageOutlineGeneratorFactory) packageInfo
-					.getOrigin()).createGenerator(outline);
-			final MPackageOutline packageOutline = generator.generate(
-					modelOutline, modelInfo, packageInfo);
+	private void generatePackageOutline(CMModelOutline modelOutline, MModelInfo<NType, NClass> modelInfo,
+		MPackageInfo packageInfo)
+	{
+		if (modelOutline.getPackageOutline(packageInfo) == null
+			&& packageInfo.getOrigin() instanceof PackageOutlineGeneratorFactory)
+		{
+			final MPackageOutlineGenerator generator =
+				((PackageOutlineGeneratorFactory) packageInfo.getOrigin()).createGenerator(outline);
+			final MPackageOutline packageOutline =
+				generator.generate(modelOutline, modelInfo, packageInfo);
 			modelOutline.addPackageOutline(packageOutline);
-
 		}
 	}
 
-	private void generateClassOutline(final CMModelOutline modelOutline,
-			final MModelInfo<NType, NClass> modelInfo,
-			MClassInfo<NType, NClass> classInfo) {
-		if (classInfo.getBaseTypeInfo() != null) {
-			classInfo.getBaseTypeInfo().acceptClassTypeInfoVisitor(
-					new MClassTypeInfoVisitor<NType, NClass, Void>() {
-						@Override
-						public Void visitClassInfo(
-								MClassInfo<NType, NClass> info) {
-							generateClassOutline(modelOutline, modelInfo, info);
-							return null;
-						}
+	private void generateClassOutline(final CMModelOutline modelOutline, final MModelInfo<NType, NClass> modelInfo,
+		MClassInfo<NType, NClass> classInfo)
+	{
+		if (classInfo.getBaseTypeInfo() != null)
+		{
+			classInfo.getBaseTypeInfo().acceptClassTypeInfoVisitor(new MClassTypeInfoVisitor<NType, NClass, Void>()
+			{
+				@Override
+				public Void visitClassInfo(MClassInfo<NType, NClass> info)
+				{
+					generateClassOutline(modelOutline, modelInfo, info);
+					return null;
+				}
 
-						@Override
-						public Void visitClassRef(MClassRef<NType, NClass> info) {
-							return null;
-						}
-					});
+				@Override
+				public Void visitClassRef(MClassRef<NType, NClass> info)
+				{
+					return null;
+				}
+			});
 		}
-
-		if (classInfo.getOrigin() instanceof ClassOutlineGeneratorFactory) {
-			final MClassOutlineGenerator generator = ((ClassOutlineGeneratorFactory) classInfo
-					.getOrigin()).createGenerator(this.outline);
-			final MClassOutline classOutline = generator.generate(
-					modelOutline.getPackageOutline(classInfo.getPackageInfo()),
-					modelInfo, classInfo);
-			if (classOutline != null) {
+		
+		if (classInfo.getOrigin() instanceof ClassOutlineGeneratorFactory)
+		{
+			final MClassOutlineGenerator generator =
+				((ClassOutlineGeneratorFactory) classInfo.getOrigin()).createGenerator(this.outline);
+			final MClassOutline classOutline =
+				generator.generate(modelOutline.getPackageOutline(classInfo.getPackageInfo()), modelInfo, classInfo);
+			
+			if (classOutline != null)
 				modelOutline.addClassOutline(classOutline);
-			}
 		}
 	}
 
-	private void generateElementOutline(CMModelOutline modelOutline,
-			MModelInfo<NType, NClass> modelInfo,
-			MElementInfo<NType, NClass> elementInfo)
-
+	private void generateElementOutline(CMModelOutline modelOutline, MModelInfo<NType, NClass> modelInfo,
+		MElementInfo<NType, NClass> elementInfo)
 	{
-		if (elementInfo.getOrigin() instanceof ElementOutlineGeneratorFactory) {
-			final MElementOutlineGenerator generator = ((ElementOutlineGeneratorFactory) elementInfo
-					.getOrigin()).createGenerator(outline);
-			final MElementOutline elementOutline = generator
-					.generate(modelOutline.getPackageOutline(elementInfo
-							.getPackageInfo()), modelInfo, elementInfo);
-			if (elementOutline != null) {
+		if (elementInfo.getOrigin() instanceof ElementOutlineGeneratorFactory)
+		{
+			final MElementOutlineGenerator generator =
+				((ElementOutlineGeneratorFactory) elementInfo.getOrigin()).createGenerator(outline);
+			final MElementOutline elementOutline =
+				generator.generate(modelOutline.getPackageOutline(elementInfo.getPackageInfo()), modelInfo, elementInfo);
+			
+			if (elementOutline != null)
 				modelOutline.addElementOutline(elementOutline);
-			}
 		}
 	}
 
-	private void generateEnumOutline(CMModelOutline modelOutline,
-			MModelInfo<NType, NClass> modelInfo,
-			MEnumLeafInfo<NType, NClass> enumLeafInfo)
-
+	private void generateEnumOutline(CMModelOutline modelOutline, MModelInfo<NType, NClass> modelInfo,
+		MEnumLeafInfo<NType, NClass> enumLeafInfo)
 	{
-		if (enumLeafInfo.getOrigin() instanceof EnumOutlineGeneratorFactory) {
-			final MEnumOutlineGenerator generator = ((EnumOutlineGeneratorFactory) enumLeafInfo
-					.getOrigin()).createGenerator(outline);
-			final MEnumOutline enumOutline = generator.generate(modelOutline
-					.getPackageOutline(enumLeafInfo.getPackageInfo()),
-					modelInfo, enumLeafInfo);
-			if (enumOutline != null) {
+		if (enumLeafInfo.getOrigin() instanceof EnumOutlineGeneratorFactory)
+		{
+			final MEnumOutlineGenerator generator =
+				((EnumOutlineGeneratorFactory) enumLeafInfo.getOrigin()).createGenerator(outline);
+			final MEnumOutline enumOutline =
+				generator.generate(modelOutline.getPackageOutline(enumLeafInfo.getPackageInfo()), modelInfo, enumLeafInfo);
+			
+			if (enumOutline != null)
 				modelOutline.addEnumOutline(enumOutline);
-			}
 		}
 	}
 }

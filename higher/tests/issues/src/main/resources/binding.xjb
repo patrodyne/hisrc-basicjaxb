@@ -5,6 +5,16 @@
 	xmlns:inheritance="http://jvnet.org/basicjaxb/xjc/inheritance"
 	jaxb:extensionBindingPrefixes="inheritance"
 >
+	<!--  Global Bindings
+		* JPA section 2.1, entities must be top-level classes.
+		* JPA section 2.1, entities must implement the serializable interface.
+		* When processing a Microsoft WCF service WSDL, it is recommended that the
+		  generateElementProperty customization be set to 'false' in globalBindings.
+		* Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512".
+	-->
+	<jaxb:globalBindings generateIsSetMethod="true" localScoping="toplevel" fixedAttributeAsConstantProperty="true">
+		<jaxb:serializable uid="20211201" />
+	</jaxb:globalBindings>
 
 	<jaxb:bindings schemaLocation="schema.xsd" node="/xsd:schema">
 		<jaxb:bindings node="xsd:element[@name='issueJIIB38']">

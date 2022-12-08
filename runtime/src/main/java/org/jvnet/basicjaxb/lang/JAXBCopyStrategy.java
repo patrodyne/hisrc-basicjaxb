@@ -11,7 +11,15 @@ import jakarta.xml.bind.JAXBElement;
 import org.jvnet.basicjaxb.locator.ObjectLocator;
 import org.w3c.dom.Node;
 
-public class JAXBCopyStrategy extends DefaultCopyStrategy {
+public class JAXBCopyStrategy extends DefaultCopyStrategy
+{
+	private static final JAXBCopyStrategy INSTANCE2 = new JAXBCopyStrategy();
+//	private static final CopyStrategy INSTANCE = INSTANCE2;
+	public static JAXBCopyStrategy getInstance()
+	{
+		return INSTANCE2;
+	}
+	
 	@Override
 	protected Object copyInternal(ObjectLocator locator, Object object) {
 		if (object instanceof Node) {
@@ -61,13 +69,5 @@ public class JAXBCopyStrategy extends DefaultCopyStrategy {
 			copy.add(copyElement);
 		}
 		return copy;
-	}
-
-	public static final JAXBCopyStrategy INSTANCE2 = new JAXBCopyStrategy();
-	@SuppressWarnings("deprecation")
-	public static final CopyStrategy INSTANCE = INSTANCE2;
-	
-	public static JAXBCopyStrategy getInstance() {
-		return INSTANCE2;
 	}
 }

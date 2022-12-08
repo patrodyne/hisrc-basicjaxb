@@ -9,8 +9,15 @@ import jakarta.xml.bind.JAXBElement;
 
 import org.jvnet.basicjaxb.locator.ObjectLocator;
 
-public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy {
-
+public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy
+{
+	private static JAXBHashCodeStrategy INSTANCE2 = new JAXBHashCodeStrategy();
+//	private static HashCodeStrategy INSTANCE = INSTANCE2;
+	public static JAXBHashCodeStrategy getInstance()
+	{
+		return INSTANCE2;
+	}
+	
 	public JAXBHashCodeStrategy() {
 		super();
 	}
@@ -64,13 +71,5 @@ public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy {
 			}
 			return currentHashCode;
 		}
-	}
-
-	public static JAXBHashCodeStrategy INSTANCE2 = new JAXBHashCodeStrategy();
-	@SuppressWarnings("deprecation")
-	public static HashCodeStrategy INSTANCE = INSTANCE2;
-
-	public static JAXBHashCodeStrategy getInstance() {
-		return INSTANCE2;
 	}
 }

@@ -9,7 +9,7 @@ import org.jvnet.higherjaxb.mojo.test.RunHigherjaxbMojo;
 public class RunIssuesPlugin extends RunHigherjaxbMojo {
 
 	@Override
-	protected void configureMojo(AbstractHigherjaxbParmMojo mojo) {
+	protected void configureMojo(AbstractHigherjaxbParmMojo<?> mojo) {
 		super.configureMojo(mojo);
 		mojo.setExtension(true);
 		mojo.setForceRegenerate(true);

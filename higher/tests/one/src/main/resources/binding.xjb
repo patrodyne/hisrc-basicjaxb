@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <jaxb:bindings jaxb:version="3.0"
-  xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
-  jaxb:extensionBindingPrefixes="xjc"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	jaxb:extensionBindingPrefixes="xjc"
 >
+	<!--  Global Bindings
+		* JPA section 2.1, entities must be top-level classes.
+		* JPA section 2.1, entities must implement the serializable interface.
+		* When processing a Microsoft WCF service WSDL, it is recommended that the
+		  generateElementProperty customization be set to 'false' in globalBindings.
+		* Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512".
+	-->
+	<jaxb:globalBindings localScoping="toplevel" choiceContentProperty="true" generateIsSetMethod="true" generateElementClass="true">
+		<jaxb:serializable uid="20220501" />
+	</jaxb:globalBindings>
 
-  <jaxb:bindings schemaLocation="schema.xsd" node="/xs:schema">
-    <jaxb:bindings node="xs:complexType[@name='customizedPropertiesType']/xs:sequence/xs:element[@name='customizedAdaptedProperty']">
-      <jaxb:property>
-        <jaxb:baseType>
-          <xjc:javaType name="java.lang.String"
-            adapter="jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter"/>
-        </jaxb:baseType>
-      </jaxb:property>
-    </jaxb:bindings>
-  </jaxb:bindings>
+	<jaxb:bindings schemaLocation="schema.xsd" node="/xs:schema">
+		<jaxb:bindings node="xs:complexType[@name='customizedPropertiesType']/xs:sequence/xs:element[@name='customizedAdaptedProperty']">
+			<jaxb:property>
+				<jaxb:baseType>
+					<xjc:javaType name="java.lang.String"
+						adapter="jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter"/>
+				</jaxb:baseType>
+			</jaxb:property>
+		</jaxb:bindings>
+	</jaxb:bindings>
 </jaxb:bindings>
