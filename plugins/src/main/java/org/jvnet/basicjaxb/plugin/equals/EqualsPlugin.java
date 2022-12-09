@@ -5,8 +5,8 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Equals2;
-import org.jvnet.basicjaxb.lang.EqualsStrategy2;
+import org.jvnet.basicjaxb.lang.Equals;
+import org.jvnet.basicjaxb.lang.EqualsStrategy;
 import org.jvnet.basicjaxb.lang.JAXBEqualsStrategy;
 import org.jvnet.basicjaxb.locator.DefaultRootObjectLocator;
 import org.jvnet.basicjaxb.locator.ObjectLocator;
@@ -74,7 +74,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 
 	public JExpression createEqualsStrategy(JCodeModel codeModel) {
 		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
-				EqualsStrategy2.class, getEqualsStrategyClass());
+				EqualsStrategy.class, getEqualsStrategyClass());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(
@@ -110,7 +110,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 
 	protected void processClassOutline(ClassOutline classOutline) {
 		final JDefinedClass theClass = classOutline.implClass;
-		ClassUtils._implements(theClass, theClass.owner().ref(Equals2.class));
+		ClassUtils._implements(theClass, theClass.owner().ref(Equals.class));
 
 		@SuppressWarnings("unused")
 		final JMethod equals = generateEquals$equals(classOutline, theClass);
@@ -142,7 +142,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 
 			final JVar equalsStrategy = body.decl
 			(
-				JMod.FINAL, codeModel.ref(EqualsStrategy2.class), "strategy",
+				JMod.FINAL, codeModel.ref(EqualsStrategy.class), "strategy",
 				createEqualsStrategy(codeModel)
 			);
 			
@@ -180,7 +180,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 			final JVar rightLocator = equals.param(ObjectLocator.class,
 					"thatLocator");
 			final JVar object = equals.param(Object.class, "object");
-			final JVar equalsStrategy = equals.param(EqualsStrategy2.class,
+			final JVar equalsStrategy = equals.param(EqualsStrategy.class,
 					"strategy");
 
 			JExpression objectIsNull = object.eq(JExpr._null());
@@ -193,7 +193,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin {
 
 			final Boolean superClassImplementsEquals = StrategyClassUtils
 					.superClassImplements(classOutline, getIgnoring(),
-							Equals2.class);
+							Equals.class);
 
 			if (superClassImplementsEquals == null) {
 				// No superclass

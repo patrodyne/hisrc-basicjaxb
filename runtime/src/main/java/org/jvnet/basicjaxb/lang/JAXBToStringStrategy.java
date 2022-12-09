@@ -6,11 +6,10 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
 
 public class JAXBToStringStrategy extends DefaultToStringStrategy
 {
-	private static final JAXBToStringStrategy INSTANCE2 = new JAXBToStringStrategy();
-//	private static final ToStringStrategy INSTANCE = INSTANCE2;
+	private static final JAXBToStringStrategy INSTANCE = new JAXBToStringStrategy();
 	public static JAXBToStringStrategy getInstance()
 	{
-		return INSTANCE2;
+		return INSTANCE;
 	}
 	
 	private String jaxbElementStart = "<";

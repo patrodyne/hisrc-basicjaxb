@@ -13,11 +13,10 @@ import org.w3c.dom.Node;
 
 public class JAXBCopyStrategy extends DefaultCopyStrategy
 {
-	private static final JAXBCopyStrategy INSTANCE2 = new JAXBCopyStrategy();
-//	private static final CopyStrategy INSTANCE = INSTANCE2;
+	private static final JAXBCopyStrategy INSTANCE = new JAXBCopyStrategy();
 	public static JAXBCopyStrategy getInstance()
 	{
-		return INSTANCE2;
+		return INSTANCE;
 	}
 	
 	@Override

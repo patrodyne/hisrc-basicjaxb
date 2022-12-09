@@ -9,14 +9,12 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@SuppressWarnings("deprecation")
-public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy
+public class DefaultEqualsStrategy implements EqualsStrategy
 {
-	private static DefaultEqualsStrategy INSTANCE2 = new DefaultEqualsStrategy();
-//	private static EqualsStrategy INSTANCE = INSTANCE2;
+	private static DefaultEqualsStrategy INSTANCE = new DefaultEqualsStrategy();
 	public static DefaultEqualsStrategy getInstance()
 	{
-		return INSTANCE2;
+		return INSTANCE;
 	}
 	
 	protected Logger logger = LoggerFactory.getLogger(DefaultEqualsStrategy.class);
@@ -124,9 +122,6 @@ public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy
 		} else if (lhs instanceof boolean[]) {
 			return equals(leftLocator, rightLocator, (boolean[]) lhs,
 					(boolean[]) rhs);
-		} else if (lhs instanceof Equals2[]) {
-			return equalsInternal(leftLocator, rightLocator, (Equals2[]) lhs,
-					(Equals2[]) rhs);
 		} else if (lhs instanceof Equals[]) {
 			return equalsInternal(leftLocator, rightLocator, (Equals[]) lhs,
 					(Equals[]) rhs);
@@ -148,10 +143,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy
 		if (lhs == null || rhs == null) {
 			return false;
 		}
-		if (lhs instanceof Equals2 && rhs instanceof Equals2) {
-			return equalsInternal(leftLocator, rightLocator, (Equals2) lhs,
-					(Equals2) rhs);
-		} else if (lhs instanceof Equals && rhs instanceof Equals) {
+		if (lhs instanceof Equals && rhs instanceof Equals) {
 			return equalsInternal(leftLocator, rightLocator, (Equals) lhs,
 					(Equals) rhs);
 		} else if (lhs instanceof Enum<?> && rhs instanceof Enum<?>) {
@@ -170,26 +162,12 @@ public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy
 		if (lhs == null || rhs == null) {
 			return false;
 		}
-		if (lhs instanceof Equals2 && rhs instanceof Equals2) {
-			return equalsInternal(leftLocator, rightLocator, (Equals2) lhs,
-					(Equals2) rhs);
-		} else if (lhs instanceof Equals && rhs instanceof Equals) {
+		if (lhs instanceof Equals && rhs instanceof Equals) {
 			return equalsInternal(leftLocator, rightLocator, (Equals) lhs,
 					(Equals) rhs);
 		} else {
 			return lhs.equals(rhs);
 		}
-	}
-
-	protected boolean equalsInternal(ObjectLocator leftLocator,
-			ObjectLocator rightLocator, Equals2 lhs, Equals2 rhs) {
-		if (lhs == rhs) {
-			return true;
-		}
-		if (lhs == null || rhs == null) {
-			return false;
-		}
-		return lhs.equals(leftLocator, rightLocator, rhs, this);
 	}
 
 	protected boolean equalsInternal(ObjectLocator leftLocator,
@@ -296,27 +274,6 @@ public class DefaultEqualsStrategy implements EqualsStrategy2, EqualsStrategy
 		}
 		for (int i = 0; i < left.length; ++i) {
 			if (!equals(item(leftLocator, i, left[i]),
-					item(rightLocator, i, right[i]), left[i], right[i])) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	protected boolean equalsInternal(ObjectLocator leftLocator,
-			ObjectLocator rightLocator, Equals2[] left, Equals2[] right) {
-
-		if (left == right) {
-			return true;
-		}
-		if (left == null || right == null) {
-			return false;
-		}
-		if (left.length != right.length) {
-			return false;
-		}
-		for (int i = 0; i < left.length; ++i) {
-			if (!equalsInternal(item(leftLocator, i, left[i]),
 					item(rightLocator, i, right[i]), left[i], right[i])) {
 				return false;
 			}

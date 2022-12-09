@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.jvnet.basicjaxb.lang.JAXBToStringStrategy;
-import org.jvnet.basicjaxb.lang.ToStringStrategy2;
+import org.jvnet.basicjaxb.lang.ToStringStrategy;
 
 public class GH37Test {
 
@@ -30,7 +30,7 @@ public class GH37Test {
 
 	@Test
 	public void considersDefaultValuesInToString() {
-		final ToStringStrategy2 strategy = new JAXBToStringStrategy() {
+		final ToStringStrategy strategy = new JAXBToStringStrategy() {
 			@Override
 			public boolean isUseIdentityHashCode() {
 				return false;

@@ -11,11 +11,10 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
 
 public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy
 {
-	private static JAXBHashCodeStrategy INSTANCE2 = new JAXBHashCodeStrategy();
-//	private static HashCodeStrategy INSTANCE = INSTANCE2;
+	private static JAXBHashCodeStrategy INSTANCE = new JAXBHashCodeStrategy();
 	public static JAXBHashCodeStrategy getInstance()
 	{
-		return INSTANCE2;
+		return INSTANCE;
 	}
 	
 	public JAXBHashCodeStrategy() {

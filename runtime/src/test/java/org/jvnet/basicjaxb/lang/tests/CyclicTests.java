@@ -6,8 +6,8 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.jvnet.basicjaxb.lang.CopyStrategy2;
-import org.jvnet.basicjaxb.lang.CopyTo2;
+import org.jvnet.basicjaxb.lang.CopyStrategy;
+import org.jvnet.basicjaxb.lang.CopyTo;
 import org.jvnet.basicjaxb.lang.JAXBCopyStrategy;
 import org.jvnet.basicjaxb.locator.DefaultRootObjectLocator;
 import org.jvnet.basicjaxb.locator.ObjectLocator;
@@ -15,7 +15,7 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 
 public class CyclicTests {
 
-	public interface CopyToInstance extends CopyTo2 {
+	public interface CopyToInstance extends CopyTo {
 	}
 
 	public static class A implements CopyToInstance {
@@ -30,7 +30,7 @@ public class CyclicTests {
 		}
 
 		public Object copyTo(ObjectLocator locator, Object target,
-				CopyStrategy2 copyStrategy) {
+				CopyStrategy copyStrategy) {
 			final A that = (A) target;
 			that.b = (B) copyStrategy.copy(
 					LocatorUtils.property(locator, "b", this.b), this.b,
@@ -52,7 +52,7 @@ public class CyclicTests {
 		}
 
 		public Object copyTo(ObjectLocator locator, Object target,
-				CopyStrategy2 copyStrategy) {
+				CopyStrategy copyStrategy) {
 			final B that = (B) target;
 			that.a = (A) copyStrategy.copy(
 					LocatorUtils.property(locator, "a", this.a), this.a,

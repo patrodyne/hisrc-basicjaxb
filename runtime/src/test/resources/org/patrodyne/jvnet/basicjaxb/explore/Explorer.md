@@ -31,7 +31,7 @@ Normally, the HiSrc framework uses its Maven plugin(s) to generate Java classes 
 
 ~~~
 @XmlRootElement
-public static class Person implements HashCode2, Equals2
+public static class Person implements HashCode, Equals
 {
     public String firstName;
     public String lastName;
@@ -39,7 +39,7 @@ public static class Person implements HashCode2, Equals2
 }
 ~~~
 
-Notice, we declare `Person` to implement the HiSrc interfaces (`HashCode2`, `Equals2`) for the `JAXBHashCodeStrategy` and `JAXBEqualsStrategy` and override the relevant `Object` methods with our custom code. This implementation introduces another HiSrc utility interface, `ObjectLocator`.
+Notice, we declare `Person` to implement the HiSrc interfaces (`HashCode`, `Equals`) for the `JAXBHashCodeStrategy` and `JAXBEqualsStrategy` and override the relevant `Object` methods with our custom code. This implementation introduces another HiSrc utility interface, `ObjectLocator`.
 
 ### ObjectLocator
 
@@ -83,7 +83,7 @@ All three instances are distinct Java objects. The first two objects refer to "A
 
 ### Compare Objects
 
-The HiSrc framework provides an `ObjectLocator` and `HashCodeStrategy2` to generate a hash code that is based on the object values. In this case, the hash code and equality is based on the person's first and last name. 
+The HiSrc framework provides an `ObjectLocator` and `HashCodeStrategy` to generate a hash code that is based on the object values. In this case, the hash code and equality is based on the person's first and last name. 
 
 #### Compare Hash Codes
 
@@ -95,7 +95,7 @@ Here's how the `Person` class uses the HiSrc interfaces for the `hashCode()` met
 public int hashCode()
 {
     ObjectLocator thisLocator = new DefaultRootObjectLocator(this);
-    HashCodeStrategy2 strategy = JAXBHashCodeStrategy.getInstance();
+    HashCodeStrategy strategy = JAXBHashCodeStrategy.getInstance();
     return this.hashCode(thisLocator, strategy);
 }
 ~~~

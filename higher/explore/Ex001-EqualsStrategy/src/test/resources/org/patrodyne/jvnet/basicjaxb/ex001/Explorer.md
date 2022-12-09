@@ -48,7 +48,7 @@ The POM for this project configures this Maven plug-in to generate the JAXB sour
 </plugin>
 ~~~
 
-The plug-in generates a `Person` class that implements the HiSrc interfaces (`HashCode2`, `Equals2`) for the `JAXBHashCodeStrategy` and `JAXBEqualsStrategy`. It overrides the relevant `Object` methods with the custom strategies. This implementation introduces another HiSrc interface, named `ObjectLocator`.
+The plug-in generates a `Person` class that implements the HiSrc interfaces (`HashCode`, `Equals`) for the `JAXBHashCodeStrategy` and `JAXBEqualsStrategy`. It overrides the relevant `Object` methods with the custom strategies. This implementation introduces another HiSrc interface, named `ObjectLocator`.
 
 ### ObjectLocator
 
@@ -94,7 +94,7 @@ All three instances are distinct Java objects. The first two objects refer to "A
 
 ### Compare Objects
 
-The HiSrc framework provides an `ObjectLocator` and `HashCodeStrategy2` to generate a hash code that is based on the object values. In this case, the hash code and equality is based on the person's first and last name. 
+The HiSrc framework provides an `ObjectLocator` and `HashCodeStrategy` to generate a hash code that is based on the object values. In this case, the hash code and equality is based on the person's first and last name. 
 
 #### Compare Hash Codes
 
@@ -106,7 +106,7 @@ Here's how the `Person` class uses the HiSrc interfaces for the `hashCode()` met
 public int hashCode()
 {
     ObjectLocator thisLocator = new DefaultRootObjectLocator(this);
-    HashCodeStrategy2 strategy = JAXBHashCodeStrategy.getInstance();
+    HashCodeStrategy strategy = JAXBHashCodeStrategy.getInstance();
     return this.hashCode(thisLocator, strategy);
 }
 ~~~

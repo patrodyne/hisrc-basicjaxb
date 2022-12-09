@@ -12,11 +12,10 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
 
 public class JAXBEqualsStrategy extends DefaultEqualsStrategy
 {
-	private static JAXBEqualsStrategy INSTANCE2 = new JAXBEqualsStrategy();
-//	private static EqualsStrategy INSTANCE = INSTANCE2;
+	private static JAXBEqualsStrategy INSTANCE = new JAXBEqualsStrategy();
 	public static JAXBEqualsStrategy getInstance()
 	{
-		return INSTANCE2;
+		return INSTANCE;
 	}
 	
 	@Override

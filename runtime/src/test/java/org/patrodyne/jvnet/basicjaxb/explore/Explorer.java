@@ -23,10 +23,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.jvnet.basicjaxb.lang.Equals2;
-import org.jvnet.basicjaxb.lang.EqualsStrategy2;
-import org.jvnet.basicjaxb.lang.HashCode2;
-import org.jvnet.basicjaxb.lang.HashCodeStrategy2;
+import org.jvnet.basicjaxb.lang.Equals;
+import org.jvnet.basicjaxb.lang.EqualsStrategy;
+import org.jvnet.basicjaxb.lang.HashCode;
+import org.jvnet.basicjaxb.lang.HashCodeStrategy;
 import org.jvnet.basicjaxb.lang.JAXBEqualsStrategy;
 import org.jvnet.basicjaxb.lang.JAXBHashCodeStrategy;
 import org.jvnet.basicjaxb.locator.DefaultRootObjectLocator;
@@ -433,7 +433,7 @@ public class Explorer extends AbstractExplorer
 	 */
 //	@XmlRootElement(namespace="https://www.example.org/hitchhiker/")
 	@XmlRootElement
-	public static class Person implements HashCode2, Equals2
+	public static class Person implements HashCode, Equals
 	{
 		public String firstName;
 		public String lastName;
@@ -450,7 +450,7 @@ public class Explorer extends AbstractExplorer
 		}
 
 		@Override
-		public int hashCode(ObjectLocator locator, HashCodeStrategy2 strategy)
+		public int hashCode(ObjectLocator locator, HashCodeStrategy strategy)
 		{
 			int currentHashCode = 1;
 			{
@@ -472,12 +472,12 @@ public class Explorer extends AbstractExplorer
 		public int hashCode()
 		{
 			ObjectLocator thisLocator = new DefaultRootObjectLocator(this);
-			HashCodeStrategy2 strategy = JAXBHashCodeStrategy.getInstance();
+			HashCodeStrategy strategy = JAXBHashCodeStrategy.getInstance();
 			return this.hashCode(thisLocator, strategy);
 		}
 
 		@Override
-		public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy2 strategy)
+		public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy)
 		{
 			if ( (object == null) || (this.getClass() != object.getClass()) )
 				return false;

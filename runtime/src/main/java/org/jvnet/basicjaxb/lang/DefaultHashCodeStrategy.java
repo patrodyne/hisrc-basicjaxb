@@ -6,14 +6,12 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@SuppressWarnings("deprecation")
-public class DefaultHashCodeStrategy implements HashCodeStrategy2, HashCodeStrategy
+public class DefaultHashCodeStrategy implements HashCodeStrategy
 {
-	private static final DefaultHashCodeStrategy INSTANCE2 = new DefaultHashCodeStrategy();
-//	private static final HashCodeStrategy INSTANCE = INSTANCE2;
+	private static final DefaultHashCodeStrategy INSTANCE = new DefaultHashCodeStrategy();
 	public static DefaultHashCodeStrategy getInstance()
 	{
-		return INSTANCE2;
+		return INSTANCE;
 	}
 	
 	private int iConstant;
@@ -70,8 +68,6 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy2, HashCodeStrat
 					return hashCode(locator, hashCode, (float[]) object);
 				} else if (object instanceof boolean[]) {
 					return hashCode(locator, hashCode, (boolean[]) object);
-				} else if (object instanceof HashCode2[]) {
-					return hashCodeInternal(locator, hashCode, (HashCode2[]) object);
 				} else if (object instanceof HashCode[]) {
 					return hashCodeInternal(locator, hashCode, (HashCode[]) object);
 				} else if (object instanceof Enum[]) {
@@ -87,8 +83,6 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy2, HashCodeStrat
 	protected int hashCodeInternal(ObjectLocator locator, int hashCode, Object value) {
 		if (value == null) {
 			return hashCode * iConstant;
-		} else if (value instanceof HashCode2) {
-			return hashCodeInternal(locator, hashCode, (HashCode2) value);
 		} else if (value instanceof HashCode) {
 			return hashCodeInternal(locator, hashCode, (HashCode) value);
 		} else if (value instanceof Enum) {
@@ -101,20 +95,10 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy2, HashCodeStrat
 	protected int hashCodeInternal(ObjectLocator locator, int hashCode, Enum<?> value) {
 		if (value == null) {
 			return hashCode * iConstant;
-		} else if (value instanceof HashCode2) {
-			return hashCodeInternal(locator, hashCode, (HashCode2) value);
 		} else if (value instanceof HashCode) {
 			return hashCodeInternal(locator, hashCode, (HashCode) value);
 		} else {
 			return hashCode * iConstant + value.hashCode();
-		}
-	}
-
-	protected int hashCodeInternal(ObjectLocator locator, int hashCode, HashCode2 object) {
-		if (object == null) {
-			return hashCode * iConstant;
-		} else {
-			return hashCode * iConstant + object.hashCode(locator, this);
 		}
 	}
 
@@ -139,18 +123,6 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy2, HashCodeStrat
 	}
 
 	protected int hashCodeInternal(ObjectLocator locator, int hashCode, Enum<?>[] value) {
-		if (value == null) {
-			return hashCode * iConstant;
-		} else {
-			int currentHashCode = hashCode * iConstant + 1;
-			for (int i = 0; i < value.length; i++) {
-				currentHashCode = hashCodeInternal(item(locator, i, value[i]), currentHashCode, value[i]);
-			}
-			return currentHashCode;
-		}
-	}
-
-	protected int hashCodeInternal(ObjectLocator locator, int hashCode, HashCode2[] value) {
 		if (value == null) {
 			return hashCode * iConstant;
 		} else {

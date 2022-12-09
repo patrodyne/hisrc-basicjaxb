@@ -5,8 +5,8 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.CopyStrategy2;
-import org.jvnet.basicjaxb.lang.CopyTo2;
+import org.jvnet.basicjaxb.lang.CopyStrategy;
+import org.jvnet.basicjaxb.lang.CopyTo;
 import org.jvnet.basicjaxb.lang.JAXBCopyStrategy;
 import org.jvnet.basicjaxb.locator.ObjectLocator;
 import org.jvnet.basicjaxb.locator.util.LocatorUtils;
@@ -83,7 +83,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 
 	public JExpression createCopyStrategy(JCodeModel codeModel) {
 		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
-				CopyStrategy2.class, getCopyStrategyClass());
+				CopyStrategy.class, getCopyStrategyClass());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(
@@ -124,7 +124,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 		@SuppressWarnings("unused")
 		final JMethod object$clone = generateObject$clone(classOutline,
 				theClass);
-		ClassUtils._implements(theClass, theClass.owner().ref(CopyTo2.class));
+		ClassUtils._implements(theClass, theClass.owner().ref(CopyTo.class));
 
 		@SuppressWarnings("unused")
 		final JMethod copyTo$copyTo = generateCopyTo$copyTo(classOutline,
@@ -200,7 +200,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 
 			final JBlock body = copyTo$copyTo.body();
 			final JVar copyStrategy = body.decl(JMod.FINAL,
-					codeModel.ref(CopyStrategy2.class), "strategy",
+					codeModel.ref(CopyStrategy.class), "strategy",
 					createCopyStrategy(codeModel));
 
 			body._return(JExpr.invoke("copyTo").arg(JExpr._null()).arg(target)
@@ -212,7 +212,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 	protected JMethod generateCopyTo$copyTo1(ClassOutline classOutline,
 			final JDefinedClass theClass) {
 		final JCodeModel codeModel = theClass.owner();
-		ClassUtils._implements(theClass, codeModel.ref(CopyTo2.class));
+		ClassUtils._implements(theClass, codeModel.ref(CopyTo.class));
 
 		final JMethod copyTo = theClass.method(JMod.PUBLIC,
 				codeModel.ref(Object.class), "copyTo");
@@ -220,7 +220,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 		{
 			final JVar locator = copyTo.param(ObjectLocator.class, "locator");
 			final JVar target = copyTo.param(Object.class, "target");
-			final JVar copyStrategy = copyTo.param(CopyStrategy2.class,
+			final JVar copyStrategy = copyTo.param(CopyStrategy.class,
 					"strategy");
 
 			final JBlock body = copyTo.body();
@@ -246,7 +246,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 
 			Boolean superClassImplementsCopyTo = StrategyClassUtils
 					.superClassImplements(classOutline, getIgnoring(),
-							CopyTo2.class);
+							CopyTo.class);
 
 			if (superClassImplementsCopyTo == null) {
 

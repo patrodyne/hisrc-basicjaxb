@@ -5,8 +5,8 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.HashCode2;
-import org.jvnet.basicjaxb.lang.HashCodeStrategy2;
+import org.jvnet.basicjaxb.lang.HashCode;
+import org.jvnet.basicjaxb.lang.HashCodeStrategy;
 import org.jvnet.basicjaxb.lang.JAXBHashCodeStrategy;
 import org.jvnet.basicjaxb.locator.DefaultRootObjectLocator;
 import org.jvnet.basicjaxb.locator.ObjectLocator;
@@ -73,7 +73,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 
 	public JExpression createHashCodeStrategy(JCodeModel codeModel) {
 		return StrategyClassUtils.createStrategyInstanceExpression(codeModel,
-				HashCodeStrategy2.class, getHashCodeStrategyClass());
+				HashCodeStrategy.class, getHashCodeStrategyClass());
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(
@@ -109,7 +109,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 
 	protected void processClassOutline(ClassOutline classOutline) {
 		final JDefinedClass theClass = classOutline.implClass;
-		ClassUtils._implements(theClass, theClass.owner().ref(HashCode2.class));
+		ClassUtils._implements(theClass, theClass.owner().ref(HashCode.class));
 
 		@SuppressWarnings("unused")
 		final JMethod hashCode$hashCode = generateHashCode$hashCode(
@@ -140,7 +140,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 			
 			final JVar hashCodeStrategy = body.decl
 			(
-				JMod.FINAL, theClass.owner().ref(HashCodeStrategy2.class), "strategy",
+				JMod.FINAL, theClass.owner().ref(HashCodeStrategy.class), "strategy",
 				createHashCodeStrategy(theClass.owner())
 			);
 			
@@ -170,14 +170,14 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 			final JVar locator = hashCode$hashCode.param(ObjectLocator.class,
 					"locator");
 			final JVar hashCodeStrategy = hashCode$hashCode.param(
-					HashCodeStrategy2.class, "strategy");
+					HashCodeStrategy.class, "strategy");
 			final JBlock body = hashCode$hashCode.body();
 
 			final JExpression currentHashCodeExpression;
 
 			final Boolean superClassImplementsHashCode = StrategyClassUtils
 					.superClassImplements(classOutline, ignoring,
-							HashCode2.class);
+							HashCode.class);
 
 			if (superClassImplementsHashCode == null) {
 				currentHashCodeExpression = JExpr.lit(1);

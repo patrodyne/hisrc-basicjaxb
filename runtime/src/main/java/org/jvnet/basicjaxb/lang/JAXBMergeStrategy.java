@@ -6,11 +6,10 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
 
 public class JAXBMergeStrategy extends DefaultMergeStrategy
 {
-	private static final JAXBMergeStrategy INSTANCE2 = new JAXBMergeStrategy();
-//	private static final MergeStrategy INSTANCE = INSTANCE2;
+	private static final JAXBMergeStrategy INSTANCE = new JAXBMergeStrategy();
 	public static JAXBMergeStrategy getInstance()
 	{
-		return INSTANCE2;
+		return INSTANCE;
 	}
 	
 	@Override

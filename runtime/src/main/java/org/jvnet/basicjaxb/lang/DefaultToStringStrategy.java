@@ -9,14 +9,12 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@SuppressWarnings("deprecation")
-public class DefaultToStringStrategy implements ToStringStrategy2, ToStringStrategy
+public class DefaultToStringStrategy implements ToStringStrategy
 {
-	private static final DefaultToStringStrategy INSTANCE2 = new DefaultToStringStrategy();
-//	private static final ToStringStrategy INSTANCE = INSTANCE2;
+	private static final DefaultToStringStrategy INSTANCE = new DefaultToStringStrategy();
 	public static DefaultToStringStrategy getInstance()
 	{
-		return INSTANCE2;
+		return INSTANCE;
 	}
 	
 	protected Logger logger = LoggerFactory.getLogger(DefaultToStringStrategy.class);
@@ -595,12 +593,9 @@ public class DefaultToStringStrategy implements ToStringStrategy2, ToStringStrat
 			@SuppressWarnings("rawtypes")
 			final Collection collection = (Collection) value;
 			append(locator, buffer, collection);
-		} else if (value instanceof ToString2) {
-			final ToString2 toString2 = (ToString2) value;
-			toString2.append(locator, buffer, this);
 		} else if (value instanceof ToString) {
-			final ToString toString = (ToString) value;
-			toString.append(locator, buffer, this);
+			final ToString toString2 = (ToString) value;
+			toString2.append(locator, buffer, this);
 		} else {
 			buffer.append(value.toString());
 		}
