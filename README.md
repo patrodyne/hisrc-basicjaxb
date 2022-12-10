@@ -45,19 +45,21 @@ with the original `maven-jaxb2-plugin` name.
 New goals for the next release are:
 
 * Clean up Java compiler _lint_ warnings.
-* Replace deprecated plugin strategies v1 with v2.
+* Replace deprecated XJC plugin strategies v1 with v2.
 * Recheck Dependency Management for newer versions.
+* New explorations for copy and merge strategies.
 
 ### Status
 
 #### In Progress
 
-* Replace deprecated plugin strategies v1 with v2.
-* Recheck Dependency Management for newer versions.
+* New explorations for copy and merge strategies.
 
 #### Completed
 
 * Clean up Java compiler _lint_ warnings.
+* Replace deprecated XJC plugin strategies v1 with v2.
+* Recheck Dependency Management for newer versions.
 
 ### Fork History
 

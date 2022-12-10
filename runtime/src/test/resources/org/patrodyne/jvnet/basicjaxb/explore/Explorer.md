@@ -16,10 +16,10 @@ Schema(s). The XJC compiler from JAXB does the actual code generation using plug
 XJC generates POJO classes with the standard and simple Java `Object` methods:
 
 + `hashCode()` - numeric value used for object identification or indexing. 
-+ `equals(obj)` - determines when and how to objects are equal.
++ `equals(obj)` - determines when and how two objects are equal.
 + `toString()` - textual representation of an object.
 
-By default, these methods work at the object level. For example, two distinct `Employee` object instances are considered _not equal_ even when they contain the same employee values because they have different object identifiers. The _HiSrc BasicJAXB Runtime Library_ provides strategies to implement these and other `Object` methods that take all values into account.
+By default, these methods work at the object level. For example, two distinct `Employee` object instances are considered _not equal_ even when they contain the same employee values because they have different object identifiers. The _HiSrc BasicJAXB Runtime Library_ provides strategies to implement these and other `Object` methods that compare by property value(s) instead of by object identifiers.
 
 ## Explore HashCode and Equals
 
