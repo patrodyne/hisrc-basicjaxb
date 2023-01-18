@@ -4,8 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
+import org.jvnet.basicjaxb.lang.CopyStrategy;
+import org.jvnet.basicjaxb.lang.EqualsStrategy;
 import org.jvnet.basicjaxb.lang.JAXBCopyStrategy;
 import org.jvnet.basicjaxb.lang.JAXBEqualsStrategy;
+import org.jvnet.basicjaxb.locator.DefaultRootObjectLocator;
 import org.jvnet.basicjaxb.test.AbstractSamplesTest;
 
 public class CopyableTest extends AbstractSamplesTest
@@ -15,7 +18,15 @@ public class CopyableTest extends AbstractSamplesTest
 		throws Exception
 	{
 		final Object original = createContext().createUnmarshaller().unmarshal(sample);
-		final Object copy = JAXBCopyStrategy.getInstance().copy(null, original);
-		assertTrue(JAXBEqualsStrategy.getInstance().equals(null, null, original, copy), "Source and copy must be equal.");
+		DefaultRootObjectLocator origLocator = new DefaultRootObjectLocator(original);
+		
+		CopyStrategy copyStrategy = JAXBCopyStrategy.getInstance();
+		
+		final Object copy = copyStrategy.copy(origLocator, original, true);
+		DefaultRootObjectLocator copyLocator = new DefaultRootObjectLocator(copy);
+		
+		EqualsStrategy equalsStrategy = JAXBEqualsStrategy.getInstance();
+		boolean equate = equalsStrategy.equals(origLocator, copyLocator, original, copy, true, true);
+		assertTrue(equate, "Source and copy must be equal.");
 	}
 }

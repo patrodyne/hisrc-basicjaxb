@@ -4,26 +4,44 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 import org.jvnet.basicjaxb.lang.JAXBEqualsStrategy;
+import org.jvnet.basicjaxb.locator.DefaultRootObjectLocator;
 
-public class GH22Test {
-	
+public class GH22Test
+{
 	@Test
-	public void testJAXBEqualsSymmetryConcreteClassAndEnum() {
-		assertFalse(JAXBEqualsStrategy.getInstance().equals(null, null,
-				new SomeConcreteClass(), SomeEnum.ENUM));
+	public void testJAXBEqualsSymmetryConcreteClassAndEnum()
+	{
+		SomeConcreteClass lhs = new SomeConcreteClass();
+		SomeEnum rhs = SomeEnum.ENUM;
+		
+		DefaultRootObjectLocator lhsLocator = new DefaultRootObjectLocator(lhs);
+		DefaultRootObjectLocator rhsLocator = new DefaultRootObjectLocator(rhs);
+
+		JAXBEqualsStrategy strategy = JAXBEqualsStrategy.getInstance();
+		
+		assertFalse(strategy.equals(lhsLocator, rhsLocator, lhs, rhs, true, true));
 	}
 
 	@Test
-	public void testJAXBEqualsSymmetryEnumAndConcreteClass() {
-		// This test fails and throws a ClassCastException
-		assertFalse(JAXBEqualsStrategy.getInstance().equals(null, null,
-				SomeEnum.ENUM, new SomeConcreteClass()));
+	public void testJAXBEqualsSymmetryEnumAndConcreteClass()
+	{
+		SomeEnum lhs = SomeEnum.ENUM;
+		SomeConcreteClass rhs = new SomeConcreteClass();
+		
+		DefaultRootObjectLocator lhsLocator = new DefaultRootObjectLocator(lhs);
+		DefaultRootObjectLocator rhsLocator = new DefaultRootObjectLocator(rhs);
+		
+		JAXBEqualsStrategy strategy = JAXBEqualsStrategy.getInstance();
+		
+		assertFalse(strategy.equals(lhsLocator, rhsLocator, lhs, rhs, true, true));
 	}
 
-	private static class SomeConcreteClass {
+	private static class SomeConcreteClass
+	{
 	}
 
-	private enum SomeEnum {
+	private enum SomeEnum
+	{
 		ENUM;
 	}
 }

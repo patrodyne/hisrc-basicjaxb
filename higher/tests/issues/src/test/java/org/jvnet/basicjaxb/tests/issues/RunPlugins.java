@@ -12,50 +12,49 @@ import com.sun.tools.xjc.ModelLoader;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.Model;
 
-public class RunPlugins {
-
+public class RunPlugins
+{
 	@BeforeEach
-	public void setUp() {
+	public void setUp()
+	{
 		System.setProperty("javax.xml.accessExternalSchema", "all");
 	}
 
 	@Test
-	public void compilesSchema() throws Exception {
-
+	public void compilesSchema() throws Exception
+	{
 		new File("target/generated-sources/xjc").mkdirs();
 
 		URL schema = getClass().getResource("/schema.xsd");
 		URL binding = getClass().getResource("/binding.xjb");
-		final String[] arguments = new String[] {
-				//
-				"-xmlschema", schema.toExternalForm(),
-				//
-				"-b", binding.toExternalForm(),
-				//
-				"-d", "target/generated-sources/xjc",
-				//
-				"-extension",
-				//
-				"-XhashCode",
-				//
-				"-Xequals",
-				//
-				"-XtoString",
-				//
-				"-Xcopyable",
-				//
-				"-Xmergeable",
-				//
-				"-Xinheritance",
-				//
-				"-Xsetters",
-				//
-				"-Xsetters-mode=direct",
-				//
-				"-Xwildcard",
-				//
-				"-XenumValue"
-				// "-XsimpleToString"
+		
+		final String[] arguments = new String[]
+		{
+			"-xmlschema", schema.toExternalForm(),
+			"-b", binding.toExternalForm(),
+			"-d", "target/generated-sources/xjc",
+			"-extension",
+			"-XtoString",
+			"-Xequals",
+			"-Xequals-equalsStrategyClass=org.jvnet.basicjaxb.tests.issues.IssueJIIB42EqualsStrategy",
+			"-XhashCode",
+			"-Xcopyable",
+			"-Xmergeable",
+			"-Xmergeable-mergeStrategyClass=org.jvnet.basicjaxb.lang.JAXBMergeStrategy",
+			"-Xinheritance",
+			"-Xsetters",
+			"-Xsetters-mode=direct",
+			"-Xwildcard",
+			"-XautoInheritance",
+			"-XautoInheritance-xmlRootElementsExtend=org.jvnet.basicjaxb.tests.issues.IssueJIIB14BaseClass",
+			"-XautoInheritance-xmlRootElementsImplement=org.jvnet.basicjaxb.tests.issues.IssueJIIB14BaseInterfaceOne",
+			"-XautoInheritance-xmlRootElementsImplement=org.jvnet.basicjaxb.tests.issues.IssueJIIB14BaseInterfaceTwo",
+			"-XautoInheritance-jaxbElementsImplement=org.jvnet.basicjaxb.tests.issues.IssueJIIB14BaseInterfaceThree",
+			"-XautoInheritance-jaxbElementsImplement=org.jvnet.basicjaxb.tests.issues.IssueJIIB14BaseInterfaceFour",
+			"-XenumValue",
+			"-Xcustomizations",
+			"-Xcustomizations-directory=src/main/resources",
+			"-Xcustomizations-verbose=true"
 		};
 
 		Options options = new Options();

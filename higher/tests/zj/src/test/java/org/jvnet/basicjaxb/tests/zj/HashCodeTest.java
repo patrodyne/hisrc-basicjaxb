@@ -1,4 +1,4 @@
-package org.jvnet.basicjaxb.tests.one;
+package org.jvnet.basicjaxb.tests.zj;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -18,6 +18,12 @@ import jakarta.xml.bind.JAXBElement;
 public class HashCodeTest extends AbstractSamplesTest
 {
 	@Override
+	public String getContextPath()
+	{
+		return "com.oce.obis.sei.api.data";
+	}
+	
+	@Override
 	protected void checkSample(File sample) throws Exception
 	{
 		final Object lhs = createContext().createUnmarshaller().unmarshal(sample);
@@ -26,9 +32,9 @@ public class HashCodeTest extends AbstractSamplesTest
 		DefaultRootObjectLocator lhsLocator = new DefaultRootObjectLocator(lhs);
 		DefaultRootObjectLocator rhsLocator = new DefaultRootObjectLocator(rhs);
 		
-		CopyStrategy copyStategy = JAXBCopyStrategy.getInstance();
+		CopyStrategy copyStrategy = JAXBCopyStrategy.getInstance();
 		
-		final Object chs = copyStategy.copy(lhsLocator, rhs, true);
+		final Object chs = copyStrategy.copy(lhsLocator, rhs, true);
 		
 		DefaultRootObjectLocator chsLocator = new DefaultRootObjectLocator(chs);
 
@@ -44,7 +50,7 @@ public class HashCodeTest extends AbstractSamplesTest
 		
 		final int leftHashCode = hashStrategy.hashCode(lhsLocator, 0, lhs, true);
 		final int rightHashCode = hashStrategy.hashCode(rhsLocator, 0, rhs, true);
-		final int copyHashCode = hashStrategy.hashCode(chsLocator, 0, chs,true);
+		final int copyHashCode = hashStrategy.hashCode(chsLocator, 0, chs, true);
 		
 		assertEquals(leftHashCode, rightHashCode, "Hash values must be equal.");
 		assertEquals(leftHashCode, copyHashCode, "Hash values must be equal.");
