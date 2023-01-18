@@ -12,28 +12,41 @@
 #
 
 BASEDIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+source ${BASEDIR}/build-CFG.sh
 source ${BASEDIR}/build-INC.sh
-BUILDER="output mvn -T 4 ${JVM_SYS_PROPS}"
+BUILDER="output mvn ${MAVEN_OPTS} ${JVM_SYS_PROPS}"
 FGTITLE="$(basename $(pwd))"
 BGTITLE="$(date --rfc-3339=sec) $(pwd)"
 
 menu_options()
 {
 	clear
-	ACTION=$(whiptail --default-item="${ACTION}" --title "${FGTITLE}" --backtitle "${BGTITLE}" --menu "Select Action ..." --cancel-button "Close" 20 78 12 \
-		"a)"	"Validate POM(s) correctness and that information is available" \
-		"b)"	"Compare the effective POM with current POM" \
-		"c)"	"Display dependencies that have newer version available" \
-		"d)"	"Display the dependency tree" \
-		"e)"	"Resolve plugins and report dependencies" \
-		"f)"	"Analyze dependencies and report on: (un)used and/or (un)declared" \
-		"g)"	"Download source and javadoc jars to the local repository" \
-		"h)"	"Clean and install the shared libraries to the local repository" \
-		"i)"	"Clean and package all modules: libraries, samples, tests, etc." \
-		"j)"	"Unit/Integration test all modules" \
-		"k)"	"Generate a site for each project" \
-		"v)"	"Vim into current directory" \
-		3>&2 2>&1 1>&3)
+	if [ "${FULL_MENU}" = true ]; then
+		ACTION=$(whiptail --default-item="${ACTION}" --title "${FGTITLE}" --backtitle "${BGTITLE}" --menu "Select Action ..." --cancel-button "Close" 20 78 13 \
+			"a)"	"Validate POM(s) correctness and that information is available" \
+			"b)"	"Compare the effective POM with current POM" \
+			"c)"	"Display dependencies that have newer version available" \
+			"d)"	"Display the dependency tree" \
+			"e)"	"Resolve plugins and report dependencies" \
+			"f)"	"Analyze dependencies and report on: (un)used and/or (un)declared" \
+			"g)"	"Download source and javadoc jars to the local repository" \
+			"h)"	"Clean and install the shared libraries to the local repository" \
+			"i)"	"Clean and package all modules: libraries, assemblies, tests, etc." \
+			"j)"	"Unit test all modules" \
+			"k)"	"Integration test default, assembly modules" \
+			"l)"	"Generate a site for each project" \
+			"v)"	"Vim into current directory" \
+			3>&2 2>&1 1>&3)
+	else
+		ACTION=$(whiptail --default-item="${ACTION}" --title "${FGTITLE}" --backtitle "${BGTITLE}" --menu "Select Action ..." --cancel-button "Close" 20 78 13 \
+			"a)"	"Validate POM(s) correctness and that information is available" \
+			"h)"	"Clean and install the shared libraries to the local repository" \
+			"i)"	"Clean and package all modules: libraries, assemblies, tests, etc." \
+			"j)"	"Unit test all modules" \
+			"k)"	"Integration test default, assembly modules" \
+			"v)"	"Vim into current directory" \
+			3>&2 2>&1 1>&3)
+	fi
 }
 
 menu_actions()
@@ -50,7 +63,8 @@ menu_actions()
 			"h)")	${BUILDER} -DskipTests=true clean install ;;
 			"i)")	${BUILDER} -DskipTests=true -Pall clean package ;;
 			"j)")	${BUILDER} -DskipTests=false -Pall test ;;
-			"k)")	${BUILDER} -DskipTests=false -Pall site ;;
+			"k)")	${BUILDER} -DskipTests=false -Passembly integration-test ;;
+			"l)")	${BUILDER} -DskipTests=false -Pall site ;;
 			"v)")	vim . ;;
 		esac	
 		read -p "Press any key to continue..." anykey
@@ -134,12 +148,19 @@ error()
 
 output()
 {
-	if [ -n "$DISPLAY" ]; then
-		$@
+	if [ "${BUILD_LOG}" = true ]; then
+		if [ -n "$DISPLAY" ]; then
+			$@ | tee "build.log"
+		else
+			$@ | tee "build.log" | less
+		fi
 	else
-		$@ | less
+		if [ -n "$DISPLAY" ]; then
+			$@
+		else
+			$@ | less
+		fi
 	fi
-	
 }
 
 required()

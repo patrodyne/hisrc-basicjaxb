@@ -1,0 +1,5 @@
+# JVM System Arguments
+# See build.sh, explore.sh, pom.xml, maven-surefire-plugin
+-enableassertions
+--illegal-access=deny
+--add-opens java.base/java.net=ALL-UNNAMED
