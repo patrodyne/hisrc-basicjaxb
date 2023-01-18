@@ -1,9 +1,18 @@
 package org.jvnet.basicjaxb.lang;
 
 import org.jvnet.basicjaxb.locator.ObjectLocator;
+import org.slf4j.Logger;
 
+/**
+ * Reflection-free merge(...) methods to merge data from two source objects
+ * into the given object.
+ */
 public interface MergeStrategy
 {
+	public Logger getLogger();
+	public boolean isDebugEnabled();
+	public boolean isTraceEnabled();
+
 	public Boolean shouldBeMergedAndSet(ObjectLocator leftLocator, ObjectLocator rightLocator, boolean leftSet, boolean rightSet);
 
 	public boolean merge(ObjectLocator leftLocator, ObjectLocator rightLocator, boolean left, boolean right, boolean leftSet, boolean rightSet);

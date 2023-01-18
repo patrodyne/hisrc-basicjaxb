@@ -5,48 +5,137 @@ import static org.jvnet.basicjaxb.locator.util.LocatorUtils.item;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.jvnet.basicjaxb.locator.ObjectLocator;
+import org.jvnet.basicjaxb.locator.RootObjectLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DefaultCopyStrategy implements CopyStrategy
 {
-	private static Logger logger = LoggerFactory.getLogger(DefaultCopyStrategy.class);
-
 	private static final DefaultCopyStrategy INSTANCE = new DefaultCopyStrategy();
 	public static DefaultCopyStrategy getInstance()
 	{
 		return INSTANCE;
 	}
 
+	private Logger logger = LoggerFactory.getLogger(CopyStrategy.class);
+	public Logger getLogger()
+	{
+		return logger;
+	}
+	
+	public boolean isDebugEnabled()
+	{
+		return getLogger().isDebugEnabled();
+	}
+	
+	public boolean isTraceEnabled()
+	{
+		return getLogger().isTraceEnabled();
+	}
+	
+	/**
+	 * Subclasses can override this method to log the debug message, as desired.
+	 * 
+	 * @param message The debug message of copied values.
+	 */
+	public void debug(String message)
+	{
+		getLogger().debug(message);
+	}
+	
+	/**
+	 * Subclasses can override this method to log the trace message, as desired.
+	 * 
+	 * @param message The trace message of copied values.
+	 */
+	public void trace(String message)
+	{
+		getLogger().trace(message);
+	}
+	
+	/**
+	 * Observe an object and its locator.
+	 * 
+	 * @param <T> The object type.
+	 * @param locator The object locator.
+	 * @param obj The object.
+	 * 
+	 * @return The original object.
+	 */
+	protected <T> T observe(ObjectLocator locator, T obj)
+	{
+		return observe("COPY", locator, obj);
+	}
+	
+	/**
+	 * Observe an object and its locator.
+	 * 
+	 * @param <T> The object type.
+	 * @param label A prefix for the observation message.
+	 * @param locator The object locator.
+	 * @param obj The object.
+	 * 
+	 * @return The original object.
+	 */
+	protected <T> T observe(String label, ObjectLocator locator, T obj)
+	{
+		if ( isTraceEnabled() )
+			trace(buildMessage(label, locator, (obj != null) ? obj.toString() : "null"));
+		else if ( isDebugEnabled() )
+		{
+			if ( locator instanceof RootObjectLocator )
+				debug(buildMessage(label, locator, (obj != null) ? obj.toString() : "null"));
+		}			
+		return obj;
+	}
+	
+	protected String buildMessage(String label, ObjectLocator locator, String value)
+	{
+		String message;
+		if (locator != null)
+			message = label + ": " + "{"+locator.getPathAsString()+"} -> " + value;
+		else
+			message = label + ": " + "{} -> " + value;
+		return message;
+	}
+	
 	protected Object copyInternal(ObjectLocator locator, Object object)
 	{
 		if (object == null)
 			return null;
 		else if (object instanceof String)
-			return object;
+			return observe(locator, object);
 		else if (object instanceof Number)
-			return object;
+			return observe(locator, object);
+		else if (object instanceof XMLGregorianCalendar)
+			return copyInternal(locator, (XMLGregorianCalendar) object);
 		else if (object instanceof CopyTo)
-			return ((CopyTo) object).copyTo(locator, ((CopyTo) object).createNewInstance(), this);
+			return observe(locator, (((CopyTo) object).copyTo(locator, ((CopyTo) object).createNewInstance(), this)));
 		else if (object instanceof Cloneable)
 			return copyInternal(locator, (Cloneable) object);
 		else
-			return object;
+			return observe(locator, object);
 	}
 
-	public Object copy(ObjectLocator locator, Object value)
+	protected Object copyInternal(ObjectLocator locator, XMLGregorianCalendar xgc)
+	{
+		return observe(locator, xgc.clone());
+	}
+	
+	protected Object copy(ObjectLocator locator, Object value)
 	{
 		if (value == null)
 			return null;
 		
+		// 'Switch' on non-array or type of array, to dispatch to 
+		// the correct handler. This handles multidimensional arrays
+		// of the same depth
 		Class<?> lhsClass = value.getClass();
 		if (!lhsClass.isArray())
-		{
 			return copyInternal(locator, value);
-		}
-		// 'Switch' on type of array, to dispatch to the correct handler
-		// This handles multidimensional arrays of the same depth
 		else if (value instanceof long[])
 			return copy(locator, (long[]) value);
 		else if (value instanceof int[])
@@ -70,47 +159,47 @@ public class DefaultCopyStrategy implements CopyStrategy
 		}
 	}
 
-	public long copy(ObjectLocator locator, long value)
+	protected long copy(ObjectLocator locator, long value)
 	{
-		return value;
+		return observe(locator, value);
 	}
 
-	public int copy(ObjectLocator locator, int value)
+	protected int copy(ObjectLocator locator, int value)
 	{
-		return value;
+		return observe(locator, value);
 	}
 
-	public short copy(ObjectLocator locator, short value)
+	protected short copy(ObjectLocator locator, short value)
 	{
-		return value;
+		return observe(locator, value);
 	}
 
-	public char copy(ObjectLocator locator, char value)
+	protected char copy(ObjectLocator locator, char value)
 	{
-		return value;
+		return observe(locator, value);
 	}
 
-	public byte copy(ObjectLocator locator, byte value)
+	protected byte copy(ObjectLocator locator, byte value)
 	{
-		return value;
+		return observe(locator, value);
 	}
 
-	public double copy(ObjectLocator locator, double value)
+	protected double copy(ObjectLocator locator, double value)
 	{
-		return value;
+		return observe(locator, value);
 	}
 
-	public float copy(ObjectLocator locator, float value)
+	protected float copy(ObjectLocator locator, float value)
 	{
-		return value;
+		return observe(locator, value);
 	}
 
-	public boolean copy(ObjectLocator locator, boolean value)
+	protected boolean copy(ObjectLocator locator, boolean value)
 	{
-		return value;
+		return observe(locator, value);
 	}
 
-	public Object[] copy(ObjectLocator locator, Object[] array)
+	protected Object[] copy(ObjectLocator locator, Object[] array)
 	{
 		if (array == null)
 			return null;
@@ -125,7 +214,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 		return copy;
 	}
 
-	public long[] copy(ObjectLocator locator, long[] array)
+	protected long[] copy(ObjectLocator locator, long[] array)
 	{
 		if (array == null)
 			return null;
@@ -140,7 +229,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 		return copy;
 	}
 
-	public int[] copy(ObjectLocator locator, int[] array)
+	protected int[] copy(ObjectLocator locator, int[] array)
 	{
 		if (array == null)
 			return null;
@@ -155,7 +244,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 		return copy;
 	}
 
-	public short[] copy(ObjectLocator locator, short[] array)
+	protected short[] copy(ObjectLocator locator, short[] array)
 	{
 		if (array == null)
 			return null;
@@ -170,7 +259,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 		return copy;
 	}
 
-	public char[] copy(ObjectLocator locator, char[] array)
+	protected char[] copy(ObjectLocator locator, char[] array)
 	{
 		if (array == null)
 			return null;
@@ -185,7 +274,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 		return copy;
 	}
 
-	public byte[] copy(ObjectLocator locator, byte[] array)
+	protected byte[] copy(ObjectLocator locator, byte[] array)
 	{
 		if (array == null)
 			return null;
@@ -200,7 +289,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 		return copy;
 	}
 
-	public double[] copy(ObjectLocator locator, double[] array)
+	protected double[] copy(ObjectLocator locator, double[] array)
 	{
 		if (array == null)
 			return null;
@@ -215,7 +304,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 		return copy;
 	}
 
-	public float[] copy(ObjectLocator locator, float[] array)
+	protected float[] copy(ObjectLocator locator, float[] array)
 	{
 		if (array == null)
 			return null;
@@ -230,7 +319,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 		return copy;
 	}
 
-	public boolean[] copy(ObjectLocator locator, boolean[] array)
+	protected boolean[] copy(ObjectLocator locator, boolean[] array)
 	{
 		if (array == null)
 			return null;
@@ -277,10 +366,10 @@ public class DefaultCopyStrategy implements CopyStrategy
 				}
 				catch (SecurityException ex)
 				{
-					logger.warn("copyInternal " + ex.getMessage(), ex);
+					getLogger().warn("copyInternal " + ex.getMessage(), ex);
 				}
 			}
-			return method.invoke(object, (Object[]) null);
+			return observe(locator, method.invoke(object, (Object[]) null));
 		}
 		catch (Exception ex)
 		{
@@ -297,7 +386,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 				}
 				catch (SecurityException ex)
 				{
-					logger.warn("copyInternal " + ex.getMessage(), ex);
+					getLogger().warn("copyInternal " + ex.getMessage(), ex);
 				}
 			}
 		}

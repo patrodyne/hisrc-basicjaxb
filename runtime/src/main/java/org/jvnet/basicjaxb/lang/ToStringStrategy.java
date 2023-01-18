@@ -1,12 +1,16 @@
 package org.jvnet.basicjaxb.lang;
 
 import org.jvnet.basicjaxb.locator.ObjectLocator;
+import org.slf4j.Logger;
 
 public interface ToStringStrategy
 {
+	public Logger getLogger();
 	public boolean isDebugEnabled();
 	public boolean isTraceEnabled();
 
+	public StringBuilder append(ObjectLocator locator, StringBuilder buffer, Object value);
+	
 	public StringBuilder appendStart(ObjectLocator parentLocator, Object parent, StringBuilder stringBuilder);
 	public StringBuilder appendEnd(ObjectLocator parentLocator, Object parent, StringBuilder stringBuilder);
 	

@@ -1,6 +1,8 @@
 package org.jvnet.basicjaxb.lang;
 
 import org.jvnet.basicjaxb.locator.ObjectLocator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DefaultMergeStrategy implements MergeStrategy
 {
@@ -8,6 +10,22 @@ public class DefaultMergeStrategy implements MergeStrategy
 	public static DefaultMergeStrategy getInstance()
 	{
 		return INSTANCE;
+	}
+	
+	private Logger logger = LoggerFactory.getLogger(MergeStrategy.class);
+	public Logger getLogger()
+	{
+		return logger;
+	}
+	
+	public boolean isDebugEnabled()
+	{
+		return getLogger().isDebugEnabled();
+	}
+	
+	public boolean isTraceEnabled()
+	{
+		return getLogger().isTraceEnabled();
 	}
 	
 	@Override

@@ -147,7 +147,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin {
 			final JInvocation theRootLocator = JExpr._new(codeModel.ref(DefaultRootObjectLocator.class))
 				.arg(JExpr._this());
 			
-			JConditional ifTraceEnabled = body._if(hashCodeStrategy.invoke("isTraceEnabled"));
+			JConditional ifTraceEnabled = body._if(hashCodeStrategy.invoke("isDebugEnabled"));
 			ifTraceEnabled._then()
 				.assign(theLocator, theRootLocator);
 			

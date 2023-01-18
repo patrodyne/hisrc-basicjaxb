@@ -1,9 +1,17 @@
 package org.jvnet.basicjaxb.lang;
 
 import org.jvnet.basicjaxb.locator.ObjectLocator;
+import org.slf4j.Logger;
 
+/**
+ * Reflection-free copy(...) deep copying.
+ */
 public interface CopyStrategy
 {
+	public Logger getLogger();
+	public boolean isDebugEnabled();
+	public boolean isTraceEnabled();
+
 	public Boolean shouldBeCopiedAndSet(ObjectLocator locator, boolean valueSet);
 	
 	public boolean copy(ObjectLocator locator, boolean value, boolean valueSet);

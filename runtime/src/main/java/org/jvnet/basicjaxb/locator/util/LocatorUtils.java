@@ -1,6 +1,12 @@
 package org.jvnet.basicjaxb.locator.util;
 
 import org.jvnet.basicjaxb.locator.PropertyObjectLocator;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jvnet.basicjaxb.locator.ItemObjectLocator;
 import org.jvnet.basicjaxb.locator.ObjectLocator;
 import org.xml.sax.Locator;
@@ -107,5 +113,41 @@ public class LocatorUtils
 	public static ItemObjectLocator item(ObjectLocator locator, int index, short value)
 	{
 		return locator == null ? null : locator.item(index, Short.valueOf(value));
+	}
+	
+	public static boolean isPublic(Method method)
+	{
+		return (method != null) && ( (method.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC);
+	}
+	
+	public static int countPublicProperties(Class<?> clazz)
+	{
+	    int count = 0;
+	    Method[] declaredMethods = clazz.getDeclaredMethods();
+	    
+	    Map<String,Method> methodMap = new HashMap<>();
+	    for ( Method method : declaredMethods )
+	    	methodMap.put(method.getName(), method);
+	    
+	    for ( Method method : declaredMethods )
+	    {
+	    	if ( isPublic(method) ) 
+	    	{
+		        String methodName = method.getName();
+		        if ( methodName.startsWith("get") )
+		        {
+		        	String mutatorName = methodName.replaceFirst("get", "set");
+		        	if ( isPublic(methodMap.get(mutatorName)) )
+		        		++count;
+		        }
+		        else if ( methodName.startsWith("is") )
+		        {
+		        	String mutatorName = methodName.replaceFirst("is", "set");
+		        	if ( isPublic(methodMap.get(mutatorName)) )
+		        		++count;
+		        }
+	    	}
+	    }
+	    return count;
 	}
 }

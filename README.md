@@ -47,6 +47,11 @@ New goals for the next release are:
 * Clean up Java compiler _lint_ warnings.
 * Replace deprecated XJC plugin strategies v1 with v2.
 * Recheck Dependency Management for newer versions.
+* Configure menu, log and Maven options from build-CFG.sh.
+* Include JVM system arguments from 'src/test/resources/jvmsystem.arguments'.
+* Moved 'explore' and 'samples' folder to new 'assembly' folder and restored int. testing.
+* Set log levels for basic strategies in simplelogger.properties.
+* Improved debug and trace logging JAXB plugin strategies.
 * New explorations for copy and merge strategies.
 
 ### Status
@@ -60,6 +65,11 @@ New goals for the next release are:
 * Clean up Java compiler _lint_ warnings.
 * Replace deprecated XJC plugin strategies v1 with v2.
 * Recheck Dependency Management for newer versions.
+* Configure menu, log and Maven options from build-CFG.sh.
+* Include JVM system arguments from 'src/test/resources/jvmsystem.arguments'.
+* Moved 'explore' and 'samples' folder to new 'assembly' folder and restored int. testing.
+* Set log levels for basic strategies in simplelogger.properties.
+* Improved debug and trace logging JAXB plugin strategies.
 
 ### Fork History
 

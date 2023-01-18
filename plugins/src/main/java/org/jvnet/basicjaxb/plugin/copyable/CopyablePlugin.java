@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 import org.jvnet.basicjaxb.lang.CopyStrategy;
 import org.jvnet.basicjaxb.lang.CopyTo;
 import org.jvnet.basicjaxb.lang.JAXBCopyStrategy;
+import org.jvnet.basicjaxb.locator.DefaultRootObjectLocator;
 import org.jvnet.basicjaxb.locator.ObjectLocator;
 import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
@@ -29,6 +30,7 @@ import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JOp;
@@ -188,23 +190,38 @@ public class CopyablePlugin extends AbstractParameterizablePlugin {
 		return clone;
 	}
 
-	protected JMethod generateCopyTo$copyTo(final ClassOutline classOutline,
-			final JDefinedClass theClass) {
-
+	protected JMethod generateCopyTo$copyTo(final ClassOutline classOutline, final JDefinedClass theClass)
+	{
 		final JCodeModel codeModel = theClass.owner();
-		final JMethod copyTo$copyTo = theClass.method(JMod.PUBLIC,
-				codeModel.ref(Object.class), "copyTo");
+		final JMethod copyTo$copyTo = theClass.method(JMod.PUBLIC, codeModel.ref(Object.class), "copyTo");
 		copyTo$copyTo.annotate(Override.class);
 		{
 			final JVar target = copyTo$copyTo.param(Object.class, "target");
-
 			final JBlock body = copyTo$copyTo.body();
-			final JVar copyStrategy = body.decl(JMod.FINAL,
-					codeModel.ref(CopyStrategy.class), "strategy",
-					createCopyStrategy(codeModel));
-
-			body._return(JExpr.invoke("copyTo").arg(JExpr._null()).arg(target)
-					.arg(copyStrategy));
+			
+			final JVar copyStrategy = body.decl
+			(
+				JMod.FINAL, codeModel.ref(CopyStrategy.class), "strategy",
+				createCopyStrategy(codeModel)
+			);
+			
+			final JInvocation thisRootLocator = JExpr._new(codeModel.ref(DefaultRootObjectLocator.class))
+				.arg(JExpr._this());
+			
+			final JVar thisLocator = body.decl
+			(
+				JMod.NONE,	codeModel.ref(ObjectLocator.class), "thisLocator",
+				JExpr._null()
+			);
+			
+			JConditional ifDebugEnabled = body._if(copyStrategy.invoke("isDebugEnabled"));
+			ifDebugEnabled._then()
+				.assign(thisLocator, thisRootLocator);
+			
+			body._return(JExpr.invoke("copyTo")
+				.arg(thisLocator)
+				.arg(target)
+				.arg(copyStrategy));
 		}
 		return copyTo$copyTo;
 	}

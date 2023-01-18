@@ -13,32 +13,36 @@ public class JAXBToStringStrategy extends DefaultToStringStrategy
 	}
 	
 	private String jaxbElementStart = "<";
-
 	private String jaxbElementEnd = ">";
 
-	protected void appendJAXBElementStart(StringBuilder stringBuilder) {
+	protected void appendJAXBElementStart(StringBuilder stringBuilder)
+	{
 		stringBuilder.append(jaxbElementStart);
 	}
 
-	protected void appendJAXBElementEnd(StringBuilder stringBuilder) {
+	protected void appendJAXBElementEnd(StringBuilder stringBuilder)
+	{
 		stringBuilder.append(jaxbElementEnd);
 	}
 
 	@Override
 	protected StringBuilder appendInternal(ObjectLocator locator,
-			StringBuilder stringBuilder, Object value) {
-		if (value instanceof JAXBElement) {
+			StringBuilder stringBuilder, Object value)
+	{
+		if (value instanceof JAXBElement)
+		{
 			@SuppressWarnings("rawtypes")
 			final JAXBElement jaxbElement = (JAXBElement) value;
 			appendInternal(locator, stringBuilder, jaxbElement);
-		} else {
-			super.appendInternal(locator, stringBuilder, value);
 		}
+		else
+			super.appendInternal(locator, stringBuilder, value);
 		return stringBuilder;
 	}
 
-	protected StringBuilder appendInternal(ObjectLocator locator,
-			StringBuilder stringBuilder, @SuppressWarnings("rawtypes") JAXBElement value) {
+	protected StringBuilder appendInternal(ObjectLocator locator, StringBuilder stringBuilder,
+		@SuppressWarnings("rawtypes") JAXBElement value)
+	{
 		appendJAXBElementStart(stringBuilder);
 		stringBuilder.append(value.getName());
 		appendContentStart(stringBuilder);

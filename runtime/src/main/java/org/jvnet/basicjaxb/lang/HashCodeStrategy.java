@@ -1,9 +1,11 @@
 package org.jvnet.basicjaxb.lang;
 
 import org.jvnet.basicjaxb.locator.ObjectLocator;
+import org.slf4j.Logger;
 
 public interface HashCodeStrategy
 {
+	public Logger getLogger();
 	public boolean isDebugEnabled();
 	public boolean isTraceEnabled();
 

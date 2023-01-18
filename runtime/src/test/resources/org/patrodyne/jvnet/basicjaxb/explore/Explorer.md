@@ -43,7 +43,7 @@ Notice, we declare `Person` to implement the HiSrc interfaces (`HashCode`, `Equa
 
 ### ObjectLocator
 
-The `ObjectLocator` interface extends `javax.xml.bind.ValidationEventLocator` used by JAXB to report XML schema (in)validation events. It does this by adding a path from the event back to the root object. HiSrc strategies use the `ObjectLocator` to trace the location of events like a _field not equal_ event. For example, `DefaultEqualsStrategy` delegates the event notification to [SLF4J][2], for logging. Applications can configure [SLF4J][2] to ignore all reporting or override the default tracing with their own custom event coding.
+The `ObjectLocator` interface extends `javax.xml.bind.ValidationEventLocator` used by JAXB to report XML schema (in)validation events. It does this by adding a path from the event back to the root object. HiSrc strategies use the `ObjectLocator` to debug the location of events like a _field not equal_ event. For example, each `EqualsStrategy` implementation delegates the event notification to [SLF4J][2], for logging. Applications can configure [SLF4J][2] to ignore all reporting or override the default tracing with their own custom event coding.
 
 The locators are optional. `ObjectLocator` parameters can be null when calling the HiSrc strategies. When not used, the strategies report a more general location message.
 
@@ -106,11 +106,11 @@ Select [Compare Equality](!compareEquality) to compare (A) `person1` with `perso
 
 Case (A) compares two individual objects for "Arthur Dent" and finds that they are equal.
 
-Case (B) compares an "Arthur Dent" object with a "Ford Prefect" object and finds that they are _not_ equal. Further, case (B) provides a trace log to report the first non-equal field.
+Case (B) compares an "Arthur Dent" object with a "Ford Prefect" object and finds that they are _not_ equal. Further, case (B) provides a debug log to report the first non-equal field.
 
 Here's how the `Person` class uses the HiSrc interfaces for the `equals(Object that)` method. See [Explorer.java][1] for the field level details.
 
-> **Note:** The `ObjectLocator` parameters are optional; they can be null. When they are null, the field level locator utility will use basic location tracing. When the root level locators are used, the field level locators create a nested path that is used for trace level logging. HiSrc uses [SLF4J][2] as its logging framework and that framework is usually configured to skip trace level messaging.
+> **Note:** The `ObjectLocator` parameters are optional; they can be null. When they are null, the field level locator utility will use basic location tracing. When the root level locators are used, the field level locators create a nested path that is used for debug level logging. HiSrc uses [SLF4J][2] as its logging framework and that framework is usually configured to skip debug/trace level messaging.
 
 ~~~
 public boolean equals(Object that)
