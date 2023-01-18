@@ -25,7 +25,7 @@
 			<artifactId>hisrc-basicjaxb-sample-po</artifactId>
 			<version>${project.version}</version>
 			<type>zip</type>
-			<classifier>maven-src</classifier>
+			<classifier>mvn-src</classifier>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -39,7 +39,7 @@
 			<artifactId>hisrc-basicjaxb-sample-po-simple</artifactId>
 			<version>${project.version}</version>
 			<type>zip</type>
-			<classifier>maven-src</classifier>
+			<classifier>mvn-src</classifier>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -53,7 +53,7 @@
 			<artifactId>hisrc-basicjaxb-sample-basic</artifactId>
 			<version>${project.version}</version>
 			<type>zip</type>
-			<classifier>maven-src</classifier>
+			<classifier>mvn-src</classifier>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -67,7 +67,7 @@
 			<artifactId>hisrc-basicjaxb-sample-cxf</artifactId>
 			<version>${project.version}</version>
 			<type>zip</type>
-			<classifier>maven-src</classifier>
+			<classifier>mvn-src</classifier>
 		</dependency>
 	</dependencies>
 	<build>

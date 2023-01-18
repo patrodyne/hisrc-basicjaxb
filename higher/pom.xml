@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
@@ -12,12 +14,12 @@
 	<packaging>pom</packaging>
 	<name>HiSrc BasicJAXB - Higher</name>
 	<properties>
+		<hisrc-basicjaxb.version>2.0.1-SNAPSHOT</hisrc-basicjaxb.version>
 		<hisrc-higherjaxb-maven-plugin.version>2.0.1-SNAPSHOT</hisrc-higherjaxb-maven-plugin.version>
 		<root.basedir>${basedir}/..</root.basedir>
 	</properties>
 	<modules>
-		<module>explore</module>
-		<module>samples</module>
+		<module>assembly</module>
 		<module>tests</module>
 	</modules>
 	<dependencyManagement>
@@ -66,14 +68,19 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<profiles>
 		<profile>
-			<id>samples</id>
+			<id>assembly</id>
 			<modules>
-				<module>explore</module>
-				<module>samples</module>
+				<module>assembly</module>
 			</modules>
 		</profile>
 		<profile>
