@@ -122,6 +122,8 @@
 
 	<target name="compile" depends="generate-sources">
 		<javac
+			source="${maven.compiler.source}"
+			target="${maven.compiler.target}"
 			classpathref="compile.path"
 			destdir="\${basedir}/target/classes" 
 			srcdir="\${basedir}/src/main/java:\${basedir}/target/generated-sources/xjc"
@@ -137,6 +139,8 @@
 
 	<target name="test-compile" depends="compile">
 		<javac
+			source="${maven.compiler.source}"
+			target="${maven.compiler.target}"
 			classpathref="test-compile.path"
 			destdir="\${basedir}/target/test-classes" 
 			srcdir="\${basedir}/src/test/java"
