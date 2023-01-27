@@ -46,9 +46,8 @@ public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy
 	 */
 	protected int observe(String label, ObjectLocator locator, int hash)
 	{
-		String hashCode = toHexString(hash);
 		if ( isTraceEnabled() )
-			trace(buildMessage(label, locator, hashCode));
+			trace(buildMessage(label, locator, toHexString(hash)));
 		else if ( isDebugEnabled() )
 		{
 			if ( locator != null )
@@ -57,7 +56,7 @@ public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy
 				if ( locator instanceof RootObjectLocator )
 				{
 					// Root hash code.
-					debug(buildMessage(label, locator, hashCode));
+					debug(buildMessage(label, locator, toHexString(hash)));
 				}
 				else if ( locator.getParentLocator() instanceof RootObjectLocator )
 				{
@@ -69,13 +68,13 @@ public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy
 						{
 							PropertyObjectLocator propertyLocator = (PropertyObjectLocator) locator;
 							if ( "value".equals(propertyLocator.getPropertyName())  )
-								debug(buildMessage(label, locator, hashCode));
+								debug(buildMessage(label, locator, toHexString(hash)));
 						}
 					}
 					else
 					{
 						// Root does not wrap a JAXBElement, log hash code for each top level property.
-						debug(buildMessage(label, locator, hashCode));
+						debug(buildMessage(label, locator, toHexString(hash)));
 					}
 				}
 				else
@@ -93,7 +92,7 @@ public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy
 							{
 								RootObjectLocator rootObjectLocator = (RootObjectLocator) locator.getParentLocator().getParentLocator();
 								if ( rootObjectLocator.getObject() instanceof JAXBElement )
-									debug(buildMessage(label, locator, hashCode));
+									debug(buildMessage(label, locator, toHexString(hash)));
 							}
 						}
 					}

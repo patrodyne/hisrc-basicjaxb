@@ -17,6 +17,7 @@
 		<module>ignoring</module>
 		<module>issues</module>
 		<module>JAXB-1058</module>
+		<module>merge</module>
 		<module>one</module>
 		<module>po</module>
 		<module>simple-hashCode-equals-01</module>

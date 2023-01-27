@@ -57,13 +57,13 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy
 	 * Observe an int hash and its locator.
 	 * 
 	 * @param locator The object locator.
-	 * @param obj The object.
+	 * @param hash The object.
 	 * 
 	 * @return The original object.
 	 */
-	protected int observe(ObjectLocator locator, int obj)
+	protected int observe(ObjectLocator locator, int hash)
 	{
-		return observe("HASH", locator, obj);
+		return observe("HASH", locator, hash);
 	}
 	
 	/**
@@ -77,13 +77,12 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy
 	 */
 	protected int observe(String label, ObjectLocator locator, int hash)
 	{
-		String hashCode = toHexString(hash);
 		if ( isTraceEnabled() )
-			trace(buildMessage(label, locator, hashCode));
+			trace(buildMessage(label, locator, toHexString(hash)));
 		else if ( isDebugEnabled() )
 		{
 			if ( locator instanceof RootObjectLocator )
-				debug(buildMessage(label, locator, hashCode));
+				debug(buildMessage(label, locator, toHexString(hash)));
 		}			
 		return hash;
 	}

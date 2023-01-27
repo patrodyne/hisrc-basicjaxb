@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<match xmlns="http://jvnet.patrodyne.org/basicjaxb/test/merge">
+	<ethernet-match>
+		<ethernet-type>
+			<type>2054</type>
+		</ethernet-type>
+		<ethernet-source>
+			<address>aa:aa:aa:aa:aa:aa</address>
+		</ethernet-source>
+	</ethernet-match>
+	<in-port>8</in-port>
+</match>

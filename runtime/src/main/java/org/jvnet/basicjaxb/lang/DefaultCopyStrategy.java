@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.lang;
 
+import static org.jvnet.basicjaxb.lang.StringUtils.valueToString;
 import static org.jvnet.basicjaxb.locator.util.LocatorUtils.item;
 
 import java.lang.reflect.Method;
@@ -21,16 +22,19 @@ public class DefaultCopyStrategy implements CopyStrategy
 	}
 
 	private Logger logger = LoggerFactory.getLogger(CopyStrategy.class);
+	@Override
 	public Logger getLogger()
 	{
 		return logger;
 	}
 	
+	@Override
 	public boolean isDebugEnabled()
 	{
 		return getLogger().isDebugEnabled();
 	}
 	
+	@Override
 	public boolean isTraceEnabled()
 	{
 		return getLogger().isTraceEnabled();
@@ -83,11 +87,11 @@ public class DefaultCopyStrategy implements CopyStrategy
 	protected <T> T observe(String label, ObjectLocator locator, T obj)
 	{
 		if ( isTraceEnabled() )
-			trace(buildMessage(label, locator, (obj != null) ? obj.toString() : "null"));
+			trace(buildMessage(label, locator, valueToString(obj)));
 		else if ( isDebugEnabled() )
 		{
 			if ( locator instanceof RootObjectLocator )
-				debug(buildMessage(label, locator, (obj != null) ? obj.toString() : "null"));
+				debug(buildMessage(label, locator, valueToString(obj)));
 		}			
 		return obj;
 	}
@@ -102,10 +106,16 @@ public class DefaultCopyStrategy implements CopyStrategy
 		return message;
 	}
 	
+	@Override
+	public Boolean shouldBeCopiedAndSet(ObjectLocator locator, boolean valueSet)
+	{
+		return valueSet;
+	}
+
 	protected Object copyInternal(ObjectLocator locator, Object object)
 	{
 		if (object == null)
-			return null;
+			return observe(locator, null);
 		else if (object instanceof String)
 			return observe(locator, object);
 		else if (object instanceof Number)
@@ -128,7 +138,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	protected Object copy(ObjectLocator locator, Object value)
 	{
 		if (value == null)
-			return null;
+			return observe(locator, null);
 		
 		// 'Switch' on non-array or type of array, to dispatch to 
 		// the correct handler. This handles multidimensional arrays
@@ -202,7 +212,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	protected Object[] copy(ObjectLocator locator, Object[] array)
 	{
 		if (array == null)
-			return null;
+			return observe(locator, null);
 		
 		final Object[] copy = new Object[array.length];
 		for (int index = 0; index < array.length; index++)
@@ -217,7 +227,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	protected long[] copy(ObjectLocator locator, long[] array)
 	{
 		if (array == null)
-			return null;
+			return observe(locator, null);
 		
 		final long[] copy = new long[array.length];
 		for (int index = 0; index < array.length; index++)
@@ -232,7 +242,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	protected int[] copy(ObjectLocator locator, int[] array)
 	{
 		if (array == null)
-			return null;
+			return observe(locator, null);
 		
 		final int[] copy = new int[array.length];
 		for (int index = 0; index < array.length; index++)
@@ -247,7 +257,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	protected short[] copy(ObjectLocator locator, short[] array)
 	{
 		if (array == null)
-			return null;
+			return observe(locator, null);
 		
 		final short[] copy = new short[array.length];
 		for (int index = 0; index < array.length; index++)
@@ -262,7 +272,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	protected char[] copy(ObjectLocator locator, char[] array)
 	{
 		if (array == null)
-			return null;
+			return observe(locator, null);
 		
 		final char[] copy = new char[array.length];
 		for (int index = 0; index < array.length; index++)
@@ -277,7 +287,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	protected byte[] copy(ObjectLocator locator, byte[] array)
 	{
 		if (array == null)
-			return null;
+			return observe(locator, null);
 		
 		final byte[] copy = new byte[array.length];
 		for (int index = 0; index < array.length; index++)
@@ -292,7 +302,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	protected double[] copy(ObjectLocator locator, double[] array)
 	{
 		if (array == null)
-			return null;
+			return observe(locator, null);
 		
 		final double[] copy = new double[array.length];
 		for (int index = 0; index < array.length; index++)
@@ -307,7 +317,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	protected float[] copy(ObjectLocator locator, float[] array)
 	{
 		if (array == null)
-			return null;
+			return observe(locator, null);
 		
 		final float[] copy = new float[array.length];
 		for (int index = 0; index < array.length; index++)
@@ -322,7 +332,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	protected boolean[] copy(ObjectLocator locator, boolean[] array)
 	{
 		if (array == null)
-			return null;
+			return observe(locator, null);
 
 		final boolean[] copy = new boolean[array.length];
 		for (int index = 0; index < array.length; index++)
@@ -390,12 +400,6 @@ public class DefaultCopyStrategy implements CopyStrategy
 				}
 			}
 		}
-	}
-
-	@Override
-	public Boolean shouldBeCopiedAndSet(ObjectLocator locator, boolean valueSet)
-	{
-		return valueSet;
 	}
 
 	@Override

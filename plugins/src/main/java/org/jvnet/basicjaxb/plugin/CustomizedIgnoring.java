@@ -11,70 +11,76 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.EnumOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public class CustomizedIgnoring implements Ignoring {
-
+public class CustomizedIgnoring implements Ignoring
+{
 	private final QName[] ignoredCustomizationElementNames;
-
-	public CustomizedIgnoring(QName... names) {
-		this.ignoredCustomizationElementNames = names;
-	}
-
-	public QName[] getIgnoredCustomizationElementNames() {
+	public QName[] getIgnoredCustomizationElementNames()
+	{
 		return ignoredCustomizationElementNames;
 	}
 
-	public boolean isIgnored(ClassOutline classOutline) {
-		for (QName name : getIgnoredCustomizationElementNames()) {
-			if (CustomizationUtils.containsCustomization(classOutline, name)) {
+	public CustomizedIgnoring(QName... names)
+	{
+		this.ignoredCustomizationElementNames = names;
+	}
+
+	public boolean isIgnored(ClassOutline classOutline)
+	{
+		for (QName name : getIgnoredCustomizationElementNames())
+		{
+			if (CustomizationUtils.containsCustomization(classOutline, name))
 				return true;
-			}
 		}
 		return false;
 	}
 
-	public boolean isIgnored(EnumOutline enumOutline) {
-		for (QName name : getIgnoredCustomizationElementNames()) {
-			if (CustomizationUtils.containsCustomization(enumOutline, name)) {
+	public boolean isIgnored(EnumOutline enumOutline)
+	{
+		for (QName name : getIgnoredCustomizationElementNames())
+		{
+			if (CustomizationUtils.containsCustomization(enumOutline, name))
 				return true;
-			}
 		}
 		return false;
 	}
 
-	public boolean isIgnored(FieldOutline fieldOutline) {
-		for (QName name : getIgnoredCustomizationElementNames()) {
-			if (CustomizationUtils.containsCustomization(fieldOutline, name)) {
+	public boolean isIgnored(FieldOutline fieldOutline)
+	{
+		for (QName name : getIgnoredCustomizationElementNames())
+		{
+			if (CustomizationUtils.containsCustomization(fieldOutline, name))
 				return true;
-			}
 		}
 		return false;
 	}
 
-	public boolean isIgnored(CClassInfo classInfo) {
-		for (QName name : getIgnoredCustomizationElementNames()) {
-			if (CustomizationUtils.containsCustomization(classInfo, name)) {
+	public boolean isIgnored(CClassInfo classInfo)
+	{
+		for (QName name : getIgnoredCustomizationElementNames())
+		{
+			if (CustomizationUtils.containsCustomization(classInfo, name))
 				return true;
-			}
 		}
 		return false;
 	}
 
-	public boolean isIgnored(CEnumLeafInfo enumLeafInfo) {
-		for (QName name : getIgnoredCustomizationElementNames()) {
-			if (CustomizationUtils.containsCustomization(enumLeafInfo, name)) {
+	public boolean isIgnored(CEnumLeafInfo enumLeafInfo)
+	{
+		for (QName name : getIgnoredCustomizationElementNames())
+		{
+			if (CustomizationUtils.containsCustomization(enumLeafInfo, name))
 				return true;
-			}
 		}
 		return false;
 	}
 
-	public boolean isIgnored(CPropertyInfo propertyInfo) {
-		for (QName name : getIgnoredCustomizationElementNames()) {
-			if (CustomizationUtils.containsCustomization(propertyInfo, name)) {
+	public boolean isIgnored(CPropertyInfo propertyInfo)
+	{
+		for (QName name : getIgnoredCustomizationElementNames())
+		{
+			if (CustomizationUtils.containsCustomization(propertyInfo, name))
 				return true;
-			}
 		}
 		return false;
 	}
-
 }

@@ -15,6 +15,11 @@ import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.Model;
 
+/**
+ * This plugin specifies wildcard mode for the wildcard property.
+ * 
+ * @author Alexey Valikov
+ */
 public class WildcardPlugin extends AbstractParameterizablePlugin {
 
 	@Override

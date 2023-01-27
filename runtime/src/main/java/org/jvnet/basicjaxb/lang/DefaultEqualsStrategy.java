@@ -55,8 +55,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 		getLogger().trace(message);
 	}
 
-	protected boolean observe(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Object lhs, Object rhs,
-		boolean result)
+	protected boolean observe(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Object lhs, Object rhs, boolean result)
 	{
 		if (isTraceEnabled())
 		{
@@ -104,10 +103,10 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	protected boolean equalsObject(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Object lhs, Object rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		Class<?> lhsClass = lhs.getClass();
 		if (!lhsClass.isArray())
@@ -116,7 +115,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 		{
 			// Here when we compare different dimensions, for example: a
 			// boolean[][] to a boolean[]
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
 		// 'Switch' on type of array, to dispatch to the correct handler
 		// This handles multi-dimensional arrays of the same depth
@@ -150,10 +149,10 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	protected boolean equalsInternal(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Object lhs, Object rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs instanceof Equals && rhs instanceof Equals)
 			return equalsInternal(lhsLocator, rhsLocator, (Equals) lhs, (Equals) rhs);
@@ -166,10 +165,10 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	protected boolean equalsInternal(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Enum<?> lhs, Enum<?> rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs instanceof Equals && rhs instanceof Equals)
 			return equalsInternal(lhsLocator, rhsLocator, (Equals) lhs, (Equals) rhs);
@@ -180,10 +179,10 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	protected boolean equalsInternal(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Equals lhs, Equals rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		return lhs.equals(lhsLocator, rhsLocator, rhs, this);
 	}
@@ -231,221 +230,221 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	protected boolean equals(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Object[] lhs, Object[] rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs.length != rhs.length)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
-				return false;
+				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
 		
-		return true;
+		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
 	private boolean equalsInternal(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Equals[] lhs, Equals[] rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs.length != rhs.length)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equalsInternal(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
-				return false;
+				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
 		
-		return true;
+		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
 	private boolean equalsInternal(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Enum<?>[] lhs, Enum<?>[] rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs.length != rhs.length)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equalsInternal(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
-				return false;
+				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
 		
-		return true;
+		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
 	protected boolean equals(ObjectLocator lhsLocator, ObjectLocator rhsLocator, boolean[] lhs, boolean[] rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs.length != rhs.length)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
-				return false;
+				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
 		
-		return true;
+		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
 	protected boolean equals(ObjectLocator lhsLocator, ObjectLocator rhsLocator, byte[] lhs, byte[] rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs.length != rhs.length)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
-				return false;
+				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
 		
-		return true;
+		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
 	protected boolean equals(ObjectLocator lhsLocator, ObjectLocator rhsLocator, char[] lhs, char[] rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs.length != rhs.length)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
-				return false;
+				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
 		
-		return true;
+		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
 	protected boolean equals(ObjectLocator lhsLocator, ObjectLocator rhsLocator, double[] lhs, double[] rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs.length != rhs.length)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
-				return false;
+				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
 		
-		return true;
+		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
 	protected boolean equals(ObjectLocator lhsLocator, ObjectLocator rhsLocator, float[] lhs, float[] rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs.length != rhs.length)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
-				return false;
+				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
 		
-		return true;
+		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
 	protected boolean equals(ObjectLocator lhsLocator, ObjectLocator rhsLocator, long[] lhs, long[] rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs.length != rhs.length)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
-				return false;
+				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
 		
-		return true;
+		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
 	protected boolean equals(ObjectLocator lhsLocator, ObjectLocator rhsLocator, int[] lhs, int[] rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs.length != rhs.length)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
-				return false;
+				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
 		
-		return true;
+		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
 	protected boolean equals(ObjectLocator lhsLocator, ObjectLocator rhsLocator, short[] lhs, short[] rhs)
 	{
 		if (lhs == rhs)
-			return true;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 		
 		if (lhs == null || rhs == null)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		if (lhs.length != rhs.length)
-			return false;
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
-				return false;
+				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
 		
-		return true;
+		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
 	@Override

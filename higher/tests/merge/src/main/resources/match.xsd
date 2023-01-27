@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A mock schema for SDNL http://www.gsi.upm.es:9080/ontologies/sdndl/#Match    -->
+<!-- This schema was generated using 'trang' and the XML instances in the samples folder. -->
+<!-- As such, this schema is fictitious and only serves to as a 'merge' test case. -->
+<xs:schema elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://jvnet.patrodyne.org/basicjaxb/test/merge"
+	targetNamespace="http://jvnet.patrodyne.org/basicjaxb/test/merge"
+>
+  <xs:element name="match">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ethernet-match"/>
+        <xs:element ref="ip-match"/>
+        <xs:element ref="in-port"/>
+      </xs:sequence>
+      <xs:attribute name="operation" use="required" type="xs:NCName"/>
+      <xs:attribute name="orig-value" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="ethernet-match">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ethernet-type" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:element ref="ethernet-source"/>
+      </xs:sequence>
+      <xs:attribute name="operation" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+ 
+  <xs:element name="ethernet-type">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="type"/>
+      </xs:sequence>
+      <xs:attribute name="operation" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+ 
+  <xs:element name="type">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:integer">
+          <xs:attribute name="operation" use="required" type="xs:NCName"/>
+          <xs:attribute name="orig-value" use="required" type="xs:integer"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+ 
+  <xs:element name="ethernet-source">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="address"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+ 
+  <xs:element name="address" type="xs:NMTOKEN"/>
+
+  <xs:element name="ip-match">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ip-protocol"/>
+      </xs:sequence>
+      <xs:attribute name="operation" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ip-protocol">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:integer">
+          <xs:attribute name="operation" use="required" type="xs:NCName"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="in-port" type="xs:int"/>
+
+</xs:schema>

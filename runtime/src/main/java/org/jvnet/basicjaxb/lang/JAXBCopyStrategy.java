@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.lang;
 
+import static org.jvnet.basicjaxb.lang.StringUtils.valueToString;
 import static org.jvnet.basicjaxb.locator.util.LocatorUtils.item;
 import static org.jvnet.basicjaxb.locator.util.LocatorUtils.property;
 
@@ -39,9 +40,8 @@ public class JAXBCopyStrategy extends DefaultCopyStrategy
 	@Override
 	protected <T> T observe(String label, ObjectLocator locator, T obj)
 	{
-		String value = (obj != null) ? obj.toString() : "null";
 		if ( isTraceEnabled() )
-			trace(buildMessage(label, locator, value));
+			trace(buildMessage(label, locator, valueToString(obj)));
 		else if ( isDebugEnabled() )
 		{
 			if ( locator != null )
@@ -50,7 +50,7 @@ public class JAXBCopyStrategy extends DefaultCopyStrategy
 				if ( locator instanceof RootObjectLocator )
 				{
 					// Root object value.
-					debug(buildMessage(label, locator, value));
+					debug(buildMessage(label, locator, valueToString(obj)));
 				}
 				else if ( locator.getParentLocator() instanceof RootObjectLocator )
 				{
@@ -62,13 +62,13 @@ public class JAXBCopyStrategy extends DefaultCopyStrategy
 						{
 							PropertyObjectLocator propertyLocator = (PropertyObjectLocator) locator;
 							if ( "value".equals(propertyLocator.getPropertyName())  )
-								debug(buildMessage(label, locator, value));
+								debug(buildMessage(label, locator, valueToString(obj)));
 						}
 					}
 					else
 					{
 						// Root does not wrap a JAXBElement, log object value for each top level property.
-						debug(buildMessage(label, locator, value));
+						debug(buildMessage(label, locator, valueToString(obj)));
 					}
 				}
 				else
@@ -86,7 +86,7 @@ public class JAXBCopyStrategy extends DefaultCopyStrategy
 							{
 								RootObjectLocator rootObjectLocator = (RootObjectLocator) locator.getParentLocator().getParentLocator();
 								if ( rootObjectLocator.getObject() instanceof JAXBElement )
-									debug(buildMessage(label, locator, value));
+									debug(buildMessage(label, locator, valueToString(obj)));
 							}
 						}
 					}

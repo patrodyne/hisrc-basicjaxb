@@ -25,6 +25,11 @@ import com.sun.tools.xjc.outline.FieldAccessor;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 
+/**
+ * This plugin generates missing setters.
+ * 
+ * @author Alexey Valikov
+ */
 public class SettersPlugin extends AbstractParameterizablePlugin {
 
 	private static final JType[] ABSENT = new JType[0];

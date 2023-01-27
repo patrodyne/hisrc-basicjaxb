@@ -14,6 +14,12 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.ElementOutline;
 import com.sun.tools.xjc.outline.Outline;
 
+/**
+ * This plugin forces global elements or complex types to extend or implement
+ * certain classes or interfaces.
+ * 
+ * @author Alexey Valikov
+ */
 public class AutoInheritancePlugin extends AbstractParameterizablePlugin {
 
 	private String xmlRootElementsExtend = null;

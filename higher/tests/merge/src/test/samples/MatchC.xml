@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<match operation="none" orig-value="" xmlns="http://jvnet.patrodyne.org/basicjaxb/test/merge">
+	<ethernet-match operation="none">
+		<ethernet-type operation="none">
+			<type operation="replace" orig-value="2054">2048</type>
+		</ethernet-type>
+		<ethernet-source>
+			<address>aa:aa:aa:aa:aa:aa</address>
+		</ethernet-source>
+	</ethernet-match>
+	<ip-match operation="create">
+		<ip-protocol operation="create">17</ip-protocol>
+	</ip-match>
+   <in-port>8</in-port>
+</match>

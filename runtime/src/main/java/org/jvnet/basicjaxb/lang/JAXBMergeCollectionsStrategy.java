@@ -11,34 +11,33 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
 public class JAXBMergeCollectionsStrategy extends JAXBMergeStrategy
 {
 	private static final JAXBMergeCollectionsStrategy INSTANCE = new JAXBMergeCollectionsStrategy();
+
 	public static JAXBMergeCollectionsStrategy getInstance()
 	{
 		return INSTANCE;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Object mergeInternal(ObjectLocator leftLocator,
-			ObjectLocator rightLocator, @SuppressWarnings("rawtypes") Collection leftCollection,
-			@SuppressWarnings("rawtypes") Collection rightCollection) {
-
-		if (leftCollection instanceof List && rightCollection instanceof List) {
-			final List<Object> list = new ArrayList<Object>(leftCollection
-					.size()
-					+ rightCollection.size());
-			list.addAll(leftCollection);
-			list.addAll(rightCollection);
-			return list;
-		} else if (leftCollection instanceof Set
-				&& rightCollection instanceof Set) {
-			final Set<Object> set = new HashSet<Object>(leftCollection.size()
-					+ rightCollection.size());
-			set.addAll(leftCollection);
-			set.addAll(rightCollection);
-			return set;
-		} else {
-			return super.mergeInternal(leftLocator, rightLocator,
-					leftCollection, rightCollection);
+	protected Object mergeInternal(ObjectLocator lhsLocator, ObjectLocator rhsLocator,
+		@SuppressWarnings("rawtypes") Collection lhsCollection,
+		@SuppressWarnings("rawtypes") Collection rhsCollection)
+	{
+		if (lhsCollection instanceof List && rhsCollection instanceof List)
+		{
+			final List<Object> list = new ArrayList<Object>(lhsCollection.size() + rhsCollection.size());
+			list.addAll(lhsCollection);
+			list.addAll(rhsCollection);
+			return observe("BHS", lhsLocator, list);
 		}
+		else if (lhsCollection instanceof Set && rhsCollection instanceof Set)
+		{
+			final Set<Object> set = new HashSet<Object>(lhsCollection.size() + rhsCollection.size());
+			set.addAll(lhsCollection);
+			set.addAll(rhsCollection);
+			return observe("BHS", lhsLocator, set);
+		}
+		else
+			return super.mergeInternal(lhsLocator, rhsLocator, lhsCollection, rhsCollection);
 	}
 }
