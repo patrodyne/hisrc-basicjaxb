@@ -98,8 +98,8 @@
 									<manifestEntries>
 										<Built-By>${project.groupId}</Built-By>
 										<Main-Class>org.jvnet.basicjaxb.plugin.Dummy</Main-Class>
-										<X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
-										<X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+										<X-Compile-Source-JDK>${maven.compiler.release}</X-Compile-Source-JDK>
+										<X-Compile-Target-JDK>${maven.compiler.release}</X-Compile-Target-JDK>
 									</manifestEntries>
 								</transformer>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
