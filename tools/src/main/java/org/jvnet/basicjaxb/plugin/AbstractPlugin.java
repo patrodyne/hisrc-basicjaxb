@@ -33,7 +33,8 @@ public abstract class AbstractPlugin extends Plugin
 	/**
 	 * Plugin logger.
 	 */
-	protected Logger logger = LoggerFactory.getLogger(getClass());
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	protected Logger getLogger() { return logger; }
 
 	@Override
 	public void onActivated(Options options) throws BadCommandLineException

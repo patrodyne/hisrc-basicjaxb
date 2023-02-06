@@ -52,7 +52,7 @@
 					<version>${hisrc-higherjaxb-maven-plugin.version}</version>
 					<executions>
 						<execution>
-							<id>generate</id>
+							<id>default</id>
 							<goals>
 								<goal>generate</goal>
 							</goals>

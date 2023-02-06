@@ -20,10 +20,11 @@
 		<root.basedir>${basedir}/../../..</root.basedir>
 	</properties>
 	<modules>
-		<module>po</module>
 		<module>basic</module>
-		<module>po-simple</module>
 		<module>cxf</module>
+		<module>po</module>
+		<module>po-shaded</module>
+		<module>po-simple</module>
 	</modules>
 </project>
 <!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4: -->

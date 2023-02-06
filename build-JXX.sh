@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Usage: build-JXX.sh [option(s)] [goal(s)]
 # Example: build-JXX.sh clean install
@@ -32,7 +32,8 @@ source ${BASEDIR}/build-INC.sh
 if [ $# -eq 0 ]; then
   ${BASEDIR}/build.sh
 else
-  mvn --fail-at-end ${JVM_SYS_PROPS} "$@"
+  source ${BASEDIR}/build-CFG.sh
+  mvn ${JVM_SYS_PROPS} "$@"
 fi
 
 # mvn -DskipTests=true clean install

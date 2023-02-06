@@ -116,7 +116,6 @@ public class LocatorInputFactory
 	 * root and any leading '/' will be ignored.
 	 * 
 	 * @param locator The location of a file or resource.
-	 * @param clazz A classpath location for relative locators.
 	 * 
 	 * @throws IOException If an error occurred when inputting from the reader.
 	 */

@@ -344,7 +344,7 @@ TR extends TypeRef<T, C>> {
 				return createElementRefsPropertyInfo(classInfo, rp);
 			}
 		} else if (p instanceof MapPropertyInfo) {
-			// System.out.println("Map property: " + p.getName());
+			// getLogger().debug("Map property: " + p.getName());
 			// MapPropertyInfo<T, C> mp = (MapPropertyInfo<T, C>) p;
 			throw new UnsupportedOperationException();
 		} else {

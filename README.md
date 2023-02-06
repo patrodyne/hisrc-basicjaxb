@@ -53,7 +53,7 @@ New goals for the next release are:
 * Set log levels for basic strategies in simplelogger.properties.
 * Improved debug and trace logging JAXB plugin strategies.
 * New explorations for copy and merge strategies.
-* Compile sources and generate classes for Java release v11.
+* Compile sources and generate classes for Java release v11 using JDK 17.
 
 ### Status
 
@@ -71,7 +71,7 @@ New goals for the next release are:
 * Moved 'explore' and 'samples' folder to new 'assembly' folder and restored int. testing.
 * Set log levels for basic strategies in simplelogger.properties.
 * Improved debug and trace logging JAXB plugin strategies.
-* Compile sources and generate classes for Java release v11.
+* Compile sources and generate classes for Java release v11 using JDK 17.
 
 ### Fork History
 

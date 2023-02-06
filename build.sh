@@ -63,7 +63,7 @@ menu_actions()
 			"h)")	${BUILDER} -DskipTests=true clean install ;;
 			"i)")	${BUILDER} -DskipTests=true -Pall clean package ;;
 			"j)")	${BUILDER} -DskipTests=false -Pall test ;;
-			"k)")	${BUILDER} -DskipTests=false -Passembly integration-test ;;
+			"k)")	${BUILDER} -DskipTests=false -Passembly clean integration-test ;;
 			"l)")	${BUILDER} -DskipTests=false -Pall site ;;
 			"v)")	vim . ;;
 		esac	
@@ -150,9 +150,9 @@ output()
 {
 	if [ "${BUILD_LOG}" = true ]; then
 		if [ -n "$DISPLAY" ]; then
-			$@ | tee "build.log"
+			$@ 2>&1 | tee "build.log"
 		else
-			$@ | tee "build.log" | less
+			$@ 2>&1 | tee "build.log" | less
 		fi
 	else
 		if [ -n "$DISPLAY" ]; then

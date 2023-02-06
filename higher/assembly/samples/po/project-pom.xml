@@ -136,6 +136,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M5</version>
 				<configuration>
+					<argLine>${env.JVM_SYS_ARGS}</argLine>
 					<systemPropertiesFile>\${basedir}/src/test/resources/jvmsystem.properties</systemPropertiesFile>
 				</configuration>
 			</plugin>
@@ -168,6 +169,7 @@
 				<version>\${hisrc-higherjaxb-maven-plugin.version}</version>
 				<executions>
 					<execution>
+						<id>generate</id>
 						<goals>
 							<goal>generate</goal>
 						</goals>

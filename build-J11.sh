@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Usage: build-J11.sh [option(s)] [goal(s)]
 # Example: build-J11.sh clean install
@@ -34,7 +34,8 @@ source ${BASEDIR}/build-INC.sh
 if [ $# -eq 0 ]; then
   ${BASEDIR}/build.sh
 else
-  mvn --fail-at-end ${JVM_SYS_PROPS} "$@"
+  source ${BASEDIR}/build-CFG.sh
+  mvn ${JVM_SYS_PROPS} "$@"
 fi
 
 # mvn ${JVM_SYS_PROPS} install

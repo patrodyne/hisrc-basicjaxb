@@ -1,5 +1,6 @@
 # JVM System Arguments
 # See build.sh, explore.sh, pom.xml, maven-surefire-plugin
 -enableassertions
---illegal-access=deny
+# OpenJDK 64-Bit Server VM warning: Ignoring option --illegal-access=deny; support was removed in 17.0
+# --illegal-access=deny
 --add-opens java.base/java.net=ALL-UNNAMED

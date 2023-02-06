@@ -1,7 +1,15 @@
 package org.hisrc.xml.bind.tests.dynamicelementname;
 
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.xml.namespace.QName;
+
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
@@ -11,67 +19,78 @@ import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlRegistry;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
-import javax.xml.namespace.QName;
 
-import org.junit.jupiter.api.Test;
-
-public class DynamicElementNameTest {
-
+public class DynamicElementNameTest
+{
+	private Logger logger = LoggerFactory.getLogger(DynamicElementNameTest.class);
+	public Logger getLogger() { return logger; }
+	
 	@Test
-	public void marshallsDynamicElementName() throws JAXBException {
+	public void marshallsDynamicElementName()
+		throws JAXBException
+	{
 		JAXBContext context = JAXBContext.newInstance(ObjectFactory.class);
 		final Characteristics characteristics = new Characteristics();
-		final Characteristic characteristic = new Characteristic(
-				"store_capacity", "40");
+		final Characteristic characteristic = new Characteristic("store_capacity", "40");
 		characteristics.getCharacteristics().add(characteristic);
+		
 		// TODO: assertion
-		context.createMarshaller().marshal(characteristics, System.out);
+		Writer sw = new StringWriter();
+		context.createMarshaller().marshal(characteristics, sw);
+		getLogger().debug("Characteristics:\n" + sw);
 	}
 
 	@XmlRegistry
-	public static class ObjectFactory {
-
-		public Characteristics createCharacteristics() {
+	public static class ObjectFactory
+	{
+		public Characteristics createCharacteristics()
+		{
 			return new Characteristics();
 		}
 
 		@XmlElementDecl(name = "characteristic")
-		public JAXBElement<String> createCharacteristic(String value) {
+		public JAXBElement<String> createCharacteristic(String value)
+		{
 			return new Characteristic(value);
 		}
-
 	}
 
 	@XmlRootElement(name = "characteristics")
-	public static class Characteristics {
-
+	public static class Characteristics
+	{
 		private final List<Characteristic> characteristics = new LinkedList<Characteristic>();
 
 		@XmlElementRef(name = "characteristic")
-		public List<Characteristic> getCharacteristics() {
+		public List<Characteristic> getCharacteristics()
+		{
 			return characteristics;
 		}
-
 	}
 
-	public static class Characteristic extends JAXBElement<String> {
-
+	public static class Characteristic
+		extends
+		JAXBElement<String>
+	{
 		private static final long serialVersionUID = 1L;
 		public static final QName NAME = new QName("characteristic");
 
-		public Characteristic(String value) {
+		public Characteristic(String value)
+		{
 			super(NAME, String.class, value);
 		}
 
-		public Characteristic(String characteristic, String value) {
+		public Characteristic(String characteristic, String value)
+		{
 			super(NAME, String.class, value);
 			this.characteristic = characteristic;
 		}
 
 		@Override
-		public QName getName() {
+		public QName getName()
+		{
 			final String characteristic = getCharacteristic();
-			if (characteristic != null) {
+			if (characteristic != null)
+			{
 				return new QName(characteristic);
 			}
 			return super.getName();
@@ -80,11 +99,13 @@ public class DynamicElementNameTest {
 		private String characteristic;
 
 		@XmlTransient
-		public String getCharacteristic() {
+		public String getCharacteristic()
+		{
 			return characteristic;
 		}
 
-		public void setCharacteristic(String characteristic) {
+		public void setCharacteristic(String characteristic)
+		{
 			this.characteristic = characteristic;
 		}
 	}
