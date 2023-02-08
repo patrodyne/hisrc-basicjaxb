@@ -73,6 +73,7 @@
 		<junit-jupiter.version>5.9.1</junit-jupiter.version>
 		<junit-platform.version>1.9.1</junit-platform.version>
 		<maven.compiler.release>11</maven.compiler.release>
+		<maven-min.version>3.8.4</maven-min.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<slf4j.version>2.0.6</slf4j.version>
@@ -300,19 +301,19 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
-					<version>3.3.0</version>
+					<version>3.4.2</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.2.0</version>
+					<version>3.5.0</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-invoker-plugin</artifactId>
-					<version>3.2.2</version>
+					<version>3.4.0</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-surefire-report-plugin</artifactId>
-					<version>3.0.0-M5</version>
+					<version>3.0.0-M8</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-failsafe-plugin</artifactId>
@@ -320,11 +321,11 @@
 				</plugin>
 				<plugin>
 					<artifactId>maven-jxr-plugin</artifactId>
-					<version>3.1.1</version>
+					<version>3.3.0</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-project-info-reports-plugin</artifactId>
-					<version>3.4.1</version>
+					<version>3.4.2</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-shade-plugin</artifactId>
@@ -333,17 +334,27 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>versions-maven-plugin</artifactId>
-					<version>2.9.0</version>
+					<version>2.14.2</version>
+					<configuration>
+						<ruleSet>
+							<ignoreVersions>
+								<ignoreVersion>
+									<type>regex</type>
+									<version>.+-M\d</version>
+								</ignoreVersion>
+							</ignoreVersions>
+						</ruleSet>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.felix</groupId>
 					<artifactId>maven-bundle-plugin</artifactId>
-					<version>5.1.4</version>
+					<version>5.1.8</version>
 				</plugin>
 				<plugin>
 					<groupId>org.owasp</groupId>
 					<artifactId>dependency-check-maven</artifactId>
-					<version>3.2.1</version>
+					<version>8.0.2</version>
 				</plugin>
 				<plugin>
 					<groupId>com.ruleoftech</groupId>
@@ -387,15 +398,15 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.1.0</version>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
 				<version>3.2.0</version>
 			</plugin>
 			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.3.0</version>
+			</plugin>
+			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.2.2</version>
+				<version>3.3.0</version>
 				<configuration>
 					<excludes>
 						<exclude>**/.placeholder</exclude>
@@ -404,11 +415,11 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.9.0</version>
+				<version>3.10.1</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M5</version>
+				<version>3.0.0-M8</version>
 				<configuration>
 					<argLine>${env.JVM_SYS_ARGS}</argLine>
 					<systemPropertiesFile>${root.basedir}/src/test/resources/jvmsystem.properties</systemPropertiesFile>
@@ -416,11 +427,11 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-install-plugin</artifactId>
-				<version>3.0.0-M1</version>
+				<version>3.1.0</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
-				<version>3.0.0-M2</version>
+				<version>3.0.0</version>
 				<!-- Disable in favor of nexus-staging-maven-plugin -->
 				<configuration>
 					<skip>true</skip>
@@ -428,7 +439,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>3.0.0-M5</version>
+				<version>3.0.0-M7</version>
 				<configuration>
 					<tagNameFormat>@{project.version}</tagNameFormat>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
@@ -437,7 +448,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.10.0</version>
+				<version>3.12.1</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
@@ -471,7 +482,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.2.1</version>
 				<executions>
 					<execution>
 						<id>enforce-java-maven</id>
@@ -484,7 +495,7 @@
 									<version>${maven.compiler.release}</version>
 								</requireJavaVersion>
 								<requireMavenVersion>
-									<version>3.1</version>
+									<version>${maven-min.version}</version>
 								</requireMavenVersion>
 							</rules>    
 						</configuration>
@@ -555,7 +566,7 @@
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
 						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.10</version>
+						<version>1.6.13</version>
 						<extensions>true</extensions>
 						<executions>
 							<execution>

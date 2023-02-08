@@ -22,28 +22,29 @@ menu_options()
 {
 	clear
 	if [ "${FULL_MENU}" = true ]; then
-		ACTION=$(whiptail --default-item="${ACTION}" --title "${FGTITLE}" --backtitle "${BGTITLE}" --menu "Select Action ..." --cancel-button "Close" 20 78 13 \
+		ACTION=$(whiptail --default-item="${ACTION}" --title "${FGTITLE}" --backtitle "${BGTITLE}" --menu "Select Action ..." --cancel-button "Close" 20 78 14 \
 			"a)"	"Validate POM(s) correctness and that information is available" \
 			"b)"	"Compare the effective POM with current POM" \
-			"c)"	"Display dependencies that have newer version available" \
-			"d)"	"Display the dependency tree" \
-			"e)"	"Resolve plugins and report dependencies" \
-			"f)"	"Analyze dependencies and report on: (un)used and/or (un)declared" \
-			"g)"	"Download source and javadoc jars to the local repository" \
-			"h)"	"Clean and install the shared libraries to the local repository" \
-			"i)"	"Clean and package all modules: libraries, assemblies, tests, etc." \
-			"j)"	"Unit test all modules" \
-			"k)"	"Integration test default, assembly modules" \
-			"l)"	"Generate a site for each project" \
+			"c)"	"Display plugins that have newer version available" \
+			"d)"	"Display dependencies that have newer version available" \
+			"e)"	"Display the dependency tree" \
+			"f)"	"Resolve plugins and report dependencies" \
+			"g)"	"Analyze dependencies and report on: (un)used and/or (un)declared" \
+			"h)"	"Download source and javadoc jars to the local repository" \
+			"i)"	"Clean and install the shared libraries to the local repository" \
+			"j)"	"Clean and package all modules: libraries, assemblies, tests, etc." \
+			"k)"	"Unit test all modules" \
+			"l)"	"Integration test default, assembly modules" \
+			"m)"	"Generate a site for each project" \
 			"v)"	"Vim into current directory" \
 			3>&2 2>&1 1>&3)
 	else
 		ACTION=$(whiptail --default-item="${ACTION}" --title "${FGTITLE}" --backtitle "${BGTITLE}" --menu "Select Action ..." --cancel-button "Close" 20 78 13 \
 			"a)"	"Validate POM(s) correctness and that information is available" \
-			"h)"	"Clean and install the shared libraries to the local repository" \
-			"i)"	"Clean and package all modules: libraries, assemblies, tests, etc." \
-			"j)"	"Unit test all modules" \
-			"k)"	"Integration test default, assembly modules" \
+			"i)"	"Clean and install the shared libraries to the local repository" \
+			"j)"	"Clean and package all modules: libraries, assemblies, tests, etc." \
+			"k)"	"Unit test all modules" \
+			"l)"	"Integration test default, assembly modules" \
 			"v)"	"Vim into current directory" \
 			3>&2 2>&1 1>&3)
 	fi
@@ -55,16 +56,17 @@ menu_actions()
 		case "${ACTION}" in
 			"a)")	${BUILDER} validate ;;
 			"b)")	comparepom ;;
-			"c)")	${BUILDER} versions:display-dependency-updates ;;
-			"d)")	${BUILDER} dependency:tree ;;
-			"e)")	${BUILDER} dependency:resolve-plugins ;;
-			"f)")	${BUILDER} dependency:analyze ;;
-			"g)")	${BUILDER} dependency:sources ;;
-			"h)")	${BUILDER} -DskipTests=true clean install ;;
-			"i)")	${BUILDER} -DskipTests=true -Pall clean package ;;
-			"j)")	${BUILDER} -DskipTests=false -Pall test ;;
-			"k)")	${BUILDER} -DskipTests=false -Passembly clean integration-test ;;
-			"l)")	${BUILDER} -DskipTests=false -Pall site ;;
+			"c)")	${BUILDER} versions:display-plugin-updates ;;
+			"d)")	${BUILDER} versions:display-dependency-updates ;;
+			"e)")	${BUILDER} dependency:tree ;;
+			"f)")	${BUILDER} dependency:resolve-plugins ;;
+			"g)")	${BUILDER} dependency:analyze ;;
+			"h)")	${BUILDER} dependency:sources ;;
+			"i)")	${BUILDER} -DskipTests=true clean install ;;
+			"j)")	${BUILDER} -DskipTests=true -Pall clean package ;;
+			"k)")	${BUILDER} -DskipTests=false -Pall test ;;
+			"l)")	${BUILDER} -DskipTests=false -Passembly clean integration-test ;;
+			"m)")	${BUILDER} -DskipTests=false -Pall site ;;
 			"v)")	vim . ;;
 		esac	
 		read -p "Press any key to continue..." anykey
