@@ -10,7 +10,8 @@
 	<name>HiSrc BasicJAXB - Sample [basic-maven]</name>
 
 	<properties>
-		<maven.compiler.release>11</maven.compiler.release>
+		<maven.compiler.release>${maven.compiler.release}</maven.compiler.release>
+		<maven-min.version>${maven-min.version}</maven-min.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<hisrc-basicjaxb.version>${hisrc-basicjaxb.version}</hisrc-basicjaxb.version>
@@ -80,60 +81,92 @@
 			<plugins>
 				<plugin>
 					<artifactId>maven-antrun-plugin</artifactId>
-					<version>3.1.0</version>
+					<version>${maven-antrun-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
-					<version>3.3.0</version>
+					<version>${maven-assembly-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-dependency-plugin</artifactId>
-					<version>3.2.0</version>
+					<version>${maven-dependency-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-release-plugin</artifactId>
-					<version>3.0.0-M5</version>
+					<version>${maven-release-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-surefire-report-plugin</artifactId>
-					<version>3.0.0-M5</version>
+					<version>${maven-surefire-report-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-jxr-plugin</artifactId>
-					<version>3.1.1</version>
+					<version>${maven-jxr-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-project-info-reports-plugin</artifactId>
-					<version>3.4.1</version>
+					<version>${maven-project-info-reports-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>versions-maven-plugin</artifactId>
-					<version>2.9.0</version>
+					<version>${versions-maven-plugin.version}</version>
+					<configuration>
+						<ruleSet>
+							<ignoreVersions>
+								<ignoreVersion>
+									<type>regex</type>
+									<version>.+-M\d</version>
+								</ignoreVersion>
+							</ignoreVersions>
+						</ruleSet>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 
 		<plugins>
 			<plugin>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven-enforcer-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>enforce-java-maven</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireJavaVersion>
+									<version>${maven.compiler.release}</version>
+								</requireJavaVersion>
+								<requireMavenVersion>
+									<version>${maven-min.version}</version>
+								</requireMavenVersion>
+							</rules>    
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>${maven-clean-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.2.0</version>
+				<version>${maven-resources-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.2.2</version>
+				<version>${maven-jar-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.9.0</version>
+				<version>${maven-compiler-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M5</version>
+				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
 					<argLine>${env.JVM_SYS_ARGS}</argLine>
 					<systemPropertiesFile>\${basedir}/src/test/resources/jvmsystem.properties</systemPropertiesFile>
@@ -141,15 +174,15 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-install-plugin</artifactId>
-				<version>3.0.0-M1</version>
+				<version>${maven-install-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
-				<version>3.0.0-M2</version>
+				<version>${maven-deploy-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.10.0</version>
+				<version>${maven-site-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
