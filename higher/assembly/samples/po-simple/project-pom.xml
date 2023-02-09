@@ -110,7 +110,15 @@
 							<ignoreVersions>
 								<ignoreVersion>
 									<type>regex</type>
+                                    <version>(.+\.Alpha\d|.+-alpha-\d)</version>
+								</ignoreVersion>
+								<ignoreVersion>
+									<type>regex</type>
 									<version>.+-M\d</version>
+								</ignoreVersion>
+								<ignoreVersion>
+									<type>regex</type>
+									<version>.+[\.-](CR|RC)\d</version>
 								</ignoreVersion>
 							</ignoreVersions>
 						</ruleSet>
