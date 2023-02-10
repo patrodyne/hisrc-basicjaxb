@@ -523,6 +523,7 @@
 				<executions>
 					<execution>
 						<id>enforce-java-maven</id>
+						<?m2e ignore?>
 						<goals>
 							<goal>enforce</goal>
 						</goals>
