@@ -14,7 +14,6 @@
 	<packaging>pom</packaging>
 	<name>HiSrc BasicJAXB - Higher</name>
 	<properties>
-		<hisrc-basicjaxb.version>2.0.1-SNAPSHOT</hisrc-basicjaxb.version>
 		<hisrc-higherjaxb-maven-plugin.version>2.0.1-SNAPSHOT</hisrc-higherjaxb-maven-plugin.version>
 		<root.basedir>${basedir}/..</root.basedir>
 	</properties>

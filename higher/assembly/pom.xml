@@ -16,12 +16,47 @@
 	<properties>
 		<ant-atleast.version>1.10.4</ant-atleast.version>
 		<hisrc-basicjaxb.version>2.0.1-SNAPSHOT</hisrc-basicjaxb.version>
+		<hisrc-higherjaxb-maven-plugin.version>2.0.1-SNAPSHOT</hisrc-higherjaxb-maven-plugin.version>
 		<root.basedir>${basedir}/../..</root.basedir>
 	</properties>
 	<modules>
 		<module>explore</module>
 		<module>samples</module>
 	</modules>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-ant</artifactId>
+				<version>${hisrc-basicjaxb.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-plugins</artifactId>
+				<version>${hisrc-basicjaxb.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-runtime</artifactId>
+				<version>${hisrc-basicjaxb.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-shaded</artifactId>
+				<version>${hisrc-basicjaxb.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-testing</artifactId>
+				<version>${hisrc-basicjaxb.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-tools</artifactId>
+				<version>${hisrc-basicjaxb.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<build>
 		<defaultGoal>package</defaultGoal>
 		<plugins>
