@@ -96,8 +96,8 @@
 		<activation-imp.version>2.0.0</activation-imp.version>
 		<ant.version>1.10.13</ant.version>
 		<cxf.version>3.3.0</cxf.version>
-		<jaxb-api.version>3.0.1</jaxb-api.version>
-		<jaxb-imp.version>3.0.2</jaxb-imp.version>
+		<jaxb-api.version>4.0.0</jaxb-api.version>
+		<jaxb-imp.version>4.0.2</jaxb-imp.version>
 		<jaxb-core.version>2.3.0.1</jaxb-core.version> <!-- cxf -->
 		<junit-jupiter.version>5.9.2</junit-jupiter.version>
 		<junit-platform.version>1.9.2</junit-platform.version>
