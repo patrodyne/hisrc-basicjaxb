@@ -36,8 +36,8 @@ else
   mvn ${JVM_SYS_PROPS} "$@"
 fi
 
-# mvn -DskipTests=true clean install
-# mvn -DskipTests=true -Pnexus-deploy clean deploy
-# mvn -DskipTests=true -DdryRun=false release:clean
-# mvn -DskipTests=true -DdryRun=true release:prepare
-# mvn -DskipTests=true -DdryRun=true release:perform
+# ./build-JXX.sh -DskipTests=true clean install
+# ./build-JXX.sh -DskipTests=true -Pnexus-deploy clean deploy
+# ./build-JXX.sh -DskipTests=true -DdryRun=false release:clean
+# ./build-JXX.sh -DskipTests=true -DdryRun=false release:prepare
+# ./build-JXX.sh -DskipTests=true -DdryRun=false release:perform

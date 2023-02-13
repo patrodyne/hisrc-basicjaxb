@@ -38,9 +38,9 @@ else
   mvn ${JVM_SYS_PROPS} "$@"
 fi
 
-# mvn ${JVM_SYS_PROPS} install
-# mvn ${JVM_SYS_PROPS} -Passembly package
-# mvn ${JVM_SYS_PROPS} -Ptests package
-# mvn ${JVM_SYS_PROPS} -Passembly,tests package
-# mvn ${JVM_SYS_PROPS} -Pdist package
-# mvn ${JVM_SYS_PROPS} -Pall package
+# ./build-J11.sh ${JVM_SYS_PROPS} install
+# ./build-J11.sh ${JVM_SYS_PROPS} -Passembly package
+# ./build-J11.sh ${JVM_SYS_PROPS} -Ptests package
+# ./build-J11.sh ${JVM_SYS_PROPS} -Passembly,tests package
+# ./build-J11.sh ${JVM_SYS_PROPS} -Pdist package
+# ./build-J11.sh ${JVM_SYS_PROPS} -Pall package
