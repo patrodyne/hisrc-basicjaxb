@@ -4,7 +4,7 @@
 # Example: build-J11.sh clean install
 #
 # Profile Id: none - default, install common jars to local repository.
-# Profile Id: samples - package sample plus default projects.
+# Profile Id: assembly - assemble (zip) explorer, samples projects.
 # Profile Id: tests - package test plus default projects.
 # Profile Id: dist - package distribution plus default.
 # Profile Id: all - package the above.
@@ -39,8 +39,8 @@ else
 fi
 
 # mvn ${JVM_SYS_PROPS} install
-# mvn ${JVM_SYS_PROPS} -Psamples package
+# mvn ${JVM_SYS_PROPS} -Passembly package
 # mvn ${JVM_SYS_PROPS} -Ptests package
-# mvn ${JVM_SYS_PROPS} -Psamples,tests package
+# mvn ${JVM_SYS_PROPS} -Passembly,tests package
 # mvn ${JVM_SYS_PROPS} -Pdist package
 # mvn ${JVM_SYS_PROPS} -Pall package
