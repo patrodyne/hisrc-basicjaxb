@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.patrodyne.jvnet</groupId>
 	<artifactId>hisrc-basicjaxb-project</artifactId>
-	<version>2.1.0</version>
+	<version>2.1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>HiSrc BasicJAXB - Project</name>
 	<description>HiSrc BasicJAXB is a part of Patrodyne HiSrc repos which implement plugins and tools for JAXB reference implementation.</description>
@@ -45,7 +45,7 @@
 		<connection>scm:git:git@github.com:patrodyne/hisrc-basicjaxb.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/patrodyne/hisrc-basicjaxb.git</developerConnection>
 		<url>https://github.com/patrodyne/hisrc-basicjaxb/tree/master</url>
-	  <tag>2.1.0</tag>
+	  <tag>HEAD</tag>
   </scm>
 	<issueManagement>
 		<system>GitHub Issues</system>
