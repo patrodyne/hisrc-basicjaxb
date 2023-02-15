@@ -44,18 +44,7 @@ with the original `maven-jaxb2-plugin` name.
 
 New goals for the next release are:
 
-* Clean up Java compiler _lint_ warnings.
-* Replace deprecated XJC plugin strategies v1 with v2.
-* Recheck Dependency Management for newer versions.
-* Configure menu, log and Maven options from build-CFG.sh.
-* Include JVM system arguments from 'src/test/resources/jvmsystem.arguments'.
-* Moved 'explore' and 'samples' folder to new 'assembly' folder and restored int. testing.
-* Set log levels for basic strategies in simplelogger.properties.
-* Improved debug and trace logging JAXB plugin strategies.
 * New explorations for copy and merge strategies.
-* Compile sources and generate classes for Java release v11 using JDK 17.
-* Replaced `maven.compiler.source/target="11"` with `maven.compiler.release="11"`.
-* Update JAXB dependencies from 3.x to 4.x.
 
 ### Status
 
@@ -65,19 +54,23 @@ New goals for the next release are:
 
 #### Completed
 
+* Review in progress.
+
+### Fork History
+
+#### Version 2.1.0
+
 * Clean up Java compiler _lint_ warnings.
 * Replace deprecated XJC plugin strategies v1 with v2.
 * Recheck Dependency Management for newer versions.
 * Configure menu, log and Maven options from build-CFG.sh.
-* Include JVM system arguments from 'src/test/resources/jvmsystem.arguments'.
+* Include JVM system arguments from `src/test/resources/jvmsystem.arguments`.
 * Moved 'explore' and 'samples' folder to new 'assembly' folder and restored int. testing.
 * Set log levels for basic strategies in simplelogger.properties.
 * Improved debug and trace logging JAXB plugin strategies.
 * Compile sources and generate classes for Java release v11 using JDK 17.
 * Replaced `maven.compiler.source/target="11"` with `maven.compiler.release="11"`.
 * Update JAXB dependencies from 3.x to 4.x.
-
-### Fork History
 
 #### Version 2.0.0
 
