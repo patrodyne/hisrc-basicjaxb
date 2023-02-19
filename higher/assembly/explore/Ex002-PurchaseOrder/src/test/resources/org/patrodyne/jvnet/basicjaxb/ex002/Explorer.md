@@ -233,14 +233,14 @@ Change the Maven [POM][6] for your copy of this project to use the alternative _
 
 <!-- References -->
 
-[1]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/explore/Ex002-PurchaseOrder/src/test/java/org/patrodyne/jvnet/basicjaxb/ex002/Explorer.java?ts=4
-[2]: https://raw.githubusercontent.com/patrodyne/hisrc-basicjaxb/master/higher/explore/Ex002-PurchaseOrder/src/main/resources/PurchaseOrder.svg
-[3]: https://github.com/patrodyne/hisrc-basicjaxb/tree/master/higher/explore/Ex002-PurchaseOrder/src/test/examples
-[4]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/explore/Ex002-PurchaseOrder/src/main/resources/PurchaseOrder.xsd?ts=4
-[5]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/explore/Ex002-PurchaseOrder/src/main/resources/PurchaseOrder.xjb?ts=4
-[6]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/explore/Ex002-PurchaseOrder/project-pom.xml?ts=4
+[1]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/explore/Ex002-PurchaseOrder/src/test/java/org/patrodyne/jvnet/basicjaxb/ex002/Explorer.java?ts=4
+[2]: https://raw.githubusercontent.com/patrodyne/hisrc-basicjaxb/master/higher/assembly/explore/Ex002-PurchaseOrder/src/main/resources/PurchaseOrder.svg
+[3]: https://github.com/patrodyne/hisrc-basicjaxb/tree/master/higher/assembly/explore/Ex002-PurchaseOrder/src/test/examples
+[4]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/explore/Ex002-PurchaseOrder/src/main/resources/PurchaseOrder.xsd?ts=4
+[5]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/explore/Ex002-PurchaseOrder/src/main/resources/PurchaseOrder.xjb?ts=4
+[6]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/explore/Ex002-PurchaseOrder/project-pom.xml?ts=4
 [7]: https://eclipse-ee4j.github.io/jaxb-ri/
 [8]: https://www.slf4j.org/
 [9]: https://www.slf4j.org/api/org/slf4j/simple/SimpleLogger.html
-[10]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/explore/Ex002-PurchaseOrder/src/test/resources/simplelogger.properties
+[10]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/explore/Ex002-PurchaseOrder/src/test/resources/simplelogger.properties
 [11]: https://www.compart.com/en/unicode/U+4E82

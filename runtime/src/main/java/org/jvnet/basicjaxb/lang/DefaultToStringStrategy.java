@@ -601,8 +601,8 @@ public class DefaultToStringStrategy implements ToStringStrategy
 		}
 		else if (value instanceof ToString)
 		{
-			final ToString toString2 = (ToString) value;
-			toString2.append(locator, buffer, this);
+			final ToString toString = (ToString) value;
+			toString.append(locator, buffer, this);
 		}
 		else
 		{
