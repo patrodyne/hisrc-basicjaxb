@@ -29,6 +29,7 @@ with the original `maven-jaxb2-plugin` name.
 
 #### GitHub Releases, Demonstrations
 
+* [HiSrc BasicJAXB v2.1.0, Explorations][33]
 * [HiSrc BasicJAXB v2.0.0, Explorations][32]
 * [HiSrc BasicJAXB v0.12.2, Explorations][31]
 
@@ -145,3 +146,4 @@ New goals for the next release are:
   [25]: https://github.com/highsource/hyperjaxb3#readme
   [31]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/0.12.2
   [32]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.0.0
+  [33]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.1.0
