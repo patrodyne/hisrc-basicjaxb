@@ -15,10 +15,15 @@
  */
 package org.jvnet.basicjaxb.plugin.valueconstructor;
 
+import static org.jvnet.basicjaxb.plugin.valueconstructor.Customizations.IGNORED_ELEMENT_NAME;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.xml.namespace.QName;
 
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
@@ -33,16 +38,34 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
+import org.jvnet.basicjaxb.plugin.Customizations;
+import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
+import org.jvnet.basicjaxb.plugin.Ignoring;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 /**
- * <p>Adds a default constructor and a constructor for all instance (non static)
- * fields.</p>
+ * <p>
+ * Generate two constructors for each generated class, one of which is a default
+ * constructor, the other takes an argument for each field in the class and
+ * Initializes the field with the argument value.
+ * </p>
  * 
- * <p>Note: this plugin was copied from the original java EE jaxb2-commons project
- * at: https://github.com/javaee/jaxb2-commons</p>
+ * <p>
+ * Without this plugin, XJC will not generate any explicit constructors.
+ * </p>
  * 
+ * <p>
+ * Adds a default constructor and a constructor for all instance (non static)
+ * fields.
+ * </p>
+ * 
+ * <p>
+ * Note: this plugin was copied from the original java EE jaxb2-commons project
+ * at: https://github.com/javaee/jaxb2-commons
+ * </p>
+ * 
+ * @author Kenny MacLeod
  */
 public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 {
@@ -58,17 +81,40 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 		return "  -Xvalue-constructor        :  enable generation of value constructors";
 	}
 
+	private Ignoring ignoring = new CustomizedIgnoring(IGNORED_ELEMENT_NAME, Customizations.IGNORED_ELEMENT_NAME, Customizations.GENERATED_ELEMENT_NAME);
+	public Ignoring getIgnoring()
+	{
+		return ignoring;
+	}
+	public void setIgnoring(Ignoring ignoring)
+	{
+		this.ignoring = ignoring;
+	}
+
+	@Override
+	public Collection<QName> getCustomizationElementNames()
+	{
+		return Arrays.asList(IGNORED_ELEMENT_NAME, Customizations.IGNORED_ELEMENT_NAME, Customizations.GENERATED_ELEMENT_NAME);
+	}
+	
 	@Override
 	public boolean run(Outline outline, Options options, ErrorHandler errorHandler)
 		throws SAXException
 	{
-		// For each defined class
 		for (final ClassOutline classOutline : outline.getClasses())
-			processDefinedClass(classOutline.implClass);
-		
+		{
+			if (!getIgnoring().isIgnored(classOutline))
+				processClassOutline(classOutline);
+		}
 		return true;
 	}
-
+	
+	protected void processClassOutline(ClassOutline classOutline)
+	{
+		final JDefinedClass theClass = classOutline.implClass;
+		processDefinedClass(theClass);
+	}
+	
 	protected void processDefinedClass(final JDefinedClass implClass)
 	{
 		// Create the default, no-arg constructor
@@ -86,7 +132,7 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 		{
 			// Create the skeleton of the value constructor
 			final JMethod valueConstructor = implClass.constructor(JMod.PUBLIC);
-			valueConstructor.javadoc().add("Fully-initialising value constructor");
+			valueConstructor.javadoc().add("Fully-initializing value constructor");
 			
 			// If our superclass is also being generated, then we can assume it will also
 			// have its own value constructor, so we add an invocation of that constructor.

@@ -16,6 +16,8 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JPackage;
 import com.sun.codemodel.JVar;
 import com.sun.codemodel.writer.SingleStreamCodeWriter;
+import com.sun.tools.xjc.ErrorReceiver;
+import com.sun.tools.xjc.model.Model;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -37,6 +39,8 @@ public class ValueConstructorPluginTest
 	// used as a reference, it inherits {@link JClass}.
 	private static JDefinedClass aClass;
 	
+	private static JDefinedClass aSuperClass;
+	
 	/**
 	 * Model a CodeModel class and add some fields and methods.
 	 * 
@@ -51,7 +55,7 @@ public class ValueConstructorPluginTest
 		aClass = aPackage._class("AClass");
 		
 		// Extend the class to a super class with a field of type double.
-		JDefinedClass aSuperClass = aPackage._class("ASuperClass");
+		aSuperClass = aPackage._class("ASuperClass");
 		aClass._extends(aSuperClass);
 		aSuperClass.field(JMod.PRIVATE, aModel.DOUBLE, "superClassField");
 
@@ -80,6 +84,8 @@ public class ValueConstructorPluginTest
 		
 		ValueConstructorPlugin plugin = new ValueConstructorPlugin();
 		plugin.processDefinedClass(aClass);
+		plugin.processDefinedClass(aSuperClass);
+		
 		constructorCount = sizeOf(aClass.constructors());
 		assertEquals(2, constructorCount);
 		

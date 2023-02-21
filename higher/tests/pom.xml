@@ -23,6 +23,7 @@
 		<module>simple-hashCode-equals-01</module>
 		<module>simplify-01</module>
 		<module>superclass</module>
+		<module>value-constructor</module>
 		<module>wildcard</module>
 		<module>zj</module>
 	</modules>
