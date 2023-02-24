@@ -11,6 +11,12 @@
 			<replacevalue><![CDATA[version>2.1.1-SNAPSHOT</version>]]></replacevalue>
 		</replace>
 
+		<replace dir="${basedir}" summary="true">
+			<include name="LICENSE.md"/>
+			<replacetoken><![CDATA[Copyright &copy; 2022-2023, Rick O'Sullivan;]]></replacetoken>
+			<replacevalue><![CDATA[Copyright &copy; 2022-2023, Rick O'Sullivan;]]></replacevalue>
+		</replace>
+
 	</target>
 
 </project>

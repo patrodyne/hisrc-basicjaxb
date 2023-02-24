@@ -7,8 +7,12 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.EnumOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 
-public interface Ignoring {
-
+/**
+ * Interface for filtering XJC {@link com.sun.tools.xjc.model.Model} and
+ * {@link com.sun.tools.xjc.outline.Outline} objects.
+ */
+public interface Ignoring
+{
 	public boolean isIgnored(ClassOutline classOutline);
 
 	public boolean isIgnored(EnumOutline enumOutline);
@@ -20,5 +24,4 @@ public interface Ignoring {
 	public boolean isIgnored(CEnumLeafInfo enumLeafInfo);
 
 	public boolean isIgnored(CPropertyInfo propertyInfo);
-
 }
