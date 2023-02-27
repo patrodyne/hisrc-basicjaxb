@@ -35,7 +35,7 @@
 				<configuration>
 					<extension>true</extension>
 					<args>
-						<arg>-Xvalue-constructor</arg>
+						<arg>-XvalueConstructor</arg>
 					</args>
 					<plugins>
 						<plugin>

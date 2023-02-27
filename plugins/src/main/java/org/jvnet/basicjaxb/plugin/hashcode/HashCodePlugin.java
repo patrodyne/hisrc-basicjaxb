@@ -80,7 +80,12 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 		return createStrategyInstanceExpression(codeModel, HashCodeStrategy.class, getHashCodeStrategyClass());
 	}
 
-	private Ignoring ignoring = new CustomizedIgnoring(IGNORED_ELEMENT_NAME, Customizations.IGNORED_ELEMENT_NAME, Customizations.GENERATED_ELEMENT_NAME);
+	private Ignoring ignoring = new CustomizedIgnoring
+	(
+		IGNORED_ELEMENT_NAME,
+		Customizations.IGNORED_ELEMENT_NAME,
+		Customizations.GENERATED_ELEMENT_NAME
+	);
 	public Ignoring getIgnoring()
 	{
 		return ignoring;
@@ -93,7 +98,12 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 	@Override
 	public Collection<QName> getCustomizationElementNames()
 	{
-		return Arrays.asList(IGNORED_ELEMENT_NAME, Customizations.IGNORED_ELEMENT_NAME, Customizations.GENERATED_ELEMENT_NAME);
+		return Arrays.asList
+		(
+			IGNORED_ELEMENT_NAME,
+			Customizations.IGNORED_ELEMENT_NAME,
+			Customizations.GENERATED_ELEMENT_NAME
+		);
 	}
 
 	@Override

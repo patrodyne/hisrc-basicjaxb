@@ -61,7 +61,7 @@ menu_actions()
 			"e)")	${BUILDER} dependency:tree ;;
 			"f)")	${BUILDER} dependency:resolve-plugins ;;
 			"g)")	${BUILDER} dependency:analyze ;;
-			"h)")	${BUILDER} dependency:sources ;;
+			"h)")	${BUILDER} dependency:sources dependency:resolve -Dclassifier=javadoc ;;
 			"i)")	${BUILDER} -DskipTests=true clean install ;;
 			"j)")	${BUILDER} -DskipTests=true -Pall clean package ;;
 			"k)")	${BUILDER} -DskipTests=false -Pall test ;;

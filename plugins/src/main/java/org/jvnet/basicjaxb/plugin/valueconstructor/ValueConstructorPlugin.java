@@ -63,13 +63,13 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 	@Override
 	public String getOptionName()
 	{
-		return "Xvalue-constructor";
+		return "XvalueConstructor";
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return "  -Xvalue-constructor        :  enable generation of value constructors";
+		return "  -XvalueConstructor :  enable generation of value constructors";
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring

@@ -93,7 +93,12 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 		return createStrategyInstanceExpression(codeModel, MergeStrategy.class, getMergeStrategyClass());
 	}
 
-	private Ignoring ignoring = new CustomizedIgnoring(IGNORED_ELEMENT_NAME, Customizations.IGNORED_ELEMENT_NAME, Customizations.GENERATED_ELEMENT_NAME);
+	private Ignoring ignoring = new CustomizedIgnoring
+	(
+		IGNORED_ELEMENT_NAME,
+		Customizations.IGNORED_ELEMENT_NAME,
+		Customizations.GENERATED_ELEMENT_NAME
+	);
 	public Ignoring getIgnoring()
 	{
 		return ignoring;
@@ -106,7 +111,12 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 	@Override
 	public Collection<QName> getCustomizationElementNames()
 	{
-		return Arrays.asList(IGNORED_ELEMENT_NAME, Customizations.IGNORED_ELEMENT_NAME, Customizations.GENERATED_ELEMENT_NAME);
+		return Arrays.asList
+		(
+			IGNORED_ELEMENT_NAME,
+			Customizations.IGNORED_ELEMENT_NAME,
+			Customizations.GENERATED_ELEMENT_NAME
+		);
 	}
 
 	@Override

@@ -81,7 +81,12 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 		return createStrategyInstanceExpression(codeModel, EqualsStrategy.class, getEqualsStrategyClass());
 	}
 
-	private Ignoring ignoring = new CustomizedIgnoring(IGNORED_ELEMENT_NAME, Customizations.IGNORED_ELEMENT_NAME, Customizations.GENERATED_ELEMENT_NAME);
+	private Ignoring ignoring = new CustomizedIgnoring
+	(
+		IGNORED_ELEMENT_NAME,
+		Customizations.IGNORED_ELEMENT_NAME,
+		Customizations.GENERATED_ELEMENT_NAME
+	);
 	public Ignoring getIgnoring()
 	{
 		return ignoring;
@@ -94,7 +99,12 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 	@Override
 	public Collection<QName> getCustomizationElementNames()
 	{
-		return Arrays.asList(IGNORED_ELEMENT_NAME, Customizations.IGNORED_ELEMENT_NAME, Customizations.GENERATED_ELEMENT_NAME);
+		return Arrays.asList
+		(
+			IGNORED_ELEMENT_NAME,
+			Customizations.IGNORED_ELEMENT_NAME,
+			Customizations.GENERATED_ELEMENT_NAME
+		);
 	}
 
 	@Override

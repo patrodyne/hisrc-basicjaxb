@@ -93,7 +93,12 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 		return createStrategyInstanceExpression(codeModel, CopyStrategy.class, getCopyStrategyClass());
 	}
 
-	private Ignoring ignoring = new CustomizedIgnoring(IGNORED_ELEMENT_NAME, Customizations.IGNORED_ELEMENT_NAME, Customizations.GENERATED_ELEMENT_NAME);
+	private Ignoring ignoring = new CustomizedIgnoring
+	(
+		IGNORED_ELEMENT_NAME,
+		Customizations.IGNORED_ELEMENT_NAME,
+		Customizations.GENERATED_ELEMENT_NAME
+	);
 	public Ignoring getIgnoring()
 	{
 		return ignoring;
@@ -106,7 +111,11 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 	@Override
 	public Collection<QName> getCustomizationElementNames()
 	{
-		return Arrays.asList(IGNORED_ELEMENT_NAME, Customizations.IGNORED_ELEMENT_NAME, Customizations.GENERATED_ELEMENT_NAME);
+		return Arrays.asList
+		(
+			IGNORED_ELEMENT_NAME,
+			Customizations.IGNORED_ELEMENT_NAME,
+			Customizations.GENERATED_ELEMENT_NAME);
 	}
 
 	@Override
