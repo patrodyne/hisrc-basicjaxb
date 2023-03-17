@@ -12,9 +12,13 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import jakarta.xml.bind.DatatypeConverter;
+import jakarta.xml.bind.annotation.adapters.HexBinaryAdapter;
+
 public class ValueUtils
 {
 	public static final String REGEX_SPACES = "\\s+";
+	public static final HexBinaryAdapter HEX_BINARY_ADAPTER = new HexBinaryAdapter();
     public static final DatatypeFactory DATATYPE_FACTORY;
     static
     {
@@ -126,6 +130,16 @@ public class ValueUtils
 	public static Byte toByte(String value)
 	{
 	    return Byte.valueOf(value);
+	}
+	
+	public static byte[] parseBase64Binary(String value)
+	{
+	    return DatatypeConverter.parseBase64Binary(value);
+	}
+	
+	public static byte[] parseHexBinary(String value)
+	{
+	    return HEX_BINARY_ADAPTER.unmarshal(value);
 	}
 	
 	// Double

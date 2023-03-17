@@ -14,8 +14,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
@@ -32,8 +30,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import com.sun.codemodel.ClassType;
-import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JCatchBlock;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JConditional;
@@ -45,9 +41,7 @@ import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
-import com.sun.codemodel.JTryBlock;
 import com.sun.codemodel.JType;
-import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -61,8 +55,6 @@ import com.sun.xml.xsom.XSElementDecl;
 import com.sun.xml.xsom.XSParticle;
 import com.sun.xml.xsom.XSTerm;
 import com.sun.xml.xsom.XSType;
-
-import jakarta.xml.bind.DatatypeConverter;
 
 /**
  * <p>
@@ -341,6 +333,9 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 		// Get handle to JCodeModel owning this class.
 		JCodeModel theCodeModel = theClass.owner();
 		
+		// Get reference to ValueUtils to invoke its static methods.
+		JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
+		
 		// PROCESS: Create an appropriate default expression depending on type
 		if ((fieldType instanceof JDefinedClass) && (((JDefinedClass) fieldType).getClassType() == ClassType.ENUM))
 		{
@@ -354,55 +349,61 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 		}
 		else if (String.class.getName().equals(typeFullName))
 		{
-			JExpression literalValue = JExpr.lit(defaultValue);
+			JExpression literalValue = refValueUtils.staticInvoke("toString").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing String variable " + fieldInfo.displayName() + " to \"" + defaultValue + "\"");
 		}
 		else if (Boolean.class.getName().equals(typeFullName))
 		{
-			JExpression literalValue = JExpr.lit(Boolean.valueOf(defaultValue));
+			JExpression literalValue = refValueUtils.staticInvoke("toBoolean").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing Boolean variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
-		else if
-		(
-			(Byte.class.getName().equals(typeFullName)) ||
-			(Short.class.getName().equals(typeFullName)) ||
-			(Integer.class.getName().equals(typeFullName))
-		)
+		else if (Byte.class.getName().equals(typeFullName))
 		{
-			// CodeModel does not distinguish between Byte, Short and Integer literals
-			JExpression literalValue = JExpr.lit(Integer.valueOf(defaultValue));
+			JExpression literalValue = refValueUtils.staticInvoke("toByte").arg(defaultValue);
+			initializer(var, accessor, fieldIsPrimitive, literalValue);
+			info(options, "Initializing Byte variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+		}
+		else if (Short.class.getName().equals(typeFullName))
+		{
+			JExpression literalValue = refValueUtils.staticInvoke("toShort").arg(defaultValue);
+			initializer(var, accessor, fieldIsPrimitive, literalValue);
+			info(options, "Initializing Short variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+		}
+		else if (Integer.class.getName().equals(typeFullName))
+		{
+			JExpression literalValue = refValueUtils.staticInvoke("toInteger").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing Integer variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (Long.class.getName().equals(typeFullName))
 		{
-			JExpression literalValue = JExpr.lit(Long.valueOf(defaultValue));
+			JExpression literalValue = refValueUtils.staticInvoke("toLong").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing Long variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (Float.class.getName().equals(typeFullName))
 		{
-			JExpression literalValue = JExpr.lit(Float.valueOf(defaultValue));
+			JExpression literalValue = refValueUtils.staticInvoke("toFloat").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing Float variable "	+ fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (Double.class.getName().equals(typeFullName))
 		{
-			JExpression literalValue = JExpr.lit(Double.valueOf(defaultValue));
+			JExpression literalValue = refValueUtils.staticInvoke("toDouble").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing Double variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (BigDecimal.class.getName().equals(typeFullName))
 		{
-			JExpression literalValue = JExpr.direct("new BigDecimal(\"" + defaultValue + "\")");
+			JExpression literalValue = refValueUtils.staticInvoke("toBigDecimal").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing BigDecimal variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (BigInteger.class.getName().equals(typeFullName))
 		{
-			JExpression literalValue = JExpr.direct("new BigInteger(\"" + defaultValue + "\")");
+			JExpression literalValue = refValueUtils.staticInvoke("toBigInteger").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing BigInteger variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
@@ -412,46 +413,27 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			byte[].class.getCanonicalName().equals(typeFullName) && BASE64BINARY.equals(schemaType) 
 		)
 		{
-			JClass refDatatypeConverter = theCodeModel.ref(DatatypeConverter.class);
-			JExpression literalValue = refDatatypeConverter.staticInvoke("parseBase64Binary").arg(defaultValue);
+			JExpression literalValue = refValueUtils.staticInvoke("parseBase64Binary").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing Base64Binary variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ( byte[].class.getCanonicalName().equals(typeFullName) && HEXBINARY.equals(schemaType) )
 		{
-			JExpression literalValue = JExpr.direct("new HexBinaryAdapter().unmarshal(\"" + defaultValue + "\")");
+			JExpression literalValue = refValueUtils.staticInvoke("parseHexBinary").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing HexBinary variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (XMLGregorianCalendar.class.getName().equals(typeFullName))
 		{
-			// XMLGregorianCalender is constructed by DatatypeFactory,
-			// so we have to have an instance of that once per class.
-			JFieldVar dtf = theClass.fields().get("DATATYPE_FACTORY");
-			if (dtf == null)
-				dtf = installDatatypeFactory(theClass);
-			if ( dtf != null )
-			{
-				// Use our DtF instance to generate the initialization expression
-				JExpression literalValue = JExpr.invoke(dtf, "newXMLGregorianCalendar").arg(defaultValue);
-				initializer(var, accessor, fieldIsPrimitive, literalValue);
-				info(options, "Initializing XMLGregorianCalendar variable " + fieldInfo.displayName() + " with value of " + defaultValue);
-			}
+			JExpression literalValue = refValueUtils.staticInvoke("toXMLGregorianCalendar").arg(defaultValue);
+			initializer(var, accessor, fieldIsPrimitive, literalValue);
+			info(options, "Initializing XMLGregorianCalendar variable " + fieldInfo.displayName() + " with value of " + defaultValue);
 		}
 		else if (Duration.class.getName().equals(typeFullName))
 		{
-			// Duration is constructed by DatatypeFactory,
-			// so we have to have an instance of that once per class.
-			JFieldVar dtf = theClass.fields().get("DATATYPE_FACTORY");
-			if (dtf == null)
-				dtf = installDatatypeFactory(theClass);
-			if ( dtf != null )
-			{
-				// Use our DtF instance to generate the initialization expression
-				JExpression literalValue = JExpr.invoke(dtf, "newDuration").arg(defaultValue);
-				initializer(var, accessor, fieldIsPrimitive, literalValue);
-				info(options, "Initializing Duration variable " + fieldInfo.displayName() + " with value of " + defaultValue);
-			}
+			JExpression literalValue = refValueUtils.staticInvoke("toDuration").arg(defaultValue);
+			initializer(var, accessor, fieldIsPrimitive, literalValue);
+			info(options, "Initializing Duration variable " + fieldInfo.displayName() + " with value of " + defaultValue);
 		}
 		else if (QName.class.getName().equals(typeFullName))
 		{
@@ -479,84 +461,72 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 		}
 		else if ((List.class.getName()+"<"+BigDecimal.class.getName()+">").equals(typeFullName))
 		{
-			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 			JExpression literalValue = refValueUtils.staticInvoke("toBigDecimalList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing List<BigDecimal> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+BigInteger.class.getName()+">").equals(typeFullName))
 		{
-			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 			JExpression literalValue = refValueUtils.staticInvoke("toBigIntegerList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing List<BigInteger> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Boolean.class.getName()+">").equals(typeFullName))
 		{
-			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 			JExpression literalValue = refValueUtils.staticInvoke("toBooleanList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing List<Boolean> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Byte.class.getName()+">").equals(typeFullName))
 		{
-			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 			JExpression literalValue = refValueUtils.staticInvoke("toByteList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing List<Byte> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Double.class.getName()+">").equals(typeFullName))
 		{
-			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 			JExpression literalValue = refValueUtils.staticInvoke("toDoubleList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing List<Double> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Duration.class.getName()+">").equals(typeFullName))
 		{
-			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 			JExpression literalValue = refValueUtils.staticInvoke("toDurationList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing List<Duration> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Float.class.getName()+">").equals(typeFullName))
 		{
-			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 			JExpression literalValue = refValueUtils.staticInvoke("toFloatList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing List<Float> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Integer.class.getName()+">").equals(typeFullName))
 		{
-			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 			JExpression literalValue = refValueUtils.staticInvoke("toIntegerList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing List<Integer> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Long.class.getName()+">").equals(typeFullName))
 		{
-			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 			JExpression literalValue = refValueUtils.staticInvoke("toLongList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing List<Long> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Short.class.getName()+">").equals(typeFullName))
 		{
-			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 			JExpression literalValue = refValueUtils.staticInvoke("toShortList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing List<Short> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+String.class.getName()+">").equals(typeFullName))
 		{
-			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 			JExpression literalValue = refValueUtils.staticInvoke("toStringList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing List<String> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+XMLGregorianCalendar.class.getName()+">").equals(typeFullName))
 		{
-			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 			JExpression literalValue = refValueUtils.staticInvoke("toXMLGregorianCalendarList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
 			info(options, "Initializing List<XMLGregorianCalendar> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
@@ -652,48 +622,6 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 		return theClass.field(JMod.STATIC | JMod.FINAL | JMod.PRIVATE, ofClass, "OBJECT_FACTORY", JExpr.direct("new ObjectFactory()"));
 	}
 	
-	/**
-	 * Enhance the CodeModel of a Class to include a {@link DatatypeFactory} as
-	 * a static private field. The factory is needed to construct
-	 * {@link XMLGregorianCalendar} from String representation.
-	 * 
-	 * @param theClass Class where the DatatypeFactory will be created
-	 * 
-	 * @return Reference to the created static field or null when DatatypeFactory can't be created.
-	 */
-	private JFieldVar installDatatypeFactory(final JDefinedClass theClass)
-	{
-		JFieldVar dtf = null;
-		
-		try
-		{
-			JCodeModel cm = theClass.owner();
-			
-			// Create a static variable of type DatatypeFactory
-			JClass dtfClass = cm.ref(DatatypeFactory.class);
-			dtf = theClass.field(JMod.STATIC | JMod.FINAL | JMod.PRIVATE, dtfClass, "DATATYPE_FACTORY");
-			
-			// Initialize variable in static block
-			JBlock si = theClass.init();
-			JTryBlock tryBlock = si._try();
-			tryBlock.body().assign(dtf, dtfClass.staticInvoke("newInstance"));
-			
-			// Catch exception & rethrow as unchecked Exception
-			JCatchBlock catchBlock = tryBlock._catch(cm.ref(DatatypeConfigurationException.class));
-			JVar ex = catchBlock.param("ex");
-			JClass runtimeException = cm.ref(RuntimeException.class);
-			catchBlock.body()._throw(JExpr._new(runtimeException).arg("Unable to initialize DatatypeFactory").arg(ex));
-		}
-		catch (Exception ex)
-		{
-			// We don't want JAXB to break of any plugin error, do we?
-			error("Failed to create code", ex);
-		}
-		
-		// Return reference to initialized static field
-		return dtf;
-	}
-
 	/**
 	 * Conditionally log an informative message.
 	 * 
