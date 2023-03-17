@@ -1,4 +1,4 @@
-package org.patrodyne.jvnet.basicjaxb.test.merge;
+package org.jvnet.basicjaxb.test.merge;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,6 +9,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.jvnet.basicjaxb.test.AbstractSamplesTest;
+import org.patrodyne.jvnet.basicjaxb.test.merge.Match;
 
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;

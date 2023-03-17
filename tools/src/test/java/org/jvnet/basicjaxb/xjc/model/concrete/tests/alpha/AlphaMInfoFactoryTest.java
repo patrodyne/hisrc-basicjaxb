@@ -123,8 +123,8 @@ public class AlphaMInfoFactoryTest {
 						"KnownReferencedTypeElement"));
 		final MTypeInfo<NType, NClass> typeInfo = elementInfo.getTypeInfo();
 		assertNotNull(typeInfo);
-		assertEquals(QNameUtils.getKey(typeName),
-				QNameUtils.getKey(typeInfo.getTypeName()));
+		assertEquals(QNameUtils.toKey(typeName),
+				QNameUtils.toKey(typeInfo.getTypeName()));
 	}
 
 	@Test

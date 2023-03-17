@@ -13,6 +13,7 @@
 	<name>HiSrc BasicJAXB - Higher Tests</name>
 	<modules>
 		<module>basic</module>
+		<module>default-value</module>
 		<module>episodes</module>
 		<module>ignoring</module>
 		<module>issues</module>

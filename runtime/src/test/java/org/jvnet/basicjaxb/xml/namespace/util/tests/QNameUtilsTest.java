@@ -11,10 +11,10 @@ public class QNameUtilsTest {
 
 	@Test
 	public void producesCorrectKey() {
-		assertEquals(null, QNameUtils.getKey(null));
-		assertEquals("a", QNameUtils.getKey(new QName("a")));
-		assertEquals("{b}a", QNameUtils.getKey(new QName("b", "a")));
-		assertEquals("{b}c:a", QNameUtils.getKey(new QName("b", "a", "c")));
-		assertEquals("c:a", QNameUtils.getKey(new QName("", "a", "c")));
+		assertEquals(null, QNameUtils.toKey(null));
+		assertEquals("a", QNameUtils.toKey(new QName("a")));
+		assertEquals("{b}a", QNameUtils.toKey(new QName("b", "a")));
+		assertEquals("{b}c:a", QNameUtils.toKey(new QName("b", "a", "c")));
+		assertEquals("c:a", QNameUtils.toKey(new QName("", "a", "c")));
 	}
 }

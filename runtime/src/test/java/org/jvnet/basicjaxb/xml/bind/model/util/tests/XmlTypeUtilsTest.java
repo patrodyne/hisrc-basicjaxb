@@ -16,7 +16,7 @@ public class XmlTypeUtilsTest
     @MethodSource("data")
 	public void producesCorrectTypeName(String key, Class<?> _class)
     {
-		assertEquals(key, QNameUtils.getKey(XmlTypeUtils.getTypeName(_class)));
+		assertEquals(key, QNameUtils.toKey(XmlTypeUtils.getTypeName(_class)));
     }
     
 	private static Stream<Arguments> data()

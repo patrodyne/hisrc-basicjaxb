@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema
+	targetNamespace="http://example.org/document"
+	xmlns:tns="http://example.org/document"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:simpleType name="dowType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Sunday" />
+			<xs:enumeration value="Monday" />
+			<xs:enumeration value="Tuesday" />
+			<xs:enumeration value="Wednesday" />
+			<xs:enumeration value="Thursday" />
+			<xs:enumeration value="Friday" />
+			<xs:enumeration value="Saturday" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- Common Primitive and Derived Datatypes -->
+	
+	<xs:element name="dv_dow"           type="tns:dowType"      default="Monday"/>
+	<xs:element name="dv_boolean"       type="xs:boolean"       default="true"/>
+	<xs:element name="dv_byte"          type="xs:byte"          default="-1"/>
+	<xs:element name="dv_decimal"       type="xs:decimal"       default="-2.1"/>
+	<xs:element name="dv_double"        type="xs:double"        default="-3.1"/>
+	<xs:element name="dv_float"         type="xs:float"         default="-4.1"/>
+	<xs:element name="dv_int"           type="xs:int"           default="-5"/>
+	<xs:element name="dv_integer"       type="xs:integer"       default="-6"/>
+	<xs:element name="dv_long"          type="xs:long"          default="-7"/>
+	<xs:element name="dv_short"         type="xs:short"         default="-8"/>
+	<xs:element name="dv_string"        type="xs:string"        default="text"/>
+	<xs:element name="dv_dateTime"      type="xs:dateTime"      default="2023-02-28T17:59:59.999Z"/>
+	<xs:element name="dv_duration"      type="xs:duration"      default="P3Y2M1D" />
+	<xs:element name="dv_base64Binary"  type="xs:base64Binary"  default="dGV4dA==" />
+	<xs:element name="dv_hexBinary"     type="xs:hexBinary"     default="0FB8" />
+	<xs:element name="dv_anySimpleType" type="xs:anySimpleType" default="3.14159" />
+	
+	<xs:element name="dv_choice">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="tns:dv_boolean" />
+				<xs:element ref="tns:dv_string" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="document1">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:dv_dow" />
+				<xs:element ref="tns:dv_boolean" />
+				<xs:element ref="tns:dv_byte" />
+				<xs:element ref="tns:dv_choice" />
+				<xs:element ref="tns:dv_decimal" />
+				<xs:element ref="tns:dv_double" />
+				<xs:element ref="tns:dv_float" />
+				<xs:element ref="tns:dv_int" />
+				<xs:element ref="tns:dv_integer" />
+				<xs:element ref="tns:dv_long" />
+				<xs:element ref="tns:dv_short" />
+				<xs:element ref="tns:dv_string" />
+				<xs:element ref="tns:dv_dateTime" />
+				<xs:element ref="tns:dv_duration" />
+				<xs:element ref="tns:dv_base64Binary" />
+				<xs:element ref="tns:dv_hexBinary" />
+				<xs:element ref="tns:dv_anySimpleType" />
+			</xs:sequence>
+			<xs:attribute name="da_dow"           type="tns:dowType"      default="Monday" />
+			<xs:attribute name="da_boolean"       type="xs:boolean"       default="true" />
+			<xs:attribute name="da_byte"          type="xs:byte"          default="+1" />
+			<xs:attribute name="da_decimal"       type="xs:decimal"       default="+2.1" />
+			<xs:attribute name="da_double"        type="xs:double"        default="+3.1" />
+			<xs:attribute name="da_float"         type="xs:float"         default="+4.1" />
+			<xs:attribute name="da_int"           type="xs:int"           default="+5" />
+			<xs:attribute name="da_integer"       type="xs:integer"       default="+6" />
+			<xs:attribute name="da_long"          type="xs:long"          default="+7" />
+			<xs:attribute name="da_short"         type="xs:short"         default="+8" />
+			<xs:attribute name="da_string"        type="xs:string"        default="text" />
+			<xs:attribute name="da_dateTime"      type="xs:dateTime"      default="2023-02-28T17:59:59.999Z" />
+			<xs:attribute name="da_duration"      type="xs:duration"      default="P3Y2M1D" />
+			<xs:attribute name="da_base64Binary"  type="xs:base64Binary"  default="dGV4dA==" />
+			<xs:attribute name="da_hexBinary"     type="xs:hexBinary"     default="0FB8" />
+			<xs:attribute name="da_anySimpleType" type="xs:anySimpleType" default="3.14159" />
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Primitive Datatypes -->
+	
+	<xs:element name="dv_time"          type="xs:time"          default="23:59:59" />
+	<xs:element name="dv_date"          type="xs:date"          default="2023-02-28Z" />
+	<xs:element name="dv_gYearMonth"    type="xs:gYearMonth"    default="2023-02Z" />
+	<xs:element name="dv_gYear"         type="xs:gYear"         default="2023Z" />
+	<xs:element name="dv_gMonthDay"     type="xs:gMonthDay"     default="--02-28Z" />
+	<xs:element name="dv_gDay"          type="xs:gDay"          default="---28Z" />
+	<xs:element name="dv_gMonth"        type="xs:gMonth"        default="--02Z" />
+	<xs:element name="dv_anyURI"        type="xs:anyURI"        default="scheme://authority/path?query#fragment" />
+	<xs:element name="dv_QName"         type="xs:QName"         default="tns:localPart" />
+	
+	<xs:element name="document2">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:dv_string" />
+				<xs:element ref="tns:dv_boolean" />
+				<xs:element ref="tns:dv_decimal" />
+				<xs:element ref="tns:dv_float" />
+				<xs:element ref="tns:dv_double" />
+				<xs:element ref="tns:dv_duration" />
+				<xs:element ref="tns:dv_dateTime" />
+				<xs:element ref="tns:dv_time" />
+				<xs:element ref="tns:dv_date" />
+				<xs:element ref="tns:dv_gYearMonth" />
+				<xs:element ref="tns:dv_gYear" />
+				<xs:element ref="tns:dv_gMonthDay" />
+				<xs:element ref="tns:dv_gDay" />
+				<xs:element ref="tns:dv_gMonth" />
+				<xs:element ref="tns:dv_hexBinary" />
+				<xs:element ref="tns:dv_base64Binary" />
+				<xs:element ref="tns:dv_anyURI" />
+				<xs:element ref="tns:dv_QName" />
+			</xs:sequence>
+			<xs:attribute name="da_string"        type="xs:string"        default="text" />
+			<xs:attribute name="da_boolean"       type="xs:boolean"       default="true" />
+			<xs:attribute name="da_decimal"       type="xs:decimal"       default="2.1" />
+			<xs:attribute name="da_float"         type="xs:float"         default="4.1" />
+			<xs:attribute name="da_double"        type="xs:double"        default="3.1" />
+			<xs:attribute name="da_duration"      type="xs:duration"      default="P3Y2M1D" />
+			<xs:attribute name="da_dateTime"      type="xs:dateTime"      default="2023-02-28T17:59:59.999Z" />
+			<xs:attribute name="da_time"          type="xs:time"          default="23:59:59"/>
+			<xs:attribute name="da_date"          type="xs:date"          default="2023-02-28Z"/>
+			<xs:attribute name="da_gYearMonth"    type="xs:gYearMonth"    default="2023-02Z"/>
+			<xs:attribute name="da_gYear"         type="xs:gYear"         default="2023Z"/>
+			<xs:attribute name="da_gMonthDay"     type="xs:gMonthDay"     default="--02-28Z"/>
+			<xs:attribute name="da_gDay"          type="xs:gDay"          default="---28Z"/>
+			<xs:attribute name="da_gMonth"        type="xs:gMonth"        default="--02Z"/>
+			<xs:attribute name="da_hexBinary"     type="xs:hexBinary"     default="0FB8" />
+			<xs:attribute name="da_base64Binary"  type="xs:base64Binary"  default="dGV4dA==" />
+			<xs:attribute name="da_anyURI"        type="xs:anyURI"        default="scheme://authority/path?query#fragment"/>
+			<xs:attribute name="da_QName"         type="xs:QName"         default="tns:localPart"/>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Derived Datatypes -->
+
+	<xs:element name="dv_normalizedString"   type="xs:normalizedString"   default="normal" />
+	<xs:element name="dv_token"              type="xs:token"              default="token" />
+	<xs:element name="dv_language"           type="xs:language"           default="en-US" />
+	<xs:element name="dv_nmtoken"            type="xs:NMTOKEN"            default="nospace" />
+	<xs:element name="dv_nmtokens"           type="xs:NMTOKENS"           default="nospace1 nospace2" />
+	<xs:element name="dv_nonPositiveInteger" type="xs:nonPositiveInteger" default="0" />
+	<xs:element name="dv_negativeInteger"    type="xs:negativeInteger"    default="-16" />
+	<xs:element name="dv_nonNegativeInteger" type="xs:nonNegativeInteger" default="0" />
+	<xs:element name="dv_unsignedLong"       type="xs:unsignedLong"       default="7" />
+	<xs:element name="dv_unsignedInt"        type="xs:unsignedInt"        default="5" />
+	<xs:element name="dv_unsignedShort"      type="xs:unsignedShort"      default="8" />
+	<xs:element name="dv_unsignedByte"       type="xs:unsignedByte"       default="1" />
+	<xs:element name="dv_positiveInteger"    type="xs:positiveInteger"    default="+16" />
+
+	<xs:element name="document3">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:dv_normalizedString" />
+				<xs:element ref="tns:dv_token" />
+				<xs:element ref="tns:dv_language" />
+				<xs:element ref="tns:dv_nmtoken" />
+				<xs:element ref="tns:dv_nmtokens" />
+				<xs:element ref="tns:dv_integer" />
+				<xs:element ref="tns:dv_nonPositiveInteger" />
+				<xs:element ref="tns:dv_negativeInteger" />
+				<xs:element ref="tns:dv_long" />
+				<xs:element ref="tns:dv_int" />
+				<xs:element ref="tns:dv_short" />
+				<xs:element ref="tns:dv_byte" />
+				<xs:element ref="tns:dv_nonNegativeInteger" />
+				<xs:element ref="tns:dv_unsignedLong" />
+				<xs:element ref="tns:dv_unsignedInt" />
+				<xs:element ref="tns:dv_unsignedShort" />
+				<xs:element ref="tns:dv_unsignedByte" />
+				<xs:element ref="tns:dv_positiveInteger" />
+			</xs:sequence>
+			<xs:attribute name="da_normalizedString"   type="xs:normalizedString"   default="normal" />
+			<xs:attribute name="da_token"              type="xs:token"              default="token" />
+			<xs:attribute name="da_language"           type="xs:language"           default="en-US" />
+			<xs:attribute name="da_nmtoken"            type="xs:NMTOKEN"            default="nospace" />
+			<xs:attribute name="da_nmtokens"           type="xs:NMTOKENS"           default="nospace1 nospace2" />
+			<xs:attribute name="da_integer"            type="xs:integer"            default="-6" />
+			<xs:attribute name="da_nonPositiveInteger" type="xs:nonPositiveInteger" default="0" />
+			<xs:attribute name="da_negativeInteger"    type="xs:negativeInteger"    default="-16" />
+			<xs:attribute name="da_long"               type="xs:long"               default="-7" />
+			<xs:attribute name="da_int"                type="xs:int"                default="-5" />
+			<xs:attribute name="da_short"              type="xs:short"              default="-8" />
+			<xs:attribute name="da_byte"               type="xs:byte"               default="-1" />
+			<xs:attribute name="da_nonNegativeInteger" type="xs:nonNegativeInteger" default="0" />
+			<xs:attribute name="da_unsignedLong"       type="xs:unsignedLong"       default="7" />
+			<xs:attribute name="da_unsignedInt"        type="xs:unsignedInt"        default="5" />
+			<xs:attribute name="da_unsignedShort"      type="xs:unsignedShort"      default="8" />
+			<xs:attribute name="da_unsignedByte"       type="xs:unsignedByte"       default="1" />
+			<xs:attribute name="da_positiveInteger"    type="xs:positiveInteger"    default="+16" />
+		</xs:complexType>
+	</xs:element>
+
+	<!-- List Datatypes -->
+
+	<xs:simpleType name="decimalList">  <xs:list itemType="xs:decimal"/>  </xs:simpleType>
+	<xs:simpleType name="integerList">  <xs:list itemType="xs:integer"/>  </xs:simpleType>
+	<xs:simpleType name="booleanList">  <xs:list itemType="xs:boolean"/>  </xs:simpleType>
+	<xs:simpleType name="byteList">     <xs:list itemType="xs:byte"/>     </xs:simpleType>
+	<xs:simpleType name="doubleList">   <xs:list itemType="xs:double"/>   </xs:simpleType>
+	<xs:simpleType name="durationList"> <xs:list itemType="xs:duration"/> </xs:simpleType>
+	<xs:simpleType name="floatList">    <xs:list itemType="xs:float"/>    </xs:simpleType>
+	<xs:simpleType name="intList">      <xs:list itemType="xs:int"/>      </xs:simpleType>
+	<xs:simpleType name="longList">     <xs:list itemType="xs:long"/>     </xs:simpleType>
+	<xs:simpleType name="shortList">    <xs:list itemType="xs:short"/>    </xs:simpleType>
+	<xs:simpleType name="stringList">   <xs:list itemType="xs:string"/>   </xs:simpleType>
+	<xs:simpleType name="dateTimeList"> <xs:list itemType="xs:dateTime"/> </xs:simpleType>
+
+	<xs:element name="dv_decimalValues"  type="tns:decimalList"  default="-7.50 5.75"/>
+	<xs:element name="dv_integerValues"  type="tns:integerList"  default="-11 13"/>
+	<xs:element name="dv_booleanValues"  type="tns:booleanList"  default="true false"/>
+	<xs:element name="dv_byteValues"     type="tns:byteList"     default="-128 127"/>
+	<xs:element name="dv_doubleValues"   type="tns:doubleList"   default="-3.14 2.718"/>
+	<xs:element name="dv_durationValues" type="tns:durationList" default="P3Y2M1D P6Y4M2D"/>
+	<xs:element name="dv_floatValues"    type="tns:floatList"    default="-3.14 2.718"/>
+	<xs:element name="dv_intValues"      type="tns:intList"      default="-123 123"/>
+	<xs:element name="dv_longValues"     type="tns:longList"     default="-123 123"/>
+	<xs:element name="dv_shortValues"    type="tns:shortList"    default="-123 123"/>
+	<xs:element name="dv_stringValues"   type="tns:stringList"   default="nospace1 nospace2"/>
+	<xs:element name="dv_dateTimeValues" type="tns:dateTimeList" default="2023-02-28T17:59:59.999Z 2023-03-01T17:59:59.999Z"/>
+	
+	<xs:element name="document4">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:dv_decimalValues" />
+				<xs:element ref="tns:dv_integerValues" />
+				<xs:element ref="tns:dv_booleanValues" />
+				<xs:element ref="tns:dv_byteValues" />
+				<xs:element ref="tns:dv_doubleValues" />
+				<xs:element ref="tns:dv_durationValues" />
+				<xs:element ref="tns:dv_floatValues" />
+				<xs:element ref="tns:dv_intValues" />
+				<xs:element ref="tns:dv_longValues" />
+				<xs:element ref="tns:dv_shortValues" />
+				<xs:element ref="tns:dv_stringValues" />
+				<xs:element ref="tns:dv_dateTimeValues" />
+			</xs:sequence>
+			<xs:attribute name="da_decimalValues"  type="tns:decimalList"  default="-7.50 5.75" />
+			<xs:attribute name="da_integerValues"  type="tns:integerList"  default="-11 13" />
+			<xs:attribute name="da_booleanValues"  type="tns:booleanList"  default="true false" />
+			<xs:attribute name="da_byteValues"     type="tns:byteList"     default="-128 127" />
+			<xs:attribute name="da_doubleValues"   type="tns:doubleList"   default="-3.14 2.718" />
+			<xs:attribute name="da_durationValues" type="tns:durationList" default="P3Y2M1D P6Y4M2D" />
+			<xs:attribute name="da_floatValues"    type="tns:floatList"    default="-3.14 2.718" />
+			<xs:attribute name="da_intValues"      type="tns:intList"      default="-123 123" />
+			<xs:attribute name="da_longValues"     type="tns:longList"     default="-123 123" />
+			<xs:attribute name="da_shortValues"    type="tns:shortList"    default="-123 123" />
+			<xs:attribute name="da_stringValues"   type="tns:stringList"   default="nospace1 nospace2" />
+			<xs:attribute name="da_dateTimeValues" type="tns:dateTimeList" default="2023-02-28T17:59:59.999Z 2023-03-01T17:59:59.999Z" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

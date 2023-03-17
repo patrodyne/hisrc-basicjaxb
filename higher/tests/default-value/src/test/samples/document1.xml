@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns1:document1
+	xmlns:ns1="http://example.org/document" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://example.org/document ../../main/resources/document.xsd "
+	
+	da_dow="Monday" 
+	da_boolean="true" 
+	da_byte="1" 
+	da_decimal="2.1" 
+	da_double="3.1" 
+	da_float="4.1" 
+	da_int="5" 
+	da_integer="6" 
+	da_long="7" 
+	da_short="8" 
+	da_string="text" 
+	da_dateTime="2023-02-28T17:59:59.999Z" 
+	da_duration="P3Y2M1D" 
+	da_base64Binary="dGV4dA==" 
+	da_hexBinary="0FB8" 
+	da_anySimpleType="3.14159" 
+>
+	<ns1:dv_dow>Monday</ns1:dv_dow>
+	<ns1:dv_boolean>true</ns1:dv_boolean>
+	<ns1:dv_byte>-1</ns1:dv_byte>
+	<ns1:dv_choice>
+		<ns1:dv_boolean>true</ns1:dv_boolean>
+	</ns1:dv_choice>
+	<ns1:dv_decimal>-2.1</ns1:dv_decimal>
+	<ns1:dv_double>-3.1</ns1:dv_double>
+	<ns1:dv_float>-4.1</ns1:dv_float>
+	<ns1:dv_int>-5</ns1:dv_int>
+	<ns1:dv_integer>-6</ns1:dv_integer>
+	<ns1:dv_long>-7</ns1:dv_long>
+	<ns1:dv_short>-8</ns1:dv_short>
+	<ns1:dv_string>text</ns1:dv_string>
+	<ns1:dv_dateTime>2023-02-28T17:59:59.999Z</ns1:dv_dateTime>
+	<ns1:dv_duration>P3Y2M1D</ns1:dv_duration>
+	<ns1:dv_base64Binary>dGV4dA==</ns1:dv_base64Binary>
+	<ns1:dv_hexBinary>0FB8</ns1:dv_hexBinary>
+	<ns1:dv_anySimpleType>3.14159</ns1:dv_anySimpleType>
+</ns1:document1>

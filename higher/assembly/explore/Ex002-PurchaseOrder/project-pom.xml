@@ -177,6 +177,7 @@
 				<version>${maven-enforcer-plugin.version}</version>
 				<executions>
 					<execution>
+						<?m2e ignore?>
 						<id>enforce-java-maven</id>
 						<goals>
 							<goal>enforce</goal>

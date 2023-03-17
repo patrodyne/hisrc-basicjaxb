@@ -7,7 +7,7 @@
 	<artifactId>hisrc-basicjaxb-sample-basic-maven</artifactId>
 	<version>${hisrc-basicjaxb.version}</version>
 	<packaging>jar</packaging>
-	<name>HiSrc BasicJAXB - Sample [basic-maven]</name>
+	<name>${project.name}</name>
 
 	<properties>
 		<maven.compiler.release>${maven.compiler.release}</maven.compiler.release>
@@ -139,6 +139,7 @@
 				<version>${maven-enforcer-plugin.version}</version>
 				<executions>
 					<execution>
+						<?m2e ignore?>
 						<id>enforce-java-maven</id>
 						<goals>
 							<goal>enforce</goal>

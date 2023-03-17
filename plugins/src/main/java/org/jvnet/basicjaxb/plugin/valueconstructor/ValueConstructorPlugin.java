@@ -136,7 +136,7 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 	/**
 	 * Process the XJC {@link ClassOutline} instance. The goal is to add a constructor to
 	 * initialize all non-ignored fields from the given {@link ClassOutline} instance and
-	 * it superclass hierarchy. A default constructor is added when required.
+	 * its superclass hierarchy. A default constructor is added when required.
 	 * 
 	 * @param theClassOutline A class outline from the XJC framework.
 	 */

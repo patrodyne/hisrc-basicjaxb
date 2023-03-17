@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+3.2 Primitive datatypes
+	3.2.1 string
+	3.2.2 boolean
+	3.2.3 decimal
+	3.2.4 float
+	3.2.5 double
+	3.2.6 duration
+	3.2.7 dateTime
+	3.2.8 time
+	3.2.9 date
+	3.2.10 gYearMonth
+	3.2.11 gYear
+	3.2.12 gMonthDay
+	3.2.13 gDay
+	3.2.14 gMonth
+	3.2.15 hexBinary
+	3.2.16 base64Binary
+	3.2.17 anyURI
+	3.2.18 QName
+	3.2.19 NOTATION
+-->
+<ns2:document2
+	xmlns:ns2="http://example.org/document" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://example.org/document ../../main/resources/document.xsd "
+
+	da_string="text" 
+	da_boolean="true" 
+	da_decimal="2.1" 
+	da_float="4.1" 
+	da_double="3.1" 
+	da_duration="P3Y2M1D" 
+	da_dateTime="2023-02-28T17:59:59.999Z" 
+	da_time="23:59:59"
+	da_date="2023-02-28Z"
+	da_gYearMonth="2023-02Z"
+	da_gYear="2023Z"
+	da_gMonthDay="--02-28Z"
+	da_gDay="---28Z"
+	da_gMonth="--02Z"
+	da_hexBinary="0FB8" 
+	da_base64Binary="dGV4dA==" 
+	da_anyURI="scheme://authority/path?query#fragment"
+	da_QName="ns2:localPart"
+>
+	<ns2:dv_string>text</ns2:dv_string>
+	<ns2:dv_boolean>true</ns2:dv_boolean>
+	<ns2:dv_decimal>-2.1</ns2:dv_decimal>
+	<ns2:dv_float>-4.1</ns2:dv_float>
+	<ns2:dv_double>-3.1</ns2:dv_double>
+	<ns2:dv_duration>P3Y2M1D</ns2:dv_duration>
+	<ns2:dv_dateTime>2023-02-28T17:59:59.999Z</ns2:dv_dateTime>
+	<ns2:dv_time>23:59:59</ns2:dv_time>
+	<ns2:dv_date>2023-02-28Z</ns2:dv_date>
+	<ns2:dv_gYearMonth>2023-02Z</ns2:dv_gYearMonth>
+	<ns2:dv_gYear>2023Z</ns2:dv_gYear>
+	<ns2:dv_gMonthDay>--02-28Z</ns2:dv_gMonthDay>
+	<ns2:dv_gDay>---28Z</ns2:dv_gDay>
+	<ns2:dv_gMonth>--02Z</ns2:dv_gMonth>
+	<ns2:dv_hexBinary>0FB8</ns2:dv_hexBinary>
+	<ns2:dv_base64Binary>dGV4dA==</ns2:dv_base64Binary>
+	<ns2:dv_anyURI>scheme://authority/path?query#fragment</ns2:dv_anyURI>
+	<ns2:dv_QName>ns2:localPart</ns2:dv_QName>
+</ns2:document2>

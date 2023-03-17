@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.patrodyne.jvnet</groupId>
+		<artifactId>hisrc-basicjaxb-higher-tests</artifactId>
+		<version>2.1.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>hisrc-basicjaxb-test-default-value</artifactId>
+	<packaging>jar</packaging>
+	<name>HiSrc BasicJAXB - Test [default-value]</name>
+
+	<properties>
+		<root.basedir>${basedir}/../../..</root.basedir>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-higherjaxb-maven-plugin-testing</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<defaultGoal>test</defaultGoal>
+		<plugins>
+			<!-- mvn hisrc-higherjaxb:help -Ddetail=true -->
+			<!-- mvn hisrc-higherjaxb:generate -->
+			<plugin>
+				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
+				<configuration>
+					<extension>true</extension>
+					<args>
+						<arg>-XhashCode</arg>
+						<arg>-Xequals</arg>
+						<arg>-XtoString</arg>
+						<arg>-XdefaultValue</arg>
+					</args>
+					<plugins>
+						<plugin>
+							<groupId>org.patrodyne.jvnet</groupId>
+							<artifactId>hisrc-basicjaxb-plugins</artifactId>
+						</plugin>
+					</plugins>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

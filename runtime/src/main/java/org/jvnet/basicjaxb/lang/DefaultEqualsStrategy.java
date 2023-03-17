@@ -5,9 +5,11 @@ import static org.jvnet.basicjaxb.locator.util.LocatorUtils.property;
 
 import java.util.Collection;
 
+import org.jvnet.basicjaxb.dom.DOMUtils;
 import org.jvnet.basicjaxb.locator.ObjectLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Element;
 
 public class DefaultEqualsStrategy implements EqualsStrategy
 {
@@ -158,6 +160,8 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 			return equalsInternal(lhsLocator, rhsLocator, (Equals) lhs, (Equals) rhs);
 		else if (lhs instanceof Enum<?> && rhs instanceof Enum<?>)
 			return equalsInternal(lhsLocator, rhsLocator, (Enum<?>) lhs, (Enum<?>) rhs);
+		else if (lhs instanceof Element && rhs instanceof Element)
+			return equalsInternal(lhsLocator, rhsLocator, (Element) lhs, (Element) rhs);
 		else
 			return lhs.equals(rhs);
 	}
@@ -185,6 +189,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		
 		return lhs.equals(lhsLocator, rhsLocator, rhs, this);
+	}
+
+	protected boolean equalsInternal(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Element lhs, Element rhs)
+	{
+		if (lhs == rhs)
+			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
+		
+		if (lhs == null || rhs == null)
+			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
+		
+		// Ignore the prefix, it may vary between XML instances.
+		// Alternative to rhs.isEqualNode(lhs); (com.sun.org.apache.xerces.internal.dom.NodeImpl)
+		return DOMUtils.areEqualElements(rhs, lhs, true);
 	}
 
 	protected boolean equals(ObjectLocator lhsLocator, ObjectLocator rhsLocator, boolean lhs, boolean rhs)
