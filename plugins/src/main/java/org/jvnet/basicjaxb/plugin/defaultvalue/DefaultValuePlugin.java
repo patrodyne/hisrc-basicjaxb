@@ -652,14 +652,4 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 	{
 		getLogger().warn(msg);
 	}
-	
-	/**
-	 * Log an error message.
-	 * 
-	 * @param msg An error message.
-	 */
-	private void error(String msg, Exception ex)
-	{
-		getLogger().error(msg, ex);
-	}
 }
