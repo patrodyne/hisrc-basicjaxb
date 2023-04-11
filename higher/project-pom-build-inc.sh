@@ -7,7 +7,10 @@ fi
 
 # Read JVM System Arguments from configuration file.
 if [ -z "${JVM_SYS_ARGS}" ]; then
+	JVM_SYS_ARGS_FILE="${BASEDIR}/src/main/resources/jvmsystem.arguments"
+	if [ ! -r "${JVM_SYS_ARGS_FILE}" ] ; then
 	JVM_SYS_ARGS_FILE="${BASEDIR}/src/test/resources/jvmsystem.arguments"
+	fi
 	if [ -r "${JVM_SYS_ARGS_FILE}" ] ; then
 		while read -r JVM_SYS_ARG
 		do
@@ -21,7 +24,10 @@ fi
 
 # Read JVM System Properties from configuration file, add -D.
 if [ -z "${JVM_SYS_PROPS}" ]; then
+	JVM_SYS_PROP_FILE="${BASEDIR}/src/main/resources/jvmsystem.properties"
+	if [ ! -r "${JVM_SYS_PROP_FILE}" ] ; then
 	JVM_SYS_PROP_FILE="${BASEDIR}/src/test/resources/jvmsystem.properties"
+	fi
 	if [ -r "${JVM_SYS_PROP_FILE}" ] ; then
 		while read -r JVM_SYS_PROP
 		do

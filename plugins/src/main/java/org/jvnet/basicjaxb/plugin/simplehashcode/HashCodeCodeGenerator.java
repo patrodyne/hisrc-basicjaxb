@@ -5,13 +5,10 @@ import org.jvnet.basicjaxb.plugin.codegenerator.CodeGenerationAbstraction;
 
 import com.sun.codemodel.JCodeModel;
 
-public class HashCodeCodeGenerator extends
-		CodeGenerationAbstraction<HashCodeArguments> {
-
-	public HashCodeCodeGenerator(JCodeModel codeModel) {
-		super(
-				new HashCodeCodeGenerationImplementor(
-						Validate.notNull(codeModel)));
+public class HashCodeCodeGenerator extends CodeGenerationAbstraction<HashCodeArguments>
+{
+	public HashCodeCodeGenerator(JCodeModel codeModel)
+	{
+		super(new HashCodeCodeGenerationImplementor(Validate.notNull(codeModel)));
 	}
-
 }

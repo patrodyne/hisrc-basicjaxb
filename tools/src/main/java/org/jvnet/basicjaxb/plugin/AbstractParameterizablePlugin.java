@@ -12,19 +12,20 @@ import com.sun.tools.xjc.Options;
  * Abstract base class for parameterizable JAXB XJC plugins.
  * </p>
  * <p>
- * This plugin looks for the arguments of the form
- * <code>-<em>myPlugin</em>-<em>name</em>=<em>value</em></code>
- * where (<code><em>myPlugin</em></code> is the plugin option name)
- * and then invokes <code>set<em>Name</em>(<em>value</em>)</code>
- * on itself.
+ * This plugin looks for the arguments of the form:
  * </p>
+ * <code>-<em>myPlugin</em>-<em>name</em>=<em>value</em></code>
+ * <p>where (<code><em>myPlugin</em></code> is the plugin option name)
+ * and then invokes <code>set<em>Name</em>(<em>value</em>)</code> on itself.
+ * </p>
+ * 
  * <p>
  * For instance, the argument <code>-Xfoo-bar=test</code> triggers
  * <code>setBar("test")</code> invocation on the <code>foo</code> plugin.
  * </p>
  * <p>
- * Values are injected using Commons {@link BeanUtils} as bean properties, so types will
- * be converted correspondingly
+ * Values are injected using Commons {@link BeanUtils} as bean properties, so
+ * types will be converted correspondingly
  * </p>
  * 
  * @author valikov
@@ -32,7 +33,7 @@ import com.sun.tools.xjc.Options;
 public abstract class AbstractParameterizablePlugin extends AbstractPlugin
 {
 	/** Represents the XJC plugin usage format.*/
-	protected static final String USAGE_FORMAT = "  -%-17s :  %s";
+	public static final String USAGE_FORMAT = "  -%-18s :  %s";
 
 	/**
 	 * Parses the arguments and injects values into the beans via properties.

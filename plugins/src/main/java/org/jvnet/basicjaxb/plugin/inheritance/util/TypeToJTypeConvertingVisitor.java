@@ -18,113 +18,133 @@ import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JType;
 
-public class TypeToJTypeConvertingVisitor extends
-		GenericVisitorAdapter<JType, JCodeModel> {
-
+/**
+ * <p>
+ * Represents an operation to be performed on elements of an {@link JCodeModel} structure. 
+ * Visitor lets you define a new operation without changing the classes of the 
+ * elements on which it operates.
+ * </p>
+ * 
+ * <p>
+ * <b>TypeToJTypeConvertingVisitor</b> provides a visitor method for these types:
+ * </p>
+ * <ul>
+ * <li>{@link ClassOrInterfaceType}</li>
+ * <li>{@link PrimitiveType}</li>
+ * <li>{@link ReferenceType}</li>
+ * <li>{@link VoidType}</li>
+ * <li>{@link WildcardType}</li>
+ * </ul>
+ */
+public class TypeToJTypeConvertingVisitor extends GenericVisitorAdapter<JType, JCodeModel>
+{
 	private final Map<String, JClass> knownClasses;
 
-	public TypeToJTypeConvertingVisitor(Map<String, JClass> knownClasses) {
+	public TypeToJTypeConvertingVisitor(Map<String, JClass> knownClasses)
+	{
 		Validate.notNull(knownClasses);
 		this.knownClasses = knownClasses;
 	}
 
 	@Override
-	public JType visit(VoidType type, JCodeModel codeModel) {
+	public JType visit(VoidType type, JCodeModel codeModel)
+	{
 		return codeModel.VOID;
 	}
 
 	@Override
-	public JType visit(PrimitiveType type, JCodeModel codeModel) {
-		switch (type.getType()) {
-		case Boolean:
-			return codeModel.BOOLEAN;
-		case Char:
-			return codeModel.CHAR;
-		case Byte:
-			return codeModel.BYTE;
-		case Short:
-			return codeModel.SHORT;
-		case Int:
-			return codeModel.INT;
-		case Long:
-			return codeModel.LONG;
-		case Float:
-			return codeModel.FLOAT;
-		case Double:
-			return codeModel.DOUBLE;
-		default:
-			throw new AssertionError("Unknown primitive type ["
-					+ type.getType() + "]");
+	public JType visit(PrimitiveType type, JCodeModel codeModel)
+	{
+		switch (type.getType())
+		{
+			case Boolean:
+				return codeModel.BOOLEAN;
+			case Char:
+				return codeModel.CHAR;
+			case Byte:
+				return codeModel.BYTE;
+			case Short:
+				return codeModel.SHORT;
+			case Int:
+				return codeModel.INT;
+			case Long:
+				return codeModel.LONG;
+			case Float:
+				return codeModel.FLOAT;
+			case Double:
+				return codeModel.DOUBLE;
+			default:
+				throw new AssertionError("Unknown primitive type [" + type.getType() + "]");
 		}
 	}
 
 	@Override
-	public JType visit(ReferenceType type, JCodeModel codeModel) {
+	public JType visit(ReferenceType type, JCodeModel codeModel)
+	{
 		final JType referencedType = type.getType().accept(this, codeModel);
-
 		JType referencedTypeArray = referencedType;
-		for (int index = 0; index < type.getArrayCount(); index++) {
+		
+		for (int index = 0; index < type.getArrayCount(); index++)
 			referencedTypeArray = referencedTypeArray.array();
-		}
+		
 		return referencedTypeArray;
 	}
 
 	@Override
-	public JType visit(WildcardType type, JCodeModel codeModel) {
-
-		if (type.getExtends() != null) {
+	public JType visit(WildcardType type, JCodeModel codeModel)
+	{
+		if (type.getExtends() != null)
+		{
 			final ReferenceType _extends = type.getExtends();
 			final JType boundType = _extends.accept(this, codeModel);
-
-			if (!(boundType instanceof JClass)) {
-				throw new IllegalArgumentException("Bound type [" + _extends
-						+ "]in the wildcard type must be class.");
-			}
-
+			
+			if (!(boundType instanceof JClass))
+				throw new IllegalArgumentException("Bound type [" + _extends + "]in the wildcard type must be class.");
+			
 			final JClass boundClass = (JClass) boundType;
 			return boundClass.wildcard();
-		} else if (type.getSuper() != null) {
-			// TODO
-			throw new IllegalArgumentException(
-					"Wildcard types with super clause are not supported at the moment.");
-		} else {
-			throw new IllegalArgumentException(
-					"Wildcard type must have either extends or super clause.");
 		}
+		else if (type.getSuper() != null)
+		{
+			// TODO: Support wildcard types with super clause.
+			throw new IllegalArgumentException("Wildcard types with super clause are not supported at the moment.");
+		}
+		else
+			throw new IllegalArgumentException("Wildcard type must have either extends or super clause.");
 	}
 
 	@Override
-	public JType visit(ClassOrInterfaceType type, JCodeModel codeModel) {
+	public JType visit(ClassOrInterfaceType type, JCodeModel codeModel)
+	{
 		final String name = getName(type);
 		final JClass knownClass = this.knownClasses.get(name);
-		final JClass jclass = knownClass != null ? knownClass : codeModel
-				.ref(name);
+		final JClass jclass = knownClass != null ? knownClass : codeModel.ref(name);
 		final List<Type> typeArgs = type.getTypeArgs();
-		if (typeArgs == null || typeArgs.isEmpty()) {
+		
+		if (typeArgs == null || typeArgs.isEmpty())
 			return jclass;
-		} else {
-			final List<JClass> jtypeArgs = new ArrayList<JClass>(
-					typeArgs.size());
-			for (Type typeArg : typeArgs) {
+		else
+		{
+			final List<JClass> jtypeArgs = new ArrayList<JClass>(typeArgs.size());
+			for (Type typeArg : typeArgs)
+			{
 				final JType jtype = typeArg.accept(this, codeModel);
-				if (!(jtype instanceof JClass)) {
-					throw new IllegalArgumentException("Type argument ["
-							+ typeArg.toString() + "] is not a class.");
-				} else {
+				if (!(jtype instanceof JClass))
+					throw new IllegalArgumentException("Type argument [" + typeArg.toString() + "] is not a class.");
+				else
 					jtypeArgs.add((JClass) jtype);
-				}
 			}
 			return jclass.narrow(jtypeArgs);
 		}
 	}
 
-	private String getName(ClassOrInterfaceType type) {
+	private String getName(ClassOrInterfaceType type)
+	{
 		final String name = type.getName();
 		final ClassOrInterfaceType scope = type.getScope();
-		if (scope == null) {
+		if (scope == null)
 			return name;
-		} else {
+		else
 			return getName(scope) + "." + name;
-		}
 	}
 }

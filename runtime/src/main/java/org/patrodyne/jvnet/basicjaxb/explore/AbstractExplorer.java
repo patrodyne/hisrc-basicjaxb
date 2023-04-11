@@ -421,5 +421,6 @@ abstract public class AbstractExplorer extends JFrame
 		setVisible(true);
 		getLessonPane().setDividerLocation(CONFIG_EXPLORE_PANE_WEIGHT);
 		getStreamPane().setDividerLocation(CONFIG_STREAM_PANE_WEIGHT);
+		getHtmlPane().requestFocus();
 	}
 }

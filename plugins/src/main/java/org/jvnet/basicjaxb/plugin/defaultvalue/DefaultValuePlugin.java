@@ -66,6 +66,8 @@ import com.sun.xml.xsom.XSType;
  *   <li>{@link String}</li>
  *   <li>Descendants of {@link java.lang.Number}
  *     <ul>
+ *     <li>{@link BigDecimal}</li>
+ *     <li>{@link BigInteger}</li>
  *     <li>{@link Byte}</li>
  *     <li>{@link Double}</li>
  *     <li>{@link Float}</li>
@@ -75,6 +77,8 @@ import com.sun.xml.xsom.XSType;
  *     </ul>
  *   </li>
  *   <li>{@link Boolean}</li>
+ *   <li>{@link Duration}</li>
+ *   <li>{@link XMLGregorianCalendar}</li>
  * </ul>
  *
  * <p>
@@ -101,12 +105,14 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 	}
 
 	/** DefaultValuePlugin uses "-" + OPTION_NAME as the XJC argument */
+	@Override
 	public String getOptionName()
 	{
 		return OPTION_NAME;
 	}
 
 	/** Return usage information for plugin */
+	@Override
 	public String getUsage()
 	{
 		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);

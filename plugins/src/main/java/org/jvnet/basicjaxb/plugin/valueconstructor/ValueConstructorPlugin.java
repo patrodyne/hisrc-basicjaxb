@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.plugin.valueconstructor;
 
+import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.valueconstructor.Customizations.IGNORED_ELEMENT_NAME;
 
@@ -60,16 +61,22 @@ import com.sun.tools.xjc.outline.Outline;
  */
 public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 {
+	/** Name of Option to enable this plugin. */
+	private static final String OPTION_NAME = "XvalueConstructor";
+	
+	/** Description of Option to enable this plugin. */
+	private static final String OPTION_DESC = "enable generation of value constructor(s)";
+
 	@Override
 	public String getOptionName()
 	{
-		return "XvalueConstructor";
+		return OPTION_NAME;
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return "  -XvalueConstructor :  enable generation of value constructors";
+		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring

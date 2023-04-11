@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings jaxb:version="3.0"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"
+	extensionBindingPrefixes="inh"
+>
+
+	<!--  Global Bindings
+		* JPA section 2.1, entities must be top-level classes.
+		* JPA section 2.1, entities must implement the serializable interface.
+		* When processing a Microsoft WCF service WSDL, it is recommended that the
+		  generateElementProperty customization be set to 'false' in globalBindings.
+		* Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512".
+	-->
+	<jaxb:globalBindings localScoping="toplevel">
+		<jaxb:serializable uid="20230201" />
+	</jaxb:globalBindings>
+
+	<!-- Warning: Bindings in the XSD override bindings defined here! -->
+  	<jaxb:bindings schemaLocation="address.xsd" node="/xs:schema" >
+
+		<!--
+			Use the inheritance XJC plugin to extend the ObjectFactory
+			in the 'address' package.
+		-->
+		<inh:objectFactory packageName="org.example.address">
+			<inh:extends>org.example.base.ObjectFactory</inh:extends>
+			<inh:implements>java.lang.Cloneable</inh:implements>
+		</inh:objectFactory>
+  	
+		<!-- Use this XJC plugin to inherit the Stageable class. -->
+		<jaxb:bindings node="xs:complexType[@name='AddressType']">
+			<inh:extends>org.example.base.Stageable</inh:extends>
+		</jaxb:bindings>
+		
+  	</jaxb:bindings>
+
+	<!-- Warning: Bindings in the XSD override bindings defined here! -->
+  	<jaxb:bindings schemaLocation="contact.xsd" node="/xs:schema" >
+
+		<!-- Use this XJC plugin to inherit the Stageable class. -->
+		<jaxb:bindings node="//xs:element[@name='Contact']/xs:complexType">
+			<!-- Use this XJC plugin to implement the Nameable interface. -->
+			<inh:implements>org.example.base.Nameable</inh:implements>
+		</jaxb:bindings>
+
+  	</jaxb:bindings>
+
+</jaxb:bindings>

@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.plugin.mergeable;
 
+import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.mergeable.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
@@ -50,22 +51,28 @@ import com.sun.tools.xjc.outline.Outline;
  * be merged), use locators to check what exactly is being merged at the moment
  * and so on. But the main reason for dependency is to avoid generating the same
  * merging code all over the place for each of the fields of each of the
- * generated classes. The merging algorithmic is held in merge strategies.
+ * generated classes. The merging algorithm is held in merge strategies.
  * 
  * @author Alexey Valikov
  */
 public class MergeablePlugin extends AbstractParameterizablePlugin
 {
+	/** Name of Option to enable this plugin. */
+	private static final String OPTION_NAME = "Xmergeable";
+	
+	/** Description of Option to enable this plugin. */
+	private static final String OPTION_DESC = "generate reflection-free methods to merge data from two objects into a target object";
+
 	@Override
 	public String getOptionName()
 	{
-		return "Xmergeable";
+		return OPTION_NAME;
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return "  -Xmergeable        :  generate reflection-free methods to merge data from two objects into a target object";
+		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;

@@ -1,0 +1,17 @@
+<!-- 
+	Note: Inheriting a non-schema-derived JAXB class may not pass schema validation!
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://example.org/address ../../main/resources/address.xsd"
+-->
+<usa:USAddress xmlns:usa="http://example.org/address"
+	Created="2023-04-05T13:28:20.000-05:00"
+	Updated="2023-04-05T13:30:45.000-05:00"
+	Stage="Closed"
+>
+    <Line1>234 Lancaster Av</Line1>
+    <Line2>Unit 159</Line2>
+    <Area>East</Area>
+    <City>Smallville</City>
+    <State>Florida</State>
+    <Zipcode>34543</Zipcode>
+</usa:USAddress>

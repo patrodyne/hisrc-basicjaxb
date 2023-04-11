@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.plugin.simplify;
 
+import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.simplify.Customizations.AS_ELEMENT_PROPERTY_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.simplify.Customizations.AS_REFERENCE_PROPERTY_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.simplify.Customizations.IGNORED_ELEMENT_NAME;
@@ -37,22 +38,31 @@ import com.sun.tools.xjc.model.CTypeRef;
 import com.sun.tools.xjc.model.CValuePropertyInfo;
 import com.sun.tools.xjc.model.Model;
 
+/**
+ * Simplifies 'choice' properties like fooOrBarOrBaz
+ */
 public class SimplifyPlugin extends AbstractParameterizablePlugin
 {
 	private boolean usePluralForm = false;
 	public boolean isUsePluralForm() { return usePluralForm; }
 	public void setUsePluralForm(boolean usePluralForm) { this.usePluralForm = usePluralForm; }
 
+	/** Name of Option to enable this plugin. */
+	private static final String OPTION_NAME = "Xsimplify";
+	
+	/** Description of Option to enable this plugin. */
+	private static final String OPTION_DESC = "simplifies 'choice' properties like fooOrBarOrBaz";
+
 	@Override
 	public String getOptionName()
 	{
-		return "Xsimplify";
+		return OPTION_NAME;
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return "  -Xsimplify         :  simplifies 'choice' properties like fooOrBarOrBaz";
+		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
 	private Ignoring ignoring = new CustomizedIgnoring(IGNORED_ELEMENT_NAME, Customizations.IGNORED_ELEMENT_NAME, Customizations.GENERATED_ELEMENT_NAME);

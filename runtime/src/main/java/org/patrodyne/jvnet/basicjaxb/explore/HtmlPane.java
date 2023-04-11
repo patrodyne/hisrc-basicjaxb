@@ -1,6 +1,9 @@
 package org.patrodyne.jvnet.basicjaxb.explore;
 
 import java.awt.Desktop;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.net.URI;
@@ -43,8 +46,21 @@ public class HtmlPane extends JEditorPane
 		setText(html);
 		setCaretPosition(0);
 		addMouseListener(createContextMenuListener());
+		addFocusListener(createFocusListener());
 	}
-	
+
+	private FocusListener createFocusListener()
+	{
+		return new FocusAdapter()
+		{
+			public void focusGained(FocusEvent e)
+			{
+				// Enable arrow scrolling!!!
+				getCaret().setVisible(true); 
+		    }
+		};
+	}
+
 	private MouseListener createContextMenuListener()
 	{
 		JPopupMenu contextMenu = new JPopupMenu();

@@ -1,5 +1,7 @@
 package org.jvnet.basicjaxb.plugin.customizations;
 
+import static java.lang.String.format;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,6 +33,24 @@ import com.sun.tools.xjc.model.Model;
 
 public class CustomizationsPlugin extends AbstractParameterizablePlugin
 {
+	/** Name of Option to enable this plugin. */
+	private static final String OPTION_NAME = "Xcustomizations";
+	
+	/** Description of Option to enable this plugin. */
+	private static final String OPTION_DESC = "reads and adds customizations from files";
+
+	@Override
+	public String getOptionName()
+	{
+		return OPTION_NAME;
+	}
+
+	@Override
+	public String getUsage()
+	{
+		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
+	}
+	
 	private final DocumentBuilderFactory documentBuilderFactory;
 	{
 		documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -44,18 +64,6 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	private boolean verbose;
 	public boolean isVerbose() { return verbose; }
 	public void setVerbose(boolean verbose) { this.verbose = verbose; }
-
-	@Override
-	public String getOptionName()
-	{
-		return "Xcustomizations";
-	}
-
-	@Override
-	public String getUsage()
-	{
-		return "  -Xcustomizations   :  reads and adds customizations from files";
-	}
 
 	@Override
 	public void postProcessModel(Model model, ErrorHandler errorHandler)

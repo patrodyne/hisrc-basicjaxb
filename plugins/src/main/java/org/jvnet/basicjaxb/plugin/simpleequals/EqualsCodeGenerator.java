@@ -5,11 +5,10 @@ import org.jvnet.basicjaxb.plugin.codegenerator.CodeGenerationAbstraction;
 
 import com.sun.codemodel.JCodeModel;
 
-public class EqualsCodeGenerator extends
-		CodeGenerationAbstraction<EqualsArguments> {
-
-	public EqualsCodeGenerator(JCodeModel codeModel) {
+public class EqualsCodeGenerator extends CodeGenerationAbstraction<EqualsArguments>
+{
+	public EqualsCodeGenerator(JCodeModel codeModel)
+	{
 		super(new EqualsCodeGenerationImplementor(Validate.notNull(codeModel)));
 	}
-
 }

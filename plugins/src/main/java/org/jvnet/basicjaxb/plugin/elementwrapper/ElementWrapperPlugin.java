@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.plugin.elementwrapper;
 
+import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.elementwrapper.Customizations.IGNORED_ELEMENT_NAME;
 
 import java.util.ArrayList;
@@ -32,18 +33,90 @@ import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.model.nav.NClass;
 import com.sun.tools.xjc.model.nav.NType;
 
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementRef;
+import jakarta.xml.bind.annotation.XmlElementRefs;
+import jakarta.xml.bind.annotation.XmlElements;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+/**
+ * Generates a wrapper element annotations.
+ *
+ * This is primarily intended to be used to produce a wrapper
+ * XML element around collections. The annotation therefore supports
+ * two forms of serialization shown below. 
+ *
+ * <pre>{@code
+ *    //Example: code fragment
+ *      int[] names;
+ *
+ *    // XML Serialization Form 1 (Unwrapped collection)
+ *    <names> ... </names>
+ *    <names> ... </names>
+ * 
+ *    // XML Serialization Form 2 ( Wrapped collection )
+ *    <wrapperElement>
+ *       <names> value-of-item </names>
+ *       <names> value-of-item </names>
+ *       ....
+ *    </wrapperElement>
+ * }</pre>
+ *
+ * By default, the XML wrapper element name is derived from the
+ * JavaBean property name.
+ *
+ * <p> The two serialized XML forms allow a null collection to be
+ * represented either by absence or presence of an element with a
+ * nillable attribute.
+ * 
+ * <p> <b>Usage</b> </p>
+ * <p>
+ * The {@code @XmlElementWrapper} annotation can be used with the
+ * following program elements: 
+ * <ul> 
+ *   <li> JavaBean property </li>
+ *   <li> non static, non transient field </li>
+ * </ul>
+ *
+ * <p>The usage is subject to the following constraints:
+ * <ul>
+ *   <li> The property must be a collection property </li>
+ *   <li> This annotation can be used with the following annotations:
+ *            {@link XmlElement}, 
+ *            {@link XmlElements},
+ *            {@link XmlElementRef},
+ *            {@link XmlElementRefs},
+ *            {@link XmlJavaTypeAdapter}.</li>
+ * </ul>
+ *
+ * <p>See "Package Specification" in jakarta.xml.bind.package javadoc for
+ * additional common information.</p>
+ *
+ * @see XmlElement 
+ * @see XmlElements
+ * @see XmlElementRef
+ * @see XmlElementRefs
+ * 
+ * @since 1.6, JAXB 2.0
+ */
 public class ElementWrapperPlugin extends AbstractModelPlugin
 {
+	/** Name of Option to enable this plugin. */
+	private static final String OPTION_NAME = "XelementWrapper";
+	
+	/** Description of Option to enable this plugin. */
+	private static final String OPTION_DESC = "generates @XmlElementWrapper annotations";
+
 	@Override
 	public String getOptionName()
 	{
-		return "XelementWrapper";
+		return OPTION_NAME;
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return "  -XelementWrapper   :  generates @XmlElementWrapper annotations";
+		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
 	@Override

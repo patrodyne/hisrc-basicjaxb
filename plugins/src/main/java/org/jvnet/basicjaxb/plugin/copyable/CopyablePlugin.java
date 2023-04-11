@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.plugin.copyable;
 
+import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.copyable.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
@@ -56,16 +57,22 @@ import com.sun.tools.xjc.outline.Outline;
  */
 public class CopyablePlugin extends AbstractParameterizablePlugin
 {
+	/** Name of Option to enable this plugin. */
+	private static final String OPTION_NAME = "Xcopyable";
+	
+	/** Description of Option to enable this plugin. */
+	private static final String OPTION_DESC = "generates reflection-free deep copying";
+
 	@Override
 	public String getOptionName()
 	{
-		return "Xcopyable";
+		return OPTION_NAME;
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return "  -Xcopyable         :  generates reflection-free deep copying";
+		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;

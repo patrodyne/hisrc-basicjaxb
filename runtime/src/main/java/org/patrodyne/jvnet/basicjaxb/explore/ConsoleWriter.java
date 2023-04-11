@@ -1,6 +1,9 @@
 package org.patrodyne.jvnet.basicjaxb.explore;
 
 import java.awt.Font;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.io.Writer;
@@ -24,6 +27,10 @@ public class ConsoleWriter extends Writer
 	{
 		return textArea;
 	}
+	private void setTextArea(JTextArea textArea)
+	{
+		this.textArea = textArea;
+	}
 
 	/**
 	 * Construct with built-in, read-only JTextArea.
@@ -33,11 +40,24 @@ public class ConsoleWriter extends Writer
 	public ConsoleWriter(int points)
 	{
 		super();
-		this.textArea = new JTextArea();
-		this.textArea.setEditable(false);
-		this.textArea.setFont(new Font("monospaced", Font.PLAIN, points));
-		this.textArea.setTabSize(4);
-		this.textArea.addMouseListener(createContextMenuListener());
+		setTextArea(new JTextArea());
+		getTextArea().setEditable(false);
+		getTextArea().setFont(new Font("monospaced", Font.PLAIN, points));
+		getTextArea().setTabSize(4);
+		getTextArea().addMouseListener(createContextMenuListener());
+		getTextArea().addFocusListener(createFocusListener());
+	}
+
+	private FocusListener createFocusListener()
+	{
+		return new FocusAdapter()
+		{
+			public void focusGained(FocusEvent e)
+			{
+				// Enable arrow scrolling!!!
+				getTextArea().getCaret().setVisible(true); 
+		    }
+		};
 	}
 	
 	private MouseListener createContextMenuListener()

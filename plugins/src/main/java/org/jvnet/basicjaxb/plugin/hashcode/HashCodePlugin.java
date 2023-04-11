@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.plugin.hashcode;
 
+import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.hashcode.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
@@ -41,18 +42,42 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 
+/**
+ * <p>Interface to generate a hash code using {@link JAXBHashCodeStrategy} and preserve an
+ * {@link ObjectLocator} path.</p>
+ * 
+ * <p>
+ * With this plug-in you can generate a hash code to map an object into an integer
+ * value, use strategies to customize hashing (how exactly should this object
+ * be hashed), use locators to check what exactly is being hashed at the moment
+ * and so on. But the main reason for dependency is to avoid generating the same
+ * hashing code all over the place for each of the fields of each of the
+ * generated classes. The hashing algorithm is held in hash strategies.
+ * </p>
+ * 
+ * <p>
+ * Objects that are equal (according to their <code>equals()</code>) must return
+ * the same hash code. Different objects do not need to return different hash codes.
+ * </p>
+ */
 public class HashCodePlugin extends AbstractParameterizablePlugin
 {
+	/** Name of Option to enable this plugin. */
+	private static final String OPTION_NAME = "XhashCode";
+	
+	/** Description of Option to enable this plugin. */
+	private static final String OPTION_DESC = "generates reflection-free 'hashCode' methods";
+
 	@Override
 	public String getOptionName()
 	{
-		return "XhashCode";
+		return OPTION_NAME;
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return "  -XhashCode         :  generates reflection-free 'hashCode' methods";
+		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;

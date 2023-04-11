@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.plugin.equals;
 
+import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
@@ -42,18 +43,28 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 
+/**
+ * The <b>EqualsPlugin</b> implements the {@link Equals} interface on JAXB
+ * generated classes. 
+ */
 public class EqualsPlugin extends AbstractParameterizablePlugin
 {
+	/** Name of Option to enable this plugin. */
+	private static final String OPTION_NAME = "Xequals";
+	
+	/** Description of Option to enable this plugin. */
+	private static final String OPTION_DESC = "generates reflection-free 'equals' methods";
+
 	@Override
 	public String getOptionName()
 	{
-		return "Xequals";
+		return OPTION_NAME;
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return "  -Xequals           :  generates reflection-free 'equals' methods";
+		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;

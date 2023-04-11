@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<jaxb:bindings
+<jaxb:bindings jaxb:version="3.0"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	jaxb:version="3.0"
+	xmlns:annox="http://jvnet.org/basicjaxb/xjc/annox"
+    jaxb:extensionBindingPrefixes="annox"
 >
 
 	<!--  Global Bindings
@@ -15,5 +16,11 @@
 	<jaxb:globalBindings localScoping="toplevel" generateIsSetMethod="true" generateElementClass="false" choiceContentProperty="false">
 		<jaxb:serializable uid="20230201" />
 	</jaxb:globalBindings>
+
+    <jaxb:bindings schemaLocation="document.xsd" node="/xs:schema">
+		<!--
+        <annox:annotate target="class">@java.lang.SuppressWarnings("unchecked")</annox:annotate>
+		-->
+    </jaxb:bindings>
 
 </jaxb:bindings>

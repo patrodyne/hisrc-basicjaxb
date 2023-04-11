@@ -23,10 +23,29 @@ import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.Outline;
 
 /**
- * An abstract XJC plugin to add or modify the XJC outline. An outline captures
+ * <p>An abstract XJC plugin to add or modify the XJC outline. An outline captures
  * which code is generated for which model component. A {@link Model} is a
  * schema language neutral representation of the result of a schema parsing. XJC
- * uses this model to turn this into a series of Java source code.
+ * uses this model to turn this into a series of Java source code.</p>
+ * 
+ * <p>The XJC tool loads extensions using these code points:</p>
+ * 
+ * <pre>
+ * package com.sun.tools.xjc
+ *     ModelLoader.load(Options, JCodeModel, ErrorReceiver)
+ *     // Parses a set of XML Schema files into an annotated grammar.
+ *     XSSchemaSet ModelLoader.loadXMLSchema()
+ *     // Parses a <b>DOMForest</b> into a <b>XSSchemaSet</b>
+ *     DOMForest forest = buildDOMForest( new XMLSchemaInternalizationLogic() );
+ *     public XSSchemaSet ModelLoader.createXSOM(DOMForest forest, SCDBasedBindingSet scdBasedBindingSet)
+ * 
+ * package com.sun.tools.xjc.reader.internalizer
+ *     // Internalizes external binding declarations.
+ *     String EXTENSION_PREFIXES = "extensionBindingPrefixes"
+ *     Internalizer.declareExtensionNamespace( Element target, String nsUri )
+ *     // Applies the additional binding customizations.
+ *     public void SCDBasedBindingSet.apply(XSSchemaSet schema, ErrorReceiver errorReceiver)
+ * </pre>
  */
 public abstract class AbstractPlugin extends Plugin
 {

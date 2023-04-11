@@ -14,7 +14,7 @@ org.jvnet.basicjaxb.plugin.simplehashcode.SimpleHashCodePlugin
 org.jvnet.basicjaxb.plugin.simpleequals.SimpleEqualsPlugin
 org.jvnet.basicjaxb.plugin.simpletostring.SimpleToStringPlugin
 org.jvnet.basicjaxb.plugin.enumvalue.EnumValuePlugin
-org.jvnet.basicjaxb.plugin.fixjaxb1058.FixJAXB1058Plugin
+org.jvnet.basicjaxb.plugin.fixmixedextensions.FixMixedExtensions
 org.jvnet.basicjaxb.plugin.customizations.CustomizationsPlugin
 org.jvnet.basicjaxb.plugin.valueconstructor.ValueConstructorPlugin
 org.jvnet.basicjaxb.plugin.defaultvalue.DefaultValuePlugin

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	targetNamespace="http://example.org/address"
+	xmlns:tns="http://example.org/address"
+	xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	jaxb:extensionBindingPrefixes="inh"
+	jaxb:version="3.0"
+>
+
+	<xs:complexType name="AddressType">
+		<xs:sequence>
+			<xs:element name="Line1" type="xs:string" />
+			<xs:element name="Line2" type="xs:string" />
+			<xs:element name="Line3" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CityAddressType">
+		<xs:complexContent>
+			<xs:extension base="tns:AddressType">
+				<xs:sequence>
+					<xs:element name="Area" type="tns:areaType" />
+					<xs:element name="City" type="xs:string" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="UKAddress">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:CityAddressType">
+					<xs:sequence>
+						<xs:element name="County" type="xs:string" />
+						<xs:element name="Postcode" type="xs:string" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="USAddress">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:CityAddressType">
+					<xs:sequence>
+						<xs:element name="State" type="xs:string" />
+						<xs:element name="Zipcode" type="xs:string" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="areaType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="North" />
+			<xs:enumeration value="East" />
+			<xs:enumeration value="West" />
+			<xs:enumeration value="South" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

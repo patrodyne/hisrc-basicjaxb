@@ -16,9 +16,10 @@
 		<module>default-value</module>
 		<module>episodes</module>
 		<module>ignoring</module>
+		<module>inheritance</module>
 		<module>issues</module>
-		<module>JAXB-1058</module>
 		<module>merge</module>
+		<module>mixed</module>
 		<module>one</module>
 		<module>po</module>
 		<module>simple-hashCode-equals-01</module>

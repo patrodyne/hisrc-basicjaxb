@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.plugin.simpletostring;
 
+import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassNotIgnored;
@@ -28,22 +29,31 @@ import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 
+/**
+ * Generate reflection-free runtime-free 'toString' methods.
+ */
 public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringArguments>
 {
 	private static final String CONTENT_START = "[";
 	private static final String CONTENT_END = "]";
 	private static final String FIELD_SEPARATOR = ", ";
 
+	/** Name of Option to enable this plugin. */
+	private static final String OPTION_NAME = "XsimpleToString";
+	
+	/** Description of Option to enable this plugin. */
+	private static final String OPTION_DESC = "generate reflection-free runtime-free 'toString' method";
+
 	@Override
 	public String getOptionName()
 	{
-		return "XsimpleToString";
+		return OPTION_NAME;
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return "  -XsimpleToString   :  generate reflection-free runtime-free 'toString' methods";
+		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
 	@Override

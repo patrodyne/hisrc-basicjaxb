@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	targetNamespace="http://example.org/contact"
+	xmlns:tns="http://example.org/contact"
+	xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	jaxb:extensionBindingPrefixes="inh"
+	jaxb:version="3.0"
+>
+
+	<xs:element name="Contact">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FirstName" type="xs:string" />
+				<xs:element name="LastName" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

@@ -2,27 +2,18 @@ package org.patrodyne.jvnet.basicjaxb.explore;
 
 import static java.lang.Integer.toHexString;
 import static java.lang.System.identityHashCode;
-import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
-import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 
 import java.awt.EventQueue;
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.Unmarshaller;
-import jakarta.xml.bind.annotation.XmlRootElement;
 import javax.xml.transform.TransformerException;
 import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 
+import org.jvnet.basicjaxb.lang.ContextUtils;
 import org.jvnet.basicjaxb.lang.Equals;
 import org.jvnet.basicjaxb.lang.EqualsStrategy;
 import org.jvnet.basicjaxb.lang.HashCode;
@@ -35,6 +26,12 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 import org.patrodyne.jvnet.basicjaxb.validation.SchemaOutputDomResolver;
 import org.patrodyne.jvnet.basicjaxb.validation.SchemaOutputStringResolver;
 import org.xml.sax.SAXException;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * A Swing application to explore features of the HiSrc BasicJAXB Runtime library.
@@ -114,8 +111,8 @@ public class Explorer extends AbstractExplorer
 	{
 		try
 		{
-			SchemaOutputStringResolver sosr = new SchemaOutputStringResolver();
-			getJaxbContext().generateSchema(sosr);
+			SchemaOutputStringResolver sosr =
+				ContextUtils.createSchemaOutputStringResolver(getJaxbContext());
 			println("Xml Schema from String:\n\n" + sosr.getSchemaString());
 		}
 		catch ( IOException ex )
@@ -128,8 +125,8 @@ public class Explorer extends AbstractExplorer
 	{
 		try
 		{
-			SchemaOutputDomResolver sodr = new SchemaOutputDomResolver();
-			getJaxbContext().generateSchema(sodr);
+			SchemaOutputDomResolver sodr =
+				ContextUtils.createSchemaOutputDomResolver(getJaxbContext());
 			println("Xml Schema from DOM:\n\n" + sodr.getSchemaDomNodeString());
 		}
 		catch ( IOException | TransformerException ex )
@@ -142,17 +139,8 @@ public class Explorer extends AbstractExplorer
 	{
 		try
 		{
-			// Generate a Schema Validator from given the JAXB context.
-			SchemaOutputDomResolver sodr = new SchemaOutputDomResolver();
-			getJaxbContext().generateSchema(sodr);
-			SchemaFactory schemaFactory = SchemaFactory.newInstance(W3C_XML_SCHEMA_NS_URI);
-			Schema schemaValidator = schemaFactory.newSchema(sodr.getDomSource());
-			
-			// Configure Marshaller / unmarshaller to use validator.
-			getMarshaller().setSchema(schemaValidator);
-			getUnmarshaller().setSchema(schemaValidator);
-			
-			println("Schema Validator:\n\n" + schemaValidator);
+			Schema schema = ContextUtils.enableXmlSchemaValidator(getUnmarshaller(), getMarshaller(), getJaxbContext());
+			println("Schema Grammar:\n\n" + schema);
 			println();
 		}
 		catch ( IOException | SAXException ex )
@@ -398,34 +386,22 @@ public class Explorer extends AbstractExplorer
 
 	protected Marshaller createMarshaller(JAXBContext jaxbContext) throws JAXBException
 	{
-		Marshaller marshaller = jaxbContext.createMarshaller();
-		marshaller.setProperty(JAXB_FORMATTED_OUTPUT, true);
-		return marshaller;
+		return ContextUtils.createMarshaller(jaxbContext, true);
 	}
 	
 	protected Unmarshaller createUnmarshaller(JAXBContext jaxbContext) throws JAXBException
 	{
-		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-		return unmarshaller;
+		return ContextUtils.createUnmarshaller(jaxbContext);
 	}
 
 	protected String marshalToString(Object instance) throws JAXBException, IOException
 	{
-		try ( StringWriter writer = new StringWriter() )
-		{
-			getMarshaller().marshal(instance, writer);
-			return writer.toString();
-		}
+		return ContextUtils.toString(getMarshaller(), instance);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected <T> T unmarshalFromString(String xml) throws JAXBException
 	{
-		try ( StringReader reader = new StringReader(xml) )
-		{
-			Object instance = getUnmarshaller().unmarshal(reader);
-			return (T) instance;
-		}
+		return ContextUtils.fromString(getUnmarshaller(), xml);
 	}
 	
 	/*

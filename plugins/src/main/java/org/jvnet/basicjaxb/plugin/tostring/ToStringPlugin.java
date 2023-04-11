@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.plugin.tostring;
 
+import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME;
 
 import java.util.Arrays;
@@ -39,18 +40,28 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 
+/**
+ * The <b>ToStringPlugin</b> implements the {@link ToString} interface on JAXB
+ * generated classes using {@link JAXBToStringStrategy}. 
+ */
 public class ToStringPlugin extends AbstractParameterizablePlugin
 {
+	/** Name of Option to enable this plugin. */
+	private static final String OPTION_NAME = "XtoString";
+	
+	/** Description of Option to enable this plugin. */
+	private static final String OPTION_DESC = "generate reflection-free 'toString' methods";
+
 	@Override
 	public String getOptionName()
 	{
-		return "XtoString";
+		return OPTION_NAME;
 	}
 
 	@Override
 	public String getUsage()
 	{
-		return "  -XtoString         :  generate reflection-free 'toString' methods";
+		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;

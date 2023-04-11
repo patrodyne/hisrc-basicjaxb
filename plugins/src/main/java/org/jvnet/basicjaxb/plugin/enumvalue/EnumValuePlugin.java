@@ -1,5 +1,8 @@
 package org.jvnet.basicjaxb.plugin.enumvalue;
 
+import static java.lang.String.format;
+import static org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME;
+
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -24,61 +27,78 @@ import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.outline.EnumOutline;
 import com.sun.tools.xjc.outline.Outline;
 
-public class EnumValuePlugin extends AbstractParameterizablePlugin {
+/**
+ * The <b>EnumValue</b> plugin implements the {@link EnumValue} interface on <code>enum</code> types.
+ * This provides general access to the original <code>enum</code> values.
+ */
+public class EnumValuePlugin extends AbstractParameterizablePlugin
+{
+	/** Name of Option to enable this plugin. */
+	private static final String OPTION_NAME = "XenumValue";
+	
+	/** Description of Option to enable this plugin. */
+	private static final String OPTION_DESC = "generated @XmlEnums implement org.jvnet.basicjaxb.lang.EnumValue<T> interface";
 
 	@Override
-	public String getOptionName() {
-		return "XenumValue";
+	public String getOptionName()
+	{
+		return OPTION_NAME;
 	}
 
 	@Override
-	public String getUsage() {
-		return "  -XenumValue        :  generated @XmlEnums implement org.jvnet.basicjaxb.lang.EnumValue<T> interface";
+	public String getUsage()
+	{
+		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
-	private Ignoring ignoring = new CustomizedIgnoring(
-			org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME,
-			Customizations.IGNORED_ELEMENT_NAME,
-			Customizations.GENERATED_ELEMENT_NAME);
+	private Ignoring ignoring = new CustomizedIgnoring
+	(
+		IGNORED_ELEMENT_NAME,
+		Customizations.IGNORED_ELEMENT_NAME,
+		Customizations.GENERATED_ELEMENT_NAME
+	);
 
-	public Ignoring getIgnoring() {
+	public Ignoring getIgnoring()
+	{
 		return ignoring;
 	}
 
-	public void setIgnoring(Ignoring ignoring) {
+	public void setIgnoring(Ignoring ignoring)
+	{
 		this.ignoring = ignoring;
 	}
 
 	@Override
-	public Collection<QName> getCustomizationElementNames() {
-		return Arrays
-				.asList(org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME,
-						Customizations.IGNORED_ELEMENT_NAME,
-						Customizations.GENERATED_ELEMENT_NAME);
+	public Collection<QName> getCustomizationElementNames()
+	{
+		return Arrays.asList
+		(
+			IGNORED_ELEMENT_NAME,
+			Customizations.IGNORED_ELEMENT_NAME,
+			Customizations.GENERATED_ELEMENT_NAME
+		);
 	}
 
 	@Override
-	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler) {
-		for (final EnumOutline enumOutline : outline.getEnums()) {
-			if (!getIgnoring().isIgnored(enumOutline)) {
+	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler)
+	{
+		for (final EnumOutline enumOutline : outline.getEnums())
+		{
+			if (!getIgnoring().isIgnored(enumOutline))
+			{
 				processEnumOutline(enumOutline);
 			}
 		}
 		return true;
 	}
 
-	protected void processEnumOutline(EnumOutline enumOutline) {
+	protected void processEnumOutline(EnumOutline enumOutline)
+	{
 		CEnumLeafInfo enumLeafInfo = enumOutline.target;
-		JClass enumType = enumLeafInfo.base.toType(enumOutline.parent(),
-				Aspect.EXPOSED).boxify();
-
+		JClass enumType = enumLeafInfo.base.toType(enumOutline.parent(), Aspect.EXPOSED).boxify();
 		final JDefinedClass theClass = enumOutline.clazz;
-
-		ClassUtils._implements(theClass, theClass.owner().ref(EnumValue.class)
-				.narrow(enumType));
-
-		final JMethod enumValue$enumValue = theClass.method(JMod.PUBLIC,
-				enumType, "enumValue");
+		ClassUtils._implements(theClass, theClass.owner().ref(EnumValue.class).narrow(enumType));
+		final JMethod enumValue$enumValue = theClass.method(JMod.PUBLIC, enumType, "enumValue");
 		enumValue$enumValue.annotate(Override.class);
 		enumValue$enumValue.body()._return(JExpr._this().invoke("value"));
 	}
