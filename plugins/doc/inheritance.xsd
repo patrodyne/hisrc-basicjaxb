@@ -2,7 +2,7 @@
 <!--
 	About: This schema represents the JAXB classes in src/main/java/org/jvnet/basicjaxb/plugin/inheritance.
 	       It is not used to generate those classes. Those classes were coded manually, AFAIK.
-	Usage: xjc -no-header -Xpropertyaccessors inheritance.xsd
+	Usage: xjc -no-header inheritance.xsd
 -->
 <xs:schema version="1.0"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -28,10 +28,48 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element ref="tns:annotates" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="tns:extends" minOccurs="0"/>
 				<xs:element ref="tns:implements" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:attribute name="packageName" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="stringList">
+		<xs:list itemType="xs:string"/>
+	</xs:simpleType>
+
+	<xs:element name="annotates">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="annotatesMetaObject"/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="element" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="name" type="xs:string" default="value"/>
+								<xs:attribute name="type" type="xs:string" default="java.lang.String"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element> 
+				<xs:element name="elements" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="tns:stringList">
+								<xs:attribute name="name" type="xs:string" default="value"/>
+								<xs:attribute name="type" type="xs:string" default="java.lang.String"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element> 
+			</xs:sequence>
+			<xs:attribute name="annotation" type="xs:string"/>
 		</xs:complexType>
 	</xs:element>
 

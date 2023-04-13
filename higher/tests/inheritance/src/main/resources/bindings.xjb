@@ -21,16 +21,39 @@
   	<jaxb:bindings schemaLocation="address.xsd" node="/xs:schema" >
 
 		<!--
-			Use the inheritance XJC plugin to extend the ObjectFactory
-			in the 'address' package.
+			Use the inheritance XJC plugin to annotate, extend and implement 
+			the ObjectFactory in the 'address' package.
+			NOTE: The annotations used below are FICTITIOUS!!! The ONLY
+			      demonstrate how the annotates binding works.
 		-->
 		<inh:objectFactory packageName="org.example.address">
+			<!--
+			<inh:annotates annotation="java.lang.Deprecated">
+				<inh:element name="since" type="java.lang.String">8</inh:element>
+				<inh:element name="forRemoval" type="java.lang.Boolean">true</inh:element>
+			</inh:annotates>
+			-->
+			<inh:annotates annotation="java.lang.SuppressWarnings">
+				<!--
+				<inh:elements name="value" type="java.lang.String">rawtypes unchecked</inh:elements>
+				-->
+				<inh:elements>all</inh:elements>
+			</inh:annotates>
+			<inh:annotates annotation="jakarta.xml.bind.annotation.XmlSeeAlso">
+				<inh:element type="java.lang.Class">javax.xml.datatype.XMLGregorianCalendar</inh:element>
+			</inh:annotates>
+			<inh:annotates annotation="jakarta.xml.bind.annotation.XmlAccessorType">
+				<inh:element type="java.lang.Enum">jakarta.xml.bind.annotation.XmlAccessType.FIELD</inh:element>
+			</inh:annotates>
 			<inh:extends>org.example.base.ObjectFactory</inh:extends>
 			<inh:implements>java.lang.Cloneable</inh:implements>
 		</inh:objectFactory>
   	
-		<!-- Use this XJC plugin to inherit the Stageable class. -->
+		<!-- Use this XJC plugin to extend from the Stageable class. -->
 		<jaxb:bindings node="xs:complexType[@name='AddressType']">
+			<inh:annotates annotation="java.lang.SuppressWarnings">
+				<inh:elements>all</inh:elements>
+			</inh:annotates>
 			<inh:extends>org.example.base.Stageable</inh:extends>
 		</jaxb:bindings>
 		

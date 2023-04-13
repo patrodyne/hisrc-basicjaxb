@@ -11,6 +11,13 @@
 
 	<xs:element name="Contact">
 		<xs:complexType>
+			<xs:annotation>
+				<xs:appinfo>
+					<inh:annotates annotation="java.beans.JavaBean">
+						<inh:element name="description">Personal identity information.</inh:element>
+					</inh:annotates>
+				</xs:appinfo>
+			</xs:annotation>
 			<xs:sequence>
 				<xs:element name="FirstName" type="xs:string" />
 				<xs:element name="LastName" type="xs:string" />
