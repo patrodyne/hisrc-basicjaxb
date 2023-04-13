@@ -15,7 +15,7 @@
 	<xs:annotation>
 		<xs:appinfo>
 			<jaxb:schemaBindings>
-				<jaxb:package name="org.jvnet.basicjaxb.plugin.inheritance"/>
+				<jaxb:package name="org.jvnet.basicjaxb.plugin.inheritance.model"/>
 			</jaxb:schemaBindings>
 		</xs:appinfo>
 	</xs:annotation>
@@ -23,7 +23,7 @@
 	<xs:element name="objectFactory">
 		<xs:annotation>
 			<xs:appinfo>
-				<jaxb:class name="objectFactoryCustomization"/>
+				<jaxb:class name="ObjectFactoryCustomization"/>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexType>
@@ -43,7 +43,7 @@
 	<xs:element name="annotates">
 		<xs:annotation>
 			<xs:appinfo>
-				<jaxb:class name="annotatesMetaObject"/>
+				<jaxb:class name="AnnotatesMetaObject"/>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexType>
@@ -76,7 +76,7 @@
 	<xs:element name="extends">
 		<xs:annotation>
 			<xs:appinfo>
-				<jaxb:class name="extendsClass"/>
+				<jaxb:class name="ExtendsClass"/>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexType>
@@ -89,7 +89,7 @@
 	<xs:element name="implements">
 		<xs:annotation>
 			<xs:appinfo>
-				<jaxb:class name="implementsInterface"/>
+				<jaxb:class name="ImplementsInterface"/>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexType>

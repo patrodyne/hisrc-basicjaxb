@@ -10,6 +10,10 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.jvnet.basicjaxb.plugin.inheritance.model.AnnotatesMetaObject;
+import org.jvnet.basicjaxb.plugin.inheritance.model.ExtendsClass;
+import org.jvnet.basicjaxb.plugin.inheritance.model.ImplementsInterface;
+import org.jvnet.basicjaxb.plugin.inheritance.model.ObjectFactory;
 import org.jvnet.basicjaxb.util.CustomizationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,7 +120,7 @@ public class Customizations
 	public static void _extends(CClassInfo classInfo, String className)
 	{
 		final ExtendsClass extendsClass = new ExtendsClass();
-		extendsClass.setClassName(className);
+		extendsClass.setValue(className);
 		final CPluginCustomization customization =
 			CustomizationUtils.marshal(getContext(), Customizations.EXTENDS_ELEMENT_NAME, extendsClass);
 		classInfo.getCustomizations().add(customization);
@@ -128,7 +132,7 @@ public class Customizations
 		for (String interfaceName : interfaceNames)
 		{
 			final ImplementsInterface implementsInterface = new ImplementsInterface();
-			implementsInterface.setInterfaceName(interfaceName);
+			implementsInterface.setValue(interfaceName);
 			final CPluginCustomization customization =
 				CustomizationUtils.marshal(getContext(), Customizations.IMPLEMENTS_ELEMENT_NAME, implementsInterface);
 			customization.markAsAcknowledged();

@@ -16,6 +16,10 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
+import org.jvnet.basicjaxb.plugin.inheritance.model.AnnotatesMetaObject;
+import org.jvnet.basicjaxb.plugin.inheritance.model.ExtendsClass;
+import org.jvnet.basicjaxb.plugin.inheritance.model.ImplementsInterface;
+import org.jvnet.basicjaxb.plugin.inheritance.model.ObjectFactoryCustomization;
 import org.jvnet.basicjaxb.plugin.inheritance.util.JavaTypeParser;
 import org.xml.sax.ErrorHandler;
 
@@ -83,7 +87,7 @@ import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIEnum;
  * &lt;/inh:objectFactory&gt;
  * </pre>
  *
- * {@link AnotateMetaObject}
+ * {@link AnnotatesMetaObject}
  * <pre>
  * &lt;inh:annotates annotation="java.beans.JavaBean"&gt;
  *   &lt;inh:element name="description"&gt;Personal identity information.&lt;/inh:element&gt;
@@ -221,7 +225,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 					{
 						// PackageOutline: Annotate MetaObject(s)
 						List<AnnotatesMetaObject> annotatesMetaObjects =
-							objectFactoryCustomization.getAnnotatesMetaObject();
+							objectFactoryCustomization.getAnnotates();
 						if (annotatesMetaObjects != null)
 						{
 							for (AnnotatesMetaObject annotatesMetaObject : annotatesMetaObjects)
@@ -232,13 +236,13 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 						}
 
 						// PackageOutline: Extends Class(es)
-						ExtendsClass extendsClass = objectFactoryCustomization.getExtendsClass();
+						ExtendsClass extendsClass = objectFactoryCustomization.getExtends();
 						if (extendsClass != null)
 							generateExtends(theObjectFactoryClass, extendsClass, knownClasses);
 						
 						// PackageOutline: Implements Interface(s)
 						List<ImplementsInterface> implementsInterfaces =
-							objectFactoryCustomization.getImplementsInterface();
+							objectFactoryCustomization.getImplements();
 						if (implementsInterfaces != null)
 						{
 							for (ImplementsInterface implementsInterface : implementsInterfaces)
@@ -522,9 +526,9 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 	private JClass generateExtends(final JDefinedClass theClass, final ExtendsClass extendsClass,
 		Map<String, JClass> knownClasses)
 	{
-		if (extendsClass.getClassName() != null)
+		if (extendsClass.getValue() != null)
 		{
-			final String _class = extendsClass.getClassName();
+			final String _class = extendsClass.getValue();
 			final JClass targetClass = parseClass(_class, theClass.owner(), knownClasses);
 			theClass._extends(targetClass);
 			return targetClass;
@@ -581,7 +585,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 	private JClass generateImplements(final JDefinedClass theClass, final ImplementsInterface implementsInterface,
 		Map<String, JClass> knownClasses)
 	{
-		String _interface = implementsInterface.getInterfaceName();
+		String _interface = implementsInterface.getValue();
 		if (_interface != null)
 		{
 			final JClass targetClass = parseClass(_interface, theClass.owner(), knownClasses);

@@ -12,10 +12,10 @@ import java.io.StringWriter;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.jvnet.basicjaxb.plugin.inheritance.ExtendsClass;
-import org.jvnet.basicjaxb.plugin.inheritance.ImplementsInterface;
-import org.jvnet.basicjaxb.plugin.inheritance.ObjectFactory;
-import org.jvnet.basicjaxb.plugin.inheritance.ObjectFactoryCustomization;
+import org.jvnet.basicjaxb.plugin.inheritance.model.ExtendsClass;
+import org.jvnet.basicjaxb.plugin.inheritance.model.ImplementsInterface;
+import org.jvnet.basicjaxb.plugin.inheritance.model.ObjectFactory;
+import org.jvnet.basicjaxb.plugin.inheritance.model.ObjectFactoryCustomization;
 import org.patrodyne.jvnet.basicjaxb.validation.SchemaOutputStringResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,13 +67,13 @@ public class InheritanceSchemaTest
 		ObjectFactoryCustomization ofc1 = of.createObjectFactoryCustomization();
 		{
 			ExtendsClass ec = of.createExtendsClass();
-			ec.setClassName("org.example.demo.Stageable");
+			ec.setValue("org.example.demo.Stageable");
 			
 			ImplementsInterface ii = of.createImplementsInterface();
-			ii.setInterfaceName("java.lang.Cloneable");
+			ii.setValue("java.lang.Cloneable");
 			
-			ofc1.setExtendsClass(ec);
-			ofc1.getImplementsInterface().add(ii);
+			ofc1.setExtends(ec);
+			ofc1.getImplements().add(ii);
 			ofc1.setPackageName("org.example.demo");
 		}
 		
@@ -86,9 +86,9 @@ public class InheritanceSchemaTest
 		ObjectFactoryCustomization ofc2 = (ObjectFactoryCustomization) obj2;
 		
 		assertEquals(ofc1.getPackageName(), ofc2.getPackageName(), " Expect package name");
-		assertEquals(ofc1.getExtendsClass().getClassName(), ofc2.getExtendsClass().getClassName(), " Expect extends class");
-		assertFalse(ofc2.getImplementsInterface().isEmpty(), "Expect ImplementsInterface not empty");
-		assertEquals(ofc1.getImplementsInterface().get(0).getInterfaceName(), ofc2.getImplementsInterface().get(0).getInterfaceName(), " Expect implements interface");
+		assertEquals(ofc1.getExtends().getValue(), ofc2.getExtends().getValue(), " Expect extends class");
+		assertFalse(ofc2.getImplements().isEmpty(), "Expect ImplementsInterface not empty");
+		assertEquals(ofc1.getImplements().get(0).getValue(), ofc2.getImplements().get(0).getValue(), " Expect implements interface");
 	}
 
 	private JAXBContext createJAXBContext() throws JAXBException
