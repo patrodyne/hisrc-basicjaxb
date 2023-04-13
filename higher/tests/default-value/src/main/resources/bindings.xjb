@@ -2,8 +2,8 @@
 <jaxb:bindings jaxb:version="3.0"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:annox="http://jvnet.org/basicjaxb/xjc/annox"
-    jaxb:extensionBindingPrefixes="annox"
+	xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"
+	extensionBindingPrefixes="inh"
 >
 
 	<!--  Global Bindings
@@ -18,9 +18,15 @@
 	</jaxb:globalBindings>
 
     <jaxb:bindings schemaLocation="document.xsd" node="/xs:schema">
-		<!--
-        <annox:annotate target="class">@java.lang.SuppressWarnings("unchecked")</annox:annotate>
-		-->
+    	<!--
+    		Add an annotation to suppress warnings from the ObjectFactory
+    		in the package named "org.example.document".
+    	-->
+		<inh:objectFactory packageName="org.example.document">
+			<inh:annotates annotation="java.lang.SuppressWarnings">
+				<inh:elements>rawtypes unchecked</inh:elements>
+			</inh:annotates>
+		</inh:objectFactory>
     </jaxb:bindings>
 
 </jaxb:bindings>

@@ -43,7 +43,7 @@
 						<arg>-XhashCode</arg>
 						<arg>-Xequals</arg>
 						<arg>-XtoString</arg>
-						<arg>-Xannotate</arg>
+						<arg>-Xinheritance</arg>
 						<arg>-XdefaultValue</arg>
 					</args>
 					<plugins>
