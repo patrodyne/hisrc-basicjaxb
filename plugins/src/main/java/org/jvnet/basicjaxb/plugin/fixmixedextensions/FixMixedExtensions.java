@@ -46,7 +46,7 @@ public class FixMixedExtensions extends Plugin
 	private static final String OPTION_NAME = "XfixMixedExtensions";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "Adds missing 'getContentOverrideForNAME()' method.";
+	private static final String OPTION_DESC = "adds missing 'getContentOverrideForNAME()' method.";
 
 	/** Represents a no-argument method signature */
 	private static final JType[] NO_ARGS = new JType[0];

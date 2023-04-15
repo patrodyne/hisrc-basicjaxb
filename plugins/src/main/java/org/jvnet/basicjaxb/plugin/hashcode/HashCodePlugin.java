@@ -66,7 +66,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 	private static final String OPTION_NAME = "XhashCode";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "generates reflection-free 'hashCode' methods";
+	private static final String OPTION_DESC = "generate reflection-free 'hashCode' methods";
 
 	@Override
 	public String getOptionName()

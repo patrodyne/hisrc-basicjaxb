@@ -23,6 +23,7 @@
 		<module>po</module>
 		<module>po-shaded</module>
 		<module>po-simple</module>
+		<module>xjc-basic</module>
 	</modules>
 </project>
 <!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4: -->

@@ -37,7 +37,7 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	private static final String OPTION_NAME = "Xcustomizations";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "reads and adds customizations from files";
+	private static final String OPTION_DESC = "read and add customizations from files";
 
 	@Override
 	public String getOptionName()

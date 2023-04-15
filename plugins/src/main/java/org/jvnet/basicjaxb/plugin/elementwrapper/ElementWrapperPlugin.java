@@ -105,7 +105,7 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 	private static final String OPTION_NAME = "XelementWrapper";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "generates @XmlElementWrapper annotations";
+	private static final String OPTION_DESC = "generate @XmlElementWrapper annotations";
 
 	@Override
 	public String getOptionName()

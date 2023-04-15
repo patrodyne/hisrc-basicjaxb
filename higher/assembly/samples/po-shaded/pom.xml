@@ -13,7 +13,7 @@
 	<packaging>pom</packaging>
 	<name>HiSrc BasicJAXB - Sample [po-shaded]</name>
 	<properties>
-		<root.basedir>${basedir}/../../..</root.basedir>
+		<root.basedir>${basedir}/../../../..</root.basedir>
 	</properties>
 	<dependencies>
 		<dependency>

@@ -39,7 +39,7 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 	private static final String OPTION_NAME = "Xsetters";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "generates setters for collections.";
+	private static final String OPTION_DESC = "generate setters for collections.";
 
 	@Override
 	public String getOptionName()

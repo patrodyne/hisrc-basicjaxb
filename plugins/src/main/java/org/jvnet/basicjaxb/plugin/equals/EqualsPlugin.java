@@ -53,7 +53,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 	private static final String OPTION_NAME = "Xequals";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "generates reflection-free 'equals' methods";
+	private static final String OPTION_DESC = "generate reflection-free 'equals' methods";
 
 	@Override
 	public String getOptionName()

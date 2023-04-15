@@ -61,7 +61,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 	private static final String OPTION_NAME = "Xcopyable";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "generates reflection-free deep copying";
+	private static final String OPTION_DESC = "generate reflection-free deep copying";
 
 	@Override
 	public String getOptionName()

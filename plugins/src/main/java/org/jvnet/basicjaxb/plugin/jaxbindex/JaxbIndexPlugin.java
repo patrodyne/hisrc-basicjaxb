@@ -44,7 +44,7 @@ public class JaxbIndexPlugin extends com.sun.tools.xjc.Plugin
 	private static final String OPTION_NAME = "Xjaxbindex";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "generate per-package jaxb.index file";
+	private static final String OPTION_DESC = "generate per-package 'jaxb.index' file";
 
 	@Override
 	public String getOptionName()

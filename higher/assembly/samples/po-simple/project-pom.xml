@@ -171,7 +171,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
-					<argLine>${env.JVM_SYS_ARGS}</argLine>
+					<argLine>\${env.JVM_SYS_ARGS}</argLine>
 					<systemPropertiesFile>\${basedir}/src/test/resources/jvmsystem.properties</systemPropertiesFile>
 				</configuration>
 			</plugin>
