@@ -1,0 +1,7 @@
+<con:Contact xmlns:con="http://example.org/contact"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://example.org/contact ../../main/resources/contact.xsd"
+>
+    <FirstName>George</FirstName>
+    <LastName>Washington</LastName>
+</con:Contact>

@@ -12,6 +12,7 @@
 	<packaging>pom</packaging>
 	<name>HiSrc BasicJAXB - Higher Tests</name>
 	<modules>
+		<module>auto-inheritance</module>
 		<module>basic</module>
 		<module>default-value</module>
 		<module>episodes</module>

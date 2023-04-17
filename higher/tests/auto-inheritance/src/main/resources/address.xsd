@@ -9,6 +9,8 @@
 
 	<xs:complexType name="AddressType">
 		<xs:sequence>
+			<xs:element name="FirstName" type="xs:string" />
+			<xs:element name="LastName" type="xs:string" />
 			<xs:element name="Line1" type="xs:string" />
 			<xs:element name="Line2" type="xs:string" />
 			<xs:element name="Line3" type="xs:string" minOccurs="0"/>
