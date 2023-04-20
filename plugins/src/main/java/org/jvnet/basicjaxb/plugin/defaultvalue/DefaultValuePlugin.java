@@ -27,7 +27,6 @@ import org.jvnet.basicjaxb.plugin.Ignoring;
 import org.jvnet.basicjaxb.xml.namespace.util.QNameUtils;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import com.sun.codemodel.ClassType;
 import com.sun.codemodel.JClass;
@@ -144,6 +143,33 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 		);
 	}
 	
+	// Plugin Processing
+	
+	protected void beforeRun(Outline outline, Options options) throws Exception
+	{
+		setOptions(options);
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START);
+			sb.append("\nParameters");
+			sb.append("\n  None");
+			info(sb.toString());
+		}
+	}
+	
+	protected void afterRun(Outline outline, Options options) throws Exception
+	{
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH);
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(outline.getErrorReceiver()));
+			info(sb.toString());
+		}
+	}
+	
 	/**
 	 * <p>
 	 * Run the plugin. We perform the following steps:
@@ -168,6 +194,10 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 	 *   </li>
 	 *   
 	 * </ul>
+	 * 
+     * <p>
+     * Note that this method is invoked only when a plugin is activated.
+     * </p>
 	 *
      * @param outline
      *      This object allows access to various generated code.
@@ -175,40 +205,28 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
      * @param options
      * 		The invocation configuration for XJC.
      * 
-     * @param errorHandler
-     *      Errors should be reported to this handler.
-     * 
      * @return
      *      If the add-on executes successfully, return true.
      *      If it detects some errors but those are reported and
      *      recovered gracefully, return false.
      *
-     * @throws SAXException
-     *      After an error is reported to {@link ErrorHandler}, the
-     *      same exception can be thrown to indicate a fatal irrecoverable
+     * @throws Exception
+     *      After an error is reported to {@link ErrorHandler}, a
+     *      {@link SAXException} may be thrown to indicate a fatal unrecoverable
      *      error. {@link ErrorHandler} itself may throw it, if it chooses
      *      not to recover from the error.
 	 */
 	@Override
-	public boolean run(Outline outline, Options options, ErrorHandler errorHandler)
-		throws SAXException
+	public boolean run(Outline outline, Options options)
+		throws Exception
 	{
-		try
+		// For all Classes generated
+		for (final ClassOutline classOutline : outline.getClasses())
 		{
-			// For all Classes generated
-			for (final ClassOutline classOutline : outline.getClasses())
-			{
-				if (!getIgnoring().isIgnored(classOutline))
-					processClassOutline(outline, options, classOutline);
-			}
-			return true;
+			if (!getIgnoring().isIgnored(classOutline))
+				processClassOutline(outline, options, classOutline);
 		}
-		catch ( Exception ex )
-		{
-			SAXParseException saxex = new SAXParseException( "Error running plugin.", null, ex);
-			errorHandler.error(saxex);
-			throw saxex;
-		}
+		return true;
 	}
 
 	/**
@@ -350,68 +368,68 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			if (literalValue != null)
 			{
 				initializer(var, accessor, fieldIsPrimitive, literalValue);
-				info(options, "Initializing enum variable " + fieldInfo.displayName() + " with constant " + literalValue.getName());
+				debug(options, "Initializing enum variable " + fieldInfo.displayName() + " with constant " + literalValue.getName());
 			}
 		}
 		else if (String.class.getName().equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toString").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing String variable " + fieldInfo.displayName() + " to \"" + defaultValue + "\"");
+			debug(options, "Initializing String variable " + fieldInfo.displayName() + " to \"" + defaultValue + "\"");
 		}
 		else if (Boolean.class.getName().equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toBoolean").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing Boolean variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing Boolean variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (Byte.class.getName().equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toByte").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing Byte variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing Byte variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (Short.class.getName().equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toShort").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing Short variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing Short variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (Integer.class.getName().equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toInteger").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing Integer variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing Integer variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (Long.class.getName().equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toLong").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing Long variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing Long variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (Float.class.getName().equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toFloat").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing Float variable "	+ fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing Float variable "	+ fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (Double.class.getName().equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toDouble").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing Double variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing Double variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (BigDecimal.class.getName().equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toBigDecimal").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing BigDecimal variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing BigDecimal variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (BigInteger.class.getName().equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toBigInteger").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing BigInteger variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing BigInteger variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if
 		(
@@ -421,25 +439,25 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("parseBase64Binary").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing Base64Binary variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing Base64Binary variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ( byte[].class.getCanonicalName().equals(typeFullName) && HEXBINARY.equals(schemaType) )
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("parseHexBinary").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing HexBinary variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing HexBinary variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (XMLGregorianCalendar.class.getName().equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toXMLGregorianCalendar").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing XMLGregorianCalendar variable " + fieldInfo.displayName() + " with value of " + defaultValue);
+			debug(options, "Initializing XMLGregorianCalendar variable " + fieldInfo.displayName() + " with value of " + defaultValue);
 		}
 		else if (Duration.class.getName().equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toDuration").arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing Duration variable " + fieldInfo.displayName() + " with value of " + defaultValue);
+			debug(options, "Initializing Duration variable " + fieldInfo.displayName() + " with value of " + defaultValue);
 		}
 		else if (QName.class.getName().equals(typeFullName))
 		{
@@ -451,7 +469,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			JInvocation jaxbElement = JExpr.invoke(ofField, "create" + publicName).arg(JExpr._null());
 			JExpression literalValue = refQNameUtils.staticInvoke("toName").arg(jaxbElement).arg(defaultValue);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing QName variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing QName variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if (Object.class.getName().equals(typeFullName) && ANYSIMPLETYPE.equals(schemaType))
 		{
@@ -463,84 +481,84 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			JInvocation jaxbElement = JExpr.invoke(ofField, "create" + publicName).arg(defaultValue);
 			JExpression literalValue = refDOMUtils.staticInvoke("toNode").arg(jaxbElement);
 			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing Object variable " + fieldInfo.displayName() + " to \"" + defaultValue + "\"");
+			debug(options, "Initializing Object variable " + fieldInfo.displayName() + " to \"" + defaultValue + "\"");
 		}
 		else if ((List.class.getName()+"<"+BigDecimal.class.getName()+">").equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toBigDecimalList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing List<BigDecimal> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing List<BigDecimal> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+BigInteger.class.getName()+">").equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toBigIntegerList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing List<BigInteger> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing List<BigInteger> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Boolean.class.getName()+">").equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toBooleanList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing List<Boolean> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing List<Boolean> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Byte.class.getName()+">").equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toByteList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing List<Byte> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing List<Byte> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Double.class.getName()+">").equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toDoubleList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing List<Double> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing List<Double> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Duration.class.getName()+">").equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toDurationList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing List<Duration> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing List<Duration> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Float.class.getName()+">").equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toFloatList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing List<Float> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing List<Float> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Integer.class.getName()+">").equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toIntegerList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing List<Integer> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing List<Integer> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Long.class.getName()+">").equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toLongList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing List<Long> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing List<Long> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+Short.class.getName()+">").equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toShortList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing List<Short> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing List<Short> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+String.class.getName()+">").equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toStringList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing List<String> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing List<String> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		else if ((List.class.getName()+"<"+XMLGregorianCalendar.class.getName()+">").equals(typeFullName))
 		{
 			JExpression literalValue = refValueUtils.staticInvoke("toXMLGregorianCalendarList").arg(defaultValue);
 			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			info(options, "Initializing List<XMLGregorianCalendar> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
+			debug(options, "Initializing List<XMLGregorianCalendar> variable " + fieldInfo.displayName() + " to " + defaultValue + "");
 		}
 		// Don't know how to create default for this type
 		else
 		{
-			warn("Did not create default value for field "	+ fieldInfo.displayName()
+			warn(options, "Did not create default value for field "	+ fieldInfo.displayName()
 				+ ". Don't know how to create default value expression for fields of type "+ typeFullName
 				+ " with schema type " + schemaType
 				+ ". Default value of \"" + defaultValue + "\" specified in schema");
@@ -626,36 +644,5 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 	{
 		JClass ofClass = theClass.owner().ref(theClass.getPackage().name() + ".ObjectFactory");
 		return theClass.field(JMod.STATIC | JMod.FINAL | JMod.PRIVATE, ofClass, "OBJECT_FACTORY", JExpr.direct("new ObjectFactory()"));
-	}
-	
-	/**
-	 * Conditionally log an informative message.
-	 * 
-	 * @param options The XJC invocation configuration.
-	 * @param msg An informative message.
-	 */
-	private void info(Options options, String msg)
-	{
-		if ( options.debugMode )
-			getLogger().debug(msg);
-		else if ( options.verbose )
-		{
-			// verbose and debug modes are cross-wired ubiquitously,
-			// use debug level when enabled for consistency.
-			if ( getLogger().isDebugEnabled())
-				getLogger().debug(msg);
-			else
-				getLogger().info(msg);
-		}
-	}
-
-	/**
-	 * Log a cautionary message.
-	 * 
-	 * @param msg A cautionary message.
-	 */
-	private void warn(String msg)
-	{
-		getLogger().warn(msg);
 	}
 }

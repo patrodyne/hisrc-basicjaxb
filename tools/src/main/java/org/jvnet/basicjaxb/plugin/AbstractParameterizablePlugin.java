@@ -3,9 +3,11 @@ package org.jvnet.basicjaxb.plugin;
 import java.io.IOException;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.xml.sax.ErrorHandler;
 
 import com.sun.tools.xjc.BadCommandLineException;
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.util.ErrorReceiverFilter;
 
 /**
  * <p>
@@ -32,9 +34,6 @@ import com.sun.tools.xjc.Options;
  */
 public abstract class AbstractParameterizablePlugin extends AbstractPlugin
 {
-	/** Represents the XJC plugin usage format.*/
-	public static final String USAGE_FORMAT = "  -%-20s : %s";
-
 	/**
 	 * Parses the arguments and injects values into the beans via properties.
 	 */

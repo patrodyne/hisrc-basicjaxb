@@ -17,6 +17,7 @@ import org.jvnet.basicjaxb.locator.DefaultRootObjectLocator;
 import org.jvnet.basicjaxb.locator.ObjectLocator;
 import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
+import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
@@ -26,6 +27,7 @@ import org.jvnet.basicjaxb.util.FieldAccessorFactory;
 import org.jvnet.basicjaxb.util.PropertyFieldAccessorFactory;
 import org.jvnet.basicjaxb.xjc.outline.FieldAccessorEx;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
@@ -125,8 +127,65 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 			Customizations.GENERATED_ELEMENT_NAME);
 	}
 
+	// Plugin Processing
+	
+	protected void beforeRun(Outline outline, Options options) throws Exception
+	{
+		setOptions(options);
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START);
+			sb.append("\nParameters");
+			sb.append("\n  CopyStrategyClass.: " + getCopyStrategyClass());
+			info(sb.toString());
+		}
+	}
+	
+	protected void afterRun(Outline outline, Options options) throws Exception
+	{
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH);
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(outline.getErrorReceiver()));
+			info(sb.toString());
+		}
+	}
+	
+    /**
+     * Run the plug-in.
+     *
+     * <p>
+     * This method is invoked after XJC has internally finished
+     * the code generation. Plugins can tweak some of the generated
+     * code (or add more code) by using {@link Outline} and {@link Options}.
+     * </p>
+     *
+     * <p>
+     * Note that this method is invoked only when a plugin is activated.
+     * </p>
+     * 
+     * @param outline
+     *      This object allows access to various generated code.
+     *      
+     * @param options
+     *      The invocation configuration for XJC.
+     * 
+     * @return
+     *      If the add-on executes successfully, return true.
+     *      If it detects some errors but those are reported and
+     *      recovered gracefully, return false.
+     *
+     * @throws Exception
+     *      This 'run' method is a call-back method from {@link AbstractPlugin}
+     *      and that method is responsible for handling all exceptions. It reports
+     *      any exception to {@link ErrorHandler} and converts the exception to
+     *      a {@link SAXException} for processing by {@link com.sun.tools.xjc.Plugin}.
+     */
 	@Override
-	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler)
+	public boolean run(Outline outline, Options options) throws Exception
 	{
 		for (final ClassOutline classOutline : outline.getClasses())
 		{

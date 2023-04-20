@@ -16,12 +16,14 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
+import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.inheritance.model.AnnotatesMetaObject;
 import org.jvnet.basicjaxb.plugin.inheritance.model.ExtendsClass;
 import org.jvnet.basicjaxb.plugin.inheritance.model.ImplementsInterface;
 import org.jvnet.basicjaxb.plugin.inheritance.model.ObjectFactoryCustomization;
 import org.jvnet.basicjaxb.plugin.inheritance.util.JavaTypeParser;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
 
 import com.sun.codemodel.JAnnotationArrayMember;
 import com.sun.codemodel.JAnnotationUse;
@@ -110,7 +112,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 	private static final String OPTION_NAME = "Xinheritance";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "annotate, extend or implement schema-derived classes";
+	private static final String OPTION_DESC = "locally annotate, extend or implement schema-derived classes";
 
 	@Override
 	public String getOptionName()
@@ -151,8 +153,61 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 		}
 	}
 
+	// Plugin Processing
+	
+	protected void beforeRun(Outline outline, Options options) throws Exception
+	{
+		setOptions(options);
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START);
+			sb.append("\nParameters");
+			sb.append("\n  None ");
+			info(sb.toString());
+		}
+	}
+	
+	protected void afterRun(Outline outline, Options options) throws Exception
+	{
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH);
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(outline.getErrorReceiver()));
+			info(sb.toString());
+		}
+	}
+	
+	/**
+	 * <p>
+	 * Run the plugin with and XJC {@link Outline} and {@link Options}.
+	 * </p>
+	 * 
+     * <p>
+     * <b>Note:</b> This method is invoked only when a plugin is activated.
+     * </p>
+	 *
+     * @param outline
+     *      This object allows access to various generated code.
+     * 
+     * @param options
+     * 		The invocation configuration for XJC.
+     * 
+     * @return
+     *      If the add-on executes successfully, return true.
+     *      If it detects some errors but those are reported and
+     *      recovered gracefully, return false.
+     *
+     * @throws Exception
+     *      This 'run' method is a call-back method from {@link AbstractPlugin}
+     *      and that method is responsible for handling all exceptions. It reports
+     *      any exception to {@link ErrorHandler} and converts the exception to
+     *      a {@link SAXException} for processing by {@link com.sun.tools.xjc.Plugin}.
+	 */
 	@Override
-	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler)
+	public boolean run(Outline outline, Options options) throws Exception
 	{
 		final Map<String, JClass> knownClasses = new HashMap<String, JClass>();
 		final Map<JClass, CClassInfo> knownClassInfos = new IdentityHashMap<JClass, CClassInfo>();

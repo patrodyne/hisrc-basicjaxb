@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
 		<artifactId>hisrc-basicjaxb-higher-tests</artifactId>
 		<version>2.1.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>hisrc-basicjaxb-tests-simple-hashCode-equals-01</artifactId>
+
+	<artifactId>hisrc-basicjaxb-test-element-wrapper</artifactId>
 	<packaging>jar</packaging>
-	<name>HiSrc BasicJAXB - Test [simple-hashCode-equals-01]</name>
+	<name>HiSrc BasicJAXB - Test [element-wrapper]</name>
+
 	<properties>
 		<root.basedir>${basedir}/../../..</root.basedir>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
@@ -21,6 +28,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<defaultGoal>test</defaultGoal>
 		<plugins>
@@ -29,14 +37,15 @@
 			<plugin>
 				<groupId>org.patrodyne.jvnet</groupId>
 				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
-				<!-- Note: Unit tests overwrite generated classes. -->
 				<configuration>
 					<extension>true</extension>
 					<verbose>true</verbose>
 					<args>
-						<arg>-XsimpleEquals</arg>
-						<arg>-XsimpleHashCode</arg>
-						<arg>-XsimpleToString</arg>
+						<arg>-no-header</arg>
+						<!--
+						<arg>-XelementWrapper</arg>
+						<arg>-XelementWrapper-verbose=true</arg>
+						-->
 					</args>
 					<plugins>
 						<plugin>
@@ -48,4 +57,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

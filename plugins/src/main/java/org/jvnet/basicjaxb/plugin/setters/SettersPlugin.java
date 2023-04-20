@@ -10,10 +10,12 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang3.Validate;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
+import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
 import org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
 
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
@@ -39,7 +41,7 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 	private static final String OPTION_NAME = "Xsetters";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "generate setters for collections.";
+	private static final String OPTION_DESC = "generate setters for collections";
 
 	@Override
 	public String getOptionName()
@@ -52,6 +54,7 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 	{
 		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
+	
 	private Ignoring ignoring = new CustomizedIgnoring(IGNORED_ELEMENT_NAME);
 	public Ignoring getIgnoring()
 	{
@@ -121,7 +124,60 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 		}
 	}
 
-	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler)
+	// Plugin Processing
+	
+	protected void beforeRun(Outline outline, Options options) throws Exception
+	{
+		setOptions(options);
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START);
+			sb.append("\nParameters");
+			sb.append("\n  Mode.: " + getMode());
+			info(sb.toString());
+		}
+	}
+	
+	protected void afterRun(Outline outline, Options options) throws Exception
+	{
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH);
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(outline.getErrorReceiver()));
+			info(sb.toString());
+		}
+	}
+	
+	/**
+	 * <p>
+	 * Run the plugin with and XJC {@link Outline} and {@link Options}.
+	 * </p>
+	 * 
+     * <p>
+     * <b>Note:</b> This method is invoked only when a plugin is activated.
+     * </p>
+	 *
+     * @param outline
+     *      This object allows access to various generated code.
+     * 
+     * @param options
+     * 		The invocation configuration for XJC.
+     * 
+     * @return
+     *      If the add-on executes successfully, return true.
+     *      If it detects some errors but those are reported and
+     *      recovered gracefully, return false.
+     *
+     * @throws Exception
+     *      This 'run' method is a call-back method from {@link AbstractPlugin}
+     *      and that method is responsible for handling all exceptions. It reports
+     *      any exception to {@link ErrorHandler} and converts the exception to
+     *      a {@link SAXException} for processing by {@link com.sun.tools.xjc.Plugin}.
+	 */
+	public boolean run(Outline outline, Options options) throws Exception
 	{
 		for (final ClassOutline classOutline : outline.getClasses())
 		{

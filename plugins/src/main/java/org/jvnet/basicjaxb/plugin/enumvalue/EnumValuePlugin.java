@@ -9,12 +9,15 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.lang.EnumValue;
+import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
+import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
 import org.jvnet.basicjaxb.util.ClassUtils;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
 
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JDefinedClass;
@@ -22,8 +25,8 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.tools.xjc.Options;
-import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.model.CEnumLeafInfo;
+import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.EnumOutline;
 import com.sun.tools.xjc.outline.Outline;
 
@@ -79,15 +82,66 @@ public class EnumValuePlugin extends AbstractParameterizablePlugin
 		);
 	}
 
+	// Plugin Processing
+	
+	protected void beforeRun(Outline outline, Options options) throws Exception
+	{
+		setOptions(options);
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START);
+			sb.append("\nParameters");
+			sb.append("\n  None");
+			info(sb.toString());
+		}
+	}
+	
+	protected void afterRun(Outline outline, Options options) throws Exception
+	{
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH);
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(outline.getErrorReceiver()));
+			info(sb.toString());
+		}
+	}
+	
+	/**
+	 * <p>
+	 * Run the plugin with and XJC {@link Outline} and {@link Options}.
+	 * </p>
+	 * 
+     * <p>
+     * <b>Note:</b> This method is invoked only when a plugin is activated.
+     * </p>
+	 *
+     * @param outline
+     *      This object allows access to various generated code.
+     * 
+     * @param options
+     * 		The invocation configuration for XJC.
+     * 
+     * @return
+     *      If the add-on executes successfully, return true.
+     *      If it detects some errors but those are reported and
+     *      recovered gracefully, return false.
+     *
+     * @throws Exception
+     *      This 'run' method is a call-back method from {@link AbstractPlugin}
+     *      and that method is responsible for handling all exceptions. It reports
+     *      any exception to {@link ErrorHandler} and converts the exception to
+     *      a {@link SAXException} for processing by {@link com.sun.tools.xjc.Plugin}.
+	 */
 	@Override
-	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler)
+	public boolean run(Outline outline, Options options) throws Exception
 	{
 		for (final EnumOutline enumOutline : outline.getEnums())
 		{
 			if (!getIgnoring().isIgnored(enumOutline))
-			{
 				processEnumOutline(enumOutline);
-			}
 		}
 		return true;
 	}
@@ -101,5 +155,13 @@ public class EnumValuePlugin extends AbstractParameterizablePlugin
 		final JMethod enumValue$enumValue = theClass.method(JMod.PUBLIC, enumType, "enumValue");
 		enumValue$enumValue.annotate(Override.class);
 		enumValue$enumValue.body()._return(JExpr._this().invoke("value"));
+		
+		if ( isDebugEnabled() )
+		{
+			String location = LocatorUtils.getLocation(enumLeafInfo.getLocator());
+			QName typeName = enumLeafInfo.getTypeName();
+			JDefinedClass implClass = enumOutline.getImplClass();
+			debug("Location={}, TypeName={}, ImplName={}", location, typeName, implClass.name());
+		}
 	}
 }

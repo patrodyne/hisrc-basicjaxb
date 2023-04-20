@@ -39,7 +39,9 @@
 				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
 				<configuration>
 					<extension>true</extension>
+					<verbose>true</verbose>
 					<args>
+						<arg>-no-header</arg>
 						<arg>-XhashCode</arg>
 						<arg>-Xequals</arg>
 						<arg>-XtoString</arg>

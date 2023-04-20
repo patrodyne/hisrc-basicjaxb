@@ -13,12 +13,12 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
+import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
@@ -105,39 +105,76 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 		);
 	}
 	
+	// Plugin Processing
+	
+	protected void beforeRun(Outline outline, Options options) throws Exception
+	{
+		setOptions(options);
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START);
+			sb.append("\nParameters");
+			sb.append("\n  None");
+			info(sb.toString());
+		}
+	}
+	
+	protected void afterRun(Outline outline, Options options) throws Exception
+	{
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH);
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(outline.getErrorReceiver()));
+			info(sb.toString());
+		}
+	}
+	
 	/**
-	 * Run an XJC plugin to add or modify the XJC outline. An outline captures
-	 * which code is generated for which model component. A {@link Model} is a
-	 * schema language neutral representation of the result of a schema parsing. XJC
+	 * <p>
+	 * Run the plugin with and XJC {@link Outline} and {@link Options}.
+	 * </p>
+	 * 
+	 * <p>
+	 * Run an XJC plugin to add or modify the XJC {@link Outline}. An {@link Outline}
+	 * captures which code is generated for which model component. A {@link Model} is
+	 * a schema language neutral representation of the result of a schema parsing. XJC
 	 * uses this model to turn this into a series of Java source code.
+	 * </p>
 	 * 
-	 * @param outline A component representing an XML schema model.
-	 * @param options The XJC runtime options.
-	 * @param errorHandler A SAX exception handler.
-	 * 
-	 * @return True when the run is successful.
-	 * 
-	 * @throws SAXException when run fails.
+     * <p>
+     * <b>Note:</b> This method is invoked only when a plugin is activated.
+     * </p>
+	 *
+     * @param outline
+     *      This object allows access to various generated code.
+     * 
+     * @param options
+     * 		The invocation configuration for XJC.
+     * 
+     * @return
+     *      If the add-on executes successfully, return true.
+     *      If it detects some errors but those are reported and
+     *      recovered gracefully, return false.
+     *
+     * @throws Exception
+     *      This 'run' method is a call-back method from {@link AbstractPlugin}
+     *      and that method is responsible for handling all exceptions. It reports
+     *      any exception to {@link ErrorHandler} and converts the exception to
+     *      a {@link SAXException} for processing by {@link com.sun.tools.xjc.Plugin}.
 	 */
 	@Override
-	public boolean run(Outline outline, Options options, ErrorHandler errorHandler)
-		throws SAXException
+	public boolean run(Outline outline, Options options)
+		throws Exception
 	{
-		try
+		for (final ClassOutline classOutline : outline.getClasses())
 		{
-			for (final ClassOutline classOutline : outline.getClasses())
-			{
-				if (!getIgnoring().isIgnored(classOutline))
-					processClassOutline(classOutline);
-			}
-			return true;
+			if (!getIgnoring().isIgnored(classOutline))
+				processClassOutline(classOutline);
 		}
-		catch ( Exception ex )
-		{
-			SAXParseException saxex = new SAXParseException( "Error running plugin.", null, ex);
-			errorHandler.error(saxex);
-			throw saxex;
-		}
+		return true;
 	}
 	
 	/**

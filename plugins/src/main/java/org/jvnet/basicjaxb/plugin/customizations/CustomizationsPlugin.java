@@ -16,6 +16,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
+import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.util.ClassUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,13 +25,40 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
+import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CEnumConstant;
 import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
+import com.sun.tools.xjc.outline.Outline;
 
+/**
+ * Read and add customizations from files.
+ * 
+ * <ul>
+ *   <li><code>-Xcustomization</code></li>
+ *   <li><code>-Xcustomizations-directory=${basedir}/src/main/resources</code></li>
+ *   <li><code>-Xcustomizations-verbose=true</code></li>
+ * </ul>
+ *
+ * <p>
+ * Put the <code>JavaFilename.xml</code> in the resource path in the <em>same package</em>
+ * as the target Java file.
+ * </p>
+ *
+ * <b>JavaFilename.xml</b>
+ * <pre>
+ * &lt;cus:customizations xmlns:cus="http://jvnet.org/basicjaxb/xjc/customizations"&gt;
+ *   &lt;inh:implements xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"&gt;
+ *     java.lang.Cloneable
+ *   &lt;/inh:implements&gt;
+ * &lt;/cus:customizations&gt;
+
+ * </pre>
+ *
+ */
 public class CustomizationsPlugin extends AbstractParameterizablePlugin
 {
 	/** Name of Option to enable this plugin. */
@@ -65,34 +93,83 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	public boolean isVerbose() { return verbose; }
 	public void setVerbose(boolean verbose) { this.verbose = verbose; }
 
+	// Plugin Processing
+
 	@Override
-	public void postProcessModel(Model model, ErrorHandler errorHandler)
+	protected void beforePostProcessModel(Model model)
 	{
-		if (getDirectory() == null)
+		if ( isInfoEnabled(isVerbose()) )
 		{
-			getLogger().warn("Customizations directory is not provided, please use the -Xcustomizations-directory=<directory> command line argument to provide it.");
-		}
-		else if (!getDirectory().exists())
-		{
-			getLogger().warn(MessageFormat.format("Customizations directory [{0}] does not exist.", getDirectory().getAbsolutePath()));
-		}
-		else if (!getDirectory().isDirectory())
-		{
-			getLogger().warn(MessageFormat.format("Customizations directory [{0}] is not a directory.", getDirectory().getAbsolutePath()));
-		}
-		else
-		{
-			postProcessModel(model);
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START);
+			sb.append("\nParameters");
+			sb.append("\n  Directory.: " + getDirectory());
+			sb.append("\n  Verbose...: " + isVerbose());
+			info(sb.toString());
 		}
 	}
-
-	private void postProcessModel(Model model)
+	
+	@Override
+	protected void afterPostProcessModel(Model model, ErrorHandler errorHandler)
 	{
-		for (final CClassInfo classInfo : model.beans().values())
-			postProcessClassInfo(model, classInfo);
-		
-		for (final CEnumLeafInfo enumLeafInfo : model.enums().values())
-			postProcessEnumLeafInfo(model, enumLeafInfo);
+		if ( isInfoEnabled(isVerbose()) )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH);
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(errorHandler));
+			info(sb.toString());
+		}
+	}
+	
+    /**
+     * Performs the post-processing of the {@link Model}.
+     *
+     * <p>
+     * This method is invoked after XJC has internally finished
+     * the model construction. This is a chance for a plugin to
+     * affect the way code generation is performed.
+     * </p>
+     *
+     * <p>
+     * Compared to the {@link #run(Outline, Options, ErrorHandler)}
+     * method, this method allows a plugin to work at the higher level
+     * conceptually closer to the abstract JAXB model, as opposed to
+     * Java syntax level.
+     * </p>
+     *
+     * <p>
+     * This 'postProcessModel' method is a call-back method from
+     * {@link AbstractPlugin} and that method is responsible for handling
+     * all exceptions. It reports any exception to {@link ErrorHandler}
+     * for processing by {@link com.sun.tools.xjc.Plugin}.
+     * </p>
+     *
+     * <p>
+     * <b>Note:</b> This method is invoked only when a plugin is activated.
+     * </p>
+     *
+     * @param model
+     *      The object that represents the classes/properties to
+     *      be generated.
+     */
+	@Override
+	protected void postProcessModel(Model model)
+	{
+		if (getDirectory() == null)
+			getLogger().warn("Customizations directory is not provided, please use the -Xcustomizations-directory=<directory> command line argument to provide it.");
+		else if (!getDirectory().exists())
+			getLogger().warn(MessageFormat.format("Customizations directory [{0}] does not exist.", getDirectory().getAbsolutePath()));
+		else if (!getDirectory().isDirectory())
+			getLogger().warn(MessageFormat.format("Customizations directory [{0}] is not a directory.", getDirectory().getAbsolutePath()));
+		else
+		{
+			for (final CClassInfo classInfo : model.beans().values())
+				postProcessClassInfo(model, classInfo);
+			
+			for (final CEnumLeafInfo enumLeafInfo : model.enums().values())
+				postProcessEnumLeafInfo(model, enumLeafInfo);
+		}
 	}
 
 	private void postProcessClassInfo(Model model, CClassInfo classInfo)

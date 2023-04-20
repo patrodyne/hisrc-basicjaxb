@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.plugin;
 
+import org.jvnet.basicjaxb.locator.util.LocatorBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXParseException;
@@ -8,7 +9,7 @@ import com.sun.tools.xjc.ErrorReceiver;
 
 public class LoggingErrorReceiver extends ErrorReceiver
 {
-	private Logger logger = LoggerFactory.getLogger(LoggingCodeWriter.class);
+	private Logger logger = LoggerFactory.getLogger(LoggingErrorReceiver.class);
     public Logger getLogger() { return logger; }
     public void setLogger(Logger logger) { this.logger = logger; }
 	
@@ -81,14 +82,11 @@ public class LoggingErrorReceiver extends ErrorReceiver
 
 	private String getMessage(SAXParseException ex)
 	{
+		final String pub = ex.getPublicId();
+		final String sys = ex.getSystemId();
 		final int row = ex.getLineNumber();
 		final int col = ex.getColumnNumber();
-		final String sys = ex.getSystemId();
-		final String pub = ex.getPublicId();
-
-		return getMessagePrefix() + " Location [" + (sys != null ? " " + sys : "")
-			+ (pub != null ? " " + pub : "")
-			+ (row > 0 ? "{" + row + (col > 0 ? "," + col : "") + "}" : "")
-			+ " ].";
+		LocatorBean locatorBean = new LocatorBean(pub, sys, row, col);
+		return getMessagePrefix() + " Location " + locatorBean + ".";
 	}
 }

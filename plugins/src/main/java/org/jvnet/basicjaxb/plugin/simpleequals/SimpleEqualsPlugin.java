@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.simpleequals;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME;
 
 import java.util.Collection;
 
@@ -23,9 +24,11 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JOp;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
+import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.outline.Outline;
 
 /**
  * Generate reflection-free runtime-free 'equals' methods.
@@ -53,7 +56,34 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 	@Override
 	protected QName getSpecialIgnoredElementName()
 	{
-		return org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME;
+		return IGNORED_ELEMENT_NAME;
+	}
+
+	// Plugin Processing
+	
+	protected void beforeRun(Outline outline, Options options) throws Exception
+	{
+		setOptions(options);
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START);
+			sb.append("\nParameters");
+			sb.append("\n  None");
+			info(sb.toString());
+		}
+	}
+	
+	protected void afterRun(Outline outline, Options options) throws Exception
+	{
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH);
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(outline.getErrorReceiver()));
+			info(sb.toString());
+		}
 	}
 
 	@Override

@@ -1,10 +1,11 @@
 package org.jvnet.basicjaxb.plugin.jaxbindex;
 
-import static org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin.USAGE_FORMAT;
 import static java.lang.String.format;
 
+import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.util.CodeModelUtils;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
 
 import com.sun.codemodel.fmt.JTextFile;
 import com.sun.tools.xjc.Options;
@@ -38,7 +39,7 @@ import jakarta.xml.bind.JAXBContext;
  * more detail.
  * </p>
  */
-public class JaxbIndexPlugin extends com.sun.tools.xjc.Plugin
+public class JaxbIndexPlugin extends AbstractPlugin
 {
 	/** Name of Option to enable this plugin. */
 	private static final String OPTION_NAME = "Xjaxbindex";
@@ -58,8 +59,61 @@ public class JaxbIndexPlugin extends com.sun.tools.xjc.Plugin
 		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
+	// Plugin Processing
+	
+	protected void beforeRun(Outline outline, Options options) throws Exception
+	{
+		setOptions(options);
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START);
+			sb.append("\nParameters");
+			sb.append("\n  None");
+			info(sb.toString());
+		}
+	}
+	
+	protected void afterRun(Outline outline, Options options) throws Exception
+	{
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH);
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(outline.getErrorReceiver()));
+			info(sb.toString());
+		}
+	}
+	
+	/**
+	 * <p>
+	 * Run the plugin with and XJC {@link Outline} and {@link Options}.
+	 * </p>
+	 * 
+     * <p>
+     * <b>Note:</b> This method is invoked only when a plugin is activated.
+     * </p>
+	 *
+     * @param outline
+     *      This object allows access to various generated code.
+     * 
+     * @param options
+     * 		The invocation configuration for XJC.
+     * 
+     * @return
+     *      If the add-on executes successfully, return true.
+     *      If it detects some errors but those are reported and
+     *      recovered gracefully, return false.
+     *
+     * @throws Exception
+     *      This 'run' method is a call-back method from {@link AbstractPlugin}
+     *      and that method is responsible for handling all exceptions. It reports
+     *      any exception to {@link ErrorHandler} and converts the exception to
+     *      a {@link SAXException} for processing by {@link com.sun.tools.xjc.Plugin}.
+	 */
 	@Override
-	public boolean run(Outline outline, Options opt, ErrorHandler errorHandler)
+	public boolean run(Outline outline, Options options) throws Exception
 	{
 		for (final PackageOutline packageOutline : outline.getAllPackageContexts())
 		{

@@ -13,16 +13,59 @@ import org.xml.sax.Locator;
 
 public class LocatorUtils
 {
+	private static final int DEFAULT_MAX_ID_SIZE = 20;
+
 	private LocatorUtils()
 	{
 	}
 
 	public static String getLocation(Locator locator)
 	{
-		if (locator == null)
-			return "<unknown>";
-		else
-			return locator.getPublicId() + ":" + locator.getSystemId() + ":" + locator.getLineNumber() + ":" + locator.getColumnNumber();
+		return getLocation(locator, DEFAULT_MAX_ID_SIZE);
+	}
+	
+	public static String getLocation(Locator locator, int maxIdSize)
+	{
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        if ( locator != null )
+        {
+            final String pub = clipId(locator.getPublicId(), maxIdSize);
+            final String sys = clipId(locator.getSystemId(), maxIdSize);
+            final int row = locator.getLineNumber();
+            final int col = locator.getColumnNumber();
+            
+            sb.append((pub != null) ? " " + pub : "");
+            sb.append((sys != null) ? " " + sys : "");
+            if ( row > 0 )
+            {
+                sb.append("{" + row);
+                sb.append((col > 0) ? "," + col : "");
+                sb.append("}");
+            }
+        }
+        else
+        	sb.append("unknown");
+        sb.append(" ]");
+        return sb.toString();
+	}
+	
+	private static String clipId(String id, int maxIdSize)
+	{
+		String clipId = "";
+		if ( id != null )
+		{
+			if ( id.length() <= maxIdSize )
+				clipId = id;
+			else
+			{
+				if ( maxIdSize > 3)
+					clipId = "..." + id.substring(id.length()-maxIdSize-3);
+				else
+					clipId = id.substring(id.length()-maxIdSize);
+			}
+		}
+		return clipId;
 	}
 
 	public static PropertyObjectLocator property(ObjectLocator locator, String name, Object value)

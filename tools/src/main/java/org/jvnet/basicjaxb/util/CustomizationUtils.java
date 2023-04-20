@@ -22,6 +22,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 
+import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -777,15 +778,9 @@ public class CustomizationUtils {
 		return new QName(element.getNamespaceURI(), element.getLocalName(),	prefix);
 	}
 
-	public static String getLocation(org.xml.sax.Locator locator) {
-		String location = "<unknown>";
-		if ( locator != null )
-		{
-			location = locator.getSystemId()
-				+ "(line=" + locator.getLineNumber() 
-				+ ",col=" + locator.getColumnNumber() + ")";
-		}
-		return location;
+	public static String getLocation(org.xml.sax.Locator locator)
+	{
+		return LocatorUtils.getLocation(locator);
 	}
 
 }

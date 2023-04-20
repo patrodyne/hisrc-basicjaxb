@@ -16,6 +16,7 @@ import javax.xml.namespace.QName;
 
 import org.glassfish.jaxb.core.v2.model.core.ID;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
+import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
@@ -23,6 +24,7 @@ import org.jvnet.basicjaxb.util.CustomizationUtils;
 import org.xml.sax.ErrorHandler;
 
 import com.sun.codemodel.JJavaName;
+import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CAdapter;
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CClassInfo;
@@ -31,6 +33,7 @@ import com.sun.tools.xjc.model.CElement;
 import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
+import com.sun.tools.xjc.outline.Outline;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyVisitor;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
@@ -43,10 +46,6 @@ import com.sun.tools.xjc.model.Model;
  */
 public class SimplifyPlugin extends AbstractParameterizablePlugin
 {
-	private boolean usePluralForm = false;
-	public boolean isUsePluralForm() { return usePluralForm; }
-	public void setUsePluralForm(boolean usePluralForm) { this.usePluralForm = usePluralForm; }
-
 	/** Name of Option to enable this plugin. */
 	private static final String OPTION_NAME = "Xsimplify";
 	
@@ -81,9 +80,77 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 			Customizations.IGNORED_ELEMENT_NAME,
 			Customizations.GENERATED_ELEMENT_NAME);
 	}
+	
+	private boolean usePluralForm = false;
+	public boolean isUsePluralForm() { return usePluralForm; }
+	public void setUsePluralForm(boolean usePluralForm) { this.usePluralForm = usePluralForm; }
+
+	private boolean verbose;
+	public boolean isVerbose() { return verbose; }
+	public void setVerbose(boolean verbose) { this.verbose = verbose; }
+
+	// Plugin Processing
 
 	@Override
-	public void postProcessModel(final Model model, ErrorHandler errorHandler)
+	protected void beforePostProcessModel(Model model)
+	{
+		if ( isInfoEnabled(isVerbose()) )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START);
+			sb.append("\nParameters");
+			sb.append("\n  UsePluralForm.: " + isUsePluralForm());
+			sb.append("\n  Verbose.......: " + isVerbose());
+			info(sb.toString());
+		}
+	}
+	
+	@Override
+	protected void afterPostProcessModel(Model model, ErrorHandler errorHandler)
+	{
+		if ( isInfoEnabled(isVerbose()) )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH);
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(errorHandler));
+			info(sb.toString());
+		}
+	}
+	
+    /**
+     * Performs the post-processing of the {@link Model}.
+     *
+     * <p>
+     * This method is invoked after XJC has internally finished
+     * the model construction. This is a chance for a plugin to
+     * affect the way code generation is performed.
+     * </p>
+     *
+     * <p>
+     * Compared to the {@link #run(Outline, Options, ErrorHandler)}
+     * method, this method allows a plugin to work at the higher level
+     * conceptually closer to the abstract JAXB model, as opposed to
+     * Java syntax level.
+     * </p>
+     *
+     * <p>
+     * This 'postProcessModel' method is a call-back method from
+     * {@link AbstractPlugin} and that method is responsible for handling
+     * all exceptions. It reports any exception to {@link ErrorHandler}
+     * for processing by {@link com.sun.tools.xjc.Plugin}.
+     * </p>
+     *
+     * <p>
+     * <b>Note:</b> This method is invoked only when a plugin is activated.
+     * </p>
+     *
+     * @param model
+     *      The object that represents the classes/properties to
+     *      be generated.
+     */
+	@Override
+	public void postProcessModel(final Model model)
 	{
 		for (final CClassInfo classInfo : model.beans().values())
 			postProcessClassInfo(model, classInfo);

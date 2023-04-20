@@ -37,6 +37,7 @@
 					<extension>true</extension>
 					<args>
 						<arg>-Xsimplify</arg>
+						<arg>-Xsimplify-verbose=true</arg>
 					</args>
 					<plugins>
 						<plugin>

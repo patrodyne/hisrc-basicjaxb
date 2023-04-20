@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.simplehashcode;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.plugin.hashcode.Customizations.IGNORED_ELEMENT_NAME;
 
 import java.util.Collection;
 
@@ -22,9 +23,11 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
+import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.outline.Outline;
 
 /**
  * Generate reflection-free runtime-free 'hashCode' methods.
@@ -52,14 +55,33 @@ public class SimpleHashCodePlugin extends AbstractCodeGeneratorPlugin<HashCodeAr
 	@Override
 	protected QName getSpecialIgnoredElementName()
 	{
-		return org.jvnet.basicjaxb.plugin.hashcode.Customizations.IGNORED_ELEMENT_NAME;
+		return IGNORED_ELEMENT_NAME;
 	}
-
-	private int multiplier = 31;
-
-	private int getMultiplier()
+	// Plugin Processing
+	
+	protected void beforeRun(Outline outline, Options options) throws Exception
 	{
-		return multiplier;
+		setOptions(options);
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START);
+			sb.append("\nParameters");
+			sb.append("\n  None");
+			info(sb.toString());
+		}
+	}
+	
+	protected void afterRun(Outline outline, Options options) throws Exception
+	{
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH);
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(outline.getErrorReceiver()));
+			info(sb.toString());
+		}
 	}
 
 	@Override
@@ -118,5 +140,11 @@ public class SimpleHashCodePlugin extends AbstractCodeGeneratorPlugin<HashCodeAr
 			}
 			body._return(currentHashCode);
 		}
+	}
+
+	private int multiplier = 31;
+	private int getMultiplier()
+	{
+		return multiplier;
 	}
 }

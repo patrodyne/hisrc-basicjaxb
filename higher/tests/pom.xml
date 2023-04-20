@@ -15,6 +15,7 @@
 		<module>auto-inheritance</module>
 		<module>basic</module>
 		<module>default-value</module>
+		<module>element-wrapper</module>
 		<module>episodes</module>
 		<module>ignoring</module>
 		<module>inheritance</module>

@@ -103,6 +103,7 @@
 						<manifestEntries>
 							<Created-By>Patrodyne</Created-By>
 							<Built-By>Patrodyne</Built-By>
+							<JVM-Release>\${maven.compiler.release}</JVM-Release>
 							<url>https://github.com/patrodyne/hisrc-basicjaxb/tree/master/higher/assembly/samples/basic</url>
 						</manifestEntries>
 					</archive>

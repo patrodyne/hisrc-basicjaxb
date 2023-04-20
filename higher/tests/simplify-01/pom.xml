@@ -38,6 +38,7 @@
 					<args>
 						<arg>-Xsimplify</arg>
 						<arg>-Xsimplify-usePluralForm=true</arg>
+						<arg>-Xsimplify-verbose=true</arg>
 					</args>
 					<plugins>
 						<plugin>

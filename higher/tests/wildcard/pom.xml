@@ -33,6 +33,7 @@
 					<extension>true</extension>
 					<args>
 						<arg>-Xwildcard</arg>
+						<arg>-Xwildcard-verbose=true</arg>
 					</args>
 					<plugins>
 						<plugin>

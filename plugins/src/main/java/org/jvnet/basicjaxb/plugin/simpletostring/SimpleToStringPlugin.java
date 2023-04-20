@@ -23,11 +23,13 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
+import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CDefaultValue;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
+import com.sun.tools.xjc.outline.Outline;
 
 /**
  * Generate reflection-free runtime-free 'toString' methods.
@@ -62,10 +64,6 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 		return IGNORED_ELEMENT_NAME;
 	}
 
-	private boolean fullClassName = false;
-	public boolean isFullClassName() { return fullClassName; }
-	public void setFullClassName(boolean fullClassName) { this.fullClassName = fullClassName; }
-
 	private boolean showFieldNames = false;
 	public boolean isShowFieldNames() { return showFieldNames; }
 	public void setShowFieldNames(boolean showFieldNames) { this.showFieldNames = showFieldNames; }
@@ -73,7 +71,40 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 	private boolean showChildItems = false;
 	public boolean isShowChildItems() { return showChildItems; }
 	public void setShowChildItems(boolean showChildItems) { this.showChildItems = showChildItems; }
+
+	private boolean fullClassName = false;
+	public boolean isFullClassName() { return fullClassName; }
+	public void setFullClassName(boolean fullClassName) { this.fullClassName = fullClassName; }
+
+	// Plugin Processing
 	
+	protected void beforeRun(Outline outline, Options options) throws Exception
+	{
+		setOptions(options);
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START);
+			sb.append("\nParameters");
+			sb.append("\n  ShowFieldNames.: " + isShowFieldNames());
+			sb.append("\n  ShowChildItems.: " + isShowChildItems());
+			sb.append("\n  FullClassName..: " + isFullClassName());
+			info(sb.toString());
+		}
+	}
+	
+	protected void afterRun(Outline outline, Options options) throws Exception
+	{
+		if ( isInfoEnabled() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH);
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(outline.getErrorReceiver()));
+			info(sb.toString());
+		}
+	}
+
 	@Override
 	protected CodeGenerator<ToStringArguments> createCodeGenerator(JCodeModel codeModel)
 	{

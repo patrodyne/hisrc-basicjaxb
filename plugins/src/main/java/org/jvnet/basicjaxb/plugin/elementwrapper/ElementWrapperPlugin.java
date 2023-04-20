@@ -12,7 +12,6 @@ import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
-import org.jvnet.basicjaxb.plugin.model.AbstractModelPlugin;
 import org.jvnet.basicjaxb.xjc.model.concrete.origin.DummyPropertyInfoOrigin;
 import org.jvnet.basicjaxb.xml.bind.model.MClassInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MElementPropertyInfo;
@@ -105,7 +104,7 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 	private static final String OPTION_NAME = "XelementWrapper";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "generate @XmlElementWrapper annotations";
+	private static final String OPTION_DESC = "generate a wrapper XML element around collections.";
 
 	@Override
 	public String getOptionName()
@@ -119,11 +118,57 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
-	@Override
-	protected void postProcessModel(Model model, final MModelInfo<NType, NClass> mmodel, ErrorHandler errorHandler)
+	private boolean verbose;
+	public boolean isVerbose() { return verbose; }
+	public void setVerbose(boolean verbose) { this.verbose = verbose; }
+	
+	private Ignoring ignoring = new CustomizedIgnoring(IGNORED_ELEMENT_NAME);
+	public Ignoring getIgnoring()
 	{
-		final Collection<MClassInfo<NType, NClass>> classInfos = new ArrayList<MClassInfo<NType, NClass>>(
-			mmodel.getClassInfos());
+		return ignoring;
+	}
+	public void setIgnoring(Ignoring ignoring)
+	{
+		this.ignoring = ignoring;
+	}
+
+	@Override
+	public Collection<QName> getCustomizationElementNames()
+	{
+		return Arrays.asList(IGNORED_ELEMENT_NAME);
+	}
+
+	@Override
+	protected void beforePostProcessModel(Model model)
+	{
+		if ( isVerbose() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_START + " PostProcessModel");
+			sb.append("\nParameters");
+			sb.append("\n  Verbose...: " + isVerbose());
+			info(sb.toString());
+		}
+	}
+	
+	@Override
+	protected void afterPostProcessModel(Model model, ErrorHandler errorHandler)
+	{
+		if ( isVerbose() )
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.append(LOGGING_FINISH  + " PostProcessModel");
+			sb.append("\nResults");
+			sb.append("\n  HadError.: " + hadError(errorHandler));
+			info(sb.toString());
+		}
+	}
+	
+	@Override
+	protected void postProcessModel(Model model, final MModelInfo<NType, NClass> mmodel)
+	{
+		final Collection<MClassInfo<NType, NClass>> classInfos =
+			new ArrayList<MClassInfo<NType, NClass>>(mmodel.getClassInfos());
 		for (final MClassInfo<NType, NClass> rootClassInfo : classInfos)
 		{
 			/*
@@ -148,22 +193,6 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 				}
 			}
 		}
-	}
-
-	private Ignoring ignoring = new CustomizedIgnoring(IGNORED_ELEMENT_NAME);
-	public Ignoring getIgnoring()
-	{
-		return ignoring;
-	}
-	public void setIgnoring(Ignoring ignoring)
-	{
-		this.ignoring = ignoring;
-	}
-
-	@Override
-	public Collection<QName> getCustomizationElementNames()
-	{
-		return Arrays.asList(IGNORED_ELEMENT_NAME);
 	}
 
 	protected void processWrapperElementPropertyInfo(final MModelInfo<NType, NClass> mmodel,
@@ -231,12 +260,12 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 		final MClassInfo<NType, NClass> rootClassInfo, final MElementPropertyInfo<NType, NClass> wrapperPropertyInfo,
 		final MClassInfo<NType, NClass> wrapperClassInfo, final MElementPropertyInfo<NType, NClass> wrappedPropertyInfo)
 	{
-		if ( getLogger().isDebugEnabled() )
+		if ( isDebugEnabled(isVerbose()) )
 		{
-			getLogger().debug("Class info:" + rootClassInfo.getName());
-			getLogger().debug("Wrapper property info:" + wrapperPropertyInfo.getPrivateName());
-			getLogger().debug("Wrapper class info :" + wrapperClassInfo.getName());
-			getLogger().debug("Wrapped property info:" + wrappedPropertyInfo.getPrivateName());
+			debug("Class info............: " + rootClassInfo.getName());
+			debug("Wrapper property info.: " + wrapperPropertyInfo.getPrivateName());
+			debug("Wrapper class info....: " + wrapperClassInfo.getName());
+			debug("Wrapped property info.: " + wrappedPropertyInfo.getPrivateName());
 		}
 		
 		final MPropertyInfo<NType, NClass> propertyInfo = new CMElementPropertyInfo<NType, NClass>(
@@ -256,12 +285,12 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 		final MClassInfo<NType, NClass> wrapperClassInfo,
 		final MElementsPropertyInfo<NType, NClass> wrappedPropertyInfo)
 	{
-		if ( getLogger().isDebugEnabled() )
+		if ( isDebugEnabled(isVerbose()) )
 		{
-			getLogger().debug("Class info:" + rootClassInfo.getName());
-			getLogger().debug("Wrapper property info:" + wrapperPropertyInfo.getPrivateName());
-			getLogger().debug("Wrapper class info :" + wrapperClassInfo.getName());
-			getLogger().debug("Wrapped property info:" + wrappedPropertyInfo.getPrivateName());
+			debug("Class info............: " + rootClassInfo.getName());
+			debug("Wrapper property info.: " + wrapperPropertyInfo.getPrivateName());
+			debug("Wrapper class info....: " + wrapperClassInfo.getName());
+			debug("Wrapped property info.: " + wrappedPropertyInfo.getPrivateName());
 		}
 		
 		final MPropertyInfo<NType, NClass> propertyInfo = new CMElementsPropertyInfo<NType, NClass>(
@@ -279,12 +308,12 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 		final MClassInfo<NType, NClass> wrapperClassInfo,
 		final MElementRefPropertyInfo<NType, NClass> wrappedPropertyInfo)
 	{
-		if ( getLogger().isDebugEnabled() )
+		if ( isDebugEnabled(isVerbose()) )
 		{
-			getLogger().debug("Class info:" + rootClassInfo.getName());
-			getLogger().debug("Wrapper property info:" + wrapperPropertyInfo.getPrivateName());
-			getLogger().debug("Wrapper class info :" + wrapperClassInfo.getName());
-			getLogger().debug("Wrapped property info:" + wrappedPropertyInfo.getPrivateName());
+			debug("Class info............: " + rootClassInfo.getName());
+			debug("Wrapper property info.: " + wrapperPropertyInfo.getPrivateName());
+			debug("Wrapper class info....: " + wrapperClassInfo.getName());
+			debug("Wrapped property info.: " + wrappedPropertyInfo.getPrivateName());
 		}
 		
 		final MPropertyInfo<NType, NClass> propertyInfo = new CMElementRefPropertyInfo<NType, NClass>(
@@ -304,12 +333,12 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 		final MClassInfo<NType, NClass> wrapperClassInfo,
 		final MElementRefsPropertyInfo<NType, NClass> wrappedPropertyInfo)
 	{
-		if ( getLogger().isDebugEnabled() )
+		if ( isDebugEnabled(isVerbose()) )
 		{
-			getLogger().debug("Class info:" + rootClassInfo.getName());
-			getLogger().debug("Wrapper property info:" + wrapperPropertyInfo.getPrivateName());
-			getLogger().debug("Wrapper class info :" + wrapperClassInfo.getName());
-			getLogger().debug("Wrapped property info:" + wrappedPropertyInfo.getPrivateName());
+			debug("Class info............: " + rootClassInfo.getName());
+			debug("Wrapper property info.: " + wrapperPropertyInfo.getPrivateName());
+			debug("Wrapper class info....: " + wrapperClassInfo.getName());
+			debug("Wrapped property info.: " + wrappedPropertyInfo.getPrivateName());
 		}
 		
 		final MPropertyInfo<NType, NClass> propertyInfo = new CMElementRefsPropertyInfo<NType, NClass>(
