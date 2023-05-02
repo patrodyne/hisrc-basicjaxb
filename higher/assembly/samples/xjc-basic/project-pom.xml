@@ -144,6 +144,9 @@
 			<build>
 				<resources>
 					<resource>
+						<directory>${source}/main/resources</directory>
+					</resource>
+					<resource>
 						<directory>\${source}/test/resources</directory>
 					</resource>
 				</resources>

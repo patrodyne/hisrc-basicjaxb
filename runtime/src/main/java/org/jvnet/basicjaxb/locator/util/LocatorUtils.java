@@ -14,14 +14,31 @@ import org.xml.sax.Locator;
 public class LocatorUtils
 {
 	private static final int DEFAULT_MAX_ID_SIZE = 20;
+	private static final String UNKNOWN = "unknown";
 
 	private LocatorUtils()
 	{
 	}
 
+	public static String getLocation(Object metadata)
+	{
+		if ( metadata instanceof Locator )
+			return getLocation((Locator) metadata);
+		else
+			return "[" + UNKNOWN + "]";
+	}
+	
 	public static String getLocation(Locator locator)
 	{
 		return getLocation(locator, DEFAULT_MAX_ID_SIZE);
+	}
+	
+	public static String getLocation(Object metadata, int maxIdSize)
+	{
+		if ( metadata instanceof Locator )
+			return getLocation((Locator) metadata, maxIdSize);
+		else
+			return "[" + UNKNOWN + "]";
 	}
 	
 	public static String getLocation(Locator locator, int maxIdSize)
@@ -45,7 +62,7 @@ public class LocatorUtils
             }
         }
         else
-        	sb.append("unknown");
+        	sb.append(UNKNOWN);
         sb.append(" ]");
         return sb.toString();
 	}

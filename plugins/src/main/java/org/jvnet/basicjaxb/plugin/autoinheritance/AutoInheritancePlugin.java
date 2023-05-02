@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.autoinheritance;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -132,6 +133,8 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin
 			sb.append("\n  XmlTypesExtend...........: " + getXmlTypesExtend());
 			sb.append("\n  XmlTypesImplement........: " + getXmlTypesImplement());
 			sb.append("\n  JaxbElementsImplement....: " + getJaxbElementsImplement());
+			sb.append("\n  Verbose..................: " + isVerbose());
+			sb.append("\n  Debug....................: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -224,7 +227,18 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin
 			if (theClass._extends() == theClass.owner().ref(Object.class))
 			{
 				theClass._extends(targetClass);
+				debug("{}, generateExtends; Class={}, Extension={}",
+					getLocation(theClass.metadata), theClass.name(), name);
 			}
+		}
+	}
+
+	private void generateImplements(JDefinedClass theClass, List<String> names)
+	{
+		if (names != null && !names.isEmpty())
+		{
+			for (String name : names)
+				generateImplements(theClass, name);
 		}
 	}
 
@@ -234,17 +248,8 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin
 		{
 			final JClass targetClass = theClass.owner().ref(name);
 			theClass._implements(targetClass);
-		}
-	}
-
-	private void generateImplements(JDefinedClass theClass, List<String> names)
-	{
-		if (names != null && !names.isEmpty())
-		{
-			for (String name : names)
-			{
-				generateImplements(theClass, name);
-			}
+			debug("{}, generateImplements; Class={}, Interface={}",
+				getLocation(theClass.metadata), theClass.name(), name);
 		}
 	}
 }

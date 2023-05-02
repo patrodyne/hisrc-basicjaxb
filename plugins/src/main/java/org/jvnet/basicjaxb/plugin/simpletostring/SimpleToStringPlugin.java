@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.simpletostring;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassNotIgnored;
@@ -89,6 +90,8 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 			sb.append("\n  ShowFieldNames.: " + isShowFieldNames());
 			sb.append("\n  ShowChildItems.: " + isShowChildItems());
 			sb.append("\n  FullClassName..: " + isFullClassName());
+			sb.append("\n  Verbose........: " + isVerbose());
+			sb.append("\n  Debug..........: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -152,6 +155,7 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 
 			body._return(stringBuilder.invoke("toString"));
 		}
+		debug("{}, generateToStringMethod; Class={}", getLocation(theClass.metadata), theClass.name());
 	}
 
 	// Method: toStringFields
@@ -180,25 +184,24 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 					final FieldAccessorEx fieldAccessor = getFieldAccessorFactory()
 							.createFieldAccessor(fieldOutline, JExpr._this());
 					
+					final CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
 					if ( !fieldAccessor.isConstant() )
 					{
 						final JBlock block = body.block();
 
-						String propertyName = fieldOutline.getPropertyInfo().getName(true);
+						String propertyName = fieldInfo.getName(true);
 						
 						final JVar value = block.decl(fieldAccessor.getType(), "the" + propertyName);
 						fieldAccessor.toRawValue(block, value);
 						
 						final JType exposedType = fieldAccessor.getType();
 
-						final JExpression hasSetValue =
-							( fieldAccessor.isAlwaysSet() || fieldAccessor.hasSetValue() == null )
-								? JExpr.TRUE
-								: fieldAccessor.hasSetValue();
+						final JExpression hasSetValue = ( fieldAccessor.isAlwaysSet() || fieldAccessor.hasSetValue() == null )
+							? JExpr.TRUE : fieldAccessor.hasSetValue();
 
 						String fieldName = null;
 						if ( isShowFieldNames() )
-							fieldName = fieldOutline.getPropertyInfo().getName(false);
+							fieldName = fieldInfo.getName(false);
 						
 						CPropertyInfo propertyInfo = fieldAccessor.getPropertyInfo();
 						CDefaultValue defaultValue = propertyInfo.defaultValue;
@@ -229,6 +232,9 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 						
 						fieldSeparator = FIELD_SEPARATOR;
 					}
+					
+					trace("{}, generateToStringFieldsMethod; Class={}, Field={}",
+						getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldInfo.getName(false));
 				}
 			}
 		}

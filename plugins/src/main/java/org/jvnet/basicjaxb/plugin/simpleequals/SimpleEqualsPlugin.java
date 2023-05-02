@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.simpleequals;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME;
 
 import java.util.Collection;
@@ -25,6 +26,7 @@ import com.sun.codemodel.JOp;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
@@ -69,7 +71,8 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  None");
+			sb.append("\n  Verbose.: " + isVerbose());
+			sb.append("\n  Debug...: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -116,33 +119,38 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 			final JVar _that = body.decl(JMod.FINAL, theClass, "that", JExpr.cast(theClass, object));
 			for (final FieldOutline fieldOutline : fields)
 			{
-				final FieldAccessorEx leftFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _this);
-				final FieldAccessorEx rightFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _that);
+				final FieldAccessorEx lhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _this);
+				final FieldAccessorEx rhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _that);
 				
-				if (leftFieldAccessor.isConstant() || rightFieldAccessor.isConstant())
+				if (lhsFieldAccessor.isConstant() || rhsFieldAccessor.isConstant())
 					continue;
 				
+				final CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
 				final JBlock block = body.block();
-				final String name = fieldOutline.getPropertyInfo().getName(true);
-				final JType type = leftFieldAccessor.getType();
-				final JVar leftValue = block.decl(type, "left" + name);
-				leftFieldAccessor.toRawValue(block, leftValue);
-				final JVar rightValue = block.decl(rightFieldAccessor.getType(), "right" + name);
-				rightFieldAccessor.toRawValue(block, rightValue);
-				final JType exposedType = leftFieldAccessor.getType();
+				final String name = fieldInfo.getName(true);
+				final JType type = lhsFieldAccessor.getType();
+				final JVar lhsValue = block.decl(type, "lhs" + name);
+				lhsFieldAccessor.toRawValue(block, lhsValue);
+				final JVar rhsValue = block.decl(rhsFieldAccessor.getType(), "rhs" + name);
+				rhsFieldAccessor.toRawValue(block, rhsValue);
+				final JType exposedType = lhsFieldAccessor.getType();
 				final Collection<JType> possibleTypes = FieldUtils.getPossibleTypes(fieldOutline, Aspect.EXPOSED);
-				final boolean isAlwaysSet = leftFieldAccessor.isAlwaysSet();
+				final boolean isAlwaysSet = lhsFieldAccessor.isAlwaysSet();
 				
-				final JExpression leftHasSetValue = (leftFieldAccessor.isAlwaysSet() || leftFieldAccessor.hasSetValue() == null)
-					? JExpr.TRUE : leftFieldAccessor.hasSetValue();
+				final JExpression lhsHasSetValue = (lhsFieldAccessor.isAlwaysSet() || lhsFieldAccessor.hasSetValue() == null)
+					? JExpr.TRUE : lhsFieldAccessor.hasSetValue();
 				
-				final JExpression rightHasSetValue = (rightFieldAccessor .isAlwaysSet() || rightFieldAccessor.hasSetValue() == null)
-					? JExpr.TRUE : rightFieldAccessor.hasSetValue();
+				final JExpression rhsHasSetValue = (rhsFieldAccessor .isAlwaysSet() || rhsFieldAccessor.hasSetValue() == null)
+					? JExpr.TRUE : rhsFieldAccessor.hasSetValue();
 				
 				getCodeGenerator().generate(block, exposedType, possibleTypes, isAlwaysSet,
-					new EqualsArguments(codeModel, leftValue, leftHasSetValue, rightValue, rightHasSetValue));
+					new EqualsArguments(codeModel, lhsValue, lhsHasSetValue, rhsValue, rhsHasSetValue));
+
+				trace("{}, generate; Class={}, Field={}",
+					getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldInfo.getName(false));
 			}
 		}
 		body._return(JExpr.TRUE);
+		debug("{}, generate; Class={}", getLocation(theClass.metadata), theClass.name());
 	}
 }

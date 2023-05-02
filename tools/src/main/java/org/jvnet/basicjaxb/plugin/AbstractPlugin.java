@@ -67,6 +67,28 @@ public abstract class AbstractPlugin extends Plugin
 	/** Represents the XJC plugin logging finish message.*/
 	public static final String LOGGING_FINISH = ": Finish";
 	
+	private Options options = new Options();
+	protected Options getOptions() { return options; }
+	protected void setOptions(Options options)
+	{
+		this.options = options;
+		setDebug(options.debugMode);
+		setQuiet(options.quiet);
+		setVerbose(options.verbose);
+	}
+
+	private boolean debug = false;
+	public boolean isDebug() { return debug; }
+	public void setDebug(boolean debug) { this.debug = debug; }
+	
+	private boolean quiet = false;
+	public boolean isQuiet() { return quiet; }
+	public void setQuiet(boolean quiet)	{ this.quiet = quiet; }
+
+	private boolean verbose = false;
+	public boolean isVerbose() { return verbose || debug; }
+	public void setVerbose(boolean verbose) { this.verbose = verbose; }
+	
 	@Override
 	public void onActivated(Options options) throws BadCommandLineException
 	{
@@ -139,7 +161,7 @@ public abstract class AbstractPlugin extends Plugin
 		}
 		catch (Exception ex)
 		{
-			error(options, "{}: {}", ex.getClass().getSimpleName(), ex.getMessage() );
+			error("{}: {}", ex.getClass().getSimpleName(), ex.getMessage() );
 			handleException(errorHandler, ex, "Error during plugin postProcessModel.");
 		}
 		finally
@@ -150,7 +172,7 @@ public abstract class AbstractPlugin extends Plugin
 			}
 			catch (Exception ex)
 			{
-				error(options, "{}: {}", ex.getClass().getSimpleName(), ex.getMessage() );
+				error("{}: {}", ex.getClass().getSimpleName(), ex.getMessage() );
 				handleException(errorHandler, ex, "Error after plugin postProcessModel.");
 			}
 		}
@@ -215,7 +237,7 @@ public abstract class AbstractPlugin extends Plugin
 		}
 		catch (Exception ex)
 		{
-			error(options, "{}: {}", ex.getClass().getSimpleName(), ex.getMessage() );
+			error("{}: {}", ex.getClass().getSimpleName(), ex.getMessage() );
 			throw handleException(errorHandler, ex, "Error during plugin execution.");
 		}
 		finally
@@ -226,7 +248,7 @@ public abstract class AbstractPlugin extends Plugin
 			}
 			catch (Exception ex)
 			{
-				error(options, "{}: {}", ex.getClass().getSimpleName(), ex.getMessage() );
+				error("{}: {}", ex.getClass().getSimpleName(), ex.getMessage() );
 				throw handleException(errorHandler, ex, "Error after plugin execution.");
 			}
 		}
@@ -286,243 +308,101 @@ public abstract class AbstractPlugin extends Plugin
 		return this.customizationElementNames.contains(new QName(namespaceURI, localName));
 	}
 	
-	private Options options = new Options();
-	public Options getOptions() { return options; }
-	public void setOptions(Options options) { this.options = options; }
-
-	
 	// Logger: enabled, options
-	
+
 	protected boolean isTraceEnabled()
 	{
-		return ( !getOptions().quiet && (getOptions().debugMode || getLogger().isTraceEnabled()) );
+		return ( !isQuiet() && isVerbose() && isDebug() && getLogger().isTraceEnabled() );
 	}
 	
 	protected boolean isDebugEnabled()
 	{
-		return ( !getOptions().quiet && (getOptions().debugMode || getLogger().isDebugEnabled()) );
+		return ( !isQuiet() && isVerbose() && isDebug() && getLogger().isDebugEnabled() );
 	}
 	
 	protected boolean isInfoEnabled()
 	{
-		return ( !getOptions().quiet && getLogger().isInfoEnabled() );
+		return ( !isQuiet() && isVerbose() && getLogger().isInfoEnabled() );
 	}
 	
 	protected boolean isWarnEnabled()
 	{
-		return ( !getOptions().quiet && getLogger().isWarnEnabled() );
+		return ( !isQuiet() && getLogger().isDebugEnabled() );
 	}
 	
 	protected boolean isErrorEnabled()
 	{
-		return ( !getOptions().quiet && getLogger().isErrorEnabled() );
-	}
-	
-	// Logger: enabled, isVerbose
-	
-	protected boolean isTraceEnabled(boolean isVerbose)
-	{
-		return ( isVerbose && getLogger().isTraceEnabled() );
-	}
-	
-	protected boolean isDebugEnabled(boolean isVerbose)
-	{
-		return ( isVerbose && getLogger().isDebugEnabled() );
-	}
-	
-	protected boolean isInfoEnabled(boolean isVerbose)
-	{
-		return ( isVerbose && getLogger().isInfoEnabled() );
-	}
-	
-	protected boolean isWarnEnabled(boolean isVerbose)
-	{
-		return ( isVerbose && getLogger().isDebugEnabled() );
-	}
-	
-	protected boolean isErrorEnabled(boolean isVerbose)
-	{
-		return ( isVerbose && getLogger().isErrorEnabled() );
+		return ( !isQuiet() && getLogger().isErrorEnabled() );
 	}
 	
 	// Logger: trace
-
-	protected void trace(Options opts, String msg, Object... args)
-	{
-		if ( isTraceEnabled() )
-			trace(getOptions().verbose, msg, args);
-	}
-
-	protected void trace(Options opts, String msg, Throwable th)
-	{
-		if ( isTraceEnabled() )
-			trace(getOptions().verbose, msg, th);
-	}
 	
-	protected void trace(boolean isVerbose, String msg, Object... args)
-	{
-		if ( isVerbose )
-			trace(msg, args);
-	}
-
-	protected void trace(boolean isVerbose, String msg, Throwable th)
-	{
-		if ( isVerbose )
-			trace(msg, th);
-	}
-
 	protected void trace(String msg, Object... args)
 	{
-		getLogger().trace(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
+		if ( !isQuiet() && isVerbose() && isDebug() )
+			getLogger().trace(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
 	}
 
 	protected void trace(String msg, Throwable th)
 	{
-		getLogger().trace(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
+		if ( !isQuiet() && isVerbose() && isDebug() )
+			getLogger().trace(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
 	}
 
 	// Logger: debug
-
-	protected void debug(Options opts, String msg, Object... args)
-	{
-		if ( isDebugEnabled() )
-			debug(getOptions().verbose, msg, args);
-	}
-
-	protected void debug(Options opts, String msg, Throwable th)
-	{
-		if ( isDebugEnabled() )
-			debug(getOptions().verbose, msg, th);
-	}
 	
-	protected void debug(boolean isVerbose, String msg, Object... args)
+	protected void debug(String msg, Object... args)
 	{
-		if ( isVerbose )
-			debug(msg, args);
+		if ( !isQuiet() && isVerbose() && isDebug() )
+			getLogger().debug(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
 	}
 
 	protected void debug(boolean isVerbose, String msg, Throwable th)
 	{
-		if ( isVerbose )
-			debug(msg, th);
-	}
-
-	protected void debug(String msg, Object... args)
-	{
-		getLogger().debug(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
-	}
-
-	protected void debug(String msg, Throwable th)
-	{
-		getLogger().debug(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
+		if ( !isQuiet() && isVerbose() && isDebug() )
+			getLogger().debug(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
 	}
 
 	// Logger: info
-
-	protected void info(Options opts, String msg, Object... args)
-	{
-		if ( isInfoEnabled() )
-			info(getOptions().verbose, msg, args);
-	}
-
-	protected void info(Options opts, String msg, Throwable th)
-	{
-		if ( isInfoEnabled() )
-			info(getOptions().verbose, msg, th);
-	}
 	
-	protected void info(boolean isVerbose, String msg, Object... args)
-	{
-		if ( isVerbose )
-			info(msg, args);
-	}
-
-	protected void info(boolean isVerbose, String msg, Throwable th)
-	{
-		if ( isVerbose )
-			info(msg, th);
-	}
-
 	protected void info(String msg, Object... args)
 	{
-		getLogger().info(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
+		if ( !isQuiet() && isVerbose() )
+			getLogger().info(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
 	}
 
 	protected void info(String msg, Throwable th)
 	{
-		getLogger().info(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
+		if ( !isQuiet() && isVerbose() )
+			getLogger().info(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
 	}
 
 	// Logger: warn
 	
-	protected void warn(Options opts, String msg, Object... args)
-	{
-		if ( isWarnEnabled() )
-			warn(getOptions().verbose, msg, args);
-	}
-
-	protected void warn(Options opts, String msg, Throwable th)
-	{
-		if ( isWarnEnabled() )
-			warn(getOptions().verbose, msg, th);
-	}
-	
-	protected void warn(boolean isVerbose, String msg, Object... args)
-	{
-		if ( isVerbose )
-			warn(msg, args);
-	}
-
-	protected void warn(boolean isVerbose, String msg, Throwable th)
-	{
-		if ( isVerbose )
-			warn(msg, th);
-	}
-	
 	protected void warn(String msg, Object... args)
 	{
-		getLogger().warn(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
+		if ( !isQuiet() )
+			getLogger().warn(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
 	}
 
 	protected void warn(String msg, Throwable th)
 	{
-		getLogger().warn(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
+		if ( !isQuiet() )
+			getLogger().warn(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
 	}
 	
 	// Logger: error
 	
-	protected void error(Options opts, String msg, Object... args)
-	{
-		if ( isErrorEnabled() )
-			error(getOptions().verbose, msg, args);
-	}
-
-	protected void error(Options opts, String msg, Throwable th)
-	{
-		if ( isErrorEnabled() )
-			error(getOptions().verbose, msg, th);
-	}
-	
-	protected void error(boolean isVerbose, String msg, Object... args)
-	{
-		if ( isVerbose )
-			error(msg, args);
-	}
-
-	protected void error(boolean isVerbose, String msg, Throwable th)
-	{
-		if ( isVerbose )
-			error(msg, th);
-	}
-	
 	protected void error(String msg, Object... args)
 	{
-		getLogger().error(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
+		if ( !isQuiet() )
+			getLogger().error(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
 	}
 
 	protected void error(String msg, Throwable th)
 	{
-		getLogger().error(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
+		if ( !isQuiet() )
+			getLogger().error(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
 	}
 	
 	protected boolean hadError(ErrorHandler errorHandler)

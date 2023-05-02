@@ -164,7 +164,13 @@ public class ValueUtils
 
 	public static Double toDouble(String value)
 	{
-	    return Double.valueOf(value);
+		switch ( value )
+		{
+			case "INF": return Double.POSITIVE_INFINITY;
+			case "-INF": return Double.NEGATIVE_INFINITY;
+			case "NaN": return Double.NaN;
+			default: return Double.valueOf(value);
+		}
 	}
 	
 	// Duration
@@ -214,7 +220,13 @@ public class ValueUtils
 
 	public static Float toFloat(String value)
 	{
-	    return Float.valueOf(value);
+		switch ( value )
+		{
+			case "INF": return Float.POSITIVE_INFINITY;
+			case "-INF": return Float.NEGATIVE_INFINITY;
+			case "NaN": return Float.NaN;
+			default: return Float.valueOf(value);
+		}
 	}
 	
 	// Integer

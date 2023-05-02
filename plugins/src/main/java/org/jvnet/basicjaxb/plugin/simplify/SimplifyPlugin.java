@@ -1,12 +1,12 @@
 package org.jvnet.basicjaxb.plugin.simplify;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.simplify.Customizations.AS_ELEMENT_PROPERTY_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.simplify.Customizations.AS_REFERENCE_PROPERTY_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.simplify.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.simplify.Customizations.PROPERTY_ELEMENT_NAME;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,16 +33,87 @@ import com.sun.tools.xjc.model.CElement;
 import com.sun.tools.xjc.model.CElementInfo;
 import com.sun.tools.xjc.model.CElementPropertyInfo;
 import com.sun.tools.xjc.model.CElementPropertyInfo.CollectionMode;
-import com.sun.tools.xjc.outline.Outline;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyVisitor;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.CTypeRef;
 import com.sun.tools.xjc.model.CValuePropertyInfo;
 import com.sun.tools.xjc.model.Model;
+import com.sun.tools.xjc.outline.Outline;
 
 /**
- * Simplifies 'choice' properties like fooOrBarOrBaz
+ * <p>
+ * For XML Schema <b><code>choice</code></b>, this plugin simplifies <em>complex</em> properties
+ * (<code>fooOrBarOrBaz</code>) into several <em>simple</em> properties: <code>foo</code>,
+ * <code>bar</code>, <code>baz</code>. For example, <code>fooOrBarOrBaz</code> generated from
+ * repeatable choices.
+ * </p>
+ *
+ *
+ * <p>
+ * Optionally, add <code>-Xsimplify-usePluralForm=true</code> if you want collection property
+ * names to be pluralized: <code>foo</code> becomes <code>foos</code>).
+ * </p>
+ *
+ * <p>
+ * The JAXB Simplify Plugin implements this task. It allows you to simplify your complex
+ * properties. The plugin will remove the complex property and insert several simpler
+ * properties instead of the original (complex) property.
+ * </p>
+ * 
+ * <p>
+ * The JAXB Simplify Plugin works with two kinds of properties: <b>elements</b>
+ * and <b>references</b>.
+ * </p>
+ * 
+ * 
+ * <p><b>Type with Elements</b></p>
+ * 
+ * <pre>
+ * &lt;jaxb:bindings node="xs:complexType[@name='typeWithElementsProperty']/xs:choice"&gt;
+ *   &lt;simplify:as-element-property/&gt;
+ * &lt;/jaxb:bindings&gt;
+ * 
+ * OR
+ * 
+ * &lt;jaxb:bindings node="xs:complexType[@name='typeWithElementsProperty']"&gt;
+ *   &lt;simplify:property name="fooOrBar"&gt;
+ *     &lt;simplify:as-element-property/&gt;
+ *   &lt;/simplify:property&gt;
+ * &lt;/jaxb:bindings&gt;
+ * </pre>
+ * 
+ * <p><b>Type with References</b></p>
+ * 
+ * <pre>
+ * &lt;jaxb:bindings node="xs:complexType [@name='typeWithReferencesProperty']/xs:choice/xs:element[@name='foo']"&gt;
+ *   &lt;simplify:as-element-property/&gt;
+ * &lt;/jaxb:bindings&gt;
+ * 
+ * OR
+ * 
+ * &lt;jaxb:bindings node="xs:complexType [@name='typeWithReferencesProperty']"&gt;
+ *   &lt;simplify:property name="fooOrBar"&gt;
+ *     &lt;simplify:as-element-property/&gt;
+ *   &lt;/simplify:property&gt;
+ * &lt;/jaxb:bindings&gt;
+ * </pre>
+ * 
+ * <p>
+ * You can use the <code>simplify:as-element-property</code> element to <em>remodel</em> a
+ * complex property as element properties <b><code>@XmlElement</code></b> or 
+ * <code>simplify:as-reference-property</code> as reference properties <b><code>@XmlElementRef</code></b>.
+ * </p>
+ * 
+ * <b>Notes:</b>
+ * 
+ * <ul>
+ * <li>Element properties are simpler to work with than reference properties,
+ *     but you may need to retain reference properties if you have substitution groups.</li>
+ * <li>In the case of a reference property, you have to customize one of the
+ *     <code>xs:elements</code> and not the <code>xs:choice</code>.</li>
+ * </ul>
+ * 
  */
 public class SimplifyPlugin extends AbstractParameterizablePlugin
 {
@@ -85,22 +156,19 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 	public boolean isUsePluralForm() { return usePluralForm; }
 	public void setUsePluralForm(boolean usePluralForm) { this.usePluralForm = usePluralForm; }
 
-	private boolean verbose;
-	public boolean isVerbose() { return verbose; }
-	public void setVerbose(boolean verbose) { this.verbose = verbose; }
-
 	// Plugin Processing
 
 	@Override
 	protected void beforePostProcessModel(Model model)
 	{
-		if ( isInfoEnabled(isVerbose()) )
+		if ( isInfoEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
 			sb.append("\n  UsePluralForm.: " + isUsePluralForm());
 			sb.append("\n  Verbose.......: " + isVerbose());
+			sb.append("\n  Debug.........: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -108,7 +176,7 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 	@Override
 	protected void afterPostProcessModel(Model model, ErrorHandler errorHandler)
 	{
-		if ( isInfoEnabled(isVerbose()) )
+		if ( isInfoEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_FINISH);
@@ -169,25 +237,26 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 					return null;
 				}
 
-				public Void onAttribute(CAttributePropertyInfo attributeProperty)
-				{
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				public Void onValue(CValuePropertyInfo valueProperty)
-				{
-					// TODO Auto-generated method stub
-					return null;
-				}
-
 				public Void onReference(CReferencePropertyInfo p)
 				{
 					postProcessReferencePropertyInfo(model, classInfo, p);
 					return null;
 				}
+
+				public Void onAttribute(CAttributePropertyInfo attributeProperty)
+				{
+					// No action
+					return null;
+				}
+
+				public Void onValue(CValuePropertyInfo valueProperty)
+				{
+					// No action
+					return null;
+				}
 			});
 		}
+		debug("{}, postProcessClassInfo; Class={}", getLocation(classInfo.getLocator()), classInfo.shortName);
 	}
 
 	private void postProcessElementPropertyInfo(final Model model, final CClassInfo classInfo,
@@ -210,7 +279,6 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 	{
 		if (property.getTypes().size() > 1)
 		{
-			getLogger().debug(MessageFormat.format("Element property [{0}] has several types and will be simplified.", property.getName(false)));
 			int index = classInfo.getProperties().indexOf(property);
 			for (CTypeRef typeRef : property.getTypes())
 			{
@@ -218,12 +286,13 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 				classInfo.getProperties().add(index++, elementPropertyInfo);
 			}
 			classInfo.getProperties().remove(property);
+			trace("{}, simplifyElementPropertyInfoAsElementPropertyInfo; Class={}, Property={}",
+				getLocation(property.getLocator()), classInfo.shortName, property.getName(false));
 		}
 		else
 		{
-			getLogger().warn(MessageFormat.format(
-				"Element property [{0}] will not be simplified as it does not contain multiple types.",
-				property.getName(false)));
+			warn("{}, simplifyElementPropertyInfoAsElementPropertyInfo; Class={}, Element property [{}] will not be simplified as it does not contain multiple types.",
+				getLocation(property.getLocator()), classInfo.shortName, property.getName(false));
 		}
 	}
 
@@ -232,16 +301,11 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 	{
 		if (property.getElements().size() <= 1 && !property.isMixed())
 		{
-			getLogger().warn(MessageFormat.format(
-				"Element reference property [{0}] will not be simplified as it does not contain multiple elements and is not mixed.",
-				property.getName(false)));
+			warn("{}, simplifyReferencePropertyInfoAsReferencePropertyInfo; Class={}, Element reference property [{}] will not be simplified as it does not contain multiple elements and is not mixed.",
+				getLocation(property.getLocator()), classInfo.shortName, property.getName(false));
 		}
 		else
 		{
-			getLogger().debug(MessageFormat.format(
-				"Element reference property [{0}] contains multiple elements or is mixed and will be simplified.",
-				property.getName(false)));
-			
 			int index = classInfo.getProperties().indexOf(property);
 			for (CElement element : property.getElements())
 			{
@@ -252,6 +316,9 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 			if (property.isMixed())
 				classInfo.getProperties().add(index++, createContentReferencePropertyInfo(model, property));
 			classInfo.getProperties().remove(property);
+
+			trace("{}, simplifyReferencePropertyInfoAsReferencePropertyInfo; Class={}, Reference={}",
+				getLocation(property.getLocator()), classInfo.shortName, property.getName(false));
 		}
 	}
 
@@ -260,47 +327,37 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 	{
 		if (property.getElements().size() <= 1 && !property.isMixed())
 		{
-			getLogger().warn(MessageFormat.format(
-				"Element reference property [{0}] will not be simplified as it does not contain multiple elements and is not mixed.",
-				property.getName(false)));
+			warn("{}, simplifyReferencePropertyInfoAsElementPropertyInfo; Class={}, Element reference property [{}] will not be simplified as it does not contain multiple elements and is not mixed.",
+				getLocation(property.getLocator()), classInfo.shortName, property.getName(false));
 		}
 		else
 		{
-			getLogger().debug(MessageFormat.format(
-				"Element reference property [{0}] contains multiple elements or is mixed and will be simplified.",
-				property.getName(false)));
-			
+			boolean erpSimplified = false;
 			int index = classInfo.getProperties().indexOf(property);
 			for (CElement element : property.getElements())
 			{
 				final CElementPropertyInfo elementPropertyInfo;
 				if (element instanceof CElementInfo)
-				{
 					elementPropertyInfo = createElementPropertyInfo(model, property, element, (CElementInfo) element);
-				}
 				else if (element instanceof CClassInfo)
-				{
 					elementPropertyInfo = createElementPropertyInfo(model, property, element, (CClassInfo) element);
-				}
 				else if (element instanceof CClassRef)
 				{
-					getLogger().error(MessageFormat.format(
-						"Element reference property [{0}] contains a class reference type [{1}] and therefore cannot be fully simplified as element property.",
-						property.getName(false), ((CClassRef) element).fullName()));
+					error("{}, simplifyReferencePropertyInfoAsElementPropertyInfo; Class={}, Element reference property [{}] contains a class reference type [{}] and therefore cannot be fully simplified as element property.",
+						getLocation(property.getLocator()), classInfo.shortName, property.getName(false), ((CClassRef) element).fullName());
 					elementPropertyInfo = null;
-					// createElementPropertyInfo(model,
-					// property, element, (CClassRef) element);
 				}
 				else
 				{
-					// TODO WARN
+					error("{}, simplifyReferencePropertyInfoAsElementPropertyInfo; Class={}, Unsupported CElement type [{}].",
+						getLocation(property.getLocator()), classInfo.shortName, element);
 					elementPropertyInfo = null;
-					getLogger().error(MessageFormat.format("Unsupported CElement type [{0}].", element));
 				}
 				
 				if (elementPropertyInfo != null)
 				{
 					classInfo.getProperties().add(index++, elementPropertyInfo);
+					erpSimplified = true;
 				}
 			}
 			
@@ -308,6 +365,12 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 				classInfo.getProperties().add(index++, createContentReferencePropertyInfo(model, property));
 			
 			classInfo.getProperties().remove(property);
+			
+			if ( erpSimplified )
+			{
+				trace("{}, simplifyReferencePropertyInfoAsElementPropertyInfo; Class={}, Reference={}",
+					getLocation(property.getLocator()), classInfo.shortName, property.getName(false));
+			}
 		}
 	}
 
@@ -335,9 +398,17 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 	{
 		final CElementPropertyInfo elementPropertyInfo;
 		final String propertyName = createPropertyName(model, property, element);
-		elementPropertyInfo = new CElementPropertyInfo(propertyName,
-			property.isCollection() ? CollectionMode.REPEATED_ELEMENT : CollectionMode.NOT_REPEATED, ID.NONE, null,
-			element.getSchemaComponent(), element.getCustomizations(), element.getLocator(), false);
+		elementPropertyInfo = new CElementPropertyInfo
+		(
+			propertyName,
+			property.isCollection() ? CollectionMode.REPEATED_ELEMENT : CollectionMode.NOT_REPEATED,
+			ID.NONE,
+			/* expectedMimeType */ null,
+			element.getSchemaComponent(),
+			element.getCustomizations(),
+			element.getLocator(),
+			/* required */ false
+		);
 		elementPropertyInfo.getTypes()
 			.add(new CTypeRef(classInfo, element.getElementName(), classInfo.getTypeName(), false, null));
 		return elementPropertyInfo;
@@ -348,9 +419,17 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 //	{
 //		final CElementPropertyInfo elementPropertyInfo;
 //		final String propertyName = createPropertyName(model, element);
-//		elementPropertyInfo = new CElementPropertyInfo(propertyName,
-//			property.isCollection() ? CollectionMode.REPEATED_ELEMENT : CollectionMode.NOT_REPEATED, ID.NONE, null,
-//			element.getSchemaComponent(), element.getCustomizations(), element.getLocator(), false);
+//		elementPropertyInfo = new CElementPropertyInfo
+//		(
+//			propertyName,
+//			property.isCollection() ? CollectionMode.REPEATED_ELEMENT : CollectionMode.NOT_REPEATED,
+//			ID.NONE,
+//			/* expectedMimeType */ null,
+//			element.getSchemaComponent(),
+//			element.getCustomizations(),
+//			element.getLocator(),
+//			/* required */ false
+//		);
 //		elementPropertyInfo.getTypes()
 //			.add(new CTypeRef(classInfo, element.getElementName(), classInfo.getTypeName(), false, null));
 //		return elementPropertyInfo;
@@ -360,10 +439,19 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 		CElement element)
 	{
 		final String propertyName = createPropertyName(model, property, element);
-		final CReferencePropertyInfo referencePropertyInfo = new CReferencePropertyInfo(propertyName,
-			property.isCollection(), /* required */false, /* mixed */
-			false, element.getSchemaComponent(), element.getCustomizations(), element.getLocator(), property.isDummy(),
-			property.isContent(), property.isMixedExtendedCust());
+		final CReferencePropertyInfo referencePropertyInfo = new CReferencePropertyInfo
+		(
+			propertyName,
+			property.isCollection(),
+			/* required */ false,
+			/* mixed */ false,
+			element.getSchemaComponent(),
+			element.getCustomizations(),
+			element.getLocator(),
+			property.isDummy(),
+			property.isContent(),
+			property.isMixedExtendedCust()
+		);
 		referencePropertyInfo.getElements().add(element);
 		return referencePropertyInfo;
 	}
@@ -372,10 +460,19 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 		CReferencePropertyInfo property)
 	{
 		final String propertyName = "Mixed" + property.getName(true);
-		final CReferencePropertyInfo referencePropertyInfo = new CReferencePropertyInfo(propertyName,
-			/* collection */true, /* required */false, /* mixed */
-			true, property.getSchemaComponent(), property.getCustomizations(), property.getLocator(), false, true,
-			property.isMixedExtendedCust());
+		final CReferencePropertyInfo referencePropertyInfo = new CReferencePropertyInfo
+		(
+			propertyName,
+			/* collection */ true,
+			/* required */ false,
+			/* mixed */ true, 
+			property.getSchemaComponent(), 
+			property.getCustomizations(), 
+			property.getLocator(),
+			/* dummy */ false,
+			/* content */ true,
+			property.isMixedExtendedCust()
+		);
 		return referencePropertyInfo;
 	}
 
@@ -384,15 +481,22 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 	{
 		final String propertyName = createPropertyName(model, property, typeRef);
 		boolean required = false;
-		final CElementPropertyInfo elementPropertyInfo = new CElementPropertyInfo(propertyName,
+		final CElementPropertyInfo elementPropertyInfo = new CElementPropertyInfo
+		(
+			propertyName,
 			property.isCollection() ? CollectionMode.REPEATED_ELEMENT : CollectionMode.NOT_REPEATED,
-			typeRef.getTarget().idUse(), typeRef.getTarget().getExpectedMimeType(), property.getSchemaComponent(),
-			property.getCustomizations(), property.getLocator(), required);
+			typeRef.getTarget().idUse(),
+			typeRef.getTarget().getExpectedMimeType(),
+			property.getSchemaComponent(),
+			property.getCustomizations(),
+			property.getLocator(),
+			required
+		);
 		final CAdapter adapter = property.getAdapter();
+		
 		if (adapter != null)
-		{
 			elementPropertyInfo.setAdapter(adapter);
-		}
+		
 		elementPropertyInfo.getTypes().add(typeRef);
 		return elementPropertyInfo;
 	}

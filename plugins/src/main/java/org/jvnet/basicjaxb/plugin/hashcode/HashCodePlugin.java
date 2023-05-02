@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.hashcode;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.hashcode.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
@@ -144,6 +145,8 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
 			sb.append("\n  HashCodeStrategyClass.: " + getHashCodeStrategyClass());
+			sb.append("\n  Verbose...............: " + isVerbose());
+			sb.append("\n  Debug.................: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -226,6 +229,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 			JConditional ifDebugEnabled = body._if(hashCodeStrategy.invoke("isDebugEnabled"));
 			ifDebugEnabled._then().assign(theLocator, theRootLocator);
 			body._return(JExpr._this().invoke("hashCode").arg(theLocator).arg(hashCodeStrategy));
+			debug("{}, generateObject$hashCode; Class={}", getLocation(theClass.metadata), theClass.name());
 		}
 		return object$hashCode;
 	}
@@ -267,9 +271,11 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 				final JVar theField = block.decl(fieldAccessor.getType(), fieldName("the"));
 				fieldAccessor.toRawValue(block, theField);
 				
+				String fieldName = fieldName(fieldOutline);
+				
 				final JExpression theFieldLocatorEx = codeModel.ref(LocatorUtils.class).staticInvoke("property")
 					.arg(locator)
-					.arg(fieldName(fieldOutline))
+					.arg(fieldName)
 					.arg(theField);
 							
 				final JVar theFieldLocator = block.decl(locator.type(), "theFieldLocator", theFieldLocatorEx);
@@ -283,6 +289,9 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 					.arg(theField)
 					.arg(theFieldIsSet)
 				);
+				
+				trace("{}, generateHashCode$hashCode; Class={}, Field={}",
+					getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 			}
 			
 			body._return(currentHashCode);

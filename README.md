@@ -45,22 +45,24 @@ with the original `maven-jaxb2-plugin` name.
 
 New goals for the next release are:
 
-* New explorations for copy and merge strategies.
 * Review [Other XJC Plugins](https://github.com/javaee/jaxb2-commons)
     * Default Value XJC Plugin
     * Fluent API XJC Plugin
     * Namespace Prefix XJC Plugin
     * Value Constructor XJC Plugin
+* Improve plugin error handling and logging
+* New explorations for copy and merge strategies.
 
 ### Status
 
 #### In Progress
 
-* New explorations for copy and merge strategies.
+* Improve plugin error handling and logging
 
 #### Completed
 
 * Other XJC Plugins
+    * Added Default Value XJC Plugin
     * Pull request: [Value Constructor XJC Plugin](https://github.com/GijsCalis/hisrc-basicjaxb/tree/feature-valueconstructor)
 
 ### Fork History

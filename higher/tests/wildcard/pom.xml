@@ -34,6 +34,7 @@
 					<args>
 						<arg>-Xwildcard</arg>
 						<arg>-Xwildcard-verbose=true</arg>
+						<arg>-Xwildcard-debug=true</arg>
 					</args>
 					<plugins>
 						<plugin>

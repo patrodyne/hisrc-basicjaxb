@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.equals;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
@@ -131,6 +132,8 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
 			sb.append("\n  EqualsStrategyClass.: " + getEqualsStrategyClass());
+			sb.append("\n  Verbose.............: " + isVerbose());
+			sb.append("\n  Debug...............: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -215,6 +218,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 				.arg(thatLocator)
 				.arg(that)
 				.arg(equalsStrategy));
+			debug("{}, generateObject$equals; Class={}", getLocation(theClass.metadata), theClass.name());
 		}
 		return objectEquals;
 	}
@@ -282,14 +286,16 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 					final JVar rhsValue = block.decl(rhsFieldAccessor.getType(), fieldName("rhs"));
 					rhsFieldAccessor.toRawValue(block, rhsValue);
 					
+					String fieldName = fieldName(fieldOutline);
+					
 					final JExpression lhsFieldLocatorEx = codeModel.ref(LocatorUtils.class).staticInvoke("property")
 						.arg(lhsLocator)
-						.arg(fieldName(fieldOutline))
+						.arg(fieldName)
 						.arg(lhsValue);
 					
 					final JExpression rhsFieldLocatorEx = codeModel.ref(LocatorUtils.class).staticInvoke("property")
 						.arg(rhsLocator)
-						.arg(fieldName(fieldOutline))
+						.arg(fieldName)
 						.arg(rhsValue);
 					
 					final JVar lhsFieldLocator = block.decl(lhsLocator.type(), "lhsFieldLocator", lhsFieldLocatorEx);
@@ -304,6 +310,9 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 							.arg(lhsFieldIsSet)
 							.arg(rhsFieldIsSet)))
 						._then()._return(JExpr.FALSE);
+					
+					trace("{}, generateEquals$equals; Class={}, Field={}",
+						getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
 			}
 			body._return(JExpr.TRUE);

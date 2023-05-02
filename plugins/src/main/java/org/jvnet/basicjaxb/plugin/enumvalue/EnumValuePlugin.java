@@ -32,7 +32,7 @@ import com.sun.tools.xjc.outline.Outline;
 
 /**
  * The <b>EnumValue</b> plugin implements the {@link EnumValue} interface on <code>enum</code> types.
- * This provides general access to the original <code>enum</code> values.
+ * This provides generic access to the original <code>enum</code> values.
  */
 public class EnumValuePlugin extends AbstractParameterizablePlugin
 {
@@ -40,7 +40,7 @@ public class EnumValuePlugin extends AbstractParameterizablePlugin
 	private static final String OPTION_NAME = "XenumValue";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "generated @XmlEnums implement org.jvnet.basicjaxb.lang.EnumValue<T> interface";
+	private static final String OPTION_DESC = "generated @XmlEnums implement generic EnumValue<T> interface";
 
 	@Override
 	public String getOptionName()
@@ -92,7 +92,8 @@ public class EnumValuePlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  None");
+			sb.append("\n  Verbose.: " + isVerbose());
+			sb.append("\n  Debug...: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -161,7 +162,7 @@ public class EnumValuePlugin extends AbstractParameterizablePlugin
 			String location = LocatorUtils.getLocation(enumLeafInfo.getLocator());
 			QName typeName = enumLeafInfo.getTypeName();
 			JDefinedClass implClass = enumOutline.getImplClass();
-			debug("Location={}, TypeName={}, ImplName={}", location, typeName, implClass.name());
+			debug("{}, TypeName={}, ImplName={}", location, typeName, implClass.name());
 		}
 	}
 }

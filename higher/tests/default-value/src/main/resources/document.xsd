@@ -217,9 +217,9 @@
 	<xs:element name="dv_integerValues"  type="tns:integerList"  default="-11 13"/>
 	<xs:element name="dv_booleanValues"  type="tns:booleanList"  default="true false"/>
 	<xs:element name="dv_byteValues"     type="tns:byteList"     default="-128 127"/>
-	<xs:element name="dv_doubleValues"   type="tns:doubleList"   default="-3.14 2.718"/>
+	<xs:element name="dv_doubleValues"   type="tns:doubleList"   default="-3.14 2.718 -INF INF NaN"/>
 	<xs:element name="dv_durationValues" type="tns:durationList" default="P3Y2M1D P6Y4M2D"/>
-	<xs:element name="dv_floatValues"    type="tns:floatList"    default="-3.14 2.718"/>
+	<xs:element name="dv_floatValues"    type="tns:floatList"    default="-3.14 2.718 -INF INF NaN"/>
 	<xs:element name="dv_intValues"      type="tns:intList"      default="-123 123"/>
 	<xs:element name="dv_longValues"     type="tns:longList"     default="-123 123"/>
 	<xs:element name="dv_shortValues"    type="tns:shortList"    default="-123 123"/>
@@ -246,9 +246,9 @@
 			<xs:attribute name="da_integerValues"  type="tns:integerList"  default="-11 13" />
 			<xs:attribute name="da_booleanValues"  type="tns:booleanList"  default="true false" />
 			<xs:attribute name="da_byteValues"     type="tns:byteList"     default="-128 127" />
-			<xs:attribute name="da_doubleValues"   type="tns:doubleList"   default="-3.14 2.718" />
+			<xs:attribute name="da_doubleValues"   type="tns:doubleList"   default="-3.14 2.718 -INF INF NaN" />
 			<xs:attribute name="da_durationValues" type="tns:durationList" default="P3Y2M1D P6Y4M2D" />
-			<xs:attribute name="da_floatValues"    type="tns:floatList"    default="-3.14 2.718" />
+			<xs:attribute name="da_floatValues"    type="tns:floatList"    default="-3.14 2.718 -INF INF NaN" />
 			<xs:attribute name="da_intValues"      type="tns:intList"      default="-123 123" />
 			<xs:attribute name="da_longValues"     type="tns:longList"     default="-123 123" />
 			<xs:attribute name="da_shortValues"    type="tns:shortList"    default="-123 123" />

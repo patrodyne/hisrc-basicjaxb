@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.copyable;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.copyable.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
@@ -138,6 +139,8 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
 			sb.append("\n  CopyStrategyClass.: " + getCopyStrategyClass());
+			sb.append("\n  Verbose...........: " + isVerbose());
+			sb.append("\n  Debug.............: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -229,21 +232,16 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 		}
 	}
 
-	protected JMethod generateCopyTo$createNewInstance(final ClassOutline classOutline, final JDefinedClass theClass)
+	protected JMethod generateObject$clone(final ClassOutline classOutline, final JDefinedClass theClass)
 	{
-		final JMethod existingMethod = theClass.getMethod("createNewInstance", new JType[0]);
-		if (existingMethod == null)
+		final JMethod clone = theClass.method(JMod.PUBLIC, theClass.owner().ref(Object.class), "clone");
+		clone.annotate(Override.class);
 		{
-			final JMethod newMethod = theClass.method(JMod.PUBLIC, theClass.owner().ref(Object.class), "createNewInstance");
-			newMethod.annotate(Override.class);
-			{
-				final JBlock body = newMethod.body();
-				body._return(JExpr._new(theClass));
-			}
-			return newMethod;
+			final JBlock body = clone.body();
+			body._return(JExpr.invoke("copyTo").arg(JExpr.invoke("createNewInstance")));
+			trace("{}, generateObject$clone; Class={}", getLocation(theClass.metadata), theClass.name());
 		}
-		else
-			return existingMethod;
+		return clone;
 	}
 
 	protected JMethod generateCopyTo$copyTo(final ClassOutline classOutline, final JDefinedClass theClass)
@@ -269,6 +267,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 				.arg(copyStrategy);
 			
 			body._return(invokeCopyTo);
+			debug("{}, generateCopyTo$copyTo; Class={}", getLocation(theClass.metadata), theClass.name());
 		}
 		return copyTo$copyTo;
 	}
@@ -318,8 +317,8 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 				final JVar copy = bl.decl(JMod.FINAL, theClass, "copy", JExpr.cast(theClass, draftCopy));
 				for (final FieldOutline fieldOutline : declaredFields)
 				{
-					final FieldAccessorEx sourceFieldAccessor = getFieldAccessorFactory() .createFieldAccessor(fieldOutline, JExpr._this());
-					final FieldAccessorEx copyFieldAccessor = getFieldAccessorFactory() .createFieldAccessor(fieldOutline, copy);
+					final FieldAccessorEx sourceFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, JExpr._this());
+					final FieldAccessorEx copyFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, copy);
 					if (sourceFieldAccessor.isConstant())
 						continue;
 					
@@ -358,9 +357,11 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 					final JVar sourceField = ifShouldBeSetBlock.decl(copyFieldType, fieldName("source"));
 					sourceFieldAccessor.toRawValue(ifShouldBeSetBlock, sourceField);
 
+					String fieldName = fieldName(fieldOutline);
+					
 					final JExpression sourceFieldLocatorEx = codeModel.ref(LocatorUtils.class).staticInvoke("property")
 						.arg(locator)
-						.arg(fieldName(fieldOutline))
+						.arg(fieldName)
 						.arg(sourceField);
 					
 					final JVar sourceFieldLocator = ifShouldBeSetBlock.decl(locator.type(), "sourceFieldLocator", sourceFieldLocatorEx);
@@ -388,6 +389,8 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 					);
 					
 					copyFieldAccessor.unsetValues(ifShouldBeUnsetBlock);
+					trace("{}, generateCopyTo$copyTo1; Class={}, Field={}",
+						getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
 			}
 			body._return(draftCopy);
@@ -395,16 +398,24 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 		return copyTo;
 	}
 
-	protected JMethod generateObject$clone(final ClassOutline classOutline, final JDefinedClass theClass)
+	protected JMethod generateCopyTo$createNewInstance(final ClassOutline classOutline, final JDefinedClass theClass)
 	{
-		final JMethod clone = theClass.method(JMod.PUBLIC, theClass.owner().ref(Object.class), "clone");
-		clone.annotate(Override.class);
+		final JMethod existingMethod = theClass.getMethod("createNewInstance", new JType[0]);
+		if (existingMethod == null)
 		{
-			final JBlock body = clone.body();
-			body._return(JExpr.invoke("copyTo").arg(JExpr.invoke("createNewInstance")));
+			final JMethod newMethod = theClass.method(JMod.PUBLIC, theClass.owner().ref(Object.class), "createNewInstance");
+			newMethod.annotate(Override.class);
+			{
+				final JBlock body = newMethod.body();
+				body._return(JExpr._new(theClass));
+				trace("{}, generateCopyTo$createNewInstance; Class={}", getLocation(theClass.metadata), theClass.name());
+			}
+			return newMethod;
 		}
-		return clone;
+		else
+			return existingMethod;
 	}
+	
 	private String fieldName(FieldOutline fieldOutline)
 	{
 		return fieldOutline.getPropertyInfo().getName(false);

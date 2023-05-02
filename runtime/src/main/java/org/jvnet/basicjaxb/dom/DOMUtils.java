@@ -3,11 +3,18 @@ package org.jvnet.basicjaxb.dom;
 import static javax.xml.XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI;
 import static javax.xml.XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Stack;
+
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
+import org.jvnet.basicjaxb.locator.util.LocatorBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -15,6 +22,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
+import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import jakarta.xml.bind.JAXBElement;
 
@@ -23,22 +34,35 @@ import jakarta.xml.bind.JAXBElement;
  */
 public class DOMUtils
 {
-    private static Logger logger = LoggerFactory.getLogger(DOMUtils.class);
+    private static final String LOCATOR_COLUMN_NUMBER = "ColumnNumber";
+	private static final String LOCATOR_LINE_NUMBER = "LineNumber";
+	private static final String LOCATOR_SYSTEM_ID = "SystemId";
+	private static final String LOCATOR_PUBLIC_ID = "PublicId";
+	
+	private static Logger logger = LoggerFactory.getLogger(DOMUtils.class);
     public static Logger getLogger() { return logger; }
-    
-	private static final DocumentBuilderFactory DOM_DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
-	private static DocumentBuilder DOM_DOCUMENT_BUILDER = null;
+
+    // Represent DocumentBuilderFactory and DocumentBuilder instances that ARE namespace aware.
+	private static final DocumentBuilderFactory DOM_DOCUMENT_BUILDER_FACTORY_NS = DocumentBuilderFactory.newInstance();
+	private static DocumentBuilder DOM_DOCUMENT_BUILDER_NS = null;
 	static
 	{
-		DOM_DOCUMENT_BUILDER_FACTORY.setNamespaceAware(true);
+		DOM_DOCUMENT_BUILDER_FACTORY_NS.setNamespaceAware(true);
 		try
 		{
-			DOM_DOCUMENT_BUILDER = DOM_DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
+			DOM_DOCUMENT_BUILDER_NS = DOM_DOCUMENT_BUILDER_FACTORY_NS.newDocumentBuilder();
 		}
 		catch (ParserConfigurationException pce)
 		{
-			getLogger().error("Cannot create DOM Document Builder", pce);
+			getLogger().error("Cannot create DOM Document Builder (NS)", pce);
 		}
+	}
+	
+	// Represents a SAXParserFactory instance that IS namespace aware.
+	private static final SAXParserFactory SAX_PARSER_FACTORY_NS = SAXParserFactory.newInstance();
+	static
+	{
+		SAX_PARSER_FACTORY_NS.setNamespaceAware(true);
 	}
 
 	// Constructor: Seal class for static use only
@@ -53,7 +77,7 @@ public class DOMUtils
 	 */
 	public static Node toNode(QName qname, String value)
 	{
-		Document domDocument = DOM_DOCUMENT_BUILDER.newDocument();
+		Document domDocument = DOM_DOCUMENT_BUILDER_NS.newDocument();
 		Element theElement = null;
 		theElement = domDocument.createElementNS(qname.getNamespaceURI(), qname.getLocalPart());
 		theElement.setPrefix("tns");
@@ -333,5 +357,231 @@ public class DOMUtils
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Use SAX to parse an XML document with line numbers.
+	 * 
+	 * @param is An input stream for the source XML file.
+	 * @param locatorPrefix Custom prefix for publicId, systemId, lineNumber and columnNumber.
+     * @param systemId The systemId which is needed for resolving relative URIs.
+	 * 
+	 * @return A W3C Document instance enhanced with line numbers per element.
+	 * 
+	 * @throws IOException When SAX cannot parse the input stream.
+	 * @throws SAXException When {@link SAXParserFactory} cannot create a new SAX parser.
+	 * 
+	 * @see <a href="https://stackoverflow.com/questions/2798376/">Parse XML via SAX/DOM with line numbers</a>
+	 */
+	public static Document saxParseDocument(InputStream is, String systemId, final String locatorPrefix)
+		throws IOException, SAXException
+	{
+		try
+		{
+			// Build a DOM document from the SAX events.
+			final Document doc = DOM_DOCUMENT_BUILDER_NS.newDocument();
+			
+			// A SAX2 event handler to build the document and capture the location.
+			final Stack<Element> elementStack = new Stack<Element>();
+			final StringBuilder textBuffer = new StringBuilder();
+			DefaultHandler handler = new DefaultHandler()
+			{
+				// Save the documentLocator, so that it can be
+				// used later for line tracking when traversing nodes.
+				private Locator documentLocator;
+				public Locator getDocumentLocator() { return documentLocator; }
+			    /**
+			     * Receive a Locator object for document events.
+			     *
+			     * @param locator A locator for all SAX document events.
+			     * 
+			     * @see org.xml.sax.ContentHandler#setDocumentLocator
+			     * @see org.xml.sax.Locator
+			     */
+				@Override
+				public void setDocumentLocator(Locator locator)
+				{
+					this.documentLocator = locator;
+				}
+
+			    /**
+			     * Receive notification of the start of a SAX element then create a DOM
+			     * element with child text and locator elements, when needed. Push the
+			     * DOM element onto this handler's stack.
+			     *
+			     * @param uri The Namespace URI, or the empty string if the
+			     *        element has no Namespace URI or if Namespace
+			     *        processing is not being performed.
+			     * @param localName The local name (without prefix), or the
+			     *        empty string if Namespace processing is not being
+			     *        performed.
+			     * @param qName The qualified name (with prefix), or the
+			     *        empty string if qualified names are not available.
+			     * @param attributes The attributes attached to the element.  If
+			     *        there are no attributes, it shall be an empty
+			     *        Attributes object.
+			     *        
+			     * @throws SAXException Any SAX exception, possibly wrapping another exception.
+			     * 
+			     * @see org.xml.sax.ContentHandler#startElement
+			     */
+				@Override
+				public void startElement(String uri, String localName, String qName, Attributes attributes)
+					throws SAXException
+				{
+					appendChildTextIfNeeded();
+					Element el = doc.createElementNS(uri, qName);
+					
+					for (int i = 0; i < attributes.getLength(); i++)
+						el.setAttribute(attributes.getQName(i), attributes.getValue(i));
+					
+					// Conditionally, add the locator's publicId as an attribute on the element.
+					if ( !isBlank(getDocumentLocator().getPublicId()) )
+						el.setAttribute(locatorPrefix + LOCATOR_PUBLIC_ID, getDocumentLocator().getPublicId());
+					
+					// Conditionally, add the locator's systemId as an attribute on the element.
+					if ( !isBlank(getDocumentLocator().getSystemId()) )
+						el.setAttribute(locatorPrefix + LOCATOR_SYSTEM_ID, getDocumentLocator().getSystemId());
+					
+					// Conditionally, add the locator's line number as an attribute on the element.
+					if ( isPositive(getDocumentLocator().getLineNumber()) )
+					{
+						String lineNumber = String.valueOf(getDocumentLocator().getLineNumber());
+						el.setAttribute(locatorPrefix + LOCATOR_LINE_NUMBER, lineNumber);
+					}
+					
+					// Conditionally, add the locator's column number as an attribute on the element.
+					if ( isPositive(getDocumentLocator().getColumnNumber()) )
+					{
+						String columnNumber = String.valueOf(getDocumentLocator().getColumnNumber());
+						el.setAttribute(locatorPrefix + LOCATOR_COLUMN_NUMBER, columnNumber);
+					}
+					
+					// Push the DOM element onto this handler's stack.
+					elementStack.push(el);
+				}
+
+				/**
+				 * Receive notification of the end of an element and close
+				 * the element stack and append any child text and/or child
+				 * elements.
+				 * 
+				 * @param uri The Namespace URI, or the empty string if the
+				 *        element has no Namespace URI or if Namespace
+				 *        processing is not being performed.
+				 * @param localName The local name (without prefix), or the
+				 *        empty string if Namespace processing is not being
+				 *        performed.
+				 * @param qName The qualified name (with prefix), or the
+				 *        empty string if qualified names are not available.
+				 *        
+				 * @throws SAXException Any SAX exception, possibly wrapping
+				 *         another exception.
+				 *         
+				 * @see org.xml.sax.ContentHandler#endElement
+				 */
+				@Override
+				public void endElement(String uri, String localName, String qName)
+				{
+					appendChildTextIfNeeded();
+					Element closedEl = elementStack.pop();
+					
+					// Is this the root element?
+					if (elementStack.isEmpty())
+						doc.appendChild(closedEl);
+					else
+					{
+						Element parentEl = elementStack.peek();
+						parentEl.appendChild(closedEl);
+					}
+				}
+
+				/**
+				 * Receive notification of character data inside an element and append
+				 * characters to text buffer.
+				 * 
+			     * @param ch The characters to append.
+			     * @param start The start position in the character array.
+			     * @param length The number of characters to use from the character array.
+			     *               
+			     * @throws SAXException Any SAX exception, possibly wrapping another exception.
+			     * 
+			     * @see org.xml.sax.ContentHandler#characters
+				 */
+				@Override
+				public void characters(char ch[], int start, int length)
+					throws SAXException
+				{
+					textBuffer.append(ch, start, length);
+				}
+
+				// Outputs text accumulated under the current node
+				private void appendChildTextIfNeeded()
+				{
+					if (textBuffer.length() > 0)
+					{
+						Element el = elementStack.peek();
+						Node textNode = doc.createTextNode(textBuffer.toString());
+						el.appendChild(textNode);
+						textBuffer.delete(0, textBuffer.length());
+					}
+				}
+				
+				// Return true when string in null or blank; otherwise, false.
+			    private boolean isBlank(String string)
+			    {
+			        return string == null || string.isBlank();
+			    }
+
+				// Return true when value greater than zero; otherwise, false.
+				private boolean isPositive(int value)
+				{
+					return value > 0;
+				}
+			};
+			
+		    // Parse the content of the given InputStream
+		    // instance as XML using the specified DefaultHandler.
+			final SAXParser parser = SAX_PARSER_FACTORY_NS.newSAXParser();
+			parser.parse(is, handler, systemId);
+			
+			return doc;
+		}
+		catch (ParserConfigurationException ex)
+		{
+			throw new SAXException("Can't create SAX parser / DOM builder.", ex);
+		}
+	}
+	
+	/**
+	 * Get a {@link LocatorBean} from a {@link Element}.
+	 * 
+	 * @param element A DOM element with optional locator attributes.
+	 * @param locatorPrefix Custom prefix for publicId, systemId, lineNumber and columnNumber.
+	 * 
+	 * @return A {@link Locator} with optional values or null.
+	 */
+	public static LocatorBean getLocator(Element element, String locatorPrefix)
+	{
+		LocatorBean locatorBean = null;
+		if ( element != null )
+		{
+			String publicIdName = locatorPrefix + LOCATOR_PUBLIC_ID;
+			String systemIdName = locatorPrefix + LOCATOR_SYSTEM_ID;
+			String lineNumberName = locatorPrefix + LOCATOR_LINE_NUMBER;
+			String columnNumberName = locatorPrefix + LOCATOR_COLUMN_NUMBER;
+			
+			String publicId = element.getAttribute(publicIdName);
+			String systemId = element.getAttribute(systemIdName);
+			String lineNumberAttr = element.getAttribute(lineNumberName);
+			String columnNumberAttr = element.getAttribute(columnNumberName);
+			
+			int lineNumber = lineNumberAttr.isEmpty() ? 0 : Integer.valueOf(lineNumberAttr);
+			int columnNumber = columnNumberAttr.isEmpty() ? 0 : Integer.valueOf(columnNumberAttr);
+			
+			// Construct the locator bean.
+			locatorBean = new LocatorBean(publicId, systemId, lineNumber, columnNumber);
+		}
+		return locatorBean;
 	}
 }

@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.tostring;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME;
 
 import java.util.Arrays;
@@ -124,6 +125,8 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
 			sb.append("\n  ToStringStrategyClass.: " + getToStringStrategyClass());
+			sb.append("\n  Verbose...............: " + isVerbose());
+			sb.append("\n  Debug.................: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -204,6 +207,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 			final JVar buffer = body.decl(JMod.FINAL, codeModel.ref(StringBuilder.class), "buffer", JExpr._new(codeModel.ref(StringBuilder.class)));
 			body.invoke("append").arg(theLocator).arg(buffer).arg(toStringStrategy);
 			body._return(buffer.invoke("toString"));
+			debug("{}, generateObject$toString; Class={}", getLocation(theClass.metadata), theClass.name());
 		}
 		return object$toString;
 	}
@@ -268,15 +272,21 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 					final JVar theField = block.decl(fieldAccessor.getType(), fieldName("the"));
 					fieldAccessor.toRawValue(block, theField);
 					
+					String fieldName = fieldName(fieldOutline);
+					
 					block.invoke(toStringStrategy, "appendField")
 						.arg(locator)
 						.arg(JExpr._this())
-						.arg(JExpr.lit(fieldName(fieldOutline)))
+						.arg(JExpr.lit(fieldName))
 						.arg(buffer)
 						.arg(theField)
 						.arg(theFieldIsSet);
+					
+					trace("{}, generateHashCode$hashCode; Class={}, Field={}",
+						getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
 			}
+			
 			body._return(buffer);
 		}
 		return toString$appendFields;

@@ -128,7 +128,8 @@ public abstract class AbstractModelPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START + " Run");
 			sb.append("\nParameters");
-			sb.append("\n  None");
+			sb.append("\n  Verbose.: " + isVerbose());
+			sb.append("\n  Debug...: " + isDebug());
 			info(sb.toString());
 		}
 	}

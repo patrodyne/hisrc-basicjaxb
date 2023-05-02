@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.setters;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.setters.Customizations.IGNORED_ELEMENT_NAME;
 
 import java.util.Arrays;
@@ -25,13 +26,32 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldAccessor;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 
 /**
- * This plugin generates missing <em>collection</em> setters.
+ * <p>This plugin generates missing <em>collection</em> setters.</p>
+ * 
+ * <p>Supported <code>Xsetters-mode</code> values are:</p>
+ * <ul>
+ *   <li><code>accessor</code>: Uses JAXB-generated accessors (default)</li>
+ *   <li><code>direct</code>: Assigns the value list to the field directly</li>
+ * </ul>
+ * 
+ * <p>The <code>accessor</code> mode creates a new list to contain the supplied
+ * items; while, the <code>direct</code> mode uses the supplied list, directly.</p>
+ * 
+ * <p><b>JAXB Specification:</b></p>
+ * <p>
+ * There is no setter method for a List property. The getter returns the List
+ * by reference. An item can be added to the List returned by the getter method
+ * using an appropriate method defined on {@link java.util.List}. Rationale for
+ * this design in JAXB 1.0 was to enable the implementation to wrapper the list
+ * and be able to perform checks as content was added or removed from the List.
+ * </p>
  * 
  * @author Alexey Valikov
  */
@@ -71,10 +91,14 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 		return Arrays.asList(IGNORED_ELEMENT_NAME);
 	}
 
+	/**
+	 * An enumeration of this plug-in's setter modes.
+	 */
 	public static enum Mode
 	{
 		accessor
 		{
+			// Add values to a NEW list instance.
 			@Override
 			public void generateSetter(FieldOutline fieldOutline, JDefinedClass theClass, JMethod setter, JVar value)
 			{
@@ -85,22 +109,28 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 		},
 		direct
 		{
+			// Use given list or create a new list.
 			@Override
 			public void generateSetter(FieldOutline fieldOutline, JDefinedClass theClass, JMethod setter, JVar value)
 			{
 				final JFieldVar field = theClass.fields().get(fieldOutline.getPropertyInfo().getName(false));
+				// Use direct value list or fallback to the accessor.
 				if (field != null)
-				{
 					setter.body().assign(JExpr._this().ref(field), value);
-				}
 				else
-				{
-					// Fallback to the accessor
 					Mode.accessor.generateSetter(fieldOutline, theClass, setter, value);
-				}
 			}
 		};
 
+		/**
+		 * Abstract method to generate a setter. Each <code>enum</code> declaration implements an
+		 * appropriate override.
+		 *  
+		 * @param fieldOutline Representation of a field of {@link ClassOutline}.
+		 * @param theClass A generated Java class.
+		 * @param setter The setter method.
+		 * @param value The setter value.
+		 */
 		public abstract void generateSetter(FieldOutline fieldOutline, JDefinedClass theClass, JMethod setter, JVar value);
 	}
 
@@ -120,7 +150,7 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 		{
 			throw new IllegalArgumentException("Unsupported mode [" + mode + "]."
 				+ " Supported modes are [accessor] (uses JAXB-generated accessors, default)"
-				+ " and [direct] (assigns the value to the field directly).");
+				+ " and [direct] (assigns the value list to the field directly).");
 		}
 	}
 
@@ -134,7 +164,9 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  Mode.: " + getMode());
+			sb.append("\n  Mode....: " + getMode());
+			sb.append("\n  Verbose.: " + isVerbose());
+			sb.append("\n  Debug...: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -197,10 +229,12 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 
 	private void generateSetters(ClassOutline classOutline, JDefinedClass theClass)
 	{
+		boolean addedSetter = false;
 		final FieldOutline[] declaredFields = FieldOutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
 		for (final FieldOutline fieldOutline : declaredFields)
 		{
-			final String publicName = fieldOutline.getPropertyInfo().getName(true);
+			final CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
+			final String publicName = fieldInfo.getName(true);
 			final String getterName = "get" + publicName;
 			final JMethod getter = theClass.getMethod(getterName, ABSENT);
 			if (getter != null)
@@ -216,8 +250,15 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 					final JMethod generatedSetter = theClass.method(JMod.PUBLIC, theClass.owner().VOID, setterName);
 					final JVar value = generatedSetter.param(type, "value");
 					mode.generateSetter(fieldOutline, theClass, generatedSetter, value);
+					
+					addedSetter = true;
+					trace("{}, generateSetters; Class={}, Field={}",
+						getLocation(fieldInfo.getLocator()), theClass.name(), fieldInfo.getName(false));
+
 				}
 			}
 		}
+		if ( addedSetter )
+			debug("{}, generateSetters; Class={}", getLocation(theClass.metadata), theClass.name());
 	}
 }

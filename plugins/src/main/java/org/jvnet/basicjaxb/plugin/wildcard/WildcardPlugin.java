@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.wildcard;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.wildcard.Customizations.LAX_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.wildcard.Customizations.SKIP_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.wildcard.Customizations.STRICT_ELEMENT_NAME;
@@ -48,21 +49,18 @@ public class WildcardPlugin extends AbstractParameterizablePlugin
 		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
-	private boolean verbose;
-	public boolean isVerbose() { return verbose; }
-	public void setVerbose(boolean verbose) { this.verbose = verbose; }
-
 	// Plugin Processing
 
 	@Override
 	protected void beforePostProcessModel(Model model)
 	{
-		if ( isInfoEnabled(isVerbose()) )
+		if ( isInfoEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
 			sb.append("\n  Verbose.: " + isVerbose());
+			sb.append("\n  Debug...: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -70,7 +68,7 @@ public class WildcardPlugin extends AbstractParameterizablePlugin
 	@Override
 	protected void afterPostProcessModel(Model model, ErrorHandler errorHandler)
 	{
-		if ( isInfoEnabled(isVerbose()) )
+		if ( isInfoEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_FINISH);
@@ -156,8 +154,14 @@ public class WildcardPlugin extends AbstractParameterizablePlugin
 						referencePropertyInfo.setWildcard(WildcardMode.SKIP);
 					else if (strictPropertyInfo)
 						referencePropertyInfo.setWildcard(WildcardMode.STRICT);
+					
+					trace("{}, postProcessModel; Class={}, Property={}, Wildcard={}",
+						getLocation(propertyInfo.getLocator()), classInfo.shortName,
+						propertyInfo.getName(false), referencePropertyInfo.getWildcard());
 				}
 			}
+			
+			debug("{}, postProcessModel; Class={}", getLocation(classInfo.getLocator()), classInfo.shortName);
 		}
 	}
 

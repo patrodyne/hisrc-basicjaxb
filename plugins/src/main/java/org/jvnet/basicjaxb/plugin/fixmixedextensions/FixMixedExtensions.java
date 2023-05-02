@@ -3,6 +3,7 @@ package org.jvnet.basicjaxb.plugin.fixmixedextensions;
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.toUpperCase;
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 
 import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.reflection.util.Accessor;
@@ -12,6 +13,7 @@ import org.xml.sax.SAXException;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
+import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
@@ -84,7 +86,8 @@ public class FixMixedExtensions extends AbstractPlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  None");
+			sb.append("\n  Verbose.: " + isVerbose());
+			sb.append("\n  Debug...: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -138,12 +141,17 @@ public class FixMixedExtensions extends AbstractPlugin
 		DummyListField_coreList = new FieldAccessor<JClass>(DummyListField.class, "coreList", JClass.class);
 		
 		for (ClassOutline classOutline : outline.getClasses())
-		{
-			for (FieldOutline fieldOutline : classOutline.getDeclaredFields())
-				fixFieldOutline(fieldOutline);
-		}
+			processClassOutline(classOutline);
 		
 		return true;
+	}
+
+	private void processClassOutline(ClassOutline classOutline)
+	{
+		for (FieldOutline fieldOutline : classOutline.getDeclaredFields())
+			fixFieldOutline(fieldOutline);
+		final JDefinedClass theClass = classOutline.implClass;
+		debug("{}, processClassOutline; Class={}", getLocation(theClass.metadata), theClass.name());
 	}
 
 	private void fixFieldOutline(FieldOutline fieldOutline)
@@ -163,12 +171,14 @@ public class FixMixedExtensions extends AbstractPlugin
 			final JType listT = AbstractListField_listT.get(fieldOutline);
 			final JClass coreList = DummyListField_coreList.get(fieldOutline);
 			// Add 'getContentOverrideForNAME()' method.
+			CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
 			final JMethod $get = fieldOutline.parent().implClass.method(JMod.PUBLIC, listT,
-				"get" + fieldOutline.getPropertyInfo().getName(true));
+				"get" + fieldInfo.getName(true));
 			JBlock block = $get.body();
 			block._if(field.eq(JExpr._null()))._then().assign(field, JExpr._new(coreList));
 			block._return(JExpr._this().ref(field));
 			DummyListField_$get.set(fieldOutline, $get);
+			trace("{}, fixDummyListField; Field={}", getLocation(fieldInfo.getLocator()), fieldInfo.getName(false));
 		}
 	}
 
@@ -177,6 +187,8 @@ public class FixMixedExtensions extends AbstractPlugin
 		fixIsSetMethod(isSetField);
 		final FieldOutline core = IsSetField_core.get(isSetField);
 		fixFieldOutline(core);
+		CPropertyInfo fieldInfo = isSetField.getPropertyInfo();
+		trace("{}, fixIsSetField; Field={}", getLocation(fieldInfo.getLocator()), fieldInfo.getName(false));
 	}
 
 	private void fixPublicName(FieldOutline fieldOutline)

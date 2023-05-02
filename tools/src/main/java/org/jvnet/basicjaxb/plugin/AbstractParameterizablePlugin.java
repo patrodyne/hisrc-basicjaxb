@@ -3,11 +3,9 @@ package org.jvnet.basicjaxb.plugin;
 import java.io.IOException;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.xml.sax.ErrorHandler;
 
 import com.sun.tools.xjc.BadCommandLineException;
 import com.sun.tools.xjc.Options;
-import com.sun.tools.xjc.util.ErrorReceiverFilter;
 
 /**
  * <p>

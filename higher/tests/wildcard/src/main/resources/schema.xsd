@@ -9,8 +9,7 @@
 
 	<xs:complexType name="JIIB-49-A">
 		<xs:sequence>
-			<xs:any namespace="##any" processContents="strict" minOccurs="0"
-				maxOccurs="1" />
+			<xs:any namespace="##any" processContents="strict" minOccurs="0" maxOccurs="1" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -21,8 +20,7 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:any namespace="##any" processContents="strict" minOccurs="0"
-				maxOccurs="1" />
+			<xs:any namespace="##any" processContents="strict" minOccurs="0" maxOccurs="1" />
 		</xs:sequence>
 	</xs:complexType> 
 

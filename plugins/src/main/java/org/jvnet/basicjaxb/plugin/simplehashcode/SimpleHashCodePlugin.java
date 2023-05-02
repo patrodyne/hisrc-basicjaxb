@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.simplehashcode;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.hashcode.Customizations.IGNORED_ELEMENT_NAME;
 
 import java.util.Collection;
@@ -24,6 +25,7 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.Options;
+import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
@@ -67,7 +69,8 @@ public class SimpleHashCodePlugin extends AbstractCodeGeneratorPlugin<HashCodeAr
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  None");
+			sb.append("\n  Verbose.: " + isVerbose());
+			sb.append("\n  Debug...: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -113,33 +116,34 @@ public class SimpleHashCodePlugin extends AbstractCodeGeneratorPlugin<HashCodeAr
 			{
 				for (final FieldOutline fieldOutline : declaredFields)
 				{
-					final FieldAccessorEx fieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline,
-						JExpr._this());
+					final FieldAccessorEx fieldAccessor =
+						getFieldAccessorFactory().createFieldAccessor(fieldOutline, JExpr._this());
+					
 					if (fieldAccessor.isConstant())
-					{
 						continue;
-					}
+					
+					final CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
 					final JBlock block = body.block();
 					block.assign(currentHashCode, currentHashCode.mul(JExpr.lit(getMultiplier())));
-					String propertyName = fieldOutline.getPropertyInfo().getName(true);
+					String propertyName = fieldInfo.getName(true);
 					final JVar value = block.decl(fieldAccessor.getType(), "the" + propertyName);
 					fieldAccessor.toRawValue(block, value);
 					final JType exposedType = fieldAccessor.getType();
 					final Collection<JType> possibleTypes = FieldUtils.getPossibleTypes(fieldOutline, Aspect.EXPOSED);
 					final boolean isAlwaysSet = fieldAccessor.isAlwaysSet();
-					// final JExpression hasSetValue = exposedType.isPrimitive()
-					// ? JExpr.TRUE
-					// : value.ne(JExpr._null());
-					final JExpression hasSetValue = (fieldAccessor.isAlwaysSet()
-														|| fieldAccessor.hasSetValue() == null) ? JExpr.TRUE
-																								: fieldAccessor
-																									.hasSetValue();
+					// final JExpression hasSetValue = exposedType.isPrimitive() ? JExpr.TRUE : value.ne(JExpr._null());
+					final JExpression hasSetValue = (fieldAccessor.isAlwaysSet() || fieldAccessor.hasSetValue() == null)
+						? JExpr.TRUE : fieldAccessor .hasSetValue();
 					getCodeGenerator().generate(block, exposedType, possibleTypes, isAlwaysSet,
 						new HashCodeArguments(codeModel, currentHashCode, getMultiplier(), value, hasSetValue));
+					
+					trace("{}, generate; Class={}, Field={}",
+						getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldInfo.getName(false));
 				}
 			}
 			body._return(currentHashCode);
 		}
+		debug("{}, generate; Class={}", getLocation(theClass.metadata), theClass.name());
 	}
 
 	private int multiplier = 31;

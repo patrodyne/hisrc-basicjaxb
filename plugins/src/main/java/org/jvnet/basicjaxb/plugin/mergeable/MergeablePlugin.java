@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.mergeable;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.mergeable.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
@@ -139,6 +140,8 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
 			sb.append("\n  MergeStrategyClass.: " + getMergeStrategyClass());
+			sb.append("\n  Verbose............: " + isVerbose());
+			sb.append("\n  Debug..............: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -198,10 +201,10 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 		ClassUtils._implements(theClass, theClass.owner().ref(MergeFrom.class));
 		
 		@SuppressWarnings("unused")
-		final JMethod mergeFrom$mergeFrom0 = generateMergeFrom$mergeFrom0(classOutline, theClass);
+		final JMethod mergeFrom$mergeFrom0 = generateMergeFrom$mergeFrom(classOutline, theClass);
 		
 		@SuppressWarnings("unused")
-		final JMethod mergeFrom$mergeFrom = generateMergeFrom$mergeFrom(classOutline, theClass);
+		final JMethod mergeFrom$mergeFrom = generateMergeFrom$mergeFrom1(classOutline, theClass);
 		
 		if (!classOutline.target.isAbstract())
 		{
@@ -220,6 +223,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 			{
 				final JBlock body = newMethod.body();
 				body._return(JExpr._new(theClass));
+				trace("{}, generateMergeFrom$createNewInstance; Class={}", getLocation(theClass.metadata), theClass.name());
 			}
 			return newMethod;
 		}
@@ -227,7 +231,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 			return existingMethod;
 	}
 	
-	protected JMethod generateMergeFrom$mergeFrom0(final ClassOutline classOutline, final JDefinedClass theClass)
+	protected JMethod generateMergeFrom$mergeFrom(final ClassOutline classOutline, final JDefinedClass theClass)
 	{
 		JCodeModel codeModel = theClass.owner();
 		final JMethod mergeFrom$mergeFrom = theClass.method(JMod.PUBLIC, codeModel.VOID, "mergeFrom");
@@ -254,11 +258,13 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 				.arg(lhs)
 				.arg(rhs)
 				.arg(mergeStrategy);
+			
+			debug("{}, generateMergeFrom$mergeFrom; Class={}", getLocation(theClass.metadata), theClass.name());
 		}
 		return mergeFrom$mergeFrom;
 	}
 
-	protected JMethod generateMergeFrom$mergeFrom(ClassOutline classOutline, final JDefinedClass theClass)
+	protected JMethod generateMergeFrom$mergeFrom1(ClassOutline classOutline, final JDefinedClass theClass)
 	{
 		final JCodeModel codeModel = theClass.owner();
 		final JMethod mergeFrom = theClass.method(JMod.PUBLIC, codeModel.VOID, "mergeFrom");
@@ -341,14 +347,16 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 					final JVar rhsField = ifShouldBeSetBlock.decl(rhsFieldAccessor.getType(), fieldName("rhs"));
 					rhsFieldAccessor.toRawValue(ifShouldBeSetBlock, rhsField);
 					
+					String fieldName = fieldName(fieldOutline);
+					
 					final JExpression lhsFieldLocatorEx = codeModel.ref(LocatorUtils.class).staticInvoke("property")
 						.arg(lhsLocator)
-						.arg(fieldName(fieldOutline))
+						.arg(fieldName)
 						.arg(lhsField);
 					
 					final JExpression rhsFieldLocatorEx = codeModel.ref(LocatorUtils.class).staticInvoke("property")
 						.arg(rhsLocator)
-						.arg(fieldName(fieldOutline))
+						.arg(fieldName)
 						.arg(rhsField);
 					
 					final JVar lhsFieldLocator = ifShouldBeSetBlock.decl(lhsLocator.type(), "lhsFieldLocator", lhsFieldLocatorEx);
@@ -387,6 +395,9 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 					);
 					
 					targetFieldAccessor.unsetValues(ifShouldBeUnsetBlock);
+					
+					trace("{}, generateMergeFrom$mergeFrom1; Class={}, Field={}",
+						getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
 			}
 		}

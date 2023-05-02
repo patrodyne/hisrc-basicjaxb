@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.valueconstructor;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.valueconstructor.Customizations.IGNORED_ELEMENT_NAME;
 
@@ -115,7 +116,8 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  None");
+			sb.append("\n  Verbose.: " + isVerbose());
+			sb.append("\n  Debug...: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -207,35 +209,52 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 			// If our superclass is also being generated, then we can assume it will also
 			// have its own value constructor, so we add an invocation of that constructor.
 			if (theDefinedClass._extends() instanceof JDefinedClass)
-			{
-				final JInvocation superInvocation = valueConstructor.body().invoke("super");
-				
-				// Add each argument to the super constructor.
-				for (FieldOutline superClassDeclaredField : superClassFilteredFields)
-				{
-					if (generateConstructorParameter(superClassDeclaredField))
-					{
-						CPropertyInfo propertyInfo = superClassDeclaredField.getPropertyInfo();
-						String fieldName = propertyInfo.getName(false);
-						JType fieldType = superClassDeclaredField.getRawType();
-						JVar arg = valueConstructor.param(JMod.NONE, fieldType, fieldName);
-						superInvocation.arg(arg);
-					}
-				}
-			}
+				generateSuperArgs(valueConstructor, theDefinedClass, superClassFilteredFields);
 
 			// Now add constructor parameters for each field in "this" class, 
 			// and assign them to our fields.
-			for (FieldOutline theClassDeclaredField : theClassFilteredFields)
+			generateLocalArgs(valueConstructor, theDefinedClass, theClassFilteredFields);
+		}
+		debug("{}, processClassOutline; Class={}", getLocation(theDefinedClass.metadata), theDefinedClass.name());
+	}
+
+	private void generateSuperArgs(final JMethod valueConstructor, JDefinedClass theDefinedClass,
+		FieldOutline[] superClassFilteredFields)
+	{
+		final JInvocation superInvocation = valueConstructor.body().invoke("super");
+		
+		// Add each argument to the super constructor.
+		for (FieldOutline superClassDeclaredField : superClassFilteredFields)
+		{
+			if (generateConstructorParameter(superClassDeclaredField))
 			{
-				if (generateConstructorParameter(theClassDeclaredField))
-				{
-					CPropertyInfo propertyInfo = theClassDeclaredField.getPropertyInfo();
-					String fieldName = propertyInfo.getName(false);
-					JType fieldType = theClassDeclaredField.getRawType();
-					JVar arg = valueConstructor.param(JMod.NONE, fieldType, fieldName);
-					valueConstructor.body().assign(JExpr.refthis(fieldName), arg);
-				}
+				CPropertyInfo propertyInfo = superClassDeclaredField.getPropertyInfo();
+				String fieldName = propertyInfo.getName(false);
+				JType fieldType = superClassDeclaredField.getRawType();
+				JVar arg = valueConstructor.param(JMod.NONE, fieldType, fieldName);
+				superInvocation.arg(arg);
+				
+				trace("{}, generateSuperArgs; Class={}, Field={}",
+					getLocation(propertyInfo.getLocator()), theDefinedClass.name(), fieldName);
+			}
+		}
+	}
+
+	private void generateLocalArgs(final JMethod valueConstructor, JDefinedClass theDefinedClass,
+		FieldOutline[] theClassFilteredFields)
+	{
+		for (FieldOutline theClassDeclaredField : theClassFilteredFields)
+		{
+			if (generateConstructorParameter(theClassDeclaredField))
+			{
+				CPropertyInfo propertyInfo = theClassDeclaredField.getPropertyInfo();
+				String fieldName = propertyInfo.getName(false);
+				JType fieldType = theClassDeclaredField.getRawType();
+				JVar arg = valueConstructor.param(JMod.NONE, fieldType, fieldName);
+				valueConstructor.body().assign(JExpr.refthis(fieldName), arg);
+				
+				trace("{}, generateLocalArgs; Class={}, Field={}",
+					getLocation(propertyInfo.getLocator()), theDefinedClass.name(), fieldName);
 			}
 		}
 	}

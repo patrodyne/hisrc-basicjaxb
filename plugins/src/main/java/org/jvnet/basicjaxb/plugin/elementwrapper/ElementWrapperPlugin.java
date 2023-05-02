@@ -118,10 +118,6 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 
-	private boolean verbose;
-	public boolean isVerbose() { return verbose; }
-	public void setVerbose(boolean verbose) { this.verbose = verbose; }
-	
 	private Ignoring ignoring = new CustomizedIgnoring(IGNORED_ELEMENT_NAME);
 	public Ignoring getIgnoring()
 	{
@@ -146,7 +142,8 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START + " PostProcessModel");
 			sb.append("\nParameters");
-			sb.append("\n  Verbose...: " + isVerbose());
+			sb.append("\n  Verbose.: " + isVerbose());
+			sb.append("\n  Debug...: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -260,7 +257,7 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 		final MClassInfo<NType, NClass> rootClassInfo, final MElementPropertyInfo<NType, NClass> wrapperPropertyInfo,
 		final MClassInfo<NType, NClass> wrapperClassInfo, final MElementPropertyInfo<NType, NClass> wrappedPropertyInfo)
 	{
-		if ( isDebugEnabled(isVerbose()) )
+		if ( isDebugEnabled() )
 		{
 			debug("Class info............: " + rootClassInfo.getName());
 			debug("Wrapper property info.: " + wrapperPropertyInfo.getPrivateName());
@@ -285,7 +282,7 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 		final MClassInfo<NType, NClass> wrapperClassInfo,
 		final MElementsPropertyInfo<NType, NClass> wrappedPropertyInfo)
 	{
-		if ( isDebugEnabled(isVerbose()) )
+		if ( isDebugEnabled() )
 		{
 			debug("Class info............: " + rootClassInfo.getName());
 			debug("Wrapper property info.: " + wrapperPropertyInfo.getPrivateName());
@@ -308,7 +305,7 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 		final MClassInfo<NType, NClass> wrapperClassInfo,
 		final MElementRefPropertyInfo<NType, NClass> wrappedPropertyInfo)
 	{
-		if ( isDebugEnabled(isVerbose()) )
+		if ( isDebugEnabled() )
 		{
 			debug("Class info............: " + rootClassInfo.getName());
 			debug("Wrapper property info.: " + wrapperPropertyInfo.getPrivateName());
@@ -333,7 +330,7 @@ public class ElementWrapperPlugin extends AbstractModelPlugin
 		final MClassInfo<NType, NClass> wrapperClassInfo,
 		final MElementRefsPropertyInfo<NType, NClass> wrappedPropertyInfo)
 	{
-		if ( isDebugEnabled(isVerbose()) )
+		if ( isDebugEnabled() )
 		{
 			debug("Class info............: " + rootClassInfo.getName());
 			debug("Wrapper property info.: " + wrapperPropertyInfo.getPrivateName());

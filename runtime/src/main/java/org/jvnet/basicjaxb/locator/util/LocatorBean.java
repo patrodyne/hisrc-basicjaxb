@@ -48,7 +48,14 @@ public class LocatorBean implements Locator
 	{
 		this(loc.getPublicId(), loc.getSystemId(), loc.getLineNumber(), loc.getColumnNumber());
 	}
-	
+
+	/**
+	 * Default constructor.
+	 */
+	public LocatorBean()
+	{
+	}
+
 	@Override
 	public String toString()
 	{

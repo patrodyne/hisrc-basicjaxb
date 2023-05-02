@@ -7,6 +7,7 @@ import org.jvnet.basicjaxb.util.CodeModelUtils;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
+import com.sun.codemodel.JPackage;
 import com.sun.codemodel.fmt.JTextFile;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -24,7 +25,7 @@ import jakarta.xml.bind.JAXBContext;
  * </p>
  * 
  * <p>
- * Every package listed on the context path must meet one or both of the
+ * Every package listed on the context path must meet <b>one or both</b> of the
  * following conditions; otherwise, a {@link jakarta.xml.bind.JAXBException}
  * will be thrown:
  * </p>
@@ -69,7 +70,8 @@ public class JaxbIndexPlugin extends AbstractPlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  None");
+			sb.append("\n  Verbose.: " + isVerbose());
+			sb.append("\n  Debug...: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -117,17 +119,19 @@ public class JaxbIndexPlugin extends AbstractPlugin
 	{
 		for (final PackageOutline packageOutline : outline.getAllPackageContexts())
 		{
+			JPackage _package = packageOutline._package();
+			final JTextFile indexFile = new JTextFile("jaxb.index");
 			final StringBuilder sb = new StringBuilder();
-			
 			for (final ClassOutline classOutline : packageOutline.getClasses())
 			{
-				sb.append(CodeModelUtils.getLocalClassName(classOutline.ref));
+				String simpleType = CodeModelUtils.getLocalClassName(classOutline.ref);
+				sb.append(simpleType);
 				sb.append("\n");
+				trace("run; Package={}, File={}, Type={}", _package.name(), indexFile.name(), simpleType);
 			}
-			
-			final JTextFile indexFile = new JTextFile("jaxb.index");
 			indexFile.setContents(sb.toString());
-			packageOutline._package().addResourceFile(indexFile);
+			_package.addResourceFile(indexFile);
+			debug("run; Package={}, File={}", _package.name(), indexFile.name());
 		}
 		return true;
 	}

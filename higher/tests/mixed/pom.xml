@@ -37,6 +37,7 @@
 				<configuration>
 					<extension>true</extension>
 					<verbose>true</verbose>
+					<debug>true</debug>
 					<args>
 						<arg>-XfixMixedExtensions</arg>
 					</args>

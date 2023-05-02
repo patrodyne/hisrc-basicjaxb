@@ -33,6 +33,7 @@
 				<configuration>
 					<extension>true</extension>
 					<verbose>true</verbose>
+					<debug>true</debug>
 					<args>
 						<arg>-XsimpleEquals</arg>
 						<arg>-XsimpleHashCode</arg>

@@ -23,9 +23,9 @@ List datatypes
 	da_integerValues="-11 13"
 	da_booleanValues="true false"
 	da_byteValues="-128 127"
-	da_doubleValues="-3.14 2.718"
+	da_doubleValues="-3.14 2.718 -INF INF NaN"
 	da_durationValues="P3Y2M1D P6Y4M2D"
-	da_floatValues="-3.14 2.718"
+	da_floatValues="-3.14 2.718 -INF INF NaN"
 	da_intValues="-123 123"
 	da_longValues="-123 123"
 	da_shortValues="-123 123"
@@ -36,9 +36,9 @@ List datatypes
 	<ns4:dv_integerValues>-11 13</ns4:dv_integerValues>
 	<ns4:dv_booleanValues>true false</ns4:dv_booleanValues>
 	<ns4:dv_byteValues>-128 127</ns4:dv_byteValues>
-	<ns4:dv_doubleValues>-3.14 2.718</ns4:dv_doubleValues>
+	<ns4:dv_doubleValues>-3.14 2.718 -INF INF NaN</ns4:dv_doubleValues>
 	<ns4:dv_durationValues>P3Y2M1D P6Y4M2D</ns4:dv_durationValues>
-	<ns4:dv_floatValues>-3.14 2.718</ns4:dv_floatValues>
+	<ns4:dv_floatValues>-3.14 2.718 -INF INF NaN</ns4:dv_floatValues>
 	<ns4:dv_intValues>-123 123</ns4:dv_intValues>
 	<ns4:dv_longValues>-123 123</ns4:dv_longValues>
 	<ns4:dv_shortValues>-123 123</ns4:dv_shortValues>

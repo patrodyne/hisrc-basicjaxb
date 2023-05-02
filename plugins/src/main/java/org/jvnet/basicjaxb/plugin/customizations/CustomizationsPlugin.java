@@ -1,20 +1,20 @@
 package org.jvnet.basicjaxb.plugin.customizations;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.dom.DOMUtils.getLocator;
+import static org.jvnet.basicjaxb.dom.DOMUtils.saxParseDocument;
+import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
+import org.jvnet.basicjaxb.locator.util.LocatorBean;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
 import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.util.ClassUtils;
@@ -23,6 +23,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
 import com.sun.tools.xjc.Options;
@@ -55,9 +56,7 @@ import com.sun.tools.xjc.outline.Outline;
  *     java.lang.Cloneable
  *   &lt;/inh:implements&gt;
  * &lt;/cus:customizations&gt;
-
  * </pre>
- *
  */
 public class CustomizationsPlugin extends AbstractParameterizablePlugin
 {
@@ -66,6 +65,9 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	
 	/** Description of Option to enable this plugin. */
 	private static final String OPTION_DESC = "read and add customizations from files";
+
+	/** Define the prefix for DOM locator attributes. */
+	private static final String LOCATOR_PREFIX = "loc";
 
 	@Override
 	public String getOptionName()
@@ -79,32 +81,23 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 	
-	private final DocumentBuilderFactory documentBuilderFactory;
-	{
-		documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		documentBuilderFactory.setNamespaceAware(true);
-	}
-	
 	private File directory;
 	public File getDirectory() { return directory; }
 	public void setDirectory(File customizationsDirectory) { this.directory = customizationsDirectory; }
-
-	private boolean verbose;
-	public boolean isVerbose() { return verbose; }
-	public void setVerbose(boolean verbose) { this.verbose = verbose; }
 
 	// Plugin Processing
 
 	@Override
 	protected void beforePostProcessModel(Model model)
 	{
-		if ( isInfoEnabled(isVerbose()) )
+		if ( isInfoEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
 			sb.append("\n  Directory.: " + getDirectory());
 			sb.append("\n  Verbose...: " + isVerbose());
+			sb.append("\n  Debug.....: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -112,7 +105,7 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	@Override
 	protected void afterPostProcessModel(Model model, ErrorHandler errorHandler)
 	{
-		if ( isInfoEnabled(isVerbose()) )
+		if ( isInfoEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_FINISH);
@@ -157,11 +150,11 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	protected void postProcessModel(Model model)
 	{
 		if (getDirectory() == null)
-			getLogger().warn("Customizations directory is not provided, please use the -Xcustomizations-directory=<directory> command line argument to provide it.");
+			warn("Customizations directory is not provided, please use the -Xcustomizations-directory=<directory> command line argument to provide it.");
 		else if (!getDirectory().exists())
-			getLogger().warn(MessageFormat.format("Customizations directory [{0}] does not exist.", getDirectory().getAbsolutePath()));
+			warn("Customizations directory [{}] does not exist.", getDirectory().getAbsolutePath());
 		else if (!getDirectory().isDirectory())
-			getLogger().warn(MessageFormat.format("Customizations directory [{0}] is not a directory.", getDirectory().getAbsolutePath()));
+			warn("Customizations directory [{}] is not a directory.", getDirectory().getAbsolutePath());
 		else
 		{
 			for (final CClassInfo classInfo : model.beans().values())
@@ -176,7 +169,8 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	{
 		final String packagedClassName = ClassUtils.getPackagedClassName(classInfo);
 		final String customizationsFileName = packagedClassName.replace(".", "/") + ".xml";
-		final List<CPluginCustomization> customizations = readCustomizations(customizationsFileName);
+		final List<CPluginCustomization> customizations =
+			readCustomizations(classInfo.getLocator(), customizationsFileName);
 		classInfo.getCustomizations().addAll(customizations);
 		
 		for (CPropertyInfo propertyInfo : classInfo.getProperties())
@@ -186,8 +180,10 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	private void postProcessPropertyInfo(Model model, CClassInfo classInfo, CPropertyInfo propertyInfo)
 	{
 		final String packagedClassName = ClassUtils.getPackagedClassName(classInfo);
-		final String customizationsFileName = packagedClassName.replace(".", "/")	+ "." + propertyInfo.getName(false) + ".xml";
-		final List<CPluginCustomization> customizations = readCustomizations(customizationsFileName);
+		final String customizationsFileName =
+			packagedClassName.replace(".", "/")	+ "." + propertyInfo.getName(false) + ".xml";
+		final List<CPluginCustomization> customizations =
+			readCustomizations(classInfo.getLocator(), customizationsFileName);
 		propertyInfo.getCustomizations().addAll(customizations);
 	}
 
@@ -195,7 +191,8 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	{
 		final String packagedClassName = ClassUtils.getPackagedClassName(enumLeafInfo);
 		final String customizationsFileName = packagedClassName.replace(".", "/") + ".xml";
-		final List<CPluginCustomization> customizations = readCustomizations(customizationsFileName);
+		final List<CPluginCustomization> customizations =
+			readCustomizations(enumLeafInfo.getLocator(), customizationsFileName);
 		enumLeafInfo.getCustomizations().addAll(customizations);
 		
 		for (CEnumConstant enumConstant : enumLeafInfo.getConstants())
@@ -205,67 +202,62 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	private void postProcessEnumConstant(Model model, CEnumLeafInfo enumLeafInfo, CEnumConstant enumConstant)
 	{
 		final String packagedClassName = ClassUtils.getPackagedClassName(enumLeafInfo);
-		final String customizationsFileName = packagedClassName.replace(".", "/")	+ "." + enumConstant.getName()
-												+ ".xml";
-		final List<CPluginCustomization> customizations = readCustomizations(customizationsFileName);
+		final String customizationsFileName =
+			packagedClassName.replace(".", "/")	+ "." + enumConstant.getName() + ".xml";
+		final List<CPluginCustomization> customizations =
+			readCustomizations(enumLeafInfo.getLocator(), customizationsFileName);
 		enumConstant.getCustomizations().addAll(customizations);
 	}
 
-	private List<CPluginCustomization> readCustomizations(String fileName)
+	private List<CPluginCustomization> readCustomizations(Locator locator, String fileName)
 	{
 		final List<CPluginCustomization> customizations = new LinkedList<CPluginCustomization>();
-		DocumentBuilder documentBuilder = null;
-		try
-		{
-			documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		}
-		catch (ParserConfigurationException pcex)
-		{
-			throw new UnsupportedOperationException("Could not created the DOM parser.", pcex);
-		}
-		
+		final String location = getLocation(locator);
 		final File file = new File(getDirectory(), fileName);
+		final String systemId = file.getAbsolutePath();
 		if (!file.exists())
-		{
-			if (isVerbose())
-				getLogger().debug(MessageFormat.format("File [{0}] does not exist.", file.getAbsolutePath()));
-		}
+			trace("{}, readCustomizations; Bypass customizations from [{}]; file does not exist.", location, systemId);
 		else if (!file.isFile())
-		{
-			getLogger().warn(MessageFormat.format("File [{0}] is not a file.", file.getAbsolutePath()));
-		}
+			warn("{}, readCustomizations; This [{}] is not a file.", location, systemId);
 		else
 		{
 			try ( InputStream is = new FileInputStream(file) )
 			{
-				final Document document = documentBuilder.parse(is);
-				final Element documentElement = document.getDocumentElement();
-				getLogger().debug(MessageFormat.format("Loaded customizations from [{0}].", file.getAbsolutePath()));
-				final QName documentElementName = new QName(documentElement.getNamespaceURI(), documentElement.getLocalName());
+				// Use SAX to parse the input stream into a DOM document, enhanced with
+				// locator attributes with the given prefix.
+				final Document document = saxParseDocument(is, systemId, LOCATOR_PREFIX);
 				
-				if (Customizations.CUSTOMIZATIONS_ELEMENT_NAME.equals(documentElementName))
+				// Check the DOM element for 'customizations'
+				final Element element = document.getDocumentElement();
+				String elNamespaceURI = element.getNamespaceURI();
+				String elLocalName = element.getLocalName();
+				final QName elName = new QName(elNamespaceURI, elLocalName);
+				if (Customizations.CUSTOMIZATIONS_ELEMENT_NAME.equals(elName))
 				{
-					final NodeList childNodes = documentElement.getChildNodes();
+					final NodeList childNodes = element.getChildNodes();
 					for (int index = 0; index < childNodes.getLength(); index++)
 					{
 						final Node childNode = childNodes.item(index);
 						if (childNode.getNodeType() == Node.ELEMENT_NODE)
 						{
-							final Element childElement = (Element) childNode;
-							customizations.add(new CPluginCustomization(childElement, null));
+							final Element ce = (Element) childNode;
+							LocatorBean cl = getLocator(ce, LOCATOR_PREFIX);
+							customizations.add(new CPluginCustomization(ce, cl));
+							debug("{}, readCustomizations; {{}}{}", cl, ce.getNamespaceURI(), ce.getNodeName());
 						}
 					}
 				}
 				else
-					customizations.add(new CPluginCustomization(documentElement, null));
+					customizations.add(new CPluginCustomization(element, null));
+				debug("{}, readCustomizations; Loaded customizations from [{}].", location, systemId);
 			}
 			catch (IOException ioex)
 			{
-				getLogger().warn(MessageFormat.format("Could not parse [{0}].", file.getAbsolutePath()), ioex);
+				warn(format("%s, readCustomizations; Could not parse [%s].", location, systemId), ioex);
 			}
 			catch (SAXException saxex)
 			{
-				getLogger().warn(MessageFormat.format("Could not parse [{0}].", file.getAbsolutePath()), saxex);
+				warn(format("%s, readCustomizations; Could not parse [%s].", location, systemId), saxex);
 			}
 		}
 		return customizations;
