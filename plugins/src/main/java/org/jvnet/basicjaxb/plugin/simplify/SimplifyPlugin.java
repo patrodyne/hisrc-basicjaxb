@@ -22,6 +22,7 @@ import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
 import org.jvnet.basicjaxb.util.CustomizationUtils;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXParseException;
 
 import com.sun.codemodel.JJavaName;
 import com.sun.tools.xjc.Options;
@@ -343,14 +344,19 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 					elementPropertyInfo = createElementPropertyInfo(model, property, element, (CClassInfo) element);
 				else if (element instanceof CClassRef)
 				{
-					error("{}, simplifyReferencePropertyInfoAsElementPropertyInfo; Class={}, Element reference property [{}] contains a class reference type [{}] and therefore cannot be fully simplified as element property.",
-						getLocation(property.getLocator()), classInfo.shortName, property.getName(false), ((CClassRef) element).fullName());
+					String msg = format("Element reference property [%s] contains a class reference type [%s] and therefore cannot be fully simplified as element property",
+						property.getName(false), ((CClassRef) element).fullName());
+					error("{}, simplifyReferencePropertyInfoAsElementPropertyInfo; Class={}, {}.",
+						getLocation(property.getLocator()), classInfo.shortName, msg);
+					handleException(getErrorHandler(), new SAXParseException(msg, property.getLocator()));
 					elementPropertyInfo = null;
 				}
 				else
 				{
-					error("{}, simplifyReferencePropertyInfoAsElementPropertyInfo; Class={}, Unsupported CElement type [{}].",
-						getLocation(property.getLocator()), classInfo.shortName, element);
+					String msg = format("Unsupported CElement type [%s]", element);
+					error("{}, simplifyReferencePropertyInfoAsElementPropertyInfo; Class={}, {}.",
+						getLocation(property.getLocator()), classInfo.shortName, msg);
+					handleException(getErrorHandler(), new SAXParseException(msg, property.getLocator()));
 					elementPropertyInfo = null;
 				}
 				

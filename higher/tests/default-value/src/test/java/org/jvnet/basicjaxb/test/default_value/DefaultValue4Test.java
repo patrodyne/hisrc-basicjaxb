@@ -6,14 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.example.document.Document4;
 import org.example.document.ObjectFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.jvnet.basicjaxb.lang.ValueUtils;
 import org.jvnet.basicjaxb.test.AbstractSamplesTest;
 
 import jakarta.xml.bind.JAXBException;

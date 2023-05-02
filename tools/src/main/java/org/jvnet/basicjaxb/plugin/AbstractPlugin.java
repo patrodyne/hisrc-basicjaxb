@@ -76,6 +76,10 @@ public abstract class AbstractPlugin extends Plugin
 		setQuiet(options.quiet);
 		setVerbose(options.verbose);
 	}
+	
+	private ErrorHandler errorHandler = null;
+	protected ErrorHandler getErrorHandler() { return errorHandler; }
+	protected void setErrorHandler(ErrorHandler errorHandler) { this.errorHandler = errorHandler; }
 
 	private boolean debug = false;
 	public boolean isDebug() { return debug; }
@@ -103,7 +107,23 @@ public abstract class AbstractPlugin extends Plugin
 		}
 	}
 
-	private SAXException handleException(ErrorHandler errorHandler, Exception ex, String msg)
+	protected SAXException handleException(ErrorHandler errorHandler, SAXParseException saxpex)
+	{
+		SAXException saxex = null;
+		try
+		{
+			errorHandler.error(saxpex);
+			saxex = saxpex;
+		}
+		catch (SAXException sex)
+		{
+			saxex = sex;
+		}
+		return saxex;
+	}
+	
+
+	protected SAXException handleException(ErrorHandler errorHandler, Exception ex, String msg)
 	{
 		SAXException saxex = null;
 		try
@@ -154,6 +174,7 @@ public abstract class AbstractPlugin extends Plugin
 	@Override
 	public void postProcessModel(Model model, ErrorHandler errorHandler)
 	{
+		setErrorHandler(errorHandler);
 		try
 		{
 			beforePostProcessModel(model);
@@ -230,6 +251,7 @@ public abstract class AbstractPlugin extends Plugin
 	public boolean run(Outline outline, Options options, ErrorHandler errorHandler)
 		throws SAXException
 	{
+		setErrorHandler(errorHandler);
 		try
 		{
 			beforeRun(outline, options);
