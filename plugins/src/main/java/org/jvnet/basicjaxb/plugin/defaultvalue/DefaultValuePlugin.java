@@ -213,9 +213,6 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
      * @param outline
      *      This object allows access to various generated code.
      * 
-     * @param options
-     * 		The invocation configuration for XJC.
-     * 
      * @return
      *      If the add-on executes successfully, return true.
      *      If it detects some errors but those are reported and
@@ -228,14 +225,13 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
      *      not to recover from the error.
 	 */
 	@Override
-	public boolean run(Outline outline, Options options)
-		throws Exception
+	public boolean run(Outline outline) throws Exception
 	{
 		// For all Classes generated
 		for (final ClassOutline classOutline : outline.getClasses())
 		{
 			if (!getIgnoring().isIgnored(classOutline))
-				processClassOutline(outline, options, classOutline);
+				processClassOutline(outline, classOutline);
 		}
 		return true;
 	}
@@ -245,11 +241,10 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 	 * initialize all non-ignored fields from the given {@link Outline} instance.
 	 * 
 	 * @param outline An outline from the XJC framework.
-	 * @param options The invocation configuration for XJC.
 	 * @param classOutline A class outline from the XJC framework.
      * 
 	 */
-	protected void processClassOutline(Outline outline, Options options, ClassOutline classOutline)
+	protected void processClassOutline(Outline outline, ClassOutline classOutline)
 	{
 		// Filter out the ignored class outline's fields.
 		FieldOutline[] declaredFilteredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
@@ -338,11 +333,11 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			
 			// Provide initialization for the default value, when non-null.
 			if ( defaultValue != null )
-				processDefaultValue(outline, options, classOutline, fieldInfo, fieldType, fieldIsPrimitive, typeFullName, defaultValue, schemaType);
+				processDefaultValue(outline, classOutline, fieldInfo, fieldType, fieldIsPrimitive, typeFullName, defaultValue, schemaType);
 		} // for FieldOutline
 	}
 
-	private void processDefaultValue(Outline outline, Options options, ClassOutline classOutline,
+	private void processDefaultValue(Outline outline, ClassOutline classOutline,
 		CPropertyInfo fieldInfo, JType fieldType, boolean fieldIsPrimitive,
 		String typeFullName, String defaultValue, QName schemaType)
 	{

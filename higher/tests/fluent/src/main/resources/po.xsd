@@ -8,19 +8,25 @@
     </xsd:documentation>
   </xsd:annotation>
 
-  <xsd:element name="purchaseOrder" type="PurchaseOrderType"/>
-
   <xsd:element name="comment" type="xsd:string"/>
 
-  <xsd:complexType name="PurchaseOrderType">
-    <xsd:sequence>
-      <xsd:element name="shipTo" type="USAddress"/>
-      <xsd:element name="billTo" type="USAddress"/>
-      <xsd:element ref="comment" minOccurs="0"/>
-      <xsd:element name="items"  type="Items"/>
-    </xsd:sequence>
-    <xsd:attribute name="orderDate" type="xsd:date"/>
-  </xsd:complexType>
+  <!-- Top element(s) with anonymous complex type become XmlRootElement(s). -->
+  <xsd:element name="purchaseOrder">
+	  <xsd:complexType>
+	  	<xsd:sequence>
+	  		<xsd:element name="shipTo" type="USAddress" />
+	  		<xsd:element name="billTo" type="USAddress" />
+	  		<xsd:element ref="comment" minOccurs="0" />
+	  		<xsd:element name="items" type="Items" />
+	  		<!-- 
+	  		-->
+	  		<xsd:element name="payments" type="xsd:decimal" maxOccurs="unbounded" minOccurs="0" />
+	  		<xsd:element name="credits" type="Credit" maxOccurs="unbounded" minOccurs="0" />
+	  	</xsd:sequence>
+	  	<xsd:attribute name="orderDate" type="xsd:date" />
+	  	<xsd:attribute name="complete" type="xsd:boolean"></xsd:attribute>
+	  </xsd:complexType>
+  </xsd:element>
 
   <xsd:complexType name="USAddress">
     <xsd:sequence>
@@ -64,4 +70,9 @@
     </xsd:restriction>
   </xsd:simpleType>
 
+
+  <xsd:complexType name="Credit">
+  	<xsd:attribute name="amount" type="xsd:double"></xsd:attribute>
+  	<xsd:attribute name="reason" type="xsd:string"></xsd:attribute>
+  </xsd:complexType>
 </xsd:schema>

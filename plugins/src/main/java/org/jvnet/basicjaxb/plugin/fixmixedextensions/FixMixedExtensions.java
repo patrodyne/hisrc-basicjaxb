@@ -106,7 +106,7 @@ public class FixMixedExtensions extends AbstractPlugin
 	
 	/**
 	 * <p>
-	 * Run the plugin with and XJC {@link Outline} and {@link Options}.
+	 * Run the plugin with and XJC {@link Outline}.
 	 * </p>
 	 * 
      * <p>
@@ -115,9 +115,6 @@ public class FixMixedExtensions extends AbstractPlugin
 	 *
      * @param outline
      *      This object allows access to various generated code.
-     * 
-     * @param options
-     * 		The invocation configuration for XJC.
      * 
      * @return
      *      If the add-on executes successfully, return true.
@@ -131,8 +128,7 @@ public class FixMixedExtensions extends AbstractPlugin
      *      a {@link SAXException} for processing by {@link com.sun.tools.xjc.Plugin}.
 	 */
 	@Override
-	public boolean run(Outline outline, Options options)
-		throws Exception
+	public boolean run(Outline outline) throws Exception
 	{
 		DummyListField_$get = new FieldAccessor<JMethod>(DummyListField.class, "$get", JMethod.class);
 		IsSetField_core = new FieldAccessor<FieldOutline>(IsSetField.class, "core", FieldOutline.class);

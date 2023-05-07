@@ -5,6 +5,7 @@ org.jvnet.basicjaxb.plugin.defaultvalue.DefaultValuePlugin
 org.jvnet.basicjaxb.plugin.enumvalue.EnumValuePlugin
 org.jvnet.basicjaxb.plugin.equals.EqualsPlugin
 org.jvnet.basicjaxb.plugin.fixmixedextensions.FixMixedExtensions
+org.jvnet.basicjaxb.plugin.fluentapi.FluentApiPlugin
 org.jvnet.basicjaxb.plugin.hashcode.HashCodePlugin
 org.jvnet.basicjaxb.plugin.inheritance.InheritancePlugin
 org.jvnet.basicjaxb.plugin.jaxbindex.JaxbIndexPlugin

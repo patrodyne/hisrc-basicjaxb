@@ -17,7 +17,6 @@ import org.xml.sax.SAXException;
 
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
-import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
@@ -70,7 +69,7 @@ public abstract class AbstractCodeGeneratorPlugin<A extends Arguments<A>>
 	
 	/**
 	 * <p>
-	 * Run the plugin with and XJC {@link Outline} and {@link Options}.
+	 * Run the plugin with and XJC {@link Outline}.
 	 * </p>
 	 * 
      * <p>
@@ -79,9 +78,6 @@ public abstract class AbstractCodeGeneratorPlugin<A extends Arguments<A>>
 	 *
      * @param outline
      *      This object allows access to various generated code.
-     * 
-     * @param options
-     * 		The invocation configuration for XJC.
      * 
      * @return
      *      If the add-on executes successfully, return true.
@@ -95,7 +91,7 @@ public abstract class AbstractCodeGeneratorPlugin<A extends Arguments<A>>
      *      a {@link SAXException} for processing by {@link com.sun.tools.xjc.Plugin}.
 	 */
 	@Override
-	public boolean run(Outline outline, Options options) throws Exception
+	public boolean run(Outline outline) throws Exception
 	{
 		setCodeGenerator(createCodeGenerator(outline.getCodeModel()));
 		

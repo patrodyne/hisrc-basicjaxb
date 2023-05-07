@@ -255,7 +255,7 @@ public abstract class AbstractPlugin extends Plugin
 		try
 		{
 			beforeRun(outline, options);
-			return run(outline, options);
+			return run(outline);
 		}
 		catch (Exception ex)
 		{
@@ -281,7 +281,7 @@ public abstract class AbstractPlugin extends Plugin
 		// Sub-class may override.
 	}
 
-	protected boolean run(Outline outline, Options options) throws Exception
+	protected boolean run(Outline outline) throws Exception
 	{
 		// Sub-class may implement.
 		return true;

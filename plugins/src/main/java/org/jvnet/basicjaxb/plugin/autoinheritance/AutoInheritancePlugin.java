@@ -167,9 +167,6 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin
      * @param outline
      *      This object allows access to various generated code.
      *      
-     * @param options
-     *      The invocation configuration for XJC.
-     * 
      * @return
      *      If the add-on executes successfully, return true.
      *      If it detects some errors but those are reported and
@@ -182,7 +179,7 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin
      *      a {@link SAXException} for processing by {@link com.sun.tools.xjc.Plugin}.
      */
 	@Override
-	public boolean run(Outline outline, Options options) throws Exception
+	public boolean run(Outline outline) throws Exception
 	{
 		for (final ClassOutline classOutline : outline.getClasses())
 		{

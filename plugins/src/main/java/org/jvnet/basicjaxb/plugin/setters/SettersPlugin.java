@@ -3,6 +3,7 @@ package org.jvnet.basicjaxb.plugin.setters;
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.setters.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.util.CodeModelUtils.groupMethods;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -104,7 +105,7 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 			{
 				final FieldAccessor accessor = fieldOutline.create(JExpr._this());
 				accessor.unsetValues(setter.body());
-				accessor.fromRawValue(setter.body()._if(value.ne(JExpr._null()))._then(), "draft", value);
+				accessor.fromRawValue(setter.body()._if(value.ne(JExpr._null()))._then(), "draftRol", value);
 			}
 		},
 		direct
@@ -185,7 +186,7 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 	
 	/**
 	 * <p>
-	 * Run the plugin with and XJC {@link Outline} and {@link Options}.
+	 * Run the plugin with and XJC {@link Outline}.
 	 * </p>
 	 * 
      * <p>
@@ -194,9 +195,6 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 	 *
      * @param outline
      *      This object allows access to various generated code.
-     * 
-     * @param options
-     * 		The invocation configuration for XJC.
      * 
      * @return
      *      If the add-on executes successfully, return true.
@@ -209,7 +207,8 @@ public class SettersPlugin extends AbstractParameterizablePlugin
      *      any exception to {@link ErrorHandler} and converts the exception to
      *      a {@link SAXException} for processing by {@link com.sun.tools.xjc.Plugin}.
 	 */
-	public boolean run(Outline outline, Options options) throws Exception
+	@Override
+	public boolean run(Outline outline) throws Exception
 	{
 		for (final ClassOutline classOutline : outline.getClasses())
 		{
@@ -250,6 +249,9 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 					final JMethod generatedSetter = theClass.method(JMod.PUBLIC, theClass.owner().VOID, setterName);
 					final JVar value = generatedSetter.param(type, "value");
 					mode.generateSetter(fieldOutline, theClass, generatedSetter, value);
+					
+					// Group the new setter with the existing getter.
+					groupMethods(theClass, getter, generatedSetter);
 					
 					addedSetter = true;
 					trace("{}, generateSetters; Class={}, Field={}",

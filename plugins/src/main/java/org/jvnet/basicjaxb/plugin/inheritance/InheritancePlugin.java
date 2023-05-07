@@ -184,7 +184,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 	
 	/**
 	 * <p>
-	 * Run the plugin with and XJC {@link Outline} and {@link Options}.
+	 * Run the plugin with and XJC {@link Outline}.
 	 * </p>
 	 * 
      * <p>
@@ -193,9 +193,6 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 	 *
      * @param outline
      *      This object allows access to various generated code.
-     * 
-     * @param options
-     * 		The invocation configuration for XJC.
      * 
      * @return
      *      If the add-on executes successfully, return true.
@@ -209,7 +206,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
      *      a {@link SAXException} for processing by {@link com.sun.tools.xjc.Plugin}.
 	 */
 	@Override
-	public boolean run(Outline outline, Options options) throws Exception
+	public boolean run(Outline outline) throws Exception
 	{
 		final Map<String, JClass> knownClasses = new HashMap<String, JClass>();
 		final Map<JClass, CClassInfo> knownClassInfos = new IdentityHashMap<JClass, CClassInfo>();
