@@ -19,16 +19,19 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	}
 
 	private Logger logger = LoggerFactory.getLogger(ToStringStrategy.class);
+	@Override
 	public Logger getLogger()
 	{
 		return logger;
 	}
 	
+	@Override
 	public boolean isDebugEnabled()
 	{
 		return getLogger().isDebugEnabled();
 	}
 
+	@Override
 	public boolean isTraceEnabled()
 	{
 		return getLogger().isTraceEnabled();

@@ -56,6 +56,7 @@ public class CreateToplevelXJBindings extends DefaultHandler
 			this(localName, nameValue(attributes));
 		}
 		
+		@Override
 		public String toString()
 		{
 			return "Tag[" + localName + ", " + nameValue + "]";

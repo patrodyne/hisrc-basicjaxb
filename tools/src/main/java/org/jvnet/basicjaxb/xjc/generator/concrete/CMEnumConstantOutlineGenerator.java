@@ -30,6 +30,7 @@ public class CMEnumConstantOutlineGenerator implements
 		this.enumConstant = enumConstant;
 	}
 
+	@Override
 	public MEnumConstantOutline generate(MEnumOutline parent,
 			MModelInfo<NType, NClass> modelInfo,
 			MEnumConstantInfo<NType, NClass> enumConstantInfo) {

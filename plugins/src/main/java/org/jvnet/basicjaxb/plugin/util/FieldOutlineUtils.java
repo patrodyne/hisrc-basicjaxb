@@ -27,6 +27,7 @@ public class FieldOutlineUtils
 		// Implement a Predicate to evaluate a FieldOutline for ignoring.
 		return ArrayUtils.filter(fieldOutlines, new Predicate<FieldOutline>()
 		{
+			@Override
 			public boolean evaluate(FieldOutline fieldOutline)
 			{
 				return !ignoring.isIgnored(fieldOutline);

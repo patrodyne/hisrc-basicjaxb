@@ -79,6 +79,7 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 
 	// Plugin Processing
 	
+	@Override
 	protected void beforeRun(Outline outline, Options options) throws Exception
 	{
 		setOptions(options);
@@ -96,6 +97,7 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 		}
 	}
 	
+	@Override
 	protected void afterRun(Outline outline, Options options) throws Exception
 	{
 		if ( isInfoEnabled() )

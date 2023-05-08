@@ -26,6 +26,7 @@ public class CMElementOutlineGenerator implements MElementOutlineGenerator {
 		this.elementInfo = elementInfo;
 	}
 
+	@Override
 	public MElementOutline generate(MPackageOutline parent,
 			MModelInfo<NType, NClass> modelInfo,
 			MElementInfo<NType, NClass> elementInfo) {

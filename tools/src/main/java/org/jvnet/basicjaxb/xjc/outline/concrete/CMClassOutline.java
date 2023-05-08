@@ -50,34 +50,42 @@ public class CMClassOutline implements MClassOutline {
 		this.implementationReferenceCode = implementationReferenceCode;
 	}
 
+	@Override
 	public MModelOutline getParent() {
 		return parent;
 	}
 
+	@Override
 	public MPackageOutline getPackageOutline() {
 		return packageOutline;
 	}
 
+	@Override
 	public MClassInfo<NType, NClass> getTarget() {
 		return target;
 	}
 
+	@Override
 	public MClassOutline getSuperClassOutline() {
 		return superClassOutline;
 	}
 
+	@Override
 	public JDefinedClass getReferenceCode() {
 		return referenceCode;
 	}
 
+	@Override
 	public JDefinedClass getImplementationCode() {
 		return implementationCode;
 	}
 
+	@Override
 	public JClass getImplementationReferenceCode() {
 		return implementationReferenceCode;
 	}
 
+	@Override
 	public List<MPropertyOutline> getPropertyOutlines() {
 		if (getSuperClassOutline() == null) {
 			return getDeclaredPropertyOutlines();
@@ -90,6 +98,7 @@ public class CMClassOutline implements MClassOutline {
 		}
 	}
 
+	@Override
 	public List<MPropertyOutline> getDeclaredPropertyOutlines() {
 		return _delcaredPropertyOutlines;
 	}

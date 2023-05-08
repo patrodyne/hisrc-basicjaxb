@@ -61,6 +61,7 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 			getFieldSeparator(), getFieldName(), isShowChildItems(), hasDefaultValue());
 	}
 
+	@Override
 	public ToStringArguments property(JBlock block, String propertyName,
 			String propertyMethod, JType declarablePropertyType,
 			JType propertyType, Collection<JType> possiblePropertyTypes)
@@ -78,6 +79,7 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 		return spawn(propertyValue, propertyHasSetValue);
 	}
 
+	@Override
 	public ToStringArguments iterator(JBlock block, JType elementType)
 	{
 		final JVar listIterator = block.decl
@@ -89,6 +91,7 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 		return spawn(listIterator, JExpr.TRUE);
 	}
 
+	@Override
 	public ToStringArguments element(JBlock subBlock, JType elementType)
 	{
 		final JVar elementValue = subBlock.decl
@@ -103,11 +106,13 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 		return spawn(elementValue, elementHasSetValue);
 	}
 
+	@Override
 	public JExpression _instanceof(JType type)
 	{
 		return value()._instanceof(type);
 	}
 
+	@Override
 	public ToStringArguments cast(String suffix, JBlock block, JType jaxbElementType, boolean suppressWarnings)
 	{
 		final JVar castedValue = block.decl
@@ -122,6 +127,7 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 		return spawn(castedValue, JExpr.TRUE);
 	}
 
+	@Override
 	public JBlock ifHasSetValue(JBlock block, boolean isAlwaysSet, boolean checkForNullRequired)
 	{
 		if (isAlwaysSet || !checkForNullRequired)
@@ -130,6 +136,7 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 			return block._if(hasSetValue())._then();
 	}
 
+	@Override
 	public JBlock _while(JBlock block)
 	{
 		final JBlock subBlock = block._while(value().invoke("hasNext")).body();

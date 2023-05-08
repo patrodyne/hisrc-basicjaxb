@@ -25,6 +25,7 @@ public class XJCCMElementInfoOrigin extends
 				.getSchemaComponent();
 	}
 
+	@Override
 	public MElementOutlineGenerator createGenerator(Outline outline) {
 		return new CMElementOutlineGenerator(outline, getSource());
 	}

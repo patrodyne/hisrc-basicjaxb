@@ -23,11 +23,13 @@ public class CyclicTests
 	{
 		public B b;
 
+		@Override
 		public Object createNewInstance()
 		{
 			return new A();
 		}
 
+		@Override
 		public Object copyTo(Object target)
 		{
 			ObjectLocator thisLocator = null;
@@ -37,6 +39,7 @@ public class CyclicTests
 	        return copyTo(thisLocator, target, copyStrategy);
 		}
 
+		@Override
 		public Object copyTo(ObjectLocator locator, Object target, CopyStrategy copyStrategy)
 		{
 			final A that = (A) target;
@@ -44,6 +47,7 @@ public class CyclicTests
 			return that;
 		}
 		
+		@Override
 		public Object clone()
 		{
 			return copyTo(createNewInstance());
@@ -54,11 +58,13 @@ public class CyclicTests
 	{
 		public A a;
 
+		@Override
 		public Object createNewInstance()
 		{
 			return new B();
 		}
 
+		@Override
 		public Object copyTo(Object target)
 		{
 			ObjectLocator thisLocator = null;
@@ -68,6 +74,7 @@ public class CyclicTests
 	        return copyTo(thisLocator, target, copyStrategy);
 		}
 
+		@Override
 		public Object copyTo(ObjectLocator locator, Object target, CopyStrategy copyStrategy)
 		{
 			final B that = (B) target;
@@ -75,6 +82,7 @@ public class CyclicTests
 			return that;
 		}
 		
+		@Override
 		public Object clone()
 		{
 			return copyTo(createNewInstance());

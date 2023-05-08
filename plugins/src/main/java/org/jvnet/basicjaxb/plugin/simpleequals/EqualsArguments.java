@@ -61,6 +61,7 @@ public class EqualsArguments implements Arguments<EqualsArguments> {
 				rightValue, rightHasSetValue);
 	}
 
+	@Override
 	public EqualsArguments property(JBlock block, String propertyName,
 			String propertyMethod, JType declarablePropertyType,
 			JType propertyType, Collection<JType> possiblePropertyTypes) {
@@ -80,6 +81,7 @@ public class EqualsArguments implements Arguments<EqualsArguments> {
 				rightPropertyValue, rightPropertyHasSetValue);
 	}
 
+	@Override
 	public EqualsArguments iterator(JBlock block, JType elementType) {
 		final JVar leftListIterator = block.decl(JMod.FINAL, getCodeModel()
 				.ref(ListIterator.class).narrow(elementType), leftValue()
@@ -92,6 +94,7 @@ public class EqualsArguments implements Arguments<EqualsArguments> {
 				JExpr.TRUE);
 	}
 
+	@Override
 	public EqualsArguments element(JBlock subBlock, JType elementType) {
 		final JVar leftElementValue = subBlock.decl(JMod.FINAL, elementType,
 				leftValue().name() + "Element", leftValue().invoke("next"));
@@ -109,11 +112,13 @@ public class EqualsArguments implements Arguments<EqualsArguments> {
 
 	}
 
+	@Override
 	public JExpression _instanceof(JType type) {
 		return JOp.cand(leftValue()._instanceof(type), rightValue()
 				._instanceof(type));
 	}
 
+	@Override
 	public EqualsArguments cast(String suffix, JBlock block,
 			JType jaxbElementType, boolean suppressWarnings) {
 		final JVar castedLeftValue = block.decl(JMod.FINAL, jaxbElementType,
@@ -134,6 +139,7 @@ public class EqualsArguments implements Arguments<EqualsArguments> {
 				castedRightValue, JExpr.TRUE);
 	}
 
+	@Override
 	public JBlock ifHasSetValue(JBlock block, boolean isAlwaysSet,
 			boolean checkForNullRequired) {
 		if (isAlwaysSet || !checkForNullRequired) {
@@ -151,6 +157,7 @@ public class EqualsArguments implements Arguments<EqualsArguments> {
 		}
 	}
 
+	@Override
 	public JBlock _while(JBlock block) {
 		// while(e1.hasNext() && e2.hasNext()) {
 		final JBlock _while = block._while(

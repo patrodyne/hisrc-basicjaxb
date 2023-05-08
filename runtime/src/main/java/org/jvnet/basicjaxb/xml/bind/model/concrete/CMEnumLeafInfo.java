@@ -61,21 +61,25 @@ public class CMEnumLeafInfo<T, C extends T> implements MEnumLeafInfo<T, C>, MCus
 		this.typeName = typeName;
 	}
 
+	@Override
 	public MCustomizations getCustomizations()
 	{
 		return customizations;
 	}
 
+	@Override
 	public MEnumLeafInfoOrigin getOrigin()
 	{
 		return origin;
 	}
 
+	@Override
 	public C getTargetClass()
 	{
 		return targetClass;
 	}
 
+	@Override
 	public T getTargetType()
 	{
 		return targetClass;
@@ -93,32 +97,38 @@ public class CMEnumLeafInfo<T, C extends T> implements MEnumLeafInfo<T, C>, MCus
 		return true;
 	}
 
+	@Override
 	public MElementInfo<T, C> createElementInfo(MClassInfo<T, C> scope, QName substitutionHead)
 	{
 		return new CMElementInfo<T, C>(getOrigin().createElementInfoOrigin(), getPackageInfo(), getContainer(),
 			getLocalName(), getElementName(), scope, this, substitutionHead, null, null);
 	}
 
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 
+	@Override
 	public String getLocalName()
 	{
 		return localName;
 	}
 
+	@Override
 	public MPackageInfo getPackageInfo()
 	{
 		return _package;
 	}
 
+	@Override
 	public MContainer getContainer()
 	{
 		return container;
 	}
 
+	@Override
 	public String getContainerLocalName(String delimiter)
 	{
 		final String localName = getLocalName();
@@ -137,22 +147,26 @@ public class CMEnumLeafInfo<T, C extends T> implements MEnumLeafInfo<T, C>, MCus
 		}
 	}
 
+	@Override
 	public MTypeInfo<T, C> getBaseTypeInfo()
 	{
 		return baseTypeInfo;
 	}
 
+	@Override
 	public List<MEnumConstantInfo<T, C>> getConstants()
 	{
 		return _constants;
 	}
 
+	@Override
 	public void addEnumConstantInfo(MEnumConstantInfo<T, C> enumConstantInfo)
 	{
 		Validate.notNull(enumConstantInfo);
 		this.constants.add(enumConstantInfo);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void removeEnumConstantInfo(MEnumConstantInfo<T, C> enumConstantInfo)
 	{
@@ -171,6 +185,7 @@ public class CMEnumLeafInfo<T, C extends T> implements MEnumLeafInfo<T, C>, MCus
 		}
 	}
 
+	@Override
 	public QName getElementName()
 	{
 		return elementName;
@@ -182,6 +197,7 @@ public class CMEnumLeafInfo<T, C extends T> implements MEnumLeafInfo<T, C>, MCus
 		return MessageFormat.format("EnumInfo [{0}]", getBaseTypeInfo());
 	}
 
+	@Override
 	public <V> V acceptTypeInfoVisitor(MTypeInfoVisitor<T, C, V> visitor)
 	{
 		return visitor.visitEnumLeafInfo(this);

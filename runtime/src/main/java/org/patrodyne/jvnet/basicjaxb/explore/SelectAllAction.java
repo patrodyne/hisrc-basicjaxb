@@ -24,7 +24,8 @@ public class SelectAllAction extends TextAction
     }
 
     /** The operation to perform when this action is triggered. */
-    public void actionPerformed(ActionEvent e)
+    @Override
+	public void actionPerformed(ActionEvent e)
     {
         JTextComponent target = getTextComponent(e);
         if (target != null)

@@ -20,6 +20,7 @@ public class XJCCMEnumConstantInfoOrigin extends
 		super(source);
 	}
 
+	@Override
 	public MEnumConstantOutlineGenerator createGenerator(Outline outline) {
 		return new CMEnumConstantOutlineGenerator(outline, getSource());
 	}

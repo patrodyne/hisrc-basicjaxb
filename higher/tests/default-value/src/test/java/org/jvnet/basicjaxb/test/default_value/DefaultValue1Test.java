@@ -22,7 +22,9 @@ import jakarta.xml.bind.Unmarshaller;
 public class DefaultValue1Test extends AbstractSamplesTest
 {
 	private Map<String, File> sampleMap = new HashMap<>();
+	@Override
 	protected Map<String, File> getSampleMap() { return sampleMap; }
+	@Override
 	protected void setSampleMap(Map<String, File> sampleMap) { this.sampleMap = sampleMap; }
 	
 	protected Document1 document1A = null;

@@ -17,14 +17,17 @@ public class CMPackageInfo implements MPackageInfo {
 		this.packageName = packageName;
 	}
 
+	@Override
 	public MPackageInfoOrigin getOrigin() {
 		return origin;
 	}
 
+	@Override
 	public String getPackageName() {
 		return packageName;
 	}
 
+	@Override
 	public String getPackagedName(String localName) {
 		if (StringUtils.isEmpty(packageName)) {
 			return localName;
@@ -33,14 +36,17 @@ public class CMPackageInfo implements MPackageInfo {
 		}
 	}
 
+	@Override
 	public String getLocalName() {
 		return null;
 	}
 
+	@Override
 	public String getContainerLocalName(String delimiter) {
 		return null;
 	}
 
+	@Override
 	public MPackageInfo getPackageInfo() {
 		return this;
 	}

@@ -21,6 +21,7 @@ public class SinglePropertyOutline extends AbstractSinglePropertyOutline {
 		super(outline, classOutline, target);
 	}
 
+	@Override
 	protected JMethod generateGetter() {
 		final JMethod getter = referenceClass.method(JMod.PUBLIC,
 				type, getGetterMethodName());
@@ -28,6 +29,7 @@ public class SinglePropertyOutline extends AbstractSinglePropertyOutline {
 		return getter;
 	}
 
+	@Override
 	protected JMethod generateSetter() {
 		final JMethod setter = referenceClass.method(JMod.PUBLIC,
 				codeModel.VOID, getSetterMethodName());
@@ -36,6 +38,7 @@ public class SinglePropertyOutline extends AbstractSinglePropertyOutline {
 		return setter;
 	}
 
+	@Override
 	public MPropertyAccessor createPropertyAccessor(JExpression target) {
 		return new PropertyAccessor(target);
 	}
@@ -46,10 +49,12 @@ public class SinglePropertyOutline extends AbstractSinglePropertyOutline {
 			super(target);
 		}
 
+		@Override
 		public JExpression isSet() {
 			return field.ne(JExpr._null());
 		}
 
+		@Override
 		public void unset(JBlock body) {
 			body.assign(field, JExpr._null());
 

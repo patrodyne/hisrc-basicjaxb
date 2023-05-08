@@ -52,18 +52,22 @@ public class CMModelOutline implements MModelOutline {
 		this.code = code;
 	}
 
+	@Override
 	public MModelInfo<NType, NClass> getTarget() {
 		return target;
 	}
 
+	@Override
 	public JCodeModel getCode() {
 		return code;
 	}
 
+	@Override
 	public Collection<MPackageOutline> getPackageOutlines() {
 		return _packageOutlines;
 	}
 
+	@Override
 	public MPackageOutline getPackageOutline(MPackageInfo target) {
 		return packageOutlinesMap.get(target);
 	}
@@ -74,10 +78,12 @@ public class CMModelOutline implements MModelOutline {
 		this.packageOutlinesMap.put(packageOutline.getTarget(), packageOutline);
 	}
 
+	@Override
 	public Collection<MClassOutline> getClassOutlines() {
 		return _classOutlines;
 	}
 
+	@Override
 	public MClassOutline getClassOutline(MClassInfo<NType, NClass> target) {
 		return classOutlinesMap.get(target);
 	}
@@ -88,10 +94,12 @@ public class CMModelOutline implements MModelOutline {
 		this.classOutlinesMap.put(classOutline.getTarget(), classOutline);
 	}
 
+	@Override
 	public Collection<MEnumOutline> getEnumOutlines() {
 		return _enumOutlines;
 	}
 
+	@Override
 	public MEnumOutline getEnumOutline(MEnumLeafInfo<NType, NClass> target) {
 		return enumOutlinesMap.get(target);
 	}
@@ -102,10 +110,12 @@ public class CMModelOutline implements MModelOutline {
 		this.enumOutlinesMap.put(enumOutline.getTarget(), enumOutline);
 	}
 
+	@Override
 	public Collection<MElementOutline> getElementOutlines() {
 		return _elementOutlines;
 	}
 
+	@Override
 	public MElementOutline getElementOutline(MElementInfo<NType, NClass> target) {
 		return elementOutlinesMap.get(target);
 	}

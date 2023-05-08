@@ -16,10 +16,12 @@ public class CMEnumLeafInfoOrigin<T, C, ELI extends EnumLeafInfo<T, C>>
 		this.source = source;
 	}
 
+	@Override
 	public ELI getSource() {
 		return source;
 	}
 
+	@Override
 	public MElementInfoOrigin createElementInfoOrigin() {
 		return new CMEnumElementInfoOrigin<T, C, ELI>(
 				getSource());

@@ -13,6 +13,7 @@ public class CMAnyAttributePropertyInfo<T, C extends T> extends
 		super(origin, classInfo, privateName, false, false);
 	}
 
+	@Override
 	public <V> V acceptPropertyInfoVisitor(MPropertyInfoVisitor<T, C, V> visitor) {
 		return visitor.visitAnyAttributePropertyInfo(this);
 	}

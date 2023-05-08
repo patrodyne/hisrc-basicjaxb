@@ -15,6 +15,7 @@ public class CMClassElementInfoOrigin<T, C, CI extends ClassInfo<T, C>>
 		this.source = source;
 	}
 
+	@Override
 	public CI getSource() {
 		return source;
 	}

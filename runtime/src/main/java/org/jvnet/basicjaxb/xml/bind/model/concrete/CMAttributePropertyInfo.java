@@ -25,10 +25,12 @@ public class CMAttributePropertyInfo<T, C extends T> extends
 		this.attributeName = attributeName;
 	}
 
+	@Override
 	public QName getAttributeName() {
 		return attributeName;
 	}
 
+	@Override
 	public <V> V acceptPropertyInfoVisitor(MPropertyInfoVisitor<T, C, V> visitor) {
 		return visitor.visitAttributePropertyInfo(this);
 	}

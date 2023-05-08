@@ -26,6 +26,7 @@ public class PropertyFieldAccessorFactory implements FieldAccessorFactory {
 
 	}
 
+	@Override
 	public FieldAccessorEx createFieldAccessor(FieldOutline fieldOutline,
 			JExpression targetObject) {
 		return new PropertyFieldAccessor(fieldOutline, targetObject);
@@ -93,26 +94,32 @@ public class PropertyFieldAccessorFactory implements FieldAccessorFactory {
 			this.unSetter = theClass.getMethod("unset" + publicName, ABSENT);
 		}
 
+		@Override
 		public JType getType() {
 			return type;
 		}
 
+		@Override
 		public boolean isVirtual() {
 			return constantField != null;
 		}
 
+		@Override
 		public boolean isConstant() {
 			return constantField != null;
 		}
 
+		@Override
 		public FieldOutline owner() {
 			return fieldOutline;
 		}
 
+		@Override
 		public CPropertyInfo getPropertyInfo() {
 			return fieldOutline.getPropertyInfo();
 		}
 
+		@Override
 		public boolean isAlwaysSet() {
 			if (constantField != null) {
 				return true;
@@ -121,6 +128,7 @@ public class PropertyFieldAccessorFactory implements FieldAccessorFactory {
 			}
 		}
 
+		@Override
 		public JExpression hasSetValue() {
 			if (constantField != null) {
 				return JExpr.TRUE;
@@ -131,6 +139,7 @@ public class PropertyFieldAccessorFactory implements FieldAccessorFactory {
 			}
 		}
 
+		@Override
 		public void unsetValues(JBlock body) {
 			if (constantField != null) {
 
@@ -142,6 +151,7 @@ public class PropertyFieldAccessorFactory implements FieldAccessorFactory {
 			}
 		}
 
+		@Override
 		public void fromRawValue(JBlock block, String uniqueName,
 				JExpression $var) {
 			if (constantField != null) {
@@ -160,6 +170,7 @@ public class PropertyFieldAccessorFactory implements FieldAccessorFactory {
 			}
 		}
 
+		@Override
 		public void toRawValue(JBlock block, JVar $var) {
 			if (constantField != null) {
 				block.assign($var, theClass.staticRef(this.constantField));

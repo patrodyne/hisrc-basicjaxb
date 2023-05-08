@@ -8,6 +8,7 @@ public interface MElementInfo<T, C extends T> extends
 		MElementTypeInfo<T, C, MElementInfoOrigin>, MPackaged, MContained,
 		MContainer {
 
+	@Override
 	public QName getElementName();
 
 	public MClassInfo<T, C> getScope();

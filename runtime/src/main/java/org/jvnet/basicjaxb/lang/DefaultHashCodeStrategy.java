@@ -18,16 +18,19 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy
 	}
 
 	private Logger logger = LoggerFactory.getLogger(HashCodeStrategy.class);
+	@Override
 	public Logger getLogger()
 	{
 		return logger;
 	}
 	
+	@Override
 	public boolean isDebugEnabled()
 	{
 		return getLogger().isDebugEnabled();
 	}
 
+	@Override
 	public boolean isTraceEnabled()
 	{
 		return getLogger().isTraceEnabled();

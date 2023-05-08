@@ -21,10 +21,12 @@ public class CMWildcardTypeInfo<T, C extends T> implements
 		this.targetType = targetType;
 	}
 
+	@Override
 	public MCustomizations getCustomizations() {
 		return customizations;
 	}
 
+	@Override
 	public T getTargetType() {
 		return targetType;
 	}
@@ -39,10 +41,12 @@ public class CMWildcardTypeInfo<T, C extends T> implements
 		return false;
 	}
 
+	@Override
 	public MWildcardTypeInfoOrigin getOrigin() {
 		return origin;
 	}
 
+	@Override
 	public <V> V acceptTypeInfoVisitor(MTypeInfoVisitor<T, C, V> visitor) {
 		return visitor.visitWildcardTypeInfo(this);
 	}

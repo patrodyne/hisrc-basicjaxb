@@ -44,6 +44,7 @@ public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy
 	 * 
 	 * @return The original hash.
 	 */
+	@Override
 	protected int observe(String label, ObjectLocator locator, int hash)
 	{
 		if ( isTraceEnabled() )
@@ -102,6 +103,7 @@ public class JAXBHashCodeStrategy extends DefaultHashCodeStrategy
 		return hash;
 	}
 	
+	@Override
 	protected int hashCodeInternal(ObjectLocator locator, int hashCode, Object value)
 	{
 		if (value instanceof JAXBElement<?>)

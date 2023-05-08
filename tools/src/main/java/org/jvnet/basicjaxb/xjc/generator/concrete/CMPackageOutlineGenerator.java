@@ -27,6 +27,7 @@ public class CMPackageOutlineGenerator implements MPackageOutlineGenerator {
 		this.packageInfo = packageInfo;
 	}
 
+	@Override
 	public MPackageOutline generate(MModelOutline parent,
 			MModelInfo<NType, NClass> modelInfo, MPackageInfo packageInfo) {
 		final PackageOutline packageOutline = outline

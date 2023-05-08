@@ -33,14 +33,17 @@ public class CMElementPropertyInfo<T, C extends T> extends CMPropertyInfo<T, C>
 		this.defaultValueNamespaceContext = defaultValueNamespaceContext;
 	}
 
+	@Override
 	public MTypeInfo<T, C> getTypeInfo() {
 		return typeInfo;
 	}
 
+	@Override
 	public QName getElementName() {
 		return elementName;
 	}
 
+	@Override
 	public QName getWrapperElementName() {
 		return wrapperElementName;
 	}
@@ -60,6 +63,7 @@ public class CMElementPropertyInfo<T, C extends T> extends CMPropertyInfo<T, C>
 		return defaultValueNamespaceContext;
 	}
 
+	@Override
 	public <V> V acceptPropertyInfoVisitor(MPropertyInfoVisitor<T, C, V> visitor) {
 		return visitor.visitElementPropertyInfo(this);
 	}

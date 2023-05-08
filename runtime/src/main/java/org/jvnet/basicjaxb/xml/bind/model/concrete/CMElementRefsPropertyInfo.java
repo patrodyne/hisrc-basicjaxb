@@ -47,26 +47,32 @@ public class CMElementRefsPropertyInfo<T, C extends T> extends
 		this.typedObjectAllowed = typedObjectAllowed;
 	}
 
+	@Override
 	public List<MElement<T, C>> getElementTypeInfos() {
 		return unmodifiableElementTypeInfos;
 	}
 
+	@Override
 	public QName getWrapperElementName() {
 		return wrapperElementName;
 	}
 
+	@Override
 	public boolean isMixed() {
 		return mixed;
 	}
 
+	@Override
 	public boolean isDomAllowed() {
 		return domAllowed;
 	}
 
+	@Override
 	public boolean isTypedObjectAllowed() {
 		return typedObjectAllowed;
 	}
 
+	@Override
 	public <V> V acceptPropertyInfoVisitor(MPropertyInfoVisitor<T, C, V> visitor) {
 		return visitor.visitElementRefsPropertyInfo(this);
 	}

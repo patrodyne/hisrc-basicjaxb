@@ -30,14 +30,17 @@ public class CMPropertyOutline implements MPropertyOutline {
 		this.propertyAccessorFactory = propertyAccessorFactory;
 	}
 
+	@Override
 	public MClassOutline getClassOutline() {
 		return classOutline;
 	}
 
+	@Override
 	public MPropertyInfo<NType, NClass> getTarget() {
 		return target;
 	}
 
+	@Override
 	public MPropertyAccessor createPropertyAccessor(JExpression target) {
 		return this.propertyAccessorFactory.createPropertyAccessor(target);
 	}

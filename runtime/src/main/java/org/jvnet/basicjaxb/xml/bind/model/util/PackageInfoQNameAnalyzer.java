@@ -26,10 +26,12 @@ public class PackageInfoQNameAnalyzer<T, C extends T> {
 		final NamespaceURICounter counter = new NamespaceURICounter();
 		final QNameCollector collector = new QNameCollector() {
 
+			@Override
 			public void element(QName name) {
 				counter.add(name.getNamespaceURI());
 			}
 
+			@Override
 			public void attribute(QName name) {
 
 			}
@@ -43,9 +45,11 @@ public class PackageInfoQNameAnalyzer<T, C extends T> {
 		final NamespaceURICounter counter = new NamespaceURICounter();
 		final QNameCollector collector = new QNameCollector() {
 
+			@Override
 			public void element(QName name) {
 			}
 
+			@Override
 			public void attribute(QName name) {
 				counter.add(name.getNamespaceURI());
 			}

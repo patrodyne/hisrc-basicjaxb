@@ -30,18 +30,22 @@ public class CMElementOutline implements MElementOutline {
 		this.code = code;
 	}
 
+	@Override
 	public MModelOutline getParent() {
 		return parent;
 	}
 
+	@Override
 	public MPackageOutline getPackageOutline() {
 		return packageOutline;
 	}
 
+	@Override
 	public MElementInfo<NType, NClass> getTarget() {
 		return target;
 	}
 
+	@Override
 	public JDefinedClass getCode() {
 		return code;
 	}

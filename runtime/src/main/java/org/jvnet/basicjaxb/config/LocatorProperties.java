@@ -36,6 +36,7 @@ public class LocatorProperties extends Properties implements LocatorLoader<Objec
 	 * 
 	 * @throws IOException If an error occurred when inputting from the reader.
 	 */
+	@Override
 	public void load(String locator) throws IOException
 	{
 		try (  Reader resourceReader = createReader(locator, getClass()) )

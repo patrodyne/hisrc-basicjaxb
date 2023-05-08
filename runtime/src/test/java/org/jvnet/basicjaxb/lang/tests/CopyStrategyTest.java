@@ -80,11 +80,13 @@ public class CopyStrategyTest
 			this.any = any;
 		}
 
+		@Override
 		public Object createNewInstance()
 		{
 			return new A();
 		}
 
+		@Override
 		public Object copyTo(Object target)
 		{
 			ObjectLocator thisLocator = null;
@@ -94,6 +96,7 @@ public class CopyStrategyTest
 			return copyTo(thisLocator, target, copyStrategy);
 		}
 
+		@Override
 		public Object copyTo(ObjectLocator locator, Object target, CopyStrategy copyStrategy)
 		{
 			final A copy = ((target == null) ? ((A) createNewInstance()) : ((A) target));
@@ -106,6 +109,7 @@ public class CopyStrategyTest
 			return copy;
 		}
 		
+		@Override
 		public Object clone()
 		{
 			return copyTo(createNewInstance());

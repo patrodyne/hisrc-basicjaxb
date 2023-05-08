@@ -41,14 +41,17 @@ public abstract class CMElementTypeInfo<T, C extends T, O> implements
 		return this.origin;
 	}
 
+	@Override
 	public QName getElementName() {
 		return elementName;
 	}
 
+	@Override
 	public MTypeInfo<T, C> getTypeInfo() {
 		return typeInfo;
 	}
 
+	@Override
 	public boolean isNillable() {
 		return this.nillable;
 	}

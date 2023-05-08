@@ -28,6 +28,7 @@ public class SchemaOutputDomResolver extends SchemaOutputResolver
     public DOMResult getResult() { return result; }
     public void setResult(DOMResult result) { this.result = result; }
     
+	@Override
 	public Result createOutput(String namespaceURI, String systemId) throws IOException 
 	{
 		setResult(new DOMResult());

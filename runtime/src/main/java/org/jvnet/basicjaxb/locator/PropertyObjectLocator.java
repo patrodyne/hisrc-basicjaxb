@@ -16,6 +16,7 @@ public interface PropertyObjectLocator extends ObjectLocator {
 	/**
 	 * @return Returns value of the property.
 	 */
+	@Override
 	public Object getObject();
 
 }

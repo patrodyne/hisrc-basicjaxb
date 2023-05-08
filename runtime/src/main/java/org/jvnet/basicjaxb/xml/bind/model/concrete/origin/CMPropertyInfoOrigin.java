@@ -15,6 +15,7 @@ public class CMPropertyInfoOrigin<T, C, PI extends PropertyInfo<T, C>> implement
 		this.source = source;
 	}
 
+	@Override
 	public PI getSource() {
 		return source;
 	}

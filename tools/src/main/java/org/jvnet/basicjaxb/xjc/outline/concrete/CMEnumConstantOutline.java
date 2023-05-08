@@ -27,14 +27,17 @@ public class CMEnumConstantOutline implements MEnumConstantOutline {
 		this.code = code;
 	}
 
+	@Override
 	public MEnumOutline getEnumOutline() {
 		return enumOutline;
 	}
 
+	@Override
 	public MEnumConstantInfo<NType, NClass> getTarget() {
 		return target;
 	}
 
+	@Override
 	public JEnumConstant getCode() {
 		return code;
 	}

@@ -18,7 +18,9 @@ import jakarta.xml.bind.Unmarshaller;
 public class MergeTest extends AbstractSamplesTest
 {
 	private Map<String, File> sampleMap = new HashMap<>();
+	@Override
 	protected Map<String, File> getSampleMap() { return sampleMap; }
+	@Override
 	protected void setSampleMap(Map<String, File> sampleMap) { this.sampleMap = sampleMap; }
 
 	@BeforeEach

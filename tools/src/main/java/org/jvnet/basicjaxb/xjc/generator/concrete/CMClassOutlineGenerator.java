@@ -32,6 +32,7 @@ public class CMClassOutlineGenerator implements MClassOutlineGenerator {
 		this.classInfo = classInfo;
 	}
 
+	@Override
 	public MClassOutline generate(final MPackageOutline parent,
 			MModelInfo<NType, NClass> modelInfo,
 			MClassInfo<NType, NClass> classInfo) {

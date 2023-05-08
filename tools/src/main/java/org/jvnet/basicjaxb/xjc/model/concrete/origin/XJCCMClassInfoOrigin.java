@@ -20,6 +20,7 @@ public class XJCCMClassInfoOrigin extends
 		super(source);
 	}
 
+	@Override
 	public MClassOutlineGenerator createGenerator(Outline outline) {
 		return new CMClassOutlineGenerator(outline, getSource());
 	}

@@ -15,6 +15,7 @@ public class CMElementOrigin<T, C, E extends Element<T, C>>
 		this.source = source;
 	}
 
+	@Override
 	public E getSource() {
 		return source;
 	}

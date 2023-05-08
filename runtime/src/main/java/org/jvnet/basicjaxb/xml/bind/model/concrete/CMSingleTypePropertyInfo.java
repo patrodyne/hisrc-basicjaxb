@@ -36,6 +36,7 @@ public abstract class CMSingleTypePropertyInfo<T, C extends T> extends
 		return this.defaultValueNamespaceContext;
 	}
 
+	@Override
 	public MTypeInfo<T, C> getTypeInfo() {
 		return typeInfo;
 	}

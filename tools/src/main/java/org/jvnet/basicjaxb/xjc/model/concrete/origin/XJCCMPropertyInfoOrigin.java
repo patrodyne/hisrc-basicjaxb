@@ -20,10 +20,12 @@ public class XJCCMPropertyInfoOrigin extends
 		super(source);
 	}
 
+	@Override
 	public MPropertyOutlineGenerator createGenerator(Outline outline) {
 		return new CMPropertyOutlineGenerator(outline, getSource());
 	}
 
+	@Override
 	public XSComponent getSchemaComponent() {
 		return getSource().getSchemaComponent();
 	}

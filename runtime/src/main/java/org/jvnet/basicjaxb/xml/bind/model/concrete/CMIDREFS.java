@@ -18,6 +18,7 @@ public class CMIDREFS<T, C extends T> extends CMList<T, C> implements MIDREFS<T,
 		return MessageFormat.format("IDREFS [{0}]", getItemTypeInfo());
 	}
 
+	@Override
 	public <V> V acceptTypeInfoVisitor(MTypeInfoVisitor<T, C, V> visitor) {
 		return visitor.visitIDREFS(this);
 	}

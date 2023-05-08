@@ -22,6 +22,7 @@ public class CMEnumConstantInfo<T, C extends T> implements
 		this.lexicalValue = lexicalValue;
 	}
 
+	@Override
 	public MEnumConstantInfoOrigin getOrigin() {
 		return origin;
 	}
@@ -30,6 +31,7 @@ public class CMEnumConstantInfo<T, C extends T> implements
 		return enumLeafInfo;
 	}
 
+	@Override
 	public String getLexicalValue() {
 		return lexicalValue;
 	}

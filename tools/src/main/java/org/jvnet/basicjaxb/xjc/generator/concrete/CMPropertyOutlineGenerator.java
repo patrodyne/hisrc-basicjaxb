@@ -34,6 +34,7 @@ public class CMPropertyOutlineGenerator implements MPropertyOutlineGenerator {
 		this.propertyInfo = propertyInfo;
 	}
 
+	@Override
 	public MPropertyOutline generate(MClassOutline classOutline,
 			MModelInfo<NType, NClass> modelInfo,
 			MPropertyInfo<NType, NClass> propertyInfo) {

@@ -39,36 +39,47 @@ public class FindXSElementDeclVisitor implements XSVisitor {
 		return elementDecl;
 	}
 
+	@Override
 	public void annotation(XSAnnotation ann) {
 	}
 
+	@Override
 	public void attGroupDecl(XSAttGroupDecl decl) {
 	}
 
+	@Override
 	public void attributeDecl(XSAttributeDecl decl) {
 	}
 
+	@Override
 	public void attributeUse(XSAttributeUse use) {
 	}
 
+	@Override
 	public void complexType(XSComplexType type) {
 	}
 
+	@Override
 	public void facet(XSFacet facet) {
 	}
 
+	@Override
 	public void identityConstraint(XSIdentityConstraint decl) {
 	}
 
+	@Override
 	public void notation(XSNotation notation) {
 	}
 
+	@Override
 	public void schema(XSSchema schema) {
 	}
 
+	@Override
 	public void xpath(XSXPath xp) {
 	}
 
+	@Override
 	public void elementDecl(XSElementDecl decl) {
 		final QName declName = StringUtils.isEmpty(decl.getTargetNamespace()) ? new QName(
 				decl.getName()) : new QName(decl.getTargetNamespace(),
@@ -78,26 +89,32 @@ public class FindXSElementDeclVisitor implements XSVisitor {
 		}
 	}
 
+	@Override
 	public void modelGroup(XSModelGroup group) {
 		for (XSParticle child : group.getChildren()) {
 			child.visit(this);
 		}
 	}
 
+	@Override
 	public void modelGroupDecl(XSModelGroupDecl decl) {
 		decl.getModelGroup().visit(this);
 	}
 
+	@Override
 	public void wildcard(XSWildcard wc) {
 	}
 
+	@Override
 	public void empty(XSContentType empty) {
 	}
 
+	@Override
 	public void particle(XSParticle particle) {
 		particle.getTerm().visit(this);
 	}
 
+	@Override
 	public void simpleType(XSSimpleType simpleType) {
 	}
 }

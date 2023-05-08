@@ -52,6 +52,7 @@ public class ConsoleWriter extends Writer
 	{
 		return new FocusAdapter()
 		{
+			@Override
 			public void focusGained(FocusEvent e)
 			{
 				// Enable arrow scrolling!!!

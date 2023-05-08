@@ -157,6 +157,7 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 
 	// Plugin Processing
 	
+	@Override
 	protected void beforeRun(Outline outline, Options options) throws Exception
 	{
 		setOptions(options);
@@ -172,6 +173,7 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 		}
 	}
 	
+	@Override
 	protected void afterRun(Outline outline, Options options) throws Exception
 	{
 		if ( isInfoEnabled() )

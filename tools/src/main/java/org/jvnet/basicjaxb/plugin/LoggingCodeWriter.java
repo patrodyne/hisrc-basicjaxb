@@ -29,6 +29,7 @@ public class LoggingCodeWriter extends FilterCodeWriter
 		setVerbose(verbose);
 	}
 
+	@Override
 	public Writer openSource(JPackage pkg, String fileName)
 		throws IOException
 	{
@@ -42,6 +43,7 @@ public class LoggingCodeWriter extends FilterCodeWriter
 		return core.openSource(pkg, fileName);
 	}
 
+	@Override
 	public OutputStream openBinary(JPackage pkg, String fileName)
 		throws IOException
 	{

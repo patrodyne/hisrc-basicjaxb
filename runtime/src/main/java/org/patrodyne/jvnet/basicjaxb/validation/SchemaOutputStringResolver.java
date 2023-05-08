@@ -24,6 +24,7 @@ public class SchemaOutputStringResolver extends SchemaOutputResolver
 	public Result getResult() { return result; }
 	public void setResult(Result result) { this.result = result; }
 	
+	@Override
 	public Result createOutput(String namespaceURI, String systemId) throws IOException 
 	{
 		setStringWriter(new StringWriter());

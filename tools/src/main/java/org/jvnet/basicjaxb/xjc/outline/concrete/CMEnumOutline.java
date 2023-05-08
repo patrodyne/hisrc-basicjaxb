@@ -38,22 +38,27 @@ public class CMEnumOutline implements MEnumOutline {
 		this.code = code;
 	}
 
+	@Override
 	public MModelOutline getParent() {
 		return parent;
 	}
 
+	@Override
 	public MPackageOutline getPackageOutline() {
 		return packageOutline;
 	}
 
+	@Override
 	public MEnumLeafInfo<NType, NClass> getTarget() {
 		return target;
 	}
 
+	@Override
 	public JDefinedClass getCode() {
 		return code;
 	}
 
+	@Override
 	public List<MEnumConstantOutline> getEnumConstantOutlines() {
 		return _enumConstantOutlines;
 	}

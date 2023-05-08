@@ -30,17 +30,20 @@ public class AnnotatePropertyVisitor implements
 		this.annotatable = annotatable;
 	}
 
+	@Override
 	public Void visitAnyAttributePropertyInfo(
 			MAnyAttributePropertyInfo<NType, NClass> info) {
 		this.annotatable.annotate(XmlAnyAttribute.class);
 		return null;
 	}
 
+	@Override
 	public Void visitValuePropertyInfo(MValuePropertyInfo<NType, NClass> info) {
 		this.annotatable.annotate(XmlValue.class);
 		return null;
 	}
 
+	@Override
 	public Void visitAttributePropertyInfo(
 			MAttributePropertyInfo<NType, NClass> info) {
 
@@ -66,26 +69,31 @@ public class AnnotatePropertyVisitor implements
 		return null;
 	}
 
+	@Override
 	public Void visitElementPropertyInfo(
 			MElementPropertyInfo<NType, NClass> info) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Void visitElementsPropertyInfo(
 			MElementsPropertyInfo<NType, NClass> info) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Void visitAnyElementPropertyInfo(
 			MAnyElementPropertyInfo<NType, NClass> info) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Void visitElementRefPropertyInfo(
 			MElementRefPropertyInfo<NType, NClass> info) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Void visitElementRefsPropertyInfo(
 			MElementRefsPropertyInfo<NType, NClass> info) {
 		throw new UnsupportedOperationException();

@@ -15,6 +15,7 @@ public class CMModelInfoOrigin<T, C, TIS extends TypeInfoSet<T, C, ?, ?>>
 		this.source = source;
 	}
 
+	@Override
 	public TIS getSource() {
 		return source;
 	}

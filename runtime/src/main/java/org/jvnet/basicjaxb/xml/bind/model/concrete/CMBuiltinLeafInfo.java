@@ -25,18 +25,22 @@ public class CMBuiltinLeafInfo<T, C extends T> implements MBuiltinLeafInfo<T, C>
 		this.typeName = typeName;
 	}
 
+	@Override
 	public MCustomizations getCustomizations() {
 		return customizations;
 	}
 
+	@Override
 	public T getTargetType() {
 		return targetType;
 	}
 
+	@Override
 	public MBuiltinLeafInfoOrigin getOrigin() {
 		return origin;
 	}
 
+	@Override
 	public QName getTypeName() {
 		return typeName;
 	}
@@ -46,10 +50,12 @@ public class CMBuiltinLeafInfo<T, C extends T> implements MBuiltinLeafInfo<T, C>
 		return true;
 	}
 
+	@Override
 	public String toString() {
 		return "BuiltinLeafInfo [" + getTypeName() + "]";
 	}
 
+	@Override
 	public <V> V acceptTypeInfoVisitor(MTypeInfoVisitor<T, C, V> visitor) {
 		return visitor.visitBuiltinLeafInfo(this);
 	}

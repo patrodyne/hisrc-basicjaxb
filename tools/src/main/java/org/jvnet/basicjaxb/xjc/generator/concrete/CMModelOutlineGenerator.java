@@ -36,6 +36,7 @@ public class CMModelOutlineGenerator implements MModelOutlineGenerator
 		this.outline = outline;
 	}
 
+	@Override
 	public MModelOutline generate(MModelInfo<NType, NClass> modelInfo)
 	{
 		final CMModelOutline modelOutline = new CMModelOutline(modelInfo, outline.getCodeModel());

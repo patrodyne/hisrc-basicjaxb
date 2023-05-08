@@ -15,6 +15,7 @@ public class CMEnumConstantInfoOrigin<T, C, ECI extends EnumConstant<T, C>>
 		this.source = source;
 	}
 
+	@Override
 	public ECI getSource() {
 		return source;
 	}

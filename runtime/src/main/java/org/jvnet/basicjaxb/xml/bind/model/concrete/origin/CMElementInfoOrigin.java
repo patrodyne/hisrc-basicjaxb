@@ -15,6 +15,7 @@ public class CMElementInfoOrigin<T, C, EI extends ElementInfo<T, C>> implements
 		this.source = source;
 	}
 
+	@Override
 	public EI getSource() {
 		return source;
 	}

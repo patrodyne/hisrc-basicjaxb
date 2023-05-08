@@ -46,16 +46,19 @@ public class CMClassRef<T, C extends T> implements MClassRef<T, C>
 		return this.origin;
 	}
 
+	@Override
 	public String getName()
 	{
 		return name;
 	}
 
+	@Override
 	public String getLocalName()
 	{
 		return localName;
 	}
 
+	@Override
 	public C getTargetType()
 	{
 		return targetType;
@@ -73,26 +76,31 @@ public class CMClassRef<T, C extends T> implements MClassRef<T, C>
 		return false;
 	}
 
+	@Override
 	public <V> V acceptTypeInfoVisitor(MTypeInfoVisitor<T, C, V> visitor)
 	{
 		return visitor.visitClassRef(this);
 	}
 
+	@Override
 	public MCustomizations getCustomizations()
 	{
 		return customizations;
 	}
 
+	@Override
 	public MPackageInfo getPackageInfo()
 	{
 		return _package;
 	}
 
+	@Override
 	public MContainer getContainer()
 	{
 		return container;
 	}
 
+	@Override
 	public String getContainerLocalName(String delimiter)
 	{
 		final String localName = getLocalName();

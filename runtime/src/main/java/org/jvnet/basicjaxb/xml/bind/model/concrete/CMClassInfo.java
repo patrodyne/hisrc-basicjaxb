@@ -68,14 +68,17 @@ public class CMClassInfo<T, C extends T> implements MClassInfo<T, C> {
 		this.typeName = typeName;
 	}
 
+	@Override
 	public MCustomizations getCustomizations() {
 		return customizations;
 	}
 
+	@Override
 	public MClassInfoOrigin getOrigin() {
 		return origin;
 	}
 
+	@Override
 	public C getTargetType() {
 		return targetType;
 	}
@@ -90,6 +93,7 @@ public class CMClassInfo<T, C extends T> implements MClassInfo<T, C> {
 		return false;
 	}
 
+	@Override
 	public MElementInfo<T, C> createElementInfo(MClassInfo<T, C> scope,
 			QName substitutionHead) {
 		return new CMElementInfo<T, C>(getOrigin().createElementInfoOrigin(),
@@ -97,22 +101,27 @@ public class CMClassInfo<T, C extends T> implements MClassInfo<T, C> {
 				getElementName(), scope, this, substitutionHead, null, null);
 	}
 
+	@Override
 	public MPackageInfo getPackageInfo() {
 		return _package;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public String getLocalName() {
 		return localName;
 	}
 
+	@Override
 	public MContainer getContainer() {
 		return container;
 	}
 
+	@Override
 	public String getContainerLocalName(String delimiter) {
 		final String localName = getLocalName();
 		if (localName == null) {
@@ -130,10 +139,12 @@ public class CMClassInfo<T, C extends T> implements MClassInfo<T, C> {
 		}
 	}
 
+	@Override
 	public MClassTypeInfo<T, C, ?> getBaseTypeInfo() {
 		return baseTypeInfo;
 	}
 
+	@Override
 	public List<MPropertyInfo<T, C>> getProperties() {
 		return unmodifiableProperties;
 	}
@@ -143,16 +154,19 @@ public class CMClassInfo<T, C extends T> implements MClassInfo<T, C> {
 		return this.propertiesMap.get(privateName);
 	}
 
+	@Override
 	public QName getElementName() {
 		return elementName;
 	}
 
+	@Override
 	public void addProperty(MPropertyInfo<T, C> propertyInfo) {
 		Validate.notNull(propertyInfo);
 		this.properties.add(propertyInfo);
 		this.propertiesMap.put(propertyInfo.getPrivateName(), propertyInfo);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void removeProperty(MPropertyInfo<T, C> propertyInfo)
 	{
@@ -168,10 +182,12 @@ public class CMClassInfo<T, C extends T> implements MClassInfo<T, C> {
 		}
 	}
 
+	@Override
 	public String toString() {
 		return "ClassInfo [" + getName() + "]";
 	}
 
+	@Override
 	public <V> V acceptTypeInfoVisitor(MTypeInfoVisitor<T, C, V> visitor) {
 		return visitor.visitClassInfo(this);
 	}

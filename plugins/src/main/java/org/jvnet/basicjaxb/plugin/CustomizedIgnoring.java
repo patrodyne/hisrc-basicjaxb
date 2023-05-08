@@ -24,6 +24,7 @@ public class CustomizedIgnoring implements Ignoring
 		this.ignoredCustomizationElementNames = names;
 	}
 
+	@Override
 	public boolean isIgnored(ClassOutline classOutline)
 	{
 		for (QName name : getIgnoredCustomizationElementNames())
@@ -34,6 +35,7 @@ public class CustomizedIgnoring implements Ignoring
 		return false;
 	}
 
+	@Override
 	public boolean isIgnored(EnumOutline enumOutline)
 	{
 		for (QName name : getIgnoredCustomizationElementNames())
@@ -44,6 +46,7 @@ public class CustomizedIgnoring implements Ignoring
 		return false;
 	}
 
+	@Override
 	public boolean isIgnored(FieldOutline fieldOutline)
 	{
 		for (QName name : getIgnoredCustomizationElementNames())
@@ -54,6 +57,7 @@ public class CustomizedIgnoring implements Ignoring
 		return false;
 	}
 
+	@Override
 	public boolean isIgnored(CClassInfo classInfo)
 	{
 		for (QName name : getIgnoredCustomizationElementNames())
@@ -64,6 +68,7 @@ public class CustomizedIgnoring implements Ignoring
 		return false;
 	}
 
+	@Override
 	public boolean isIgnored(CEnumLeafInfo enumLeafInfo)
 	{
 		for (QName name : getIgnoredCustomizationElementNames())
@@ -74,6 +79,7 @@ public class CustomizedIgnoring implements Ignoring
 		return false;
 	}
 
+	@Override
 	public boolean isIgnored(CPropertyInfo propertyInfo)
 	{
 		for (QName name : getIgnoredCustomizationElementNames())

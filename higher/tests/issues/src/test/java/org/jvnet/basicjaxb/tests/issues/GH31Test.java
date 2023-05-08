@@ -15,10 +15,12 @@ public class GH31Test {
 		final IssueGH31ComplexType t = new IssueGH31ComplexType();
 
 		final ToStringStrategy s = new JAXBToStringStrategy() {
+			@Override
 			public boolean isUseIdentityHashCode() {
 				return false;
 			}
 
+			@Override
 			public StringBuilder append(ObjectLocator locator,
 					StringBuilder buffer, Object value) {
 

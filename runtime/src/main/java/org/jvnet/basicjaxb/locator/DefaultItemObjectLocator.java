@@ -33,10 +33,12 @@ public final class DefaultItemObjectLocator extends AbstractObjectLocator
 	 * 
 	 * @return Index of the item.
 	 */
+	@Override
 	public int getIndex() {
 		return index;
 	}
 
+	@Override
 	public Object[] getMessageParameters() {
 		return new Object[] { getObject(), Integer.valueOf(getIndex()) };
 	}

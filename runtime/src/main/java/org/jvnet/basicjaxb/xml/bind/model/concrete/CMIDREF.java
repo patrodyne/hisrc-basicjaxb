@@ -24,18 +24,22 @@ public class CMIDREF<T, C extends T> implements MIDREF<T, C> {
 		this.valueTypeInfo = itemTypeInfo;
 	}
 
+	@Override
 	public MCustomizations getCustomizations() {
 		return customizations;
 	}
 
+	@Override
 	public T getTargetType() {
 		return targetType;
 	}
 
+	@Override
 	public MTypeInfo<T, C> getValueTypeInfo() {
 		return valueTypeInfo;
 	}
 
+	@Override
 	public QName getTypeName() {
 		return XmlSchemaConstants.IDREF;
 	}
@@ -50,6 +54,7 @@ public class CMIDREF<T, C extends T> implements MIDREF<T, C> {
 		return MessageFormat.format("ID [{0}]", getValueTypeInfo());
 	}
 
+	@Override
 	public <V> V acceptTypeInfoVisitor(MTypeInfoVisitor<T, C, V> visitor) {
 		return visitor.visitIDREF(this);
 	}

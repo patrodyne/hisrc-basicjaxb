@@ -53,6 +53,7 @@ public class HtmlPane extends JEditorPane
 	{
 		return new FocusAdapter()
 		{
+			@Override
 			public void focusGained(FocusEvent e)
 			{
 				// Enable arrow scrolling!!!

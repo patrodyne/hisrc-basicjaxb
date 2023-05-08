@@ -69,18 +69,22 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 		this.origin = origin;
 	}
 
+	@Override
 	public MCustomizations getCustomizations() {
 		return customizations;
 	}
 
+	@Override
 	public MModelInfoOrigin getOrigin() {
 		return origin;
 	}
 
+	@Override
 	public Collection<MBuiltinLeafInfo<T, C>> getBuiltinLeafInfos() {
 		return unmodifiableBuiltinLeafInfos;
 	}
 
+	@Override
 	public Collection<MClassInfo<T, C>> getClassInfos() {
 		return unmodifiableClassInfos;
 	}
@@ -90,10 +94,12 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 		return this.classInfosMap.get(name);
 	}
 
+	@Override
 	public Collection<MEnumLeafInfo<T, C>> getEnumLeafInfos() {
 		return unmodifiableEnumLeafInfos;
 	}
 
+	@Override
 	public Collection<MElementInfo<T, C>> getElementInfos() {
 		return unmodifiableElementInfos;
 	}
@@ -107,6 +113,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 		return unmodifiableElementInfosMap;
 	}
 
+	@Override
 	public Collection<MTypeInfo<T, C>> getTypeInfos() {
 		return unmodifiableTypeInfos;
 	}
@@ -121,6 +128,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 		return this.unmodifiableBuiltinLeafInfosMap.get(name);
 	}
 
+	@Override
 	public void addBuiltinLeafInfo(MBuiltinLeafInfo<T, C> builtinLeafInfo) {
 		Validate.notNull(builtinLeafInfo);
 		this.builtinLeafInfos.add(builtinLeafInfo);
@@ -132,6 +140,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 		}
 	}
 
+	@Override
 	public void addEnumLeafInfo(MEnumLeafInfo<T, C> enumLeafInfo) {
 		Validate.notNull(enumLeafInfo);
 		this.enumLeafInfos.add(enumLeafInfo);
@@ -154,6 +163,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 
 	}
 
+	@Override
 	public void removeEnumLeafInfo(MEnumLeafInfo<T, C> enumLeafInfo) {
 		Validate.notNull(enumLeafInfo);
 		this.enumLeafInfos.remove(enumLeafInfo);
@@ -186,6 +196,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 		}
 	}
 
+	@Override
 	public void addClassInfo(MClassInfo<T, C> classInfo) {
 		Validate.notNull(classInfo);
 		this.classInfos.add(classInfo);
@@ -210,6 +221,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 		}
 	}
 
+	@Override
 	public void removeClassInfo(MClassInfo<T, C> classInfo) {
 		Validate.notNull(classInfo);
 		this.classInfos.remove(classInfo);
@@ -241,6 +253,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 		}
 	}
 
+	@Override
 	public void addElementInfo(MElementInfo<T, C> elementInfo) {
 		Validate.notNull(elementInfo);
 		Validate.notNull(elementInfo.getElementName());
@@ -252,6 +265,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 		}
 	}
 
+	@Override
 	public void removeElementInfo(MElementInfo<T, C> elementInfo) {
 		Validate.notNull(elementInfo);
 		Validate.notNull(elementInfo.getElementName());

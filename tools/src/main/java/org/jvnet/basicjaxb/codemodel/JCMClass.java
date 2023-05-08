@@ -68,6 +68,7 @@ public class JCMClass extends JCMType<JClass> {
 			return Boolean.FALSE;
 		}
 		
+		@Override
 		public Boolean visit(JCMTypeWildcard type) {
 			return getType().isAssignableFrom(type.getType()._extends());
 			

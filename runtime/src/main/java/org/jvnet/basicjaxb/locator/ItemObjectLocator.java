@@ -16,6 +16,7 @@ public interface ItemObjectLocator extends ObjectLocator {
 	/**
 	 * @return Item value.
 	 */
+	@Override
 	public Object getObject();
 
 }

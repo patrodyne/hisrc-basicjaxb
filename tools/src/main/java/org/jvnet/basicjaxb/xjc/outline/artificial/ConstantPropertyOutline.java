@@ -45,6 +45,7 @@ public abstract class ConstantPropertyOutline extends AbstractPropertyOutline {
 		return field;
 	}
 
+	@Override
 	public MPropertyAccessor createPropertyAccessor(JExpression target) {
 		return new PropertyAccessor(target);
 	}
@@ -61,9 +62,11 @@ public abstract class ConstantPropertyOutline extends AbstractPropertyOutline {
 			return true;
 		}
 
+		@Override
 		public void unset(JBlock body) {
 		}
 
+		@Override
 		public void set(JBlock block, String uniqueName, JExpression value) {
 		}
 
@@ -72,10 +75,12 @@ public abstract class ConstantPropertyOutline extends AbstractPropertyOutline {
 			return false;
 		}
 
+		@Override
 		public JExpression isSet() {
 			return JExpr.TRUE;
 		}
 
+		@Override
 		public void get(JBlock block, JVar variable) {
 			block.assign(variable, ConstantPropertyOutline.this.referenceClass
 					.staticRef(ConstantPropertyOutline.this.field));

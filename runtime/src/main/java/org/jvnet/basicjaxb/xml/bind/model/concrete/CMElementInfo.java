@@ -56,22 +56,27 @@ public class CMElementInfo<T, C extends T> implements MElementInfo<T, C> {
 		this.defaultValueNamespaceContext = defaultValueNamespaceContext;
 	}
 
+	@Override
 	public MElementInfoOrigin getOrigin() {
 		return origin;
 	}
 
+	@Override
 	public MPackageInfo getPackageInfo() {
 		return _package;
 	}
 
+	@Override
 	public MContainer getContainer() {
 		return container;
 	}
 
+	@Override
 	public String getLocalName() {
 		return localName;
 	}
 
+	@Override
 	public String getContainerLocalName(String delimiter) {
 		final String localName = getLocalName();
 		if (localName == null) {
@@ -89,18 +94,22 @@ public class CMElementInfo<T, C extends T> implements MElementInfo<T, C> {
 		}
 	}
 
+	@Override
 	public QName getElementName() {
 		return elementName;
 	}
 
+	@Override
 	public MClassInfo<T, C> getScope() {
 		return scope;
 	}
 
+	@Override
 	public MTypeInfo<T, C> getTypeInfo() {
 		return typeInfo;
 	}
 
+	@Override
 	public QName getSubstitutionHead() {
 		return substitutionHead;
 	}
@@ -120,6 +129,7 @@ public class CMElementInfo<T, C extends T> implements MElementInfo<T, C> {
 		return defaultValueNamespaceContext;
 	}
 
+	@Override
 	public String toString() {
 		return MessageFormat.format("ElementInfo [{0}: {1}]", getElementName(),
 				getTypeInfo());

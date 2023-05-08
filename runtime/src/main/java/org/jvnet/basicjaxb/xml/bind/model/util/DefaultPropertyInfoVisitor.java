@@ -18,34 +18,42 @@ public class DefaultPropertyInfoVisitor<T, C extends T, V> implements
 		return null;
 	}
 
+	@Override
 	public V visitElementPropertyInfo(MElementPropertyInfo<T, C> info) {
 		return visitPropertyInfo(info);
 	}
 
+	@Override
 	public V visitElementsPropertyInfo(MElementsPropertyInfo<T, C> info) {
 		return visitPropertyInfo(info);
 	}
 
+	@Override
 	public V visitAnyElementPropertyInfo(MAnyElementPropertyInfo<T, C> info) {
 		return visitPropertyInfo(info);
 	}
 
+	@Override
 	public V visitAttributePropertyInfo(MAttributePropertyInfo<T, C> info) {
 		return visitPropertyInfo(info);
 	}
 
+	@Override
 	public V visitAnyAttributePropertyInfo(MAnyAttributePropertyInfo<T, C> info) {
 		return visitPropertyInfo(info);
 	}
 
+	@Override
 	public V visitValuePropertyInfo(MValuePropertyInfo<T, C> info) {
 		return visitPropertyInfo(info);
 	}
 
+	@Override
 	public V visitElementRefPropertyInfo(MElementRefPropertyInfo<T, C> info) {
 		return visitPropertyInfo(info);
 	}
 
+	@Override
 	public V visitElementRefsPropertyInfo(MElementRefsPropertyInfo<T, C> info) {
 		return visitPropertyInfo(info);
 	}

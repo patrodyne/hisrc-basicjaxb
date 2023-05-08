@@ -29,6 +29,7 @@ public class CMEnumOutlineGenerator implements MEnumOutlineGenerator {
 		this.enumLeafInfo = enumLeafInfo;
 	}
 
+	@Override
 	public MEnumOutline generate(MPackageOutline parent,
 			MModelInfo<NType, NClass> modelInfo,
 			MEnumLeafInfo<NType, NClass> enumLeafInfo) {

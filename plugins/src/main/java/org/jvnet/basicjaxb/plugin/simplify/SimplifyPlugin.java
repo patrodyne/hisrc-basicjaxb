@@ -232,24 +232,28 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 		{
 			property.accept(new CPropertyVisitor<Void>()
 			{
+				@Override
 				public Void onElement(CElementPropertyInfo elementProperty)
 				{
 					postProcessElementPropertyInfo(model, classInfo, elementProperty);
 					return null;
 				}
 
+				@Override
 				public Void onReference(CReferencePropertyInfo p)
 				{
 					postProcessReferencePropertyInfo(model, classInfo, p);
 					return null;
 				}
 
+				@Override
 				public Void onAttribute(CAttributePropertyInfo attributeProperty)
 				{
 					// No action
 					return null;
 				}
 
+				@Override
 				public Void onValue(CValuePropertyInfo valueProperty)
 				{
 					// No action

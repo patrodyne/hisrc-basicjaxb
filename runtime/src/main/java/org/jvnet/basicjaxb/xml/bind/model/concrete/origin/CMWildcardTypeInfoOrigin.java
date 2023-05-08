@@ -15,6 +15,7 @@ public class CMWildcardTypeInfoOrigin<T, C, WTI extends WildcardTypeInfo<T, C>>
 		this.source = source;
 	}
 
+	@Override
 	public WTI getSource() {
 		return source;
 	}

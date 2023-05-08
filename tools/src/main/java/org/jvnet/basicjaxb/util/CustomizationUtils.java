@@ -540,14 +540,17 @@ public class CustomizationUtils {
 
 		final Collection<CCustomizations> elementCustomizations = propertyInfo
 				.accept(new CPropertyVisitor<Collection<CCustomizations>>() {
+					@Override
 					public Collection<CCustomizations> onAttribute(CAttributePropertyInfo info) {
 						return Collections.emptyList();
 					}
 
+					@Override
 					public Collection<CCustomizations> onElement(CElementPropertyInfo arg0) {
 						return Collections.emptyList();
 					}
 
+					@Override
 					public Collection<CCustomizations> onReference(CReferencePropertyInfo info) {
 
 						final List<CCustomizations> elementCustomizations = new ArrayList<CCustomizations>(
@@ -562,6 +565,7 @@ public class CustomizationUtils {
 						return elementCustomizations;
 					}
 
+					@Override
 					public Collection<CCustomizations> onValue(CValuePropertyInfo arg0) {
 						return Collections.emptyList();
 					};

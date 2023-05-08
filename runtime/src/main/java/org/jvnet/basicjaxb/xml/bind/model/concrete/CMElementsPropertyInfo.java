@@ -35,14 +35,17 @@ public class CMElementsPropertyInfo<T, C extends T> extends
 		this.wrapperElementName = wrapperElementName;
 	}
 
+	@Override
 	public List<MElementTypeRef<T, C>> getElementTypeInfos() {
 		return unmodifiableElementTypeInfos;
 	}
 
+	@Override
 	public QName getWrapperElementName() {
 		return wrapperElementName;
 	}
 
+	@Override
 	public <V> V acceptPropertyInfoVisitor(MPropertyInfoVisitor<T, C, V> visitor) {
 		return visitor.visitElementsPropertyInfo(this);
 	}

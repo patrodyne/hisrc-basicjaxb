@@ -49,22 +49,27 @@ public class CMPackageOutline implements MPackageOutline {
 				packageOutline.objectFactory());
 	}
 
+	@Override
 	public MModelOutline getParent() {
 		return parent;
 	}
 
+	@Override
 	public MPackageInfo getTarget() {
 		return target;
 	}
 
+	@Override
 	public JPackage getCode() {
 		return code;
 	}
 
+	@Override
 	public MObjectFactoryOutline getObjectFactoryOutline() {
 		return objectFactoryOutline;
 	}
 
+	@Override
 	public Collection<MClassOutline> getClassOutlines() {
 		return _classOutlines;
 	}
@@ -75,6 +80,7 @@ public class CMPackageOutline implements MPackageOutline {
 		this.classOutlines.add(classOutline);
 	}
 
+	@Override
 	public Collection<MElementOutline> getElementOutlines() {
 		return _elementOutlines;
 	}
@@ -85,6 +91,7 @@ public class CMPackageOutline implements MPackageOutline {
 		this.elementOutlines.add(elementOutline);
 	}
 
+	@Override
 	public Collection<MEnumOutline> getEnumOutlines() {
 		return _enumOutlines;
 	}

@@ -264,14 +264,17 @@ public class XJCCMInfoFactory
 	private MContainer getContainer(CClassInfoParent parent) {
 		return parent.accept(new Visitor<MContainer>() {
 
+			@Override
 			public MContainer onBean(CClassInfo bean) {
 				return getTypeInfo(bean);
 			}
 
+			@Override
 			public MContainer onPackage(JPackage pkg) {
 				return getPackage(pkg);
 			}
 
+			@Override
 			public MContainer onElement(CElementInfo element) {
 				return getElementInfo(element);
 			}
@@ -282,14 +285,17 @@ public class XJCCMInfoFactory
 
 		return parent.accept(new Visitor<MPackageInfo>() {
 
+			@Override
 			public MPackageInfo onBean(CClassInfo bean) {
 				return getPackage(bean.parent());
 			}
 
+			@Override
 			public MPackageInfo onPackage(JPackage pkg) {
 				return getPackage(pkg);
 			}
 
+			@Override
 			public MPackageInfo onElement(CElementInfo element) {
 				return getPackage(element.parent);
 			}
@@ -352,6 +358,7 @@ public class XJCCMInfoFactory
 		return new XJCCMPackageInfoOrigin(info);
 	}
 
+	@Override
 	protected MClassInfoOrigin createClassInfoOrigin(CClassInfo info) {
 		return new XJCCMClassInfoOrigin(info);
 	}
@@ -397,19 +404,23 @@ public class XJCCMInfoFactory
 
 		return new NClass() {
 
+			@Override
 			public boolean isBoxedType() {
 				return false;
 			}
 
+			@Override
 			public String fullName() {
 				return List.class.getName();
 			}
 
+			@Override
 			public JClass toType(Outline o, Aspect aspect) {
 				return o.getCodeModel().ref(List.class)
 						.narrow(elementType.toType(o, aspect).boxify());
 			}
 
+			@Override
 			public boolean isAbstract() {
 				return false;
 			}
@@ -458,6 +469,7 @@ public class XJCCMInfoFactory
 		}
 	}
 
+	@Override
 	protected String getDefaultValue(CAttributePropertyInfo propertyInfo) {
 
 		final XSAttributeUse attributeUse = getAttributeUse(propertyInfo);
@@ -470,6 +482,7 @@ public class XJCCMInfoFactory
 		return null;
 	}
 
+	@Override
 	protected NamespaceContext getDefaultValueNamespaceContext(
 			CAttributePropertyInfo propertyInfo) {
 		final XSAttributeUse attributeUse = getAttributeUse(propertyInfo);

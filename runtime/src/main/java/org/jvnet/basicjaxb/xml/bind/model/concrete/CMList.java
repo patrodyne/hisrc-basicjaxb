@@ -25,10 +25,12 @@ public class CMList<T, C extends T> implements MList<T, C> {
 		this.typeName = typeName;
 	}
 
+	@Override
 	public MCustomizations getCustomizations() {
 		return customizations;
 	}
 
+	@Override
 	public T getTargetType() {
 		return targetType;
 	}
@@ -43,6 +45,7 @@ public class CMList<T, C extends T> implements MList<T, C> {
 		return true;
 	}
 
+	@Override
 	public MTypeInfo<T, C> getItemTypeInfo() {
 		return itemTypeInfo;
 	}
@@ -52,6 +55,7 @@ public class CMList<T, C extends T> implements MList<T, C> {
 		return MessageFormat.format("List [{0}]", getItemTypeInfo());
 	}
 
+	@Override
 	public <V> V acceptTypeInfoVisitor(MTypeInfoVisitor<T, C, V> visitor) {
 		return visitor.visitList(this);
 	}

@@ -22,18 +22,22 @@ public class CMAnyElementPropertyInfo<T, C extends T> extends
 		this.typedObjectAllowed = typedObjectAllowed;
 	}
 
+	@Override
 	public boolean isMixed() {
 		return mixed;
 	}
 
+	@Override
 	public boolean isDomAllowed() {
 		return domAllowed;
 	}
 
+	@Override
 	public boolean isTypedObjectAllowed() {
 		return typedObjectAllowed;
 	}
 
+	@Override
 	public <V> V acceptPropertyInfoVisitor(MPropertyInfoVisitor<T, C, V> visitor) {
 		return visitor.visitAnyElementPropertyInfo(this);
 	}

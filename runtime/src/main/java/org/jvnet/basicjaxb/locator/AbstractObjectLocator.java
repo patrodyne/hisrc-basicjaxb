@@ -41,16 +41,19 @@ public abstract class AbstractObjectLocator implements ObjectLocator {
 	 * 
 	 * @return Parent locator.
 	 */
+	@Override
 	public ObjectLocator getParentLocator() {
 		return parentLocator;
 	}
 
+	@Override
 	public ObjectLocator[] getPath() {
 		final ObjectLocator[] path = new ObjectLocator[getAncestorCount(this) + 1];
 		fillPath(this, path, path.length - 1);
 		return path;
 	}
 
+	@Override
 	public String getPathAsString() {
 		final String stepAsString = getStepAsString();
 		final ObjectLocator parentLocator = getParentLocator();
@@ -75,26 +78,32 @@ public abstract class AbstractObjectLocator implements ObjectLocator {
 			return 1 + getAncestorCount(parent);
 	}
 
+	@Override
 	public Object getObject() {
 		return object;
 	}
 
+	@Override
 	public int getColumnNumber() {
 		return 0;
 	}
 
+	@Override
 	public int getLineNumber() {
 		return 0;
 	}
 
+	@Override
 	public int getOffset() {
 		return 0;
 	}
 
+	@Override
 	public URL getURL() {
 		return null;
 	}
 
+	@Override
 	public Node getNode() {
 		return null;
 	}
@@ -105,6 +114,7 @@ public abstract class AbstractObjectLocator implements ObjectLocator {
 	// */
 	// public abstract String getStep();
 
+	@Override
 	public String toString() {
 		return getMessage();
 	}
@@ -114,6 +124,7 @@ public abstract class AbstractObjectLocator implements ObjectLocator {
 	 * 
 	 * @return Message code.
 	 */
+	@Override
 	public String getMessageCode() {
 		return getClass().getName();
 	}
@@ -124,6 +135,7 @@ public abstract class AbstractObjectLocator implements ObjectLocator {
 	// return new Object[] { getObject() };
 	// }
 	//
+	@Override
 	public String getMessage(ResourceBundle bundle) {
 		try {
 			final String messageTemplate = bundle.getString(getMessageCode());
@@ -139,6 +151,7 @@ public abstract class AbstractObjectLocator implements ObjectLocator {
 	 * 
 	 * @return Location message.
 	 */
+	@Override
 	public String getMessage() {
 		return getMessage(ResourceBundle.getBundle(getClass().getPackage()
 				.getName() + ".messages"));
@@ -149,10 +162,12 @@ public abstract class AbstractObjectLocator implements ObjectLocator {
 	// return hashCode;
 	// }
 
+	@Override
 	public ItemObjectLocator item(int index, Object value) {
 		return new DefaultItemObjectLocator(this, index, value);
 	}
 
+	@Override
 	public PropertyObjectLocator property(String name, Object value) {
 		return new DefaultPropertyObjectLocator(this, name, value);
 	}

@@ -19,38 +19,47 @@ public class DefaultTypeInfoVisitor<T, C extends T, V> implements
 		return null;
 	}
 
+	@Override
 	public V visitList(MList<T, C> info) {
 		return visitTypeInfo(info);
 	}
 
+	@Override
 	public V visitID(MID<T, C> info) {
 		return visitTypeInfo(info);
 	}
 
+	@Override
 	public V visitIDREF(MIDREF<T, C> info) {
 		return visitTypeInfo(info);
 	}
 
+	@Override
 	public V visitIDREFS(MIDREFS<T, C> info) {
 		return visitTypeInfo(info);
 	}
 
+	@Override
 	public V visitBuiltinLeafInfo(MBuiltinLeafInfo<T, C> info) {
 		return visitTypeInfo(info);
 	}
 
+	@Override
 	public V visitEnumLeafInfo(MEnumLeafInfo<T, C> info) {
 		return visitTypeInfo(info);
 	}
 
+	@Override
 	public V visitWildcardTypeInfo(MWildcardTypeInfo<T, C> info) {
 		return visitTypeInfo(info);
 	}
 
+	@Override
 	public V visitClassInfo(MClassInfo<T, C> info) {
 		return visitTypeInfo(info);
 	}
 	
+	@Override
 	public V visitClassRef(MClassRef<T, C> info) {
 		return visitTypeInfo(info);
 	}

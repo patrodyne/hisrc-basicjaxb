@@ -17,6 +17,7 @@ public class DefaultPropertyInfoOrigin implements MPropertyInfoOrigin,
 		this.generator = generator;
 	}
 
+	@Override
 	public MPropertyOutlineGenerator createGenerator(Outline outline) {
 		return generator;
 	}

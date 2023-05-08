@@ -12,6 +12,7 @@ public final class DefaultRootObjectLocator extends AbstractObjectLocator implem
 		super(null, rootObject);
 	}
 
+	@Override
 	public Object[] getMessageParameters()
 	{
 		return new Object[] { getObject() };

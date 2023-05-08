@@ -56,6 +56,7 @@ public class HashCodeArguments implements Arguments<HashCodeArguments> {
 				multiplier(), value, hasSetValue);
 	}
 
+	@Override
 	public HashCodeArguments property(JBlock block, String propertyName,
 			String propertyMethod, JType declarablePropertyType,
 			JType propertyType, Collection<JType> possiblePropertyTypes) {
@@ -71,6 +72,7 @@ public class HashCodeArguments implements Arguments<HashCodeArguments> {
 		return spawn(propertyValue, propertyHasSetValue);
 	}
 
+	@Override
 	public HashCodeArguments iterator(JBlock block, JType elementType) {
 		final JVar listIterator = block
 				.decl(JMod.FINAL, getCodeModel().ref(ListIterator.class)
@@ -80,6 +82,7 @@ public class HashCodeArguments implements Arguments<HashCodeArguments> {
 		return spawn(listIterator, JExpr.TRUE);
 	}
 
+	@Override
 	public HashCodeArguments element(JBlock subBlock, JType elementType) {
 		final JVar elementValue = subBlock.decl(JMod.FINAL, elementType,
 				value().name() + "Element", value().invoke("next"));
@@ -90,10 +93,12 @@ public class HashCodeArguments implements Arguments<HashCodeArguments> {
 
 	}
 
+	@Override
 	public JExpression _instanceof(JType type) {
 		return value()._instanceof(type);
 	}
 
+	@Override
 	public HashCodeArguments cast(String suffix, JBlock block,
 			JType jaxbElementType, boolean suppressWarnings) {
 		final JVar castedValue = block.decl(JMod.FINAL, jaxbElementType,
@@ -105,6 +110,7 @@ public class HashCodeArguments implements Arguments<HashCodeArguments> {
 		return spawn(castedValue, JExpr.TRUE);
 	}
 
+	@Override
 	public JBlock ifHasSetValue(JBlock block, boolean isAlwaysSet,
 			boolean checkForNullRequired) {
 
@@ -115,6 +121,7 @@ public class HashCodeArguments implements Arguments<HashCodeArguments> {
 		}
 	}
 
+	@Override
 	public JBlock _while(JBlock block) {
 		final JBlock subBlock = block._while(value().invoke("hasNext")).body();
 		subBlock.assign(currentHashCode(),

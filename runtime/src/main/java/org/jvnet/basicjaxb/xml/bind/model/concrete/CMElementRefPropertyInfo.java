@@ -39,26 +39,32 @@ public class CMElementRefPropertyInfo<T, C extends T> extends
 		this.defaultValueNamespaceContext = defaultValueNamespaceContext;
 	}
 
+	@Override
 	public MTypeInfo<T, C> getTypeInfo() {
 		return typeInfo;
 	}
 
+	@Override
 	public QName getElementName() {
 		return elementName;
 	}
 
+	@Override
 	public QName getWrapperElementName() {
 		return wrapperElementName;
 	}
 
+	@Override
 	public boolean isMixed() {
 		return mixed;
 	}
 
+	@Override
 	public boolean isDomAllowed() {
 		return domAllowed;
 	}
 
+	@Override
 	public boolean isTypedObjectAllowed() {
 		return typedObjectAllowed;
 	}
@@ -78,6 +84,7 @@ public class CMElementRefPropertyInfo<T, C extends T> extends
 		return defaultValueNamespaceContext;
 	}
 
+	@Override
 	public <V> V acceptPropertyInfoVisitor(MPropertyInfoVisitor<T, C, V> visitor) {
 		return visitor.visitElementRefPropertyInfo(this);
 	}

@@ -22,12 +22,14 @@ public class ContextMenuListener extends MouseAdapter
 		setPopup(popup);
 	}
 	
-    public void mousePressed(MouseEvent me)
+    @Override
+	public void mousePressed(MouseEvent me)
     {
         maybeShowPopup(me);
     }
 
-    public void mouseReleased(MouseEvent me)
+    @Override
+	public void mouseReleased(MouseEvent me)
     {
         maybeShowPopup(me);
     }

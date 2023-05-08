@@ -30,6 +30,7 @@ public class PropertyTypeVisitor implements
 		this.modelOutline = modelOutline;
 	}
 
+	@Override
 	public JType visitAnyAttributePropertyInfo(
 			MAnyAttributePropertyInfo<NType, NClass> info) {
 
@@ -37,35 +38,42 @@ public class PropertyTypeVisitor implements
 				.narrow(Object.class);
 	}
 
+	@Override
 	public JType visitElementPropertyInfo(
 			MElementPropertyInfo<NType, NClass> info) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public JType visitElementsPropertyInfo(
 			MElementsPropertyInfo<NType, NClass> info) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public JType visitAnyElementPropertyInfo(
 			MAnyElementPropertyInfo<NType, NClass> info) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public JType visitAttributePropertyInfo(
 			MAttributePropertyInfo<NType, NClass> info) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public JType visitValuePropertyInfo(MValuePropertyInfo<NType, NClass> info) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public JType visitElementRefPropertyInfo(
 			MElementRefPropertyInfo<NType, NClass> info) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public JType visitElementRefsPropertyInfo(
 			MElementRefsPropertyInfo<NType, NClass> info) {
 		throw new UnsupportedOperationException();

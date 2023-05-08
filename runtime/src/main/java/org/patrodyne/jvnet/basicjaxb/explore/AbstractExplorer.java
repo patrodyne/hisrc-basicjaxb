@@ -270,6 +270,7 @@ abstract public class AbstractExplorer extends JFrame
 		add(contentPanel, BorderLayout.CENTER);
 		addWindowListener(new WindowAdapter()
 		{
+			@Override
 			public void windowClosing(WindowEvent e)
 			{
 				Preferences prefs = getPreferences();

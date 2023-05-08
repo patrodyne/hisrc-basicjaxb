@@ -58,11 +58,13 @@ public abstract class AbstractSinglePropertyOutline extends
 			super(target);
 		}
 
+		@Override
 		public void get(JBlock block, JVar variable) {
 			block.assign(variable,
 					target.invoke(AbstractSinglePropertyOutline.this.getter));
 		}
 
+		@Override
 		public void set(JBlock block, String uniqueName, JExpression value) {
 			block.invoke(target, AbstractSinglePropertyOutline.this.setter)
 					.arg(value);

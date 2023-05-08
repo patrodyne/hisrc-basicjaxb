@@ -25,14 +25,17 @@ public class CMObjectFactoryOutline implements MObjectFactoryOutline {
 		this.code = code;
 	}
 
+	@Override
 	public MModelOutline getParent() {
 		return parent;
 	}
 
+	@Override
 	public MPackageOutline getPackageOutline() {
 		return packageOutline;
 	}
 
+	@Override
 	public JDefinedClass getCode() {
 		return code;
 	}

@@ -20,6 +20,7 @@ public class XJCCMEnumLeafInfoOrigin extends
 		super(source);
 	}
 
+	@Override
 	public MEnumOutlineGenerator createGenerator(Outline outline) {
 		return new CMEnumOutlineGenerator(outline, getSource());
 	}

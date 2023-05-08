@@ -14,10 +14,12 @@ public class CMCustomizations implements MCustomizations {
 	private final List<MCustomization> unmodifiableCustomizations = Collections
 			.unmodifiableList(this.customizations);
 
+	@Override
 	public List<MCustomization> getCustomizations() {
 		return unmodifiableCustomizations;
 	}
 
+	@Override
 	public void addCustomization(MCustomization customization) {
 		Validate.notNull(customization);
 		this.customizations.add(customization);

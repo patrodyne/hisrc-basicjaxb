@@ -19,6 +19,7 @@ public class CMValuePropertyInfo<T, C extends T> extends
 				true, defaultValue, defaultValueNamespaceContext);
 	}
 
+	@Override
 	public <V> V acceptPropertyInfoVisitor(MPropertyInfoVisitor<T, C, V> visitor) {
 		return visitor.visitValuePropertyInfo(this);
 	}

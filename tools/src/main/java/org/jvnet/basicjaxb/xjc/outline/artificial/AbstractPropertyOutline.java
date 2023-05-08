@@ -140,10 +140,12 @@ public abstract class AbstractPropertyOutline implements MPropertyOutline {
 	// return t;
 	// }
 
+	@Override
 	public MClassOutline getClassOutline() {
 		return classOutline;
 	}
 
+	@Override
 	public MPropertyInfo<NType, NClass> getTarget() {
 		return propertyInfo;
 	}
@@ -157,14 +159,17 @@ public abstract class AbstractPropertyOutline implements MPropertyOutline {
 			this.target = target;
 		}
 		
+		@Override
 		public JType getType() {
 			return AbstractPropertyOutline.this.type;
 		}
 
+		@Override
 		public boolean isConstant() {
 			return false;
 		}
 		
+		@Override
 		public boolean isVirtual() {
 			return false;
 		}

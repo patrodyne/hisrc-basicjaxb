@@ -78,6 +78,7 @@ public class FixMixedExtensions extends AbstractPlugin
 
 	// Plugin Processing
 	
+	@Override
 	protected void beforeRun(Outline outline, Options options) throws Exception
 	{
 		setOptions(options);
@@ -92,6 +93,7 @@ public class FixMixedExtensions extends AbstractPlugin
 		}
 	}
 	
+	@Override
 	protected void afterRun(Outline outline, Options options) throws Exception
 	{
 		if ( isInfoEnabled() )

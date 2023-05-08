@@ -33,31 +33,38 @@ public abstract class CMPropertyInfo<T, C extends T> implements
 		this.required = required;
 	}
 
+	@Override
 	public MCustomizations getCustomizations() {
 		return customizations;
 	}
 
+	@Override
 	public MPropertyInfoOrigin getOrigin() {
 		return origin;
 	}
 
+	@Override
 	public MClassInfo<T, C> getClassInfo() {
 		return classInfo;
 	}
 
+	@Override
 	public String getPrivateName() {
 		return privateName;
 	}
 
+	@Override
 	public String getPublicName() {
 		// TODO
 		return this.getPrivateName();
 	}
 
+	@Override
 	public boolean isCollection() {
 		return collection;
 	}
 
+	@Override
 	public boolean isRequired() {
 		return required;
 	}

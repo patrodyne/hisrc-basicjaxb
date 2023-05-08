@@ -25,6 +25,7 @@ public class QNameCollectingPropertyInfoVisitor<T, C extends T> implements
 		this.collector = collector;
 	}
 
+	@Override
 	public Void visitElementPropertyInfo(MElementPropertyInfo<T, C> info) {
 		QName wrapperElementName = info.getWrapperElementName();
 		if (wrapperElementName != null) {
@@ -35,6 +36,7 @@ public class QNameCollectingPropertyInfoVisitor<T, C extends T> implements
 		return null;
 	}
 
+	@Override
 	public Void visitElementsPropertyInfo(MElementsPropertyInfo<T, C> info) {
 		QName wrapperElementName = info.getWrapperElementName();
 		if (wrapperElementName != null) {
@@ -47,24 +49,29 @@ public class QNameCollectingPropertyInfoVisitor<T, C extends T> implements
 		return null;
 	}
 
+	@Override
 	public Void visitAnyElementPropertyInfo(MAnyElementPropertyInfo<T, C> info) {
 		return null;
 	}
 
+	@Override
 	public Void visitAttributePropertyInfo(MAttributePropertyInfo<T, C> info) {
 		collector.attribute(info.getAttributeName());
 		return null;
 	}
 
+	@Override
 	public Void visitAnyAttributePropertyInfo(
 			MAnyAttributePropertyInfo<T, C> info) {
 		return null;
 	}
 
+	@Override
 	public Void visitValuePropertyInfo(MValuePropertyInfo<T, C> info) {
 		return null;
 	}
 
+	@Override
 	public Void visitElementRefPropertyInfo(MElementRefPropertyInfo<T, C> info) {
 		QName wrapperElementName = info.getWrapperElementName();
 		if (wrapperElementName != null) {
@@ -75,6 +82,7 @@ public class QNameCollectingPropertyInfoVisitor<T, C extends T> implements
 		return null;
 	}
 
+	@Override
 	public Void visitElementRefsPropertyInfo(MElementRefsPropertyInfo<T, C> info) {
 		QName wrapperElementName = info.getWrapperElementName();
 		if (wrapperElementName != null) {

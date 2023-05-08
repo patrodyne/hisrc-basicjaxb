@@ -9,6 +9,7 @@ import com.sun.codemodel.JPackage;
 
 public interface MPackageOutline extends MChildOutline, MTargeted<MPackageInfo> {
 
+	@Override
 	public MPackageInfo getTarget();
 
 	public Collection<MElementOutline> getElementOutlines();

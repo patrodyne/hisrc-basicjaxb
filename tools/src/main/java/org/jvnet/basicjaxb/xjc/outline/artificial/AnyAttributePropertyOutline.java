@@ -50,6 +50,7 @@ public class AnyAttributePropertyOutline extends AbstractPropertyOutline {
 
 	}
 
+	@Override
 	protected JType generateType() {
 		return codeModel.ref(Map.class).narrow(QName.class)
 				.narrow(Object.class);
@@ -66,6 +67,7 @@ public class AnyAttributePropertyOutline extends AbstractPropertyOutline {
 		return field;
 	}
 
+	@Override
 	protected void annotate(JAnnotatable annotatable) {
 		annotatable.annotate(XmlAnyAttribute.class);
 	}
@@ -90,6 +92,7 @@ public class AnyAttributePropertyOutline extends AbstractPropertyOutline {
 		return setter;
 	}
 
+	@Override
 	public MPropertyAccessor createPropertyAccessor(JExpression target) {
 		return new PropertyAccessor(target);
 	}
@@ -101,20 +104,24 @@ public class AnyAttributePropertyOutline extends AbstractPropertyOutline {
 			super(target);
 		}
 
+		@Override
 		public void get(JBlock block, JVar variable) {
 			target.invoke(AnyAttributePropertyOutline.this.getter);
 
 		}
 
+		@Override
 		public void set(JBlock block, String uniqueName, JExpression value) {
 			target.invoke(AnyAttributePropertyOutline.this.setter).arg(value);
 		}
 
+		@Override
 		public void unset(JBlock body) {
 			target.invoke(AnyAttributePropertyOutline.this.getter).invoke(
 					"clear");
 		}
 
+		@Override
 		public JExpression isSet() {
 			return target.invoke(AnyAttributePropertyOutline.this.getter)
 					.invoke("isEmpty").not();

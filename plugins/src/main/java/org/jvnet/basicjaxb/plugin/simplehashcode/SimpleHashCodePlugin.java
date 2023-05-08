@@ -61,6 +61,7 @@ public class SimpleHashCodePlugin extends AbstractCodeGeneratorPlugin<HashCodeAr
 	}
 	// Plugin Processing
 	
+	@Override
 	protected void beforeRun(Outline outline, Options options) throws Exception
 	{
 		setOptions(options);
@@ -75,6 +76,7 @@ public class SimpleHashCodePlugin extends AbstractCodeGeneratorPlugin<HashCodeAr
 		}
 	}
 	
+	@Override
 	protected void afterRun(Outline outline, Options options) throws Exception
 	{
 		if ( isInfoEnabled() )

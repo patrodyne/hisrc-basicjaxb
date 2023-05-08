@@ -21,16 +21,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	}
 
 	private Logger logger = LoggerFactory.getLogger(EqualsStrategy.class);
+	@Override
 	public Logger getLogger()
 	{
 		return logger;
 	}
 
+	@Override
 	public boolean isDebugEnabled()
 	{
 		return getLogger().isDebugEnabled();
 	}
 
+	@Override
 	public boolean isTraceEnabled()
 	{
 		return getLogger().isTraceEnabled();
