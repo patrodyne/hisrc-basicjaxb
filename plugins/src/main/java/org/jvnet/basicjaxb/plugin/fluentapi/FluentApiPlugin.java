@@ -40,7 +40,6 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
@@ -156,9 +155,8 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 	// Plugin Processing
 	
 	@Override
-	protected void beforeRun(Outline outline, Options options) throws Exception
+	protected void beforeRun(Outline outline) throws Exception
 	{
-		setOptions(options);
 		if ( isInfoEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
@@ -171,7 +169,7 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 	}
 	
 	@Override
-	protected void afterRun(Outline outline, Options options) throws Exception
+	protected void afterRun(Outline outline) throws Exception
 	{
 		if ( isInfoEnabled() )
 		{

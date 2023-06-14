@@ -25,11 +25,29 @@ public class StringUtils
 		return (value != null) ? value.toString() : NULL;
 	}
 	
-	public static boolean isEmpty(String str)
+	public static boolean isEmpty(final CharSequence cs)
 	{
-		return str == null || str.length() == 0;
+		return cs == null || cs.length() == 0;
 	}
 	
+    public static boolean isBlank(final CharSequence cs) {
+        final int strLen = length(cs);
+        if (strLen == 0) {
+            return true;
+        }
+        for (int i = 0; i < strLen; i++) {
+            if (!Character.isWhitespace(cs.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+	
+    public static int length(CharSequence cs)
+	{
+		return cs == null ? 0 : cs.length();
+	}
+
 	public static String[] split(String str, char separatorChar)
 	{
 		return splitWorker(str, separatorChar, false);

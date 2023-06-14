@@ -9,7 +9,6 @@ import org.xml.sax.SAXException;
 
 import com.sun.codemodel.JPackage;
 import com.sun.codemodel.fmt.JTextFile;
-import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 import com.sun.tools.xjc.outline.PackageOutline;
@@ -63,9 +62,8 @@ public class JaxbIndexPlugin extends AbstractPlugin
 	// Plugin Processing
 	
 	@Override
-	protected void beforeRun(Outline outline, Options options) throws Exception
+	protected void beforeRun(Outline outline) throws Exception
 	{
-		setOptions(options);
 		if ( isInfoEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
@@ -78,7 +76,7 @@ public class JaxbIndexPlugin extends AbstractPlugin
 	}
 	
 	@Override
-	protected void afterRun(Outline outline, Options options) throws Exception
+	protected void afterRun(Outline outline) throws Exception
 	{
 		if ( isInfoEnabled() )
 		{

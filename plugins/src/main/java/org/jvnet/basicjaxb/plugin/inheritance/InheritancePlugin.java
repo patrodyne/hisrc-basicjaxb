@@ -31,7 +31,6 @@ import com.sun.codemodel.JAnnotationUse;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
-import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CClassRef;
 import com.sun.tools.xjc.model.CCustomizations;
@@ -157,9 +156,8 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 	// Plugin Processing
 	
 	@Override
-	protected void beforeRun(Outline outline, Options options) throws Exception
+	protected void beforeRun(Outline outline) throws Exception
 	{
-		setOptions(options);
 		if ( isInfoEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
@@ -172,7 +170,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 	}
 	
 	@Override
-	protected void afterRun(Outline outline, Options options) throws Exception
+	protected void afterRun(Outline outline) throws Exception
 	{
 		if ( isInfoEnabled() )
 		{

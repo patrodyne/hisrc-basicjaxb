@@ -24,7 +24,6 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
-import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CEnumLeafInfo;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.EnumOutline;
@@ -85,9 +84,8 @@ public class EnumValuePlugin extends AbstractParameterizablePlugin
 	// Plugin Processing
 	
 	@Override
-	protected void beforeRun(Outline outline, Options options) throws Exception
+	protected void beforeRun(Outline outline) throws Exception
 	{
-		setOptions(options);
 		if ( isInfoEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
@@ -100,7 +98,7 @@ public class EnumValuePlugin extends AbstractParameterizablePlugin
 	}
 	
 	@Override
-	protected void afterRun(Outline outline, Options options) throws Exception
+	protected void afterRun(Outline outline) throws Exception
 	{
 		if ( isInfoEnabled() )
 		{

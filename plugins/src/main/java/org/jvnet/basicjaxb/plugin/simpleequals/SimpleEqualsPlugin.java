@@ -25,7 +25,6 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JOp;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -64,9 +63,8 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 	// Plugin Processing
 	
 	@Override
-	protected void beforeRun(Outline outline, Options options) throws Exception
+	protected void beforeRun(Outline outline) throws Exception
 	{
-		setOptions(options);
 		if ( isInfoEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
@@ -79,7 +77,7 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 	}
 	
 	@Override
-	protected void afterRun(Outline outline, Options options) throws Exception
+	protected void afterRun(Outline outline) throws Exception
 	{
 		if ( isInfoEnabled() )
 		{

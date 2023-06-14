@@ -14,12 +14,20 @@ public class OutlineUtils {
 	private OutlineUtils() {
 	}
 
-	public static String getClassName(ClassOutline classOutline) {
+	public static String getPackagedClassName(ClassOutline classOutline) {
 		return CodeModelUtils.getPackagedClassName(classOutline.implClass);
 	}
 
+	public static String getClassName(ClassOutline classOutline) {
+		return CodeModelUtils.getClassName(classOutline.implClass);
+	}
+
+	public static String getLocalClassName(ClassOutline classOutline) {
+		return CodeModelUtils.getLocalClassName(classOutline.implClass);
+	}
+
 	public static String getFieldName(FieldOutline fieldOutline) {
-		return getClassName(fieldOutline.parent()) + "."
+		return getPackagedClassName(fieldOutline.parent()) + "."
 				+ fieldOutline.getPropertyInfo().getName(true);
 	}
 

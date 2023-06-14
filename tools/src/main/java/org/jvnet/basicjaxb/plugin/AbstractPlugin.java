@@ -53,7 +53,7 @@ public abstract class AbstractPlugin extends Plugin
 	 * Plugin logger.
 	 */
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	protected Logger getLogger() { return logger; }
+	public Logger getLogger() { return logger; }
 	
 	/** Represents the XJC plugin usage format.*/
 	public static final String USAGE_FORMAT = "  -%-20s : %s";
@@ -251,10 +251,11 @@ public abstract class AbstractPlugin extends Plugin
 	public boolean run(Outline outline, Options options, ErrorHandler errorHandler)
 		throws SAXException
 	{
+		setOptions(options);
 		setErrorHandler(errorHandler);
 		try
 		{
-			beforeRun(outline, options);
+			beforeRun(outline);
 			return run(outline);
 		}
 		catch (Exception ex)
@@ -266,7 +267,7 @@ public abstract class AbstractPlugin extends Plugin
 		{
 			try
 			{
-				afterRun(outline, options);
+				afterRun(outline);
 			}
 			catch (Exception ex)
 			{
@@ -276,7 +277,7 @@ public abstract class AbstractPlugin extends Plugin
 		}
 	}
 	
-	protected void beforeRun(Outline outline, Options options) throws Exception
+	protected void beforeRun(Outline outline) throws Exception
 	{
 		// Sub-class may override.
 	}
@@ -287,7 +288,7 @@ public abstract class AbstractPlugin extends Plugin
 		return true;
 	}
 
-	protected void afterRun(Outline outline, Options options) throws Exception
+	protected void afterRun(Outline outline) throws Exception
 	{
 		// Sub-class may override.
 	}
@@ -332,40 +333,40 @@ public abstract class AbstractPlugin extends Plugin
 	
 	// Logger: enabled, options
 
-	protected boolean isTraceEnabled()
+	public boolean isTraceEnabled()
 	{
 		return ( !isQuiet() && isVerbose() && isDebug() && getLogger().isTraceEnabled() );
 	}
 	
-	protected boolean isDebugEnabled()
+	public boolean isDebugEnabled()
 	{
 		return ( !isQuiet() && isVerbose() && isDebug() && getLogger().isDebugEnabled() );
 	}
 	
-	protected boolean isInfoEnabled()
+	public boolean isInfoEnabled()
 	{
 		return ( !isQuiet() && isVerbose() && getLogger().isInfoEnabled() );
 	}
 	
-	protected boolean isWarnEnabled()
+	public boolean isWarnEnabled()
 	{
 		return ( !isQuiet() && getLogger().isDebugEnabled() );
 	}
 	
-	protected boolean isErrorEnabled()
+	public boolean isErrorEnabled()
 	{
 		return ( !isQuiet() && getLogger().isErrorEnabled() );
 	}
 	
 	// Logger: trace
 	
-	protected void trace(String msg, Object... args)
+	public void trace(String msg, Object... args)
 	{
 		if ( !isQuiet() && isVerbose() && isDebug() )
 			getLogger().trace(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
 	}
 
-	protected void trace(String msg, Throwable th)
+	public void trace(String msg, Throwable th)
 	{
 		if ( !isQuiet() && isVerbose() && isDebug() )
 			getLogger().trace(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
@@ -373,13 +374,13 @@ public abstract class AbstractPlugin extends Plugin
 
 	// Logger: debug
 	
-	protected void debug(String msg, Object... args)
+	public void debug(String msg, Object... args)
 	{
 		if ( !isQuiet() && isVerbose() && isDebug() )
 			getLogger().debug(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
 	}
 
-	protected void debug(boolean isVerbose, String msg, Throwable th)
+	public void debug(boolean isVerbose, String msg, Throwable th)
 	{
 		if ( !isQuiet() && isVerbose() && isDebug() )
 			getLogger().debug(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
@@ -387,13 +388,13 @@ public abstract class AbstractPlugin extends Plugin
 
 	// Logger: info
 	
-	protected void info(String msg, Object... args)
+	public void info(String msg, Object... args)
 	{
 		if ( !isQuiet() && isVerbose() )
 			getLogger().info(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
 	}
 
-	protected void info(String msg, Throwable th)
+	public void info(String msg, Throwable th)
 	{
 		if ( !isQuiet() && isVerbose() )
 			getLogger().info(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
@@ -401,13 +402,13 @@ public abstract class AbstractPlugin extends Plugin
 
 	// Logger: warn
 	
-	protected void warn(String msg, Object... args)
+	public void warn(String msg, Object... args)
 	{
 		if ( !isQuiet() )
 			getLogger().warn(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
 	}
 
-	protected void warn(String msg, Throwable th)
+	public void warn(String msg, Throwable th)
 	{
 		if ( !isQuiet() )
 			getLogger().warn(LOGGING_PREFIX + getOptionName() + ": " + msg, th);
@@ -415,13 +416,13 @@ public abstract class AbstractPlugin extends Plugin
 	
 	// Logger: error
 	
-	protected void error(String msg, Object... args)
+	public void error(String msg, Object... args)
 	{
 		if ( !isQuiet() )
 			getLogger().error(LOGGING_PREFIX + getOptionName() + ": " + msg, args);
 	}
 
-	protected void error(String msg, Throwable th)
+	public void error(String msg, Throwable th)
 	{
 		if ( !isQuiet() )
 			getLogger().error(LOGGING_PREFIX + getOptionName() + ": " + msg, th);

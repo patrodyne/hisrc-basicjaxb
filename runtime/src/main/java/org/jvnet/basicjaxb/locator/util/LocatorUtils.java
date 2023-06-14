@@ -1,6 +1,6 @@
 package org.jvnet.basicjaxb.locator.util;
 
-import org.jvnet.basicjaxb.locator.PropertyObjectLocator;
+import static org.jvnet.basicjaxb.lang.StringUtils.isEmpty;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.jvnet.basicjaxb.locator.ItemObjectLocator;
 import org.jvnet.basicjaxb.locator.ObjectLocator;
+import org.jvnet.basicjaxb.locator.PropertyObjectLocator;
 import org.xml.sax.Locator;
 
 public class LocatorUtils
@@ -16,16 +17,14 @@ public class LocatorUtils
 	private static final int DEFAULT_MAX_ID_SIZE = 20;
 	private static final String UNKNOWN = "unknown";
 
-	private LocatorUtils()
-	{
-	}
+	private LocatorUtils() {  }
 
 	public static String getLocation(Object metadata)
 	{
 		if ( metadata instanceof Locator )
 			return getLocation((Locator) metadata);
 		else
-			return "[" + UNKNOWN + "]";
+			return "[ " + UNKNOWN + " ]";
 	}
 	
 	public static String getLocation(Locator locator)
@@ -52,8 +51,8 @@ public class LocatorUtils
             final int row = locator.getLineNumber();
             final int col = locator.getColumnNumber();
             
-            sb.append((pub != null) ? " " + pub : "");
-            sb.append((sys != null) ? " " + sys : "");
+            sb.append(isEmpty(pub) ? "" : " " + pub);
+            sb.append(isEmpty(sys) ? "" : " " + sys);
             if ( row > 0 )
             {
                 sb.append("{" + row);
@@ -62,7 +61,7 @@ public class LocatorUtils
             }
         }
         else
-        	sb.append(UNKNOWN);
+        	sb.append(" " + UNKNOWN);
         sb.append(" ]");
         return sb.toString();
 	}
@@ -76,8 +75,8 @@ public class LocatorUtils
 				clipId = id;
 			else
 			{
-				if ( maxIdSize > 3)
-					clipId = "..." + id.substring(id.length()-maxIdSize-3);
+				if ( maxIdSize >= 3)
+					clipId = "..." + id.substring(id.length()-maxIdSize+3);
 				else
 					clipId = id.substring(id.length()-maxIdSize);
 			}

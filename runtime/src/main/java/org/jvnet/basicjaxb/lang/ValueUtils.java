@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.lang;
 
 import static java.util.Arrays.asList;
+import static org.jvnet.basicjaxb.lang.StringUtils.isBlank;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -350,11 +351,6 @@ public class ValueUtils
 	public static XMLGregorianCalendar toXMLGregorianCalendar(String value)
 	{
 	    return DATATYPE_FACTORY.newXMLGregorianCalendar(value);
-	}
-	
-	private static boolean isBlank(String string)
-	{
-	    return string == null || string.isBlank();
 	}
 }
 
