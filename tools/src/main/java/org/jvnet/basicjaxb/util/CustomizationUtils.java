@@ -9,12 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.JAXBIntrospector;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -51,6 +45,13 @@ import com.sun.tools.xjc.outline.EnumConstantOutline;
 import com.sun.tools.xjc.outline.EnumOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBIntrospector;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 
 public class CustomizationUtils {
 
@@ -434,7 +435,7 @@ public class CustomizationUtils {
 	}
 
 	public static CPluginCustomization findCustomization(Model model, QName name) {
-		final CCustomizations customizations = CustomizationUtils.getCustomizations(model);
+		final CCustomizations customizations = getCustomizations(model);
 		final CPluginCustomization customization = customizations.find(name.getNamespaceURI(), name.getLocalPart());
 		if (customization != null) {
 			customization.markAsAcknowledged();
@@ -703,9 +704,8 @@ public class CustomizationUtils {
 		{
 	        final Element element = customization.element;
 	        final Locator locator = customization.locator;
-			String msg = label +" "
+			String msg = getLocation(locator) +", " + label +": "
 					+ "[" + getName(element)
-					+ "] at [" + getLocation(locator)
 					+ "] in the property [" + propInfo.parent()
 					+ "." + propInfo.getName(true)
 					+ "] acknowldeged=" + customization.isAcknowledged();
@@ -721,9 +721,8 @@ public class CustomizationUtils {
 		{
 	        final Element element = customization.element;
 	        final Locator locator = customization.locator;
-			String msg = label +" "
+			String msg = getLocation(locator) +", " + label +": "
 					+ "[" + getName(element)
-					+ "] at [" + getLocation(locator)
 					+ "] in the property [" + classInfo.getName()
 					+ "." + propInfo.getName(true)
 					+ "] acknowldeged=" + customization.isAcknowledged();
@@ -739,9 +738,8 @@ public class CustomizationUtils {
 		{
 	        final Element element = customization.element;
 	        final Locator locator = customization.locator;
-			String msg = label + " "
+			String msg = getLocation(locator) +", " + label +": "
 					+ "[" + getName(element)
-					+ "] at [" + getLocation(locator)
 					+ "] in the type [" + typeInfo.getType()
 					+ "] acknowldeged=" + customization.isAcknowledged();
 			infoMap.put(customization, msg);
@@ -756,9 +754,8 @@ public class CustomizationUtils {
 		{
 	        final Element element = customization.element;
 	        final Locator locator = customization.locator;
-			String msg = label + " "
+			String msg = getLocation(locator) +", " + label +": "
 					+ "[" + getName(element)
-					+ "] at [" + getLocation(locator)
 					+ "] in the class [" + classInfo.getName()
 					+ "] acknowldeged=" + customization.isAcknowledged();
 			infoMap.put(customization, msg);
@@ -769,9 +766,8 @@ public class CustomizationUtils {
 	public static String getInfo(String label, CPluginCustomization customization) {
         final Element element = customization.element;
         final Locator locator = customization.locator;
-		String msg =label + " "
+		String msg = getLocation(locator) +", " + label +": "
 			+ "[" + getName(element)
-			+ "] at [" + getLocation(locator)
 			+ "] acknowldeged=" + customization.isAcknowledged();
 		return msg;
 	}

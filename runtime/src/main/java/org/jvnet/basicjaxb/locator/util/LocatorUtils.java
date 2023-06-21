@@ -1,9 +1,9 @@
 package org.jvnet.basicjaxb.locator.util;
 
+import static java.lang.reflect.Modifier.PUBLIC;
 import static org.jvnet.basicjaxb.lang.StringUtils.isEmpty;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -176,7 +176,7 @@ public class LocatorUtils
 	
 	public static boolean isPublic(Method method)
 	{
-		return (method != null) && ( (method.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC);
+		return (method != null) && ( (method.getModifiers() & PUBLIC) == PUBLIC);
 	}
 	
 	public static int countPublicProperties(Class<?> clazz)
