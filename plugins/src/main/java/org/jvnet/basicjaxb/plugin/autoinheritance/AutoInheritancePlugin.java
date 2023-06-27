@@ -1,7 +1,7 @@
 package org.jvnet.basicjaxb.plugin.autoinheritance;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -226,7 +226,7 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin
 			{
 				theClass._extends(targetClass);
 				debug("{}, generateExtends; Class={}, Extension={}",
-					getLocation(theClass.metadata), theClass.name(), name);
+					toLocation(theClass.metadata), theClass.name(), name);
 			}
 		}
 	}
@@ -247,7 +247,7 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin
 			final JClass targetClass = theClass.owner().ref(name);
 			theClass._implements(targetClass);
 			debug("{}, generateImplements; Class={}, Interface={}",
-				getLocation(theClass.metadata), theClass.name(), name);
+				toLocation(theClass.metadata), theClass.name(), name);
 		}
 	}
 }

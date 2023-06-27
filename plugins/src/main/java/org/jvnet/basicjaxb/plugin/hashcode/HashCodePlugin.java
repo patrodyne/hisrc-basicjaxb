@@ -1,10 +1,10 @@
 package org.jvnet.basicjaxb.plugin.hashcode;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.hashcode.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -226,7 +226,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 			JConditional ifDebugEnabled = body._if(hashCodeStrategy.invoke("isDebugEnabled"));
 			ifDebugEnabled._then().assign(theLocator, theRootLocator);
 			body._return(JExpr._this().invoke("hashCode").arg(theLocator).arg(hashCodeStrategy));
-			debug("{}, generateObject$hashCode; Class={}", getLocation(theClass.metadata), theClass.name());
+			debug("{}, generateObject$hashCode; Class={}", toLocation(theClass.metadata), theClass.name());
 		}
 		return object$hashCode;
 	}
@@ -288,7 +288,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 				);
 				
 				trace("{}, generateHashCode$hashCode; Class={}, Field={}",
-					getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
+					toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 			}
 			
 			body._return(currentHashCode);

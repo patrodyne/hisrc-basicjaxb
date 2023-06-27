@@ -1,9 +1,9 @@
 package org.jvnet.basicjaxb.plugin.setters;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.setters.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.util.CodeModelUtils.groupMethods;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -255,12 +255,12 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 					
 					addedSetter = true;
 					trace("{}, generateSetters; Class={}, Field={}",
-						getLocation(fieldInfo.getLocator()), theClass.name(), fieldInfo.getName(false));
+						toLocation(fieldInfo.getLocator()), theClass.name(), fieldInfo.getName(false));
 
 				}
 			}
 		}
 		if ( addedSetter )
-			debug("{}, generateSetters; Class={}", getLocation(theClass.metadata), theClass.name());
+			debug("{}, generateSetters; Class={}", toLocation(theClass.metadata), theClass.name());
 	}
 }

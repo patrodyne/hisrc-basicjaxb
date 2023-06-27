@@ -9,7 +9,7 @@ import java.util.Collection;
 import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.lang.EnumValue;
-import org.jvnet.basicjaxb.locator.util.LocatorUtils;
+import org.jvnet.basicjaxb.lang.StringUtils;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
 import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
@@ -156,7 +156,7 @@ public class EnumValuePlugin extends AbstractParameterizablePlugin
 		
 		if ( isDebugEnabled() )
 		{
-			String location = LocatorUtils.getLocation(enumLeafInfo.getLocator());
+			String location = StringUtils.toLocation(enumLeafInfo.getLocator());
 			QName typeName = enumLeafInfo.getTypeName();
 			JDefinedClass implClass = enumOutline.getImplClass();
 			debug("{}, TypeName={}, ImplName={}", location, typeName, implClass.name());

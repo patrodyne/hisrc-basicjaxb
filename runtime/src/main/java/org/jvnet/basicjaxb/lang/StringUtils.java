@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.xml.sax.Locator;
+
 public class StringUtils
 {
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	public static final String EMPTY = "";
 	public static final String[] EMPTY_STRING_ARRAY = new String[0];
 	public static final String NULL = "null";
+	public static final String UNKNOWN = "unknown";
+	public static final int DEFAULT_MAX_ID_SIZE = 20;
 
 	/**
 	 * <p>Convert a value to its string representation or "null".</p>
@@ -128,5 +132,54 @@ public class StringUtils
 			}
 		}
 		return buf.toString();
+	}
+	
+	public static String clipId(String id, int maxIdSize)
+	{
+		String clipId = "";
+		if ( id != null )
+		{
+			if ( id.length() <= maxIdSize )
+				clipId = id;
+			else
+			{
+				if ( maxIdSize >= 3)
+					clipId = "..." + id.substring(id.length()-maxIdSize+3);
+				else
+					clipId = id.substring(id.length()-maxIdSize);
+			}
+		}
+		return clipId;
+	}
+	
+	public static String toLocation(Locator locator)
+	{
+		return toLocation(locator, DEFAULT_MAX_ID_SIZE);
+	}
+	
+	public static String toLocation(Locator locator, int maxIdSize)
+	{
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        if ( locator != null )
+        {
+            final String pub = clipId(locator.getPublicId(), maxIdSize);
+            final String sys = clipId(locator.getSystemId(), maxIdSize);
+            final int row = locator.getLineNumber();
+            final int col = locator.getColumnNumber();
+            
+            sb.append(isEmpty(pub) ? "" : " " + pub);
+            sb.append(isEmpty(sys) ? "" : " " + sys);
+            if ( row > 0 )
+            {
+                sb.append("{" + row);
+                sb.append((col > 0) ? "," + col : "");
+                sb.append("}");
+            }
+        }
+        else
+        	sb.append(" " + UNKNOWN);
+        sb.append(" ]");
+        return sb.toString();
 	}
 }

@@ -1,8 +1,8 @@
 package org.jvnet.basicjaxb.plugin.simplehashcode;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.hashcode.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Collection;
 
@@ -138,12 +138,12 @@ public class SimpleHashCodePlugin extends AbstractCodeGeneratorPlugin<HashCodeAr
 						new HashCodeArguments(codeModel, currentHashCode, getMultiplier(), value, hasSetValue));
 					
 					trace("{}, generate; Class={}, Field={}",
-						getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldInfo.getName(false));
+						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldInfo.getName(false));
 				}
 			}
 			body._return(currentHashCode);
 		}
-		debug("{}, generate; Class={}", getLocation(theClass.metadata), theClass.name());
+		debug("{}, generate; Class={}", toLocation(theClass.metadata), theClass.name());
 	}
 
 	private int multiplier = 31;

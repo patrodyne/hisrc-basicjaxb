@@ -1,7 +1,6 @@
 package org.jvnet.basicjaxb.plugin.fluentapi;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.fluentapi.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.FLUENT_COLLECTION_SETTER;
 import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.FLUENT_LIST_SETTER;
@@ -12,6 +11,7 @@ import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.PARAMETERIZE
 import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.SETTER_METHOD_PREFIX;
 import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.SETTER_METHOD_PREFIX_LEN;
 import static org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils.filter;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -272,7 +272,7 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 						
 						CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
 						trace("{}, processClassOutline; Class={}, Field={}",
-							getLocation(fieldInfo.getLocator()), targetClass.name(), fieldInfo.getName(false));
+							toLocation(fieldInfo.getLocator()), targetClass.name(), fieldInfo.getName(false));
 					}
 					// Cache processed original method name.
 					originalMethodNames.add(originalMethodName);
@@ -291,7 +291,7 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 		for (FluentMethodInfo fluentMethodInfo : fluentMethodInfoList)
 			fluentMethodInfo.createFluentMethod(targetClass);
 		
-		debug("{}, processClassOutline; Class={}", getLocation(targetClass.metadata), targetClass.name());
+		debug("{}, processClassOutline; Class={}", toLocation(targetClass.metadata), targetClass.name());
 	}
 
 	private void putFieldOutlines(Map<String, FieldOutline> fieldMethodMap, FieldOutline[] classFields)

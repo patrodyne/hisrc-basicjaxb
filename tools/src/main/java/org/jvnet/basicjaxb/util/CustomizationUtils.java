@@ -1,5 +1,7 @@
 package org.jvnet.basicjaxb.util;
 
+import static org.jvnet.basicjaxb.util.LocatorUtils.getLocator;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,7 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 
-import org.jvnet.basicjaxb.locator.util.LocatorUtils;
+import org.jvnet.basicjaxb.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -74,14 +76,14 @@ public class CustomizationUtils {
 		}
 	}
 
-	public static CPluginCustomization createCustomization(QName name) {
+	public static CPluginCustomization createCustomization(QName name, Locator locator) {
 		final Document document = getDocumentBuilder().newDocument();
 		final Element element = document.createElementNS(name.getNamespaceURI(), name.getLocalPart());
-		return createCustomization(element);
+		return createCustomization(element, locator);
 	}
 
-	public static CPluginCustomization createCustomization(final Element element) {
-		final CPluginCustomization customization = new CPluginCustomization(element, null);
+	public static CPluginCustomization createCustomization(final Element element, Locator locator) {
+		final CPluginCustomization customization = new CPluginCustomization(element, locator);
 		return customization;
 	}
 
@@ -248,8 +250,8 @@ public class CustomizationUtils {
 						final Element element = (Element) node;
 
 						classCustomization.markAsAcknowledged();
-						final CPluginCustomization propertyCustomization = new CPluginCustomization(element,
-								classCustomization.locator);
+						final CPluginCustomization propertyCustomization =
+							new CPluginCustomization(element, classCustomization.locator);
 						propertyCustomization.markAsAcknowledged();
 						foundPropertyCustomizations.add(propertyCustomization);
 					}
@@ -285,8 +287,8 @@ public class CustomizationUtils {
 								&& fixNull(element.getLocalName()).equals(customizationName.getLocalPart())) {
 
 							classCustomization.markAsAcknowledged();
-							final CPluginCustomization propertyCustomization = new CPluginCustomization(element,
-									classCustomization.locator);
+							final CPluginCustomization propertyCustomization =
+								new CPluginCustomization(element, classCustomization.locator);
 							propertyCustomization.markAsAcknowledged();
 							foundPropertyCustomizations.add(propertyCustomization);
 						}
@@ -646,17 +648,20 @@ public class CustomizationUtils {
 		}
 	}
 
-	public static CPluginCustomization marshal(final JAXBContext context, final QName name, final Object object) {
-
-		try {
+	public static CPluginCustomization marshal(final JAXBContext context,
+		final QName name, final Object object, Locator locator)
+	{
+		try
+		{
 
 			final JAXBIntrospector introspector = context.createJAXBIntrospector();
 
 			final Object value;
 			{
-				if (introspector.isElement(object)) {
+				if (introspector.isElement(object))
 					value = object;
-				} else {
+				else
+				{
 					@SuppressWarnings({ "unchecked", "rawtypes" })
 					final JAXBElement jaxbElement = new JAXBElement(name, object.getClass(), object);
 					value = jaxbElement;
@@ -665,34 +670,34 @@ public class CustomizationUtils {
 			}
 
 			final Marshaller marshaller = context.createMarshaller();
-
 			final DOMResult result = new DOMResult();
 
 			marshaller.marshal(value, result);
-
 			final Node node = result.getNode();
 
 			final Element element;
 			if (node instanceof Element)
-
-			{
 				element = (Element) node;
-			} else if (node instanceof Document) {
+			else if (node instanceof Document)
 				element = ((Document) node).getDocumentElement();
-			} else {
+			else
+			{
 				element = null;
 				throw new IllegalArgumentException("Could not marhsall object into an element.");
 			}
-			return new CPluginCustomization(element, null);
-		} catch (JAXBException jaxbex) {
+			return new CPluginCustomization(element, locator);
+		}
+		catch (JAXBException jaxbex)
+		{
 			throw new IllegalArgumentException("Could not marhsall object into an element.", jaxbex);
-
 		}
 	}
 
-	public static CPluginCustomization addCustomization(CCustomizable customizable, JAXBContext context, QName name,
-			Object object) {
-		final CPluginCustomization customization = marshal(context, name, object);
+	public static CPluginCustomization addCustomization(CCustomizable customizable, JAXBContext context,
+		QName name, Object object)
+	{
+		Locator locator = getLocator(customizable);
+		final CPluginCustomization customization = marshal(context, name, object, locator);
 		customizable.getCustomizations().add(customization);
 		return customization;
 	}
@@ -703,12 +708,12 @@ public class CustomizationUtils {
 		for (final CPluginCustomization customization : CustomizationUtils.getCustomizations(propInfo))
 		{
 	        final Element element = customization.element;
-	        final Locator locator = customization.locator;
+	        final Locator locator = getLocator(customization);
 			String msg = getLocation(locator) +", " + label +": "
-					+ "[" + getName(element)
-					+ "] in the property [" + propInfo.parent()
-					+ "." + propInfo.getName(true)
-					+ "] acknowldeged=" + customization.isAcknowledged();
+				+ "[" + getName(element)
+				+ "] in the property [" + propInfo.parent()
+				+ "." + propInfo.getName(true)
+				+ "] acknowldeged=" + customization.isAcknowledged();
 			infoMap.put(customization, msg);
 		}
 		return infoMap;
@@ -720,12 +725,12 @@ public class CustomizationUtils {
 		for (final CPluginCustomization customization : CustomizationUtils.getCustomizations(classInfo))
 		{
 	        final Element element = customization.element;
-	        final Locator locator = customization.locator;
+	        final Locator locator = getLocator(customization);
 			String msg = getLocation(locator) +", " + label +": "
-					+ "[" + getName(element)
-					+ "] in the property [" + classInfo.getName()
-					+ "." + propInfo.getName(true)
-					+ "] acknowldeged=" + customization.isAcknowledged();
+				+ "[" + getName(element)
+				+ "] in the property [" + classInfo.getName()
+				+ "." + propInfo.getName(true)
+				+ "] acknowldeged=" + customization.isAcknowledged();
 			infoMap.put(customization, msg);
 		}
 		return infoMap;
@@ -737,11 +742,11 @@ public class CustomizationUtils {
 		for (final CPluginCustomization customization : CustomizationUtils.getCustomizations(typeInfo))
 		{
 	        final Element element = customization.element;
-	        final Locator locator = customization.locator;
+	        final Locator locator = getLocator(customization);
 			String msg = getLocation(locator) +", " + label +": "
-					+ "[" + getName(element)
-					+ "] in the type [" + typeInfo.getType()
-					+ "] acknowldeged=" + customization.isAcknowledged();
+				+ "[" + getName(element)
+				+ "] in the type [" + typeInfo.getType()
+				+ "] acknowldeged=" + customization.isAcknowledged();
 			infoMap.put(customization, msg);
 		}
 		return infoMap;
@@ -753,11 +758,11 @@ public class CustomizationUtils {
 		for (final CPluginCustomization customization : CustomizationUtils.getCustomizations(classInfo))
 		{
 	        final Element element = customization.element;
-	        final Locator locator = customization.locator;
+	        final Locator locator = getLocator(customization);
 			String msg = getLocation(locator) +", " + label +": "
-					+ "[" + getName(element)
-					+ "] in the class [" + classInfo.getName()
-					+ "] acknowldeged=" + customization.isAcknowledged();
+				+ "[" + getName(element)
+				+ "] in the class [" + classInfo.getName()
+				+ "] acknowldeged=" + customization.isAcknowledged();
 			infoMap.put(customization, msg);
 		}
 		return infoMap;
@@ -765,7 +770,7 @@ public class CustomizationUtils {
 	
 	public static String getInfo(String label, CPluginCustomization customization) {
         final Element element = customization.element;
-        final Locator locator = customization.locator;
+        final Locator locator = getLocator(customization);
 		String msg = getLocation(locator) +", " + label +": "
 			+ "[" + getName(element)
 			+ "] acknowldeged=" + customization.isAcknowledged();
@@ -780,7 +785,6 @@ public class CustomizationUtils {
 
 	public static String getLocation(org.xml.sax.Locator locator)
 	{
-		return LocatorUtils.getLocation(locator);
+		return StringUtils.toLocation(locator);
 	}
-
 }

@@ -1,9 +1,9 @@
 package org.jvnet.basicjaxb.plugin.defaultvalue;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.defaultvalue.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils.filter;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 import static org.jvnet.basicjaxb.xmlschema.XmlSchemaConstants.ANYSIMPLETYPE;
 import static org.jvnet.basicjaxb.xmlschema.XmlSchemaConstants.BASE64BINARY;
 import static org.jvnet.basicjaxb.xmlschema.XmlSchemaConstants.HEXBINARY;
@@ -21,7 +21,6 @@ import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.dom.DOMUtils;
 import org.jvnet.basicjaxb.lang.ValueUtils;
-import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
@@ -366,7 +365,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 		// Get reference to ValueUtils to invoke its static methods.
 		JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
 		
-		String fieldLoc = LocatorUtils.getLocation(fieldInfo.getLocator());
+		String fieldLoc = toLocation(fieldInfo.getLocator());
 		String fieldName = fieldInfo.displayName();
 		
 		// PROCESS: Create an appropriate default expression depending on type
@@ -630,7 +629,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 				if ( ec == null )
 				{
 					warn("{}, findEnumConstant; Could not find EnumConstant for value: \"{}\"",
-						getLocation(eo.getImplClass().metadata), enumStringValue);
+						toLocation(eo.getImplClass().metadata), enumStringValue);
 					break;
 				}
 			}

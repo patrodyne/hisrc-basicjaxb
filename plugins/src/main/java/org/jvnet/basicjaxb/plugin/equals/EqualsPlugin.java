@@ -1,10 +1,10 @@
 package org.jvnet.basicjaxb.plugin.equals;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -215,7 +215,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 				.arg(thatLocator)
 				.arg(that)
 				.arg(equalsStrategy));
-			debug("{}, generateObject$equals; Class={}", getLocation(theClass.metadata), theClass.name());
+			debug("{}, generateObject$equals; Class={}", toLocation(theClass.metadata), theClass.name());
 		}
 		return objectEquals;
 	}
@@ -309,7 +309,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 						._then()._return(JExpr.FALSE);
 					
 					trace("{}, generateEquals$equals; Class={}, Field={}",
-						getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
+						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
 			}
 			body._return(JExpr.TRUE);

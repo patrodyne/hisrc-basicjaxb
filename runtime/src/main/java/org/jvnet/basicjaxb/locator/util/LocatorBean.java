@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.locator.util;
 
+import org.jvnet.basicjaxb.lang.StringUtils;
 import org.xml.sax.Locator;
 
 public class LocatorBean implements Locator
@@ -59,6 +60,6 @@ public class LocatorBean implements Locator
 	@Override
 	public String toString()
 	{
-		return LocatorUtils.getLocation(this);
+		return StringUtils.toLocation(this);
 	}
 }

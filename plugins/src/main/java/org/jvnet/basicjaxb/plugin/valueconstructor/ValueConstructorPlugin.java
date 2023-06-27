@@ -1,9 +1,9 @@
 package org.jvnet.basicjaxb.plugin.valueconstructor;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.valueconstructor.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -212,7 +212,7 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 			// and assign them to our fields.
 			generateLocalArgs(valueConstructor, theDefinedClass, theClassFilteredFields);
 		}
-		debug("{}, processClassOutline; Class={}", getLocation(theDefinedClass.metadata), theDefinedClass.name());
+		debug("{}, processClassOutline; Class={}", toLocation(theDefinedClass.metadata), theDefinedClass.name());
 	}
 
 	private void generateSuperArgs(final JMethod valueConstructor, JDefinedClass theDefinedClass,
@@ -232,7 +232,7 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 				superInvocation.arg(arg);
 				
 				trace("{}, generateSuperArgs; Class={}, Field={}",
-					getLocation(propertyInfo.getLocator()), theDefinedClass.name(), fieldName);
+					toLocation(propertyInfo.getLocator()), theDefinedClass.name(), fieldName);
 			}
 		}
 	}
@@ -251,7 +251,7 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 				valueConstructor.body().assign(JExpr.refthis(fieldName), arg);
 				
 				trace("{}, generateLocalArgs; Class={}, Field={}",
-					getLocation(propertyInfo.getLocator()), theDefinedClass.name(), fieldName);
+					toLocation(propertyInfo.getLocator()), theDefinedClass.name(), fieldName);
 			}
 		}
 	}

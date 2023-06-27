@@ -3,7 +3,7 @@ package org.jvnet.basicjaxb.plugin.fixmixedextensions;
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.toUpperCase;
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.reflection.util.Accessor;
@@ -147,7 +147,7 @@ public class FixMixedExtensions extends AbstractPlugin
 		for (FieldOutline fieldOutline : classOutline.getDeclaredFields())
 			fixFieldOutline(fieldOutline);
 		final JDefinedClass theClass = classOutline.implClass;
-		debug("{}, processClassOutline; Class={}", getLocation(theClass.metadata), theClass.name());
+		debug("{}, processClassOutline; Class={}", toLocation(theClass.metadata), theClass.name());
 	}
 
 	private void fixFieldOutline(FieldOutline fieldOutline)
@@ -174,7 +174,7 @@ public class FixMixedExtensions extends AbstractPlugin
 			block._if(field.eq(JExpr._null()))._then().assign(field, JExpr._new(coreList));
 			block._return(JExpr._this().ref(field));
 			DummyListField_$get.set(fieldOutline, $get);
-			trace("{}, fixDummyListField; Field={}", getLocation(fieldInfo.getLocator()), fieldInfo.getName(false));
+			trace("{}, fixDummyListField; Field={}", toLocation(fieldInfo.getLocator()), fieldInfo.getName(false));
 		}
 	}
 
@@ -184,7 +184,7 @@ public class FixMixedExtensions extends AbstractPlugin
 		final FieldOutline core = IsSetField_core.get(isSetField);
 		fixFieldOutline(core);
 		CPropertyInfo fieldInfo = isSetField.getPropertyInfo();
-		trace("{}, fixIsSetField; Field={}", getLocation(fieldInfo.getLocator()), fieldInfo.getName(false));
+		trace("{}, fixIsSetField; Field={}", toLocation(fieldInfo.getLocator()), fieldInfo.getName(false));
 	}
 
 	private void fixPublicName(FieldOutline fieldOutline)

@@ -1,10 +1,10 @@
 package org.jvnet.basicjaxb.plugin.mergeable;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.mergeable.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -220,7 +220,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 			{
 				final JBlock body = newMethod.body();
 				body._return(JExpr._new(theClass));
-				trace("{}, generateMergeFrom$createNewInstance; Class={}", getLocation(theClass.metadata), theClass.name());
+				trace("{}, generateMergeFrom$createNewInstance; Class={}", toLocation(theClass.metadata), theClass.name());
 			}
 			return newMethod;
 		}
@@ -256,7 +256,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 				.arg(rhs)
 				.arg(mergeStrategy);
 			
-			debug("{}, generateMergeFrom$mergeFrom; Class={}", getLocation(theClass.metadata), theClass.name());
+			debug("{}, generateMergeFrom$mergeFrom; Class={}", toLocation(theClass.metadata), theClass.name());
 		}
 		return mergeFrom$mergeFrom;
 	}
@@ -394,7 +394,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 					targetFieldAccessor.unsetValues(ifShouldBeUnsetBlock);
 					
 					trace("{}, generateMergeFrom$mergeFrom1; Class={}, Field={}",
-						getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
+						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
 			}
 		}

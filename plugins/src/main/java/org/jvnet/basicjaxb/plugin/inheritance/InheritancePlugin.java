@@ -1,10 +1,10 @@
 package org.jvnet.basicjaxb.plugin.inheritance;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.util.CustomizationUtils.findCustomization;
 import static org.jvnet.basicjaxb.util.CustomizationUtils.findCustomizations;
 import static org.jvnet.basicjaxb.util.CustomizationUtils.unmarshall;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -378,7 +378,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 					useParameter(use, name, obj);
 				}
 				trace("{}, generateAnnotates; Class={}, Annotation={}, {}='{}'",
-					getLocation(theClass.metadata), theClass.name(), targetClass.name(), name, obj);
+					toLocation(theClass.metadata), theClass.name(), targetClass.name(), name, obj);
 			}
 			
 			// Elements
@@ -391,14 +391,14 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 				{
 					use.param(name, obj.toString());
 					trace("{}, generateAnnotates; Class={}, Annotation={}, {}='{}'",
-						getLocation(theClass.metadata), theClass.name(), targetClass.name(), name, obj);
+						toLocation(theClass.metadata), theClass.name(), targetClass.name(), name, obj);
 				}
 				else if ( valueSize == 1 )
 				{
 					obj = parse(elements.getValue().get(0), elements.getType());
 					useParameter(use, name, obj);
 					trace("{}, generateAnnotates; Class={}, Annotation={}, {}='{}'",
-						getLocation(theClass.metadata), theClass.name(), targetClass.name(), name, obj);
+						toLocation(theClass.metadata), theClass.name(), targetClass.name(), name, obj);
 				}
 				else if ( valueSize > 1 )
 				{
@@ -408,13 +408,13 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 						obj = parse(value, elements.getType());
 						addParameterValue(values, obj);
 						trace("{}, generateAnnotates; Class={}, Annotation={}, {}='{}'",
-							getLocation(theClass.metadata), theClass.name(), targetClass.name(), name, obj);
+							toLocation(theClass.metadata), theClass.name(), targetClass.name(), name, obj);
 					}
 				}
 			}
 			
 			debug("{}, generateAnnotates; Class={}, Annotation={}",
-				getLocation(theClass.metadata), theClass.name(), targetClass.name());
+				toLocation(theClass.metadata), theClass.name(), targetClass.name());
 			return targetClass;
 		}
 		else
@@ -601,7 +601,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 			final JClass targetClass = parseClass(_class, theClass.owner(), knownClasses);
 			theClass._extends(targetClass);
 			debug("{}, generateExtends; Class={}, Extends={}",
-				getLocation(theClass.metadata), theClass.name(), targetClass.name());
+				toLocation(theClass.metadata), theClass.name(), targetClass.name());
 			return targetClass;
 		}
 		else
@@ -662,7 +662,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 			final JClass targetClass = parseClass(_interface, theClass.owner(), knownClasses);
 			theClass._implements(targetClass);
 			debug("{}, generateImplements; Class={}, Implements={}",
-				getLocation(theClass.metadata), theClass.name(), targetClass.name());
+				toLocation(theClass.metadata), theClass.name(), targetClass.name());
 			return targetClass;
 		}
 		else

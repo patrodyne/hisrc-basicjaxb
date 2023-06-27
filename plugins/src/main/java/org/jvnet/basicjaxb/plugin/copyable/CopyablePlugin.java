@@ -1,10 +1,10 @@
 package org.jvnet.basicjaxb.plugin.copyable;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.copyable.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -237,7 +237,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 		{
 			final JBlock body = clone.body();
 			body._return(JExpr.invoke("copyTo").arg(JExpr.invoke("createNewInstance")));
-			trace("{}, generateObject$clone; Class={}", getLocation(theClass.metadata), theClass.name());
+			trace("{}, generateObject$clone; Class={}", toLocation(theClass.metadata), theClass.name());
 		}
 		return clone;
 	}
@@ -265,7 +265,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 				.arg(copyStrategy);
 			
 			body._return(invokeCopyTo);
-			debug("{}, generateCopyTo$copyTo; Class={}", getLocation(theClass.metadata), theClass.name());
+			debug("{}, generateCopyTo$copyTo; Class={}", toLocation(theClass.metadata), theClass.name());
 		}
 		return copyTo$copyTo;
 	}
@@ -388,7 +388,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 					
 					copyFieldAccessor.unsetValues(ifShouldBeUnsetBlock);
 					trace("{}, generateCopyTo$copyTo1; Class={}, Field={}",
-						getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
+						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
 			}
 			body._return(draftCopy);
@@ -406,7 +406,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 			{
 				final JBlock body = newMethod.body();
 				body._return(JExpr._new(theClass));
-				trace("{}, generateCopyTo$createNewInstance; Class={}", getLocation(theClass.metadata), theClass.name());
+				trace("{}, generateCopyTo$createNewInstance; Class={}", toLocation(theClass.metadata), theClass.name());
 			}
 			return newMethod;
 		}

@@ -1,11 +1,11 @@
 package org.jvnet.basicjaxb.plugin.wildcard;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.wildcard.Customizations.LAX_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.wildcard.Customizations.SKIP_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.wildcard.Customizations.STRICT_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.util.CustomizationUtils.containsCustomization;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -156,12 +156,12 @@ public class WildcardPlugin extends AbstractParameterizablePlugin
 						referencePropertyInfo.setWildcard(WildcardMode.STRICT);
 					
 					trace("{}, postProcessModel; Class={}, Property={}, Wildcard={}",
-						getLocation(propertyInfo.getLocator()), classInfo.shortName,
+						toLocation(propertyInfo.getLocator()), classInfo.shortName,
 						propertyInfo.getName(false), referencePropertyInfo.getWildcard());
 				}
 			}
 			
-			debug("{}, postProcessModel; Class={}", getLocation(classInfo.getLocator()), classInfo.shortName);
+			debug("{}, postProcessModel; Class={}", toLocation(classInfo.getLocator()), classInfo.shortName);
 		}
 	}
 

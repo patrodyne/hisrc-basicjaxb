@@ -3,7 +3,7 @@ package org.jvnet.basicjaxb.plugin.customizations;
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.dom.DOMUtils.getLocator;
 import static org.jvnet.basicjaxb.dom.DOMUtils.saxParseDocument;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -212,7 +212,7 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	private List<CPluginCustomization> readCustomizations(Locator locator, String fileName)
 	{
 		final List<CPluginCustomization> customizations = new LinkedList<CPluginCustomization>();
-		final String location = getLocation(locator);
+		final String location = toLocation(locator);
 		final File file = new File(getDirectory(), fileName);
 		final String systemId = file.getAbsolutePath();
 		if (!file.exists())
@@ -248,7 +248,7 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 					}
 				}
 				else
-					customizations.add(new CPluginCustomization(element, null));
+					customizations.add(new CPluginCustomization(element, locator));
 				debug("{}, readCustomizations; Loaded customizations from [{}].", location, systemId);
 			}
 			catch (IOException ioex)

@@ -1,8 +1,8 @@
 package org.jvnet.basicjaxb.plugin.tostring;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -204,7 +204,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 			final JVar buffer = body.decl(JMod.FINAL, codeModel.ref(StringBuilder.class), "buffer", JExpr._new(codeModel.ref(StringBuilder.class)));
 			body.invoke("append").arg(theLocator).arg(buffer).arg(toStringStrategy);
 			body._return(buffer.invoke("toString"));
-			debug("{}, generateObject$toString; Class={}", getLocation(theClass.metadata), theClass.name());
+			debug("{}, generateObject$toString; Class={}", toLocation(theClass.metadata), theClass.name());
 		}
 		return object$toString;
 	}
@@ -280,7 +280,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 						.arg(theFieldIsSet);
 					
 					trace("{}, generateHashCode$hashCode; Class={}, Field={}",
-						getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
+						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
 			}
 			

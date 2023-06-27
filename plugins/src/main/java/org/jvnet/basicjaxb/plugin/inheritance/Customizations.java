@@ -1,7 +1,7 @@
 package org.jvnet.basicjaxb.plugin.inheritance;
 
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
+import static org.jvnet.basicjaxb.util.CustomizationUtils.marshal;
+import static org.jvnet.basicjaxb.util.LocatorUtils.getLocator;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -17,9 +17,13 @@ import org.jvnet.basicjaxb.plugin.inheritance.model.ObjectFactory;
 import org.jvnet.basicjaxb.util.CustomizationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.Locator;
 
 import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPluginCustomization;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
 
 public class Customizations
 {
@@ -93,7 +97,7 @@ public class Customizations
 				}
 			}
 			CPluginCustomization customization =
-				CustomizationUtils.marshal(getContext(), Customizations.ANNOTATES_ELEMENT_NAME, annotatesMetaObject);
+				marshal(getContext(), ANNOTATES_ELEMENT_NAME, annotatesMetaObject, getLocator(classInfo));
 			customization.markAsAcknowledged();
 			classInfo.getCustomizations().add(customization);
 		}
@@ -121,8 +125,9 @@ public class Customizations
 	{
 		final ExtendsClass extendsClass = new ExtendsClass();
 		extendsClass.setValue(className);
+		final Locator locator = getLocator(classInfo);
 		final CPluginCustomization customization =
-			CustomizationUtils.marshal(getContext(), Customizations.EXTENDS_ELEMENT_NAME, extendsClass);
+			CustomizationUtils.marshal(getContext(), EXTENDS_ELEMENT_NAME, extendsClass, locator);
 		classInfo.getCustomizations().add(customization);
 		customization.markAsAcknowledged();
 	}
@@ -133,8 +138,9 @@ public class Customizations
 		{
 			final ImplementsInterface implementsInterface = new ImplementsInterface();
 			implementsInterface.setValue(interfaceName);
+			final Locator locator = getLocator(classInfo);
 			final CPluginCustomization customization =
-				CustomizationUtils.marshal(getContext(), Customizations.IMPLEMENTS_ELEMENT_NAME, implementsInterface);
+				marshal(getContext(), IMPLEMENTS_ELEMENT_NAME, implementsInterface, locator);
 			customization.markAsAcknowledged();
 			classInfo.getCustomizations().add(customization);
 		}

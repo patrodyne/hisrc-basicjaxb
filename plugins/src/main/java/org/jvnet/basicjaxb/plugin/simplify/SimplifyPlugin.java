@@ -1,11 +1,11 @@
 package org.jvnet.basicjaxb.plugin.simplify;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.simplify.Customizations.AS_ELEMENT_PROPERTY_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.simplify.Customizations.AS_REFERENCE_PROPERTY_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.simplify.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.simplify.Customizations.PROPERTY_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -261,7 +261,7 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 				}
 			});
 		}
-		debug("{}, postProcessClassInfo; Class={}", getLocation(classInfo.getLocator()), classInfo.shortName);
+		debug("{}, postProcessClassInfo; Class={}", toLocation(classInfo.getLocator()), classInfo.shortName);
 	}
 
 	private void postProcessElementPropertyInfo(final Model model, final CClassInfo classInfo,
@@ -292,12 +292,12 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 			}
 			classInfo.getProperties().remove(property);
 			trace("{}, simplifyElementPropertyInfoAsElementPropertyInfo; Class={}, Property={}",
-				getLocation(property.getLocator()), classInfo.shortName, property.getName(false));
+				toLocation(property.getLocator()), classInfo.shortName, property.getName(false));
 		}
 		else
 		{
 			warn("{}, simplifyElementPropertyInfoAsElementPropertyInfo; Class={}, Element property [{}] will not be simplified as it does not contain multiple types.",
-				getLocation(property.getLocator()), classInfo.shortName, property.getName(false));
+				toLocation(property.getLocator()), classInfo.shortName, property.getName(false));
 		}
 	}
 
@@ -307,7 +307,7 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 		if (property.getElements().size() <= 1 && !property.isMixed())
 		{
 			warn("{}, simplifyReferencePropertyInfoAsReferencePropertyInfo; Class={}, Element reference property [{}] will not be simplified as it does not contain multiple elements and is not mixed.",
-				getLocation(property.getLocator()), classInfo.shortName, property.getName(false));
+				toLocation(property.getLocator()), classInfo.shortName, property.getName(false));
 		}
 		else
 		{
@@ -323,7 +323,7 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 			classInfo.getProperties().remove(property);
 
 			trace("{}, simplifyReferencePropertyInfoAsReferencePropertyInfo; Class={}, Reference={}",
-				getLocation(property.getLocator()), classInfo.shortName, property.getName(false));
+				toLocation(property.getLocator()), classInfo.shortName, property.getName(false));
 		}
 	}
 
@@ -333,7 +333,7 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 		if (property.getElements().size() <= 1 && !property.isMixed())
 		{
 			warn("{}, simplifyReferencePropertyInfoAsElementPropertyInfo; Class={}, Element reference property [{}] will not be simplified as it does not contain multiple elements and is not mixed.",
-				getLocation(property.getLocator()), classInfo.shortName, property.getName(false));
+				toLocation(property.getLocator()), classInfo.shortName, property.getName(false));
 		}
 		else
 		{
@@ -351,7 +351,7 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 					String msg = format("Element reference property [%s] contains a class reference type [%s] and therefore cannot be fully simplified as element property",
 						property.getName(false), ((CClassRef) element).fullName());
 					error("{}, simplifyReferencePropertyInfoAsElementPropertyInfo; Class={}, {}.",
-						getLocation(property.getLocator()), classInfo.shortName, msg);
+						toLocation(property.getLocator()), classInfo.shortName, msg);
 					handleException(getErrorHandler(), new SAXParseException(msg, property.getLocator()));
 					elementPropertyInfo = null;
 				}
@@ -359,7 +359,7 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 				{
 					String msg = format("Unsupported CElement type [%s]", element);
 					error("{}, simplifyReferencePropertyInfoAsElementPropertyInfo; Class={}, {}.",
-						getLocation(property.getLocator()), classInfo.shortName, msg);
+						toLocation(property.getLocator()), classInfo.shortName, msg);
 					handleException(getErrorHandler(), new SAXParseException(msg, property.getLocator()));
 					elementPropertyInfo = null;
 				}
@@ -379,7 +379,7 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 			if ( erpSimplified )
 			{
 				trace("{}, simplifyReferencePropertyInfoAsElementPropertyInfo; Class={}, Reference={}",
-					getLocation(property.getLocator()), classInfo.shortName, property.getName(false));
+					toLocation(property.getLocator()), classInfo.shortName, property.getName(false));
 			}
 		}
 	}

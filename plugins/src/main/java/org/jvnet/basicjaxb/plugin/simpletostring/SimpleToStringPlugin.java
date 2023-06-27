@@ -1,11 +1,11 @@
 package org.jvnet.basicjaxb.plugin.simpletostring;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.locator.util.LocatorUtils.getLocation;
 import static org.jvnet.basicjaxb.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassNotIgnored;
 import static org.jvnet.basicjaxb.util.FieldUtils.getPossibleTypes;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Collection;
 
@@ -155,7 +155,7 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 
 			body._return(stringBuilder.invoke("toString"));
 		}
-		debug("{}, generateToStringMethod; Class={}", getLocation(theClass.metadata), theClass.name());
+		debug("{}, generateToStringMethod; Class={}", toLocation(theClass.metadata), theClass.name());
 	}
 
 	// Method: toStringFields
@@ -234,7 +234,7 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 					}
 					
 					trace("{}, generateToStringFieldsMethod; Class={}, Field={}",
-						getLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldInfo.getName(false));
+						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldInfo.getName(false));
 				}
 			}
 		}
