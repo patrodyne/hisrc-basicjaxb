@@ -232,7 +232,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			if (!getIgnoring().isIgnored(classOutline))
 				processClassOutline(outline, classOutline);
 		}
-		return true;
+		return !hadError(outline.getErrorReceiver());
 	}
 
 	/**

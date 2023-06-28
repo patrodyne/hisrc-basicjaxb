@@ -139,7 +139,7 @@ public class FixMixedExtensions extends AbstractPlugin
 		for (ClassOutline classOutline : outline.getClasses())
 			processClassOutline(classOutline);
 		
-		return true;
+		return !hadError(outline.getErrorReceiver());
 	}
 
 	private void processClassOutline(ClassOutline classOutline)

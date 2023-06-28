@@ -197,7 +197,7 @@ public class AutoInheritancePlugin extends AbstractParameterizablePlugin
 				processGlobalJAXBElement(elementOutline);
 		}
 		
-		return true;
+		return !hadError(outline.getErrorReceiver());
 	}
 
 	protected void processGlobalElement(ClassOutline classOutline)

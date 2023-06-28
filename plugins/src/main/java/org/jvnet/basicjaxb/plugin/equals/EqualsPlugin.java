@@ -181,7 +181,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 			if (!getIgnoring().isIgnored(classOutline))
 				processClassOutline(classOutline);
 		}
-		return true;
+		return !hadError(outline.getErrorReceiver());
 	}
 
 	protected void processClassOutline(ClassOutline classOutline)

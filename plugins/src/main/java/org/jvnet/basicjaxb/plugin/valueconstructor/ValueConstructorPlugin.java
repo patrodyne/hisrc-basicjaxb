@@ -173,7 +173,7 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 			if (!getIgnoring().isIgnored(classOutline))
 				processClassOutline(classOutline);
 		}
-		return true;
+		return !hadError(outline.getErrorReceiver());
 	}
 	
 	/**

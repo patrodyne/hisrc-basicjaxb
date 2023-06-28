@@ -141,7 +141,7 @@ public class EnumValuePlugin extends AbstractParameterizablePlugin
 			if (!getIgnoring().isIgnored(enumOutline))
 				processEnumOutline(enumOutline);
 		}
-		return true;
+		return !hadError(outline.getErrorReceiver());
 	}
 
 	protected void processEnumOutline(EnumOutline enumOutline)

@@ -130,6 +130,6 @@ public class JaxbIndexPlugin extends AbstractPlugin
 			_package.addResourceFile(indexFile);
 			debug("run; Package={}, File={}", _package.name(), indexFile.name());
 		}
-		return true;
+		return !hadError(outline.getErrorReceiver());
 	}
 }

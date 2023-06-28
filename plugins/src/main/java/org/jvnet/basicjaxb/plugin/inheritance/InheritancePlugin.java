@@ -232,7 +232,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 		
 		processPackageOutlines(outline, knownClasses);
 		
-		return true;
+		return !hadError(outline.getErrorReceiver());
 	}
 
 	private void processClassOutline(ClassOutline classOutline, Map<String, JClass> knownClasses,

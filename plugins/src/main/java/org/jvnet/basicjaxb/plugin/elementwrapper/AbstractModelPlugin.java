@@ -180,6 +180,6 @@ public abstract class AbstractModelPlugin extends AbstractParameterizablePlugin
 		}
 		else
 			throw new AssertionError("Model is expected to be generateable");
-		return true;
+		return !hadError(outline.getErrorReceiver());
 	}
 }

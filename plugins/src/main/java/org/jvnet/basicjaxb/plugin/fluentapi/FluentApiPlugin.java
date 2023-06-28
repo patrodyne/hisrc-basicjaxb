@@ -226,7 +226,7 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 				processClassOutline(classOutline, voidType);
 		}
 		
-		return true;
+		return !hadError(outline.getErrorReceiver());
 	}
 
 	private void processClassOutline(ClassOutline classOutline, final JType voidType)

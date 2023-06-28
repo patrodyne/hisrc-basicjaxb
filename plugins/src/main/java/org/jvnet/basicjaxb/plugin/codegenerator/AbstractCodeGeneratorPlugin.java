@@ -101,7 +101,7 @@ public abstract class AbstractCodeGeneratorPlugin<A extends Arguments<A>>
 				processClassOutline(classOutline);
 		}
 		
-		return true;
+		return !hadError(outline.getErrorReceiver());
 	}
 
 	protected abstract CodeGenerator<A> createCodeGenerator(JCodeModel codeModel);
