@@ -31,10 +31,11 @@ public abstract class AbstractSamplesTest
 
 	// Represents the Logger for this class and sub-classes.
 	private Logger logger = LoggerFactory.getLogger(getTestClass());
-	protected Logger getLogger()
-	{
-		return logger;
-	}
+	protected Logger getLogger() { return logger; }
+	
+	private boolean failFast = false;
+	protected boolean isFailFast() { return failFast; }
+	protected void setFailFast(boolean failFast) { this.failFast = failFast; }
 
 	/**
 	 * Get this class or configure a test class by override.
@@ -298,6 +299,8 @@ public abstract class AbstractSamplesTest
 				getLogger().error("Testing sample [" + sampleFile.getName() + "] failed the check.", ex);
 				failed++;
 				result = "FAILURE";
+				if ( isFailFast() )
+					throw ex;
 			}
 			getLogger().info("Testing sample, " + result + " [" + sampleFile.getName() + "].");
 		}
