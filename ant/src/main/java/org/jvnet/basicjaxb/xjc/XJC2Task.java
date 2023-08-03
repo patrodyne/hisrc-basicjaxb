@@ -2,6 +2,14 @@ package org.jvnet.basicjaxb.xjc;
 
 import org.apache.tools.ant.BuildException;
 
+/**
+ * <p>This task allows the XJC binding compiler to be invoked from the Ant build tool.</p>
+ * 
+ * <p>Note: {@link com.sun.tools.xjc.XJCTask} delegates to JAXB1 or JAXB2 depending
+ * on what you have on your classpath. If you are already using JAXB2 then you
+ * wont see any difference as it ends up calling the same thing. You are unlikely
+ * to be using JAXB1 so you can just use {@link com.sun.tools.xjc.XJC2Task}.</p>
+ */
 public class XJC2Task extends com.sun.tools.xjc.XJC2Task
 {
 	private boolean disableXmlSecurity = true;
