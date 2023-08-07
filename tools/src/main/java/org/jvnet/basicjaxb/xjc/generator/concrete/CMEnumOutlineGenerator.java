@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.xjc.generator.concrete;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
+
 import org.jvnet.basicjaxb.xjc.generator.MEnumConstantOutlineGenerator;
 import org.jvnet.basicjaxb.xjc.generator.MEnumOutlineGenerator;
 import org.jvnet.basicjaxb.xjc.outline.MEnumConstantOutline;
@@ -23,8 +24,8 @@ public class CMEnumOutlineGenerator implements MEnumOutlineGenerator {
 	private final CEnumLeafInfo enumLeafInfo;
 
 	public CMEnumOutlineGenerator(Outline outline, CEnumLeafInfo enumLeafInfo) {
-		Validate.notNull(outline);
-		Validate.notNull(enumLeafInfo);
+		requireNonNull(outline);
+		requireNonNull(enumLeafInfo);
 		this.outline = outline;
 		this.enumLeafInfo = enumLeafInfo;
 	}

@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.simpletostring;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
+
 import org.jvnet.basicjaxb.plugin.codegenerator.CodeGenerationAbstraction;
 
 import com.sun.codemodel.JCodeModel;
@@ -9,6 +10,6 @@ public class ToStringCodeGenerator extends CodeGenerationAbstraction<ToStringArg
 {
 	public ToStringCodeGenerator(JCodeModel codeModel)
 	{
-		super(new ToStringCodeGenerationImplementor(Validate.notNull(codeModel)));
+		super(new ToStringCodeGenerationImplementor(requireNonNull(codeModel)));
 	}
 }

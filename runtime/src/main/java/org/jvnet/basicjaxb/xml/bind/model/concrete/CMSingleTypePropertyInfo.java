@@ -1,8 +1,9 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import javax.xml.namespace.NamespaceContext;
 
-import org.jvnet.basicjaxb.lang.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MClassInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MSingleTypePropertyInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MTypeInfo;
@@ -20,7 +21,7 @@ public abstract class CMSingleTypePropertyInfo<T, C extends T> extends
 			MTypeInfo<T, C> typeInfo, boolean required, String defaultValue,
 			NamespaceContext defaultValueNamespaceContext) {
 		super(origin, classInfo, privateName, collection, required);
-		Validate.notNull(typeInfo);
+		requireNonNull(typeInfo);
 		this.typeInfo = typeInfo;
 		this.defaultValue = defaultValue;
 		this.defaultValueNamespaceContext = defaultValueNamespaceContext;

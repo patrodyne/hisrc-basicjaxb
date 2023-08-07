@@ -1,10 +1,11 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import java.text.MessageFormat;
 
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MCustomizations;
 import org.jvnet.basicjaxb.xml.bind.model.MIDREF;
 import org.jvnet.basicjaxb.xml.bind.model.MTypeInfo;
@@ -18,8 +19,8 @@ public class CMIDREF<T, C extends T> implements MIDREF<T, C> {
 	private final MCustomizations customizations = new CMCustomizations();
 
 	public CMIDREF(T targetType, MTypeInfo<T, C> itemTypeInfo) {
-		Validate.notNull(targetType);
-		Validate.notNull(itemTypeInfo);
+		requireNonNull(targetType);
+		requireNonNull(itemTypeInfo);
 		this.targetType = targetType;
 		this.valueTypeInfo = itemTypeInfo;
 	}

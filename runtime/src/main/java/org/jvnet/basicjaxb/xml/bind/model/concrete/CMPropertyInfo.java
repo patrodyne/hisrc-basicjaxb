@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
-import org.jvnet.basicjaxb.lang.Validate;
+import static java.util.Objects.requireNonNull;
+
 import org.jvnet.basicjaxb.xml.bind.model.MClassInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MCustomizable;
 import org.jvnet.basicjaxb.xml.bind.model.MCustomizations;
@@ -23,9 +24,9 @@ public abstract class CMPropertyInfo<T, C extends T> implements
 	public CMPropertyInfo(MPropertyInfoOrigin origin,
 			MClassInfo<T, C> classInfo, String privateName, boolean collection,
 			boolean required) {
-		Validate.notNull(origin);
-		Validate.notNull(classInfo);
-		Validate.notNull(privateName);
+		requireNonNull(origin);
+		requireNonNull(classInfo);
+		requireNonNull(privateName);
 		this.origin = origin;
 		this.classInfo = classInfo;
 		this.privateName = privateName;

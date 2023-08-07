@@ -1,9 +1,10 @@
 package org.jvnet.basicjaxb.reflection.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
-
-import org.apache.commons.lang3.Validate;
+import java.util.Objects;
 
 /**
  * FieldAccessor provides methods to get and set fields by reflection.
@@ -64,7 +65,7 @@ public class FieldAccessor<T> implements Accessor<T>
 	@Override
 	public T get(Object target)
 	{
-		Validate.notNull(target);
+		requireNonNull(target);
 		try
 		{
 			return (T) field.get(target);
@@ -78,7 +79,7 @@ public class FieldAccessor<T> implements Accessor<T>
 	@Override
 	public void set(Object target, T value)
 	{
-		Validate.notNull(target);
+		Objects.requireNonNull(target);
 		try
 		{
 			this.field.set(target, value);

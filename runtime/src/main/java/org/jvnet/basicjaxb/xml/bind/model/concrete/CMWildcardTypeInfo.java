@@ -1,8 +1,9 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MCustomizations;
 import org.jvnet.basicjaxb.xml.bind.model.MTypeInfoVisitor;
 import org.jvnet.basicjaxb.xml.bind.model.MWildcardTypeInfo;
@@ -16,7 +17,7 @@ public class CMWildcardTypeInfo<T, C extends T> implements
 	private final MCustomizations customizations = new CMCustomizations();
 
 	public CMWildcardTypeInfo(MWildcardTypeInfoOrigin origin, T targetType) {
-		Validate.notNull(origin);
+		requireNonNull(origin);
 		this.origin = origin;
 		this.targetType = targetType;
 	}

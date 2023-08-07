@@ -1,8 +1,9 @@
 package org.jvnet.basicjaxb.xml.bind.model.util;
 
+import static java.util.Objects.requireNonNull;
+
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MAnyAttributePropertyInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MAnyElementPropertyInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MAttributePropertyInfo;
@@ -21,7 +22,7 @@ public class QNameCollectingPropertyInfoVisitor<T, C extends T> implements
 	private final QNameCollector collector;
 
 	public QNameCollectingPropertyInfoVisitor(QNameCollector collector) {
-		Validate.notNull(collector);
+		requireNonNull(collector);
 		this.collector = collector;
 	}
 

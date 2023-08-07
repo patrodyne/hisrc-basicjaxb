@@ -1,10 +1,11 @@
 package org.jvnet.basicjaxb.plugin.simpletostring;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Collection;
 import java.util.ListIterator;
 import java.util.Map;
 
-import org.apache.commons.lang3.Validate;
 import org.jvnet.basicjaxb.plugin.codegenerator.Arguments;
 
 import com.sun.codemodel.JBlock;
@@ -21,10 +22,10 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 	public ToStringArguments(JCodeModel codeModel, JVar stringBuilder, JVar value, JExpression hasSetValue,
 		String fieldSeparator, String fieldName, boolean showChildItems, boolean hasDefaultValue)
 	{
-		this.codeModel = Validate.notNull(codeModel);
-		this.stringBuilder = Validate.notNull(stringBuilder);
-		this.value = Validate.notNull(value);
-		this.hasSetValue = Validate.notNull(hasSetValue);
+		this.codeModel = requireNonNull(codeModel);
+		this.stringBuilder = requireNonNull(stringBuilder);
+		this.value = requireNonNull(value);
+		this.hasSetValue = requireNonNull(hasSetValue);
 		this.fieldSeparator = fieldSeparator;
 		this.fieldName = fieldName;
 		this.showChildItems = showChildItems;

@@ -1,6 +1,6 @@
 package org.jvnet.basicjaxb.plugin.codegenerator;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
 
 import com.sun.codemodel.JCodeModel;
 
@@ -16,6 +16,6 @@ public abstract class AbstractCodeGenerationImplementor<A extends Arguments<A>>
 
 	public AbstractCodeGenerationImplementor(JCodeModel codeModel)
 	{
-		this.codeModel = Validate.notNull(codeModel);
+		this.codeModel = requireNonNull(codeModel);
 	}
 }

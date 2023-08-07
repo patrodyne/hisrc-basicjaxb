@@ -1,20 +1,21 @@
 package org.jvnet.basicjaxb.plugin.codegenerator;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import jakarta.xml.bind.JAXBElement;
-
-import org.apache.commons.lang3.Validate;
 import org.jvnet.basicjaxb.codemodel.JCMType;
 import org.jvnet.basicjaxb.codemodel.JCMTypeFactory;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JType;
+
+import jakarta.xml.bind.JAXBElement;
 
 public class CodeGenerationAbstraction<A extends Arguments<A>> implements
 		CodeGenerator<A> {
@@ -29,7 +30,7 @@ public class CodeGenerationAbstraction<A extends Arguments<A>> implements
 
 	public CodeGenerationAbstraction(CodeGenerationImplementor<A> generationImplementor) {
 
-		this.implementor = Validate.notNull(generationImplementor);
+		this.implementor = requireNonNull(generationImplementor);
 		this.codeModel = generationImplementor.getCodeModel();
 
 		addCodeGenerator(this.codeModel.BOOLEAN, new BooleanCodeGenerator<A>(

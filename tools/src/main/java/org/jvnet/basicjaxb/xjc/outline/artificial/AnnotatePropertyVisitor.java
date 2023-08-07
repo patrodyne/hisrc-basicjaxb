@@ -1,10 +1,7 @@
 package org.jvnet.basicjaxb.xjc.outline.artificial;
 
-import jakarta.xml.bind.annotation.XmlAnyAttribute;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlValue;
+import static java.util.Objects.requireNonNull;
 
-import org.apache.commons.lang3.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MAnyAttributePropertyInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MAnyElementPropertyInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MAttributePropertyInfo;
@@ -20,13 +17,17 @@ import com.sun.codemodel.JAnnotationUse;
 import com.sun.tools.xjc.model.nav.NClass;
 import com.sun.tools.xjc.model.nav.NType;
 
+import jakarta.xml.bind.annotation.XmlAnyAttribute;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlValue;
+
 public class AnnotatePropertyVisitor implements
 		MPropertyInfoVisitor<NType, NClass, Void> {
 
 	private final JAnnotatable annotatable;
 
 	public AnnotatePropertyVisitor(final JAnnotatable annotatable) {
-		Validate.notNull(annotatable);
+		requireNonNull(annotatable);
 		this.annotatable = annotatable;
 	}
 

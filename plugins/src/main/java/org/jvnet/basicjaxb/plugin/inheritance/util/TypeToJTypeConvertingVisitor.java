@@ -1,5 +1,15 @@
 package org.jvnet.basicjaxb.plugin.inheritance.util;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import com.sun.codemodel.JClass;
+import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JType;
+
 import japa.parser.ast.type.ClassOrInterfaceType;
 import japa.parser.ast.type.PrimitiveType;
 import japa.parser.ast.type.ReferenceType;
@@ -7,16 +17,6 @@ import japa.parser.ast.type.Type;
 import japa.parser.ast.type.VoidType;
 import japa.parser.ast.type.WildcardType;
 import japa.parser.ast.visitor.GenericVisitorAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.Validate;
-
-import com.sun.codemodel.JClass;
-import com.sun.codemodel.JCodeModel;
-import com.sun.codemodel.JType;
 
 /**
  * <p>
@@ -42,7 +42,7 @@ public class TypeToJTypeConvertingVisitor extends GenericVisitorAdapter<JType, J
 
 	public TypeToJTypeConvertingVisitor(Map<String, JClass> knownClasses)
 	{
-		Validate.notNull(knownClasses);
+		requireNonNull(knownClasses);
 		this.knownClasses = knownClasses;
 	}
 

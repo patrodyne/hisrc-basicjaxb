@@ -1,6 +1,6 @@
 package org.jvnet.basicjaxb.codemodel;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
 
 import com.sun.codemodel.JType;
 
@@ -11,8 +11,8 @@ public abstract class JCMType<JT extends JType> {
 	private final String fullName;
 
 	public JCMType(JCMTypeFactory factory, JT type) {
-		this.factory = Validate.notNull(factory);
-		this.type = Validate.notNull(type);
+		this.factory = requireNonNull(factory);
+		this.type = requireNonNull(type);
 		this.fullName = type.fullName();
 	}
 

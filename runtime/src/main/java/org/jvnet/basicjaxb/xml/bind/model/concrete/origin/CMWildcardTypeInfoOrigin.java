@@ -1,9 +1,9 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete.origin;
 
-import org.jvnet.basicjaxb.lang.Validate;
-import org.jvnet.basicjaxb.xml.bind.model.origin.MWildcardTypeInfoOrigin;
+import static java.util.Objects.requireNonNull;
 
 import org.glassfish.jaxb.core.v2.model.core.WildcardTypeInfo;
+import org.jvnet.basicjaxb.xml.bind.model.origin.MWildcardTypeInfoOrigin;
 
 public class CMWildcardTypeInfoOrigin<T, C, WTI extends WildcardTypeInfo<T, C>>
 		implements MWildcardTypeInfoOrigin, WildcardTypeInfoOrigin<T, C, WTI> {
@@ -11,7 +11,7 @@ public class CMWildcardTypeInfoOrigin<T, C, WTI extends WildcardTypeInfo<T, C>>
 	private final WTI source;
 
 	public CMWildcardTypeInfoOrigin(WTI source) {
-		Validate.notNull(source);
+		requireNonNull(source);
 		this.source = source;
 	}
 

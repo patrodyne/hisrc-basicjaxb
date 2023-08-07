@@ -1,5 +1,7 @@
 package org.jvnet.basicjaxb.plugin.codegenerator;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,7 +25,7 @@ public class JAXBElementCodeGenerator<A extends Arguments<A>> extends
 	public JAXBElementCodeGenerator(CodeGenerator<A> codeGenerator,
 			CodeGenerationImplementor<A> implementor, JCMTypeFactory typeFactory) {
 		super(codeGenerator, implementor);
-		this.typeFactory = Validate.notNull(typeFactory);
+		this.typeFactory = requireNonNull(typeFactory);
 	}
 
 	private JCMTypeFactory getTypeFactory() {

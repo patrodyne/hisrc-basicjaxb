@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.xjc.outline.concrete;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
+
 import org.jvnet.basicjaxb.xjc.outline.MModelOutline;
 import org.jvnet.basicjaxb.xjc.outline.MObjectFactoryOutline;
 import org.jvnet.basicjaxb.xjc.outline.MPackageOutline;
@@ -17,9 +18,9 @@ public class CMObjectFactoryOutline implements MObjectFactoryOutline {
 
 	public CMObjectFactoryOutline(MModelOutline parent,
 			MPackageOutline packageOutline, JDefinedClass code) {
-		Validate.notNull(parent);
-		Validate.notNull(packageOutline);
-		Validate.notNull(code);
+		requireNonNull(parent);
+		requireNonNull(packageOutline);
+		requireNonNull(code);
 		this.parent = parent;
 		this.packageOutline = packageOutline;
 		this.code = code;

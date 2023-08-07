@@ -1,10 +1,11 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jvnet.basicjaxb.lang.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MCustomization;
 import org.jvnet.basicjaxb.xml.bind.model.MCustomizations;
 
@@ -21,7 +22,7 @@ public class CMCustomizations implements MCustomizations {
 
 	@Override
 	public void addCustomization(MCustomization customization) {
-		Validate.notNull(customization);
+		requireNonNull(customization);
 		this.customizations.add(customization);
 	}
 

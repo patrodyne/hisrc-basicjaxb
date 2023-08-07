@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.xjc.outline.artificial;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
+
 import org.jvnet.basicjaxb.xjc.outline.MClassOutline;
 import org.jvnet.basicjaxb.xjc.outline.MModelOutline;
 import org.jvnet.basicjaxb.xjc.outline.MPropertyAccessor;
@@ -39,9 +40,9 @@ public abstract class AbstractPropertyOutline implements MPropertyOutline {
 
 	public AbstractPropertyOutline(Outline outline, MClassOutline classOutline,
 			MPropertyInfo<NType, NClass> target) {
-		Validate.notNull(outline);
-		Validate.notNull(classOutline);
-		Validate.notNull(target);
+		requireNonNull(outline);
+		requireNonNull(classOutline);
+		requireNonNull(target);
 		this.outline = outline;
 		this.modelOutline = classOutline.getParent();
 		this.classOutline = classOutline;
@@ -155,7 +156,7 @@ public abstract class AbstractPropertyOutline implements MPropertyOutline {
 		protected final JExpression target;
 
 		public PropertyAccessor(JExpression target) {
-			Validate.notNull(target);
+			requireNonNull(target);
 			this.target = target;
 		}
 		

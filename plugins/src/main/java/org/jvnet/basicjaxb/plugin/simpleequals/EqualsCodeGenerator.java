@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.simpleequals;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
+
 import org.jvnet.basicjaxb.plugin.codegenerator.CodeGenerationAbstraction;
 
 import com.sun.codemodel.JCodeModel;
@@ -9,6 +10,6 @@ public class EqualsCodeGenerator extends CodeGenerationAbstraction<EqualsArgumen
 {
 	public EqualsCodeGenerator(JCodeModel codeModel)
 	{
-		super(new EqualsCodeGenerationImplementor(Validate.notNull(codeModel)));
+		super(new EqualsCodeGenerationImplementor(requireNonNull(codeModel)));
 	}
 }

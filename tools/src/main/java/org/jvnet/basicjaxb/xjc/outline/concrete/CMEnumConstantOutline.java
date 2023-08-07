@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.xjc.outline.concrete;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
+
 import org.jvnet.basicjaxb.xjc.outline.MEnumConstantOutline;
 import org.jvnet.basicjaxb.xjc.outline.MEnumOutline;
 import org.jvnet.basicjaxb.xml.bind.model.MEnumConstantInfo;
@@ -19,9 +20,9 @@ public class CMEnumConstantOutline implements MEnumConstantOutline {
 
 	public CMEnumConstantOutline(MEnumOutline enumOutline,
 			MEnumConstantInfo<NType, NClass> target, JEnumConstant code) {
-		Validate.notNull(enumOutline);
-		Validate.notNull(target);
-		Validate.notNull(code);
+		requireNonNull(enumOutline);
+		requireNonNull(target);
+		requireNonNull(code);
 		this.enumOutline = enumOutline;
 		this.target = target;
 		this.code = code;

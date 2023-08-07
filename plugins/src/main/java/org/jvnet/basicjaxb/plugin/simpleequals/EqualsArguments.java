@@ -1,9 +1,10 @@
 package org.jvnet.basicjaxb.plugin.simpleequals;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Collection;
 import java.util.ListIterator;
 
-import org.apache.commons.lang3.Validate;
 import org.jvnet.basicjaxb.plugin.codegenerator.Arguments;
 
 import com.sun.codemodel.JBlock;
@@ -28,11 +29,11 @@ public class EqualsArguments implements Arguments<EqualsArguments> {
 	public EqualsArguments(JCodeModel codeModel, JVar leftValue,
 			JExpression leftHasSetValue, JVar rightValue,
 			JExpression rightHasSetValue) {
-		this.codeModel = Validate.notNull(codeModel);
-		this.leftValue = Validate.notNull(leftValue);
-		this.leftHasSetValue = Validate.notNull(leftHasSetValue);
-		this.rightValue = Validate.notNull(rightValue);
-		this.rightHasSetValue = Validate.notNull(rightHasSetValue);
+		this.codeModel = requireNonNull(codeModel);
+		this.leftValue = requireNonNull(leftValue);
+		this.leftHasSetValue = requireNonNull(leftHasSetValue);
+		this.rightValue = requireNonNull(rightValue);
+		this.rightHasSetValue = requireNonNull(rightHasSetValue);
 	}
 
 	private JCodeModel getCodeModel() {

@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.plugin.setters;
 
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static org.jvnet.basicjaxb.plugin.setters.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.util.CodeModelUtils.groupMethods;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
@@ -10,7 +11,6 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang3.Validate;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
 import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
@@ -141,7 +141,7 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 	}
 	public void setMode(String mode)
 	{
-		Validate.notNull(mode);
+		requireNonNull(mode);
 		try
 		{
 			this.mode = Mode.valueOf(mode);

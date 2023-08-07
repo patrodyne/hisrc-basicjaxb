@@ -1,14 +1,18 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Validate;
+import org.glassfish.jaxb.core.v2.model.core.EnumConstant;
+import org.glassfish.jaxb.core.v2.model.core.EnumLeafInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MClassInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MContainer;
 import org.jvnet.basicjaxb.xml.bind.model.MCustomizable;
@@ -22,9 +26,6 @@ import org.jvnet.basicjaxb.xml.bind.model.MTypeInfoVisitor;
 import org.jvnet.basicjaxb.xml.bind.model.concrete.origin.EnumConstantOrigin;
 import org.jvnet.basicjaxb.xml.bind.model.concrete.origin.EnumLeafInfoOrigin;
 import org.jvnet.basicjaxb.xml.bind.model.origin.MEnumLeafInfoOrigin;
-
-import org.glassfish.jaxb.core.v2.model.core.EnumConstant;
-import org.glassfish.jaxb.core.v2.model.core.EnumLeafInfo;
 
 public class CMEnumLeafInfo<T, C extends T> implements MEnumLeafInfo<T, C>, MCustomizable
 {
@@ -44,11 +45,11 @@ public class CMEnumLeafInfo<T, C extends T> implements MEnumLeafInfo<T, C>, MCus
 	public CMEnumLeafInfo(MEnumLeafInfoOrigin origin, C targetClass, MPackageInfo _package, MContainer container,
 		String localName, MTypeInfo<T, C> baseTypeInfo, QName elementName, QName typeName)
 	{
-		Validate.notNull(origin);
-		Validate.notNull(targetClass);
-		Validate.notNull(_package);
-		Validate.notNull(localName);
-		Validate.notNull(baseTypeInfo);
+		requireNonNull(origin);
+		requireNonNull(targetClass);
+		requireNonNull(_package);
+		requireNonNull(localName);
+		requireNonNull(baseTypeInfo);
 		this.origin = origin;
 		this.targetClass = targetClass;
 		this._package = _package;
@@ -162,7 +163,7 @@ public class CMEnumLeafInfo<T, C extends T> implements MEnumLeafInfo<T, C>, MCus
 	@Override
 	public void addEnumConstantInfo(MEnumConstantInfo<T, C> enumConstantInfo)
 	{
-		Validate.notNull(enumConstantInfo);
+		Objects.requireNonNull(enumConstantInfo);
 		this.constants.add(enumConstantInfo);
 	}
 
@@ -170,7 +171,7 @@ public class CMEnumLeafInfo<T, C extends T> implements MEnumLeafInfo<T, C>, MCus
 	@SuppressWarnings("unchecked")
 	public void removeEnumConstantInfo(MEnumConstantInfo<T, C> enumConstantInfo)
 	{
-		Validate.notNull(enumConstantInfo);
+		Objects.requireNonNull(enumConstantInfo);
 		if (getOrigin() instanceof EnumLeafInfoOrigin && enumConstantInfo.getOrigin() instanceof EnumConstantOrigin)
 		{
 			EnumLeafInfo<T, C> eli = ((EnumLeafInfoOrigin<T, C, EnumLeafInfo<T, C>>) getOrigin()).getSource();

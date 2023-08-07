@@ -1,9 +1,9 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete.origin;
 
-import org.jvnet.basicjaxb.lang.Validate;
-import org.jvnet.basicjaxb.xml.bind.model.origin.MElementInfoOrigin;
+import static java.util.Objects.requireNonNull;
 
 import org.glassfish.jaxb.core.v2.model.core.ElementInfo;
+import org.jvnet.basicjaxb.xml.bind.model.origin.MElementInfoOrigin;
 
 public class CMElementInfoOrigin<T, C, EI extends ElementInfo<T, C>> implements
 		MElementInfoOrigin, ElementInfoOrigin<T, C, EI> {
@@ -11,7 +11,7 @@ public class CMElementInfoOrigin<T, C, EI extends ElementInfo<T, C>> implements
 	private final EI source;
 
 	public CMElementInfoOrigin(EI source) {
-		Validate.notNull(source);
+		requireNonNull(source);
 		this.source = source;
 	}
 

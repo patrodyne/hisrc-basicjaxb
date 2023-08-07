@@ -1,9 +1,12 @@
 package org.jvnet.basicjaxb.xjc.outline.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.Validate;
 import org.jvnet.basicjaxb.xjc.outline.MClassOutline;
@@ -40,8 +43,8 @@ public class CMPackageOutline implements MPackageOutline {
 
 	public CMPackageOutline(MModelOutline parent, MPackageInfo target,
 			PackageOutline packageOutline) {
-		Validate.notNull(parent);
-		Validate.notNull(target);
+		requireNonNull(parent);
+		requireNonNull(target);
 		this.parent = parent;
 		this.target = target;
 		this.code = packageOutline._package();
@@ -75,7 +78,7 @@ public class CMPackageOutline implements MPackageOutline {
 	}
 
 	public void addClassOutline(MClassOutline classOutline) {
-		Validate.notNull(classOutline);
+		Objects.requireNonNull(classOutline);
 		Validate.isTrue(classOutline.getPackageOutline() == this);
 		this.classOutlines.add(classOutline);
 	}
@@ -86,7 +89,7 @@ public class CMPackageOutline implements MPackageOutline {
 	}
 
 	public void addElementOutline(MElementOutline elementOutline) {
-		Validate.notNull(elementOutline);
+		Objects.requireNonNull(elementOutline);
 		Validate.isTrue(elementOutline.getPackageOutline() == this);
 		this.elementOutlines.add(elementOutline);
 	}
@@ -97,7 +100,7 @@ public class CMPackageOutline implements MPackageOutline {
 	}
 
 	public void addEnumOutline(MEnumOutline enumOutline) {
-		Validate.notNull(enumOutline);
+		Objects.requireNonNull(enumOutline);
 		Validate.isTrue(enumOutline.getPackageOutline() == this);
 		this.enumOutlines.add(enumOutline);
 	}

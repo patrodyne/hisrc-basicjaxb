@@ -1,15 +1,17 @@
 package org.jvnet.basicjaxb.xml.bind.model.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.namespace.QName;
+
+import org.glassfish.jaxb.core.api.impl.NameConverter;
 
 import jakarta.xml.bind.annotation.XmlNs;
 import jakarta.xml.bind.annotation.XmlSchema;
 import jakarta.xml.bind.annotation.XmlType;
-import javax.xml.namespace.QName;
-
-import org.glassfish.jaxb.core.api.impl.NameConverter;
-import org.jvnet.basicjaxb.lang.Validate;
 
 public class XmlTypeUtils {
 
@@ -17,7 +19,7 @@ public class XmlTypeUtils {
 	}
 
 	public static QName getTypeName(Class<?> targetClass) {
-		Validate.notNull(targetClass);
+		requireNonNull(targetClass);
 		final Package targetPackage = targetClass.getPackage();
 		final XmlType xmlTypeAnnotation = targetClass
 				.getAnnotation(XmlType.class);

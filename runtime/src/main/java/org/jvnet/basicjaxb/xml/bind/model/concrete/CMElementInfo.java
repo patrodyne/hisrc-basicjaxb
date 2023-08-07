@@ -1,11 +1,12 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import java.text.MessageFormat;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MClassInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MContainer;
 import org.jvnet.basicjaxb.xml.bind.model.MElementInfo;
@@ -41,9 +42,9 @@ public class CMElementInfo<T, C extends T> implements MElementInfo<T, C> {
 			QName substitutionHead, String defaultValue,
 			NamespaceContext defaultValueNamespaceContext) {
 		super();
-		Validate.notNull(origin);
-		Validate.notNull(elementName);
-		Validate.notNull(_package);
+		requireNonNull(origin);
+		requireNonNull(elementName);
+		requireNonNull(_package);
 		this.origin = origin;
 		this._package = _package;
 		this.container = container;

@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.xjc.generator.concrete;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
+
 import org.jvnet.basicjaxb.xjc.generator.MClassOutlineGenerator;
 import org.jvnet.basicjaxb.xjc.generator.MPropertyOutlineGenerator;
 import org.jvnet.basicjaxb.xjc.outline.MClassOutline;
@@ -26,8 +27,8 @@ public class CMClassOutlineGenerator implements MClassOutlineGenerator {
 	private final CClassInfo classInfo;
 
 	public CMClassOutlineGenerator(Outline outline, CClassInfo classInfo) {
-		Validate.notNull(outline);
-		Validate.notNull(classInfo);
+		requireNonNull(outline);
+		requireNonNull(classInfo);
 		this.outline = outline;
 		this.classInfo = classInfo;
 	}

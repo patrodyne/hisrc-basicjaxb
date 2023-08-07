@@ -1,8 +1,11 @@
 package org.jvnet.basicjaxb.xjc.outline.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.Validate;
 import org.jvnet.basicjaxb.xjc.outline.MEnumConstantOutline;
@@ -28,10 +31,10 @@ public class CMEnumOutline implements MEnumOutline {
 
 	public CMEnumOutline(MModelOutline parent, MPackageOutline packageOutline,
 			MEnumLeafInfo<NType, NClass> target, JDefinedClass code) {
-		Validate.notNull(parent);
-		Validate.notNull(packageOutline);
-		Validate.notNull(target);
-		Validate.notNull(code);
+		requireNonNull(parent);
+		requireNonNull(packageOutline);
+		requireNonNull(target);
+		requireNonNull(code);
 		this.parent = parent;
 		this.packageOutline = packageOutline;
 		this.target = target;
@@ -64,7 +67,7 @@ public class CMEnumOutline implements MEnumOutline {
 	}
 
 	public void addEnumConstantOutline(MEnumConstantOutline enumConstantOutline) {
-		Validate.notNull(enumConstantOutline);
+		Objects.requireNonNull(enumConstantOutline);
 		Validate.isTrue(enumConstantOutline.getEnumOutline() == this);
 		this.enumConstantOutlines.add(enumConstantOutline);
 	}

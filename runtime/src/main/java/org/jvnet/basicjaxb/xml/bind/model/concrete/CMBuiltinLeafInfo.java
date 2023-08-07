@@ -1,8 +1,9 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MBuiltinLeafInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MCustomizations;
 import org.jvnet.basicjaxb.xml.bind.model.MTypeInfoVisitor;
@@ -17,9 +18,9 @@ public class CMBuiltinLeafInfo<T, C extends T> implements MBuiltinLeafInfo<T, C>
 
 	public CMBuiltinLeafInfo(MBuiltinLeafInfoOrigin origin, T targetType,
 			QName typeName) {
-		Validate.notNull(origin);
-		Validate.notNull(targetType);
-		Validate.notNull(typeName);
+		requireNonNull(origin);
+		requireNonNull(targetType);
+		requireNonNull(typeName);
 		this.origin = origin;
 		this.targetType = targetType;
 		this.typeName = typeName;

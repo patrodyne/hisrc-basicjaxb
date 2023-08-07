@@ -1,5 +1,7 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.IdentityHashMap;
@@ -10,8 +12,24 @@ import java.util.Set;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 
+import org.glassfish.jaxb.core.v2.model.core.Adapter;
+import org.glassfish.jaxb.core.v2.model.core.AttributePropertyInfo;
+import org.glassfish.jaxb.core.v2.model.core.BuiltinLeafInfo;
+import org.glassfish.jaxb.core.v2.model.core.ClassInfo;
 import org.glassfish.jaxb.core.v2.model.core.Element;
-import org.jvnet.basicjaxb.lang.Validate;
+import org.glassfish.jaxb.core.v2.model.core.ElementInfo;
+import org.glassfish.jaxb.core.v2.model.core.ElementPropertyInfo;
+import org.glassfish.jaxb.core.v2.model.core.EnumConstant;
+import org.glassfish.jaxb.core.v2.model.core.EnumLeafInfo;
+import org.glassfish.jaxb.core.v2.model.core.ID;
+import org.glassfish.jaxb.core.v2.model.core.MapPropertyInfo;
+import org.glassfish.jaxb.core.v2.model.core.PropertyInfo;
+import org.glassfish.jaxb.core.v2.model.core.ReferencePropertyInfo;
+import org.glassfish.jaxb.core.v2.model.core.TypeInfo;
+import org.glassfish.jaxb.core.v2.model.core.TypeInfoSet;
+import org.glassfish.jaxb.core.v2.model.core.TypeRef;
+import org.glassfish.jaxb.core.v2.model.core.ValuePropertyInfo;
+import org.glassfish.jaxb.core.v2.model.core.WildcardTypeInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MBuiltinLeafInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MClassInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MClassTypeInfo;
@@ -47,24 +65,6 @@ import org.jvnet.basicjaxb.xml.bind.model.origin.MPropertyInfoOrigin;
 import org.jvnet.basicjaxb.xml.bind.model.origin.MWildcardTypeInfoOrigin;
 
 import jakarta.activation.MimeType;
-
-import org.glassfish.jaxb.core.v2.model.core.Adapter;
-import org.glassfish.jaxb.core.v2.model.core.AttributePropertyInfo;
-import org.glassfish.jaxb.core.v2.model.core.BuiltinLeafInfo;
-import org.glassfish.jaxb.core.v2.model.core.ClassInfo;
-import org.glassfish.jaxb.core.v2.model.core.ElementInfo;
-import org.glassfish.jaxb.core.v2.model.core.ElementPropertyInfo;
-import org.glassfish.jaxb.core.v2.model.core.EnumConstant;
-import org.glassfish.jaxb.core.v2.model.core.EnumLeafInfo;
-import org.glassfish.jaxb.core.v2.model.core.ID;
-import org.glassfish.jaxb.core.v2.model.core.MapPropertyInfo;
-import org.glassfish.jaxb.core.v2.model.core.PropertyInfo;
-import org.glassfish.jaxb.core.v2.model.core.ReferencePropertyInfo;
-import org.glassfish.jaxb.core.v2.model.core.TypeInfo;
-import org.glassfish.jaxb.core.v2.model.core.TypeInfoSet;
-import org.glassfish.jaxb.core.v2.model.core.TypeRef;
-import org.glassfish.jaxb.core.v2.model.core.ValuePropertyInfo;
-import org.glassfish.jaxb.core.v2.model.core.WildcardTypeInfo;
 
 @SuppressWarnings("unchecked")
 public abstract class CMInfoFactory<T, C extends T, TIS extends TypeInfoSet<T, C, ?, ?>,
@@ -108,7 +108,7 @@ TR extends TypeRef<T, C>> {
 	private final TIS typeInfoSet;
 
 	public CMInfoFactory(TIS typeInfoSet) {
-		Validate.notNull(typeInfoSet);
+		requireNonNull(typeInfoSet);
 		this.typeInfoSet = typeInfoSet;
 
 	}

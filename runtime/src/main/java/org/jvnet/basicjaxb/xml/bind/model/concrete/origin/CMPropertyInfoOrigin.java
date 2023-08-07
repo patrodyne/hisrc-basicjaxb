@@ -1,9 +1,9 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete.origin;
 
-import org.jvnet.basicjaxb.lang.Validate;
-import org.jvnet.basicjaxb.xml.bind.model.origin.MPropertyInfoOrigin;
+import static java.util.Objects.requireNonNull;
 
 import org.glassfish.jaxb.core.v2.model.core.PropertyInfo;
+import org.jvnet.basicjaxb.xml.bind.model.origin.MPropertyInfoOrigin;
 
 public class CMPropertyInfoOrigin<T, C, PI extends PropertyInfo<T, C>> implements MPropertyInfoOrigin,
 		PropertyInfoOrigin<T, C, PI> {
@@ -11,7 +11,7 @@ public class CMPropertyInfoOrigin<T, C, PI extends PropertyInfo<T, C>> implement
 	private final PI source;
 
 	public CMPropertyInfoOrigin(PI source) {
-		Validate.notNull(source);
+		requireNonNull(source);
 		this.source = source;
 	}
 

@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.xjc.model.concrete.origin;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
+
 import org.jvnet.basicjaxb.xjc.generator.MPackageOutlineGenerator;
 import org.jvnet.basicjaxb.xjc.generator.concrete.CMPackageOutlineGenerator;
 import org.jvnet.basicjaxb.xjc.generator.concrete.PackageOutlineGeneratorFactory;
@@ -15,7 +16,7 @@ public class XJCCMPackageInfoOrigin extends CMPackageInfoOrigin implements
 	private final JPackage source;
 
 	public XJCCMPackageInfoOrigin(JPackage source) {
-		Validate.notNull(source);
+		requireNonNull(source);
 		this.source = source;
 	}
 

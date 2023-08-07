@@ -1,6 +1,6 @@
 package org.hisrc.xml.xsom;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
 
 import com.sun.xml.xsom.XSComponent;
 import com.sun.xml.xsom.visitor.XSFunction;
@@ -10,11 +10,11 @@ public class XSFunctionApplier<T> {
 	private XSFunction<T> f;
 
 	public XSFunctionApplier(XSFunction<T> f) {
-		this.f = Validate.notNull(f);
+		this.f = requireNonNull(f);
 	}
 
 	public T apply(Object target) {
-		Validate.notNull(target);
+		requireNonNull(target);
 		if (target instanceof XSComponent) {
 			return ((XSComponent) target).apply(f);
 		} else if (target instanceof SchemaComponentAware) {

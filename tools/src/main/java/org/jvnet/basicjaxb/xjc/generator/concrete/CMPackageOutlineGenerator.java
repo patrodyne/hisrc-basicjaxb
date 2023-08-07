@@ -1,6 +1,9 @@
 package org.jvnet.basicjaxb.xjc.generator.concrete;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
+
+import java.util.Objects;
+
 import org.jvnet.basicjaxb.xjc.generator.MPackageOutlineGenerator;
 import org.jvnet.basicjaxb.xjc.outline.MModelOutline;
 import org.jvnet.basicjaxb.xjc.outline.MPackageOutline;
@@ -21,8 +24,8 @@ public class CMPackageOutlineGenerator implements MPackageOutlineGenerator {
 	private final JPackage packageInfo;
 
 	public CMPackageOutlineGenerator(Outline outline, JPackage packageInfo) {
-		Validate.notNull(outline);
-		Validate.notNull(packageInfo);
+		requireNonNull(outline);
+		requireNonNull(packageInfo);
 		this.outline = outline;
 		this.packageInfo = packageInfo;
 	}
@@ -32,7 +35,7 @@ public class CMPackageOutlineGenerator implements MPackageOutlineGenerator {
 			MModelInfo<NType, NClass> modelInfo, MPackageInfo packageInfo) {
 		final PackageOutline packageOutline = outline
 				.getPackageContext(this.packageInfo);
-		Validate.notNull(packageOutline);
+		Objects.requireNonNull(packageOutline);
 		return new CMPackageOutline(parent, packageInfo, packageOutline);
 	}
 

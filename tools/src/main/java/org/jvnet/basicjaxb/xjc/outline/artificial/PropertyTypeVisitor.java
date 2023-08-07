@@ -1,10 +1,11 @@
 package org.jvnet.basicjaxb.xjc.outline.artificial;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang3.Validate;
 import org.jvnet.basicjaxb.xjc.outline.MModelOutline;
 import org.jvnet.basicjaxb.xml.bind.model.MAnyAttributePropertyInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MAnyElementPropertyInfo;
@@ -26,7 +27,7 @@ public class PropertyTypeVisitor implements
 	private final MModelOutline modelOutline;
 
 	public PropertyTypeVisitor(MModelOutline modelOutline) {
-		Validate.notNull(modelOutline);
+		requireNonNull(modelOutline);
 		this.modelOutline = modelOutline;
 	}
 

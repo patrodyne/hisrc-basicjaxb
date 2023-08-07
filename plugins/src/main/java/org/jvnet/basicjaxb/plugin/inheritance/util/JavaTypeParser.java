@@ -1,13 +1,7 @@
 package org.jvnet.basicjaxb.plugin.inheritance.util;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-
-import japa.parser.JavaParser;
-import japa.parser.ParseException;
-import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.body.ClassOrInterfaceDeclaration;
-import japa.parser.ast.body.TypeDeclaration;
-import japa.parser.ast.type.ClassOrInterfaceType;
+import static java.util.Objects.requireNonNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -15,11 +9,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.Validate;
-
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JType;
+
+import japa.parser.JavaParser;
+import japa.parser.ParseException;
+import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.ClassOrInterfaceDeclaration;
+import japa.parser.ast.body.TypeDeclaration;
+import japa.parser.ast.type.ClassOrInterfaceType;
 
 /**
  * A utility to parse source code of a Java class into a {@link JClass}.
@@ -35,7 +34,7 @@ public class JavaTypeParser
 
 	public JavaTypeParser(Map<String, JClass> knownClasses)
 	{
-		Validate.notNull(knownClasses);
+		requireNonNull(knownClasses);
 		this.typeToJTypeConvertingVisitor = new TypeToJTypeConvertingVisitor(knownClasses);
 	}
 

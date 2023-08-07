@@ -1,12 +1,13 @@
 package org.jvnet.basicjaxb.xml.bind.model.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.lang.StringUtils;
-import org.jvnet.basicjaxb.lang.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MClassInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MElementInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MModelInfo;
@@ -18,7 +19,7 @@ public class PackageInfoQNameAnalyzer<T, C extends T> {
 	private final MModelInfo<T, C> modelInfo;
 
 	public PackageInfoQNameAnalyzer(MModelInfo<T, C> modelInfo) {
-		Validate.notNull(modelInfo);
+		requireNonNull(modelInfo);
 		this.modelInfo = modelInfo;
 	}
 

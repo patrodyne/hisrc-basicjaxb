@@ -1,5 +1,7 @@
 package org.jvnet.basicjaxb.codemodel;
 
+import static java.util.Objects.requireNonNull;
+
 import java.text.MessageFormat;
 
 import org.apache.commons.lang3.Validate;
@@ -15,7 +17,7 @@ public class JCMTypeFactory {
 	public static final JCMTypeFactory INSTANCE = new JCMTypeFactory();
 
 	public <JT extends JType> JCMType<JT> create(JT type) {
-		Validate.notNull(type);
+		requireNonNull(type);
 		if (type.isArray()) {
 			Validate.isInstanceOf(JClass.class, type);
 			@SuppressWarnings("unchecked")

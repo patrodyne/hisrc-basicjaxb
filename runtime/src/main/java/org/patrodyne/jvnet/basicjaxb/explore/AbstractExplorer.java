@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
@@ -34,6 +35,7 @@ import javax.swing.event.HyperlinkEvent;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.WriterOutputStream;
+import org.apache.commons.io.output.WriterOutputStream.Builder;
 
 /**
  * An abstract Swing JFrame to support exploration of HiSrc libraries.
@@ -375,11 +377,11 @@ abstract public class AbstractExplorer extends JFrame
 		Integer fontPoints = Integer.valueOf(getPreferences().get(CONSOLE_FONT_POINTS, DEFAULT_CONSOLE_FONT_POINTS));
 		
 		setConsoleWriter(new ConsoleWriter(fontPoints));
-		setPrintStream(new PrintStream(new WriterOutputStream(getConsoleWriter(), CONFIG_CHARSET)));
+		setPrintStream(createPrintStream(getConsoleWriter()));
 		JScrollPane consolePane = new JScrollPane(getConsoleWriter().getTextArea());
 
 		setErrorWriter(new ConsoleWriter(fontPoints));
-		setErrorStream(new PrintStream(new WriterOutputStream(getErrorWriter(), CONFIG_CHARSET)));
+		setErrorStream(createPrintStream(getErrorWriter()));
 		JScrollPane errorPane = new JScrollPane(getErrorWriter().getTextArea());
 
 		JSplitPane streamPane = new JSplitPane(VERTICAL_SPLIT, consolePane, errorPane);
@@ -397,6 +399,23 @@ abstract public class AbstractExplorer extends JFrame
 		contentPanel.add(lessonPane);
 		
 		return contentPanel;
+	}
+	
+	private PrintStream createPrintStream(Writer writer)
+	{
+		PrintStream printStream = System.err;
+		try
+		{
+			Builder wosBuilder = WriterOutputStream.builder();
+			wosBuilder.setCharset(CONFIG_CHARSET);
+			wosBuilder.setWriter(writer);
+			printStream = new PrintStream(wosBuilder.get());
+		}
+		catch (IOException ex)
+		{
+			errorln(ex);
+		}
+		return printStream;
 	}
 	
 	/**

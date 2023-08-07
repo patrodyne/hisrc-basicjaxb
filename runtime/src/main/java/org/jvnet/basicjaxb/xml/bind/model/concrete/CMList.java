@@ -1,10 +1,11 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import java.text.MessageFormat;
 
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MCustomizations;
 import org.jvnet.basicjaxb.xml.bind.model.MList;
 import org.jvnet.basicjaxb.xml.bind.model.MTypeInfo;
@@ -18,8 +19,8 @@ public class CMList<T, C extends T> implements MList<T, C> {
 	private final QName typeName;
 
 	public CMList(T targetType, MTypeInfo<T, C> itemTypeInfo, QName typeName) {
-		Validate.notNull(targetType);
-		Validate.notNull(itemTypeInfo);
+		requireNonNull(targetType);
+		requireNonNull(itemTypeInfo);
 		this.targetType = targetType;
 		this.itemTypeInfo = itemTypeInfo;
 		this.typeName = typeName;

@@ -1,9 +1,10 @@
 package org.hisrc.xml.xsom;
 
+import static java.util.Objects.requireNonNull;
+
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
 
 import com.sun.xml.xsom.XSAnnotation;
 import com.sun.xml.xsom.XSAttGroupDecl;
@@ -31,7 +32,7 @@ public class FindXSElementDeclVisitor implements XSVisitor {
 	private XSElementDecl elementDecl = null;
 
 	public FindXSElementDeclVisitor(final QName name) {
-		Validate.notNull(name);
+		requireNonNull(name);
 		this.name = name;
 	}
 

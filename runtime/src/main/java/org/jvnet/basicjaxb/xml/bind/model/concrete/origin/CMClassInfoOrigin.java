@@ -1,10 +1,10 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete.origin;
 
-import org.jvnet.basicjaxb.lang.Validate;
-import org.jvnet.basicjaxb.xml.bind.model.origin.MClassInfoOrigin;
-import org.jvnet.basicjaxb.xml.bind.model.origin.MElementInfoOrigin;
+import static java.util.Objects.requireNonNull;
 
 import org.glassfish.jaxb.core.v2.model.core.ClassInfo;
+import org.jvnet.basicjaxb.xml.bind.model.origin.MClassInfoOrigin;
+import org.jvnet.basicjaxb.xml.bind.model.origin.MElementInfoOrigin;
 
 public class CMClassInfoOrigin<T, C, CI extends ClassInfo<T, C>> implements
 		MClassInfoOrigin, ClassInfoOrigin<T, C, CI> {
@@ -12,7 +12,7 @@ public class CMClassInfoOrigin<T, C, CI extends ClassInfo<T, C>> implements
 	private final CI source;
 
 	public CMClassInfoOrigin(CI source) {
-		Validate.notNull(source);
+		requireNonNull(source);
 		this.source = source;
 	}
 

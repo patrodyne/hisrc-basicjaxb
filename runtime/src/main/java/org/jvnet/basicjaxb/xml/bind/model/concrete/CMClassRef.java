@@ -1,8 +1,9 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MClassRef;
 import org.jvnet.basicjaxb.xml.bind.model.MClassTypeInfoVisitor;
 import org.jvnet.basicjaxb.xml.bind.model.MContainer;
@@ -27,10 +28,10 @@ public class CMClassRef<T, C extends T> implements MClassRef<T, C>
 		MContainer container, String localName)
 	{
 		super();
-		Validate.notNull(origin);
-		Validate.notNull(targetType);
-		Validate.notNull(_package);
-		Validate.notNull(localName);
+		requireNonNull(origin);
+		requireNonNull(targetType);
+		requireNonNull(_package);
+		requireNonNull(localName);
 		this.origin = origin;
 		this.targetType = targetType;
 		this.name = _package.getPackagedName(localName);

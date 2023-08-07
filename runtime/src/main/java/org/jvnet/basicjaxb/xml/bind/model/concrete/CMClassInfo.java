@@ -1,14 +1,18 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Validate;
+import org.glassfish.jaxb.core.v2.model.core.ClassInfo;
+import org.glassfish.jaxb.core.v2.model.core.PropertyInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MClassInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MClassTypeInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MClassTypeInfoVisitor;
@@ -21,9 +25,6 @@ import org.jvnet.basicjaxb.xml.bind.model.MTypeInfoVisitor;
 import org.jvnet.basicjaxb.xml.bind.model.concrete.origin.ClassInfoOrigin;
 import org.jvnet.basicjaxb.xml.bind.model.concrete.origin.PropertyInfoOrigin;
 import org.jvnet.basicjaxb.xml.bind.model.origin.MClassInfoOrigin;
-
-import org.glassfish.jaxb.core.v2.model.core.ClassInfo;
-import org.glassfish.jaxb.core.v2.model.core.PropertyInfo;
 
 /**
  * CMClassInfo implements MClassInfo.
@@ -53,10 +54,10 @@ public class CMClassInfo<T, C extends T> implements MClassInfo<T, C> {
 			MPackageInfo _package, MContainer container, String localName,
 			MClassTypeInfo<T, C, ?> baseTypeInfo, QName elementName, QName typeName) {
 		super();
-		Validate.notNull(origin);
-		Validate.notNull(targetType);
-		Validate.notNull(_package);
-		Validate.notNull(localName);
+		requireNonNull(origin);
+		requireNonNull(targetType);
+		requireNonNull(_package);
+		requireNonNull(localName);
 		this.origin = origin;
 		this.targetType = targetType;
 		this.name = _package.getPackagedName(localName);
@@ -161,7 +162,7 @@ public class CMClassInfo<T, C extends T> implements MClassInfo<T, C> {
 
 	@Override
 	public void addProperty(MPropertyInfo<T, C> propertyInfo) {
-		Validate.notNull(propertyInfo);
+		Objects.requireNonNull(propertyInfo);
 		this.properties.add(propertyInfo);
 		this.propertiesMap.put(propertyInfo.getPrivateName(), propertyInfo);
 	}
@@ -170,7 +171,7 @@ public class CMClassInfo<T, C extends T> implements MClassInfo<T, C> {
 	@SuppressWarnings("unchecked")
 	public void removeProperty(MPropertyInfo<T, C> propertyInfo)
 	{
-		Validate.notNull(propertyInfo);
+		Objects.requireNonNull(propertyInfo);
 		this.properties.remove(propertyInfo);
 		this.propertiesMap.remove(propertyInfo.getPrivateName());
 

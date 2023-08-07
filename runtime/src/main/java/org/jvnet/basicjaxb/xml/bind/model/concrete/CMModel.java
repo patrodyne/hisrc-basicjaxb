@@ -1,15 +1,21 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Validate;
+import org.glassfish.jaxb.core.v2.model.core.ClassInfo;
+import org.glassfish.jaxb.core.v2.model.core.ElementInfo;
+import org.glassfish.jaxb.core.v2.model.core.EnumLeafInfo;
+import org.glassfish.jaxb.core.v2.model.core.TypeInfoSet;
 import org.jvnet.basicjaxb.xml.bind.model.MBuiltinLeafInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MClassInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MCustomizations;
@@ -22,11 +28,6 @@ import org.jvnet.basicjaxb.xml.bind.model.concrete.origin.ElementInfoOrigin;
 import org.jvnet.basicjaxb.xml.bind.model.concrete.origin.EnumLeafInfoOrigin;
 import org.jvnet.basicjaxb.xml.bind.model.concrete.origin.TypeInfoSetOrigin;
 import org.jvnet.basicjaxb.xml.bind.model.origin.MModelInfoOrigin;
-
-import org.glassfish.jaxb.core.v2.model.core.ClassInfo;
-import org.glassfish.jaxb.core.v2.model.core.ElementInfo;
-import org.glassfish.jaxb.core.v2.model.core.EnumLeafInfo;
-import org.glassfish.jaxb.core.v2.model.core.TypeInfoSet;
 
 public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 
@@ -65,7 +66,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 			.unmodifiableMap(elementInfosMap);
 
 	public CMModel(MModelInfoOrigin origin) {
-		Validate.notNull(origin);
+		requireNonNull(origin);
 		this.origin = origin;
 	}
 
@@ -124,13 +125,13 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 	}
 
 	public MBuiltinLeafInfo<T, C> getBuiltinLeafInfo(QName name) {
-		Validate.notNull(name);
+		Objects.requireNonNull(name);
 		return this.unmodifiableBuiltinLeafInfosMap.get(name);
 	}
 
 	@Override
 	public void addBuiltinLeafInfo(MBuiltinLeafInfo<T, C> builtinLeafInfo) {
-		Validate.notNull(builtinLeafInfo);
+		Objects.requireNonNull(builtinLeafInfo);
 		this.builtinLeafInfos.add(builtinLeafInfo);
 		this.typeInfos.add(builtinLeafInfo);
 		final QName typeName = builtinLeafInfo.getTypeName();
@@ -142,7 +143,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 
 	@Override
 	public void addEnumLeafInfo(MEnumLeafInfo<T, C> enumLeafInfo) {
-		Validate.notNull(enumLeafInfo);
+		Objects.requireNonNull(enumLeafInfo);
 		this.enumLeafInfos.add(enumLeafInfo);
 		this.typeInfos.add(enumLeafInfo);
 		final QName typeName = enumLeafInfo.getTypeName();
@@ -165,7 +166,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 
 	@Override
 	public void removeEnumLeafInfo(MEnumLeafInfo<T, C> enumLeafInfo) {
-		Validate.notNull(enumLeafInfo);
+		Objects.requireNonNull(enumLeafInfo);
 		this.enumLeafInfos.remove(enumLeafInfo);
 		this.typeInfos.remove(enumLeafInfo);
 		final QName typeName = enumLeafInfo.getTypeName();
@@ -198,7 +199,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 
 	@Override
 	public void addClassInfo(MClassInfo<T, C> classInfo) {
-		Validate.notNull(classInfo);
+		Objects.requireNonNull(classInfo);
 		this.classInfos.add(classInfo);
 		this.classInfosMap.put(classInfo.getName(), classInfo);
 		this.typeInfos.add(classInfo);
@@ -223,7 +224,7 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 
 	@Override
 	public void removeClassInfo(MClassInfo<T, C> classInfo) {
-		Validate.notNull(classInfo);
+		Objects.requireNonNull(classInfo);
 		this.classInfos.remove(classInfo);
 		this.classInfosMap.remove(classInfo.getName());
 		this.typeInfos.remove(classInfo);
@@ -255,8 +256,8 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 
 	@Override
 	public void addElementInfo(MElementInfo<T, C> elementInfo) {
-		Validate.notNull(elementInfo);
-		Validate.notNull(elementInfo.getElementName());
+		Objects.requireNonNull(elementInfo);
+		Objects.requireNonNull(elementInfo.getElementName());
 		this.elementInfos.add(elementInfo);
 		this.elementInfosMap.put(elementInfo.getElementName(), elementInfo);
 		if (elementInfo.getScope() == null) {
@@ -267,8 +268,8 @@ public class CMModel<T, C extends T> implements MModelInfo<T, C> {
 
 	@Override
 	public void removeElementInfo(MElementInfo<T, C> elementInfo) {
-		Validate.notNull(elementInfo);
-		Validate.notNull(elementInfo.getElementName());
+		Objects.requireNonNull(elementInfo);
+		Objects.requireNonNull(elementInfo.getElementName());
 		this.elementInfos.remove(elementInfo);
 		this.elementInfosMap.remove(elementInfo.getElementName());
 		this.globalElementInfosMap.remove(elementInfo.getElementName());

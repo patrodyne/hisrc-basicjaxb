@@ -1,9 +1,10 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MElementTypeInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MTypeInfo;
 
@@ -25,9 +26,9 @@ public abstract class CMElementTypeInfo<T, C extends T, O> implements
 	public CMElementTypeInfo(O origin, QName elementName,
 			MTypeInfo<T, C> typeInfo, boolean nillable, String defaultValue,
 			NamespaceContext defaultValueNamespaceContext) {
-		Validate.notNull(origin);
-		Validate.notNull(elementName);
-		Validate.notNull(typeInfo);
+		requireNonNull(origin);
+		requireNonNull(elementName);
+		requireNonNull(typeInfo);
 		this.origin = origin;
 		this.elementName = elementName;
 		this.typeInfo = typeInfo;

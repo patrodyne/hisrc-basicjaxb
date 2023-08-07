@@ -1,5 +1,7 @@
 package org.jvnet.basicjaxb.lang;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -26,7 +28,7 @@ public class Validate {
 	}
 
 	public static void noNullElements(Collection<?> collection) {
-		Validate.notNull(collection);
+		requireNonNull(collection);
 		int i = 0;
 		for (Iterator<?> it = collection.iterator(); it.hasNext(); i++) {
 			if (it.next() == null) {

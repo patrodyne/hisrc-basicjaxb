@@ -1,9 +1,10 @@
 package org.jvnet.basicjaxb.plugin.simplehashcode;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Collection;
 import java.util.ListIterator;
 
-import org.apache.commons.lang3.Validate;
 import org.jvnet.basicjaxb.plugin.codegenerator.Arguments;
 
 import com.sun.codemodel.JBlock;
@@ -24,11 +25,11 @@ public class HashCodeArguments implements Arguments<HashCodeArguments> {
 
 	public HashCodeArguments(JCodeModel codeModel, JVar currentHashCode,
 			int multiplier, JVar value, JExpression hasSetValue) {
-		this.codeModel = Validate.notNull(codeModel);
-		this.currentHashCode = Validate.notNull(currentHashCode);
+		this.codeModel = requireNonNull(codeModel);
+		this.currentHashCode = requireNonNull(currentHashCode);
 		this.multiplier = multiplier;
-		this.value = Validate.notNull(value);
-		this.hasSetValue = Validate.notNull(hasSetValue);
+		this.value = requireNonNull(value);
+		this.hasSetValue = requireNonNull(hasSetValue);
 	}
 
 	private JCodeModel getCodeModel() {

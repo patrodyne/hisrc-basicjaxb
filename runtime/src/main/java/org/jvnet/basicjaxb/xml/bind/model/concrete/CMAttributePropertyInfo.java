@@ -1,9 +1,10 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.Validate;
 import org.jvnet.basicjaxb.xml.bind.model.MAttributePropertyInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MClassInfo;
 import org.jvnet.basicjaxb.xml.bind.model.MPropertyInfoVisitor;
@@ -21,7 +22,7 @@ public class CMAttributePropertyInfo<T, C extends T> extends
 			String defaultValue, NamespaceContext defaultValueNamespaceContext) {
 		super(origin, classInfo, privateName, false, typeInfo, required,
 				defaultValue, defaultValueNamespaceContext);
-		Validate.notNull(attributeName);
+		requireNonNull(attributeName);
 		this.attributeName = attributeName;
 	}
 

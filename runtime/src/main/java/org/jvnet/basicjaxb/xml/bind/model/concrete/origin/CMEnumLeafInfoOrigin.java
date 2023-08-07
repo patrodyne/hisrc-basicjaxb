@@ -1,10 +1,10 @@
 package org.jvnet.basicjaxb.xml.bind.model.concrete.origin;
 
-import org.jvnet.basicjaxb.lang.Validate;
-import org.jvnet.basicjaxb.xml.bind.model.origin.MElementInfoOrigin;
-import org.jvnet.basicjaxb.xml.bind.model.origin.MEnumLeafInfoOrigin;
+import static java.util.Objects.requireNonNull;
 
 import org.glassfish.jaxb.core.v2.model.core.EnumLeafInfo;
+import org.jvnet.basicjaxb.xml.bind.model.origin.MElementInfoOrigin;
+import org.jvnet.basicjaxb.xml.bind.model.origin.MEnumLeafInfoOrigin;
 
 public class CMEnumLeafInfoOrigin<T, C, ELI extends EnumLeafInfo<T, C>>
 		implements MEnumLeafInfoOrigin, EnumLeafInfoOrigin<T, C, ELI> {
@@ -12,7 +12,7 @@ public class CMEnumLeafInfoOrigin<T, C, ELI extends EnumLeafInfo<T, C>>
 	private final ELI source;
 
 	public CMEnumLeafInfoOrigin(ELI source) {
-		Validate.notNull(source);
+		requireNonNull(source);
 		this.source = source;
 	}
 

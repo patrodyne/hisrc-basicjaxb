@@ -1,10 +1,11 @@
 package org.jvnet.basicjaxb.xjc.outline.concrete;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang3.Validate;
 import org.jvnet.basicjaxb.xjc.outline.MClassOutline;
 import org.jvnet.basicjaxb.xjc.outline.MModelOutline;
 import org.jvnet.basicjaxb.xjc.outline.MPackageOutline;
@@ -35,12 +36,12 @@ public class CMClassOutline implements MClassOutline {
 			MClassInfo<NType, NClass> target, MClassOutline superClassOutline,
 			JDefinedClass referenceCode, JDefinedClass implementationCode,
 			JClass implementationReferenceCode) {
-		Validate.notNull(parent);
-		Validate.notNull(packageOutline);
-		Validate.notNull(target);
-		Validate.notNull(referenceCode);
-		Validate.notNull(implementationCode);
-		Validate.notNull(implementationReferenceCode);
+		requireNonNull(parent);
+		requireNonNull(packageOutline);
+		requireNonNull(target);
+		requireNonNull(referenceCode);
+		requireNonNull(implementationCode);
+		requireNonNull(implementationReferenceCode);
 		this.parent = parent;
 		this.packageOutline = packageOutline;
 		this.target = target;

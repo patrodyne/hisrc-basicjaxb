@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.xjc.model.concrete.origin;
 
-import org.jvnet.basicjaxb.lang.Validate;
+import static java.util.Objects.requireNonNull;
+
 import org.jvnet.basicjaxb.xjc.generator.MPropertyOutlineGenerator;
 import org.jvnet.basicjaxb.xjc.generator.concrete.PropertyOutlineGeneratorFactory;
 import org.jvnet.basicjaxb.xml.bind.model.origin.MPropertyInfoOrigin;
@@ -13,7 +14,7 @@ public class DefaultPropertyInfoOrigin implements MPropertyInfoOrigin,
 	private final MPropertyOutlineGenerator generator;
 
 	public DefaultPropertyInfoOrigin(MPropertyOutlineGenerator generator) {
-		Validate.notNull(generator);
+		requireNonNull(generator);
 		this.generator = generator;
 	}
 

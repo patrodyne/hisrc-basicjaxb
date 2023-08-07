@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.xjc.outline.concrete;
 
-import org.apache.commons.lang3.Validate;
+import static java.util.Objects.requireNonNull;
+
 import org.jvnet.basicjaxb.xjc.outline.MElementOutline;
 import org.jvnet.basicjaxb.xjc.outline.MModelOutline;
 import org.jvnet.basicjaxb.xjc.outline.MPackageOutline;
@@ -20,10 +21,10 @@ public class CMElementOutline implements MElementOutline {
 	public CMElementOutline(MModelOutline parent,
 			MPackageOutline packageOutline, MElementInfo<NType, NClass> target,
 			JDefinedClass code) {
-		Validate.notNull(parent);
-		Validate.notNull(packageOutline);
-		Validate.notNull(target);
-		Validate.notNull(code);
+		requireNonNull(parent);
+		requireNonNull(packageOutline);
+		requireNonNull(target);
+		requireNonNull(code);
 		this.parent = parent;
 		this.packageOutline = packageOutline;
 		this.target = target;
