@@ -96,6 +96,7 @@
 		<activation-imp.version>2.0.1</activation-imp.version>
 		<ant.version>1.10.13</ant.version>
 		<cxf.version>3.3.0</cxf.version>
+		<hisrc-hyperjaxb-annox-plugin.version>2.1.2-SNAPSHOT</hisrc-hyperjaxb-annox-plugin.version>
 		<jaxb-api.version>4.0.0</jaxb-api.version>
 		<jaxb-imp.version>4.0.3</jaxb-imp.version>
 		<jaxb-core.version>2.3.0.1</jaxb-core.version> <!-- cxf -->
@@ -558,6 +559,7 @@
 								</requireMavenVersion>
 								<requirePluginVersions>
 									<message>Best Practice is to always define plugin versions!</message>
+									<banSnapshots>false</banSnapshots>
 								</requirePluginVersions>
 							</rules>    
 						</configuration>
