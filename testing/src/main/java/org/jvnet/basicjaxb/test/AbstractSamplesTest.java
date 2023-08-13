@@ -33,9 +33,9 @@ public abstract class AbstractSamplesTest
 	private Logger logger = LoggerFactory.getLogger(getTestClass());
 	protected Logger getLogger() { return logger; }
 	
-	private boolean failFast = false;
-	protected boolean isFailFast() { return failFast; }
-	protected void setFailFast(boolean failFast) { this.failFast = failFast; }
+	private Boolean failFast = false;
+	public Boolean isFailFast() { return failFast; }
+	public void setFailFast(Boolean failFast) { this.failFast = failFast; }
 
 	/**
 	 * Get this class or configure a test class by override.
