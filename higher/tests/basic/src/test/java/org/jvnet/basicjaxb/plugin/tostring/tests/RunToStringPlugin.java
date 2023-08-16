@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jvnet.higherjaxb.mojo.AbstractHigherjaxbParmMojo;
-import org.jvnet.higherjaxb.mojo.test.RunHigherjaxbMojo;
+import org.jvnet.higherjaxb.mojo.test.RunHigherJaxbMojo;
 import org.jvnet.basicjaxb.lang.JAXBToStringStrategy;
 
-public class RunToStringPlugin extends RunHigherjaxbMojo {
+public class RunToStringPlugin extends RunHigherJaxbMojo {
 
 	@Override
 	public File getSchemaDirectory() {

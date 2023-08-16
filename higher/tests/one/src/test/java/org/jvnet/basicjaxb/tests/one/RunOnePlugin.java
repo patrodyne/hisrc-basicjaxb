@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jvnet.higherjaxb.mojo.AbstractHigherjaxbParmMojo;
-import org.jvnet.higherjaxb.mojo.test.RunHigherjaxbMojo;
+import org.jvnet.higherjaxb.mojo.test.RunHigherJaxbMojo;
 
-public class RunOnePlugin extends RunHigherjaxbMojo {
+public class RunOnePlugin extends RunHigherJaxbMojo {
 	
 	@Override
 	protected void configureMojo(AbstractHigherjaxbParmMojo<?> mojo) {

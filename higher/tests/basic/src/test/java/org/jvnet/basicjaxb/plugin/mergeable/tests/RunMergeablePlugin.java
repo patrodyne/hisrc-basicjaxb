@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jvnet.higherjaxb.mojo.AbstractHigherjaxbParmMojo;
-import org.jvnet.higherjaxb.mojo.test.RunHigherjaxbMojo;
+import org.jvnet.higherjaxb.mojo.test.RunHigherJaxbMojo;
 
-public class RunMergeablePlugin extends RunHigherjaxbMojo {
+public class RunMergeablePlugin extends RunHigherJaxbMojo {
 
 	@Override
 	public File getSchemaDirectory() {
