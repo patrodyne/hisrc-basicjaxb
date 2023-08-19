@@ -35,6 +35,9 @@
 					<debug>true</debug>
 					<args>
 						<arg>-XfluentAPI</arg>
+						<!--
+						<arg>-XfluentAPI-fluentMethodPrefix=with</arg>
+						-->
 						<arg>-XhashCode</arg>
 						<arg>-Xequals</arg>
 						<arg>-XtoString</arg>

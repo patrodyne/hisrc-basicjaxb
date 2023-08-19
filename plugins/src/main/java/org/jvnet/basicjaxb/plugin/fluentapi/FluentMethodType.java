@@ -1,5 +1,7 @@
 package org.jvnet.basicjaxb.plugin.fluentapi;
 
+import static org.jvnet.basicjaxb.plugin.fluentapi.FluentApiPlugin.GETTER_METHOD_PREFIX_LEN;
+import static org.jvnet.basicjaxb.plugin.fluentapi.FluentApiPlugin.SETTER_METHOD_PREFIX_LEN;
 import static org.jvnet.basicjaxb.util.CodeModelUtils.groupMethods;
 
 import java.util.Collection;
@@ -34,11 +36,12 @@ public enum FluentMethodType
 		@Override
 		public void createFluentMethod(JDefinedClass implClass, FluentMethodInfo fluentMethodInfo)
 		{
+			String fluentMethodPrefix = fluentMethodInfo.getPlugin().getFluentMethodPrefix();
 			JMethod setterMethod = fluentMethodInfo.getOriginalMethod();
 			String setterName = setterMethod.name();
 			
 			// Create a fluent method for the respective set* method.
-			String fluentName = FLUENT_SETTER_METHOD_PREFIX + setterName.substring(SETTER_METHOD_PREFIX_LEN);
+			String fluentName = fluentMethodPrefix + setterName.substring(SETTER_METHOD_PREFIX_LEN);
 			int mods = JMod.PUBLIC | setterMethod.mods().getValue() & JMod.FINAL;
 			JMethod fluentMethod = implClass.method(mods, implClass, fluentName);
 			groupMethods(implClass, setterMethod, fluentMethod);
@@ -77,11 +80,12 @@ public enum FluentMethodType
 		@Override
 		public void createFluentMethod(JDefinedClass implClass, FluentMethodInfo fluentMethodInfo)
 		{
+			String fluentMethodPrefix = fluentMethodInfo.getPlugin().getFluentMethodPrefix();
 			JMethod listGetterMethod = fluentMethodInfo.getOriginalMethod();
 			String listGetterName = listGetterMethod.name();
 			
 			// Create a fluent method for the respective List<T> get* method.
-			String fluentName = FLUENT_SETTER_METHOD_PREFIX + listGetterName.substring(GETTER_METHOD_PREFIX_LEN);
+			String fluentName = fluentMethodPrefix + listGetterName.substring(GETTER_METHOD_PREFIX_LEN);
 			int mods = JMod.PUBLIC | listGetterMethod.mods().getValue() & JMod.FINAL;
 			JMethod fluentMethod = implClass.method(mods, implClass, fluentName);
 			groupMethods(implClass, listGetterMethod, fluentMethod);
@@ -123,11 +127,12 @@ public enum FluentMethodType
 		@Override
 		public void createFluentMethod(JDefinedClass implClass, FluentMethodInfo fluentMethodInfo)
 		{
+			String fluentMethodPrefix = fluentMethodInfo.getPlugin().getFluentMethodPrefix();
 			JMethod listGetterMethod = fluentMethodInfo.getOriginalMethod();
 			String listGetterName = listGetterMethod.name();
 			
 			// Create a fluent method for the respective List<T> get* method.
-			String fluentName = FLUENT_SETTER_METHOD_PREFIX + listGetterName.substring(GETTER_METHOD_PREFIX_LEN);
+			String fluentName = fluentMethodPrefix + listGetterName.substring(GETTER_METHOD_PREFIX_LEN);
 			int mods = JMod.PUBLIC | listGetterMethod.mods().getValue() & JMod.FINAL;
 			JMethod fluentMethod = implClass.method(mods, implClass, fluentName);
 			groupMethods(implClass, listGetterMethod, fluentMethod);
@@ -162,15 +167,6 @@ public enum FluentMethodType
 	private static final String VALUE = "value";
 	private static final String VALUES = "values";
 	
-	public static final String GETTER_METHOD_PREFIX = "get";
-	public static final String SETTER_METHOD_PREFIX = "set";
-	public static final String FLUENT_SETTER_METHOD_PREFIX = "use";
-	
-	public static final String PARAMETERIZED_LIST_PREFIX = List.class.getName() + "<";
-	
-	public static final int SETTER_METHOD_PREFIX_LEN = SETTER_METHOD_PREFIX.length();
-	public static final int GETTER_METHOD_PREFIX_LEN = GETTER_METHOD_PREFIX.length();
-
 	/**
 	 * Abstract method to create a Fluent API. Implementations are enumerated above.
 	 * 

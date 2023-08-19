@@ -23,6 +23,10 @@ public class FluentMethodInfo
 	private final boolean isOverride;
 	/** Returns true if the fluent API method is one overriding a parent method. */
 	public boolean isOverride() { return isOverride; }
+	
+	// Represents the XJC Fluent API plugin.
+	private FluentApiPlugin plugin;
+	public FluentApiPlugin getPlugin() { return plugin; }
 
 	/**
 	 * Construct with original method, type of fluent API method and parent method override.
@@ -30,12 +34,14 @@ public class FluentMethodInfo
 	 * @param originalMethod Original method to used to derive the fluent API method.
 	 * @param fluentMethodType Type of fluent API method to be generated.
 	 * @param isOverride True if this method will be overriding a parent method; false otherwise.
+	 * @param plugin The XJC Fluent API plugin.
 	 */
-	public FluentMethodInfo(JMethod originalMethod, FluentMethodType fluentMethodType, boolean isOverride)
+	public FluentMethodInfo(JMethod originalMethod, FluentMethodType fluentMethodType, boolean isOverride, FluentApiPlugin plugin)
 	{
 		this.originalMethod = originalMethod;
 		this.fluentMethodType = fluentMethodType;
 		this.isOverride = isOverride;
+		this.plugin = plugin;
 	}
 
 	/**

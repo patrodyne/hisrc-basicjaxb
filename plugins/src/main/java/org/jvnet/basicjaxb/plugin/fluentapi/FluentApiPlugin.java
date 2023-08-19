@@ -5,11 +5,6 @@ import static org.jvnet.basicjaxb.plugin.fluentapi.Customizations.IGNORED_ELEMEN
 import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.FLUENT_COLLECTION_SETTER;
 import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.FLUENT_LIST_SETTER;
 import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.FLUENT_SETTER;
-import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.GETTER_METHOD_PREFIX;
-import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.GETTER_METHOD_PREFIX_LEN;
-import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.PARAMETERIZED_LIST_PREFIX;
-import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.SETTER_METHOD_PREFIX;
-import static org.jvnet.basicjaxb.plugin.fluentapi.FluentMethodType.SETTER_METHOD_PREFIX_LEN;
 import static org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils.filter;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
@@ -152,6 +147,25 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 		);
 	}
 	
+	public static final String GETTER_METHOD_PREFIX = "get";
+	public static final String SETTER_METHOD_PREFIX = "set";
+	public static final String FLUENT_METHOD_PREFIX = "use";
+	
+	public static final int SETTER_METHOD_PREFIX_LEN = SETTER_METHOD_PREFIX.length();
+	public static final int GETTER_METHOD_PREFIX_LEN = GETTER_METHOD_PREFIX.length();
+	
+	public static final String PARAMETERIZED_LIST_PREFIX = List.class.getName() + "<";
+	
+	private String fluentMethodPrefix = FLUENT_METHOD_PREFIX;
+	public String getFluentMethodPrefix()
+	{
+		return fluentMethodPrefix;
+	}
+	public void setFluentMethodPrefix(String fluentMethodPrefix)
+	{
+		this.fluentMethodPrefix = fluentMethodPrefix;
+	}
+	
 	// Plugin Processing
 	
 	@Override
@@ -162,8 +176,9 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  Verbose.: " + isVerbose());
-			sb.append("\n  Debug...: " + isDebug());
+			sb.append("\n  FluentMethodPrefix.: " + getFluentMethodPrefix());
+			sb.append("\n  Verbose............: " + isVerbose());
+			sb.append("\n  Debug..............: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -261,13 +276,13 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 					if ( fieldOutline != null )
 					{
 						if (isSetterMethod(originalMethod, voidType))
-							fluentMethodInfoList.add(new FluentMethodInfo(originalMethod, FLUENT_SETTER, isOverride));
+							fluentMethodInfoList.add(new FluentMethodInfo(originalMethod, FLUENT_SETTER, isOverride, this));
 						else if (isListGetterMethod(originalMethod))
 						{
-							fluentMethodInfoList.add(new FluentMethodInfo(originalMethod, FLUENT_LIST_SETTER, isOverride));
+							fluentMethodInfoList.add(new FluentMethodInfo(originalMethod, FLUENT_LIST_SETTER, isOverride, this));
 							// Originally proposed by Alex Wei ozgwei@dev.java.net:
 							// https://jaxb2-commons.dev.java.net/issues/show_bug.cgi?id=12
-							fluentMethodInfoList.add(new FluentMethodInfo(originalMethod, FLUENT_COLLECTION_SETTER, isOverride));
+							fluentMethodInfoList.add(new FluentMethodInfo(originalMethod, FLUENT_COLLECTION_SETTER, isOverride, this));
 						}
 						
 						CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
