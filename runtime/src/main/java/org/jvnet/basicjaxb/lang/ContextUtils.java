@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -28,9 +30,7 @@ import jakarta.xml.bind.Unmarshaller;
 public class ContextUtils
 {
 	public static final SchemaFactory XML_SCHEMA_FACTORY = SchemaFactory.newInstance(W3C_XML_SCHEMA_NS_URI);
-	
-	// Seal this utility class.
-	private ContextUtils() { }
+	public static final boolean DEFAULT_JAXB_FORMATTED_OUTPUT = false;
 	
 	/**
 	 * Build a JAXB context path of colon (":") delimited package names.
@@ -61,6 +61,12 @@ public class ContextUtils
 		return contextPath.toString();
 	}
 	
+	public static Marshaller createMarshaller(JAXBContext context)
+		throws JAXBException
+	{
+		return createMarshaller(context, DEFAULT_JAXB_FORMATTED_OUTPUT);
+	}
+					
 	/**
 	 * Create a {@link Marshaller} from the given JAXB context.
 	 * 
@@ -117,7 +123,7 @@ public class ContextUtils
 	public static String toString(JAXBContext context, Object object)
 		throws JAXBException
 	{
-		final Marshaller marshaller = createMarshaller(context, true);
+		final Marshaller marshaller = createMarshaller(context);
 		return toString(marshaller, object);
 	}
 	
@@ -329,4 +335,91 @@ public class ContextUtils
 		
 		return schema;
 	}
+
+	public static <T> JAXBElement<T> createJAXBElement(JAXBContext context, T value)
+		throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	{
+		
+		JAXBContext objectFactory = null;
+		context.createJAXBIntrospector();
+		return createJAXBElement(objectFactory , value);
+	}
+
+	/**
+	 * Create a JAXBElement to wrap the given value object. Looks for
+	 * <code>ObjectFactory</code> in the value object's package.
+	 * 
+	 * @param <T> The generic value type.
+	 * @param value The object to wrap.
+	 * 
+	 * @return a JAXBElement to wrap the given value object or null.
+	 */
+	public static <T> JAXBElement<T> createJAXBElement(T value)
+		throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException, NoSuchMethodException, SecurityException
+	{
+		JAXBElement<T> jaxbElement = null;
+		if ( value != null )
+		{
+			Class<?> objectFactoryClass = getClass(value.getClass().getPackageName(), "ObjectFactory");
+			if ( objectFactoryClass != null )
+			{
+				Object objectFactory = objectFactoryClass.getDeclaredConstructor().newInstance();
+				jaxbElement = createJAXBElement(objectFactory, value);
+			}
+		}
+		return jaxbElement;
+	}
+	
+	/**
+	 * Use <code>ObjectFactory</code> to create a JAXBElement to wrap the given value object.
+	 * 
+	 * @param <T> The generic value type.
+	 * @param objectFactory The <code>ObjectFactory</code> for the JAXB context.
+	 * @param value The object to wrap.
+	 * 
+	 * @return a JAXBElement to wrap the given value object or null.
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> JAXBElement<T> createJAXBElement(Object objectFactory, T value)
+	{
+		JAXBElement<T> jaxbElement = null;
+		if ( value != null )
+		{
+			for ( Method method : objectFactory.getClass().getDeclaredMethods() )
+			{
+				if ( method.getName().startsWith("create") )
+				{
+					if ( method.getParameterCount() == 1 )
+					{
+						Class<?> type = method.getParameterTypes()[0];
+						if ( type.equals(value.getClass()) )
+						{
+							try
+							{
+								jaxbElement = (JAXBElement<T>) method.invoke(objectFactory, value);
+							}
+							catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+							{
+								jaxbElement = null;
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
+		return jaxbElement;
+	}
+	
+	private static Class<?> getClass(String packageName, String typeName)
+	{
+        try
+        {
+            return Class.forName(packageName + "." + typeName);
+        }
+        catch (ClassNotFoundException e)
+        {
+            return null;
+        }
+    }
 }
