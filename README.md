@@ -159,11 +159,11 @@ New goals for the next release are:
   [13]: https://github.com/patrodyne/hisrc-higherjaxb#readme
   [14]: https://github.com/patrodyne/hisrc-hyperjaxb-annox#readme
   [15]: https://github.com/patrodyne/hisrc-hyperjaxb#readme
-  [21]: https://github.com/highsource/annox#readme
-  [22]: https://github.com/highsource/jaxb2-basics#readme
-  [23]: https://github.com/highsource/maven-jaxb2-plugin#readme
-  [24]: https://github.com/highsource/jaxb2-annotate-plugin#readme
-  [25]: https://github.com/highsource/hyperjaxb3#readme
+  [21]: https://github.com/highsource/annox/tree/1.0.2#readme
+  [22]: https://github.com/highsource/jaxb2-basics/tree/0.12.0#readme
+  [23]: https://github.com/highsource/maven-jaxb2-plugin/tree/0.14.0#readme
+  [24]: https://github.com/highsource/jaxb2-annotate-plugin/tree/1.1.0#readme
+  [25]: https://github.com/highsource/hyperjaxb3/tree/0.6.2#readme
   [31]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/0.12.2
   [32]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.0.0
   [33]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.1.0
