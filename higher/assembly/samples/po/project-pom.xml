@@ -215,6 +215,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
+							<debug>true</debug>
 							<args>
 								<arg>-XtoString</arg>
 								<arg>-Xequals</arg>

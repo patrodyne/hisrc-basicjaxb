@@ -209,6 +209,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
+							<debug>true</debug>
 							<args>
 								<arg>-XsimpleHashCode</arg>
 								<arg>-XsimpleEquals</arg>
