@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="a"
@@ -22,6 +23,21 @@
 		<xsd:sequence>
 			<xsd:element name="name" type="xsd:string"/>
 		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- https://github.com/eclipse-ee4j/jaxb-ri/issues/1735 -->
+
+    <xsd:attributeGroup name="XGroup">
+        <xsd:attribute name="x1" type="xsd:string"/>
+        <xsd:attribute name="x2" type="xsd:string"/>
+    </xsd:attributeGroup>
+
+	<xsd:complexType name="XType">
+        <xsd:complexContent>
+            <xsd:extension base="xsd:anyType">
+                <xsd:attributeGroup ref="a:XGroup"/>
+            </xsd:extension>
+        </xsd:complexContent>
 	</xsd:complexType>
 
 </xsd:schema>

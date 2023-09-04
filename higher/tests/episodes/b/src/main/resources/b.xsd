@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="b"
@@ -5,7 +6,7 @@
 	xmlns:b="b"
 	elementFormDefault="qualified">
 
-	<xsd:import namespace="a" schemaLocation="a.xsd"/>
+	<xsd:import namespace="a" schemaLocation="https://raw.githubusercontent.com/patrodyne/hisrc-basicjaxb/master/higher/tests/episodes/a/src/main/resources/a.xsd"/>
 
 	<xsd:element name="b" type="b:BType"/>
 
@@ -42,6 +43,21 @@
 		    <xsd:extension base="b:issueHJIII24Mammal">
 		    </xsd:extension>
 		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- https://github.com/eclipse-ee4j/jaxb-ri/issues/1735 -->
+
+    <xsd:attributeGroup name="YGroup">
+        <xsd:attribute name="y1" type="xsd:string"/>
+        <xsd:attribute name="y2" type="xsd:string"/>
+    </xsd:attributeGroup>
+
+	<xsd:complexType name="YType">
+        <xsd:complexContent>
+            <xsd:extension base="a:XType">
+                <xsd:attributeGroup ref="b:YGroup"/>
+            </xsd:extension>
+        </xsd:complexContent>
 	</xsd:complexType>
 
 </xsd:schema>

@@ -31,6 +31,14 @@
 				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
 				<configuration>
 					<extension>true</extension>
+					<episodes>
+						<episode>
+							<groupId>org.patrodyne.jvnet</groupId>
+							<artifactId>hisrc-basicjaxb-test-episodes-a</artifactId>
+						</episode>
+					</episodes>
+					<catalog>src/main/resources/catalog.xml</catalog>
+					<strict>false</strict>
 					<args>
 						<arg>-XtoString</arg>
 						<arg>-Xequals</arg>
@@ -44,12 +52,6 @@
 							<artifactId>hisrc-basicjaxb-plugins</artifactId>
 						</plugin>
 					</plugins>
-					<episodes>
-						<episode>
-							<groupId>org.patrodyne.jvnet</groupId>
-							<artifactId>hisrc-basicjaxb-test-episodes-a</artifactId>
-						</episode>
-					</episodes>
 				</configuration>
 			</plugin>
 		</plugins>
