@@ -16,12 +16,12 @@ public class FluentAPITest extends AbstractSamplesTest
 {
 	private static final ObjectFactory OF = new ObjectFactory();
 	
-    @Override
-    protected String getContextPath()
-    {
-        return ContextUtils.getContextPath(org.jvnet.basicjaxb.tests.po.ObjectFactory.class);
-    }
-    
+	@Override
+	protected String getContextPath()
+	{
+		return ContextUtils.getContextPath(org.jvnet.basicjaxb.tests.po.ObjectFactory.class);
+	}
+	
 	@Override
 	protected void checkSample(File sample) throws Exception
 	{
@@ -61,7 +61,13 @@ public class FluentAPITest extends AbstractSamplesTest
 						.useUSPrice(new BigDecimal("39.98"))
 						.useShipDate(toXMLGregorianCalendar("1999-10-21")))
 				)
-				.usePayments(toBigDecimal("5.00"), toBigDecimal("10.00"), toBigDecimal("24.98"))
+				.usePayments(OF.createPayments()
+					.usePayment(
+						OF.createPayment().usePaymentDate(toXMLGregorianCalendar("1999-10-21")).useValue(toBigDecimal("5.00")),
+						OF.createPayment().usePaymentDate(toXMLGregorianCalendar("1999-10-22")).useValue(toBigDecimal("10.00")),
+						OF.createPayment().usePaymentDate(toXMLGregorianCalendar("1999-10-23")).useValue(toBigDecimal("24.98"))
+					)
+				)
 				.useCredits
 				(
 					OF.createCredit().useAmount(5.00).useReason("Promo: MAY99"),
