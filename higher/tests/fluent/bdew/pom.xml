@@ -5,18 +5,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
-		<artifactId>hisrc-basicjaxb-higher-tests</artifactId>
+		<artifactId>hisrc-basicjaxb-test-fluent</artifactId>
 		<version>2.1.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>hisrc-basicjaxb-test-fluent</artifactId>
+	<artifactId>hisrc-basicjaxb-test-fluent-bdew</artifactId>
 	<packaging>pom</packaging>
-	<name>HiSrc BasicJAXB - Test [fluent]</name>
+	<name>HiSrc BasicJAXB - Test [fluent-bdew]</name>
 	<properties>
-		<root.basedir>${basedir}/../../..</root.basedir>
+		<root.basedir>${basedir}/../../../..</root.basedir>
 	</properties>
 	<modules>
-		<module>bdew</module>
-		<module>po</module>
+		<module>nested</module>
+		<module>toplevel</module>
 	</modules>
 	<build>
 		<defaultGoal>test</defaultGoal>

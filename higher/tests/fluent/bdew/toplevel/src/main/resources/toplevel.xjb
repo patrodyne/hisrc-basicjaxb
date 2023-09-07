@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings jaxb:version="3.0"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<jaxb:bindings schemaLocation="Stammdaten XSD 1.2a_20230331.xsd" node="/xs:schema">
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='Sender']/xs:complexType">
+			<jaxb:class name="StammdatenSenderType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='Empfaenger']/xs:complexType">
+			<jaxb:class name="StammdatenEmpfaengerType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='RefDokumentID']/xs:complexType">
+			<jaxb:class name="StammdatenRefDokumentIDType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='OriginalSender']/xs:complexType">
+			<jaxb:class name="StammdatenOriginalSenderType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='OriginalDokumentID']/xs:complexType">
+			<jaxb:class name="StammdatenOriginalDokumentIDType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Anschluss_Netzbetreiber']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektAnschlussNetzbetreiberType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Anweisender_Netzbetreiber']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektAnweisenderNetzbetreiberType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Betroffene_Netzbetreiber']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektBetroffeneNetzbetreiberType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Weitere_betroffene_Netzbetreiber']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektWeitereBetroffeneNetzbetreiberType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Einsatzverantwortlicher']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEinsatzverantwortlicherType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Steuerbarkeit']/xs:complexType/xs:sequence/xs:element[@name='Stufen']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektSteuerbarkeitStufenType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Steuerbarkeit']/xs:complexType/xs:sequence/xs:element[@name='Schritte']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektSteuerbarkeitSchritteType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Steuerbarkeit']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektSteuerbarkeitType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Individuelle_Quote']/xs:complexType/xs:sequence/xs:element[@name='Quote']/xs:complexType/xs:sequence/xs:element[@name='Lieferant']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektIndividuelleQuoteQuoteLieferantType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Individuelle_Quote']/xs:complexType/xs:sequence/xs:element[@name='Quote']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektIndividuelleQuoteQuoteType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Individuelle_Quote']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektIndividuelleQuoteType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Bearbeitungszeit_EIV']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektBearbeitungszeitEIVType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Fahrbare_Mindesterzeugungsleistung']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterFahrbareMindesterzeugungsleistungType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Mindestbetriebszeit']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterMindestbetriebszeitType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Mindeststillstandszeit']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterMindeststillstandszeitType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Anfahrzeit_kalt']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterAnfahrzeitKaltType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Anfahrzeit_warm']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterAnfahrzeitWarmType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Hochfahrzeit_kalt']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterHochfahrzeitKaltType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Hochfahrzeit_warm']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterHochfahrzeitWarmType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Abfahrzeit']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterAbfahrzeitType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Lastgradient_Nennleistung']/xs:complexType/xs:sequence/xs:element[@name='Basisgröße']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterLastgradientNennleistungBasisgrößeType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Lastgradient_Nennleistung']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterLastgradientNennleistungType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Lastgradient_Mindestleistung']/xs:complexType/xs:sequence/xs:element[@name='Basisgröße']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterLastgradientMindestleistungBasisgrößeType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Lastgradient_Mindestleistung']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterLastgradientMindestleistungType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektTechnischeParameterType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Code_Kraftwerk']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRCodeKraftwerkType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Zuordnung_Speicher']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRZuordnungSpeicherType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Marktlokation']/xs:complexType/xs:sequence/xs:element[@name='Tranche']/xs:complexType/xs:sequence/xs:element[@name='Lieferant_Tranche']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRMarktlokationTrancheLieferantTrancheType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Marktlokation']/xs:complexType/xs:sequence/xs:element[@name='Tranche']/xs:complexType/xs:sequence/xs:element[@name='Tranchengröße']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRMarktlokationTrancheTranchengrößeType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Marktlokation']/xs:complexType/xs:sequence/xs:element[@name='Tranche']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRMarktlokationTrancheType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Marktlokation']/xs:complexType/xs:sequence/xs:element[@name='Spannungsebene_Marktlokation']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRMarktlokationSpannungsebeneMarktlokationType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Marktlokation']/xs:complexType/xs:sequence/xs:element[@name='Umspannung_Marktlokation']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRMarktlokationUmspannungMarktlokationType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Marktlokation']/xs:complexType/xs:sequence/xs:element[@name='Messlokation']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRMarktlokationMesslokationType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Marktlokation']/xs:complexType/xs:sequence/xs:element[@name='Lieferant_Marktlokation']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRMarktlokationLieferantMarktlokationType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Marktlokation']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRMarktlokationType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Betreiber_TR']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRBetreiberTRType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Betrieb']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRBetriebType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Nettonennleistung_Prod']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterNettonennleistungProdType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Nettonennleistung_Verb']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterNettonennleistungVerbType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Nettoengpassleistung_Prod']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterNettoengpassleistungProdType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Nettoengpassleistung_Verb']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterNettoengpassleistungVerbType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Bruttonennleistung']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterBruttonennleistungType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Wechselrichterleistung_kumuliert']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterWechselrichterleistungKumuliertType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Nabenhoehe']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterNabenhoeheType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Geokoordinaten']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterGeokoordinatenType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Wirkungsgrad_Speicher']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterWirkungsgradSpeicherType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Nutzbarer_Energieinhalt_Speichers']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterNutzbarerEnergieinhaltSpeichersType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Wirkleistung_Einspeichern_max']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterWirkleistungEinspeichernMaxType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType/xs:sequence/xs:element[@name='Wirkleistung_Ausspeichern_max']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterWirkleistungAusspeichernMaxType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType/xs:sequence/xs:element[@name='Technische_Parameter']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRTechnischeParameterType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_TR']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektEnthalteneTRType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt']/xs:complexType">
+			<jaxb:class name="StammdatenSRObjektType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='CR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Clusternder_Netzbetreiber']/xs:complexType">
+			<jaxb:class name="StammdatenCRObjektClusternderNetzbetreiberType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='CR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Betroffene_Netzbetreiber']/xs:complexType">
+			<jaxb:class name="StammdatenCRObjektBetroffeneNetzbetreiberType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='CR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Weitere_betroffene_Netzbetreiber']/xs:complexType">
+			<jaxb:class name="StammdatenCRObjektWeitereBetroffeneNetzbetreiberType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='CR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='tx_Cluster']/xs:complexType">
+			<jaxb:class name="StammdatenCRObjektTxClusterType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='CR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='T_Abruf_final']/xs:complexType">
+			<jaxb:class name="StammdatenCRObjektTAbrufFinalType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='CR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_Objektreferenzen']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt_Referenz']/xs:complexType">
+			<jaxb:class name="StammdatenCRObjektEnthalteneObjektreferenzenSRObjektReferenzType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='CR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_Objektreferenzen']/xs:complexType/xs:sequence/xs:element[@name='CR_Objekt_Referenz']/xs:complexType">
+			<jaxb:class name="StammdatenCRObjektEnthalteneObjektreferenzenCRObjektReferenzType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='CR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_Objektreferenzen']/xs:complexType/xs:sequence/xs:element[@name='SG_Objekt_Referenz']/xs:complexType">
+			<jaxb:class name="StammdatenCRObjektEnthalteneObjektreferenzenSGObjektReferenzType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='CR_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_Objektreferenzen']/xs:complexType">
+			<jaxb:class name="StammdatenCRObjektEnthalteneObjektreferenzenType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='CR_Objekt']/xs:complexType">
+			<jaxb:class name="StammdatenCRObjektType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SG_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Anschluss_Netzbetreiber']/xs:complexType">
+			<jaxb:class name="StammdatenSGObjektAnschlussNetzbetreiberType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SG_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Betroffene_Netzbetreiber']/xs:complexType">
+			<jaxb:class name="StammdatenSGObjektBetroffeneNetzbetreiberType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SG_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Weitere_betroffene_Netzbetreiber']/xs:complexType">
+			<jaxb:class name="StammdatenSGObjektWeitereBetroffeneNetzbetreiberType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SG_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Steuerbarkeit']/xs:complexType/xs:sequence/xs:element[@name='Stufen']/xs:complexType">
+			<jaxb:class name="StammdatenSGObjektSteuerbarkeitStufenType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SG_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Steuerbarkeit']/xs:complexType/xs:sequence/xs:element[@name='Schritte']/xs:complexType">
+			<jaxb:class name="StammdatenSGObjektSteuerbarkeitSchritteType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SG_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Steuerbarkeit']/xs:complexType">
+			<jaxb:class name="StammdatenSGObjektSteuerbarkeitType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SG_Objekt']/xs:complexType/xs:sequence/xs:element[@name='T_Abruf_final']/xs:complexType">
+			<jaxb:class name="StammdatenSGObjektTAbrufFinalType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SG_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_Objektreferenzen']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt_Referenz']/xs:complexType">
+			<jaxb:class name="StammdatenSGObjektEnthalteneObjektreferenzenSRObjektReferenzType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SG_Objekt']/xs:complexType/xs:sequence/xs:element[@name='Enthaltene_Objektreferenzen']/xs:complexType">
+			<jaxb:class name="StammdatenSGObjektEnthalteneObjektreferenzenType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='SG_Objekt']/xs:complexType">
+			<jaxb:class name="StammdatenSGObjektType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='Existenzende']/xs:complexType/xs:sequence/xs:element[@name='Objektreferenz']/xs:complexType">
+			<jaxb:class name="StammdatenExistenzendeObjektreferenzType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='Existenzende']/xs:complexType">
+			<jaxb:class name="StammdatenExistenzendeType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='Bilanzkreis_Ausgleichsfahrplan_anfNB']/xs:complexType/xs:sequence/xs:element[@name='SR_Objekt_Referenz']/xs:complexType">
+			<jaxb:class name="StammdatenBilanzkreisAusgleichsfahrplanAnfNBSRObjektReferenzType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='Bilanzkreis_Ausgleichsfahrplan_anfNB']/xs:complexType/xs:sequence/xs:element[@name='anfordernder_Netzbetreiber']/xs:complexType/xs:sequence/xs:element[@name='Marktpartner_ID']/xs:complexType">
+			<jaxb:class name="StammdatenBilanzkreisAusgleichsfahrplanAnfNBAnfordernderNetzbetreiberMarktpartnerIDType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='Bilanzkreis_Ausgleichsfahrplan_anfNB']/xs:complexType/xs:sequence/xs:element[@name='anfordernder_Netzbetreiber']/xs:complexType">
+			<jaxb:class name="StammdatenBilanzkreisAusgleichsfahrplanAnfNBAnfordernderNetzbetreiberType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:element[@name='Stammdaten']/xs:complexType/xs:sequence/xs:element[@name='Bilanzkreis_Ausgleichsfahrplan_anfNB']/xs:complexType">
+			<jaxb:class name="StammdatenBilanzkreisAusgleichsfahrplanAnfNBType"/>
+		</jaxb:bindings>
+	</jaxb:bindings>
+</jaxb:bindings>

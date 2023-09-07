@@ -259,9 +259,7 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 		while ( classOutline != null )
 		{
 			JDefinedClass implClass = classOutline.implClass;
-			String implClassName = implClass.name();
-			String implPackageName = implClass.getPackage().name();
-			String implFullClassName = implPackageName + "." +implClassName;
+			String implFullClassName = fullClassName(implClass);
 			
 			// Collect the methods we are interested in but defer the respective fluent
 			// methods creation to avoid ConcurrentModificationException
@@ -307,6 +305,18 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 			fluentMethodInfo.createFluentMethod(targetClass);
 		
 		debug("{}, processClassOutline; Class={}", toLocation(targetClass.metadata), targetClass.name());
+	}
+
+	// Build full class name by traversing outer classes and add package.
+	private String fullClassName(JDefinedClass definedClass)
+	{
+		JClass currentClass = definedClass;
+		StringBuilder sb = new StringBuilder(currentClass.name());
+		while ( (currentClass = currentClass.outer() ) != null )
+			sb.insert(0, currentClass.name() + ".");
+		if ( definedClass.getPackage() != null )
+			sb.insert(0, definedClass.getPackage().name() + ".");
+		return sb.toString();
 	}
 
 	private void putFieldOutlines(Map<String, FieldOutline> fieldMethodMap, FieldOutline[] classFields)

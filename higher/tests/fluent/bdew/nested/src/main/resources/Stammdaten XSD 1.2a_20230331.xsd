@@ -1,0 +1,2828 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Diese XSD-Datei baut auf den konsultierten Formatbeschreibungen der XML-Datenformate für den Redispatch 2.0 auf. Der BDEW übernimmt keinerlei Gewähr für die Aktualität, Korrektheit, Vollständigkeit, Qualität oder wettbewerbsrechtliche Zulässigkeit der bereitgestellten Informationen.
+Der BDEW behält sich vor, in Zukunft eine kostenpflichtige Veröffentlichung der XSD-Datei einzuführen. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="urn:kwep_stammdaten:1:0"
+    targetNamespace="urn:kwep_stammdaten:1:0"
+    elementFormDefault="qualified">
+  <xs:element name="Stammdaten">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="DocumentIdentification">
+          <xs:annotation>
+            <xs:documentation xml:lang="DE">Die Identifikation des Dokuments (DocumentIdentification) hat je Absender und je Dokumententyp eindeutig zu sein.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:minLength value="1"/>
+              <xs:maxLength value="35"/>
+              <xs:whiteSpace value="preserve"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="DocumentType">
+          <xs:annotation>
+            <xs:documentation xml:lang="DE">Mit DokumentTyp wird angegeben, um welche Art Dokument es sich handelt.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="Z02">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">reduzierte Stammdaten</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="Z03">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">angereicherte Stammdaten</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="Z04">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Netzbetreiber-Aggregat-Stammdaten</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="Z14">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Bilanzkreisstammdaten</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:whiteSpace value="collapse"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="Erstellungszeitpunkt">
+          <xs:annotation>
+            <xs:documentation xml:lang="DE">
+Hier ist der Erzeugungszeitpunkt des Dokuments anzugeben. Die Zeitangabe erfolgt in UTC. Der Zeitpunkt ist immer im Format 
+yyyy-mm-ddThh:mm:ssZ anzugeben mit:
+
+yyyy vier Ziffern für die Jahresangabe
+mm zwei Ziffern für die Monatsangabe
+dd zwei Ziffern für die Tagesangabe
+hh zwei Ziffern für die Stundenangabe
+mm zwei Ziffern für die Minutenangabe
+ss zwei Ziffern für die Sekundenangabe
+T Trennzeichen zwischen Datum und Uhrzeit
+Z Verweis auf UTC
+            </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:dateTime">
+              <xs:pattern value="20(\d{2}(\-(0[13578]|1[02])\-(0[1-9]|[12]\d|3[01])|\-02\-(0[1-9]|1\d|2[0-8])|\-(0[469]|11)\-(0[1-9]|[12]\d|30))|([02468][048]|[13579][26])\-02\-(29))T([01]\d|2[0-3]):[0-5]\d:[0-5]\dZ"/>
+              <xs:whiteSpace value="collapse"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="Sender">
+          <xs:annotation>
+            <xs:documentation xml:lang="DE">Dieses Element dient zur eindeutigen Identifikation des Senders über seine Marktpartner-ID.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="Codierung" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="DE">Das Attribut Codierung definiert das Codierungssystem für den genutzten Identifikator.</xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                  <xs:enumeration value="A10">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                    </xs:annotation>
+                  </xs:enumeration>
+                  <xs:enumeration value="NDE">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                    </xs:annotation>
+                  </xs:enumeration>
+                  <xs:length value="3"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Code" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:length value="13"/>
+                  <xs:pattern value="\d{13}"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Senderrolle">
+          <xs:annotation>
+            <xs:documentation xml:lang="DE">Dieses Element dient zur Identifikation der Marktrolle des Senders.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:NMTOKEN">
+              <xs:enumeration value="A18">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Grid operator</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="A27">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Resource Provider</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="A39">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Data provider</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="Z01">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Lieferant</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:maxLength value="3"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="Empfaenger">
+          <xs:complexType>
+            <xs:attribute name="Codierung" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="DE">Das Attribut Codierung definiert das Codierungssystem für den genutzten Identifikator.</xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                  <xs:enumeration value="A10">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                    </xs:annotation>
+                  </xs:enumeration>
+                  <xs:enumeration value="NDE">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">Germany National coding scheme (BDEW-Code)</xs:documentation>
+                    </xs:annotation>
+                  </xs:enumeration>
+                  <xs:length value="3"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Code" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:length value="13"/>
+                  <xs:pattern value="\d{13}"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Empfaengerrolle">
+          <xs:annotation>
+            <xs:documentation xml:lang="DE">Dieses Element dient zur Identifikation der Marktrolle des Empfängers.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:NMTOKEN">
+              <xs:enumeration value="A08">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Balance responsible party</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="A18">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Grid operator</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="A39">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Data provider</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="Z01">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Lieferant</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="RefDokumentID" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="DE">Referenz auf Document ID der ursprünglichen Nachricht</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="v">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="35"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="OriginalSender" minOccurs="0">
+          <xs:complexType>
+            <xs:attribute name="v" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="13"/>
+                  <xs:pattern value="\d{13}"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Codierung" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="A10">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                    </xs:annotation>
+                  </xs:enumeration>
+                  <xs:enumeration value="NDE">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                    </xs:annotation>
+                  </xs:enumeration>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="OriginalDokumentID" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="DE">Referenz auf Document ID des letzten Senders</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="v" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="35"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="OriginalErstellungszeitpunkt" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Nutzung nur bei Weiterleitung</xs:documentation>
+            <xs:documentation xml:lang="DE">Zeitpunkt in UTC gemäß Pattern</xs:documentation>
+            <xs:documentation xml:lang="DE">
+Das Format yyyy-mm-ddThh:mm:ssZ ist anzugeben mit:
+
+yyyy vier Ziffern für die Jahresangabe
+mm zwei Ziffern für die Monatsangabe
+dd zwei Ziffern für die Tagesangabe
+hh zwei Ziffern für die Stundenangabe
+mm zwei Ziffern für die Minutenangabe
+ss zwei Ziffern für die Sekundenangabe
+T Trennzeichen zwischen Datum und Uhrzeit
+Z Verweis auf UTC
+            </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:dateTime">
+              <xs:pattern value="20(\d{2}(\-(0[13578]|1[02])\-(0[1-9]|[12]\d|3[01])|\-02\-(0[1-9]|1\d|2[0-8])|\-(0[469]|11)\-(0[1-9]|[12]\d|30))|([02468][048]|[13579][26])\-02\-(29))T([01]\d|2[0-3]):[0-5]\d:[0-5]\dZ"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="Gueltig_ab">
+          <xs:annotation>
+            <xs:documentation xml:lang="DE">
+Das Format yyyy-mm-ddThh:mm:ssZ ist anzugeben mit:
+
+yyyy vier Ziffern für die Jahresangabe
+mm zwei Ziffern für die Monatsangabe
+dd zwei Ziffern für die Tagesangabe
+hh zwei Ziffern für die Stundenangabe
+mm zwei Ziffern für die Minutenangabe
+ss zwei Ziffern für die Sekundenangabe
+T Trennzeichen zwischen Datum und Uhrzeit
+Z Verweis auf UTC
+            </xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:dateTime">
+              <xs:pattern value="20(\d{2}(\-(0[13578]|1[02])\-(0[1-9]|[12]\d|3[01])|\-02\-(0[1-9]|1\d|2[0-8])|\-(0[469]|11)\-(0[1-9]|[12]\d|30))|([02468][048]|[13579][26])\-02\-(29))T([01]\d|2[0-3]):[0-5]\d:[0-5]\dZ"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="Meldungsstatus">
+          <xs:annotation>
+            <xs:documentation xml:lang="DE">Der Code A16 Deactivation ist zu verwenden, wenn ein Existenzende der SR, SG oder CR gemeldet wird.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="A14">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Creation (The action requested to be carried out is the creation of a new object.)</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="A15">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Update (The action requested to be carried out is the update of an existing object.)</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="A16">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Deactivation (The action requested to be carried out is to deactivate an existing object.)</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="SR_Objekt" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Klarname" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">
+Bei W-Codes (EIC): Displayname; 
+Ansonsten: lesbarer Klarname gemäß folgender Konvention:
+- Konventionelle Kraftwerke: ORTSNAME_KW-TYP_BLOCK 
+- EE-SEE: ORTSNAME_ENERGIETRAEGER_LFD-Nr
+                  </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="35"/>
+                    <xs:pattern value="([A-Z0-9\-\+\\_]*)"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Anschluss_Netzbetreiber">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Unter dem Redispatch 2.0 ist die 13-stellige MP-ID einzutragen</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="A10">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:length value="3"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:length value="13"/>
+                        <xs:pattern value="\d{13}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Anweisender_Netzbetreiber" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Unter dem Redispatch 2.0 ist die 13-stellige MP-ID einzutragen</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="A10">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:length value="3"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:length value="13"/>
+                        <xs:pattern value="\d{13}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Betroffene_Netzbetreiber" minOccurs="0" maxOccurs="6">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">„NB-Kaskade“ Inkl. ANB und alle vorgelagerten NB des ANB bis einschl. des NB des Unternehmens Übertragungsnetzbetreiber.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="A10">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:length value="3"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:length value="13"/>
+                        <xs:pattern value="\d{13}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Pos" use="required">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">Position beginnt mit 1 beim ANB und ist dann bis zum ÜNB hochzuzählen. Der ANB belegt immer Position 1.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:positiveInteger">
+                        <xs:maxInclusive value="6"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Weitere_betroffene_Netzbetreiber" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Hier können weitere betroffene NB (außerhalb der direkten vertikalen Netzebene) angegeben werden, die über Prognosen und Abrufe zu informieren sind. </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="A10">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:length value="3"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:length value="13"/>
+                        <xs:pattern value="\d{13}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Einsatzverantwortlicher" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Unter dem Redispatch 2.0 ist die 13-stellige MP-ID einzutragen</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="A10">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:length value="3"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:length value="13"/>
+                        <xs:pattern value="\d{13}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Energietraeger" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Der komplexe Typ Energietraeger wird nur für Stromerzeugungseinheiten (SEE) verwendet. Es wird der Hauptenergieträger angegeben, auf den der größte Anteil der im letzten Jahr erzeugten Strommenge entfällt.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="B01">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Biomasse</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B02">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Braunkohle</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B03">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Fossiles Gas aus Kohle gewonnen</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B04">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Erdgas</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B05">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Steinkohle</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B06">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Mineralölprodukte</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B09">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Geothermie</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B10">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Pumpspeicher</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B11">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Laufwasser</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B12">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Speicherwasser (ohne Pumpspeicher)</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B14">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Kernenergie</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B15">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Deponiegas, Grubengas, Klärgas</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B16">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Solare Strahlungsenergie</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B17">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Abfall</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B18">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Windenergie (Offshore-Anlage)</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B19">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Windenergie (Onshore-Anlage)</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="B20">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Mehrere Energieträger (nicht erneuerbar), Sonstige Energieträger (nicht erneuerbar), Unbekannter Energieträger (nicht erneuerbar)</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="Z01">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Batteriespeicher</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="Z02">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Notstromaggregat</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Verguetungsart" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="Z01">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">EEG</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="Z02">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">KWKG</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="Z03">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Sonstiges</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Status_Duldungsfall" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="A01">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">YES</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="A02">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">NO</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Steuerbarkeit" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Entweder Stufen ODER Schritte angegeben. </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Stufen" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Einzelstufe" minOccurs="2" maxOccurs="10">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">
+Bei der Einheit MAW gilt der Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen) mit dem Pattern \d{0,6}(\.[\d]{1,3})?
+Bei der Einheit P1 gilt der Wertebereich 0 bis 100 (ohne Nachkommastellen) mit dem Pattern 100|\d{1,2}
+Stufen werden nur genutzt, wenn es keine feste Schrittweite gibt, bspw. bei Rundsteuertechnik mit vier „Schaltausgängen“ 0-30-60-100%. 
+                              </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:decimal">
+                                <xs:minInclusive value="0"/>
+                                <xs:fractionDigits value="3"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="Einheit" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:enumeration value="MAW">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">megawatt</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:enumeration value="P1">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">percent</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Schritte" minOccurs="0">
+                      <xs:complexType>
+                        <xs:attribute name="Einheit" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:enumeration value="MAW">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">megawatt</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:enumeration value="P1">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">percent</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Schrittweite" use="required">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">
+Bei der Einheit MAW gilt der Wertebereich &gt;0,000 bis 999999,999 (max. 3 Nachkommastellen) mit dem Pattern \d{0,6}(\.[\d]{1,3})?
+
+Bei der Einheit P1 gilt der Wertebereich &gt;0 bis 100 (ohne Nachkommastellen) mit dem Pattern 100|\d{1,2}
+                            </xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                              <xs:minExclusive value="0"/>
+                              <xs:fractionDigits value="3"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Max" use="required">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">
+Bei der Einheit MAW gilt der Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen) mit dem Pattern \d{0,6}(\.[\d]{1,3})?
+
+Bei der Einheit P1 gilt der Wertebereich 0 bis 100 (ohne Nachkommastellen) mit dem Pattern 100|\d{1,2}
+                            </xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                              <xs:minInclusive value="0"/>
+                              <xs:fractionDigits value="3"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Min" use="required">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">
+Bei der Einheit MAW gilt der Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen) mit dem Pattern \d{0,6}(\.[\d]{1,3})?
+
+Bei der Einheit P1 gilt der Wertebereich 0 bis 100 (ohne Nachkommastellen) mit dem Pattern 100|\d{1,2}
+                            </xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                              <xs:minInclusive value="0"/>
+                              <xs:fractionDigits value="3"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="Fixierung" use="required">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="EN">Die Fixierung gibt die Möglichkeit zur Beschränkung der Fahrweise bei der Einspeisung oder Entnahme (nach oben („max“), nach unten („min“) oder auf einen bestimmten Wert („exakt“)) der Steuerbaren Ressource an. Bei dargebotsabhängigen Einspeisungen bedeutet z.B. der Code Z02 eine Limitierung nach oben, d.h. wenn in einem Abruf ein Wert von x vorgegeben wird, darf die Ressource diesen Wert nicht überschreiten, aber gemäß Dargebot unterschreiten. </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="Z01">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">exakt</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="Z02">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">max</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="Z03">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">min</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Abrufart_Aufforderungsfall" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>nur im Aufforderungsfall</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="Z01">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">DELTA</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="Z02">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">SOLLWERT</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Bilanzierungsmodell">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Der Code Z03 gibt die Nutzung der Übergangslösung aus der Umsetzungsfrage Redispatch_011 an. Die Nutzung dieses Codes ist zeitlich befristet, bis diese Umsetzungsfrage durch die Ziellösung abgelöst wird.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="Z01">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">PLANWERT</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="Z02">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">PROGNOSE</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="Z03">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">PROGNOSE MIT PLANUNGSDATENLIEFERUNG</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Individuelle_Quote" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Die Quoten einer SR müssen insgesamt 100% ergeben. Diese Elemente müssen nur für SR mit individueller Quote angegeben werden.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Quote" maxOccurs="20">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Die Mengenangabe erfolgt in Prozent. Der Wert muss größer 0 und kleiner oder gleich 100 sein.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Bilanzkreis_Ausgleichsfahrplan">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:length value="16"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="Lieferant">
+                            <xs:complexType>
+                              <xs:attribute name="Codierung" use="required">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:NMTOKEN">
+                                    <xs:enumeration value="A10">
+                                      <xs:annotation>
+                                        <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="NDE">
+                                      <xs:annotation>
+                                        <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:length value="3"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                              <xs:attribute name="Code" use="required">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:length value="13"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="Einheit" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:enumeration value="P1">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">percent</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Wert" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                              <xs:fractionDigits value="3"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Bearbeitungszeit_EIV" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Nur im Aufforderungsfall befüllen. </xs:documentation>
+                  <xs:documentation xml:lang="DE">Zeit von Eingang einer Aufforderung beim EIV bis zur Umsetzung in der Anlage.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:nonNegativeInteger">
+                      <xs:attribute name="Einheit" use="required">
+                        <xs:simpleType>
+                          <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="Z01">
+                              <xs:annotation>
+                                <xs:documentation xml:lang="DE">Minuten</xs:documentation>
+                              </xs:annotation>
+                            </xs:enumeration>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Regelzone">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Mit Regelzone wird angegeben, in welcher deutschen Regelzone sich die steuerbare Ressource befindet.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="10YDE-ENBW-----N">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">TransnetBW</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="10YDE-EON------1">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Tennet</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="10YDE-RWENET---I">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Amprion</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="10YDE-VE-------2">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">50Hertz</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="10YFLENSBURG---3">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Flensburg</xs:documentation>
+                      </xs:annotation>
+                    </xs:enumeration>
+                    <xs:length value="16"/>
+                    <xs:pattern value="10Y[A-Z,\d,-]{13}"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Technische_Parameter" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Fahrbare_Mindesterzeugungsleistung" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">
+Mindestleistung enthält die dauerhaft minimal elektrisch stabil erzeugbare Leistung unter Normbedingungen in MW.
+Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen)
+                        </xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="ContentType_1">
+                            <xs:attribute name="Einheit" use="required">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                  <xs:enumeration value="MAW">
+                                    <xs:annotation>
+                                      <xs:documentation xml:lang="DE">Megawatt</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:enumeration>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Mindestbetriebszeit" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Mindestbetriebszeit enthält den typischen Zeitraum in Minuten, innerhalb dessen die Anlage nach erfolgtem Start mindestens Leistung in das Netz einspeisen muss.</xs:documentation>
+                        <xs:documentation>nur bei thermischen SEE</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:nonNegativeInteger">
+                            <xs:attribute name="Einheit" use="required">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                  <xs:enumeration value="Z01">
+                                    <xs:annotation>
+                                      <xs:documentation xml:lang="DE">Minuten</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:enumeration>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Mindeststillstandszeit" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>nur bei thermischen SEE</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:nonNegativeInteger">
+                            <xs:attribute name="Einheit" use="required">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                  <xs:enumeration value="Z01">
+                                    <xs:annotation>
+                                      <xs:documentation xml:lang="DE">Minuten</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:enumeration>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Anfahrzeit_kalt" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>nur bei thermischen SEE</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:nonNegativeInteger">
+                            <xs:attribute name="Einheit" use="required">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                  <xs:enumeration value="Z01">
+                                    <xs:annotation>
+                                      <xs:documentation xml:lang="DE">Minuten</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:enumeration>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Anfahrzeit_warm" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>nur bei thermischen SEE</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:nonNegativeInteger">
+                            <xs:attribute name="Einheit" use="required">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                  <xs:enumeration value="Z01">
+                                    <xs:annotation>
+                                      <xs:documentation xml:lang="DE">Minuten</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:enumeration>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Hochfahrzeit_kalt" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>nur bei thermischen SEE</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:nonNegativeInteger">
+                            <xs:attribute name="Einheit" use="required">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                  <xs:enumeration value="Z01">
+                                    <xs:annotation>
+                                      <xs:documentation xml:lang="DE">Minuten</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:enumeration>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Hochfahrzeit_warm" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>nur bei thermischen SEE</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:nonNegativeInteger">
+                            <xs:attribute name="Einheit" use="required">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                  <xs:enumeration value="Z01">
+                                    <xs:annotation>
+                                      <xs:documentation xml:lang="DE">Minuten</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:enumeration>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Abfahrzeit" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Abfahrzeit enthält den typischen Zeitraum in Minuten, innerhalb dessen ausgehend von der Mindestwirkleistungseinspeisung eine Netztrennung erreicht wird.</xs:documentation>
+                        <xs:documentation>nur bei thermischen SEE</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:nonNegativeInteger">
+                            <xs:attribute name="Einheit" use="required">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                  <xs:enumeration value="Z01">
+                                    <xs:annotation>
+                                      <xs:documentation xml:lang="DE">Minuten</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:enumeration>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Lastgradient_Nennleistung" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">
+Lastgradient_Nennleistung enthält die durchschnittliche Leistungsänderungsgeschwindigkeit bezogen auf einen Betriebszustand bei Leistungserhöhung, abgeleitet aus der Zeitdauer der Leistungsänderung zwischen der minimalen Produktionsleistung bis zur Nennproduktionsleistung in %/min oder MW/min.
+Bei der Einheit Z02 = MW/min gilt der Wertebereich &gt;0,000 bis 999999,999 (max. 3 Nachkommastellen) mit dem Pattern \d{0,6}(\.[\d]{1,3})?
+
+Bei der Einheit Z01 = %/min gilt der Wertebereich &gt;0 bis 100 (ohne Nachkommastellen) mit dem Pattern 100|\d{1,2}
+                        </xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Basisgröße" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Angabe der installierten Leistung bzw. Basisgröße in MW, die im Falle der Nutzung von Z01 "%/min" zu berücksichtigen ist.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_2">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="MAW">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">Megawatt</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="Gradient" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                              <xs:minExclusive value="0"/>
+                              <xs:fractionDigits value="3"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Einheit" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:enumeration value="Z01">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">%/min (% der installierten Leistungen pro Minute)</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:enumeration value="Z02">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">MW/min (Megawatt pro Minute)</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:pattern value="\c+"/>
+                              <xs:whiteSpace value="collapse"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Lastgradient_Mindestleistung" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">
+Lastgradient_Mindestleistung enthält die durchschnittliche Leistungsänderungsgeschwindigkeit bezogen auf einen Betriebszustand bei Leistungsreduzierung, abgeleitet aus der Zeitdauer der Leistungsänderung zwischen der Nennproduktionsleistung bis zur minimalen Produktionsleistung in %/min oder MW/min.
+Bei der Einheit Z02 = MW/min gilt der Wertebereich &gt;0,000 bis 999999,999 (max. 3 Nachkommastellen) mit dem Pattern \d{0,6}(\.[\d]{1,3})?
+
+Bei der Einheit Z01 = %/min gilt der Wertebereich &gt;0 bis 100 (ohne Nachkommastellen) mit dem Pattern 100|\d{1,2}
+                        </xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Basisgröße" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Angabe der installierten Leistung bzw. Basisgröße in MW, die im Falle der Nutzung von Z01 "%/min" zu berücksichtigen ist.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_2">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="MAW">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">Megawatt</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="Gradient" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                              <xs:minExclusive value="0"/>
+                              <xs:fractionDigits value="3"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Einheit" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:enumeration value="Z01">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">%/min (% der installierten Leistungen pro Minute)</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:enumeration value="Z02">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">MW/min (Megawatt pro Minute)</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:pattern value="\c+"/>
+                              <xs:whiteSpace value="collapse"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Enthaltene_TR" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Informationen der enthaltenen Technischen Ressourcen.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="MaStR-Nr" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Dieses Element dient zur eindeutigen Identifikation des Objekts über die Marktstammdatenregisternummer.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:length value="15"/>
+                          <xs:pattern value="S[E,V,S]E\d{12}"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Klarname" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">
+Bei W-Codes (EIC): Displayname; 
+Ansonsten: lesbarer Klarname gemäß folgender Konvention:
+- Konventionelle Kraftwerke: ORTSNAME_KW-TYP_BLOCK 
+- EE-SEE: ORTSNAME_ENERGIETRAEGER_LFD-Nr
+                        </xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:maxLength value="35"/>
+                          <xs:pattern value="([A-Z0-9\-\+\\_]*)"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Typ">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">
+Zur Unterscheidung zwischen Erzeugern und Speichern:
+- Steuerbare Erzeugungseinheit (SEE)
+- Steuerbare Speichereinheit (SSE)
+                        </xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="SEE">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">Stromerzeugungseinheit</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="SSE">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">Stromspeichereinheit</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:whiteSpace value="collapse"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Code_Kraftwerk" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Code_Kraftwerk enthält den W-Code des übergeordneten Kraftwerkes im Falle von Stromerzeugungs- und -speichereinheiten (SEE / SSE). Für SSE ist die Angabe des W-Codes des übergeordneten Kraftwerks im Prinzip optional; verpflichtend wird sie nur, wenn dieser KW-Code aus anderweitigen Gründen benötigt werden sollte und die SSE explizit zur Übermittlung dieses Datums aufgefordert wurde.</xs:documentation>
+                        <xs:documentation>(nur bei SEE / SSE)</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="ContentType_3">
+                            <xs:attribute name="Codierung">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:NMTOKEN">
+                                  <xs:enumeration value="A01">
+                                    <xs:annotation>
+                                      <xs:documentation xml:lang="DE">EIC</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:enumeration>
+                                  <xs:length value="3"/>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Zuordnung_Speicher" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation>Angabe ob eine SEE über einen zugeordneten SSE verfügt, der die SEE-Leistung (teilweise) aufnehmen kann.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:attribute name="Codierung" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:NMTOKEN">
+                              <xs:enumeration value="NDE">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">Germany National coding scheme </xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Code" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:maxLength value="33"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Marktlokation" minOccurs="0" maxOccurs="2">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Marktlokation enthält die ID der Marktlokation (MaLo-ID) der Einheit.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Bilanzkreis_Marktlokation" minOccurs="0">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:length value="16"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="Tranche" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Bilanzkreis_Tranche">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                      <xs:length value="16"/>
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:element>
+                                <xs:element name="Lieferant_Tranche">
+                                  <xs:annotation>
+                                    <xs:documentation xml:lang="DE">MP-ID des Lieferanten der Tranche</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:attribute name="Codierung" use="required">
+                                      <xs:simpleType>
+                                        <xs:restriction base="xs:NMTOKEN">
+                                          <xs:enumeration value="A10">
+                                            <xs:annotation>
+                                              <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                                            </xs:annotation>
+                                          </xs:enumeration>
+                                          <xs:enumeration value="NDE">
+                                            <xs:annotation>
+                                              <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                                            </xs:annotation>
+                                          </xs:enumeration>
+                                          <xs:length value="3"/>
+                                        </xs:restriction>
+                                      </xs:simpleType>
+                                    </xs:attribute>
+                                    <xs:attribute name="Code" use="required">
+                                      <xs:simpleType>
+                                        <xs:restriction base="xs:string">
+                                          <xs:length value="13"/>
+                                          <xs:pattern value="\d{13}"/>
+                                        </xs:restriction>
+                                      </xs:simpleType>
+                                    </xs:attribute>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="Tranchengröße">
+                                  <xs:annotation>
+                                    <xs:documentation xml:lang="DE">
+Die Mengenangabe erfolgt in Prozent. Es wird die Teilmenge der erzeugten Energiemenge einer erzeugenden Marktlokation
+angegeben, die von einem Lieferanten aufgenommen wird. Damit kann eine Aufteilung der gesamten Menge einer erzeugenden
+Marktlokation auf mehrere Lieferanten in Tranchen erfolgen. Die Angabe der Teilmenge kann maximal zwei Nachkommastellen haben. 
+Der Wert muss größer 0 und kleiner oder gleich 100 sein. Bei einer bilateral vereinbarten Aufteilung ist keine Größe anzugeben.
+                                    </xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:attribute name="Einheit" use="required">
+                                      <xs:simpleType>
+                                        <xs:restriction base="xs:string">
+                                          <xs:enumeration value="P1">
+                                            <xs:annotation>
+                                              <xs:documentation xml:lang="DE">percent</xs:documentation>
+                                            </xs:annotation>
+                                          </xs:enumeration>
+                                          <xs:enumeration value="Z01">
+                                            <xs:annotation>
+                                              <xs:documentation xml:lang="DE">bilateral vereinbarte Aufteilung</xs:documentation>
+                                            </xs:annotation>
+                                          </xs:enumeration>
+                                        </xs:restriction>
+                                      </xs:simpleType>
+                                    </xs:attribute>
+                                    <xs:attribute name="Größe">
+                                      <xs:simpleType>
+                                        <xs:restriction base="xs:decimal">
+                                          <xs:fractionDigits value="2"/>
+                                        </xs:restriction>
+                                      </xs:simpleType>
+                                    </xs:attribute>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="Code" use="required">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:length value="11"/>
+                                    <xs:pattern value="\d{11}"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Spannungsebene_Marktlokation">
+                            <xs:complexType>
+                              <xs:attribute name="Code" use="required">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:NMTOKEN">
+                                    <xs:enumeration value="Z01">
+                                      <xs:annotation>
+                                        <xs:documentation xml:lang="DE">Höchstspannung</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="Z02">
+                                      <xs:annotation>
+                                        <xs:documentation xml:lang="DE">Hochspannung</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="Z03">
+                                      <xs:annotation>
+                                        <xs:documentation xml:lang="DE">Mittelspannung</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="Z04">
+                                      <xs:annotation>
+                                        <xs:documentation xml:lang="DE">Niederspannung</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Umspannung_Marktlokation" minOccurs="0">
+                            <xs:complexType>
+                              <xs:attribute name="Code" use="required">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:NMTOKEN">
+                                    <xs:enumeration value="Z01">
+                                      <xs:annotation>
+                                        <xs:documentation xml:lang="DE">Hös/HS Umspannung</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="Z02">
+                                      <xs:annotation>
+                                        <xs:documentation xml:lang="DE">HS/MS Umspannung</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="Z03">
+                                      <xs:annotation>
+                                        <xs:documentation xml:lang="DE">MS/NS Umspannung</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Messlokation" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:attribute name="Code" use="required">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:maxLength value="33"/>
+                                    <xs:pattern value="DE\d{11}[A-Z,\d]{20}"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Lieferant_Marktlokation" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">MP-ID des Lieferanten an der Marktlokation</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:attribute name="Codierung" use="required">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:NMTOKEN">
+                                    <xs:enumeration value="A10">
+                                      <xs:annotation>
+                                        <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="NDE">
+                                      <xs:annotation>
+                                        <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:length value="3"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                              <xs:attribute name="Code" use="required">
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:length value="13"/>
+                                    <xs:pattern value="\d{13}"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="Code" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:length value="11"/>
+                              <xs:pattern value="\d{11}"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Lieferrichtung" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:NMTOKEN">
+                              <xs:enumeration value="A01">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">production</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:enumeration value="A04">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">consumption</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="EEG_Anlagenschluessel" minOccurs="0" maxOccurs="unbounded">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:pattern value="E[1-4][\d,X,x]{1}[\d]{5}[^\n]{25}"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Abrechnungsmodell">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="Z01">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">PAUSCHAL</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="Z02">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">SPITZ</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                          <xs:enumeration value="Z03">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">SPITZLIGHT</xs:documentation>
+                            </xs:annotation>
+                          </xs:enumeration>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Betreiber_TR" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Dieses Element dient zur eindeutigen Identifikation des Betreibers der Technischen Ressource über seine Marktpartner-ID.</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:attribute name="Codierung" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:NMTOKEN">
+                              <xs:enumeration value="A10">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:enumeration value="NDE">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:length value="3"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Code" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:length value="13"/>
+                              <xs:pattern value="\d{13}"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Betrieb" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Stilllegungszeitpunkt_vorlaeufig" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">
+Hier ist der Tag anzugeben, ab dem der vorläufige Stilllegungszeitpunkt gültig ist. Dieser Tag muss in der Zukunft liegen. 
+Das Format dafür ist yyyy-mm-dd mit:
+
+yyyy vier Ziffern für die Jahresangabe
+mm zwei Ziffern für die Monatsangabe
+dd zwei Ziffern für die Tagesangabe
+                              </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:date">
+                                <xs:pattern value="20(\d{2}(\-(0[13578]|1[02])\-(0[1-9]|[12]\d|3[01])|\-02\-(0[1-9]|1\d|2[0-8])|\-(0[469]|11)\-(0[1-9]|[12]\d|30))|([02468][048]|[13579][26])\-02\-(29))"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="Stilllegungszeitpunkt_endgueltig" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">
+Hier ist der Tag anzugeben, ab dem der endgültige Stilllegungszeitpunkt gültig ist. Dieser Tag muss in der Zukunft liegen. 
+Das Format dafür ist yyyy-mm-dd mit:
+
+yyyy vier Ziffern für die Jahresangabe
+mm zwei Ziffern für die Monatsangabe
+dd zwei Ziffern für die Tagesangabe
+                              </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:date">
+                                <xs:pattern value="20(\d{2}(\-(0[13578]|1[02])\-(0[1-9]|[12]\d|3[01])|\-02\-(0[1-9]|1\d|2[0-8])|\-(0[469]|11)\-(0[1-9]|[12]\d|30))|([02468][048]|[13579][26])\-02\-(29))"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Technische_Parameter" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Nettonennleistung_Prod" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">Nur für SEE oder SSE </xs:documentation>
+                              <xs:documentation xml:lang="DE">Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_1">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="MAW">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">Megawatt</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Nettonennleistung_Verb" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">Nur für SSE</xs:documentation>
+                              <xs:documentation xml:lang="DE">Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_1">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="MAW">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">Megawatt</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Nettoengpassleistung_Prod" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_1">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="MAW">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">Megawatt</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Nettoengpassleistung_Verb" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_1">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="MAW">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">Megawatt</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Bruttonennleistung" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_1">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="MAW">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">Megawatt</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Wechselrichterleistung_kumuliert" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Für SEE EE Solar</xs:documentation>
+                              <xs:documentation xml:lang="DE">Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_1">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="MAW">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">Megawatt</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Absenkung_70" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Für SEE EE Solar (70%-Absenkung)</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:enumeration value="A01">
+                                  <xs:annotation>
+                                    <xs:documentation xml:lang="DE">YES</xs:documentation>
+                                  </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="A02">
+                                  <xs:annotation>
+                                    <xs:documentation xml:lang="DE">NO</xs:documentation>
+                                  </xs:annotation>
+                                </xs:enumeration>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="Anlagentyp" type="xs:string" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Für SEE EE Wind</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="Nabenhoehe" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Für SEE EE Wind</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_4">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="MTR">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">Meter</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Geokoordinaten" minOccurs="0">
+                            <xs:complexType>
+                              <xs:attribute name="LaengeOst" use="required">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">Längen- und Breitengrade nach WGS84. In Grad mit Dezimalangabe anzugeben.</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:decimal">
+                                    <xs:minInclusive value="0"/>
+                                    <xs:fractionDigits value="6"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                              <xs:attribute name="BreiteNord" use="required">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">Längen- und Breitengrade nach WGS84. In Grad mit Dezimalangabe anzugeben.</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:decimal">
+                                    <xs:minInclusive value="0"/>
+                                    <xs:fractionDigits value="6"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Wirkungsgrad_Speicher" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Nur für SSE</xs:documentation>
+                              <xs:documentation xml:lang="DE">Wertebereich 0 bis 100</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_2">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="P1">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">percent</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Nutzbarer_Energieinhalt_Speichers" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Nur für SSE</xs:documentation>
+                              <xs:documentation xml:lang="DE">Maximal möglicher Energieinhalt eines Speichers, der zur Verfügung steht, unabhängig vom Speichermedium und bezogen auf die vom Speichersystem lieferbare elektrische Energie.</xs:documentation>
+                              <xs:documentation xml:lang="DE">Wertebereich 0,000000 bis 999999,999999 (max. 6 Nachkommastellen)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_5">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="MWH">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">Megawattstunden</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Wirkleistung_Einspeichern_max" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Nur für SSE</xs:documentation>
+                              <xs:documentation xml:lang="DE">Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_1">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="MAW">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">Megawatt</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="Wirkleistung_Ausspeichern_max" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>Nur für SSE</xs:documentation>
+                              <xs:documentation xml:lang="DE">Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen)</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="ContentType_1">
+                                  <xs:attribute name="Einheit" use="required">
+                                    <xs:simpleType>
+                                      <xs:restriction base="xs:NMTOKEN">
+                                        <xs:enumeration value="MAW">
+                                          <xs:annotation>
+                                            <xs:documentation xml:lang="DE">Megawatt</xs:documentation>
+                                          </xs:annotation>
+                                        </xs:enumeration>
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">Eindeutiger Identifier je Objekttyp. </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="11"/>
+                        <xs:pattern value="D[A-Z\d]{9}\d"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="Codierung" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="NDE">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                    </xs:annotation>
+                  </xs:enumeration>
+                  <xs:whiteSpace value="collapse"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Code" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="DE">Eindeutiger Identifier je Objekttyp. </xs:documentation>
+                <xs:documentation xml:lang="DE">Hier ist die 11-stellige Objekt-ID der Ressource anzugeben.</xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="11"/>
+                  <xs:pattern value="C[A-Z\d]{9}\d"/>
+                  <xs:whiteSpace value="collapse"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CR_Objekt" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Klarname" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">
+Bei W-Codes (EIC): Displayname; 
+Bei Messlokation: lesbarer Klarname gemäß folgender Konvention:
+- Konventionelle Kraftwerke: ORTSNAME_KW-TYP_BLOCK 
+- EE-SEE: ORTSNAME_ENERGIETRAEGER_LFD-Nr
+                  </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="35"/>
+                    <xs:pattern value="([A-Z0-9\-\+\\_]*)"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Clusternder_Netzbetreiber">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Unter dem Redispatch 2.0 ist die 13-stellige MP-ID einzutragen</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="A10">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:length value="3"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:length value="13"/>
+                        <xs:pattern value="\d{13}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Betroffene_Netzbetreiber" maxOccurs="6">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">„NB-Kaskade“ Inkl. ANB und alle vorgelagerten NB des ANB bis einschl. des NB des Unternehmens Übertragungsnetzbetreiber.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="A10">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:length value="3"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:length value="13"/>
+                        <xs:pattern value="\d{13}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Pos" use="required">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">Position beginnt mit 1 beim ANB und ist dann bis zum ÜNB hochzuzählen. Der ANB belegt immer Position 1.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:positiveInteger">
+                        <xs:maxInclusive value="6"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Weitere_betroffene_Netzbetreiber" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Hier können weitere betroffene NB (außerhalb der direkten vertikalen Netzebene) angegeben werden, die über Prognosen und Abrufe zu informieren sind.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="A10">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:length value="3"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:length value="13"/>
+                        <xs:pattern value="\d{13}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="tx_Cluster">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Zeit, ab der die übermittelten Planungsdaten für die CR als verbindlich anzusehen sind.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:nonNegativeInteger">
+                      <xs:attribute name="Einheit" use="required">
+                        <xs:simpleType>
+                          <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="Z01">
+                              <xs:annotation>
+                                <xs:documentation xml:lang="DE">Minuten</xs:documentation>
+                              </xs:annotation>
+                            </xs:enumeration>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="T_Abruf_final">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Letztmöglicher Zeitpunkt vor Erfüllung zum Abruf der CR (z.B. für De-Clustern) – 5 Minuten oder weniger</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:nonNegativeInteger">
+                      <xs:attribute name="Einheit" use="required">
+                        <xs:simpleType>
+                          <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="Z01">
+                              <xs:annotation>
+                                <xs:documentation xml:lang="DE">Minuten</xs:documentation>
+                              </xs:annotation>
+                            </xs:enumeration>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Enthaltene_Objektreferenzen">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">enthaltene SG, SR, CR</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="SR_Objekt_Referenz" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Referenz der enthaltenen Steuerbaren Ressourcen</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:attribute name="Codierung" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:NMTOKEN">
+                              <xs:enumeration value="NDE">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Code" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:maxLength value="11"/>
+                              <xs:pattern value="C[A-Z\d]{9}\d"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="CR_Objekt_Referenz" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Referenz der enthaltenen Cluster-Ressourcen</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:attribute name="Codierung" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:NMTOKEN">
+                              <xs:enumeration value="NDE">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Code" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:maxLength value="11"/>
+                              <xs:pattern value="A[A-Z\d]{9}\d"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="SG_Objekt_Referenz" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Referenz der enthaltenen Steuergruppen</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:attribute name="Codierung" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:NMTOKEN">
+                              <xs:enumeration value="NDE">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Code" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:maxLength value="11"/>
+                              <xs:pattern value="B[A-Z\d]{9}\d"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="Codierung" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="NDE">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                    </xs:annotation>
+                  </xs:enumeration>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Code" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="DE">Eindeutiger Identifier je Objekttyp. </xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="11"/>
+                  <xs:pattern value="A[A-Z\d]{9}\d"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SG_Objekt" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Klarname" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">
+Bei W-Codes (EIC): Displayname; 
+Ansonsten: lesbarer Klarname gemäß folgender Konvention:
+- Konventionelle Kraftwerke: ORTSNAME_KW-TYP_BLOCK 
+- EE-SEE: ORTSNAME_ENERGIETRAEGER_LFD-Nr
+                  </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="35"/>
+                    <xs:pattern value="([A-Z0-9\-\+\\_]*)"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Anschluss_Netzbetreiber">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Unter dem Redispatch 2.0 ist die 13-stellige MP-ID einzutragen</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="A10">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:length value="3"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:length value="13"/>
+                        <xs:pattern value="\d{13}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Betroffene_Netzbetreiber" maxOccurs="6">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">„NB-Kaskade“ Inkl. ANB und alle vorgelagerten NB des ANB bis einschl. des NB des Unternehmens Übertragungsnetzbetreiber.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="A10">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:length value="3"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:length value="13"/>
+                        <xs:pattern value="\d{13}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Pos" use="required">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">Position beginnt mit 1 beim ANB und ist dann bis zum ÜNB hochzuzählen. Der ANB belegt immer Position 1.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:positiveInteger">
+                        <xs:maxInclusive value="6"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Weitere_betroffene_Netzbetreiber" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Hier können weitere betroffene NB (außerhalb der direkten vertikalen Netzebene) angegeben werden, die über Prognosen und Abrufe zu informieren sind.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="A10">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:length value="3"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:length value="13"/>
+                        <xs:pattern value="\d{13}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Steuerbarkeit">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Entweder Stufen ODER Schritte angegeben. </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Stufen" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Einzelstufe" minOccurs="2" maxOccurs="10">
+                            <xs:annotation>
+                              <xs:documentation xml:lang="DE">
+Bei der Einheit MAW gilt der Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen) mit dem Pattern \d{0,6}(\.[\d]{1,3})?
+Bei der Einheit P1 gilt der Wertebereich 0 bis 100 (ohne Nachkommastellen) mit dem Pattern 100|\d{1,2}
+Stufen werden nur genutzt, wenn es keine feste Schrittweite gibt, bspw. bei Rundsteuertechnik mit vier „Schaltausgängen“ 0-30-60-100%. 
+                              </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                              <xs:restriction base="xs:decimal">
+                                <xs:minInclusive value="0"/>
+                                <xs:fractionDigits value="3"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="Einheit" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:enumeration value="MAW">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">megawatt</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:enumeration value="P1">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">percent</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Schritte" minOccurs="0">
+                      <xs:complexType>
+                        <xs:attribute name="Einheit" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:enumeration value="MAW">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">megawatt</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:enumeration value="P1">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">percent</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Schrittweite" use="required">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">
+Bei der Einheit MAW gilt der Wertebereich &gt;0,000 bis 999999,999 (max. 3 Nachkommastellen) mit dem Pattern \d{0,6}(\.[\d]{1,3})?
+
+Bei der Einheit P1 gilt der Wertebereich &gt;0 bis 100 (ohne Nachkommastellen) mit dem Pattern 100|\d{1,2}
+                            </xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                              <xs:minExclusive value="0"/>
+                              <xs:fractionDigits value="3"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Max" use="required">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">
+Bei der Einheit MAW gilt der Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen) mit dem Pattern \d{0,6}(\.[\d]{1,3})?
+
+Bei der Einheit P1 gilt der Wertebereich 0 bis 100 (ohne Nachkommastellen) mit dem Pattern 100|\d{1,2}
+                            </xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                              <xs:minInclusive value="0"/>
+                              <xs:fractionDigits value="3"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Min" use="required">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">
+Bei der Einheit MAW gilt der Wertebereich 0,000 bis 999999,999 (max. 3 Nachkommastellen) mit dem Pattern \d{0,6}(\.[\d]{1,3})?
+
+Bei der Einheit P1 gilt der Wertebereich 0 bis 100 (ohne Nachkommastellen) mit dem Pattern 100|\d{1,2}
+                            </xs:documentation>
+                          </xs:annotation>
+                          <xs:simpleType>
+                            <xs:restriction base="xs:decimal">
+                              <xs:minInclusive value="0"/>
+                              <xs:fractionDigits value="3"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="Fixierung" use="required">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="EN">Die Fixierung gibt die Möglichkeit zur Beschränkung der Fahrweise bei der Einspeisung oder Entnahme (nach oben („max“), nach unten („min“) oder auf einen bestimmten Wert („exakt“)) der Steuerbaren Ressource an. Bei dargebotsabhängigen Einspeisungen bedeutet z.B. der Code Z02 eine Limitierung nach oben, d.h. wenn in einem Abruf ein Wert von x vorgegeben wird, darf die Ressource diesen Wert nicht überschreiten, aber gemäß Dargebot unterschreiten. </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="Z01">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">exakt</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="Z02">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">max</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="Z03">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">min</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="T_Abruf_final">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Letztmöglicher Zeitpunkt vor Erfüllung zum Abruf der SG – 5 Minuten oder weniger</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:nonNegativeInteger">
+                      <xs:attribute name="Einheit" use="required">
+                        <xs:simpleType>
+                          <xs:restriction base="xs:NMTOKEN">
+                            <xs:enumeration value="Z01">
+                              <xs:annotation>
+                                <xs:documentation xml:lang="DE">Minuten</xs:documentation>
+                              </xs:annotation>
+                            </xs:enumeration>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Enthaltene_Objektreferenzen">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="SR_Objekt_Referenz" minOccurs="0" maxOccurs="unbounded">
+                      <xs:annotation>
+                        <xs:documentation xml:lang="DE">Referenz der enthaltenen Steuerbaren Ressourcen</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:attribute name="Codierung" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:NMTOKEN">
+                              <xs:enumeration value="NDE">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Code" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:maxLength value="11"/>
+                              <xs:pattern value="C[A-Z\d]{9}\d"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="Codierung" use="required">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="NDE">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                    </xs:annotation>
+                  </xs:enumeration>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Code" use="required">
+              <xs:annotation>
+                <xs:documentation xml:lang="DE">Eindeutiger Identifier je Objekttyp. </xs:documentation>
+              </xs:annotation>
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="11"/>
+                  <xs:pattern value="B[A-Z\d]{9}\d"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Existenzende" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Objektreferenz" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Referenz der Ressource, deren Existenzende gemeldet wird.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="11"/>
+                        <xs:pattern value="[ABC][A-Z\d]{9}\d"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Bilanzkreis_Ausgleichsfahrplan_anfNB" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SR_Objekt_Referenz">
+                <xs:annotation>
+                  <xs:documentation xml:lang="DE">Referenz der enthaltenen Steuerbaren Ressourcen</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="Codierung" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="NDE">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="Code" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="11"/>
+                        <xs:pattern value="C[A-Z\d]{9}\d"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="anfordernder_Netzbetreiber" maxOccurs="20">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Bilanzkreis_anfNB">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:length value="16"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Marktpartner_ID">
+                      <xs:complexType>
+                        <xs:attribute name="Codierung" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:NMTOKEN">
+                              <xs:enumeration value="A10">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">GS1</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:enumeration value="NDE">
+                                <xs:annotation>
+                                  <xs:documentation xml:lang="DE">Germany National coding scheme</xs:documentation>
+                                </xs:annotation>
+                              </xs:enumeration>
+                              <xs:length value="3"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="Code" use="required">
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                              <xs:length value="13"/>
+                              <xs:pattern value="\d{13}"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:attribute>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="DtdBDEWNachrichtenVersion" type="xs:string" fixed="1.2a" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="ContentType_1">
+    <xs:restriction base="xs:decimal">
+      <xs:pattern value="\d{0,6}(\.[\d]{1,3})?"/>
+      <xs:minInclusive value="0"/>
+      <xs:fractionDigits value="3"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ContentType_2">
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0"/>
+      <xs:fractionDigits value="3"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ContentType_3">
+    <xs:restriction base="xs:string">
+      <xs:length value="16"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ContentType_4">
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0"/>
+      <xs:fractionDigits value="2"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ContentType_5">
+    <xs:restriction base="xs:decimal">
+      <xs:pattern value="\d{0,6}(\.[\d]{1,6})?"/>
+      <xs:minInclusive value="0"/>
+      <xs:fractionDigits value="6"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

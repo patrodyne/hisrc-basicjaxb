@@ -69,6 +69,42 @@ public class DOMUtils
 	private DOMUtils() { }
 	
 	/**
+	 * Convert a QName instance into a W3C DOM Element instance.
+	 * 
+	 * @param qname The instance to be converted.
+	 * 
+	 * @return A W3C DOM Element representaion.
+	 */
+	public static Element toElement(QName qname, String value)
+	{
+		Document domDocument = DOM_DOCUMENT_BUILDER_NS.newDocument();
+		Element theElement = null;
+		theElement = domDocument.createElementNS(qname.getNamespaceURI(), qname.getLocalPart());
+		theElement.setPrefix("tns"); // qname.getPrefix() ???
+		theElement.setAttributeNS(XMLNS_ATTRIBUTE_NS_URI, "xmlns:"+theElement.getPrefix(), qname.getNamespaceURI());
+		theElement.setAttributeNS(XMLNS_ATTRIBUTE_NS_URI, "xmlns:xsi", W3C_XML_SCHEMA_INSTANCE_NS_URI);
+		Text valueNode = domDocument.createTextNode(value);
+		theElement.appendChild(valueNode);
+		// Element extends Node.
+		return theElement;
+	}
+	
+	/**
+	 * Create a W3C DOM Element instance.
+	 * 
+	 * @param namespaceURI The node's namespace URI.
+	 * @param localPart The node's local part (name).
+	 * @param prefix The namespace prefix for this node.
+	 * @param value The elements's value.
+	 * 
+	 * @return A W3C DOM Node representaion.
+	 */
+	public static Element toElement(String namespaceURI, String localPart, String prefix, String value)
+	{
+		return toElement(new QName(namespaceURI, localPart, prefix), value);
+	}
+	
+	/**
 	 * Convert a QName instance into a W3C DOM Node instance.
 	 * 
 	 * @param qname The instance to be converted.
@@ -77,16 +113,7 @@ public class DOMUtils
 	 */
 	public static Node toNode(QName qname, String value)
 	{
-		Document domDocument = DOM_DOCUMENT_BUILDER_NS.newDocument();
-		Element theElement = null;
-		theElement = domDocument.createElementNS(qname.getNamespaceURI(), qname.getLocalPart());
-		theElement.setPrefix("tns");
-		theElement.setAttributeNS(XMLNS_ATTRIBUTE_NS_URI, "xmlns:"+theElement.getPrefix(), qname.getNamespaceURI());
-		theElement.setAttributeNS(XMLNS_ATTRIBUTE_NS_URI, "xmlns:xsi", W3C_XML_SCHEMA_INSTANCE_NS_URI);
-		Text valueNode = domDocument.createTextNode(value);
-		theElement.appendChild(valueNode);
-		// Element extends Node.
-		return theElement;
+		return toElement(qname, value);
 	}
 	
 	/**
