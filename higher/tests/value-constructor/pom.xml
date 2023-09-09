@@ -36,6 +36,8 @@
 					<extension>true</extension>
 					<verbose>true</verbose>
 					<debug>true</debug>
+					<verbose>true</verbose>
+					<debug>true</debug>
 					<args>
 						<arg>-XvalueConstructor</arg>
 					</args>

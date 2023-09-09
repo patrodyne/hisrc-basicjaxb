@@ -42,6 +42,7 @@
 				<configuration>
 					<extension>true</extension>
 					<verbose>true</verbose>
+					<debug>true</debug>
 					<args>
 						<arg>-no-header</arg>
 						<arg>-XautoInheritance</arg>

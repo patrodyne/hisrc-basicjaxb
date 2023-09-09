@@ -36,6 +36,8 @@
 				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
 				<configuration>
 					<extension>true</extension>
+					<verbose>true</verbose>
+					<debug>true</debug>
 					<args>
 						<arg>-XtoString</arg>
 						<arg>-Xequals</arg>
