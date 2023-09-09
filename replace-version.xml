@@ -17,6 +17,12 @@
 			<replacevalue><![CDATA[Copyright &copy; 2022-2023, Rick O'Sullivan;]]></replacevalue>
 		</replace>
 
+		<replace dir="${basedir}" summary="true">
+			<include name="**/CreateToplevelXJBindings.sh"/>
+			<replacetoken><![CDATA[BASICJAXB_VERSION="2.1.0"]]></replacetoken>
+			<replacevalue><![CDATA[BASICJAXB_VERSION="2.1.1"]]></replacevalue>
+		</replace>
+
 	</target>
 
 </project>
