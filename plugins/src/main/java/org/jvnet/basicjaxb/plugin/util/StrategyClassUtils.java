@@ -11,6 +11,8 @@ import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CClassRef;
 import com.sun.tools.xjc.outline.ClassOutline;
 
 public class StrategyClassUtils
@@ -60,49 +62,93 @@ public class StrategyClassUtils
 	}
 
 	public static <T> Boolean superClassImplements(ClassOutline classOutline, Ignoring ignoring,
+		Class<? extends T> theInterface, Boolean unknown)
+	{
+		Boolean sci = superClassImplements(classOutline, ignoring, theInterface);
+		return ( sci != null ) ? sci : unknown;
+	}
+	
+	/**
+	 * Determine if a superclass of the given {@link ClassOutline} is a 
+	 * non-ignored implementation of the given interface.
+	 * 
+	 * @param <T> The interface type.
+	 * @param classOutline The {@link ClassOutline} to examine.
+	 * @param ignoring Interface to filter out ignored classes.
+	 * @param theInterface The interface to verify.
+	 * 
+	 * @return True when a superclass is a non-ignored implementation of the given interface;
+	 *         otherwise, false or null.
+	 */
+	public static <T> Boolean superClassImplements(ClassOutline classOutline, Ignoring ignoring,
 		Class<? extends T> theInterface)
 	{
-		if (classOutline.implClass != null && classOutline.implClass._extends() != null)
+		// If there is a implementation superclass.
+		if ( (classOutline.implClass != null) && (classOutline.implClass._extends() != null) )
 		{
-			if (JClassUtils.isInstanceOf(classOutline.implClass._extends(), theInterface))
+			// The JClass representing the superclass of the entity.
+			JClass implSuperclass = classOutline.implClass._extends();
+			// Determine if the given {@link JClass} is an instance of the given interface.
+			if ( JClassUtils.isInstanceOf(implSuperclass, theInterface) )
 				return Boolean.TRUE;
 		}
-		if (classOutline.target.getBaseClass() != null)
+		
+		// Examine the base class info of the current target class info.
+		CClassInfo baseClassInfo = classOutline.target.getBaseClass();
+		if ( baseClassInfo != null )
 		{
-			if (!ignoring.isIgnored(classOutline.parent().getClazz(classOutline.target.getBaseClass())))
-				return Boolean.TRUE;
-			else
+			ClassOutline baseClassOutline = classOutline.parent().getClazz(baseClassInfo);
+			if ( ignoring.isIgnored(baseClassOutline) )
 				return Boolean.FALSE;
+			else
+				return Boolean.TRUE;
 		}
-		if (classOutline.target.getRefBaseClass() != null)
+		
+		// Examine the Reference to an existing base class info of the current target class info.
+		CClassRef refBaseClassInfo = classOutline.target.getRefBaseClass();
+		if ( refBaseClassInfo != null )
 		{
 			try
 			{
-				if (theInterface.isAssignableFrom(Class.forName(classOutline.target.getRefBaseClass().fullName())))
+				// Load the existing base class to determines if it is either the same as,
+				// or is a superclass or super-interface of, the class or interface represented
+				// by the specified Class parameter. 
+				if ( theInterface.isAssignableFrom(Class.forName(refBaseClassInfo.fullName())) )
 					return Boolean.TRUE;
 				else
 					return Boolean.FALSE;
 			}
 			catch (ClassNotFoundException ignored)
 			{
-				// We'll assume it does implement
-				return Boolean.TRUE;
+				// If the base class exists in this project's sources then it will
+				// not be on the classpath during the 'generate-sources' phase.
+				// Returning false will cause the caller to implement the desired
+				// interface on the current classOutline which is better than not
+				// implementing it at all; thus, we'll assume it does not implement.
+				return Boolean.FALSE;
 			}
 		}
+		
 		// Unknown
 		return null;
 	}
 
 	public static <T> Boolean superClassNotIgnored(ClassOutline classOutline, Ignoring ignoring)
 	{
-		if (classOutline.target.getBaseClass() != null)
+		// Examine the base class info of the current target class info.
+		CClassInfo baseClassInfo = classOutline.target.getBaseClass();
+		
+		// Examine the Reference to an existing base class info of the current target class info.
+		CClassRef refBaseClassInfo = classOutline.target.getRefBaseClass();
+		
+		if ( baseClassInfo != null )
 		{
-			if (!ignoring.isIgnored(classOutline.parent().getClazz(classOutline.target.getBaseClass())))
-				return Boolean.TRUE;
-			else
+			if ( ignoring.isIgnored(classOutline.parent().getClazz(baseClassInfo)) )
 				return Boolean.FALSE;
+			else
+				return Boolean.TRUE;
 		}
-		else if (classOutline.target.getRefBaseClass() != null)
+		else if ( refBaseClassInfo != null )
 			return Boolean.TRUE;
 		else
 			return null;

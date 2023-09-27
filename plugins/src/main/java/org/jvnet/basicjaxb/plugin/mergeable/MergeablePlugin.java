@@ -2,6 +2,7 @@ package org.jvnet.basicjaxb.plugin.mergeable;
 
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.mergeable.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
@@ -22,7 +23,7 @@ import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
-import org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils;
+import org.jvnet.basicjaxb.plugin.util.OutlineUtils;
 import org.jvnet.basicjaxb.util.ClassUtils;
 import org.jvnet.basicjaxb.util.FieldAccessorFactory;
 import org.jvnet.basicjaxb.util.PropertyFieldAccessorFactory;
@@ -184,33 +185,30 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 	@Override
 	public boolean run(Outline outline) throws Exception
 	{
-		for (final ClassOutline classOutline : outline.getClasses())
-		{
-			if (!getIgnoring().isIgnored(classOutline))
-				processClassOutline(classOutline);
-		}
+		// Filter ignored class outlines
+		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
+			processClassOutline(classOutline);
+		
 		return !hadError(outline.getErrorReceiver());
 	}
 
 	protected void processClassOutline(ClassOutline classOutline)
 	{
 		final JDefinedClass theClass = classOutline.implClass;
-		ClassUtils._implements(theClass, theClass.owner().ref(MergeFrom.class));
 		
-		@SuppressWarnings("unused")
-		final JMethod mergeFrom$mergeFrom0 = generateMergeFrom$mergeFrom(classOutline, theClass);
+		if ( !classOutline.target.isAbstract() )
+			generateObject$createNewInstance(classOutline, theClass);
 		
-		@SuppressWarnings("unused")
-		final JMethod mergeFrom$mergeFrom = generateMergeFrom$mergeFrom1(classOutline, theClass);
-		
-		if (!classOutline.target.isAbstract())
+		if ( !superClassImplements(classOutline, getIgnoring(), MergeFrom.class, false) )
 		{
-			@SuppressWarnings("unused")
-			final JMethod createMergeFrom = generateMergeFrom$createNewInstance(classOutline, theClass);
+			ClassUtils._implements(theClass, theClass.owner().ref(MergeFrom.class));
+			generateObject$mergeFrom(classOutline, theClass);
 		}
+		
+		generateMergeFrom$mergeFrom(classOutline, theClass);
 	}
 
-	protected JMethod generateMergeFrom$createNewInstance(final ClassOutline classOutline, final JDefinedClass theClass)
+	protected JMethod generateObject$createNewInstance(final ClassOutline classOutline, final JDefinedClass theClass)
 	{
 		final JMethod existingMethod = theClass.getMethod("createNewInstance", new JType[0]);
 		if (existingMethod == null)
@@ -220,7 +218,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 			{
 				final JBlock body = newMethod.body();
 				body._return(JExpr._new(theClass));
-				trace("{}, generateMergeFrom$createNewInstance; Class={}", toLocation(theClass.metadata), theClass.name());
+				trace("{}, generateObject$createNewInstance; Class={}", toLocation(theClass.metadata), theClass.name());
 			}
 			return newMethod;
 		}
@@ -228,7 +226,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 			return existingMethod;
 	}
 	
-	protected JMethod generateMergeFrom$mergeFrom(final ClassOutline classOutline, final JDefinedClass theClass)
+	protected JMethod generateObject$mergeFrom(final ClassOutline classOutline, final JDefinedClass theClass)
 	{
 		JCodeModel codeModel = theClass.owner();
 		final JMethod mergeFrom$mergeFrom = theClass.method(JMod.PUBLIC, codeModel.VOID, "mergeFrom");
@@ -256,12 +254,12 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 				.arg(rhs)
 				.arg(mergeStrategy);
 			
-			debug("{}, generateMergeFrom$mergeFrom; Class={}", toLocation(theClass.metadata), theClass.name());
+			debug("{}, generateObject$mergeFrom; Class={}", toLocation(theClass.metadata), theClass.name());
 		}
 		return mergeFrom$mergeFrom;
 	}
 
-	protected JMethod generateMergeFrom$mergeFrom1(ClassOutline classOutline, final JDefinedClass theClass)
+	protected JMethod generateMergeFrom$mergeFrom(ClassOutline classOutline, final JDefinedClass theClass)
 	{
 		final JCodeModel codeModel = theClass.owner();
 		final JMethod mergeFrom = theClass.method(JMod.PUBLIC, codeModel.VOID, "mergeFrom");
@@ -286,7 +284,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 			{
 			}
 			
-			final FieldOutline[] declaredFields = FieldOutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
+			final FieldOutline[] declaredFields = OutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
 			if (declaredFields.length > 0)
 			{
 				final JBlock body = methodBody._if(rhs._instanceof(theClass))._then();
@@ -296,7 +294,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 				for (final FieldOutline fieldOutline : declaredFields)
 				{
 					final FieldAccessorEx lhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, lhsObject);
-					final FieldAccessorEx rhsFieldAccessor = getFieldAccessorFactory() .createFieldAccessor(fieldOutline, rhsObject);
+					final FieldAccessorEx rhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, rhsObject);
 					if (lhsFieldAccessor.isConstant() || rhsFieldAccessor.isConstant())
 						continue;
 					
@@ -393,7 +391,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 					
 					targetFieldAccessor.unsetValues(ifShouldBeUnsetBlock);
 					
-					trace("{}, generateMergeFrom$mergeFrom1; Class={}, Field={}",
+					trace("{}, generateMergeFrom$mergeFrom; Class={}, Field={}",
 						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
 			}

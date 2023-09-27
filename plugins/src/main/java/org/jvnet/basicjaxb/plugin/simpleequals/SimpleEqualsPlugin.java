@@ -2,6 +2,9 @@ package org.jvnet.basicjaxb.plugin.simpleequals;
 
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
+import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassNotIgnored;
+import static org.jvnet.basicjaxb.util.FieldUtils.getPossibleTypes;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Collection;
@@ -10,9 +13,6 @@ import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.plugin.codegenerator.AbstractCodeGeneratorPlugin;
 import org.jvnet.basicjaxb.plugin.codegenerator.CodeGenerator;
-import org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils;
-import org.jvnet.basicjaxb.plugin.util.StrategyClassUtils;
-import org.jvnet.basicjaxb.util.FieldUtils;
 import org.jvnet.basicjaxb.xjc.outline.FieldAccessorEx;
 
 import com.sun.codemodel.JBlock;
@@ -107,13 +107,13 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 		JExpression notTheSameType = JExpr._this().invoke("getClass").ne(object.invoke("getClass"));
 		body._if(JOp.cor(objectIsNull, notTheSameType))._then()._return(JExpr.FALSE);
 		body._if(JExpr._this().eq(object))._then()._return(JExpr.TRUE);
-		final Boolean superClassNotIgnored = StrategyClassUtils.superClassNotIgnored(classOutline, getIgnoring());
+		final Boolean superClassNotIgnored = superClassNotIgnored(classOutline, getIgnoring());
 		
 		if (superClassNotIgnored != null)
 			body._if(JOp.not(JExpr._super().invoke("equals").arg(object)))._then()._return(JExpr.FALSE);
 		
 		final JExpression _this = JExpr._this();
-		final FieldOutline[] fields = FieldOutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
+		final FieldOutline[] fields = filter(classOutline.getDeclaredFields(), getIgnoring());
 		if (fields.length > 0)
 		{
 			final JVar _that = body.decl(JMod.FINAL, theClass, "that", JExpr.cast(theClass, object));
@@ -134,7 +134,7 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 				final JVar rhsValue = block.decl(rhsFieldAccessor.getType(), "rhs" + name);
 				rhsFieldAccessor.toRawValue(block, rhsValue);
 				final JType exposedType = lhsFieldAccessor.getType();
-				final Collection<JType> possibleTypes = FieldUtils.getPossibleTypes(fieldOutline, Aspect.EXPOSED);
+				final Collection<JType> possibleTypes = getPossibleTypes(fieldOutline, Aspect.EXPOSED);
 				final boolean isAlwaysSet = lhsFieldAccessor.isAlwaysSet();
 				
 				final JExpression lhsHasSetValue = (lhsFieldAccessor.isAlwaysSet() || lhsFieldAccessor.hasSetValue() == null)

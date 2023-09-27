@@ -2,6 +2,9 @@ package org.jvnet.basicjaxb.plugin.simplehashcode;
 
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.hashcode.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
+import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassNotIgnored;
+import static org.jvnet.basicjaxb.util.FieldUtils.getPossibleTypes;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Collection;
@@ -10,9 +13,6 @@ import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.plugin.codegenerator.AbstractCodeGeneratorPlugin;
 import org.jvnet.basicjaxb.plugin.codegenerator.CodeGenerator;
-import org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils;
-import org.jvnet.basicjaxb.plugin.util.StrategyClassUtils;
-import org.jvnet.basicjaxb.util.FieldUtils;
 import org.jvnet.basicjaxb.xjc.outline.FieldAccessorEx;
 
 import com.sun.codemodel.JBlock;
@@ -103,15 +103,13 @@ public class SimpleHashCodePlugin extends AbstractCodeGeneratorPlugin<HashCodeAr
 			final JBlock body = object$hashCode.body();
 			final JExpression currentHashCodeExpression = JExpr.lit(1);
 			final JVar currentHashCode = body.decl(codeModel.INT, "currentHashCode", currentHashCodeExpression);
-			final Boolean superClassImplementsHashCode = StrategyClassUtils.superClassNotIgnored(classOutline,
-				getIgnoring());
+			final Boolean superClassImplementsHashCode = superClassNotIgnored(classOutline, getIgnoring());
 			if (superClassImplementsHashCode != null)
 			{
 				body.assign(currentHashCode,
 					currentHashCode.mul(JExpr.lit(getMultiplier())).plus(JExpr._super().invoke("hashCode")));
 			}
-			final FieldOutline[] declaredFields = FieldOutlineUtils.filter(classOutline.getDeclaredFields(),
-				getIgnoring());
+			final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
 			if (declaredFields.length > 0)
 			{
 				for (final FieldOutline fieldOutline : declaredFields)
@@ -129,7 +127,7 @@ public class SimpleHashCodePlugin extends AbstractCodeGeneratorPlugin<HashCodeAr
 					final JVar value = block.decl(fieldAccessor.getType(), "the" + propertyName);
 					fieldAccessor.toRawValue(block, value);
 					final JType exposedType = fieldAccessor.getType();
-					final Collection<JType> possibleTypes = FieldUtils.getPossibleTypes(fieldOutline, Aspect.EXPOSED);
+					final Collection<JType> possibleTypes = getPossibleTypes(fieldOutline, Aspect.EXPOSED);
 					final boolean isAlwaysSet = fieldAccessor.isAlwaysSet();
 					// final JExpression hasSetValue = exposedType.isPrimitive() ? JExpr.TRUE : value.ne(JExpr._null());
 					final JExpression hasSetValue = (fieldAccessor.isAlwaysSet() || fieldAccessor.hasSetValue() == null)

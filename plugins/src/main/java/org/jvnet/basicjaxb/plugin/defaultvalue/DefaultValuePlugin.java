@@ -2,7 +2,7 @@ package org.jvnet.basicjaxb.plugin.defaultvalue;
 
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.defaultvalue.Customizations.IGNORED_ELEMENT_NAME;
-import static org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils.filter;
+import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 import static org.jvnet.basicjaxb.xmlschema.XmlSchemaConstants.ANYSIMPLETYPE;
 import static org.jvnet.basicjaxb.xmlschema.XmlSchemaConstants.BASE64BINARY;
@@ -82,9 +82,9 @@ import com.sun.xml.xsom.XSType;
  * </ul>
  *
  * <p><b>Note:</b> The default value is managed by JAXB using <code>@XmlElement</code> <em>and</em> by
- * this POJO. For <em>nullable</em> fields, the default value is managed within the accessor; otherwise,
- * the default is assigned to its <em>non-nullable</em> field, once. When the accessor is used, the
- * default value can be recovered by setting the field to null; subsequently, the accessor will return
+ * this POJO. For <em>nullable</em> fields, the default value is managed within the BOUND; otherwise,
+ * the default is assigned to its <em>non-nullable</em> field, once. When the BOUND is used, the
+ * default value can be recovered by setting the field to null; subsequently, the BOUND will return
  * the original default value.
  * </p>
  *
@@ -196,9 +196,9 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 	 *       <li>Map to one of the supported types</li>
 	 *     </ul>
 	 *   </li>
-	 *   <li>Add a new initialization expression to every qualifying accessor or field:
+	 *   <li>Add a new initialization expression to every qualifying BOUND or field:
 	 *     <ul>
-	 *       <li>An element accessor qualifies when the field is nullable;</li>
+	 *       <li>An element BOUND qualifies when the field is nullable;</li>
 	 *       <li>Otherwise, the field qualifies to receive the initialization expression</li>
 	 *     </ul>
 	 *   </li>
@@ -226,12 +226,10 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 	@Override
 	public boolean run(Outline outline) throws Exception
 	{
-		// For all Classes generated
-		for (final ClassOutline classOutline : outline.getClasses())
-		{
-			if (!getIgnoring().isIgnored(classOutline))
-				processClassOutline(outline, classOutline);
-		}
+		// Filter ignored class outlines
+		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
+			processClassOutline(outline, classOutline);
+		
 		return !hadError(outline.getErrorReceiver());
 	}
 
@@ -348,7 +346,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 		Map<String, JFieldVar> fields = theClass.fields();
 		JFieldVar var = fields.get(fieldInfo.getName(false));
 		
-		// Get the accessor for the given fieldInfo public name
+		// Get the BOUND for the given fieldInfo public name
 		// from the list of methods for theClass.
 		String publicName = fieldInfo.getName(true);
 		String accessorName = "get" + publicName;

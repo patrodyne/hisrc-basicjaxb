@@ -306,4 +306,21 @@ public class CodeModelUtils
 			}
 		}
 	}
+	
+	/**
+	 * Group a source method with its target method in the given owner class.
+	 * 
+	 * @param ownerClass The class that owns the methods.
+	 * @param index The target index.
+	 * @param sourceMethod The source method to move.
+	 */
+	public static void groupMethods(JDefinedClass ownerClass, int index, JMethod sourceMethod)
+	{
+		if ( ownerClass.methods() instanceof List )
+		{
+			List<JMethod> methodList = (List<JMethod>) ownerClass.methods();
+			if ( methodList.remove(sourceMethod) )
+				methodList.add(index+1, sourceMethod);
+		}
+	}
 }

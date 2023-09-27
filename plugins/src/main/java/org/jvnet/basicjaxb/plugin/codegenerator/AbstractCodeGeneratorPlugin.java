@@ -1,5 +1,7 @@
 package org.jvnet.basicjaxb.plugin.codegenerator;
 
+import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
+
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -95,11 +97,9 @@ public abstract class AbstractCodeGeneratorPlugin<A extends Arguments<A>>
 	{
 		setCodeGenerator(createCodeGenerator(outline.getCodeModel()));
 		
-		for (final ClassOutline classOutline : outline.getClasses())
-		{
-			if (!getIgnoring().isIgnored(classOutline))
-				processClassOutline(classOutline);
-		}
+		// Filter ignored class outlines
+		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
+			processClassOutline(classOutline);
 		
 		return !hadError(outline.getErrorReceiver());
 	}

@@ -3,6 +3,7 @@ package org.jvnet.basicjaxb.plugin.setters;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.jvnet.basicjaxb.plugin.setters.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.util.CodeModelUtils.groupMethods;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
@@ -15,7 +16,6 @@ import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
 import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
-import org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
@@ -134,6 +134,8 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 		public abstract void generateSetter(FieldOutline fieldOutline, JDefinedClass theClass, JMethod setter, JVar value);
 	}
 
+	// Note: AbstractParameterizablePlugin requires getter and setter
+	//       to use the same type (String).
 	private Mode mode = Mode.accessor;
 	public String getMode()
 	{
@@ -210,11 +212,10 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 	@Override
 	public boolean run(Outline outline) throws Exception
 	{
-		for (final ClassOutline classOutline : outline.getClasses())
-		{
-			if (!getIgnoring().isIgnored(classOutline))
-				processClassOutline(classOutline);
-		}
+		// Filter ignored class outlines
+		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
+			processClassOutline(classOutline);
+		
 		return !hadError(outline.getErrorReceiver());
 	}
 
@@ -229,7 +230,7 @@ public class SettersPlugin extends AbstractParameterizablePlugin
 	private void generateSetters(ClassOutline classOutline, JDefinedClass theClass)
 	{
 		boolean addedSetter = false;
-		final FieldOutline[] declaredFields = FieldOutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
+		final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
 		for (final FieldOutline fieldOutline : declaredFields)
 		{
 			final CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();

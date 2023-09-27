@@ -2,6 +2,8 @@ package org.jvnet.basicjaxb.plugin.tostring;
 
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
+import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
@@ -19,7 +21,7 @@ import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
-import org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils;
+import org.jvnet.basicjaxb.plugin.util.OutlineUtils;
 import org.jvnet.basicjaxb.plugin.util.StrategyClassUtils;
 import org.jvnet.basicjaxb.util.ClassUtils;
 import org.jvnet.basicjaxb.util.FieldAccessorFactory;
@@ -169,24 +171,25 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 	@Override
 	public boolean run(Outline outline) throws Exception
 	{
-		for (final ClassOutline classOutline : outline.getClasses())
-		{
-			if (!getIgnoring().isIgnored(classOutline))
-				processClassOutline(classOutline);
-		}
+		// Filter ignored class outlines
+		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
+			processClassOutline(classOutline);
+
 		return !hadError(outline.getErrorReceiver());
 	}
 
 	protected void processClassOutline(ClassOutline classOutline)
 	{
 		final JDefinedClass theClass = classOutline.implClass;
-		ClassUtils._implements(theClass, theClass.owner().ref(ToString.class));
-		@SuppressWarnings("unused")
-		final JMethod object$toString = generateObject$toString(classOutline, theClass);
-		@SuppressWarnings("unused")
-		final JMethod toString$append = generateToString$append(classOutline, theClass);
-		@SuppressWarnings("unused")
-		final JMethod toString$appendFields = generateToString$appendFields(classOutline, theClass);
+		
+		if ( !superClassImplements(classOutline, getIgnoring(), ToString.class, false) )
+		{
+			ClassUtils._implements(theClass, theClass.owner().ref(ToString.class));
+			generateObject$toString(classOutline, theClass);
+			generateToString$append(classOutline, theClass);
+		}
+		
+		generateToString$appendFields(classOutline, theClass);
 	}
 
 	protected JMethod generateObject$toString(final ClassOutline classOutline, final JDefinedClass theClass)
@@ -252,7 +255,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 				// Superclass does not implement ToString
 			}
 			
-			final FieldOutline[] declaredFields = FieldOutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
+			final FieldOutline[] declaredFields = OutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
 			
 			if (declaredFields.length > 0)
 			{

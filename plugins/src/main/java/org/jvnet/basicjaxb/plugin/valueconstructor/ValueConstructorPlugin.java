@@ -1,7 +1,7 @@
 package org.jvnet.basicjaxb.plugin.valueconstructor;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils.filter;
+import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.valueconstructor.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
@@ -168,11 +168,10 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 	public boolean run(Outline outline)
 		throws Exception
 	{
-		for (final ClassOutline classOutline : outline.getClasses())
-		{
-			if (!getIgnoring().isIgnored(classOutline))
-				processClassOutline(classOutline);
-		}
+		// Filter ignored class outlines
+		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
+			processClassOutline(classOutline);
+
 		return !hadError(outline.getErrorReceiver());
 	}
 	

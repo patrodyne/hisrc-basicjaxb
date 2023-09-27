@@ -2,6 +2,7 @@ package org.jvnet.basicjaxb.plugin.equals;
 
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
@@ -22,7 +23,7 @@ import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
-import org.jvnet.basicjaxb.plugin.util.FieldOutlineUtils;
+import org.jvnet.basicjaxb.plugin.util.OutlineUtils;
 import org.jvnet.basicjaxb.util.ClassUtils;
 import org.jvnet.basicjaxb.util.FieldAccessorFactory;
 import org.jvnet.basicjaxb.util.PropertyFieldAccessorFactory;
@@ -176,22 +177,23 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 	@Override
 	public boolean run(Outline outline) throws Exception
 	{
-		for (final ClassOutline classOutline : outline.getClasses())
-		{
-			if (!getIgnoring().isIgnored(classOutline))
-				processClassOutline(classOutline);
-		}
+		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
+			processClassOutline(classOutline);
+
 		return !hadError(outline.getErrorReceiver());
 	}
 
 	protected void processClassOutline(ClassOutline classOutline)
 	{
 		final JDefinedClass theClass = classOutline.implClass;
-		ClassUtils._implements(theClass, theClass.owner().ref(Equals.class));
-		@SuppressWarnings("unused")
-		final JMethod equals = generateEquals$equals(classOutline, theClass);
-		@SuppressWarnings("unused")
-		final JMethod objectEquals = generateObject$equals(classOutline, theClass);
+		
+		if ( !superClassImplements(classOutline, getIgnoring(), Equals.class, false) )
+		{
+			ClassUtils._implements(theClass, theClass.owner().ref(Equals.class));
+			generateObject$equals(classOutline, theClass);
+		}
+		
+		generateEquals$equals(classOutline, theClass);
 	}
 
 	protected JMethod generateObject$equals(final ClassOutline classOutline, final JDefinedClass theClass)
@@ -236,7 +238,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 			body._if(JOp.cor(objectIsNull, notTheSameType))._then()._return(JExpr.FALSE);
 			body._if(JExpr._this().eq(object))._then()._return(JExpr.TRUE);
 			final Boolean superClassImplementsEquals = superClassImplements(classOutline, getIgnoring(), Equals.class);
-			
+
 			if (superClassImplementsEquals == null)
 			{
 				// No superclass
@@ -253,7 +255,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 			}
 			
 			final JExpression _this = JExpr._this();
-			final FieldOutline[] declaredFields = FieldOutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
+			final FieldOutline[] declaredFields = OutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
 			
 			if (declaredFields.length > 0)
 			{
@@ -262,16 +264,16 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 				for (final FieldOutline fieldOutline : declaredFields)
 				{
 					final FieldAccessorEx lhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _this);
-					final FieldAccessorEx rhsFieldAccessor = getFieldAccessorFactory() .createFieldAccessor(fieldOutline, _that);
+					final FieldAccessorEx rhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _that);
 					
 					if (lhsFieldAccessor.isConstant() || rhsFieldAccessor.isConstant())
 						continue;
 					
 					final JBlock block = body.block();
 					
-					final JExpression lhsFieldHasSetValueEx = (lhsFieldAccessor .isAlwaysSet() || lhsFieldAccessor.hasSetValue() == null)
+					final JExpression lhsFieldHasSetValueEx = (lhsFieldAccessor.isAlwaysSet() || lhsFieldAccessor.hasSetValue() == null)
 						? JExpr.TRUE : lhsFieldAccessor.hasSetValue();
-					final JExpression rhsFieldHasSetValueEx = (rhsFieldAccessor .isAlwaysSet() || rhsFieldAccessor.hasSetValue() == null)
+					final JExpression rhsFieldHasSetValueEx = (rhsFieldAccessor.isAlwaysSet() || rhsFieldAccessor.hasSetValue() == null)
 						? JExpr.TRUE : rhsFieldAccessor.hasSetValue();
 								
 					final JVar lhsFieldIsSet = block.decl(codeModel.ref(Boolean.class).unboxify(), "lhsFieldIsSet", lhsFieldHasSetValueEx);

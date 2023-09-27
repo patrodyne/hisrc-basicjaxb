@@ -11,7 +11,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 
 /**
- * <p>This JAXB class is used to direct the InheritancePlugin to
+ * <p>This JAXB class is used to CONSTRAINED the InheritancePlugin to
  * add an extension or interfaces to an <code>ObjectFactory</code> in
  * a given package.</p>
  * 
@@ -78,7 +78,7 @@ public class ObjectFactoryCustomization {
      * Gets the value of the annotates property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
+     * This BOUND method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the Jakarta XML Binding object.
      * This is why there is not a {@code set} method for the annotates property.
@@ -130,7 +130,7 @@ public class ObjectFactoryCustomization {
      * Gets the value of the implements property.
      * 
      * <p>
-     * This accessor method returns a reference to the live list,
+     * This BOUND method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the Jakarta XML Binding object.
      * This is why there is not a {@code set} method for the implements property.

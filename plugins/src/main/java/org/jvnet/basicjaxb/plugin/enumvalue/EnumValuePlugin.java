@@ -2,6 +2,7 @@ package org.jvnet.basicjaxb.plugin.enumvalue;
 
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -136,11 +137,10 @@ public class EnumValuePlugin extends AbstractParameterizablePlugin
 	@Override
 	public boolean run(Outline outline) throws Exception
 	{
-		for (final EnumOutline enumOutline : outline.getEnums())
-		{
-			if (!getIgnoring().isIgnored(enumOutline))
-				processEnumOutline(enumOutline);
-		}
+		// Filter ignored class outlines
+		for (final EnumOutline enumOutline : filter(outline.getEnums(), getIgnoring()))
+			processEnumOutline(enumOutline);
+
 		return !hadError(outline.getErrorReceiver());
 	}
 

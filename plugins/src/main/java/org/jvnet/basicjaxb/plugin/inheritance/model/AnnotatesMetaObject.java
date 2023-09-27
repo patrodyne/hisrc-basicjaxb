@@ -68,7 +68,7 @@ public class AnnotatesMetaObject
 	 * Gets the value of the element property.
 	 * 
 	 * <p>
-	 * This accessor method returns a reference to the live list,
+	 * This BOUND method returns a reference to the live list,
 	 * not a snapshot. Therefore any modification you make to the
 	 * returned list will be present inside the Jakarta XML Binding object.
 	 * This is why there is not a {@code set} method for the elements property.
@@ -99,7 +99,7 @@ public class AnnotatesMetaObject
 	 * Gets the value of the elements property.
 	 * 
 	 * <p>
-	 * This accessor method returns a reference to the live list,
+	 * This BOUND method returns a reference to the live list,
 	 * not a snapshot. Therefore any modification you make to the
 	 * returned list will be present inside the Jakarta XML Binding object.
 	 * This is why there is not a {@code set} method for the elements property.
@@ -270,7 +270,7 @@ public class AnnotatesMetaObject
 		 * <p>Gets the value of the value property.</p>
 		 * 
 		 * <p>
-		 * This accessor method returns a reference to the live list,
+		 * This BOUND method returns a reference to the live list,
 		 * not a snapshot. Therefore any modification you make to the
 		 * returned list will be present inside the Jakarta XML Binding object.
 		 * This is why there is not a {@code set} method for the value property.
