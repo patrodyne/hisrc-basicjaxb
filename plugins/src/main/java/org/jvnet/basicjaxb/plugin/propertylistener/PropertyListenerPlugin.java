@@ -77,25 +77,19 @@ import jakarta.xml.bind.annotation.XmlTransient;
  * kind of checking as <em>constrained</em> properties.</p>
  * 
  * <p>When <code>-XpropertyListener-bound=true</code>, generated classes will implement
- * {@link org.jvnet.basicjaxb.lang.Bound} to provide these default methods:</p>
+ * {@link org.jvnet.basicjaxb.lang.Bound} to provide this support method:</p>
  * 
  * <pre>
- * void addPropertyChangeListener(PropertyChangeListener listener)
- * void addPropertyChangeListener(String name, PropertyChangeListener listener)
- * void removePropertyChangeListener(PropertyChangeListener listener)
- * void removePropertyChangeListener(String name, PropertyChangeListener listener)
+ * public PropertyChangeSupport getPropertyChangeSupport()
  * </pre>
  * 
  * <p>Applications add/remove listeners, at runtime, to receive and process property changes.</p>
  * 
  * <p>When <code>-XpropertyListener-constrained=true</code>, generated classes will implement
- * {@link org.jvnet.basicjaxb.lang.Constrained} to provide these default methods:</p>
+ * {@link org.jvnet.basicjaxb.lang.Constrained} to provide this support method:</p>
  * 
  * <pre>
- * void addVetoableChangeListener(VetoableChangeListener listener)
- * void addVetoableChangeListener(String name, VetoableChangeListener listener)
- * void removeVetoableChangeListener(VetoableChangeListener listener)
- * void removeVetoableChangeListener(String name, VetoableChangeListener listener)
+ * public VetoableChangeSupport getVetoableChangeSupport()
  * </pre>
  * 
  * <p>Applications add/remove listeners, at runtime, to receive and process property vetoes.</p>
@@ -103,8 +97,10 @@ import jakarta.xml.bind.annotation.XmlTransient;
  * <p><b>Veto Strategy</b></p>
  * <p>The {@link org.jvnet.basicjaxb.lang.DefaultVetoStrategy} implements 
  * {@link org.jvnet.basicjaxb.lang.VetoStrategy} to handle {@link java.beans.PropertyVetoException}
- * when it is thrown by your listener. The default action is to log an ERROR and continue. You can
- * configure your own implementation to implement a handler with other behavior.</p>
+ * when it is thrown by your listener. The default action is to log a WARN message and continue.
+ * This can be elevated to an ERROR message by setting the log level to
+ * <code>org.jvnet.basicjaxb.lang.DefaultVetoStrategy=ERROR</code>. You can configure your own
+ * implementation to implement a handler with other behavior.</p>
  * 
  * @see <a href="https://download.oracle.com/otn-pub/jcp/7224-javabeans-1.01-fr-spec-oth-JSpec/beans.101.pdf">JavaBeans 1.01 Specification</a>
  */
