@@ -34,10 +34,12 @@
 					<verbose>true</verbose>
 					<debug>true</debug>
 					<args>
+						<arg>-Xsetters</arg>
 						<arg>-XfluentAPI</arg>
 						<arg>-XhashCode</arg>
 						<arg>-Xequals</arg>
 						<arg>-XtoString</arg>
+						<arg>-XpropertyListener</arg>
 					</args>
 					<plugins>
 						<plugin>

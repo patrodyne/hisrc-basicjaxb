@@ -11,6 +11,7 @@ org.jvnet.basicjaxb.plugin.hashcode.HashCodePlugin
 org.jvnet.basicjaxb.plugin.inheritance.InheritancePlugin
 org.jvnet.basicjaxb.plugin.jaxbindex.JaxbIndexPlugin
 org.jvnet.basicjaxb.plugin.mergeable.MergeablePlugin
+org.jvnet.basicjaxb.plugin.propertylistener.PropertyListenerPlugin
 org.jvnet.basicjaxb.plugin.setters.SettersPlugin
 org.jvnet.basicjaxb.plugin.simpleequals.SimpleEqualsPlugin
 org.jvnet.basicjaxb.plugin.simplehashcode.SimpleHashCodePlugin

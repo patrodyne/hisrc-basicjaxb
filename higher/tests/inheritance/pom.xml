@@ -39,12 +39,16 @@
 					<args>
 						<arg>-no-header</arg>
 						<arg>-Xinheritance</arg>
+						<arg>-XpropertyListener</arg>
 						<!-- 
-						<arg>-XtoString</arg>
 						<arg>-Xequals</arg>
 						<arg>-XhashCode</arg>
+						<arg>-XtoString</arg>
 						<arg>-Xcopyable</arg>
 						<arg>-Xmergeable</arg>
+						<arg>-XsimpleEquals</arg>
+						<arg>-XsimpleHashCode</arg>
+						<arg>-XsimpleToString</arg>
 						-->
 					</args>
 					<plugins>
