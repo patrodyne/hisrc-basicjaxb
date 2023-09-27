@@ -97,9 +97,9 @@ import jakarta.xml.bind.annotation.XmlTransient;
  * <p><b>Veto Strategy</b></p>
  * <p>The {@link org.jvnet.basicjaxb.lang.DefaultVetoStrategy} implements 
  * {@link org.jvnet.basicjaxb.lang.VetoStrategy} to handle {@link java.beans.PropertyVetoException}
- * when it is thrown by your listener. The default action is to log a WARN message and continue.
- * This can be elevated to an ERROR message by setting the log level to
- * <code>org.jvnet.basicjaxb.lang.DefaultVetoStrategy=ERROR</code>. You can configure your own
+ * when it is thrown by your listener. The default action is to log a WARN message and continue
+ * without setting the property. This can be elevated to an ERROR message by setting the log level
+ * to <code>org.jvnet.basicjaxb.lang.DefaultVetoStrategy=ERROR</code>. You can configure your own
  * implementation to implement a handler with other behavior.</p>
  * 
  * @see <a href="https://download.oracle.com/otn-pub/jcp/7224-javabeans-1.01-fr-spec-oth-JSpec/beans.101.pdf">JavaBeans 1.01 Specification</a>
