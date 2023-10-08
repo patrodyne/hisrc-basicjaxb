@@ -9,6 +9,8 @@ import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -285,16 +287,27 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 			}
 			
 			final FieldOutline[] declaredFields = OutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
-			if (declaredFields.length > 0)
+
+			// Filter out constant fields
+			Map<FieldOutline, FieldAccessorEx> lhsFieldAccessorMap = new HashMap<>();
+			for (final FieldOutline fieldOutline : declaredFields)
+			{
+				final FieldAccessorEx lhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, lhs);
+				if ( !lhsFieldAccessor.isConstant() )
+					lhsFieldAccessorMap.put(fieldOutline, lhsFieldAccessor);
+			}
+			
+			if (lhsFieldAccessorMap.size() > 0)
 			{
 				final JBlock body = methodBody._if(rhs._instanceof(theClass))._then();
 				JVar target = body.decl(JMod.FINAL, theClass, "target", JExpr._this());
 				JVar lhsObject = body.decl(JMod.FINAL, theClass, "lhsObject", JExpr.cast(theClass, lhs));
 				JVar rhsObject = body.decl(JMod.FINAL, theClass, "rhsObject", JExpr.cast(theClass, rhs));
-				for (final FieldOutline fieldOutline : declaredFields)
+				for (final FieldOutline fieldOutline : lhsFieldAccessorMap.keySet())
 				{
 					final FieldAccessorEx lhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, lhsObject);
 					final FieldAccessorEx rhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, rhsObject);
+
 					if (lhsFieldAccessor.isConstant() || rhsFieldAccessor.isConstant())
 						continue;
 					

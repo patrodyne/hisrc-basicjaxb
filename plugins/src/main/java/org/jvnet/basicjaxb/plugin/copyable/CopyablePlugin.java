@@ -9,6 +9,8 @@ import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -23,7 +25,6 @@ import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
-import org.jvnet.basicjaxb.plugin.util.OutlineUtils;
 import org.jvnet.basicjaxb.util.ClassUtils;
 import org.jvnet.basicjaxb.util.FieldAccessorFactory;
 import org.jvnet.basicjaxb.util.PropertyFieldAccessorFactory;
@@ -296,15 +297,27 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 			{
 			}
 			
-			final FieldOutline[] declaredFields = OutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
-			if (declaredFields.length > 0)
+			final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
+			
+			// Filter out constant fields
+			Map<FieldOutline, FieldAccessorEx> sourceFieldAccessorMap = new HashMap<>();
+			for (final FieldOutline fieldOutline : declaredFields)
+			{
+				final FieldAccessorEx sourceFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, JExpr._this());
+				if ( !sourceFieldAccessor.isConstant() )
+					sourceFieldAccessorMap.put(fieldOutline, sourceFieldAccessor);
+			}
+			
+			if (sourceFieldAccessorMap.size() > 0)
 			{
 				final JBlock bl = body._if(draftCopy._instanceof(theClass))._then();
 				final JVar copy = bl.decl(JMod.FINAL, theClass, "copy", JExpr.cast(theClass, draftCopy));
-				for (final FieldOutline fieldOutline : declaredFields)
+				for (final FieldOutline fieldOutline : sourceFieldAccessorMap.keySet())
 				{
-					final FieldAccessorEx sourceFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, JExpr._this());
+					final FieldAccessorEx sourceFieldAccessor = sourceFieldAccessorMap.get(fieldOutline);
 					final FieldAccessorEx copyFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, copy);
+					
+					// This should already be filtered in sourceFieldAccessorMap!
 					if (sourceFieldAccessor.isConstant())
 						continue;
 					

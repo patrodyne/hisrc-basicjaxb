@@ -9,6 +9,8 @@ import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -257,13 +259,22 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 			final JExpression _this = JExpr._this();
 			final FieldOutline[] declaredFields = OutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
 			
-			if (declaredFields.length > 0)
+			// Filter out constant fields
+			Map<FieldOutline, FieldAccessorEx> lhsFieldAccessorMap = new HashMap<>();
+			for (final FieldOutline fieldOutline : declaredFields)
+			{
+				final FieldAccessorEx lhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _this);
+				if ( !lhsFieldAccessor.isConstant() )
+					lhsFieldAccessorMap.put(fieldOutline, lhsFieldAccessor);
+			}
+			
+			if (lhsFieldAccessorMap.size() > 0)
 			{
 				final JVar _that = body.decl(JMod.FINAL, theClass, "that", JExpr.cast(theClass, object));
 				
-				for (final FieldOutline fieldOutline : declaredFields)
+				for (final FieldOutline fieldOutline : lhsFieldAccessorMap.keySet())
 				{
-					final FieldAccessorEx lhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _this);
+					final FieldAccessorEx lhsFieldAccessor = lhsFieldAccessorMap.get(fieldOutline);
 					final FieldAccessorEx rhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _that);
 					
 					if (lhsFieldAccessor.isConstant() || rhsFieldAccessor.isConstant())
