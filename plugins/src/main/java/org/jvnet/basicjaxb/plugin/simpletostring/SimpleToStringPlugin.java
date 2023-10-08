@@ -11,10 +11,8 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
-import org.jvnet.basicjaxb.lang.ToStringFields;
 import org.jvnet.basicjaxb.plugin.codegenerator.AbstractCodeGeneratorPlugin;
 import org.jvnet.basicjaxb.plugin.codegenerator.CodeGenerator;
-import org.jvnet.basicjaxb.util.ClassUtils;
 import org.jvnet.basicjaxb.xjc.outline.FieldAccessorEx;
 
 import com.sun.codemodel.JBlock;
@@ -119,13 +117,12 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 	@Override
 	protected void generate(ClassOutline classOutline, JDefinedClass theClass)
 	{
-		final Boolean sciToStringFields = superClassImplements(classOutline, getIgnoring(), ToStringFields.class, false);
+		String methodName = "toStringFields";
+		String[] methodParms = { "java.lang.StringBuilder" };
+		final Boolean sciToStringFields = superClassImplements(classOutline, getIgnoring(), methodName, methodParms, false);
 		final JMethod toStringFieldsMethod = generateToStringFieldsMethod(classOutline, theClass, sciToStringFields);
 		if ( !sciToStringFields )
-		{
-			ClassUtils._implements(theClass, theClass.owner().ref(ToStringFields.class));
 			generateToStringMethod(theClass, toStringFieldsMethod);
-		}
 	}
 
 	// Method: toString
@@ -170,7 +167,8 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 	{
 		final JCodeModel codeModel = theClass.owner();
 		final JMethod toStringFieldsMethod = theClass.method(JMod.PUBLIC, codeModel.VOID, "toStringFields");
-		toStringFieldsMethod.annotate(Override.class);
+		if ( sciToStringFields )
+			toStringFieldsMethod.annotate(Override.class);
 		toStringFieldsMethod.param(codeModel.ref(StringBuilder.class), "stringBuilder");
 		{
 			final JVar stringBuilder = toStringFieldsMethod.params().get(0);
