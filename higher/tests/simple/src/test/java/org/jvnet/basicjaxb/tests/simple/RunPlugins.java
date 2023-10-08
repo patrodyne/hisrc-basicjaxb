@@ -1,7 +1,4 @@
-/**
- * 
- */
-package org.jvnet.basicjaxb.tests.simple_hashcode_equals_01;
+package org.jvnet.basicjaxb.tests.simple;
 
 import java.io.IOException;
 

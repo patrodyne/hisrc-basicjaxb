@@ -1,4 +1,4 @@
-package org.jvnet.basicjaxb.tests.simple_hashcode_equals_01.customer;
+package org.jvnet.basicjaxb.tests.simple.customer;
 
 import java.util.ArrayList;
 import java.util.Iterator;

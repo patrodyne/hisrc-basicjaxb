@@ -14,7 +14,7 @@
 			generateIsSetMethod="true">
 		</jaxb:globalBindings-->
 		<jaxb:schemaBindings>
-			<jaxb:package name="org.jvnet.basicjaxb.tests.simple_hashcode_equals_01.customer"/>
+			<jaxb:package name="org.jvnet.basicjaxb.tests.simple.customer"/>
 		</jaxb:schemaBindings>
 		<!--jaxb:bindings node="...">
 			choiceContentProperty="true"

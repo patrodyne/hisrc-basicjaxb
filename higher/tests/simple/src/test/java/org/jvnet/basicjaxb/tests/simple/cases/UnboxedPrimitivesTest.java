@@ -1,4 +1,4 @@
-package org.jvnet.basicjaxb.tests.simple_hashcode_equals_01.cases;
+package org.jvnet.basicjaxb.tests.simple.cases;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -1,11 +1,11 @@
-package org.jvnet.basicjaxb.tests.simple_hashcode_equals_01.main;
+package org.jvnet.basicjaxb.tests.simple.main;
 
 import java.io.File;
 import java.net.URL;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.jvnet.basicjaxb.tests.simple_hashcode_equals_01.RunPlugins;
+import org.jvnet.basicjaxb.tests.simple.RunPlugins;
 
 public class RunPluginsForMain extends RunPlugins
 {
