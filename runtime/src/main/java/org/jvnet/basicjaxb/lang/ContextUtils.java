@@ -120,11 +120,11 @@ public class ContextUtils
 	 * 
 	 * @throws JAXBException When the object cannot be marshalled.
 	 */
-	public static String toString(JAXBContext context, Object object)
+	public static String marshalToString(JAXBContext context, Object object)
 		throws JAXBException
 	{
 		final Marshaller marshaller = createMarshaller(context);
-		return toString(marshaller, object);
+		return marshalToString(marshaller, object);
 	}
 	
 	/**
@@ -137,7 +137,7 @@ public class ContextUtils
 	 * 
 	 * @throws JAXBException When the object cannot be marshalled.
 	 */
-	public static String toString(Marshaller marshaller, Object object)
+	public static String marshalToString(Marshaller marshaller, Object object)
 		throws JAXBException
 	{
 		String xml = null;
@@ -168,15 +168,15 @@ public class ContextUtils
 	 * 
 	 * @throws JAXBException When the object cannot be unmarshalled.
 	 */
-	public static <T> T fromString(JAXBContext context, String xml, Class<?> clazz)
+	public static <T> T unmarshalFromString(JAXBContext context, String xml, Class<?> clazz)
 		throws JAXBException
 	{
 		Unmarshaller unmarshaller = context.createUnmarshaller();
-		return fromString(unmarshaller, xml, clazz);
+		return unmarshalFromString(unmarshaller, xml, clazz);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T fromString(Unmarshaller unmarshaller, String xml)
+	public static <T> T unmarshalFromString(Unmarshaller unmarshaller, String xml)
 		throws JAXBException
 	{
 		T instance = null;
@@ -210,7 +210,7 @@ public class ContextUtils
 	 * 
 	 * @throws JAXBException When the object cannot be unmarshalled.
 	 */
-	public static <T> T fromString(Unmarshaller unmarshaller, String xml, Class<?> clazz)
+	public static <T> T unmarshalFromString(Unmarshaller unmarshaller, String xml, Class<?> clazz)
 		throws JAXBException
 	{
 		T instance = null;
@@ -336,6 +336,28 @@ public class ContextUtils
 		return schema;
 	}
 
+
+	/**
+	 * Enable XML Schema Validation for the given schema URL(s).
+	 * URL(s) can be "file:", "classpath:", etc.
+	 * 
+	 * @param unmarshaller Governs the process of deserializing XML data.
+	 * @param marshaller Governs the process of serializing XML data.
+	 * @param schemaUrls A list of XML schema URL(s).
+	 * 
+	 * @throws IOException When an InputStream cannot be used.
+	 * @throws SAXException When an XML schema cannot be parsed.
+	 * @throws JAXBException When marshaller and unmarshaller are not available.
+	 */
+	public static void enableSchemaValidation(Unmarshaller unmarshaller, Marshaller marshaller, String ... schemaUrls)
+		throws IOException, SAXException, JAXBException
+	{
+		if ( (unmarshaller != null) && (marshaller != null) )
+			ContextUtils.enableXmlSchemaValidator(unmarshaller, marshaller, schemaUrls);
+		else
+			throw new JAXBException("Please create marshaller and unmarshaller!");	
+	}
+	
 	public static <T> JAXBElement<T> createJAXBElement(JAXBContext context, T value)
 		throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{

@@ -2,6 +2,8 @@ package org.jvnet.basicjaxb.test.inheritance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.jvnet.basicjaxb.lang.ContextUtils.enableSchemaValidation;
+import static org.jvnet.basicjaxb.lang.ContextUtils.marshalToString;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +42,7 @@ public class InheritanceTest extends AbstractSamplesTest
 		
 		File addressesUK = getSampleMap().get("addressesUK.xml");
 		UKAddress ukAddress = (UKAddress) getUnmarshaller().unmarshal(addressesUK);
-		getLogger().debug(marshalToString(ukAddress));
+		getLogger().debug(marshalToString(getMarshaller(), ukAddress));
 		assertNotNull(ukAddress, "UKAddress expected.");
 		assertEquals("W1W8UU", ukAddress.getPostcode());
 	}
@@ -53,7 +55,7 @@ public class InheritanceTest extends AbstractSamplesTest
 		
 		File addressesUS = getSampleMap().get("addressesUS.xml");
 		USAddress usAddress = (USAddress) getUnmarshaller().unmarshal(addressesUS);
-		getLogger().debug(marshalToString(usAddress));
+		getLogger().debug(marshalToString(getMarshaller(), usAddress));
 		assertNotNull(usAddress, "USAddress expected.");
 		assertEquals("34543", usAddress.getZipcode());
 	}
@@ -61,10 +63,10 @@ public class InheritanceTest extends AbstractSamplesTest
 	@Test
 	public void testContact1() throws IOException, SAXException, JAXBException
 	{
-		enableSchemaValidation( "classpath:contact.xsd" );
+		enableSchemaValidation(getUnmarshaller(), getMarshaller(), "classpath:contact.xsd");
 		File contacts = getSampleMap().get("contact1.xml");
 		Contact contact1 = (Contact) getUnmarshaller().unmarshal(contacts);
-		getLogger().debug(marshalToString(contact1));
+		getLogger().debug(marshalToString(getMarshaller(), contact1));
 		assertNotNull(contact1, "Contact1 expected.");
 		assertEquals("George Washington", contact1.getFullName());
 	}

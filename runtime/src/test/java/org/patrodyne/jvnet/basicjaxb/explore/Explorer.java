@@ -396,12 +396,12 @@ public class Explorer extends AbstractExplorer
 
 	protected String marshalToString(Object instance) throws JAXBException, IOException
 	{
-		return ContextUtils.toString(getMarshaller(), instance);
+		return ContextUtils.marshalToString(getMarshaller(), instance);
 	}
 
 	protected <T> T unmarshalFromString(String xml) throws JAXBException
 	{
-		return ContextUtils.fromString(getUnmarshaller(), xml);
+		return ContextUtils.unmarshalFromString(getUnmarshaller(), xml);
 	}
 	
 	/*

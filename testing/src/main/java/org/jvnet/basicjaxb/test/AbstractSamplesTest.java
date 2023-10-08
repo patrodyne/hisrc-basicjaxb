@@ -5,7 +5,6 @@ import static java.util.Arrays.sort;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,10 +16,8 @@ import jakarta.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
-import org.jvnet.basicjaxb.lang.ContextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
 
 /**
  * A test harness to test XML sample files in a JAXB context.
@@ -223,55 +220,6 @@ public abstract class AbstractSamplesTest
 	 */
 	protected abstract void checkSample(File sample)
 		throws Exception;
-
-	/**
-	 * Marshal the given instance to a XML representation.
-	 * 
-	 * @param instance The object to be marshaled.
-	 * 
-	 * @return An XML representation of the given instance.
-	 * 
-	 * @throws JAXBException When the object cannot be marshalled.
-	 */
-	protected String marshalToString(Object instance) throws JAXBException
-	{
-		return ContextUtils.toString(getMarshaller(), instance);
-	}
-
-	/**
-	 * Enable XML Schema Validation for the given schema URL(s).
-	 * URL(s) can be "file:", "classpath:", etc.
-	 * 
-	 * @param schemaUrls A list of XML schema URL(s).
-	 * 
-	 * @throws IOException When an InputStream cannot be used.
-	 * @throws SAXException When an XML schema cannot be parsed.
-	 * @throws JAXBException When marshaller and unmarshaller are not available.
-	 */
-	protected void enableSchemaValidation(String ... schemaUrls)
-		throws IOException, SAXException, JAXBException
-	{
-		if ( (getMarshaller() != null) && (getUnmarshaller() != null) )
-			ContextUtils.enableXmlSchemaValidator(getUnmarshaller(), getMarshaller(), schemaUrls);
-		else
-			throw new JAXBException("Please create marshaller and unmarshaller!");	
-	}
-	
-	/**
-	 * Enable XML Schema Validation for the current JAXBContext.
-	 * 
-	 * @throws IOException When an SchemaOutputDomResolver cannot be used.
-	 * @throws SAXException When an XML schema cannot be parsed.
-	 * @throws JAXBException When marshaller and unmarshaller are not available.
-	 */
-	protected void enableXmlSchemaValidator()
-		throws IOException, SAXException, JAXBException
-	{
-		if ( (getMarshaller() != null) && (getUnmarshaller() != null) )
-			ContextUtils.enableXmlSchemaValidator(getUnmarshaller(), getMarshaller(), getJaxbContext());
-		else
-			throw new JAXBException("Please create marshaller and unmarshaller!");
-	}
 
 	/**
 	 * Scan the samples path for all file(s) and call the <code>checkSample(sampleFile)</code>
