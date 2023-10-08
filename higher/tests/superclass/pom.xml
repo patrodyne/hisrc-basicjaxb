@@ -18,6 +18,12 @@
 		<module>a</module>
 		<module>b</module>
 	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-runtime</artifactId>
+		</dependency>
+	</dependencies>
 	<build>
 		<defaultGoal>test</defaultGoal>
 	</build>

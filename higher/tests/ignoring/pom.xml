@@ -16,6 +16,10 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-runtime</artifactId>
+		</dependency>
+		<dependency>
 			<!-- m2e wants this on classpath -->
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-plugins</artifactId>
