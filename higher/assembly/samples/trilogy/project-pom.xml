@@ -30,6 +30,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-tools</artifactId>
+			<version>\${hisrc-basicjaxb.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-testing</artifactId>
 			<version>\${hisrc-basicjaxb.version}</version>
 			<scope>test</scope>
