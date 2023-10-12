@@ -63,6 +63,7 @@
 				<version>${exec-maven-plugin.version}</version>
 				<configuration>
 					<mainClass>org.example.trilogy.Main</mainClass>
+					<classpathScope>test</classpathScope>
 				</configuration>
 			</plugin>
 			<!-- mvn hisrc-higherjaxb:help -Ddetail=true -->
@@ -121,7 +122,7 @@
 			<id>exec</id>
 			<activation>
 				<property>
-					<name>org.jvnet.higherjaxb.profile</name>
+					<name>org.jvnet.basicjaxb.profile</name>
 					<value>exec</value>
 				</property>
 			</activation>
@@ -150,7 +151,7 @@
 			<id>test</id>
 			<activation>
 				<property>
-					<name>org.jvnet.higherjaxb.profile</name>
+					<name>org.jvnet.basicjaxb.profile</name>
 					<value>!exec</value>
 				</property>
 			</activation>
