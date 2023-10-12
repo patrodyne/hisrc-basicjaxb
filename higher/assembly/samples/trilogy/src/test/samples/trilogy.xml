@@ -4,6 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://example.org/trilogy ../../main/resources/trilogy.xsd"
 >
+	<author>Isaac Asimov</author>
 	<toc>
 		<book1>Foundation</book1>
 		<book2>Foundation and Empire</book2>

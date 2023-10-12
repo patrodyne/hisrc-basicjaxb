@@ -7,6 +7,7 @@
 	<xs:element name="trilogy">
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element name="author" type="xs:string"/>
 				<xs:element name="toc">
 					<xs:complexType>
 						<xs:sequence>
