@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<trilogy title="The Foundation Trilogy"
+	xmlns="http://example.org/trilogy"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://example.org/trilogy ../../main/resources/trilogy.xsd"
+>
+	<toc>
+		<book1>Foundation</book1>
+		<book2>Foundation and Empire</book2>
+		<book3>Second Foundation</book3>
+	</toc>
+	<book title="Foundation">
+		<toc>
+			<chapter>The Psychohistorians</chapter>
+			<chapter>The Encyclopedists</chapter>
+			<chapter>The Mayors</chapter>
+			<chapter>The Traders</chapter>
+			<chapter>The Merchant Princes</chapter>
+		</toc>
+		<content>The book introduces Hari Seldon, a brilliant visionary and psychohistorian whose job is to use mathematics and probability to predict the future.</content>
+	</book>
+	<book title="Foundation and Empire">
+		<toc>
+			<chapter>The General</chapter>
+			<chapter>The Mule</chapter>
+		</toc>
+		<content>The novel continues the saga of the collapse of the Galactic Empire and the rise of the Foundation that tries to shorten the dark times ahead.</content>
+	</book>
+	<book title="Second Foundation">
+		<toc>
+			<chapter>Search By the Mule</chapter>
+			<chapter>Search By the Foundation</chapter>
+		</toc>
+		<content>It details two unsuccessful attempts to try to find and destroy the Second Foundation.</content>
+	</book>
+</trilogy>

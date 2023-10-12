@@ -23,6 +23,7 @@
 		<module>po</module>
 		<module>po-shaded</module>
 		<module>po-simple</module>
+		<module>trilogy</module>
 		<module>xjc-basic</module>
 	</modules>
 </project>

@@ -1,0 +1,116 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------< org.patrodyne.jvnet:hisrc-basicjaxb-sample-trilogy >---------
+[INFO] Building HiSrc BasicJAXB - Sample [trilogy] 2.1.1
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hisrc-basicjaxb-sample-trilogy ---
+[INFO] Deleting hisrc-basicjaxb-sample-trilogy-2.1.1/target
+[INFO] 
+[INFO] --- hisrc-higherjaxb:2.1.1:generate (default) @ hisrc-basicjaxb-sample-trilogy ---
+[INFO] Sources are not up-to-date, XJC will be executed.
+[INFO] XJC> XhashCode: : Start
+Parameters
+  HashCodeStrategyClass.: org.jvnet.basicjaxb.lang.JAXBHashCodeStrategy
+  Verbose...............: true
+  Debug.................: true
+[INFO] XJC> XhashCode: : Finish
+Results
+  HadError.: false
+[INFO] XJC> Xequals: : Start
+Parameters
+  EqualsStrategyClass.: org.jvnet.basicjaxb.lang.JAXBEqualsStrategy
+  Verbose.............: true
+  Debug...............: true
+[INFO] XJC> Xequals: : Finish
+Results
+  HadError.: false
+[INFO] XJC> XtoString: : Start
+Parameters
+  ToStringStrategyClass.: org.jvnet.basicjaxb.lang.JAXBToStringStrategy
+  Verbose...............: true
+  Debug.................: true
+[INFO] XJC> XtoString: : Finish
+Results
+  HadError.: false
+[INFO] Episode file [hisrc-basicjaxb-sample-trilogy-2.1.1/target/generated-sources/xjc/META-INF/sun-jaxb.episode] was augmented with if-exists="true" attributes.
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hisrc-basicjaxb-sample-trilogy ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] Copying 1 resource from target/generated-sources/xjc to target/classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ hisrc-basicjaxb-sample-trilogy ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 8 source files with javac [debug release 11] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hisrc-basicjaxb-sample-trilogy ---
+[INFO] Copying 3 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ hisrc-basicjaxb-sample-trilogy ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 1 source file with javac [debug release 11] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ hisrc-basicjaxb-sample-trilogy ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.example.trilogy.TrilogyTest
+14:44:47:096 INFO Schema Validation of XML is ON.
+14:44:47:099 DEBUG Testing samples, start
+14:44:47:101 DEBUG Sample directory [hisrc-basicjaxb-sample-trilogy-2.1.1/src/test/samples].
+14:44:47:118 DEBUG Testing sample, start [trilogy.xml].
+14:44:47:142 DEBUG Trilogy:
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<trilogy title="The Foundation Trilogy" xmlns="http://example.org/trilogy">
+    <toc>
+        <book1>Foundation</book1>
+        <book2>Foundation and Empire</book2>
+        <book3>Second Foundation</book3>
+    </toc>
+    <book title="Foundation">
+        <toc>
+            <chapter>The Psychohistorians</chapter>
+            <chapter>The Encyclopedists</chapter>
+            <chapter>The Mayors</chapter>
+            <chapter>The Traders</chapter>
+            <chapter>The Merchant Princes</chapter>
+        </toc>
+        <content>The book introduces Hari Seldon, a brilliant visionary and psychohistorian whose job is to use mathematics and probability to predict the future.</content>
+    </book>
+    <book title="Foundation and Empire">
+        <toc>
+            <chapter>The General</chapter>
+            <chapter>The Mule</chapter>
+        </toc>
+        <content>The novel continues the saga of the collapse of the Galactic Empire and the rise of the Foundation that tries to shorten the dark times ahead.</content>
+    </book>
+    <book title="Second Foundation">
+        <toc>
+            <chapter>Search By the Mule</chapter>
+            <chapter>Search By the Foundation</chapter>
+        </toc>
+        <content>It details two unsuccessful attempts to try to find and destroy the Second Foundation.</content>
+    </book>
+</trilogy>
+
+14:44:47:146 TRACE Book: TrilogyBookType@512baff6[TrilogyBookTocType@632ceb35[<size=5>], The book introduces Hari Seldon, a brilliant visionary and psychohistorian whose job is to use mathematics and probability to predict the future., Foundation]
+14:44:47:146 TRACE Book: TrilogyBookType@1c93f6e1[TrilogyBookTocType@1800a575[<size=2>], The novel continues the saga of the collapse of the Galactic Empire and the rise of the Foundation that tries to shorten the dark times ahead., Foundation and Empire]
+14:44:47:146 TRACE Book: TrilogyBookType@1458ed9c[TrilogyBookTocType@10a9d961[<size=2>], It details two unsuccessful attempts to try to find and destroy the Second Foundation., Second Foundation]
+14:44:47:147 INFO Testing sample, SUCCESS [trilogy.xml].
+14:44:47:147 DEBUG Testing samples, finish
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.379 s -- in org.example.trilogy.TrilogyTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.378 s
+[INFO] Finished at: 2023-10-12T14:44:47-04:00
+[INFO] ------------------------------------------------------------------------

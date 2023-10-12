@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema elementFormDefault="qualified"
+	targetNamespace="http://example.org/trilogy"
+	xmlns:tns="http://example.org/trilogy"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:element name="trilogy">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="toc">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="book1" type="xs:string"/>
+							<xs:element name="book2" type="xs:string"/>
+							<xs:element name="book3" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="book" minOccurs="3" maxOccurs="3">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="toc">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="chapter" type="xs:string" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="content" type="xs:string"/>
+						</xs:sequence>
+						<xs:attribute name="title" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="title" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

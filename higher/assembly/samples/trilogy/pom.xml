@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.patrodyne.jvnet</groupId>
+		<artifactId>hisrc-basicjaxb-higher-assembly-samples</artifactId>
+		<version>2.1.2-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>hisrc-basicjaxb-sample-trilogy</artifactId>
+	<packaging>pom</packaging>
+	<name>HiSrc BasicJAXB - Sample [trilogy]</name>
+
+	<properties>
+		<root.basedir>${basedir}/../../../..</root.basedir>
+	</properties>
+
+	<build>
+		<defaultGoal>package</defaultGoal>
+		<finalName>${project.artifactId}-${hisrc-basicjaxb.version}</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>maven-assembly</id>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>maven-unpack</id>
+						<phase>pre-integration-test</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-invoker-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>maven-integration-test</id>
+						<phase>integration-test</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
