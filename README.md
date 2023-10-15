@@ -44,6 +44,15 @@ original `maven-jaxb2-plugin` name.
 * Index
 	* [Central Repository](https://repo1.maven.org/maven2/org/patrodyne/jvnet/)
 
+#### JavaDoc
+
+* [hisrc-basicjaxb-ant][40]
+* [hisrc-basicjaxb-plugins][41]
+* [hisrc-basicjaxb-runtime][42]
+* [hisrc-basicjaxb-shaded][43]
+* [hisrc-basicjaxb-testing][44]
+* [hisrc-basicjaxb-tools][45]
+
 ### Goals
 
 New goals for the next release are:
@@ -168,4 +177,10 @@ New goals for the next release are:
   [32]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.0.0
   [33]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.1.0
   [34]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.1.1
+  [40]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-ant/latest/index.html
+  [41]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-plugins/latest/index.html
+  [42]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-runtime/latest/index.html
+  [43]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-shaded/latest/index.html
+  [44]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-testing/latest/index.html
+  [45]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-tools/latest/index.html
 
