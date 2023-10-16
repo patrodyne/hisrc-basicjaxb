@@ -121,11 +121,16 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 		String[] methodParms = { "java.lang.StringBuilder" };
 		final Boolean sciToStringFields = superClassImplements(classOutline, getIgnoring(), methodName, methodParms, false);
 		final JMethod toStringFieldsMethod = generateToStringFieldsMethod(classOutline, theClass, sciToStringFields);
+		// This plugin needs to override the toString() method, once, on the base of its
+		// class hierarchy. If the current superclass implements the toStringFields(...)
+		// then we can assume the custom toString() method exists on the base class and
+		// we do not need to generate the toString() method on the current class because
+		// it will be inherited from the base.
 		if ( !sciToStringFields )
 			generateToStringMethod(theClass, toStringFieldsMethod);
 	}
 
-	// Method: toString
+	// Add Method: toString
 	private void generateToStringMethod(JDefinedClass theClass,	final JMethod toStringFieldsMethod)
 	{
 		final JCodeModel codeModel = theClass.owner();
@@ -162,7 +167,7 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 		debug("{}, generateToStringMethod; Class={}", toLocation(theClass.metadata), theClass.name());
 	}
 
-	// Method: toStringFields
+	// Add Method: toStringFields
 	private JMethod generateToStringFieldsMethod(ClassOutline classOutline, JDefinedClass theClass, Boolean sciToStringFields)
 	{
 		final JCodeModel codeModel = theClass.owner();
