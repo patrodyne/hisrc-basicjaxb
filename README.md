@@ -13,6 +13,10 @@ processing. Repo and artifact names have been changed to reflect the familial
 connection between the repositories and to fix a conformance issue with the
 original `maven-jaxb2-plugin` name.
 
+> **Hint:** You can manage the number of spaces a tab is equal to for your
+> GitHub personal account (i.e. 1 tab = 4 spaces) when viewing files in this
+> repository. [Here's how][8].
+
 ### List of repositories in this family
 
 | Patrodyne                   | Highsource                  | Purpose                                                |
@@ -163,6 +167,7 @@ New goals for the next release are:
   [5]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/doc/inheritance.xsd
   [6]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/valueconstructor/ValueConstructorPlugin.java
   [7]: https://github.com/patrodyne/hisrc-basicjaxb/releases/download/2.1.1/hisrc-basicjaxb-sample-xjc-basic-2.1.1-mvn-src.zip
+  [8]: https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-user-account-settings/managing-your-tab-size-rendering-preference
   [11]: https://github.com/patrodyne/hisrc-basicjaxb-annox#readme
   [12]: https://github.com/patrodyne/hisrc-basicjaxb#readme
   [13]: https://github.com/patrodyne/hisrc-higherjaxb#readme
