@@ -1,0 +1,14 @@
+<con:ContactEMailList EMailListName="Contact2"
+	xmlns:con="http://example.org/contact"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://example.org/contact ../../main/resources/contact.xsd"
+>
+	<ContactEMail>
+		<EMailType>Home</EMailType>
+		<EMailAddress>LisaWalsh@example.org</EMailAddress>
+	</ContactEMail>
+	<ContactEMail>
+		<EMailType>Work</EMailType>
+		<EMailAddress>LisaWalsh@example.com</EMailAddress>
+	</ContactEMail>
+</con:ContactEMailList>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	targetNamespace="http://example.org/contact"
+	xmlns:tns="http://example.org/contact"
+	xmlns:vc="http://jvnet.org/basicjaxb/xjc/valueconstructor"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	jaxb:extensionBindingPrefixes="vc"
+	jaxb:version="3.0"
+>
+
+	<xs:complexType name="AddressType">
+		<xs:sequence>
+			<xs:element name="ContactFirstName" type="xs:string" />
+			<xs:element name="ContactMiddleName" type="xs:string" />
+			<xs:element name="ContactLastName" type="xs:string" />
+			<xs:element name="Line1" type="xs:string" />
+			<xs:element name="Line2" type="xs:string" />
+			<xs:element name="Line3" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<vc:ignored />
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CityAddressType">
+		<xs:complexContent>
+			<xs:extension base="tns:AddressType">
+				<xs:sequence>
+					<xs:element name="Area" type="tns:areaType" />
+					<xs:element name="City" type="xs:string" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UKAddressType">
+		<xs:complexContent>
+			<xs:extension base="tns:CityAddressType">
+				<xs:sequence>
+					<xs:element name="County" type="xs:string" />
+					<xs:element name="Postcode" type="xs:string" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="USAddressType">
+		<xs:annotation>
+			<xs:appinfo><vc:ignored/></xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:CityAddressType">
+				<xs:sequence>
+					<xs:element name="State" type="xs:string" />
+					<xs:element name="Zipcode" type="xs:string" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:simpleType name="areaType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="North" />
+			<xs:enumeration value="East" />
+			<xs:enumeration value="West" />
+			<xs:enumeration value="South" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="ContactType">
+		<xs:sequence>
+			<xs:element name="FirstName" type="xs:string" />
+			<xs:element name="MiddleName" type="xs:string" />
+			<xs:element name="LastName" type="xs:string" />
+		</xs:sequence>
+		<xs:attribute name="NickName" type="xs:string" use="required" />
+		<xs:attribute name="BirthDay" type="xs:gMonthDay" use="optional" />
+	</xs:complexType>
+
+	<xs:element name="ContactEMailList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ContactEMail" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EMailId1" type="xs:string">
+								<xs:annotation>
+									<xs:appinfo>
+										<vc:ignored />
+									</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="EMailType" type="xs:string" minOccurs="0"/>
+							<xs:element name="EMailAddress" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+						<xs:attribute name="EMailId2" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:appinfo>
+									<vc:ignored />
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="EMailListName" type="xs:string" use="required" />
+		</xs:complexType>
+		<xs:key name="ContactEMailListKey">
+            <xs:selector xpath="." />
+            <xs:field xpath="@EMailListName" />
+        </xs:key>
+		<xs:key name="ContactEMailKey">
+            <xs:selector xpath="ContactEMail" />
+            <xs:field xpath="EMailAddress" />
+        </xs:key>
+	</xs:element>
+
+	<xs:element name="MediaAddressAny" type="xs:string"/>
+	<xs:element name="MediaAddressURI" type="xs:anyURI"/>
+
+	<xs:element name="ContactMedia" type="tns:ContactMediaType" />
+	
+	<xs:complexType name="ContactMediaType" >
+		<xs:sequence>
+			<xs:element name="MediaType" type="xs:string"/>
+			<xs:element name="MediaAddress">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element ref="tns:MediaAddressURI" />
+						<xs:element ref="tns:MediaAddressAny" />
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="ContactMediaList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:ContactMedia" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="MediaListName" type="xs:string" use="required" />
+		</xs:complexType>
+		<xs:key name="ContactMediaListKey">
+            <xs:selector xpath="." />
+            <xs:field xpath="@MediaListName" />
+        </xs:key>
+		<xs:key name="ContactMediaKey">
+            <xs:selector xpath="ContactMedia" />
+            <xs:field xpath="MediaAddress" />
+        </xs:key>
+	</xs:element>
+
+	<xs:complexType name="ContactBookType">
+		<xs:sequence>
+			<xs:element name="Contact" type="tns:ContactType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PhoneList">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Phone" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="PhoneType" type="xs:string" />
+									<xs:element name="PhoneNumber" type="xs:string" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:key name="PhoneListKey">
+		            <xs:selector xpath="Phone" />
+		            <xs:field xpath="PhoneNumber" />
+		        </xs:key>
+			</xs:element>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="UKAddress" type="tns:UKAddressType" />
+				<xs:element name="USAddress" type="tns:USAddressType" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="BookName" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:element name="ContactBook" type="tns:ContactBookType">
+		<xs:key name="ContactBookKey">
+            <xs:selector xpath="." />
+            <xs:field xpath="@BookName" />
+        </xs:key>
+		<xs:key name="ContactKey">
+            <xs:selector xpath="Contact" />
+            <xs:field xpath="FirstName" />
+            <xs:field xpath="MiddleName" />
+            <xs:field xpath="LastName" />
+        </xs:key>
+        <xs:keyref name="AddressContactKeyRef" refer="tns:ContactKey">
+            <xs:selector xpath="UKAddress | USAddress" />
+            <xs:field xpath="ContactFirstName" />
+            <xs:field xpath="ContactMiddleName" />
+            <xs:field xpath="ContactLastName" />
+        </xs:keyref>
+		<xs:unique name="ContactU01">
+            <xs:selector xpath="Contact" />
+            <xs:field xpath="@NickName" />
+            <xs:field xpath="@BirthDay" />
+		</xs:unique>
+		<xs:unique name="ContactU02">
+            <xs:selector xpath="Contact" />
+            <xs:field xpath="FirstName" />
+            <xs:field xpath="MiddleName" />
+            <xs:field xpath="LastName" />
+		</xs:unique>
+	</xs:element>
+
+</xs:schema>

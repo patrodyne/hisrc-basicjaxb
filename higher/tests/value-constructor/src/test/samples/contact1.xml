@@ -1,0 +1,48 @@
+<con:ContactBook BookName="Contact1"
+	xmlns:con="http://example.org/contact"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://example.org/contact ../../main/resources/contact.xsd"
+>
+	<Contact NickName="Lisa" BirthDay="--05-01">
+		<FirstName>Lisa</FirstName>
+		<MiddleName>Marie</MiddleName>
+		<LastName>Walsh</LastName>
+	</Contact>
+	<Contact NickName="Bob" BirthDay="--07-15">
+		<FirstName>Robert</FirstName>
+		<MiddleName>Sebastian</MiddleName>
+		<LastName>Walsh</LastName>
+	</Contact>
+	<PhoneList>
+		<Phone>
+			<PhoneType>Mobile</PhoneType>
+			<PhoneNumber>555-111-1111</PhoneNumber>
+		</Phone>
+		<Phone>
+			<PhoneType>Work</PhoneType>
+			<PhoneNumber>555-222-2222</PhoneNumber>
+		</Phone>
+	</PhoneList>
+	<UKAddress>
+		<ContactFirstName>Lisa</ContactFirstName>
+		<ContactMiddleName>Marie</ContactMiddleName>
+		<ContactLastName>Walsh</ContactLastName>
+	    <Line1>34 Someplace Street</Line1>
+	    <Line2>Bldg A</Line2>
+	    <Area>South</Area>
+	    <City>Taunton</City>
+	    <County>Somerset</County>
+    	<Postcode>W1W8UU</Postcode>
+	</UKAddress>
+	<USAddress>
+		<ContactFirstName>Robert</ContactFirstName>
+		<ContactMiddleName>Sebastian</ContactMiddleName>
+		<ContactLastName>Walsh</ContactLastName>
+	    <Line1>234 Lancaster Av</Line1>
+	    <Line2>Apt 3</Line2>
+	    <Area>North</Area>
+	    <City>Smallville</City>
+	    <State>Florida</State>
+	    <Zipcode>34543</Zipcode>
+	</USAddress>
+</con:ContactBook>

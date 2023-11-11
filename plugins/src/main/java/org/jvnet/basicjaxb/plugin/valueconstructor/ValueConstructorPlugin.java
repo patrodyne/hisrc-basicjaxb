@@ -1,13 +1,19 @@
 package org.jvnet.basicjaxb.plugin.valueconstructor;
 
+import static com.sun.xml.xsom.XSIdentityConstraint.KEY;
+import static com.sun.xml.xsom.XSIdentityConstraint.KEYREF;
+import static com.sun.xml.xsom.XSIdentityConstraint.UNIQUE;
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.valueconstructor.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.util.FieldAccessorUtils.field;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,27 +24,50 @@ import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
+import org.jvnet.basicjaxb.plugin.util.Selector;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
+import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
+import com.sun.xml.xsom.XSAttributeUse;
+import com.sun.xml.xsom.XSComplexType;
+import com.sun.xml.xsom.XSElementDecl;
+import com.sun.xml.xsom.XSIdentityConstraint;
+import com.sun.xml.xsom.XSParticle;
+import com.sun.xml.xsom.XSSchemaSet;
+import com.sun.xml.xsom.XSType;
 
 /**
  * <p>
- * Generate two constructors for each generated class, one of which is a default
- * constructor, the other takes an argument for each field in the class and
- * Initializes the field with the argument value.
+ * Generate constructors for each generated class, one of which is a default
+ * constructor, the others take an argument for each field in the class and
+ * initializes the field with the argument value.
+ * </p>
+ * 
+ * <p>
+ * Constructor can be created for complete, required or selector fields using these
+ * XJC option arguments:
+ * <ul>
+ * 	<li>XvalueConstructor-complete=[true|false]</li>
+ * 	<li>XvalueConstructor-required=[true|false]</li>
+ * 	<li>XvalueConstructor-selected=[true|false]</li>
+ * 	<li>XvalueConstructor-selected-key=[true|false]</li>
+ * 	<li>XvalueConstructor-selected-keyref=[true|false]</li>
+ * 	<li>XvalueConstructor-selected-unique=[true|false]</li>
+ * </ul>
  * </p>
  * 
  * <p>
@@ -105,6 +134,36 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 		);
 	}
 	
+	// XvalueConstructor-complete
+	private boolean complete = true;
+	public boolean isComplete() { return complete; }
+	public void setComplete(boolean complete) { this.complete = complete; }
+	
+	// XvalueConstructor-required
+	private boolean required = true;
+	public boolean isRequired() { return required; }
+	public void setRequired(boolean required) { this.required = required; }
+	
+	// XvalueConstructor-selected
+	private boolean selected = true;
+	public boolean isSelected() { return selected; }
+	public void setSelected(boolean selected) { this.selected = selected; }
+	
+	// XvalueConstructor-selected-key
+	private boolean selectedKey = true;
+	public boolean isSelectedKey() { return selectedKey; }
+	public void setSelectedKey(boolean selectedKey) { this.selectedKey = selectedKey; }
+	
+	// XvalueConstructor-selected-keyref
+	private boolean selectedKeyRef = false;
+	public boolean isSelectedKeyRef() { return selectedKeyRef; }
+	public void setSelectedKeyRef(boolean selectedKeyRef) { this.selectedKeyRef = selectedKeyRef; }
+	
+	// XvalueConstructor-selected-unique
+	private boolean selectedUnique = true;
+	public boolean isSelectedUnique() { return selectedUnique; }
+	public void setSelectedUnique(boolean selectedUnique) { this.selectedUnique = selectedUnique; }
+	
 	// Plugin Processing
 	
 	@Override
@@ -115,8 +174,14 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  Verbose.: " + isVerbose());
-			sb.append("\n  Debug...: " + isDebug());
+			sb.append("\n  Complete.......: " + isComplete());
+			sb.append("\n  Required.......: " + isRequired());
+			sb.append("\n  Selected.......: " + isSelected());
+			sb.append("\n  SelectedKey....: " + isSelectedKey());
+			sb.append("\n  SelectedKeyRef.: " + isSelectedKeyRef());
+			sb.append("\n  SelectedUnique.: " + isSelectedUnique());
+			sb.append("\n  Verbose........: " + isVerbose());
+			sb.append("\n  Debug..........: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -168,13 +233,20 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 	public boolean run(Outline outline)
 		throws Exception
 	{
+		ClassOutline[] filteredClassOutlines = filter(outline, getIgnoring());
+		
+		// Process filtered selectors
+		List<Selector> selectors = new ArrayList<>();
+		if ( isSelected() )
+			selectors = processSelectors(outline, filteredClassOutlines);
+		
 		// Filter ignored class outlines
-		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
-			processClassOutline(classOutline);
+		for ( final ClassOutline classOutline : filteredClassOutlines )
+			processClassOutline(classOutline, selectors);
 
 		return !hadError(outline.getErrorReceiver());
 	}
-	
+
 	/**
 	 * Process the XJC {@link ClassOutline} instance. The goal is to add a constructor to
 	 * initialize all non-ignored fields from the given {@link ClassOutline} instance and
@@ -182,38 +254,206 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 	 * 
 	 * @param theClassOutline A class outline from the XJC framework.
 	 */
-	protected void processClassOutline(ClassOutline theClassOutline)
+	protected void processClassOutline(ClassOutline theClassOutline, List<Selector> selectors)
 	{
 		JDefinedClass theDefinedClass = theClassOutline.implClass;
-
-		FieldOutline[] superClassFilteredFields = getSuperClassFilteredFields(theClassOutline);
-		FieldOutline[] theClassFilteredFields = filter(theClassOutline.getDeclaredFields(), getIgnoring());
 		
-		// If the class or its (generated) superclass has fields after filtering
-		// then generate a value constructor
-		if ( (superClassFilteredFields.length != 0) || (theClassFilteredFields.length != 0)  )
+		FieldOutline[] superFields = getSuperClassFilteredFields(theClassOutline);
+		FieldOutline[] localFields = filter(theClassOutline.getDeclaredFields(), getIgnoring());
+		
+		List<ConstructorArgs> constructorArgsList = new ArrayList<>();
+		
+		if ( isComplete() )
 		{
-			// Create the default, no-arg constructor
-			final JMethod defaultConstructor = theDefinedClass.constructor(JMod.PUBLIC);
-			defaultConstructor.javadoc().add("Default no-arg constructor");
-			defaultConstructor.body().invoke("super");
-			
-			// Create the skeleton of the value constructor
-			final JMethod valueConstructor = theDefinedClass.constructor(JMod.PUBLIC);
-			valueConstructor.javadoc().add("Field-initializing value constructor");
-
-			// If our superclass is also being generated, then we can assume it will also
-			// have its own value constructor, so we add an invocation of that constructor.
-			if (theDefinedClass._extends() instanceof JDefinedClass)
-				generateSuperArgs(valueConstructor, theDefinedClass, superClassFilteredFields);
-
-			// Now add constructor parameters for each field in "this" class, 
-			// and assign them to our fields.
-			generateLocalArgs(valueConstructor, theDefinedClass, theClassFilteredFields);
+			if ( (superFields.length != 0) || (localFields.length != 0)  )
+			{
+				String javadoc = "Complete field constructor";
+				ConstructorArgs constructorArgs = new ConstructorArgs(theDefinedClass, superFields, localFields, javadoc);
+				if ( !constructorArgsList.contains(constructorArgs) )
+					constructorArgsList.add(constructorArgs);
+			}
 		}
-		debug("{}, processClassOutline; Class={}", toLocation(theDefinedClass.metadata), theDefinedClass.name());
+
+		if ( isRequired() )
+		{
+			List<FieldOutline> reqSuperFields = new ArrayList<>();
+			List<FieldOutline> reqLocalFields = new ArrayList<>();
+			
+			filterRequired(superFields, reqSuperFields);
+			filterRequired(localFields, reqLocalFields);
+			
+			if ( !reqSuperFields.isEmpty() || !reqLocalFields.isEmpty()  )
+			{
+				String javadoc = "Required field constructor";
+				ConstructorArgs constructorArgs = new ConstructorArgs(theDefinedClass, reqSuperFields, reqLocalFields, javadoc);
+				if ( !constructorArgsList.contains(constructorArgs) )
+					constructorArgsList.add(constructorArgs);
+			}
+		}
+
+		if ( isSelected() )
+		{
+			for ( Selector selector : selectors )
+			{
+				List<FieldOutline> selSuperFields = new ArrayList<>();
+				List<FieldOutline> selLocalFields = new ArrayList<>();
+				List<JFieldVar> selFieldList = selector.getSelectedFieldMap().get(theDefinedClass);
+				
+				if ( selFieldList != null )
+				{
+					for ( FieldOutline superField : superFields )
+					{
+						if ( selFieldList.contains(field(superField)) )
+							selSuperFields.add(superField);
+					}
+
+					for ( FieldOutline localField : localFields )
+					{
+						if ( selFieldList.contains(field(localField)) )
+							selLocalFields.add(localField);
+					}
+
+					if ( !selSuperFields.isEmpty() || !selLocalFields.isEmpty()  )
+					{
+						String javadoc = "Selector field constructor: " + selector.getIdentityConstraint().getName();
+						ConstructorArgs constructorArgs = new ConstructorArgs(theDefinedClass, selSuperFields, selLocalFields, javadoc);
+						if ( !constructorArgsList.contains(constructorArgs) )
+							constructorArgsList.add(constructorArgs);
+					}
+				}
+			}
+		}
+		
+		for ( ConstructorArgs constructorArgs : constructorArgsList )
+			processFieldOutlines(constructorArgs);
+		
+		if ( !constructorArgsList.isEmpty() )
+			processFieldOutlines(theDefinedClass, "Default constructor");
 	}
 
+	private void filterRequired(FieldOutline[] theFields, List<FieldOutline> reqFields)
+	{
+		for ( FieldOutline theField : theFields )
+		{
+			CPropertyInfo fieldInfo = theField.getPropertyInfo();
+		    if ( fieldInfo.getSchemaComponent() instanceof XSAttributeUse )
+		    {
+		        // An XSAttributeUse provides isRequired, defaultValue and fixedValue for an XSAttributeDecl.
+		        XSAttributeUse attribute = (XSAttributeUse) fieldInfo.getSchemaComponent();
+		        if ( attribute.isRequired() )
+					reqFields.add(theField);
+		    }
+		    else if ( fieldInfo.getSchemaComponent() instanceof XSParticle )
+		    {
+		    	XSParticle particle = (XSParticle) fieldInfo.getSchemaComponent();
+		    	if ( particle.getMinOccurs() != null )
+		    	{
+		        	if ( particle.getMinOccurs().compareTo(BigInteger.ZERO) > 0 )
+						reqFields.add(theField);
+		    	}
+		    }
+		}
+	}
+
+	// Create the default, no-arg constructor
+	private void processFieldOutlines(JDefinedClass theDefinedClass, String javadoc)
+	{
+		final JMethod defaultConstructor = theDefinedClass.constructor(JMod.PUBLIC);
+		defaultConstructor.javadoc().add(javadoc);
+		defaultConstructor.body().invoke("super");
+		debug("{}, processFieldOutlines; Class={}, JavaDoc={}", toLocation(theDefinedClass.metadata), theDefinedClass.name(), javadoc);
+	}
+
+	private void processFieldOutlines(ConstructorArgs args)
+	{
+		processFieldOutlines(args.getDefinedClass(), args.getSuperFieldList(), args.getLocalFieldList(), args.getJavaDoc());
+	}
+
+	private void processFieldOutlines(JDefinedClass theDefinedClass,
+		List<FieldOutline> superFieldList, List<FieldOutline> localFieldList, String javadoc)
+	{
+		FieldOutline[] superFields = superFieldList.toArray(new FieldOutline[superFieldList.size()]);
+		FieldOutline[] localFields = localFieldList.toArray(new FieldOutline[localFieldList.size()]);
+		processFieldOutlines(theDefinedClass, superFields, localFields, javadoc);
+	}
+	
+	private void processFieldOutlines(JDefinedClass theDefinedClass,
+		FieldOutline[] superFields, FieldOutline[] localFields, String javadoc)
+	{
+		// Create the skeleton of the value constructor
+		final JMethod valueConstructor = theDefinedClass.constructor(JMod.PUBLIC);
+		valueConstructor.javadoc().add(javadoc);
+
+		// If our superclass is also being generated, then we can assume it will also
+		// have its own value constructor, so we add an invocation of that constructor.
+		if (theDefinedClass._extends() instanceof JDefinedClass)
+			generateSuperArgs(valueConstructor, theDefinedClass, superFields);
+
+		// Now add constructor parameters for each field in "this" class, 
+		// and assign them to our fields.
+		generateLocalArgs(valueConstructor, theDefinedClass, localFields);
+		
+		debug("{}, processFieldOutlines; Class={}, JavaDoc={}", toLocation(theDefinedClass.metadata), theDefinedClass.name(), javadoc);
+	}
+
+	private List<Selector> processSelectors(Outline outline, ClassOutline[] filteredClassOutlines)
+	{
+		Model model = outline.getModel();
+		XSSchemaSet modelSchemaSet = model.schemaComponent;
+		List<Selector> selectors = new ArrayList<>();
+		for ( final ClassOutline classOutline : filteredClassOutlines )
+		{
+			if ( classOutline.getTarget() instanceof CClassInfo  )
+			{
+				CClassInfo ciTarget = (CClassInfo) classOutline.getTarget();
+				if ( ciTarget.getSchemaComponent() instanceof XSElementDecl )
+				{
+					XSElementDecl ciTargetED = (XSElementDecl) ciTarget.getSchemaComponent();
+					for ( XSIdentityConstraint ic : ciTargetED.getIdentityConstraints() )
+					{
+						if ( isSelectedCategory(ic.getCategory()) )
+						{
+							selectors.add(new Selector(classOutline, ic));
+							trace("{}, processFieldOutlines; Class={}, Selector={}", toLocation(ciTarget), ciTarget.getName(), ic.getName());
+						}
+					}
+				}
+				else
+				{
+					XSComplexType ciTargetCT = (XSComplexType) ciTarget.getSchemaComponent();
+					Iterator<XSIdentityConstraint> idConstraintsIter = modelSchemaSet.iterateIdentityConstraints();
+					while ( idConstraintsIter.hasNext() )
+					{
+						XSIdentityConstraint ic = idConstraintsIter.next();
+						XSElementDecl icParent = ic.getParent();
+						XSType icParentType = icParent.getType();
+						if ( ciTargetCT == icParentType )
+						{
+							if ( isSelectedCategory(ic.getCategory()) )
+							{
+								selectors.add(new Selector(classOutline, ic));
+								trace("{}, processFieldOutlines; Class={}, Selector={}", toLocation(ciTarget), ciTarget.getName(), ic.getName());
+							}
+						}
+					}
+				}
+			}
+		}
+		return selectors;
+	}
+	
+	private boolean isSelectedCategory(short category)
+	{
+		boolean isSelectedCategory = false;
+		switch ( category )
+		{
+			case KEY: isSelectedCategory = isSelectedKey(); break;
+			case KEYREF: isSelectedCategory = isSelectedKeyRef(); break;
+			case UNIQUE: isSelectedCategory = isSelectedUnique(); break;
+		}
+		return isSelectedCategory;
+	}
+	
 	private void generateSuperArgs(final JMethod valueConstructor, JDefinedClass theDefinedClass,
 		FieldOutline[] superClassFilteredFields)
 	{

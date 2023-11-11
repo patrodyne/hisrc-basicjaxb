@@ -33,9 +33,8 @@
 				<groupId>org.patrodyne.jvnet</groupId>
 				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
 				<configuration>
+					<noFileHeader>true</noFileHeader>
 					<extension>true</extension>
-					<verbose>true</verbose>
-					<debug>true</debug>
 					<verbose>true</verbose>
 					<debug>true</debug>
 					<args>

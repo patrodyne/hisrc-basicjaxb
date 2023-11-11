@@ -1,0 +1,18 @@
+<con:ContactMediaList MediaListName="Contact3"
+	xmlns:con="http://example.org/contact"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://example.org/contact ../../main/resources/contact.xsd"
+>
+	<con:ContactMedia>
+		<MediaType>Home</MediaType>
+		<MediaAddress>
+			<con:MediaAddressURI>https://example.org/LisaWalsh</con:MediaAddressURI>
+		</MediaAddress>
+	</con:ContactMedia>
+	<con:ContactMedia>
+		<MediaType>Work</MediaType>
+		<MediaAddress>
+			<con:MediaAddressURI>https://example.com/LisaWalsh</con:MediaAddressURI>
+		</MediaAddress>
+	</con:ContactMedia>
+</con:ContactMediaList>
