@@ -17,6 +17,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-plugins</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-higherjaxb-maven-plugin-testing</artifactId>
 			<scope>test</scope>
 		</dependency>
@@ -34,6 +39,7 @@
 				<groupId>org.patrodyne.jvnet</groupId>
 				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
 				<configuration>
+					<catalog>src/main/catalog/catalog.xml</catalog>
 					<extension>true</extension>
 					<verbose>true</verbose>
 					<debug>true</debug>

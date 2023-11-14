@@ -12,24 +12,32 @@ import com.sun.tools.xjc.ModelLoader;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.Model;
 
-public class RunSimplifyPlugin {
-
+public class RunSimplifyPlugin
+{
 	@BeforeEach
-	public void setUp() {
+	public void setUp()
+	{
+		System.setProperty("javax.xml.accessExternalDTD", "all");
 		System.setProperty("javax.xml.accessExternalSchema", "all");
 	}
 
 	@Test
-	public void compilesSchema() throws Exception {
-
+	public void compilesSchema()
+		throws Exception
+	{
 		new File("target/generated-sources/xjc").mkdirs();
-
 		URL schema = getClass().getResource("/schema.xsd");
 		URL binding = getClass().getResource("/bindings.xjb");
-		final String[] arguments = new String[] { "-xmlschema",
-				schema.toExternalForm(), "-b", binding.toExternalForm(), "-d",
-				"target/generated-sources/xjc", "-extension", "-Xsimplify", "-Xsimplify-usePluralForm=true"};
-
+		final String[] arguments = new String[]
+		{
+		 	"-xmlschema", schema.toExternalForm(),
+		 	"-b", binding.toExternalForm(),
+			"-d", "target/generated-sources/xjc",
+			"-catalog", "src/main/catalog/catalog.xml",
+			"-extension",
+			"-Xsimplify",
+			"-Xsimplify-usePluralForm=true"
+		};
 		Options options = new Options();
 		options.parseArguments(arguments);
 		ConsoleErrorReporter receiver = new ConsoleErrorReporter();
