@@ -17,92 +17,88 @@ import com.sun.codemodel.JType;
 
 import jakarta.xml.bind.JAXBElement;
 
-public class CodeGenerationAbstraction<A extends Arguments<A>> implements
-		CodeGenerator<A> {
-
+/**
+ * An abstraction of {@link CodeGenerator} to generate code for a given {@link JType}
+ * using known code generators.
+ * 
+ * @param <A> The generic type of the plugin arguments.
+ */
+public class CodeGenerationAbstraction<A extends Arguments<A>> implements CodeGenerator<A>
+{
 	private final JCodeModel codeModel;
-	private final JCMTypeFactory typeFactory = JCMTypeFactory.INSTANCE;
-	// Known code generators
-	private final Map<JCMType<?>, CodeGenerator<A>> codeGenerators = new LinkedHashMap<JCMType<?>, CodeGenerator<A>>();
-	private final CodeGenerator<A> defaultCodeGenerator;
-
 	private final CodeGenerationImplementor<A> implementor;
-
-	public CodeGenerationAbstraction(CodeGenerationImplementor<A> generationImplementor) {
-
+	private final CodeGenerator<A> defaultCodeGenerator;
+	private final JCMTypeFactory typeFactory = JCMTypeFactory.INSTANCE;
+	
+	/**
+	 * Construct {@link CodeGenerationAbstraction} for the given {@link CodeGenerationImplementor}.
+	 * Uses the {@link JCMTypeFactory} singleton to produce a map of known {@link CodeGenerator}s
+	 * by {@link JCMType}.
+	 * 
+	 * The following are assigned from the given {@link CodeGenerationImplementor}:
+	 * 
+	 * <ul>
+	 * <li>codeModel - Root of the code DOM.</li>
+	 * <li>implementor - Interface for the plugin's code generation implementor.</li>
+	 * <li>defaultCodeGenerator - Interface to generate code for a XJC plugin, {@link ObjectCodeGenerator}.</li>
+	 * </ul>
+	 * 
+	 * @param generationImplementor Interface for the plugin's code generation implementor.
+	 */
+	public CodeGenerationAbstraction(CodeGenerationImplementor<A> generationImplementor)
+	{
 		this.implementor = requireNonNull(generationImplementor);
 		this.codeModel = generationImplementor.getCodeModel();
-
-		addCodeGenerator(this.codeModel.BOOLEAN, new BooleanCodeGenerator<A>(
-				this, this.implementor));
-		addCodeGenerator(this.codeModel.BYTE, new ByteCodeGenerator<A>(this,
-				this.implementor));
-		addCodeGenerator(this.codeModel.CHAR, new CharCodeGenerator<A>(this,
-				this.implementor));
-		addCodeGenerator(this.codeModel.DOUBLE, new DoubleCodeGenerator<A>(
-				this, this.implementor));
-		addCodeGenerator(this.codeModel.FLOAT, new FloatCodeGenerator<A>(this,
-				this.implementor));
-		addCodeGenerator(this.codeModel.LONG, new LongCodeGenerator<A>(this,
-				this.implementor));
-		addCodeGenerator(this.codeModel.INT, new IntCodeGenerator<A>(this,
-				this.implementor));
-		addCodeGenerator(this.codeModel.SHORT, new ShortCodeGenerator<A>(this,
-				this.implementor));
-
-		addCodeGenerator(this.codeModel.BOOLEAN.array(),
-				new ArrayCodeGenerator<A>(this, this.implementor));
-		addCodeGenerator(this.codeModel.BYTE.array(),
-				new ArrayCodeGenerator<A>(this, this.implementor));
-		addCodeGenerator(this.codeModel.SHORT.array(),
-				new ArrayCodeGenerator<A>(this, this.implementor));
-		addCodeGenerator(this.codeModel.CHAR.array(),
-				new ArrayCodeGenerator<A>(this, this.implementor));
-		addCodeGenerator(this.codeModel.INT.array(), new ArrayCodeGenerator<A>(
-				this, this.implementor));
-		addCodeGenerator(this.codeModel.FLOAT.array(),
-				new ArrayCodeGenerator<A>(this, this.implementor));
-		addCodeGenerator(this.codeModel.LONG.array(),
-				new ArrayCodeGenerator<A>(this, this.implementor));
-		addCodeGenerator(this.codeModel.DOUBLE.array(),
-				new ArrayCodeGenerator<A>(this, this.implementor));
-		addCodeGenerator(this.codeModel.ref(Object.class).array(),
-				new ArrayCodeGenerator<A>(this, this.implementor));
-
-		addCodeGenerator(
-				this.codeModel.ref(JAXBElement.class).narrow(Object.class),
-				new JAXBElementCodeGenerator<A>(this, this.implementor, this.typeFactory));
-
+		addCodeGenerator(this.codeModel.BOOLEAN, new BooleanCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.BYTE, new ByteCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.CHAR, new CharCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.DOUBLE, new DoubleCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.FLOAT, new FloatCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.LONG, new LongCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.INT, new IntCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.SHORT, new ShortCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.BOOLEAN.array(), new ArrayCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.BYTE.array(), new ArrayCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.SHORT.array(), new ArrayCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.CHAR.array(), new ArrayCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.INT.array(), new ArrayCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.FLOAT.array(), new ArrayCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.LONG.array(), new ArrayCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.DOUBLE.array(), new ArrayCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.ref(Object.class).array(), new ArrayCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.ref(JAXBElement.class).narrow(Object.class),
+			new JAXBElementCodeGenerator<A>(this, this.implementor, this.typeFactory));
 		addCodeGenerator(this.codeModel.ref(List.class).narrow(Object.class),
-				new ListCodeGenerator<A>(this, this.implementor));
-
-		addCodeGenerator(this.codeModel.ref(Object.class),
-				new ObjectCodeGenerator<A>(this, this.implementor));
-		defaultCodeGenerator = new ObjectCodeGenerator<A>(this,
-				this.implementor);
+			new ListCodeGenerator<A>(this, this.implementor));
+		addCodeGenerator(this.codeModel.ref(Object.class), new ObjectCodeGenerator<A>(this, this.implementor));
+		defaultCodeGenerator = new ObjectCodeGenerator<A>(this, this.implementor);
 	}
 
-	private void addCodeGenerator(final JType type,
-			CodeGenerator<A> codeGenerator) {
-		final JCMType<?> factoredType = typeFactory.create(type);
-		this.codeGenerators.put(factoredType, codeGenerator);
+	/**
+	 * Implement interface to generate code for a XJC plugin.
+	 * Delegates to {@link CodeGenerator} for the given {@link JType} or the using the default {@link CodeGenerator}.
+	 */
+	@Override
+	public void generate(JBlock block, JType type, Collection<JType> possibleTypes, boolean isAlwaysSet, A arguments)
+	{
+		getCodeGenerator(type).generate(block, type, possibleTypes, isAlwaysSet, arguments);
 	}
 
-	private CodeGenerator<A> getCodeGenerator(JType type) {
+	// Known code generators
+	private final Map<JCMType<?>, CodeGenerator<A>> codeGenerators = new LinkedHashMap<JCMType<?>, CodeGenerator<A>>();
+	private CodeGenerator<A> getCodeGenerator(JType type)
+	{
 		final JCMType<JType> factoredType = typeFactory.create(type);
-		for (Entry<JCMType<?>, CodeGenerator<A>> entry : codeGenerators
-				.entrySet()) {
-			if (entry.getKey().matches(factoredType)) {
+		for (Entry<JCMType<?>, CodeGenerator<A>> entry : codeGenerators.entrySet())
+		{
+			if (entry.getKey().matches(factoredType))
 				return entry.getValue();
-			}
 		}
 		return defaultCodeGenerator;
 	}
-
-	@Override
-	public void generate(JBlock block, JType type,
-			Collection<JType> possibleTypes, boolean isAlwaysSet, A arguments) {
-		getCodeGenerator(type).generate(block, type, possibleTypes, isAlwaysSet,
-				arguments);
+	private void addCodeGenerator(final JType type, CodeGenerator<A> codeGenerator)
+	{
+		final JCMType<?> factoredType = typeFactory.create(type);
+		this.codeGenerators.put(factoredType, codeGenerator);
 	}
 }

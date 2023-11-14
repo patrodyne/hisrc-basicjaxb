@@ -16,114 +16,124 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JType;
 import com.sun.tools.xjc.reader.TypeUtil;
 
-public class ObjectCodeGenerator<A extends Arguments<A>> extends
-		AbstractCodeGenerator<A> {
-
-	public ObjectCodeGenerator(CodeGenerator<A> codeGenerator,
-			CodeGenerationImplementor<A> implementor) {
+/**
+ * Concrete extension of {@link AbstractCodeGenerator} for {@link Object} types.
+ *
+ * @param <A> The generic type of the plugin arguments.
+ */
+public class ObjectCodeGenerator<A extends Arguments<A>> extends AbstractCodeGenerator<A>
+{
+	/**
+	 * Construct using {@link CodeGenerator} and {@link CodeGenerationImplementor} instances.
+	 * Delegate construction to {@link AbstractCodeGenerator}.
+	 * 
+	 * @param codeGenerator A {@link CodeGenerator} instance
+	 * @param implementor A {@link CodeGenerationImplementor} instance.
+	 */
+	public ObjectCodeGenerator(CodeGenerator<A> codeGenerator, CodeGenerationImplementor<A> implementor)
+	{
 		super(codeGenerator, implementor);
 	}
 
+	/**
+	 * Generate code for a XJC plugin using the plugin's arguments for the current target field.
+	 * Delegates to the {@link CodeGenerationImplementor}'s <em>onObject()</em> method.
+	 */
 	@Override
-	public void generate(final JBlock block, JType type,
-			Collection<JType> possibleTypes, boolean isAlwaysSet, A arguments) {
-		if (possibleTypes.size() <= 1) {
+	public void generate(final JBlock block, JType type, Collection<JType> possibleTypes, boolean isAlwaysSet, A arguments)
+	{
+		if ( possibleTypes.size() <= 1 )
 			getImplementor().onObject(arguments, block, isAlwaysSet);
-		} else {
-			final JClass jaxbElementClass = getCodeModel().ref(
-					JAXBElement.class);
+		else
+		{
+			final JClass jaxbElementClass = getCodeModel().ref(JAXBElement.class);
 			final Set<JType> arrays = new HashSet<JType>();
 			final Collection<JClass> jaxbElements = new HashSet<JClass>();
 			final Set<JType> otherTypes = new HashSet<JType>();
-			for (final JType possibleType : possibleTypes) {
-				if (possibleType.isArray()) {
+			
+			for ( final JType possibleType : possibleTypes )
+			{
+				if ( possibleType.isArray() )
 					arrays.add(possibleType);
-				} else if (possibleType instanceof JClass
-						&& jaxbElementClass
-								.isAssignableFrom(((JClass) possibleType)
-										.erasure())) {
+				else if ( possibleType instanceof JClass && jaxbElementClass.isAssignableFrom(((JClass) possibleType).erasure()) )
 					jaxbElements.add((JClass) possibleType);
-				} else {
+				else
 					otherTypes.add(possibleType);
-				}
 			}
-
-			final JConditionable _if = new JConditionable() {
-
+			
+			final JConditionable _if = new JConditionable()
+			{
 				private JConditional conditional = null;
 
 				@Override
-				public JBlock _ifThen(JExpression condition) {
-					if (conditional == null) {
+				public JBlock _ifThen(JExpression condition)
+				{
+					if ( conditional == null )
 						conditional = block._if(condition);
-					} else {
+					else
 						conditional = conditional._elseif(condition);
-					}
 					return conditional._then();
 				}
 
 				@Override
-				public JBlock _else() {
-					if (conditional == null) {
+				public JBlock _else()
+				{
+					if ( conditional == null )
 						return block;
-					} else {
+					else
 						return conditional._else();
-					}
 				}
 			};
-
-			if (!jaxbElements.isEmpty()) {
+			
+			if ( !jaxbElements.isEmpty() )
+			{
 				final Set<JType> valueTypes = getJAXBElementValueTypes(jaxbElements);
-				final JType valueType = TypeUtil.getCommonBaseType(
-						getCodeModel(), valueTypes);
-				final JClass jaxbElementType = jaxbElementClass
-						.narrow(valueType);
-
-				final JBlock jaxbElementBlock = _if._ifThen(arguments
-						._instanceof(jaxbElementClass));
-				getCodeGenerator().generate(
-						jaxbElementBlock,
-						jaxbElementType,
-						new HashSet<JType>(jaxbElements),
-						true,
-						arguments.cast("JAXBElement", jaxbElementBlock,
-								jaxbElementType, true));
-
+				final JType valueType = TypeUtil.getCommonBaseType(getCodeModel(), valueTypes);
+				final JClass jaxbElementType = jaxbElementClass.narrow(valueType);
+				final JBlock jaxbElementBlock = _if._ifThen(arguments._instanceof(jaxbElementClass));
+				getCodeGenerator().generate
+				(
+					jaxbElementBlock,
+					jaxbElementType,
+					new HashSet<JType>(jaxbElements),
+					true,
+					arguments.cast("JAXBElement", jaxbElementBlock, jaxbElementType, true)
+				);
 			}
-
-			if (!arrays.isEmpty()) {
-				for (JType arrayType : arrays) {
-					final JBlock arrayBlock = _if._ifThen(arguments
-							._instanceof(arrayType));
-					getCodeGenerator().generate(
-							arrayBlock,
-							arrayType,
-							Collections.singleton(arrayType),
-							true,
-							arguments.cast("Array", arrayBlock, arrayType,
-									false));
+			
+			if ( !arrays.isEmpty() )
+			{
+				for ( JType arrayType : arrays )
+				{
+					final JBlock arrayBlock = _if._ifThen(arguments._instanceof(arrayType));
+					getCodeGenerator().generate
+					(
+						arrayBlock,
+						arrayType,
+						Collections.singleton(arrayType),
+						true,
+						arguments.cast("Array", arrayBlock, arrayType, false)
+					);
 				}
 			}
-
-			if (!otherTypes.isEmpty()) {
+			
+			if ( !otherTypes.isEmpty() )
 				getImplementor().onObject(arguments, _if._else(), false);
-			}
 		}
 	}
 
-	private Set<JType> getJAXBElementValueTypes(
-			final Collection<JClass> jaxbElements) {
+	private Set<JType> getJAXBElementValueTypes(final Collection<JClass> jaxbElements)
+	{
 		final Set<JType> valueTypes = new HashSet<JType>();
-		for (JClass jaxbElement : jaxbElements) {
+		for ( JClass jaxbElement : jaxbElements )
+		{
 			final JType valueType;
-			if (jaxbElement.getTypeParameters().size() == 1) {
+			if ( jaxbElement.getTypeParameters().size() == 1 )
 				valueType = jaxbElement.getTypeParameters().get(0);
-			} else {
+			else
 				valueType = getCodeModel().ref(Object.class);
-			}
 			valueTypes.add(valueType);
 		}
 		return valueTypes;
 	}
-
 }

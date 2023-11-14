@@ -60,6 +60,7 @@ import com.sun.xml.xsom.XSType;
  * <p>
  * Constructor can be created for complete, required or selector fields using these
  * XJC option arguments:
+ * </p>
  * <ul>
  * 	<li>XvalueConstructor-complete=[true|false]</li>
  * 	<li>XvalueConstructor-required=[true|false]</li>
@@ -68,7 +69,6 @@ import com.sun.xml.xsom.XSType;
  * 	<li>XvalueConstructor-selected-keyref=[true|false]</li>
  * 	<li>XvalueConstructor-selected-unique=[true|false]</li>
  * </ul>
- * </p>
  * 
  * <p>
  * Without this plugin, XJC will not generate any explicit constructors.

@@ -22,9 +22,16 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
+/**
+ * Abstract extension of {@link AbstractParameterizablePlugin} to create and
+ * run a {@link CodeGenerator} instance.
+ *
+ * @param <A> The arguments generic type.
+ */
 public abstract class AbstractCodeGeneratorPlugin<A extends Arguments<A>>
 	extends AbstractParameterizablePlugin
 {
+	// Represents a field accessor factory with default instance.
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;
 	public FieldAccessorFactory getFieldAccessorFactory()
 	{
@@ -57,6 +64,7 @@ public abstract class AbstractCodeGeneratorPlugin<A extends Arguments<A>>
 		);
 	}
 
+	// Represents the code generation implementation.
 	private CodeGenerator<A> codeGenerator;
 	protected CodeGenerator<A> getCodeGenerator()
 	{
@@ -104,9 +112,28 @@ public abstract class AbstractCodeGeneratorPlugin<A extends Arguments<A>>
 		return !hadError(outline.getErrorReceiver());
 	}
 
+	/**
+	 * Create the {@link CodeGenerator} for the given {@link JCodeModel}.
+	 * 
+	 * @param codeModel The {@link JCodeModel} for this plugin.
+	 * 
+	 * @return The new {@link CodeGenerator} implementation for this plugin.
+	 */
 	protected abstract CodeGenerator<A> createCodeGenerator(JCodeModel codeModel);
+	
+	/**
+	 * Generate code for the given {@link ClassOutline} and {{@link JDefinedClass} instances.
+	 * 
+	 * @param classOutline The {@link ClassOutline} to generate code for.
+	 * @param theClass The {@link JDefinedClass} to generate code for.
+	 */
 	protected abstract void generate(final ClassOutline classOutline, final JDefinedClass theClass);
 
+	/**
+	 * Process the {@link ClassOutline} to generate code for this plugin.
+	 * 
+	 * @param classOutline The {@link ClassOutline} to generate code for this plugin.
+	 */
 	protected void processClassOutline(ClassOutline classOutline)
 	{
 		final JDefinedClass theClass = classOutline.implClass;
