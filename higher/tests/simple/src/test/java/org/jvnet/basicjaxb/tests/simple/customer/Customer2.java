@@ -1,9 +1,8 @@
 package org.jvnet.basicjaxb.tests.simple.customer;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
-
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -15,7 +14,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
- * <pre>
+ * <pre>{@code
  * &lt;complexType name="Customer">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
@@ -27,11 +26,12 @@ import jakarta.xml.bind.annotation.XmlType;
  *         &lt;element name="middleInitials" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="postCode" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="single" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="photo" type="{http://www.w3.org/2001/XMLSchema}base64Binary"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
- * </pre>
+ * }</pre>
  * 
  * 
  */
@@ -43,7 +43,8 @@ import jakarta.xml.bind.annotation.XmlType;
     "givenName",
     "middleInitials",
     "postCode",
-    "single"
+    "single",
+    "photo"
 })
 public class Customer2 {
 
@@ -58,6 +59,8 @@ public class Customer2 {
     @XmlElement(required = true)
     protected String postCode;
     protected boolean single;
+    @XmlElement(required = true)
+    protected byte[] photo;
 
     /**
      * Gets the value of the address property.
@@ -177,8 +180,8 @@ public class Customer2 {
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the middleInitials property.
+     * returned list will be present inside the Jakarta XML Binding object.
+     * This is why there is not a {@code set} method for the middleInitials property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
@@ -192,10 +195,12 @@ public class Customer2 {
      * {@link String }
      * 
      * 
+     * @return
+     *     The value of the middleInitials property.
      */
     public List<String> getMiddleInitials() {
         if (middleInitials == null) {
-            middleInitials = new ArrayList<String>();
+            middleInitials = new ArrayList<>();
         }
         return this.middleInitials;
     }
@@ -256,119 +261,324 @@ public class Customer2 {
         return true;
     }
 
-    public int hashCode2() {
-        int currentHashCode = 1;
-        {
-            String theAddress;
-            theAddress = this.getAddress();
-            currentHashCode = ((currentHashCode* 31)+(this.isSetAddress()?theAddress.hashCode(): 0));
+    /**
+     * Gets the value of the photo property.
+     * 
+     * @return
+     *     possible object is
+     *     byte[]
+     */
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    /**
+     * Sets the value of the photo property.
+     * 
+     * @param value
+     *     allowed object is
+     *     byte[]
+     */
+    public void setPhoto(byte[] value) {
+        this.photo = value;
+    }
+
+    public boolean isSetPhoto() {
+        return (this.photo!= null);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if ((object == null)||(this.getClass()!= object.getClass())) {
+            return false;
         }
-        {
-            Boolean theBlueEyes;
-            theBlueEyes = this.isBlueEyes();
-            currentHashCode = ((currentHashCode* 31)+(this.isSetBlueEyes()?theBlueEyes.hashCode(): 0));
+        if (this == object) {
+            return true;
         }
+        final Customer2 that = ((Customer2) object);
         {
-            String theFamilyName;
-            theFamilyName = this.getFamilyName();
-            currentHashCode = ((currentHashCode* 31)+(this.isSetFamilyName()?theFamilyName.hashCode(): 0));
-        }
-        {
-            String theGivenName;
-            theGivenName = this.getGivenName();
-            currentHashCode = ((currentHashCode* 31)+(this.isSetGivenName()?theGivenName.hashCode(): 0));
-        }
-        {
-            List<String> theMiddleInitials;
-            theMiddleInitials = (this.isSetMiddleInitials()?this.getMiddleInitials():null);
-            if (this.isSetMiddleInitials()) {
-                final Iterator<String> theMiddleInitialsIterator = theMiddleInitials.iterator();
-                int listHashCode = 1;
-                while (theMiddleInitialsIterator.hasNext()) {
-                    final String theMiddleInitialsElement = theMiddleInitialsIterator.next();
-                    listHashCode = ((listHashCode* 31)+((theMiddleInitialsElement!= null)?theMiddleInitialsElement.hashCode(): 0));
+            String lhsAddress;
+            lhsAddress = this.getAddress();
+            String rhsAddress;
+            rhsAddress = that.getAddress();
+            if (this.isSetAddress()) {
+                if (that.isSetAddress()) {
+                    if (!lhsAddress.equals(rhsAddress)) {
+                        return false;
+                    }
+                } else {
+                    return false;
                 }
-                currentHashCode = ((currentHashCode* 31)+ listHashCode);
             } else {
-                currentHashCode = (currentHashCode* 31);
+                if (that.isSetAddress()) {
+                    return false;
+                }
             }
         }
         {
-            String thePostCode;
-            thePostCode = this.getPostCode();
-            currentHashCode = ((currentHashCode* 31)+(this.isSetPostCode()?thePostCode.hashCode(): 0));
+            Boolean lhsBlueEyes;
+            lhsBlueEyes = this.isBlueEyes();
+            Boolean rhsBlueEyes;
+            rhsBlueEyes = that.isBlueEyes();
+            if (this.isSetBlueEyes()) {
+                if (that.isSetBlueEyes()) {
+                    if (!lhsBlueEyes.equals(rhsBlueEyes)) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                if (that.isSetBlueEyes()) {
+                    return false;
+                }
+            }
         }
         {
+            String lhsFamilyName;
+            lhsFamilyName = this.getFamilyName();
+            String rhsFamilyName;
+            rhsFamilyName = that.getFamilyName();
+            if (this.isSetFamilyName()) {
+                if (that.isSetFamilyName()) {
+                    if (!lhsFamilyName.equals(rhsFamilyName)) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                if (that.isSetFamilyName()) {
+                    return false;
+                }
+            }
+        }
+        {
+            String lhsGivenName;
+            lhsGivenName = this.getGivenName();
+            String rhsGivenName;
+            rhsGivenName = that.getGivenName();
+            if (this.isSetGivenName()) {
+                if (that.isSetGivenName()) {
+                    if (!lhsGivenName.equals(rhsGivenName)) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                if (that.isSetGivenName()) {
+                    return false;
+                }
+            }
+        }
+        {
+            List<String> lhsMiddleInitials;
+            lhsMiddleInitials = (this.isSetMiddleInitials()?this.getMiddleInitials():null);
+            List<String> rhsMiddleInitials;
+            rhsMiddleInitials = (that.isSetMiddleInitials()?that.getMiddleInitials():null);
+            if (this.isSetMiddleInitials()) {
+                if (that.isSetMiddleInitials()) {
+                    if (!lhsMiddleInitials.equals(rhsMiddleInitials)) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                if (that.isSetMiddleInitials()) {
+                    return false;
+                }
+            }
+        }
+        {
+            String lhsPostCode;
+            lhsPostCode = this.getPostCode();
+            String rhsPostCode;
+            rhsPostCode = that.getPostCode();
+            if (this.isSetPostCode()) {
+                if (that.isSetPostCode()) {
+                    if (!lhsPostCode.equals(rhsPostCode)) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                if (that.isSetPostCode()) {
+                    return false;
+                }
+            }
+        }
+        {
+            boolean lhsSingle;
+            lhsSingle = this.isSingle();
+            boolean rhsSingle;
+            rhsSingle = that.isSingle();
+            if (lhsSingle!= rhsSingle) {
+                return false;
+            }
+        }
+        {
+            byte[] lhsPhoto;
+            lhsPhoto = this.getPhoto();
+            byte[] rhsPhoto;
+            rhsPhoto = that.getPhoto();
+            if (this.isSetPhoto()) {
+                if (that.isSetPhoto()) {
+                    if (!Arrays.equals(lhsPhoto, rhsPhoto)) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                if (that.isSetPhoto()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int currentHashCode = 1;
+        {
+            currentHashCode = (currentHashCode* 31);
+            String theAddress;
+            theAddress = this.getAddress();
+            if (this.isSetAddress()) {
+                currentHashCode += theAddress.hashCode();
+            }
+        }
+        {
+            currentHashCode = (currentHashCode* 31);
+            Boolean theBlueEyes;
+            theBlueEyes = this.isBlueEyes();
+            if (this.isSetBlueEyes()) {
+                currentHashCode += theBlueEyes.hashCode();
+            }
+        }
+        {
+            currentHashCode = (currentHashCode* 31);
+            String theFamilyName;
+            theFamilyName = this.getFamilyName();
+            if (this.isSetFamilyName()) {
+                currentHashCode += theFamilyName.hashCode();
+            }
+        }
+        {
+            currentHashCode = (currentHashCode* 31);
+            String theGivenName;
+            theGivenName = this.getGivenName();
+            if (this.isSetGivenName()) {
+                currentHashCode += theGivenName.hashCode();
+            }
+        }
+        {
+            currentHashCode = (currentHashCode* 31);
+            List<String> theMiddleInitials;
+            theMiddleInitials = (this.isSetMiddleInitials()?this.getMiddleInitials():null);
+            if (this.isSetMiddleInitials()) {
+                currentHashCode += theMiddleInitials.hashCode();
+            }
+        }
+        {
+            currentHashCode = (currentHashCode* 31);
+            String thePostCode;
+            thePostCode = this.getPostCode();
+            if (this.isSetPostCode()) {
+                currentHashCode += thePostCode.hashCode();
+            }
+        }
+        {
+            currentHashCode = (currentHashCode* 31);
             boolean theSingle;
             theSingle = this.isSingle();
-            currentHashCode = ((currentHashCode* 31)+(theSingle? 1231 : 1237));
+            currentHashCode += (theSingle? 1231 : 1237);
+        }
+        {
+            currentHashCode = (currentHashCode* 31);
+            byte[] thePhoto;
+            thePhoto = this.getPhoto();
+            currentHashCode += Arrays.hashCode(thePhoto);
         }
         return currentHashCode;
     }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result
-				+ ((blueEyes == null) ? 0 : blueEyes.hashCode());
-		result = prime * result
-				+ ((familyName == null) ? 0 : familyName.hashCode());
-		result = prime * result
-				+ ((givenName == null) ? 0 : givenName.hashCode());
-		result = prime * result
-				+ ((middleInitials == null) ? 0 : middleInitials.hashCode());
-		result = prime * result
-				+ ((postCode == null) ? 0 : postCode.hashCode());
-		result = prime * result + (single ? 1231 : 1237);
-		return result;
-	}
+    public void toStringFields(StringBuilder stringBuilder) {
+        {
+            String theAddress;
+            theAddress = this.getAddress();
+            stringBuilder.append("address=");
+            stringBuilder.append(theAddress);
+        }
+        {
+            Boolean theBlueEyes;
+            theBlueEyes = this.isBlueEyes();
+            stringBuilder.append(", ");
+            stringBuilder.append("blueEyes=");
+            stringBuilder.append(theBlueEyes);
+        }
+        {
+            String theFamilyName;
+            theFamilyName = this.getFamilyName();
+            stringBuilder.append(", ");
+            stringBuilder.append("familyName=");
+            stringBuilder.append(theFamilyName);
+        }
+        {
+            String theGivenName;
+            theGivenName = this.getGivenName();
+            stringBuilder.append(", ");
+            stringBuilder.append("givenName=");
+            stringBuilder.append(theGivenName);
+        }
+        {
+            List<String> theMiddleInitials;
+            theMiddleInitials = (this.isSetMiddleInitials()?this.getMiddleInitials():null);
+            stringBuilder.append(", ");
+            stringBuilder.append("middleInitials=");
+            stringBuilder.append("<size=");
+            stringBuilder.append((this.isSetMiddleInitials()?theMiddleInitials.size():"null"));
+            stringBuilder.append(">");
+        }
+        {
+            String thePostCode;
+            thePostCode = this.getPostCode();
+            stringBuilder.append(", ");
+            stringBuilder.append("postCode=");
+            stringBuilder.append(thePostCode);
+        }
+        {
+            boolean theSingle;
+            theSingle = this.isSingle();
+            stringBuilder.append(", ");
+            stringBuilder.append("single=");
+            stringBuilder.append(theSingle);
+        }
+        {
+            byte[] thePhoto;
+            thePhoto = this.getPhoto();
+            stringBuilder.append(", ");
+            stringBuilder.append("photo=");
+            stringBuilder.append("<length=");
+            stringBuilder.append((this.isSetPhoto()?thePhoto.length:"null"));
+            stringBuilder.append(">");
+        }
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Customer2 other = (Customer2) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		if (blueEyes == null) {
-			if (other.blueEyes != null)
-				return false;
-		} else if (!blueEyes.equals(other.blueEyes))
-			return false;
-		if (familyName == null) {
-			if (other.familyName != null)
-				return false;
-		} else if (!familyName.equals(other.familyName))
-			return false;
-		if (givenName == null) {
-			if (other.givenName != null)
-				return false;
-		} else if (!givenName.equals(other.givenName))
-			return false;
-		if (middleInitials == null) {
-			if (other.middleInitials != null)
-				return false;
-		} else if (!middleInitials.equals(other.middleInitials))
-			return false;
-		if (postCode == null) {
-			if (other.postCode != null)
-				return false;
-		} else if (!postCode.equals(other.postCode))
-			return false;
-		if (single != other.single)
-			return false;
-		return true;
-	}
-    
-    
+    @Override
+    public String toString() {
+        final StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.getClass().getSimpleName());
+        stringBuilder.append('@');
+        stringBuilder.append(Integer.toHexString(System.identityHashCode(this)));
+        stringBuilder.append("[");
+        toStringFields(stringBuilder);
+        stringBuilder.append("]");
+        return stringBuilder.toString();
+    }
 
 }

@@ -17,6 +17,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-plugins</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-higherjaxb-maven-plugin-testing</artifactId>
 			<scope>test</scope>
 		</dependency>
@@ -38,6 +43,9 @@
 						<arg>-XsimpleEquals</arg>
 						<arg>-XsimpleHashCode</arg>
 						<arg>-XsimpleToString</arg>
+						<arg>-XsimpleToString-showFieldNames=true</arg>
+						<arg>-XsimpleToString-showChildItems=false</arg>
+						<arg>-XsimpleToString-fullClassName=false</arg>
 					</args>
 					<plugins>
 						<plugin>

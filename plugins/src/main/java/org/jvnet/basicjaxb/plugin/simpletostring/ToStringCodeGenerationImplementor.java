@@ -6,6 +6,7 @@ import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JOp;
 
 public class ToStringCodeGenerationImplementor extends AbstractCodeGenerationImplementor<ToStringArguments>
 {
@@ -41,13 +42,15 @@ public class ToStringCodeGenerationImplementor extends AbstractCodeGenerationImp
 		
 		if ( arguments.value().type().isArray() )
 		{
+			JExpression condLength = JOp.cond(arguments.hasSetValue(), valueToAppend.ref("length"), JExpr.lit("null"));
 			subBlock.add(arguments.stringBuilder().invoke("append").arg(JExpr.lit("<length=")));
-			subBlock.add(arguments.stringBuilder().invoke("append").arg(valueToAppend.ref("length")));
+			subBlock.add(arguments.stringBuilder().invoke("append").arg(condLength));
 		}
 		else
 		{
+			JExpression condSize = JOp.cond(arguments.hasSetValue(), valueToAppend.invoke("size"), JExpr.lit("null"));
 			subBlock.add(arguments.stringBuilder().invoke("append").arg(JExpr.lit("<size=")));
-			subBlock.add(arguments.stringBuilder().invoke("append").arg(valueToAppend.invoke("size")));
+			subBlock.add(arguments.stringBuilder().invoke("append").arg(condSize));
 		}
 		subBlock.add(arguments.stringBuilder().invoke("append").arg(JExpr.lit(">")));
 	}
