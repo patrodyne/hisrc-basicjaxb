@@ -42,13 +42,13 @@ public class ToStringCodeGenerationImplementor extends AbstractCodeGenerationImp
 		
 		if ( arguments.value().type().isArray() )
 		{
-			JExpression condLength = JOp.cond(arguments.hasSetValue(), valueToAppend.ref("length"), JExpr.lit("null"));
+			JExpression condLength = JOp.cond(arguments.hasSetValue(), valueToAppend.ref("length"), JExpr.lit("0"));
 			subBlock.add(arguments.stringBuilder().invoke("append").arg(JExpr.lit("<length=")));
 			subBlock.add(arguments.stringBuilder().invoke("append").arg(condLength));
 		}
 		else
 		{
-			JExpression condSize = JOp.cond(arguments.hasSetValue(), valueToAppend.invoke("size"), JExpr.lit("null"));
+			JExpression condSize = JOp.cond(arguments.hasSetValue(), valueToAppend.invoke("size"), JExpr.lit("0"));
 			subBlock.add(arguments.stringBuilder().invoke("append").arg(JExpr.lit("<size=")));
 			subBlock.add(arguments.stringBuilder().invoke("append").arg(condSize));
 		}
