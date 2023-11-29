@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <jaxb:bindings jaxb:version="3.0"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:wildcard="http://jvnet.org/basicjaxb/xjc/wildcard"
 	jaxb:extensionBindingPrefixes="wildcard"
 >
@@ -16,7 +16,10 @@
 		<jaxb:serializable uid="20231101" />
 	</jaxb:globalBindings>
 
-	<jaxb:bindings schemaLocation="schema.xsd" node="/xsd:schema">
+	<jaxb:bindings schemaLocation="customer.xsd" node="/xs:schema">
+		<jaxb:schemaBindings>
+			<jaxb:package name="com.bdoughan.blog.domhandler"/>
+		</jaxb:schemaBindings>
 		<wildcard:skip/>
 	</jaxb:bindings>
 

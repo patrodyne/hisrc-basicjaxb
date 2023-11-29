@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	jaxb:version="3.0"
+	targetNamespace="http://example.org/wildcard/bio/résumé/html"
+	xmlns:tns="http://example.org/wildcard/bio/résumé/html"
+>
+
+	<xs:complexType name="résumé">
+		<xs:sequence>
+			<xs:element name="html" type="tns:html"/>
+		</xs:sequence>
+		<xs:attribute name="type" use="required" type="xs:NCName"/>
+	</xs:complexType>
+
+	<xs:complexType  name="html">
+		<xs:sequence>
+			<xs:element name="head" type="tns:head"/>
+			<xs:element name="body" type="tns:body"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="head">
+		<xs:sequence>
+			<xs:element name="meta" type="tns:meta"/>
+			<xs:element name="title" type="xs:string"/>
+			<xs:element name="style" type="tns:style"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="meta">
+		<xs:attribute name="charset" use="required" type="xs:NCName"/>
+	</xs:complexType>
+
+	<xs:complexType name="style" mixed="true">
+		<xs:attribute name="type" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="body">
+		<xs:sequence>
+			<xs:element name="h1" type="xs:string"/>
+			<xs:element name="h2" type="xs:string"/>
+			<xs:element name="ul" type="tns:ul"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ul">
+		<xs:sequence>
+			<xs:element name="li" type="xs:string" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

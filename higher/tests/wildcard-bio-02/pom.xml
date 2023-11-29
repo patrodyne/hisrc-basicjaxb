@@ -8,16 +8,23 @@
 		<artifactId>hisrc-basicjaxb-higher-tests</artifactId>
 		<version>2.1.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>hisrc-basicjaxb-test-wildcard</artifactId>
+	<artifactId>hisrc-basicjaxb-test-wildcard-bio-02</artifactId>
 	<packaging>jar</packaging>
-	<name>HiSrc BasicJAXB - Test [wildcard]</name>
+	<name>HiSrc BasicJAXB - Test [wildcard-bio-02]</name>
 	<properties>
 		<root.basedir>${basedir}/../../..</root.basedir>
+		<source.dir>src</source.dir>
+		<target.dir>${project.build.directory}</target.dir>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
@@ -34,6 +41,7 @@
 				<groupId>org.patrodyne.jvnet</groupId>
 				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
 				<configuration>
+					<noFileHeader>true</noFileHeader>
 					<extension>true</extension>
 					<verbose>true</verbose>
 					<debug>true</debug>
@@ -41,11 +49,20 @@
 						<arg>-Xwildcard</arg>
 						<arg>-Xwildcard-verbose=true</arg>
 						<arg>-Xwildcard-debug=true</arg>
+						<arg>-Xcustomizations</arg>
+						<arg>-Xcustomizations-verbose=true</arg>
+						<arg>-Xcustomizations-debug=true</arg>
+						<arg>-Xannotate</arg>
 					</args>
 					<plugins>
 						<plugin>
 							<groupId>org.patrodyne.jvnet</groupId>
 							<artifactId>hisrc-basicjaxb-plugins</artifactId>
+						</plugin>
+						<plugin>
+							<groupId>org.patrodyne.jvnet</groupId>
+							<artifactId>hisrc-hyperjaxb-annox-plugin</artifactId>
+							<version>${hisrc-hyperjaxb-annox-plugin.version}</version>
 						</plugin>
 					</plugins>
 				</configuration>

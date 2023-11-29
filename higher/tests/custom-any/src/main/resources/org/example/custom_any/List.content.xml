@@ -1,0 +1,3 @@
+<anx:annotate xmlns:anx="http://jvnet.org/basicjaxb/xjc/annox" target="field">
+	@jakarta.xml.bind.annotation.XmlAnyElement(lax = false, value = org.jvnet.basicjaxb.dom.W3CTraceDomHandler.class)
+</anx:annotate>

@@ -1,0 +1,5 @@
+<cuz:customizations xmlns:cuz="http://jvnet.org/basicjaxb/xjc/customizations">
+	<anx:annotate xmlns:anx="http://jvnet.org/basicjaxb/xjc/annox" target="field">
+		@jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter(org.example.wildcard.bio.BioXmlAdapter.class)
+	</anx:annotate>
+</cuz:customizations>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	
+	<xs:element name="résumé">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="name" type="xs:string"/>
+				<xs:element name="history" type="history" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="type" use="required" type="xs:NCName"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:complexType name="history" mixed="true">
+		<xs:attribute name="period" use="required"/>
+	</xs:complexType>
+	
+</xs:schema>

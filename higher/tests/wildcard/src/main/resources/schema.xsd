@@ -16,7 +16,8 @@
 	<xs:complexType name="JIIB-49-B" mixed="true">
 		<xs:annotation>
 			<xs:appinfo>
-				<wildcard:skip/>
+				<wildcard:lax/>
+				<wildcard:handler>org.jvnet.basicjaxb.dom.W3CTraceDomHandler</wildcard:handler>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -29,12 +30,11 @@
 			<xs:element name="any">
 				<xs:annotation>
 					<xs:appinfo>
-						<wildcard:skip/>
+						<wildcard:handler lax="true">org.jvnet.basicjaxb.dom.W3CTraceDomHandler</wildcard:handler>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType> 
-
 
 </xs:schema>

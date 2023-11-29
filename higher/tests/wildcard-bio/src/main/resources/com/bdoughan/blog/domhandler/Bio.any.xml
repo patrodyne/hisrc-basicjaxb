@@ -1,0 +1,5 @@
+<cus:customizations xmlns:cus="http://jvnet.org/basicjaxb/xjc/customizations">
+	<anx:annotate xmlns:anx="http://jvnet.org/basicjaxb/xjc/annox" target="field">
+		@jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter(com.bdoughan.blog.BioXmlAdapter.class)
+	</anx:annotate>
+</cus:customizations>

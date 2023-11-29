@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	
+	<xs:complexType name="résumé">
+		<xs:sequence>
+			<xs:element name="html" type="html"/>
+		</xs:sequence>
+		<xs:attribute name="type" use="required" type="xs:NCName"/>
+	</xs:complexType>
+
+	<xs:complexType  name="html">
+		<xs:sequence>
+			<xs:element name="head" type="head"/>
+			<xs:element name="body" type="body"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="head">
+		<xs:sequence>
+			<xs:element name="meta" type="meta"/>
+			<xs:element name="title" type="xs:string"/>
+			<xs:element name="style" type="style"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="meta">
+		<xs:attribute name="charset" use="required" type="xs:NCName"/>
+	</xs:complexType>
+
+	<xs:complexType name="style" mixed="true">
+		<xs:attribute name="type" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="body">
+		<xs:sequence>
+			<xs:element name="h1" type="xs:string"/>
+			<xs:element name="h2" type="xs:string"/>
+			<xs:element name="ul" type="ul"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ul">
+		<xs:sequence>
+			<xs:element name="li" type="xs:string" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="unqualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:wildcard="http://jvnet.org/basicjaxb/xjc/wildcard"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:anx="http://jvnet.org/basicjaxb/xjc/annox" 
+	jaxb:extensionBindingPrefixes="wildcard anx"
+	jaxb:version="3.0"
+>
+
+	<xs:element name="customer">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="name" type="xs:string"/>
+				<xs:element name="bio">
+					<xs:complexType mixed="false">
+						<xs:annotation>
+							<xs:appinfo>
+								<wildcard:handler lax="true">com.bdoughan.blog.BioDomHandler</wildcard:handler>
+								<!-- 
+								<wildcard:handler lax="true">com.bdoughan.blog.BioDomHandler</wildcard:handler>
+								<wildcard:handler lax="true">org.jvnet.basicjaxb.dom.W3CTraceDomHandler</wildcard:handler>
+								 -->
+							</xs:appinfo>
+						</xs:annotation>
+						<xs:sequence>
+							<xs:any processContents="lax" minOccurs="0" maxOccurs="1" />
+						</xs:sequence>
+						<xs:attribute name="type" type="xs:string" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- 
+	<xs:element name="customer">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="name" type="xs:string" />
+				<xs:element name="bio">
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:element name="html">
+								<xs:annotation>
+									<xs:appinfo>
+										<wildcard:handler lax="true">org.jvnet.basicjaxb.dom.W3CTraceDomHandler</wildcard:handler>
+									</xs:appinfo>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	 -->
+
+	<!-- 
+	<xs:element name="customer">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:element name="name" type="xs:string" />
+				<xs:element name="bio">
+					<xs:annotation>
+						<xs:appinfo>
+							<wildcard:handler lax="true">org.jvnet.basicjaxb.dom.W3CTraceDomHandler</wildcard:handler>
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+ -->
+
+</xs:schema>

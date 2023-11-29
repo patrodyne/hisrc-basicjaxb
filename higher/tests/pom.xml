@@ -14,6 +14,9 @@
 	<modules>
 		<module>auto-inheritance</module>
 		<module>basic</module>
+		<module>custom-any</module>
+		<module>custom-bio-01</module>
+		<module>custom-bio-02</module>
 		<module>default-value</module>
 		<module>element-wrapper</module>
 		<module>episodes</module>
@@ -31,6 +34,9 @@
 		<module>superclass</module>
 		<module>value-constructor</module>
 		<module>wildcard</module>
+		<module>wildcard-bio</module>
+		<module>wildcard-bio-01</module>
+		<module>wildcard-bio-02</module>
 		<module>zj</module>
 	</modules>
 	<properties>

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
 		<artifactId>hisrc-basicjaxb-higher-tests</artifactId>
 		<version>2.1.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>hisrc-basicjaxb-test-wildcard</artifactId>
+	<artifactId>hisrc-basicjaxb-test-custom-any</artifactId>
 	<packaging>jar</packaging>
-	<name>HiSrc BasicJAXB - Test [wildcard]</name>
+	<name>HiSrc BasicJAXB - Test [custom-any]</name>
 	<properties>
 		<root.basedir>${basedir}/../../..</root.basedir>
 	</properties>
@@ -20,9 +22,9 @@
 			<artifactId>hisrc-basicjaxb-runtime</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.patrodyne.jvnet</groupId>
-			<artifactId>hisrc-higherjaxb-maven-plugin-testing</artifactId>
-			<scope>test</scope>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -38,14 +40,23 @@
 					<verbose>true</verbose>
 					<debug>true</debug>
 					<args>
-						<arg>-Xwildcard</arg>
-						<arg>-Xwildcard-verbose=true</arg>
-						<arg>-Xwildcard-debug=true</arg>
+						<arg>-Xcustomizations</arg>
+						<!--
+						<arg>-Xcustomizations-directory=src/main/resources</arg>
+						-->
+						<arg>-Xcustomizations-verbose=true</arg>
+						<arg>-Xcustomizations-debug=true</arg>
+						<arg>-Xannotate</arg>
 					</args>
 					<plugins>
 						<plugin>
 							<groupId>org.patrodyne.jvnet</groupId>
 							<artifactId>hisrc-basicjaxb-plugins</artifactId>
+						</plugin>
+						<plugin>
+							<groupId>org.patrodyne.jvnet</groupId>
+							<artifactId>hisrc-hyperjaxb-annox-plugin</artifactId>
+							<version>${hisrc-hyperjaxb-annox-plugin.version}</version>
 						</plugin>
 					</plugins>
 				</configuration>

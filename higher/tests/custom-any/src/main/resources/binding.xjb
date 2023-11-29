@@ -2,8 +2,6 @@
 <jaxb:bindings jaxb:version="3.0"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:wildcard="http://jvnet.org/basicjaxb/xjc/wildcard"
-	jaxb:extensionBindingPrefixes="wildcard"
 >
 	<!--  Global Bindings
 		* JPA section 2.1, entities must be top-level classes.
@@ -17,7 +15,9 @@
 	</jaxb:globalBindings>
 
 	<jaxb:bindings schemaLocation="schema.xsd" node="/xsd:schema">
-		<wildcard:skip/>
+		<jaxb:schemaBindings>
+			<jaxb:package name="org.example.custom_any"/>
+		</jaxb:schemaBindings>
 	</jaxb:bindings>
 
 </jaxb:bindings>
