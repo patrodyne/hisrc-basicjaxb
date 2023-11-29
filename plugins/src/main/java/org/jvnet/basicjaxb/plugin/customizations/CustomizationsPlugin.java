@@ -81,9 +81,9 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 	
-	private File directory;
+	private File directory = new File("src/main/resources");
 	public File getDirectory() { return directory; }
-	public void setDirectory(File customizationsDirectory) { this.directory = customizationsDirectory; }
+	public void setDirectory(File directory) { this.directory = directory; }
 
 	// Plugin Processing
 
@@ -216,7 +216,7 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 		final File file = new File(getDirectory(), fileName);
 		final String systemId = file.getAbsolutePath();
 		if (!file.exists())
-			trace("{}, readCustomizations; Bypass customizations from [{}]; file does not exist.", location, systemId);
+			debug("{}, readCustomizations; Skipping customizations from [{}]; file does not exist.", location, systemId);
 		else if (!file.isFile())
 			warn("{}, readCustomizations; This [{}] is not a file.", location, systemId);
 		else

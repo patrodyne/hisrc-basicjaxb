@@ -5,6 +5,7 @@ import static javax.xml.XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.Stack;
 
 import javax.xml.namespace.QName;
@@ -13,6 +14,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.jvnet.basicjaxb.locator.util.LocatorBean;
 import org.slf4j.Logger;
@@ -21,6 +28,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
@@ -34,15 +42,15 @@ import jakarta.xml.bind.JAXBElement;
  */
 public class DOMUtils
 {
-    private static final String LOCATOR_COLUMN_NUMBER = "ColumnNumber";
+	private static final String LOCATOR_COLUMN_NUMBER = "ColumnNumber";
 	private static final String LOCATOR_LINE_NUMBER = "LineNumber";
 	private static final String LOCATOR_SYSTEM_ID = "SystemId";
 	private static final String LOCATOR_PUBLIC_ID = "PublicId";
 	
 	private static Logger logger = LoggerFactory.getLogger(DOMUtils.class);
-    public static Logger getLogger() { return logger; }
+	public static Logger getLogger() { return logger; }
 
-    // Represent DocumentBuilderFactory and DocumentBuilder instances that ARE namespace aware.
+	// Represent DocumentBuilderFactory and DocumentBuilder instances that ARE namespace aware.
 	private static final DocumentBuilderFactory DOM_DOCUMENT_BUILDER_FACTORY_NS = DocumentBuilderFactory.newInstance();
 	private static DocumentBuilder DOM_DOCUMENT_BUILDER_NS = null;
 	static
@@ -170,27 +178,27 @@ public class DOMUtils
 	 * <p>Two nodes are equal <em>if and only if</em> the following conditions are satisfied:</p>
 	 * 
 	 * <ul>
-	 *   <li>The two nodes are of the same type.</li>
-	 *   <li>The following string attributes are equal (they are both <code>null</code>,
-	 *   or they have the same length and are character for character identical):
-	 *   <ul>
-	 *     <li><code>namespaceURI</code></li>
-	 *     <li><code>localName</code></li>
-	 *     <li>Optional:
-	 *       <ul>
-	 *         <li><code>prefix</code>: The prefix xmlns is used only to declare namespace bindings.</li>
-	 *         <li><code>nodeName</code>: Concatenation of <code>prefix</code>, <code>":"</code> and <code>localName</code>.</li>
-	 *       </ul>
-	 *     </li>
-	 *     <li><code>nodeValue</code></li>
-	 *     <li><code>baseURI</code></li>
-	 *   </ul></li>
-	 *   <li>The <code>attributes</code> <code>NamedNodeMaps</code> are equal (they are both
-	 *   <code>null</code>, or they have the same map size and for each node that exists in one map
-	 *   there is a node that exists in the other map and is equal, although not necessarily at
-	 *   the same index).</li>
-	 *   <li>The <code>childNodes</code> <code>NodeLists</code> are equal (they are both <code>null</code>,
-	 *   or they have the same length and contain equal nodes at the same index).</li>
+	 *	 <li>The two nodes are of the same type.</li>
+	 *	 <li>The following string attributes are equal (they are both <code>null</code>,
+	 *	 or they have the same length and are character for character identical):
+	 *	 <ul>
+	 *	   <li><code>namespaceURI</code></li>
+	 *	   <li><code>localName</code></li>
+	 *	   <li>Optional:
+	 *		 <ul>
+	 *		   <li><code>prefix</code>: The prefix xmlns is used only to declare namespace bindings.</li>
+	 *		   <li><code>nodeName</code>: Concatenation of <code>prefix</code>, <code>":"</code> and <code>localName</code>.</li>
+	 *		 </ul>
+	 *	   </li>
+	 *	   <li><code>nodeValue</code></li>
+	 *	   <li><code>baseURI</code></li>
+	 *	 </ul></li>
+	 *	 <li>The <code>attributes</code> <code>NamedNodeMaps</code> are equal (they are both
+	 *	 <code>null</code>, or they have the same map size and for each node that exists in one map
+	 *	 there is a node that exists in the other map and is equal, although not necessarily at
+	 *	 the same index).</li>
+	 *	 <li>The <code>childNodes</code> <code>NodeLists</code> are equal (they are both <code>null</code>,
+	 *	 or they have the same length and contain equal nodes at the same index).</li>
 	 * </ul>
 	 * 
 	 * <p><b>Note:</b> Normalization can affect equality; to avoid this, nodes should be normalized
@@ -201,11 +209,11 @@ public class DOMUtils
 	 * 
 	 * <ul>
 	 * <li>The following string attributes are equal:
-	 *   <ul>
-	 *     <li><code>publicId</code></li>
-	 *     <li><code>systemId</code> </li>
-	 *     <li><code>internalSubset</code></li>
-	 *   </ul>
+	 *	 <ul>
+	 *	   <li><code>publicId</code></li>
+	 *	   <li><code>systemId</code> </li>
+	 *	   <li><code>internalSubset</code></li>
+	 *	 </ul>
 	 * </li>
 	 * <li>The <code>entities</code> <code>NamedNodeMaps</code> are equal.</li>
 	 * <li>The <code>notations</code> <code>NamedNodeMaps</code> are equal.</li>
@@ -214,15 +222,15 @@ public class DOMUtils
 	 * <p>On the other hand, the following do not affect equality:</p>
 	 * 
 	 * <ul>
-	 *   <li>The <code>ownerDocument</code> attribute.</li>
-	 *   <li>The <code>specified</code> attribute for <code>Attr</code> nodes.</li>
-	 *   <li>The <code>isWhitespaceInElementContent</code> attribute for <code>Text</code> nodes.</li>
-	 *   <li>As well as any user data or event listeners registered on the nodes.</li>
+	 *	 <li>The <code>ownerDocument</code> attribute.</li>
+	 *	 <li>The <code>specified</code> attribute for <code>Attr</code> nodes.</li>
+	 *	 <li>The <code>isWhitespaceInElementContent</code> attribute for <code>Text</code> nodes.</li>
+	 *	 <li>As well as any user data or event listeners registered on the nodes.</li>
 	 * </ul>
 	 *
 	 * <p>
-     * <b>Note:</b> This method is derived from <code>com.sun.org.apache.xerces.internal.dom.NodeImpl</code>.
-     * </p>
+	 * <b>Note:</b> This method is derived from <code>com.sun.org.apache.xerces.internal.dom.NodeImpl</code>.
+	 * </p>
 	 * 
 	 * @param node1 The first node to compare equality with.
 	 * @param node2 The second node to compare equality with.
@@ -268,8 +276,8 @@ public class DOMUtils
 				return false;
 			
 			// NodeName: Concatenation of prefix and localName.
-			//   In theory nodeName can't be null but better be careful
-			//   who knows what other implementations may be doing?...
+			//	 In theory nodeName can't be null but better be careful
+			//	 who knows what other implementations may be doing?...
 			if (node1.getNodeName() == null)
 			{
 				if (node2.getNodeName() != null)
@@ -291,19 +299,19 @@ public class DOMUtils
 		return true;
 	}
 	
-    /**
-     * <p>Override inherited behavior from <code>areEqualNodes</code> to support deep equal.</p>
-     * 
-     * <p><b>Reference:</b> DOM Level 3 Working Draft - Experimental.</p>
-     * 
-     * <p><b>Note:</b> This method is derived from <code>com.sun.org.apache.xerces.internal.dom.ParentNode</code>.</p>
-     * 
+	/**
+	 * <p>Override inherited behavior from <code>areEqualNodes</code> to support deep equal.</p>
+	 * 
+	 * <p><b>Reference:</b> DOM Level 3 Working Draft - Experimental.</p>
+	 * 
+	 * <p><b>Note:</b> This method is derived from <code>com.sun.org.apache.xerces.internal.dom.ParentNode</code>.</p>
+	 * 
 	 * @param node1 The first node to compare equality with.
 	 * @param node2 The second node to compare equality with.
 	 * @param ignorePrefix When true, ignore the <code>prefix</code> related values.
 	 * 
 	 * @return If the nodes (and any subtrees) are equal, <code>true</code>; otherwise <code>false</code>.
-     */
+	 */
 	public static boolean areEqualParentNodes(Node node1, Node node2, boolean ignorePrefix)
 	{
 		if (!areEqualNodes(node1, node2, ignorePrefix))
@@ -329,20 +337,20 @@ public class DOMUtils
 		return true;
 	}
 	
-    /**
-     * <p>Override inherited behavior from <code>areEqualNodes</code> and <code>areEqualParentNodes</code>
-     * to check on attributes.</p>
-     * 
-     * <p><b>Reference:</b> DOM Level 3 Working Draft - Experimental.</p>
-     * 
-     * <p><b>Note:</b> This method is derived from <code>com.sun.org.apache.xerces.internal.dom.ElementImpl</code></p>
-     * 
+	/**
+	 * <p>Override inherited behavior from <code>areEqualNodes</code> and <code>areEqualParentNodes</code>
+	 * to check on attributes.</p>
+	 * 
+	 * <p><b>Reference:</b> DOM Level 3 Working Draft - Experimental.</p>
+	 * 
+	 * <p><b>Note:</b> This method is derived from <code>com.sun.org.apache.xerces.internal.dom.ElementImpl</code></p>
+	 * 
 	 * @param node1 The first element to compare equality with.
 	 * @param node2 The second element to compare equality with.
 	 * @param ignorePrefix When true, ignore the <code>prefix</code> related values.
 	 * 
 	 * @return If the elements (and any subtrees) are equal, <code>true</code>; otherwise <code>false</code>.
-     */
+	 */
 	public static boolean areEqualElements(Element node1, Element node2, boolean ignorePrefix)
 	{
 		if (!areEqualParentNodes(node1, node2, ignorePrefix))
@@ -391,7 +399,7 @@ public class DOMUtils
 	 * 
 	 * @param is An input stream for the source XML file.
 	 * @param locatorPrefix Custom prefix for publicId, systemId, lineNumber and columnNumber.
-     * @param systemId The systemId which is needed for resolving relative URIs.
+	 * @param systemId The systemId which is needed for resolving relative URIs.
 	 * 
 	 * @return A W3C Document instance enhanced with line numbers per element.
 	 * 
@@ -417,41 +425,41 @@ public class DOMUtils
 				// used later for line tracking when traversing nodes.
 				private Locator documentLocator;
 				public Locator getDocumentLocator() { return documentLocator; }
-			    /**
-			     * Receive a Locator object for document events.
-			     *
-			     * @param locator A locator for all SAX document events.
-			     * 
-			     * @see org.xml.sax.ContentHandler#setDocumentLocator
-			     * @see org.xml.sax.Locator
-			     */
+				/**
+				 * Receive a Locator object for document events.
+				 *
+				 * @param locator A locator for all SAX document events.
+				 * 
+				 * @see org.xml.sax.ContentHandler#setDocumentLocator
+				 * @see org.xml.sax.Locator
+				 */
 				@Override
 				public void setDocumentLocator(Locator locator)
 				{
 					this.documentLocator = locator;
 				}
 
-			    /**
-			     * Receive notification of the start of a SAX element then create a DOM
-			     * element with child text and locator elements, when needed. Push the
-			     * DOM element onto this handler's stack.
-			     *
-			     * @param uri The Namespace URI, or the empty string if the
-			     *        element has no Namespace URI or if Namespace
-			     *        processing is not being performed.
-			     * @param localName The local name (without prefix), or the
-			     *        empty string if Namespace processing is not being
-			     *        performed.
-			     * @param qName The qualified name (with prefix), or the
-			     *        empty string if qualified names are not available.
-			     * @param attributes The attributes attached to the element.  If
-			     *        there are no attributes, it shall be an empty
-			     *        Attributes object.
-			     *        
-			     * @throws SAXException Any SAX exception, possibly wrapping another exception.
-			     * 
-			     * @see org.xml.sax.ContentHandler#startElement
-			     */
+				/**
+				 * Receive notification of the start of a SAX element then create a DOM
+				 * element with child text and locator elements, when needed. Push the
+				 * DOM element onto this handler's stack.
+				 *
+				 * @param uri The Namespace URI, or the empty string if the
+				 *		  element has no Namespace URI or if Namespace
+				 *		  processing is not being performed.
+				 * @param localName The local name (without prefix), or the
+				 *		  empty string if Namespace processing is not being
+				 *		  performed.
+				 * @param qName The qualified name (with prefix), or the
+				 *		  empty string if qualified names are not available.
+				 * @param attributes The attributes attached to the element.  If
+				 *		  there are no attributes, it shall be an empty
+				 *		  Attributes object.
+				 *		  
+				 * @throws SAXException Any SAX exception, possibly wrapping another exception.
+				 * 
+				 * @see org.xml.sax.ContentHandler#startElement
+				 */
 				@Override
 				public void startElement(String uri, String localName, String qName, Attributes attributes)
 					throws SAXException
@@ -494,17 +502,17 @@ public class DOMUtils
 				 * elements.
 				 * 
 				 * @param uri The Namespace URI, or the empty string if the
-				 *        element has no Namespace URI or if Namespace
-				 *        processing is not being performed.
+				 *		  element has no Namespace URI or if Namespace
+				 *		  processing is not being performed.
 				 * @param localName The local name (without prefix), or the
-				 *        empty string if Namespace processing is not being
-				 *        performed.
+				 *		  empty string if Namespace processing is not being
+				 *		  performed.
 				 * @param qName The qualified name (with prefix), or the
-				 *        empty string if qualified names are not available.
-				 *        
+				 *		  empty string if qualified names are not available.
+				 *		  
 				 * @throws SAXException Any SAX exception, possibly wrapping
-				 *         another exception.
-				 *         
+				 *		   another exception.
+				 *		   
 				 * @see org.xml.sax.ContentHandler#endElement
 				 */
 				@Override
@@ -527,13 +535,13 @@ public class DOMUtils
 				 * Receive notification of character data inside an element and append
 				 * characters to text buffer.
 				 * 
-			     * @param ch The characters to append.
-			     * @param start The start position in the character array.
-			     * @param length The number of characters to use from the character array.
-			     *               
-			     * @throws SAXException Any SAX exception, possibly wrapping another exception.
-			     * 
-			     * @see org.xml.sax.ContentHandler#characters
+				 * @param ch The characters to append.
+				 * @param start The start position in the character array.
+				 * @param length The number of characters to use from the character array.
+				 *				 
+				 * @throws SAXException Any SAX exception, possibly wrapping another exception.
+				 * 
+				 * @see org.xml.sax.ContentHandler#characters
 				 */
 				@Override
 				public void characters(char ch[], int start, int length)
@@ -555,10 +563,10 @@ public class DOMUtils
 				}
 				
 				// Return true when string in null or blank; otherwise, false.
-			    private boolean isBlank(String string)
-			    {
-			        return string == null || string.isBlank();
-			    }
+				private boolean isBlank(String string)
+				{
+					return string == null || string.isBlank();
+				}
 
 				// Return true when value greater than zero; otherwise, false.
 				private boolean isPositive(int value)
@@ -567,8 +575,8 @@ public class DOMUtils
 				}
 			};
 			
-		    // Parse the content of the given InputStream
-		    // instance as XML using the specified DefaultHandler.
+			// Parse the content of the given InputStream
+			// instance as XML using the specified DefaultHandler.
 			final SAXParser parser = SAX_PARSER_FACTORY_NS.newSAXParser();
 			parser.parse(is, handler, systemId);
 			
@@ -610,5 +618,79 @@ public class DOMUtils
 			locatorBean = new LocatorBean(publicId, systemId, lineNumber, columnNumber);
 		}
 		return locatorBean;
+	}
+	
+	/**
+	 * Transform a {@link Node} instance into a formatted XML string.
+	 * 
+	 * @param node The {@link Node} instance to be transformed.
+	 * 
+	 * @return A {@link Node} instance into a formatted XML string.
+	 * 
+	 * @throws TransformerException When the {@link Node} instance cannot be transformed.
+	 */
+	public static String transformToString(Node node) throws TransformerException
+	{
+		TransformerFactory tf = TransformerFactory.newInstance();
+		Transformer transformer = tf.newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		StringWriter writer = new StringWriter();
+		transformer.transform(new DOMSource(node), new StreamResult(writer));
+		return writer.toString();
+	}
+	
+	/**
+	 * Build a {@link Node} instance into a string representation.
+	 * 
+	 * @param tab The string for indentation.
+	 * @param node The {@link Node} instance to build into a string.
+	 * 
+	 * @return A {@link Node} instance into a formatted XML string.
+	 */
+	public static String buildToString(String tab, Node node)
+	{
+		if (node.getNodeType() == Node.DOCUMENT_NODE)
+		{
+			try
+			{
+				return transformToString(node);
+			}
+			catch (TransformerException ex)
+			{
+				throw new RuntimeException("cannot build to string", ex);
+			}
+		}
+		else
+		{
+			StringBuilder sb = new StringBuilder();
+			if (node.getNodeType() == Node.TEXT_NODE)
+			{
+				if ( !isBlank(node.getNodeValue()) )
+					sb.append(tab + node.getNodeValue() + "\n");
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE)
+			{
+				StringBuilder ab = new StringBuilder();
+				NamedNodeMap atts = node.getAttributes();
+				for ( int i = 0; i < atts.getLength(); ++i )
+				{
+					Node att = atts.item(i);
+					ab.append(" " + att.getNodeName() + "=\"" + att.getNodeValue()+"\"");
+				}
+				sb.append(tab + "<" + node.getNodeName() + ab + ">\n");
+				NodeList kids = node.getChildNodes();
+				for (int i = 0; i < kids.getLength(); ++i)
+					sb.append(buildToString(tab + tab, kids.item(i)));
+				sb.append(tab + "</" + node.getNodeName() + ">\n");
+			}
+			else
+				sb.append(tab + node.getNodeType() + " UNKNOWN NODE TYPE\n");
+			return sb.toString();
+		}
+	}
+	
+	private static boolean isBlank(String value)
+	{
+		return (value != null) ? value.isBlank() : true;
 	}
 }

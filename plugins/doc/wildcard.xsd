@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+	About: This schema represents the JAXB classes in src/main/java/org/jvnet/basicjaxb/plugin/wildcard.
+	       It is not used to generate those classes. Those classes were coded manually, AFAIK.
+	Usage: xjc -no-header wildcard.xsd
+-->
+<xs:schema version="1.0"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://jvnet.org/basicjaxb/xjc/wildcard"
+	targetNamespace="http://jvnet.org/basicjaxb/xjc/wildcard"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	jaxb:version="3.0"
+>
+
+	<xs:annotation>
+		<xs:appinfo>
+			<jaxb:schemaBindings>
+				<jaxb:package name="org.jvnet.basicjaxb.plugin.wildcard.model"/>
+			</jaxb:schemaBindings>
+		</xs:appinfo>
+	</xs:annotation>
+
+	<xs:element name="objectFactory">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="ObjectFactoryCustomization"/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:handler" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="packageName" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="handler">
+		<xs:annotation>
+			<xs:appinfo>
+				<jaxb:class name="HandlerClass"/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:NMTOKEN">
+					<xs:attribute name="lax" type="xs:boolean" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>
+
