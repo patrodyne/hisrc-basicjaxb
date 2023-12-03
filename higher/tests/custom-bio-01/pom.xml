@@ -13,7 +13,7 @@
 	<name>HiSrc BasicJAXB - Test [custom-bio-01]</name>
 	<properties>
 		<root.basedir>${basedir}/../../..</root.basedir>
-		<source.dir>src</source.dir>
+		<source.dir>${basedir}/src</source.dir>
 		<target.dir>${project.build.directory}</target.dir>
 	</properties>
 	<dependencies>
@@ -52,6 +52,7 @@
 								<episodeFile>${target.dir}/generated-sources/xjc/META-INF/customer-episode.xjb</episodeFile>
 								<args>
 									<arg>-Xcustomizations</arg>
+									<arg>-Xcustomizations-directory=${source.dir}/main/resources</arg>
 									<arg>-Xcustomizations-verbose=true</arg>
 									<arg>-Xcustomizations-debug=true</arg>
 									<arg>-Xannotate</arg>

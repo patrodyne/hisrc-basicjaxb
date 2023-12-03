@@ -46,6 +46,12 @@ public class BioDomHandler extends W3CDomHandler
 	{
 		getLogger().trace("getElement: {}", domResult);
 		Element element = super.getElement(domResult);
+		prepare(element);
+		return element;
+	}
+
+	public void prepare(Element element)
+	{
 		String type = element.getAttribute("type");
 		if ( type.isBlank() )
 		{
@@ -53,7 +59,6 @@ public class BioDomHandler extends W3CDomHandler
 			String tag = firstChild.getNodeName();
 			element.setAttribute("type", tag);
 		}
-		return element;
 	}
 	
 	/**

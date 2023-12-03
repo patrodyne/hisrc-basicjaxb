@@ -13,7 +13,7 @@
 	<name>HiSrc BasicJAXB - Test [wildcard-bio-02]</name>
 	<properties>
 		<root.basedir>${basedir}/../../..</root.basedir>
-		<source.dir>src</source.dir>
+		<source.dir>${basedir}/src</source.dir>
 		<target.dir>${project.build.directory}</target.dir>
 	</properties>
 	<dependencies>
@@ -50,6 +50,7 @@
 						<arg>-Xwildcard-verbose=true</arg>
 						<arg>-Xwildcard-debug=true</arg>
 						<arg>-Xcustomizations</arg>
+						<arg>-Xcustomizations-directory=${source.dir}/main/resources</arg>
 						<arg>-Xcustomizations-verbose=true</arg>
 						<arg>-Xcustomizations-debug=true</arg>
 						<arg>-Xannotate</arg>

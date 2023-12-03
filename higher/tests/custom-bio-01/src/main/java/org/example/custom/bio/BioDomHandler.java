@@ -53,15 +53,20 @@ public class BioDomHandler implements DomHandler<Object,DOMResult>
 	{
 		getLogger().trace("unmarshal: {}", domResult);
 		Element element = W3C.getElement(domResult);
+		prepare(element);
+        Object value = mainUnmarshalByType(element);
+		return mainWrap(value);
+	}
+
+	public void prepare(Element element)
+	{
 		String type = element.getAttribute("type");
-        if ( type.isBlank() )
+        if ( type.isBlank() && element.hasChildNodes() )
         {
             Node firstChild = element.getFirstChild();
             String tag = firstChild.getNodeName();
             element.setAttribute("type", tag);
         }
-        Object value = mainUnmarshalByType(element);
-		return mainWrap(value);
 	}
 	
 	/**
