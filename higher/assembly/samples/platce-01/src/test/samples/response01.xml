@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response id="085845"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../main/resources/platce.xsd"
+>
+	<class name="vera-pd" version="1.25" revision="1">
+		<method name="platce-info">
+			<status>0</status>
+			<error_msg>OK</error_msg>
+			<info>INFO method content</info>
+		</method>
+	</class>
+</response>

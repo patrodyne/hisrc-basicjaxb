@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+	<xs:element name="response">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="class" type="veraWSClass"/>
+			</xs:sequence>
+			<xs:attribute name="id" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="veraWSClass">
+		<xs:sequence>
+			<xs:any processContents="lax" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="version" type="xs:string"/>
+		<xs:attribute name="revision" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="methodBase">
+		<xs:sequence>
+			<xs:element name="status" type="xs:string"/>
+			<xs:element name="error_msg" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string"/>
+	</xs:complexType>
+	
+    <xs:element name="methodXX1">
+    	<xs:complexType>
+		    <xs:complexContent>
+		    	<xs:extension base="methodBase">
+					<xs:sequence>
+						<xs:element name="info" type="xs:string"/>
+					</xs:sequence>
+		    	</xs:extension>
+		    </xs:complexContent>
+    	</xs:complexType>
+    </xs:element>
+
+    <xs:element name="methodXX2">
+    	<xs:complexType>
+		    <xs:complexContent>
+		    	<xs:extension base="methodBase">
+					<xs:sequence>
+						<xs:element name="data" type="xs:string"/>
+					</xs:sequence>
+		    	</xs:extension>
+		    </xs:complexContent>
+    	</xs:complexType>
+    </xs:element>
+
+</xs:schema>

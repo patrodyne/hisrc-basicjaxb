@@ -20,6 +20,8 @@
 	<modules>
 		<module>basic</module>
 		<module>cxf</module>
+		<module>platce-01</module>
+		<module>platce-02</module>
 		<module>po</module>
 		<module>po-shaded</module>
 		<module>po-simple</module>
