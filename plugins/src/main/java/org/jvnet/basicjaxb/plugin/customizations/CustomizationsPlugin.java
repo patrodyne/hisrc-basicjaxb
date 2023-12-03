@@ -81,7 +81,7 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 		return format(USAGE_FORMAT, OPTION_NAME, OPTION_DESC);
 	}
 	
-	private File directory = new File("src/main/resources");
+	private File directory = null;
 	public File getDirectory() { return directory; }
 	public void setDirectory(File directory) { this.directory = directory; }
 
@@ -90,6 +90,17 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	@Override
 	protected void beforePostProcessModel(Model model)
 	{
+		String error = null;
+		if (getDirectory() == null)
+			error = "Customizations directory is not provided, please use the -Xcustomizations-directory=<directory> command line argument to provide it.";
+		else if (!getDirectory().exists())
+			error = "Customizations directory [" + getDirectory().getAbsolutePath() + "] does not exist.";
+		else if (!getDirectory().isDirectory())
+			error = "Customizations directory [" + getDirectory().getAbsolutePath() + "] is not a directory.";
+		
+		if ( error != null )
+			throw new IllegalArgumentException(error);
+		
 		if ( isInfoEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
@@ -149,20 +160,11 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	@Override
 	protected void postProcessModel(Model model)
 	{
-		if (getDirectory() == null)
-			warn("Customizations directory is not provided, please use the -Xcustomizations-directory=<directory> command line argument to provide it.");
-		else if (!getDirectory().exists())
-			warn("Customizations directory [{}] does not exist.", getDirectory().getAbsolutePath());
-		else if (!getDirectory().isDirectory())
-			warn("Customizations directory [{}] is not a directory.", getDirectory().getAbsolutePath());
-		else
-		{
-			for (final CClassInfo classInfo : model.beans().values())
-				postProcessClassInfo(model, classInfo);
-			
-			for (final CEnumLeafInfo enumLeafInfo : model.enums().values())
-				postProcessEnumLeafInfo(model, enumLeafInfo);
-		}
+		for (final CClassInfo classInfo : model.beans().values())
+			postProcessClassInfo(model, classInfo);
+		
+		for (final CEnumLeafInfo enumLeafInfo : model.enums().values())
+			postProcessEnumLeafInfo(model, enumLeafInfo);
 	}
 
 	private void postProcessClassInfo(Model model, CClassInfo classInfo)

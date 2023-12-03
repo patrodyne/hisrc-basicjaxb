@@ -136,7 +136,7 @@ public class XmlTypeUtils
 	 * 
 	 * @return The XML namespace prefix or null.
 	 */
-	private static String getPrefix(final Package targetPackage, String namespaceURI)
+	public static String getPrefix(final Package targetPackage, String namespaceURI)
 	{
 		String prefix;
 		final Map<String, String> namespacePrefixes = new HashMap<String, String>();
@@ -160,7 +160,7 @@ public class XmlTypeUtils
 	 * 
 	 * @return The XML namespace or an empty string.
 	 */
-	private static String getNamespace(final Package targetPackage)
+	public static String getNamespace(final Package targetPackage)
 	{
 		String namespaceURI;
 		if ( targetPackage == null )
