@@ -1,0 +1,67 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------< org.patrodyne.jvnet:hisrc-basicjaxb-sample-platce-01 >--------
+[INFO] Building HiSrc BasicJAXB - Sample [platce-01] 2.1.1
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hisrc-basicjaxb-sample-platce-01 ---
+[INFO] Deleting target
+[INFO] 
+[INFO] --- hisrc-higherjaxb:2.1.1:generate (default) @ hisrc-basicjaxb-sample-platce-01 ---
+[INFO] Sources are not up-to-date, XJC will be executed.
+[INFO] XJC> Xcustomizations: : Start
+Parameters
+  Directory.: src/main/resources
+  Verbose...: true
+  Debug.....: true
+[INFO] XJC> Xcustomizations: : Finish
+Results
+  HadError.: false
+[INFO] XJC> Xannotate: : Start
+Parameters
+  DefaultFieldTarget.: getter
+  AnnotationParser...: org.jvnet.basicjaxb_annox.parser.XAnnotationParser@4168f3d9
+  Annotator..........: org.jvnet.hyperjaxb_annox.plugin.annotate.Annotator@353e6389
+  Verbose............: true
+  Debug..............: true
+[INFO] XJC> Xannotate: : Finish
+Results
+  HadError.: false
+[INFO] Episode file [target/generated-sources/xjc/META-INF/sun-jaxb.episode] was augmented with if-exists="true" attributes.
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hisrc-basicjaxb-sample-platce-01 ---
+[INFO] Copying 3 resources from src/main/resources to target/classes
+[INFO] Copying 3 resources from src/test/resources to target/classes
+[INFO] Copying 1 resource from target/generated-sources/xjc to target/classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ hisrc-basicjaxb-sample-platce-01 ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 12 source files with javac [debug release 11] to target/classes
+[INFO] 
+[INFO] --- exec:3.1.0:java (default-cli) @ hisrc-basicjaxb-sample-platce-01 ---
+Unmarshal......: src/test/samples/response01.xml
+11:59:01:720 TRACE unmarshal: [method: null]
+Id.............: 085845
+Vera Name......: vera-pd
+Vera Any.......: org.example.platce.MethodXX1@69b32e74
+Vera Any Class.: class org.example.platce.MethodXX1
+XX1 Name.......: platce-info
+Marshal........: org.example.platce.Response@7dfd73a2
+11:59:01:730 TRACE marshal: org.example.platce.MethodXX1@69b32e74
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<response id="085845">
+    <class name="vera-pd" version="1.25" revision="1">
+        <method name="platce-info">
+            <status>0</status>
+            <error_msg>OK</error_msg>
+            <info>INFO method content</info>
+        </method>
+    </class>
+</response>
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.866 s
+[INFO] Finished at: 2023-12-04T11:59:01-05:00
+[INFO] ------------------------------------------------------------------------
