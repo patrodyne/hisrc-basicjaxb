@@ -109,7 +109,7 @@ org
         └── VeraWSClass.java
 ~~~
 
-The [platce.xsd][31] schema defines the `VeraWSClass` type to hold the _any_ element; but, the [HiSrc HigherJAXB][2] Maven plugin uses the [HiSrc BasicJAXB][1] customization XJC plugin and the [HiSrc HyperJAXB Annox][3] annotation XJC plugin to add the '@XmlAnyElement' and '@XmlJavaTypeAdapter' annotation using a separate configuration file: [VeraWSClass.any.xml][30].
+The [platce.xsd][31] schema defines the `VeraWSClass` type to hold the _any_ element; but, the [HiSrc HigherJAXB][2] Maven plugin uses the [HiSrc BasicJAXB][1] customization XJC plugin and the [HiSrc HyperJAXB Annox][3] annotation XJC plugin to add the `@XmlAnyElement` and `@XmlJavaTypeAdapter` annotation using a separate configuration file: [VeraWSClass.any.xml][30].
 
 #### Execution
 
