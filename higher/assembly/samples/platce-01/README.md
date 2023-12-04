@@ -22,7 +22,7 @@ For this example, assume the XML element named _class_ is bound to a Java type n
 </response>
 ~~~
 
-## Execution
+### Execution
 
 This sample is a stand-alone Maven project. You can run the test and/or application using:
 
@@ -82,7 +82,7 @@ public static Object mainWrapAsMethod(Object value)
     {
         if ( isJAXBElement(value) )
             value = ((JAXBElement) value).getValue();
-        
+
         if ( METHODXX1_CLASS.equals(value.getClass()) )
             wrap = new JAXBElement(METHOD_QNAME, METHODXX1_CLASS, value);
         else if ( METHODXX2_CLASS.equals(value.getClass()) )
@@ -92,11 +92,40 @@ public static Object mainWrapAsMethod(Object value)
 }
 ~~~
 
+#### Implementation
+
+The [sample project][21] generates the JAXB classes using the [HiSrc HigherJAXB][2] Maven plugin and XJC plugins from [HiSrc BasicJAXB][1]. The XML Schema defines the `MethodXXN` types as sub-types of `MethodBase` which contains common attributes and elements.
+
+**Classes generated from [platce.xsd][31] by XJC**
+~~~
+org
+└── example
+    └── platce
+        ├── MethodBase.java
+        ├── MethodXX1.java
+        ├── MethodXX2.java
+        ├── ObjectFactory.java
+        ├── Response.java
+        └── VeraWSClass.java
+~~~
+
+The [platce.xsd][31] schema defines the `VeraWSClass` type to hold the _any_ element; but, the [HiSrc HigherJAXB][2] Maven plugin uses the [HiSrc BasicJAXB][1] customization XJC plugin and the [HiSrc HyperJAXB Annox][3] annotation XJC plugin to add the '@XmlAnyElement' and '@XmlJavaTypeAdapter' annotation using a separate configuration file: [VeraWSClass.any.xml][30].
+
+#### Execution
+
+For the demo, you can run the test and/or application using:
+
+~~~
+mvn -Ptest clean test
+mvn -Pexec compile exec:java -Dexec.args="src/test/samples/response01.xml"
+mvn -Pexec compile exec:java -Dexec.args="src/test/samples/response02.xml"
+~~~
 
 <!-- References -->
 
 [1]: https://github.com/patrodyne/hisrc-basicjaxb#readme
 [2]: https://github.com/patrodyne/hisrc-higherjaxb#readme
+[3]: https://github.com/patrodyne/hisrc-hyperjaxb-annox#readme
 [10]: https://www.w3.org/TR/WD-DOM/introduction.html
 [11]: https://www.w3.org/2003/01/dom2-javadoc/org/w3c/dom/Element.html
 [12]: https://docs.oracle.com/en/java/javase/17/docs/api/java.xml/javax/xml/namespace/QName.html
