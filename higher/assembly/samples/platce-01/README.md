@@ -129,7 +129,7 @@ mvn -Pexec compile exec:java -Dexec.args="src/test/samples/response02.xml"
 [10]: https://www.w3.org/TR/WD-DOM/introduction.html
 [11]: https://www.w3.org/2003/01/dom2-javadoc/org/w3c/dom/Element.html
 [12]: https://docs.oracle.com/en/java/javase/17/docs/api/java.xml/javax/xml/namespace/QName.html
-[20]: https://github.com/patrodyne/hisrc-basicjaxb/releases/download/2.1.1/hisrc-basicjaxb-sample-platce-2.1.1-mvn-src.zip
+[20]: https://github.com/patrodyne/hisrc-basicjaxb/releases/download/2.1.1/hisrc-basicjaxb-sample-platce-01-2.1.1-mvn-src.zip
 [21]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/platce-01/README.md
 [22]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/platce-01/OUTPUT.txt
 [23]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/platce-01/project-pom.xml
