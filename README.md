@@ -106,6 +106,7 @@ New goals for the next release are:
 * Compile sources and generate classes for Java release v11 using JDK 17.
 * Replaced `maven.compiler.source/target="11"` with `maven.compiler.release="11"`.
 * Moved `org.jvnet.basicjaxb.lang.Foo2` to `org.jvnet.basicjaxb.lang.Foo`.
+* hashCode2, equals2, toString2 [become][46] hashCode, equals, toString.
 * Update JAXB dependencies from 3.x to 4.x.
 
 #### Version 2.0.0
@@ -188,4 +189,5 @@ New goals for the next release are:
   [43]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-shaded/latest/index.html
   [44]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-testing/latest/index.html
   [45]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-tools/latest/index.html
+  [46]: https://github.com/patrodyne/hisrc-basicjaxb/issues/11#issuecomment-1698145616
 
