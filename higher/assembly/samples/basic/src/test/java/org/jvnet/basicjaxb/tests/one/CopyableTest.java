@@ -8,7 +8,7 @@ import org.jvnet.basicjaxb.lang.CopyStrategy;
 import org.jvnet.basicjaxb.lang.EqualsStrategy;
 import org.jvnet.basicjaxb.lang.JAXBCopyStrategy;
 import org.jvnet.basicjaxb.lang.JAXBEqualsStrategy;
-import org.jvnet.basicjaxb.test.AbstractSamplesTest;
+import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.jvnet.basicjaxb.locator.DefaultRootObjectLocator;
 
 public class CopyableTest extends AbstractSamplesTest

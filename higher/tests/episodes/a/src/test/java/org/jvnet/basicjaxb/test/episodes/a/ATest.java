@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.File;
 
 import org.jvnet.basicjaxb.lang.ContextUtils;
-import org.jvnet.basicjaxb.test.AbstractSamplesTest;
+import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.w3c.dom.Element;
 
 import jakarta.xml.bind.JAXBElement;

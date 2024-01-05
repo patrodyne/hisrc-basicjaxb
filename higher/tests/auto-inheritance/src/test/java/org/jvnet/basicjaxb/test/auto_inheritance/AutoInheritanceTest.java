@@ -21,7 +21,7 @@ import org.example.base.Stageable;
 import org.example.contact.Contact;
 import org.junit.jupiter.api.Test;
 import org.jvnet.basicjaxb.lang.ContextUtils;
-import org.jvnet.basicjaxb.test.AbstractSamplesTest;
+import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.xml.sax.SAXException;
 
 import jakarta.xml.bind.JAXBException;

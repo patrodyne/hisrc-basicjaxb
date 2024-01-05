@@ -40,6 +40,7 @@
 					<verbose>true</verbose>
 					<debug>true</debug>
 					<args>
+						<arg>-Xinheritance</arg>
 						<arg>-XsimpleEquals</arg>
 						<arg>-XsimpleHashCode</arg>
 						<arg>-XsimpleToString</arg>

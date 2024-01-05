@@ -1,4 +1,4 @@
-package org.jvnet.basicjaxb.test;
+package org.jvnet.basicjaxb.testing;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

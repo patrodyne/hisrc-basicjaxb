@@ -8,7 +8,7 @@ import java.io.File;
 import java.math.BigDecimal;
 
 import org.jvnet.basicjaxb.lang.ContextUtils;
-import org.jvnet.basicjaxb.test.AbstractSamplesTest;
+import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.jvnet.basicjaxb.tests.po.ObjectFactory;
 import org.jvnet.basicjaxb.tests.po.PurchaseOrder;
 

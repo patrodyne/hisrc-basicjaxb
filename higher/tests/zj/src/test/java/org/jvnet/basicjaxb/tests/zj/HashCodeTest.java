@@ -10,7 +10,7 @@ import org.jvnet.basicjaxb.lang.HashCodeStrategy;
 import org.jvnet.basicjaxb.lang.JAXBCopyStrategy;
 import org.jvnet.basicjaxb.lang.JAXBHashCodeStrategy;
 import org.jvnet.basicjaxb.locator.DefaultRootObjectLocator;
-import org.jvnet.basicjaxb.test.AbstractSamplesTest;
+import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.jvnet.basicjaxb.util.ClassUtils;
 
 import jakarta.xml.bind.JAXBElement;

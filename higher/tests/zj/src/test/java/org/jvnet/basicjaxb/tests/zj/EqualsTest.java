@@ -7,7 +7,7 @@ import java.io.File;
 
 import org.jvnet.basicjaxb.lang.JAXBEqualsStrategy;
 import org.jvnet.basicjaxb.locator.DefaultRootObjectLocator;
-import org.jvnet.basicjaxb.test.AbstractSamplesTest;
+import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.jvnet.basicjaxb.util.ClassUtils;
 
 import com.oce.obis.sei.api.data.MediaInfo;

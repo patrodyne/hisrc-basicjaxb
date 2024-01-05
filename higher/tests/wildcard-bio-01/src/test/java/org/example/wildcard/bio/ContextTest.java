@@ -24,7 +24,7 @@ import java.util.Map.Entry;
 import org.example.wildcard.bio.customer.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.jvnet.basicjaxb.test.AbstractSamplesTest;
+import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

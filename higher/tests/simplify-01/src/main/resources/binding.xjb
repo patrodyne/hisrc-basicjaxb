@@ -3,8 +3,9 @@
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:simplify="http://jvnet.org/basicjaxb/xjc/simplify"
+	xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"
 	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
-	jaxb:extensionBindingPrefixes="xjc simplify"
+	jaxb:extensionBindingPrefixes="xjc simplify inh"
 >
 
 	<!--  Global Bindings
@@ -33,6 +34,12 @@
 			<simplify:property name="childOrFootOrFoo">
 				<simplify:as-element-property />
 			</simplify:property>
+		</jaxb:bindings>
+		<!-- See https://github.com/eclipse-ee4j/jaxb-ri/pull/1751 -->
+		<jaxb:bindings node="xs:element[@name='baseElement']">
+			<inh:annotates annotation="java.lang.SuppressWarnings">
+				<inh:elements name="value" type="java.lang.String">rawtypes unchecked serial</inh:elements>
+			</inh:annotates>
 		</jaxb:bindings>
 	</jaxb:bindings>
 </jaxb:bindings>

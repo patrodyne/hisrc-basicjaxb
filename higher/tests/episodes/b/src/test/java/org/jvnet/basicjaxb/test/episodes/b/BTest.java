@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.File;
 
 import org.jvnet.basicjaxb.lang.ContextUtils;
-import org.jvnet.basicjaxb.test.AbstractSamplesTest;
+import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.jvnet.basicjaxb.test.episodes.a.A1Type;
 import org.jvnet.basicjaxb.test.episodes.a.AType;
 import org.jvnet.basicjaxb.test.episodes.a.IssueHJIII24Animal;

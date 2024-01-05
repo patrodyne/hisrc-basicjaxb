@@ -1,23 +1,26 @@
-package org.jvnet.basicjaxb.test;
+package org.jvnet.basicjaxb.testing;
 
 import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 import static java.util.Arrays.sort;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 
 /**
  * A test harness to test XML sample files in a JAXB context.
@@ -73,8 +76,7 @@ public abstract class AbstractSamplesTest
 	{
 		try
 		{
-			File testClassFile = new File(getTestClass().getProtectionDomain().getCodeSource().getLocation().getFile());
-			return testClassFile.getParentFile().getParentFile().getAbsoluteFile();
+			return getMavenProjectDir(getTestClass());
 		}
 		catch (Exception ex)
 		{
@@ -259,4 +261,28 @@ public abstract class AbstractSamplesTest
 		assertTrue(failed == 0, summary + " the check. Check previous errors for details.");
 	}
 	
+    /**
+     * Get the Maven project directory for a given target class.
+     * 
+	 * <p><b>Strategy:</b> Start with any project class and get the code source for its
+	 * protection domain. For standard Maven projects, the code source is
+	 * <code>"target/project-classes"</code> which is two sub-directories below the project
+	 * directory. <em>Note:</em> The original project class can be at any package depth.</p>
+     * 
+     * @param targetClass A Maven project target class.
+     * 
+     * @return The Maven project directory.
+     * 
+     * @throws URISyntaxException When the @{link CodeSource} location cannot be resolved.
+     */
+	public static File getMavenProjectDir(Class<?> targetClass) throws URISyntaxException
+	{
+		ProtectionDomain targetProtectionDomain = targetClass.getProtectionDomain();
+		CodeSource targetCodeSource = targetProtectionDomain.getCodeSource();
+		File targetClassesDir = new File(targetCodeSource.getLocation().toURI());
+		File targetClassesDirParentFile = targetClassesDir.getParentFile();
+		File targetClassesDirParentParentFile = targetClassesDirParentFile.getParentFile();
+		File targetClassesDirAbsoluteParentParentFile = targetClassesDirParentParentFile.getAbsoluteFile();
+		return targetClassesDirAbsoluteParentParentFile;
+	}
 }

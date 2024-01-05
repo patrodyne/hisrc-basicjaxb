@@ -43,6 +43,7 @@
 					<verbose>true</verbose>
 					<debug>true</debug>
 					<args>
+						<arg>-Xinheritance</arg>
 						<arg>-Xsimplify</arg>
 						<arg>-Xsimplify-usePluralForm=true</arg>
 						<arg>-Xsimplify-verbose=true</arg>

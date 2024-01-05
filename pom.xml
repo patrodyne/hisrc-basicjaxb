@@ -65,8 +65,8 @@
 	<properties>
 		<cxf-codegen-plugin.version>4.0.0</cxf-codegen-plugin.version>
 		<maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
-		<maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
-		<maven-bundle-plugin.version>5.1.8</maven-bundle-plugin.version>
+		<maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
+		<maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
 		<maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<maven-dependency-plugin.version>3.5.0</maven-dependency-plugin.version>
@@ -77,15 +77,15 @@
 		<maven-install-plugin.version>3.1.0</maven-install-plugin.version>
 		<maven-invoker-plugin.version>3.4.0</maven-invoker-plugin.version>
 		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-		<maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
+		<maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
 		<maven-jxr-plugin.version>3.3.0</maven-jxr-plugin.version>
 		<maven-project-info-reports-plugin.version>3.4.2</maven-project-info-reports-plugin.version>
 		<maven-release-plugin.version>3.0.0-M7</maven-release-plugin.version>
 		<maven-replacer-plugin.version>1.4.1</maven-replacer-plugin.version>
-		<maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
-		<maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
-		<maven-site-plugin.version>3.12.1</maven-site-plugin.version>
-		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+		<maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
+		<maven-site-plugin.version>4.0.0-M12</maven-site-plugin.version>
+		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
 		<maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
 		<maven-surefire-report-plugin.version>3.1.2</maven-surefire-report-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
@@ -97,6 +97,7 @@
 		<activation-imp.version>2.0.1</activation-imp.version>
 		<ant.version>1.10.13</ant.version>
 		<cxf.version>3.3.0</cxf.version>
+		<guice.version>5.1.0</guice.version>
 		<hisrc-hyperjaxb-annox-plugin.version>2.1.2-SNAPSHOT</hisrc-hyperjaxb-annox-plugin.version>
 		<jaxb-api.version>4.0.0</jaxb-api.version>
 		<jaxb-imp.version>4.0.3</jaxb-imp.version>
@@ -104,7 +105,9 @@
 		<junit-jupiter.version>5.10.0</junit-jupiter.version>
 		<junit-platform.version>1.10.0</junit-platform.version>
 		<maven.compiler.release>11</maven.compiler.release>
+		<maven-api.version>3.9.4</maven-api.version>
 		<maven-min.version>3.8.4</maven-min.version>
+		<maven-resolver.version>1.9.13</maven-resolver.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<slf4j.version>2.0.7</slf4j.version>
@@ -271,16 +274,19 @@
 				<groupId>org.apache.ant</groupId>
 				<artifactId>ant</artifactId>
 				<version>${ant.version}</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ant</groupId>
 				<artifactId>ant-launcher</artifactId>
 				<version>${ant.version}</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.ant</groupId>
 				<artifactId>ant-junitlauncher</artifactId>
 				<version>${ant.version}</version>
+				<scope>provided</scope>
 			</dependency>
 			<!-- Java Parser -->
 			<dependency>
@@ -434,6 +440,7 @@
 					<groupId>org.apache.felix</groupId>
 					<artifactId>maven-bundle-plugin</artifactId>
 					<version>${maven-bundle-plugin.version}</version>
+					<!-- See https://issues.apache.org/jira/browse/FELIX-6606 -->
 				</plugin>
 				<plugin>
 					<groupId>org.owasp</groupId>
@@ -467,6 +474,7 @@
 				<executions>
 					<execution>
 						<?m2e ignore?>
+						<id>echo-build-properties</id>
 						<phase>validate</phase>
 						<goals>
 							<goal>run</goal>

@@ -3,7 +3,7 @@ package org.jvnet.basicjaxb.tests.one;
 import java.io.File;
 
 import org.jvnet.basicjaxb.lang.JAXBToStringStrategy;
-import org.jvnet.basicjaxb.test.AbstractSamplesTest;
+import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 
 public class ToStringTest extends AbstractSamplesTest
 {

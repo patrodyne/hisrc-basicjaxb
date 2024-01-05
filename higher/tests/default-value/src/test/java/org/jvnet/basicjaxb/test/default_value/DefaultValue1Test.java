@@ -13,7 +13,7 @@ import org.example.document.DvChoice;
 import org.example.document.ObjectFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.jvnet.basicjaxb.test.AbstractSamplesTest;
+import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.w3c.dom.Node;
 
 import jakarta.xml.bind.JAXBException;
