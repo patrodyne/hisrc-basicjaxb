@@ -109,7 +109,7 @@ public class LocatorUtils
 			{
 				if ( pi.getSchemaComponent() != null )
 					locator = pi.getSchemaComponent().getLocator();
-				else
+				if ( locator == null )
 				{
 					if ( (pi.parent() != null) && (pi.parent().getLocator() != null) )
 						locator = pi.parent().getLocator();
@@ -177,6 +177,11 @@ public class LocatorUtils
 		return locator;
 	}
 
+	public static String toLocation(Locator locator)
+	{
+		return StringUtils.toLocation(locator);
+	}
+	
 	public static String toLocation(Object metadata)
 	{
 		return StringUtils.toLocation(getLocator(metadata));
