@@ -123,7 +123,9 @@
 			destdir="\${basedir}/target/classes" 
 			srcdir="\${basedir}/src/main/java:\${basedir}/target/generated-sources/xjc"
 			includeantruntime="false"
-		/>
+		>
+			<compilerarg line="-proc:full"/>
+		</javac>
 		<copy todir="\${basedir}/target/classes">
 			<fileset dir="\${basedir}/src/main/resources"/>
 			<fileset dir="\${basedir}/target/generated-sources/xjc">
@@ -138,7 +140,9 @@
 			classpathref="test-compile.path"
 			destdir="\${basedir}/target/test-classes" 
 			srcdir="\${basedir}/src/test/java"
-			includeantruntime="false">
+			includeantruntime="false"
+		>
+			<compilerarg line="-proc:full"/>
 		</javac>
 		<copy todir="\${basedir}/target/test-classes">
 			<fileset dir="\${basedir}/src/test/resources"/>
