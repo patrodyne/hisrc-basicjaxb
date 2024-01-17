@@ -18,20 +18,9 @@
 
 	<jaxb:bindings schemaLocation="schema.xsd" node="/xsd:schema">
 
-		<!-- See https://github.com/eclipse-ee4j/jaxb-ri/pull/1751 -->
-		<jaxb:bindings node="xsd:element[@name='issueJIIB14JAXBElement']">
-			<inheritance:annotates annotation="java.lang.SuppressWarnings">
-				<inheritance:elements name="value" type="java.lang.String">rawtypes unchecked serial</inheritance:elements>
-			</inheritance:annotates>
-		</jaxb:bindings>
-
 		<jaxb:bindings node="xsd:element[@name='issueJIIB38']">
 			<jaxb:class/>
 			<inheritance:implements>java.lang.Cloneable</inheritance:implements>
-			<!-- See https://github.com/eclipse-ee4j/jaxb-ri/pull/1751 -->
-			<inheritance:annotates annotation="java.lang.SuppressWarnings">
-				<inheritance:elements name="value" type="java.lang.String">rawtypes unchecked serial</inheritance:elements>
-			</inheritance:annotates>
 		</jaxb:bindings>
 
 		<jaxb:bindings node="xsd:complexType[@name='issueGH70Type']">
