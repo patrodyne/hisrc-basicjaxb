@@ -75,6 +75,19 @@ New goals for the next release are:
 
 ### Fork History
 
+#### Version 2.2.0
+
+* Replaced old `maven-compat` layer with Maven Resolver/Aether.
+* Parameterized fluent method prefix.
+* Fixed `FluentApiPlugin` to process nested classes.
+* Added `FixOtherAttributes` XJC plugin.
+* Added `PropertyListenerPlugin` XJC plugin.
+* Added _required_ and _selector_ options to the value-constructor plugin.
+* Added `DomHandler` option to wildcard plugin.
+* Removed `hisrc-basicjaxb-runtime` dep from `SimpleToStringPlugin`.
+* Updated Maven plugin and dependency versions.
+* Build with JDK 21 and Java 11 compatibility.
+
 #### Version 2.1.1
 
 * Standardized the plugin option name and usage for all XJC plugins.
