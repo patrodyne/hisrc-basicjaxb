@@ -36,6 +36,10 @@ else
   mvn ${JVM_SYS_PROPS} "$@"
 fi
 
+# Release to Maven Central via Sonatype Nexus Repository Manager
+# 1) Set MVN_ARGS to "-T 1" and commit/push
+# 2) Use the same TTY to reuse gpg signing daemon
+# 3) To delete a TAG: git tag -d N.N.N; git push origin --delete N.N.N
 # ./build-JXX.sh -DskipTests=true clean install
 # ./build-JXX.sh -DskipTests=true -Pnexus-deploy clean deploy
 # ./build-JXX.sh -DskipTests=true -DdryRun=false release:clean
