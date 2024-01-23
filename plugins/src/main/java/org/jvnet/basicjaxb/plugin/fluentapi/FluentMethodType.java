@@ -1,5 +1,8 @@
 package org.jvnet.basicjaxb.plugin.fluentapi;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.uncapitalize;
 import static org.jvnet.basicjaxb.plugin.fluentapi.FluentApiPlugin.GETTER_METHOD_PREFIX_LEN;
 import static org.jvnet.basicjaxb.plugin.fluentapi.FluentApiPlugin.SETTER_METHOD_PREFIX_LEN;
 import static org.jvnet.basicjaxb.util.CodeModelUtils.groupMethods;
@@ -36,14 +39,14 @@ public enum FluentMethodType
 		@Override
 		public void createFluentMethod(JDefinedClass implClass, FluentMethodInfo fluentMethodInfo)
 		{
-			String fluentMethodPrefix = fluentMethodInfo.getPlugin().getFluentMethodPrefix();
 			JMethod setterMethod = fluentMethodInfo.getOriginalMethod();
 			String setterName = setterMethod.name();
 			
 			// Create a fluent method for the respective set* method.
-			String fluentName = fluentMethodPrefix + setterName.substring(SETTER_METHOD_PREFIX_LEN);
+			String fluentMethodName =
+				createFluentMethodName(fluentMethodInfo, setterName.substring(SETTER_METHOD_PREFIX_LEN));
 			int mods = JMod.PUBLIC | setterMethod.mods().getValue() & JMod.FINAL;
-			JMethod fluentMethod = implClass.method(mods, implClass, fluentName);
+			JMethod fluentMethod = implClass.method(mods, implClass, fluentMethodName);
 			groupMethods(implClass, setterMethod, fluentMethod);
 			
 			if (fluentMethodInfo.isOverride())
@@ -80,14 +83,15 @@ public enum FluentMethodType
 		@Override
 		public void createFluentMethod(JDefinedClass implClass, FluentMethodInfo fluentMethodInfo)
 		{
-			String fluentMethodPrefix = fluentMethodInfo.getPlugin().getFluentMethodPrefix();
 			JMethod listGetterMethod = fluentMethodInfo.getOriginalMethod();
 			String listGetterName = listGetterMethod.name();
 			
 			// Create a fluent method for the respective List<T> get* method.
-			String fluentName = fluentMethodPrefix + listGetterName.substring(GETTER_METHOD_PREFIX_LEN);
+			String fluentMethodName =
+				createFluentMethodName(fluentMethodInfo, listGetterName.substring(GETTER_METHOD_PREFIX_LEN));
+
 			int mods = JMod.PUBLIC | listGetterMethod.mods().getValue() & JMod.FINAL;
-			JMethod fluentMethod = implClass.method(mods, implClass, fluentName);
+			JMethod fluentMethod = implClass.method(mods, implClass, fluentMethodName);
 			groupMethods(implClass, listGetterMethod, fluentMethod);
 			
 			if (fluentMethodInfo.isOverride())
@@ -127,14 +131,14 @@ public enum FluentMethodType
 		@Override
 		public void createFluentMethod(JDefinedClass implClass, FluentMethodInfo fluentMethodInfo)
 		{
-			String fluentMethodPrefix = fluentMethodInfo.getPlugin().getFluentMethodPrefix();
 			JMethod listGetterMethod = fluentMethodInfo.getOriginalMethod();
 			String listGetterName = listGetterMethod.name();
 			
 			// Create a fluent method for the respective List<T> get* method.
-			String fluentName = fluentMethodPrefix + listGetterName.substring(GETTER_METHOD_PREFIX_LEN);
+			String fluentMethodName =
+				createFluentMethodName(fluentMethodInfo, listGetterName.substring(GETTER_METHOD_PREFIX_LEN));
 			int mods = JMod.PUBLIC | listGetterMethod.mods().getValue() & JMod.FINAL;
-			JMethod fluentMethod = implClass.method(mods, implClass, fluentName);
+			JMethod fluentMethod = implClass.method(mods, implClass, fluentMethodName);
 			groupMethods(implClass, listGetterMethod, fluentMethod);
 			
 			if (fluentMethodInfo.isOverride())
@@ -163,6 +167,17 @@ public enum FluentMethodType
 			return;
 		}
 	};
+	
+	private static String createFluentMethodName(FluentMethodInfo fluentMethodInfo, String beanMethodName)
+	{
+		String fluentMethodPrefix = fluentMethodInfo.getPlugin().getFluentMethodPrefix();
+		String fluentMethodName = null;
+		if ( !isBlank(fluentMethodPrefix) )
+			fluentMethodName = fluentMethodPrefix + capitalize(beanMethodName);
+		else
+			fluentMethodName = uncapitalize(beanMethodName);
+		return fluentMethodName;
+	}
 
 	private static final String VALUE = "value";
 	private static final String VALUES = "values";
