@@ -27,6 +27,7 @@ import org.xml.sax.Locator;
 
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CClassInfo;
+import com.sun.tools.xjc.model.CClassRef;
 import com.sun.tools.xjc.model.CCustomizable;
 import com.sun.tools.xjc.model.CCustomizations;
 import com.sun.tools.xjc.model.CElement;
@@ -121,6 +122,14 @@ public class CustomizationUtils {
 
 	public static boolean containsCustomization(CClassInfo classInfo, QName name) {
 		final CPluginCustomization customization = findCustomization(classInfo, name);
+		if (customization != null) {
+			customization.markAsAcknowledged();
+		}
+		return customization != null;
+	}
+
+	public static boolean containsCustomization(CClassRef classRef, QName name) {
+		final CPluginCustomization customization = findCustomization(classRef, name);
 		if (customization != null) {
 			customization.markAsAcknowledged();
 		}
@@ -353,6 +362,15 @@ public class CustomizationUtils {
 
 	public static CPluginCustomization findCustomization(CClassInfo classInfo, QName name) {
 		final CCustomizations customizations = CustomizationUtils.getCustomizations(classInfo);
+		final CPluginCustomization customization = customizations.find(name.getNamespaceURI(), name.getLocalPart());
+		if (customization != null) {
+			customization.markAsAcknowledged();
+		}
+		return customization;
+	}
+
+	public static CPluginCustomization findCustomization(CClassRef classRef, QName name) {
+		final CCustomizations customizations = CustomizationUtils.getCustomizations(classRef);
 		final CPluginCustomization customization = customizations.find(name.getNamespaceURI(), name.getLocalPart());
 		if (customization != null) {
 			customization.markAsAcknowledged();
