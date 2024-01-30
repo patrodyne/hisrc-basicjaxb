@@ -45,7 +45,7 @@
 		<connection>scm:git:git@github.com:patrodyne/hisrc-basicjaxb.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/patrodyne/hisrc-basicjaxb.git</developerConnection>
 		<url>https://github.com/patrodyne/hisrc-basicjaxb/tree/master</url>
-	  <tag>2.2.0</tag>
+		<tag>2.2.0</tag>
   </scm>
 	<issueManagement>
 		<system>GitHub Issues</system>
@@ -98,7 +98,7 @@
 		<ant.version>1.10.14</ant.version>
 		<cxf.version>3.3.0</cxf.version>
 		<guice.version>5.1.0</guice.version>
-		<hisrc-hyperjaxb-annox-plugin.version>2.2.0</hisrc-hyperjaxb-annox-plugin.version>
+		<hisrc-hyperjaxb-annox-plugin.version>2.2.1-SNAPSHOT</hisrc-hyperjaxb-annox-plugin.version>
 		<jaxb-api.version>4.0.1</jaxb-api.version>
 		<jaxb-imp.version>4.0.4</jaxb-imp.version>
 		<jaxb-core.version>2.3.0.1</jaxb-core.version> <!-- cxf -->
@@ -106,7 +106,7 @@
 		<junit-platform.version>1.10.1</junit-platform.version>
 		<maven.compiler.release>11</maven.compiler.release>
 		<maven-api.version>3.9.6</maven-api.version>
-		<maven-min.version>3.8.4</maven-min.version>
+		<maven-min.version>3.9.0</maven-min.version>
 		<maven-resolver.version>1.9.13</maven-resolver.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
