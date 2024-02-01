@@ -321,14 +321,26 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 		for ( FieldOutline fieldOutline : classFields)
 		{
 			CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
-			CClassInfo fieldParent = (CClassInfo) fieldInfo.parent();
-			String fullClassName = fieldParent.getName();
 			String fieldPublicName = fieldInfo.getName(true);
 			String fieldMethodName = null;
 			if ( fieldInfo.isCollection() )
 				fieldMethodName = GETTER_METHOD_PREFIX + fieldPublicName;
 			else
 				fieldMethodName = SETTER_METHOD_PREFIX + fieldPublicName;
+			
+			String fullClassName = null;
+			if ( fieldInfo.parent() instanceof CClassInfo )
+			{
+				CClassInfo fieldParent = (CClassInfo) fieldInfo.parent();
+				fullClassName = fieldParent.getName();
+			}
+			else
+			{
+				ClassOutline fieldParent = fieldOutline.parent();
+				JDefinedClass implClass = fieldParent.getImplClass();
+				fullClassName = implClass.fullName();
+			}
+			
 			fieldMethodMap.put(fullClassName + "." + fieldMethodName, fieldOutline);
 		}
 	}
