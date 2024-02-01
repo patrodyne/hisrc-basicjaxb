@@ -270,7 +270,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 				XSAttributeUse attribute = (XSAttributeUse) fieldInfo.getSchemaComponent();
 				
 				// Some attribute types need a default value from this plugin, however;
-				// most attributes are initialized in the getter by the XJC engine.
+				// other attributes are initialized in the getter by the XJC engine.
 				if
 				(
 					XMLGregorianCalendar.class.getName().equals(typeFullName) ||
@@ -321,7 +321,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 						if ( schemaType == null )
 						{
 							XSType elementType = element.getType();
-							if ( elementType != null )
+							if ( (elementType != null) && (elementType.getName() != null) )
 								schemaType = new QName(elementType.getTargetNamespace(), elementType.getName());
 						}
 					}

@@ -4,6 +4,17 @@
 	xmlns:tns="http://example.org/document"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
+
+	<!-- Anonymous simple type -->
+	<xs:element name="dv_limit" default="1000">
+		<xs:simpleType>
+			<xs:restriction base="xs:int">
+				<xs:minInclusive value="1" />
+				<xs:maxInclusive value="10000" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
 	<xs:simpleType name="dowType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Sunday" />
@@ -47,6 +58,7 @@
 	<xs:element name="document1">
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element ref="tns:dv_limit" />
 				<xs:element ref="tns:dv_dow" />
 				<xs:element ref="tns:dv_boolean" />
 				<xs:element ref="tns:dv_byte" />
@@ -65,6 +77,14 @@
 				<xs:element ref="tns:dv_hexBinary" />
 				<xs:element ref="tns:dv_anySimpleType" />
 			</xs:sequence>
+			<xs:attribute name="da_limit"                                 default="1000">
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="1" />
+						<xs:maxInclusive value="10000" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
 			<xs:attribute name="da_dow"           type="tns:dowType"      default="Monday" />
 			<xs:attribute name="da_boolean"       type="xs:boolean"       default="true" />
 			<xs:attribute name="da_byte"          type="xs:byte"          default="+1" />

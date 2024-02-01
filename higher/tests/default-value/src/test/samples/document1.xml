@@ -4,6 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://example.org/document ../../main/resources/document.xsd "
 	
+	da_limit="1000" 
 	da_dow="Monday" 
 	da_boolean="true" 
 	da_byte="1" 
@@ -21,6 +22,7 @@
 	da_hexBinary="0FB8" 
 	da_anySimpleType="3.14159" 
 >
+	<ns1:dv_limit>1000</ns1:dv_limit>
 	<ns1:dv_dow>Monday</ns1:dv_dow>
 	<ns1:dv_boolean>true</ns1:dv_boolean>
 	<ns1:dv_byte>-1</ns1:dv_byte>

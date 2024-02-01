@@ -12,6 +12,7 @@ import org.example.document.Document1;
 import org.example.document.DvChoice;
 import org.example.document.ObjectFactory;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.w3c.dom.Node;
@@ -19,6 +20,7 @@ import org.w3c.dom.Node;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 
+@Order(2)
 public class DefaultValue1Test extends AbstractSamplesTest
 {
 	private Map<String, File> sampleMap = new HashMap<>();
@@ -80,6 +82,7 @@ public class DefaultValue1Test extends AbstractSamplesTest
 		document1C.setDvChoice(dvChoiceC);
 		
 		// document1C: All unset elements are set from the default values.
+		if (!document1C.isSetDvLimit()) document1C.setDvLimit(document1C.getDvLimit());
 		if (!document1C.isSetDvDow()) document1C.setDvDow(document1C.getDvDow());
 		if (!document1C.isSetDvBoolean()) document1C.setDvBoolean(document1C.isDvBoolean());
 		if (!document1C.isSetDvByte()) document1C.setDvByte(document1C.getDvByte());
@@ -98,6 +101,7 @@ public class DefaultValue1Test extends AbstractSamplesTest
 		if (!document1C.isSetDvAnySimpleType()) document1C.setDvAnySimpleType(document1C.getDvAnySimpleType());
 
 		// document1C: All attributes are set from the default values.
+		document1C.setDaLimit(document1C.getDaLimit());
 		document1C.setDaDow(document1C.getDaDow());
 		document1C.setDaBoolean(document1C.isDaBoolean());
 		document1C.setDaByte(document1C.getDaByte());

@@ -11,12 +11,14 @@ import java.util.Map;
 import org.example.document.Document4;
 import org.example.document.ObjectFactory;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 
+@Order(2)
 public class DefaultValue4Test extends AbstractSamplesTest
 {
 	private Map<String, File> sampleMap = new HashMap<>();
