@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
+import org.junit.jupiter.api.Order;
 import org.jvnet.basicjaxb.lang.CopyStrategy;
 import org.jvnet.basicjaxb.lang.EqualsStrategy;
 import org.jvnet.basicjaxb.lang.JAXBCopyStrategy;
@@ -11,6 +12,7 @@ import org.jvnet.basicjaxb.lang.JAXBEqualsStrategy;
 import org.jvnet.basicjaxb.locator.DefaultRootObjectLocator;
 import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 
+@Order(2)
 public class CopyableTest extends AbstractSamplesTest
 {
 	@Override

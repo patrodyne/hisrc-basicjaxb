@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.File;
 
+import org.junit.jupiter.api.Order;
 import org.jvnet.basicjaxb.lang.CopyStrategy;
 import org.jvnet.basicjaxb.lang.HashCodeStrategy;
 import org.jvnet.basicjaxb.lang.JAXBCopyStrategy;
@@ -15,6 +16,7 @@ import org.jvnet.basicjaxb.util.ClassUtils;
 
 import jakarta.xml.bind.JAXBElement;
 
+@Order(2)
 public class HashCodeTest extends AbstractSamplesTest
 {
 	@Override

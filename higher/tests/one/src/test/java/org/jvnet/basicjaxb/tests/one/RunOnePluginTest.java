@@ -1,16 +1,17 @@
 package org.jvnet.basicjaxb.tests.one;
 
-import static java.lang.String.format;
-import static org.apache.maven.artifact.Artifact.SCOPE_SYSTEM;
+import static org.apache.maven.artifact.Artifact.SCOPE_RUNTIME;
 
 import java.util.ArrayList;
 
 import org.apache.maven.model.Dependency;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.jvnet.higherjaxb.mojo.HigherjaxbMojo;
 import org.jvnet.higherjaxb.mojo.testing.AbstractMojoTest;
 import org.jvnet.higherjaxb.mojo.testing.SLF4JLogger;
 
+@Order(1)
 public class RunOnePluginTest extends AbstractMojoTest
 {
 	@Test
@@ -24,9 +25,7 @@ public class RunOnePluginTest extends AbstractMojoTest
 		basicjaxb.setGroupId("org.patrodyne.jvnet");
 		basicjaxb.setArtifactId("hisrc-basicjaxb-plugins");
 		basicjaxb.setVersion(getProjectVersion());
-		basicjaxb.setSystemPath(format("../../../plugins/target/%s-%s.jar",
-			basicjaxb.getArtifactId(), basicjaxb.getVersion()));
-		basicjaxb.setScope(SCOPE_SYSTEM);
+		basicjaxb.setScope(SCOPE_RUNTIME);
 		
 		//
 		// MOJO Execution
@@ -57,6 +56,8 @@ public class RunOnePluginTest extends AbstractMojoTest
 		mojo.getArgs().add("-Xinheritance");
 		mojo.getArgs().add("-Xsetters");
 		mojo.getArgs().add("-Xwildcard");
+
+		mojo.setPlugins(new Dependency[] { basicjaxb });
 
 		mojo.execute();
 	}
