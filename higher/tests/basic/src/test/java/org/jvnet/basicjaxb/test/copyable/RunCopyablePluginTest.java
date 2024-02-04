@@ -1,4 +1,4 @@
-package org.jvnet.basicjaxb.plugin.tostring.tests;
+package org.jvnet.basicjaxb.test.copyable;
 
 import static java.lang.String.format;
 import static org.apache.maven.artifact.Artifact.SCOPE_SYSTEM;
@@ -7,12 +7,11 @@ import java.util.ArrayList;
 
 import org.apache.maven.model.Dependency;
 import org.junit.jupiter.api.Test;
-import org.jvnet.basicjaxb.lang.JAXBToStringStrategy;
 import org.jvnet.higherjaxb.mojo.HigherjaxbMojo;
 import org.jvnet.higherjaxb.mojo.testing.AbstractMojoTest;
 import org.jvnet.higherjaxb.mojo.testing.SLF4JLogger;
 
-public class RunToStringPluginTest extends AbstractMojoTest
+public class RunCopyablePluginTest extends AbstractMojoTest
 {
 	@Test
 	public void testExecute() throws Exception
@@ -28,7 +27,7 @@ public class RunToStringPluginTest extends AbstractMojoTest
 		basicjaxb.setSystemPath(format("../../../plugins/target/%s-%s.jar",
 			basicjaxb.getArtifactId(), basicjaxb.getVersion()));
 		basicjaxb.setScope(SCOPE_SYSTEM);
-		
+
 		//
 		// MOJO Execution
 		//
@@ -50,8 +49,7 @@ public class RunToStringPluginTest extends AbstractMojoTest
 		mojo.setNoFileHeader(true);
 		mojo.setExtension(true);
 		mojo.setArgs(new ArrayList<>());
-		mojo.getArgs().add("-XtoString");
-		mojo.getArgs().add("-XtoString-toStringStrategy=" + JAXBToStringStrategy.class.getName());
+		mojo.getArgs().add("-Xcopyable");
 		
 		mojo.setPlugins(new Dependency[] { basicjaxb });
 

@@ -1,4 +1,4 @@
-package org.jvnet.basicjaxb.plugin.mergeable.tests;
+package org.jvnet.basicjaxb.test.mergeable;
 
 import static java.lang.String.format;
 import static org.apache.maven.artifact.Artifact.SCOPE_SYSTEM;

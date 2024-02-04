@@ -1,4 +1,4 @@
-package org.jvnet.basicjaxb.plugin.copyable.tests;
+package org.jvnet.basicjaxb.test.equals;
 
 import static java.lang.String.format;
 import static org.apache.maven.artifact.Artifact.SCOPE_SYSTEM;
@@ -11,7 +11,7 @@ import org.jvnet.higherjaxb.mojo.HigherjaxbMojo;
 import org.jvnet.higherjaxb.mojo.testing.AbstractMojoTest;
 import org.jvnet.higherjaxb.mojo.testing.SLF4JLogger;
 
-public class RunCopyablePluginTest extends AbstractMojoTest
+public class RunEqualsPluginTest extends AbstractMojoTest
 {
 	@Test
 	public void testExecute() throws Exception
@@ -19,7 +19,7 @@ public class RunCopyablePluginTest extends AbstractMojoTest
 		//
 		// Dependencies
 		//
-
+		
 		final Dependency basicjaxb = new Dependency();
 		basicjaxb.setGroupId("org.patrodyne.jvnet");
 		basicjaxb.setArtifactId("hisrc-basicjaxb-plugins");
@@ -49,7 +49,8 @@ public class RunCopyablePluginTest extends AbstractMojoTest
 		mojo.setNoFileHeader(true);
 		mojo.setExtension(true);
 		mojo.setArgs(new ArrayList<>());
-		mojo.getArgs().add("-Xcopyable");
+		mojo.getArgs().add("-XhashCode");
+		mojo.getArgs().add("-Xequals");
 		
 		mojo.setPlugins(new Dependency[] { basicjaxb });
 
