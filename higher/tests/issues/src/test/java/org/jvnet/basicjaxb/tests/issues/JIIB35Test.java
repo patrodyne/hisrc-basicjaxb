@@ -4,10 +4,12 @@ import jakarta.xml.bind.JAXBContext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import org.jvnet.basicjaxb.lang.ContextUtils;
 
+@Order(2)
 public class JIIB35Test {
 
 	@Test

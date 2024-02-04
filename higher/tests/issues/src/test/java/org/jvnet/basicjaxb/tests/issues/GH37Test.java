@@ -4,12 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.jvnet.basicjaxb.lang.JAXBToStringStrategy;
 import org.jvnet.basicjaxb.lang.ToStringStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Order(2)
 public class GH37Test
 {
 	@Test

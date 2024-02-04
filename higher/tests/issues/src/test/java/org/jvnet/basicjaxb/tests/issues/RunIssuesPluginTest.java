@@ -1,16 +1,17 @@
 package org.jvnet.basicjaxb.tests.issues;
 
-import static java.lang.String.format;
-import static org.apache.maven.artifact.Artifact.SCOPE_SYSTEM;
+import static org.apache.maven.artifact.Artifact.SCOPE_RUNTIME;
 
 import java.util.ArrayList;
 
 import org.apache.maven.model.Dependency;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.jvnet.higherjaxb.mojo.HigherjaxbMojo;
 import org.jvnet.higherjaxb.mojo.testing.AbstractMojoTest;
 import org.jvnet.higherjaxb.mojo.testing.SLF4JLogger;
 
+@Order(1)
 public class RunIssuesPluginTest extends AbstractMojoTest
 {
 	
@@ -25,9 +26,7 @@ public class RunIssuesPluginTest extends AbstractMojoTest
 		basicjaxb.setGroupId("org.patrodyne.jvnet");
 		basicjaxb.setArtifactId("hisrc-basicjaxb-plugins");
 		basicjaxb.setVersion(getProjectVersion());
-		basicjaxb.setSystemPath(format("../../../plugins/target/%s-%s.jar",
-			basicjaxb.getArtifactId(), basicjaxb.getVersion()));
-		basicjaxb.setScope(SCOPE_SYSTEM);
+		basicjaxb.setScope(SCOPE_RUNTIME);
 
 		//
 		// MOJO Execution
@@ -41,7 +40,7 @@ public class RunIssuesPluginTest extends AbstractMojoTest
 		mojo.setRepoSystem(repositorySystem);
 		
 		mojo.setProject(createMavenProject());
-		mojo.setSchemaDirectory(fullpath("src/test/resources"));
+		mojo.setSchemaDirectory(fullpath("src/main/resources"));
 		mojo.setGenerateDirectory(fullpath("target/generated-sources/xjc")); 
 		mojo.setVerbose(true);
 		mojo.setDebug(true);
@@ -62,7 +61,7 @@ public class RunIssuesPluginTest extends AbstractMojoTest
 		mojo.getArgs().add("-Xsetters-mode=direct");
 		mojo.getArgs().add("-Xwildcard");
 		mojo.getArgs().add("-Xwildcard-debug=true");
-		mojo.getArgs().add("-Xwildcard-verbode=true");
+		mojo.getArgs().add("-Xwildcard-verbose=true");
 		mojo.getArgs().add("-XautoInheritance");
 		mojo.getArgs().add("-XautoInheritance-xmlRootElementsExtend=org.jvnet.basicjaxb.tests.issues.IssueJIIB14BaseClass");
 		mojo.getArgs().add("-XautoInheritance-xmlRootElementsImplement=org.jvnet.basicjaxb.tests.issues.IssueJIIB14BaseInterfaceOne");
@@ -75,6 +74,8 @@ public class RunIssuesPluginTest extends AbstractMojoTest
 		mojo.getArgs().add("-Xcustomizations-debug=true");
 		mojo.getArgs().add("-Xcustomizations-verbose=true");
 		mojo.getArgs().add("-Xjaxbindex");
+		
+		mojo.setPlugins(new Dependency[] { basicjaxb });
 		
 		mojo.execute();
 	}
