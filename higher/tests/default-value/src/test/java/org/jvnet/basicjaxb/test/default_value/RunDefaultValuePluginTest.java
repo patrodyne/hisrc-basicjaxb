@@ -1,7 +1,10 @@
 package org.jvnet.basicjaxb.test.default_value;
 
+import static org.apache.maven.artifact.Artifact.SCOPE_RUNTIME;
+
 import java.util.ArrayList;
 
+import org.apache.maven.model.Dependency;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.jvnet.higherjaxb.mojo.HigherjaxbMojo;
@@ -14,6 +17,16 @@ public class RunDefaultValuePluginTest extends AbstractMojoTest
 	@Test
 	public void testExecute() throws Exception
 	{
+		//
+		// Dependencies
+		//
+
+		final Dependency basicjaxb = new Dependency();
+		basicjaxb.setGroupId("org.patrodyne.jvnet");
+		basicjaxb.setArtifactId("hisrc-basicjaxb-plugins");
+		basicjaxb.setVersion(getProjectVersion());
+		basicjaxb.setScope(SCOPE_RUNTIME);
+
 		//
 		// MOJO Execution
 		//
@@ -40,6 +53,8 @@ public class RunDefaultValuePluginTest extends AbstractMojoTest
 		mojo.getArgs().add("-XtoString");
 		mojo.getArgs().add("-Xinheritance");
 		mojo.getArgs().add("-XdefaultValue");
+
+		mojo.setPlugins(new Dependency[] { basicjaxb });
 		
 		mojo.execute();
 	}
