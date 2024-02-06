@@ -38,7 +38,58 @@ public class LocatorInputFactory
 	public static final String PROTOCOL_CLASSPATH = "classpath:";
 	/** Represents a URL protocol for a file lookup. */
 	public static final String PROTOCOL_FILE = "file:";
+
+	/**
+	 * Does the given locator exist. The locator can represent a URL or a File.
+	 * If the URL protocol is "classpath:" then the input stream  will be located
+	 * as a resource stream.
+	 * 
+	 * This method uses a ClassLoader to resolve classpath resources; thus, a
+	 * "classpath:" locator must provide the full path relative to the classpath
+	 * root and any leading '/' will be ignored.
+	 * 
+	 * @param locator The location of a file or resource.
+	 * 
+	 * @return True when an input stream can be created for the given locator; otherwise, false.
+	 * 
+	 * @throws IOException If an error occurred when inputting from the stream.
+	 */
+	public static boolean locatorExists(String locator) throws IOException
+	{
+		boolean locatorExists = false;
+		try ( InputStream is = createInputStream(locator) )
+		{
+			locatorExists = (is != null);
+		}
+		return locatorExists;
+	}
 	
+	/**
+	 * Does the given locator exist. The locator can represent a URL or a File.
+	 * If the URL protocol is "classpath:" then the input stream will be located
+	 * as a resource stream.
+	 * 
+	 * If the class parameter is null, a ClassLoader is used to resolve classpath
+	 * resources; thus, a "classpath:" locator must provide the full path relative
+	 * to the classpath root and any leading '/' will be ignored.
+	 * 
+	 * @param locator The location of a file or resource.
+	 * @param clazz A classpath location for relative locators.
+	 * 
+	 * @return True when an input stream can be created for the given locator and class;
+	 *         otherwise, false.
+	 * 
+	 * @throws IOException If an error occurred when inputting from the stream.
+	 */	public static boolean locatorExists(String locator, Class<?> clazz) throws IOException
+	{
+		boolean locatorExists = false;
+		try ( InputStream is = createInputStream(locator, clazz) )
+		{
+			locatorExists = (is != null);
+		}
+		return locatorExists;
+	}
+
 	/**
 	 * Create input stream for the given locator. The locator can represent a
 	 * URL or a File. If the URL protocol is "classpath:" then the input stream
@@ -49,6 +100,8 @@ public class LocatorInputFactory
 	 * root and any leading '/' will be ignored.
 	 * 
 	 * @param locator The location of a file or resource.
+	 * 
+	 * @return An {@link InputStream} for the given locator.
 	 * 
 	 * @throws IOException If an error occurred when inputting from the stream.
 	 */
@@ -68,6 +121,8 @@ public class LocatorInputFactory
 	 * 
 	 * @param locator The location of a file or resource.
 	 * @param clazz A classpath location for relative locators.
+	 * 
+	 * @return An {@link InputStream} for the given locator and class.
 	 * 
 	 * @throws IOException If an error occurred when inputting from the stream.
 	 */
@@ -117,6 +172,8 @@ public class LocatorInputFactory
 	 * 
 	 * @param locator The location of a file or resource.
 	 * 
+	 * @return A {@link Reader} for the given locator.
+	 * 
 	 * @throws IOException If an error occurred when inputting from the reader.
 	 */
 	public static Reader createReader(String locator) throws IOException
@@ -135,6 +192,8 @@ public class LocatorInputFactory
 	 * 
 	 * @param locator The location of a file or resource.
 	 * @param clazz A classpath location for relative locators.
+	 * 
+	 * @return A {@link Reader} for the given locator and class.
 	 * 
 	 * @throws IOException If an error occurred when inputting from the reader.
 	 */
