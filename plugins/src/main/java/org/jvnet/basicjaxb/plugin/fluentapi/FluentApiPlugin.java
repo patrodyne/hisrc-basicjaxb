@@ -156,6 +156,16 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 	
 	public static final String PARAMETERIZED_LIST_PREFIX = List.class.getName() + "<";
 	
+	private Boolean enforceTypeSafety = true;
+	public Boolean getEnforceTypeSafety()
+	{
+		return enforceTypeSafety;
+	}
+	public void setEnforceTypeSafety(Boolean enforceTypeSafety)
+	{
+		this.enforceTypeSafety = enforceTypeSafety;
+	}
+	
 	private String fluentMethodPrefix = FLUENT_METHOD_PREFIX;
 	public String getFluentMethodPrefix()
 	{
@@ -176,6 +186,7 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
+			sb.append("\n  EnforceTypeSafety..: " + getEnforceTypeSafety());
 			sb.append("\n  FluentMethodPrefix.: " + getFluentMethodPrefix());
 			sb.append("\n  Verbose............: " + isVerbose());
 			sb.append("\n  Debug..............: " + isDebug());

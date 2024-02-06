@@ -84,19 +84,6 @@ public enum FluentMethodType
 		public void createFluentMethod(JDefinedClass implClass, FluentMethodInfo fluentMethodInfo)
 		{
 			JMethod listGetterMethod = fluentMethodInfo.getOriginalMethod();
-			String listGetterName = listGetterMethod.name();
-			
-			// Create a fluent method for the respective List<T> get* method.
-			String fluentMethodName =
-				createFluentMethodName(fluentMethodInfo, listGetterName.substring(GETTER_METHOD_PREFIX_LEN));
-
-			int mods = JMod.PUBLIC | listGetterMethod.mods().getValue() & JMod.FINAL;
-			JMethod fluentMethod = implClass.method(mods, implClass, fluentMethodName);
-			groupMethods(implClass, listGetterMethod, fluentMethod);
-			
-			if (fluentMethodInfo.isOverride())
-				fluentMethod.annotate(Override.class);
-			
 			JType returnJType = listGetterMethod.type();
 			// As is already checked in isListGetterMethod(JMethod):
 			// 1) the return type must be a subtype of JClass; and
@@ -107,16 +94,34 @@ public enum FluentMethodType
 			assert typeParams.size() == 1;
 			JClass typeParam = typeParams.get(0);
 			
-			// Support variable arguments
-			JVar jvarParam = fluentMethod.varParam(typeParam, VALUES);
-			JBlock body = fluentMethod.body();
-			JConditional cond = body._if(jvarParam.ne(JExpr._null()));
-			JForEach forEach = cond._then().forEach(typeParam, VALUE, JExpr.ref(VALUES));
-			JInvocation addInvocation = forEach.body().invoke(JExpr.invoke(listGetterMethod), "add");
-			addInvocation.arg(JExpr.ref(VALUE));
+			// Guard against: Type safety: Potential heap pollution via varargs parameter values
+			if ( !(fluentMethodInfo.getPlugin().getEnforceTypeSafety() && typeParam.isParameterized()) )
+			{
+				String listGetterName = listGetterMethod.name();
+				
+				// Create a fluent method for the respective List<T> get* method.
+				String fluentMethodName =
+					createFluentMethodName(fluentMethodInfo, listGetterName.substring(GETTER_METHOD_PREFIX_LEN));
+
+				int mods = JMod.PUBLIC | listGetterMethod.mods().getValue() & JMod.FINAL;
+				JMethod fluentMethod = implClass.method(mods, implClass, fluentMethodName);
+				groupMethods(implClass, listGetterMethod, fluentMethod);
+				
+				if (fluentMethodInfo.isOverride())
+					fluentMethod.annotate(Override.class);
+				
+				// Support variable arguments
+				JVar jvarParam = fluentMethod.varParam(typeParam, VALUES);
+				JBlock body = fluentMethod.body();
+				JConditional cond = body._if(jvarParam.ne(JExpr._null()));
+				JForEach forEach = cond._then().forEach(typeParam, VALUE, JExpr.ref(VALUES));
+				JInvocation addInvocation = forEach.body().invoke(JExpr.invoke(listGetterMethod), "add");
+				addInvocation.arg(JExpr.ref(VALUE));
+				
+				// and return "this"
+				body._return(JExpr._this());
+			}
 			
-			// and return "this"
-			body._return(JExpr._this());
 			return;
 		}
 	},
