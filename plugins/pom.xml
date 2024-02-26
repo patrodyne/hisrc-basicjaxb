@@ -62,5 +62,31 @@
 	</dependencies>
 	<build>
 		<defaultGoal>install</defaultGoal>
+		<plugins>
+			<plugin>
+				<artifactId>plantuml-generator-maven-plugin</artifactId>
+				<groupId>de.elnarion.maven</groupId>
+				<version>2.1.0</version>
+				<executions>
+					<execution>
+						<?m2e ignore?>
+						<id>generate-plantuml-diagram</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<phase>process-classes</phase>
+						<configuration>
+							<whitelistRegexp>com\.sun\.(tools\.xjc\.model\..*|xml\.xsom\.XS.*)</whitelistRegexp>
+							<fieldClassifierListToIgnore>STATIC</fieldClassifierListToIgnore>
+							<maxVisibilityFields>PUBLIC</maxVisibilityFields>
+							<hideFields>false</hideFields>
+							<removeMethods>true</removeMethods>
+							<useShortClassNamesInFieldsAndMethods>true</useShortClassNamesInFieldsAndMethods>
+							<outputFilename>XJCModelTemp.puml</outputFilename>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 </project>

@@ -268,7 +268,8 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 			if ( (superFields.length != 0) || (localFields.length != 0)  )
 			{
 				String javadoc = "Complete field constructor";
-				ConstructorArgs constructorArgs = new ConstructorArgs(theDefinedClass, superFields, localFields, javadoc);
+				ConstructorArgs constructorArgs =
+					new ConstructorArgs(theDefinedClass, superFields, localFields, javadoc);
 				if ( !constructorArgsList.contains(constructorArgs) )
 					constructorArgsList.add(constructorArgs);
 			}
@@ -285,7 +286,8 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 			if ( !reqSuperFields.isEmpty() || !reqLocalFields.isEmpty()  )
 			{
 				String javadoc = "Required field constructor";
-				ConstructorArgs constructorArgs = new ConstructorArgs(theDefinedClass, reqSuperFields, reqLocalFields, javadoc);
+				ConstructorArgs constructorArgs =
+					new ConstructorArgs(theDefinedClass, reqSuperFields, reqLocalFields, javadoc);
 				if ( !constructorArgsList.contains(constructorArgs) )
 					constructorArgsList.add(constructorArgs);
 			}
@@ -316,7 +318,8 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 					if ( !selSuperFields.isEmpty() || !selLocalFields.isEmpty()  )
 					{
 						String javadoc = "Selector field constructor: " + selector.getIdentityConstraint().getName();
-						ConstructorArgs constructorArgs = new ConstructorArgs(theDefinedClass, selSuperFields, selLocalFields, javadoc);
+						ConstructorArgs constructorArgs =
+							new ConstructorArgs(theDefinedClass, selSuperFields, selLocalFields, javadoc);
 						if ( !constructorArgsList.contains(constructorArgs) )
 							constructorArgsList.add(constructorArgs);
 					}
@@ -338,7 +341,8 @@ public class ValueConstructorPlugin extends AbstractParameterizablePlugin
 			CPropertyInfo fieldInfo = theField.getPropertyInfo();
 		    if ( fieldInfo.getSchemaComponent() instanceof XSAttributeUse )
 		    {
-		        // An XSAttributeUse provides isRequired, defaultValue and fixedValue for an XSAttributeDecl.
+		        // An XSAttributeUse provides isRequired, defaultValue and fixedValue
+		    	// for an XSAttributeDecl.
 		        XSAttributeUse attribute = (XSAttributeUse) fieldInfo.getSchemaComponent();
 		        if ( attribute.isRequired() )
 					reqFields.add(theField);

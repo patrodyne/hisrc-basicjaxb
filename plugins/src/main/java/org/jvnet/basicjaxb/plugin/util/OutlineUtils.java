@@ -1,5 +1,7 @@
 package org.jvnet.basicjaxb.plugin.util;
 
+import static org.jvnet.basicjaxb.util.FieldUtils.isConstantField;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,7 +38,7 @@ public class OutlineUtils
 	}
 	
 	/**
-	 * Filter an array of {@link FieldOutline} 
+	 * Filter an array of {@link FieldOutline} to omit ignored or constant fields.
 	 * 
 	 * @param fieldOutlines An array of {@link FieldOutline} to be filtered.
 	 * @param ignoring An interface to filter XJC model and outline objects.
@@ -51,7 +53,9 @@ public class OutlineUtils
 			@Override
 			public boolean evaluate(FieldOutline fieldOutline)
 			{
-				return !ignoring.isIgnored(fieldOutline);
+				boolean notIgnored = !ignoring.isIgnored(fieldOutline);
+				boolean notConstant = !isConstantField(fieldOutline);
+				return notIgnored && notConstant;
 			}
 		}, FieldOutline.class);
 	}

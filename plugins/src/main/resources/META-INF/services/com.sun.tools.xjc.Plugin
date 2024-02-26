@@ -4,6 +4,7 @@ org.jvnet.basicjaxb.plugin.customizations.CustomizationsPlugin
 org.jvnet.basicjaxb.plugin.defaultvalue.DefaultValuePlugin
 org.jvnet.basicjaxb.plugin.enumvalue.EnumValuePlugin
 org.jvnet.basicjaxb.plugin.equals.EqualsPlugin
+org.jvnet.basicjaxb.plugin.fixedvalue.FixedValuePlugin
 org.jvnet.basicjaxb.plugin.fixmixedextensions.FixMixedExtensions
 org.jvnet.basicjaxb.plugin.fixotherattributes.FixOtherAttributes
 org.jvnet.basicjaxb.plugin.fluentapi.FluentApiPlugin

@@ -23,7 +23,6 @@ import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
-import org.jvnet.basicjaxb.plugin.util.OutlineUtils;
 import org.jvnet.basicjaxb.util.ClassUtils;
 import org.jvnet.basicjaxb.util.FieldAccessorFactory;
 import org.jvnet.basicjaxb.util.PropertyFieldAccessorFactory;
@@ -254,7 +253,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 				currentHashCodeExpression = JExpr._super().invoke("hashCode");
 			
 			final JVar currentHashCode = body.decl(codeModel.INT, "currentHashCode", currentHashCodeExpression);
-			final FieldOutline[] declaredFields = OutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
+			final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
 			
 			for (final FieldOutline fieldOutline : declaredFields)
 			{
