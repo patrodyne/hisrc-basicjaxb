@@ -5,7 +5,6 @@
 	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
 	jaxb:extensionBindingPrefixes="xjc"
 >
-
 	<!--  Global Bindings
 		* JPA section 2.1, entities must be top-level classes.
 		* JPA section 2.1, entities must implement the serializable interface.
@@ -13,14 +12,14 @@
 		  generateElementProperty customization be set to 'false' in globalBindings.
 		* Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512".
 	-->
-	<jaxb:globalBindings localScoping="toplevel" generateIsSetMethod="true">
-		<jaxb:serializable uid="20230301" />
-		<!--
-		<xjc:treatRestrictionLikeNewType />
-		-->
+	<jaxb:globalBindings localScoping="toplevel" fixedAttributeAsConstantProperty="false">
+		<jaxb:serializable uid="20220501" />
 	</jaxb:globalBindings>
 
-    <jaxb:bindings schemaLocation="schema.xsd" node="/xs:schema">
-    </jaxb:bindings>
+	<jaxb:bindings schemaLocation="purchaseorder.xsd" node="/xs:schema">
+		<jaxb:schemaBindings>
+			<jaxb:package name="org.jvnet.basicjaxb.tests.po"/>
+		</jaxb:schemaBindings>
+	</jaxb:bindings>
 
 </jaxb:bindings>

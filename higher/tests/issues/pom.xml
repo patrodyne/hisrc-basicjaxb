@@ -48,6 +48,8 @@
 					<verbose>true</verbose>
 					<debug>true</debug>
 					<args>
+						<arg>-no-header</arg>
+						<arg>-XfixedValue</arg>
 						<arg>-XtoString</arg>
 						<arg>-Xequals</arg>
 						<arg>-Xequals-equalsStrategyClass=org.jvnet.basicjaxb.tests.issues.IssueJIIB42EqualsStrategy</arg>

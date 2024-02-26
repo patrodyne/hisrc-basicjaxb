@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns1:document1
+	xmlns:ns1="http://example.org/document" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://example.org/document ../../main/resources/document.xsd "
+	
+	fa_limit="1000" 
+	fa_dow="Monday" 
+	fa_boolean="true" 
+	fa_byte="1" 
+	fa_decimal="2.1" 
+	fa_double="3.1" 
+	fa_float="4.1" 
+	fa_int="5" 
+	fa_integer="6" 
+	fa_long="7" 
+	fa_short="8" 
+	fa_string="text" 
+	fa_dateTime="2023-02-28T17:59:59.999Z" 
+	fa_duration="P3Y2M1D" 
+	fa_base64Binary="dGV4dA==" 
+	fa_hexBinary="0FB8" 
+	fa_anySimpleType="3.14159" 
+>
+	<ns1:fv_limit>1000</ns1:fv_limit>
+	<ns1:fv_dow>Monday</ns1:fv_dow>
+	<ns1:fv_boolean>true</ns1:fv_boolean>
+	<ns1:fv_byte>-1</ns1:fv_byte>
+	<ns1:fv_choice>
+		<ns1:fv_boolean>true</ns1:fv_boolean>
+	</ns1:fv_choice>
+	<ns1:fv_decimal>-2.1</ns1:fv_decimal>
+	<ns1:fv_double>-3.1</ns1:fv_double>
+	<ns1:fv_float>-4.1</ns1:fv_float>
+	<ns1:fv_int>-5</ns1:fv_int>
+	<ns1:fv_integer>-6</ns1:fv_integer>
+	<ns1:fv_long>-7</ns1:fv_long>
+	<ns1:fv_short>-8</ns1:fv_short>
+	<ns1:fv_string>text</ns1:fv_string>
+	<ns1:fv_dateTime>2023-02-28T17:59:59.999Z</ns1:fv_dateTime>
+	<ns1:fv_duration>P3Y2M1D</ns1:fv_duration>
+	<ns1:fv_base64Binary>dGV4dA==</ns1:fv_base64Binary>
+	<ns1:fv_hexBinary>0FB8</ns1:fv_hexBinary>
+	<ns1:fv_anySimpleType>3.14159</ns1:fv_anySimpleType>
+</ns1:document1>

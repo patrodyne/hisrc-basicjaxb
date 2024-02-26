@@ -38,6 +38,8 @@
 					<verbose>true</verbose>
 					<debug>true</debug>
 					<args>
+						<arg>-no-header</arg>
+						<arg>-XfixedValue</arg>
 						<arg>-Xequals</arg>
 						<arg>-XhashCode</arg>
 					</args>

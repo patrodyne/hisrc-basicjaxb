@@ -2,10 +2,10 @@
 <jaxb:bindings jaxb:version="3.0"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
 	xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"
-	jaxb:extensionBindingPrefixes="xjc inh"
+	extensionBindingPrefixes="inh"
 >
+
 	<!--  Global Bindings
 		* JPA section 2.1, entities must be top-level classes.
 		* JPA section 2.1, entities must implement the serializable interface.
@@ -13,32 +13,21 @@
 		  generateElementProperty customization be set to 'false' in globalBindings.
 		* Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512".
 	-->
-	<jaxb:globalBindings localScoping="toplevel" optionalProperty="primitive" generateIsSetMethod="true"
-		fixedAttributeAsConstantProperty="true">
-		<jaxb:serializable uid="20230201" />
+	<jaxb:globalBindings localScoping="toplevel" generateIsSetMethod="true" generateElementClass="false"
+		choiceContentProperty="false" fixedAttributeAsConstantProperty="false">
+		<jaxb:serializable uid="20240201" />
 	</jaxb:globalBindings>
 
-	<jaxb:bindings schemaLocation="main.xsd" node="/xs:schema">
-
-		<jaxb:schemaBindings>
-			<jaxb:package name="org.jvnet.basicjaxb.tests.simple.main"/>
-		</jaxb:schemaBindings>
-
+    <jaxb:bindings schemaLocation="document.xsd" node="/xs:schema">
     	<!--
     		Add an annotation to suppress warnings from the ObjectFactory
-    		in the package named "org.jvnet.basicjaxb.tests.simple.main".
+    		in the package named "org.example.document".
     	-->
-		<inh:objectFactory packageName="org.jvnet.basicjaxb.tests.simple.main">
+		<inh:objectFactory packageName="org.example.document">
 			<inh:annotates annotation="java.lang.SuppressWarnings">
 				<inh:elements>rawtypes unchecked</inh:elements>
 			</inh:annotates>
 		</inh:objectFactory>
-
-		<!--
-		<jaxb:bindings node="...">
-			choiceContentProperty="true"
-		</jaxb:bindings>
-		-->
-	</jaxb:bindings>
+    </jaxb:bindings>
 
 </jaxb:bindings>

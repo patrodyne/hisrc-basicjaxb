@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
-		<artifactId>hisrc-basicjaxb-test-fluent-po</artifactId>
+		<artifactId>hisrc-basicjaxb-higher-tests</artifactId>
 		<version>2.2.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>hisrc-basicjaxb-test-fluent-po-nested</artifactId>
+
+	<artifactId>hisrc-basicjaxb-test-fixed-value</artifactId>
 	<packaging>jar</packaging>
-	<name>HiSrc BasicJAXB - Test [fluent-po-nested]</name>
+	<name>HiSrc BasicJAXB - Test [fixed-value]</name>
+
 	<properties>
-		<root.basedir>${basedir}/../../../../..</root.basedir>
+		<root.basedir>${basedir}/../../..</root.basedir>
 	</properties>
+
 	<dependencies>
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-higherjaxb-maven-plugin-testing</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<defaultGoal>test</defaultGoal>
 		<plugins>
@@ -36,19 +53,33 @@
 					<args>
 						<arg>-no-header</arg>
 						<arg>-XfixedValue</arg>
-						<arg>-XfluentAPI</arg>
 						<arg>-XhashCode</arg>
 						<arg>-Xequals</arg>
 						<arg>-XtoString</arg>
+						<!--
+						<arg>-XsimpleEquals</arg>
+						<arg>-XsimpleHashCode</arg>
+						<arg>-XsimpleToString</arg>
+						<arg>-XsimpleToString-showFieldNames=true</arg>
+						<arg>-XsimpleToString-showChildItems=false</arg>
+						<arg>-XsimpleToString-fullClassName=false</arg>
+						-->
+						<arg>-Xinheritance</arg>
 					</args>
 					<plugins>
 						<plugin>
 							<groupId>org.patrodyne.jvnet</groupId>
 							<artifactId>hisrc-basicjaxb-plugins</artifactId>
 						</plugin>
+						<plugin>
+							<groupId>org.patrodyne.jvnet</groupId>
+							<artifactId>hisrc-hyperjaxb-annox-plugin</artifactId>
+							<version>${hisrc-hyperjaxb-annox-plugin.version}</version>
+						</plugin>
 					</plugins>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

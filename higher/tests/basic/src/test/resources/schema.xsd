@@ -7,7 +7,8 @@
 
 	<xs:annotation>
 		<xs:appinfo>
-			<jaxb:globalBindings choiceContentProperty="true" generateIsSetMethod="true">
+			<jaxb:globalBindings choiceContentProperty="true" generateIsSetMethod="true"
+				fixedAttributeAsConstantProperty="false">
 				<!--xjc:noValidator />
 				<xjc:noValidatingUnmarshaller /-->
 			</jaxb:globalBindings>

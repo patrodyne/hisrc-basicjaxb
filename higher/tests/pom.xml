@@ -20,7 +20,8 @@
 		<module>default-value</module>
 		<module>element-wrapper</module>
 		<module>episodes</module>
-		<module>fixed</module>
+		<module>fixed-restrict</module>
+		<module>fixed-value</module>
 		<module>fluent</module>
 		<module>ignoring</module>
 		<module>inheritance</module>

@@ -34,6 +34,8 @@
 					<verbose>true</verbose>
 					<debug>true</debug>
 					<args>
+						<arg>-no-header</arg>
+						<arg>-XfixedValue</arg>
 						<arg>-XfluentAPI</arg>
 						<!--
 						<arg>-XfluentAPI-fluentMethodPrefix=with</arg>

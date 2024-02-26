@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+3.3 Derived datatypes
+	3.3.1 normalizedString
+	3.3.2 token
+	3.3.3 language
+	3.3.4 NMTOKEN
+	3.3.5 NMTOKENS
+	3.3.6 Name
+	3.3.7 NCName
+	3.3.8 ID
+	3.3.9 IDREF
+	3.3.10 IDREFS
+	3.3.11 ENTITY
+	3.3.12 ENTITIES
+	3.3.13 integer
+	3.3.14 nonPositiveInteger
+	3.3.15 negativeInteger
+	3.3.16 long
+	3.3.17 int
+	3.3.18 short
+	3.3.19 byte
+	3.3.20 nonNegativeInteger
+	3.3.21 unsignedLong
+	3.3.22 unsignedInt
+	3.3.23 unsignedShort
+	3.3.24 unsignedByte
+	3.3.25 positiveInteger
+-->
+<ns3:document3
+	xmlns:ns3="http://example.org/document" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://example.org/document ../../main/resources/document.xsd "
+	
+	fa_normalizedString="normal"
+	fa_token="token"
+	fa_language="en-US"
+	fa_nmtoken="nospace"
+	fa_integer="-6"
+	fa_nonPositiveInteger="0"
+	fa_negativeInteger="-16"
+	fa_long="-7"
+	fa_int="-5"
+	fa_short="-8"
+	fa_byte="-1"
+	fa_nonNegativeInteger="0"
+	fa_unsignedLong="7"
+	fa_unsignedInt="5"
+	fa_unsignedShort="8"
+	fa_unsignedByte="1"
+	fa_positiveInteger="+16"
+>
+	<ns3:fv_normalizedString>normal</ns3:fv_normalizedString>
+	<ns3:fv_token>token</ns3:fv_token>
+	<ns3:fv_language>en-US</ns3:fv_language>
+	<ns3:fv_nmtoken>nospace</ns3:fv_nmtoken>
+	<ns3:fv_nmtokens>nospace1 nospace2</ns3:fv_nmtokens>
+	<ns3:fv_integer>-6</ns3:fv_integer>
+	<ns3:fv_nonPositiveInteger>0</ns3:fv_nonPositiveInteger>
+	<ns3:fv_negativeInteger>-16</ns3:fv_negativeInteger>
+	<ns3:fv_long>-7</ns3:fv_long>
+	<ns3:fv_int>-5</ns3:fv_int>
+	<ns3:fv_short>-8</ns3:fv_short>
+	<ns3:fv_byte>-1</ns3:fv_byte>
+	<ns3:fv_nonNegativeInteger>0</ns3:fv_nonNegativeInteger>
+	<ns3:fv_unsignedLong>7</ns3:fv_unsignedLong>
+	<ns3:fv_unsignedInt>5</ns3:fv_unsignedInt>
+	<ns3:fv_unsignedShort>8</ns3:fv_unsignedShort>
+	<ns3:fv_unsignedByte>1</ns3:fv_unsignedByte>
+	<ns3:fv_positiveInteger>+16</ns3:fv_positiveInteger>
+	
+</ns3:document3>

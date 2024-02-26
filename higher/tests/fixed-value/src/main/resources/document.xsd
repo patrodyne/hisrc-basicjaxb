@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema
+	targetNamespace="http://example.org/document"
+	xmlns:tns="http://example.org/document"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	jaxb:version="3.0"
+>
+
+	<!-- Anonymous simple type -->
+	<xs:element name="fv_limit" fixed="1000">
+		<xs:simpleType>
+			<xs:restriction base="xs:int">
+				<xs:minInclusive value="1" />
+				<xs:maxInclusive value="10000" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+
+	<xs:simpleType name="dowType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Sunday" />
+			<xs:enumeration value="Monday" />
+			<xs:enumeration value="Tuesday" />
+			<xs:enumeration value="Wednesday" />
+			<xs:enumeration value="Thursday" />
+			<xs:enumeration value="Friday" />
+			<xs:enumeration value="Saturday" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- Common Primitive and Derived Datatypes -->
+	
+	<xs:element name="fv_dow"           type="tns:dowType"      fixed="Monday"/>
+	<xs:element name="fv_boolean"       type="xs:boolean"       fixed="true"/>
+	<xs:element name="fv_byte"          type="xs:byte"          fixed="-1"/>
+	<xs:element name="fv_decimal"       type="xs:decimal"       fixed="-2.1"/>
+	<xs:element name="fv_double"        type="xs:double"        fixed="-3.1"/>
+	<xs:element name="fv_float"         type="xs:float"         fixed="-4.1"/>
+	<xs:element name="fv_int"           type="xs:int"           fixed="-5"/>
+	<xs:element name="fv_integer"       type="xs:integer"       fixed="-6"/>
+	<xs:element name="fv_long"          type="xs:long"          fixed="-7"/>
+	<xs:element name="fv_short"         type="xs:short"         fixed="-8"/>
+	<xs:element name="fv_string"        type="xs:string"        fixed="text"/>
+	<xs:element name="fv_dateTime"      type="xs:dateTime"      fixed="2023-02-28T17:59:59.999Z"/>
+	<xs:element name="fv_duration"      type="xs:duration"      fixed="P3Y2M1D" />
+	<xs:element name="fv_base64Binary"  type="xs:base64Binary"  fixed="dGV4dA==" />
+	<xs:element name="fv_hexBinary"     type="xs:hexBinary"     fixed="0FB8" />
+	<xs:element name="fv_anySimpleType" type="xs:anySimpleType" fixed="3.14159" />
+	
+	<xs:element name="fv_choice">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="tns:fv_boolean" />
+				<xs:element ref="tns:fv_string" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="document1">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:fv_limit" />
+				<xs:element ref="tns:fv_dow" />
+				<xs:element ref="tns:fv_boolean" />
+				<xs:element ref="tns:fv_byte" />
+				<xs:element ref="tns:fv_choice" />
+				<xs:element ref="tns:fv_decimal" />
+				<xs:element ref="tns:fv_double" />
+				<xs:element ref="tns:fv_float" />
+				<xs:element ref="tns:fv_int" />
+				<xs:element ref="tns:fv_integer" />
+				<xs:element ref="tns:fv_long" />
+				<xs:element ref="tns:fv_short" />
+				<xs:element ref="tns:fv_string" />
+				<xs:element ref="tns:fv_dateTime" />
+				<xs:element ref="tns:fv_duration" />
+				<xs:element ref="tns:fv_base64Binary" />
+				<xs:element ref="tns:fv_hexBinary" />
+				<xs:element ref="tns:fv_anySimpleType" />
+			</xs:sequence>
+			<xs:attribute name="fa_limit"                                 fixed="1000">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:property>
+							<jaxb:javadoc>FA LIMIT</jaxb:javadoc>
+						</jaxb:property>
+					</xs:appinfo>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="1" />
+						<xs:maxInclusive value="10000" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="fa_dow"           type="tns:dowType"      fixed="Monday" />
+			<xs:attribute name="fa_boolean"       type="xs:boolean"       fixed="true" />
+			<xs:attribute name="fa_byte"          type="xs:byte"          fixed="+1" />
+			<xs:attribute name="fa_decimal"       type="xs:decimal"       fixed="+2.1" />
+			<xs:attribute name="fa_double"        type="xs:double"        fixed="+3.1" />
+			<xs:attribute name="fa_float"         type="xs:float"         fixed="+4.1" />
+			<xs:attribute name="fa_int"           type="xs:int"           fixed="+5" />
+			<xs:attribute name="fa_integer"       type="xs:integer"       fixed="+6" />
+			<xs:attribute name="fa_long"          type="xs:long"          fixed="+7" />
+			<xs:attribute name="fa_short"         type="xs:short"         fixed="+8" />
+			<xs:attribute name="fa_string"        type="xs:string"        fixed="text" />
+			<xs:attribute name="fa_dateTime"      type="xs:dateTime"      fixed="2023-02-28T17:59:59.999Z" />
+			<xs:attribute name="fa_duration"      type="xs:duration"      fixed="P3Y2M1D" />
+			<xs:attribute name="fa_base64Binary"  type="xs:base64Binary"  fixed="dGV4dA==" />
+			<xs:attribute name="fa_hexBinary"     type="xs:hexBinary"     fixed="0FB8" />
+			<xs:attribute name="fa_anySimpleType" type="xs:anySimpleType" fixed="3.14159" />
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Primitive Datatypes -->
+	
+	<xs:element name="fv_time"          type="xs:time"          fixed="23:59:59" />
+	<xs:element name="fv_date"          type="xs:date"          fixed="2023-02-28Z" />
+	<xs:element name="fv_gYearMonth"    type="xs:gYearMonth"    fixed="2023-02Z" />
+	<xs:element name="fv_gYear"         type="xs:gYear"         fixed="2023Z" />
+	<xs:element name="fv_gMonthDay"     type="xs:gMonthDay"     fixed="--02-28Z" />
+	<xs:element name="fv_gDay"          type="xs:gDay"          fixed="---28Z" />
+	<xs:element name="fv_gMonth"        type="xs:gMonth"        fixed="--02Z" />
+	<xs:element name="fv_anyURI"        type="xs:anyURI"        fixed="scheme://authority/path?query#fragment" />
+	<xs:element name="fv_QName"         type="xs:QName"         fixed="tns:localPart" />
+	
+	<xs:element name="document2">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:fv_string" />
+				<xs:element ref="tns:fv_boolean" />
+				<xs:element ref="tns:fv_decimal" />
+				<xs:element ref="tns:fv_float" />
+				<xs:element ref="tns:fv_double" />
+				<xs:element ref="tns:fv_duration" />
+				<xs:element ref="tns:fv_dateTime" />
+				<xs:element ref="tns:fv_time" />
+				<xs:element ref="tns:fv_date" />
+				<xs:element ref="tns:fv_gYearMonth" />
+				<xs:element ref="tns:fv_gYear" />
+				<xs:element ref="tns:fv_gMonthDay" />
+				<xs:element ref="tns:fv_gDay" />
+				<xs:element ref="tns:fv_gMonth" />
+				<xs:element ref="tns:fv_hexBinary" />
+				<xs:element ref="tns:fv_base64Binary" />
+				<xs:element ref="tns:fv_anyURI" />
+				<xs:element ref="tns:fv_QName" />
+			</xs:sequence>
+			<xs:attribute name="fa_string"        type="xs:string"        fixed="text" />
+			<xs:attribute name="fa_boolean"       type="xs:boolean"       fixed="true" />
+			<xs:attribute name="fa_decimal"       type="xs:decimal"       fixed="2.1" />
+			<xs:attribute name="fa_float"         type="xs:float"         fixed="4.1" />
+			<xs:attribute name="fa_double"        type="xs:double"        fixed="3.1" />
+			<xs:attribute name="fa_duration"      type="xs:duration"      fixed="P3Y2M1D" />
+			<xs:attribute name="fa_dateTime"      type="xs:dateTime"      fixed="2023-02-28T17:59:59.999Z" />
+			<xs:attribute name="fa_time"          type="xs:time"          fixed="23:59:59"/>
+			<xs:attribute name="fa_date"          type="xs:date"          fixed="2023-02-28Z"/>
+			<xs:attribute name="fa_gYearMonth"    type="xs:gYearMonth"    fixed="2023-02Z"/>
+			<xs:attribute name="fa_gYear"         type="xs:gYear"         fixed="2023Z"/>
+			<xs:attribute name="fa_gMonthDay"     type="xs:gMonthDay"     fixed="--02-28Z"/>
+			<xs:attribute name="fa_gDay"          type="xs:gDay"          fixed="---28Z"/>
+			<xs:attribute name="fa_gMonth"        type="xs:gMonth"        fixed="--02Z"/>
+			<xs:attribute name="fa_hexBinary"     type="xs:hexBinary"     fixed="0FB8" />
+			<xs:attribute name="fa_base64Binary"  type="xs:base64Binary"  fixed="dGV4dA==" />
+			<xs:attribute name="fa_anyURI"        type="xs:anyURI"        fixed="scheme://authority/path?query#fragment"/>
+			<xs:attribute name="fa_QName"         type="xs:QName"         fixed="tns:localPart"/>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Derived Datatypes -->
+
+	<xs:element name="fv_normalizedString"   type="xs:normalizedString"   fixed="normal" />
+	<xs:element name="fv_token"              type="xs:token"              fixed="token" />
+	<xs:element name="fv_language"           type="xs:language"           fixed="en-US" />
+	<xs:element name="fv_nmtoken"            type="xs:NMTOKEN"            fixed="nospace" />
+	<xs:element name="fv_nmtokens"           type="xs:NMTOKENS"           fixed="nospace1 nospace2" />
+	<xs:element name="fv_nonPositiveInteger" type="xs:nonPositiveInteger" fixed="0" />
+	<xs:element name="fv_negativeInteger"    type="xs:negativeInteger"    fixed="-16" />
+	<xs:element name="fv_nonNegativeInteger" type="xs:nonNegativeInteger" fixed="0" />
+	<xs:element name="fv_unsignedLong"       type="xs:unsignedLong"       fixed="7" />
+	<xs:element name="fv_unsignedInt"        type="xs:unsignedInt"        fixed="5" />
+	<xs:element name="fv_unsignedShort"      type="xs:unsignedShort"      fixed="8" />
+	<xs:element name="fv_unsignedByte"       type="xs:unsignedByte"       fixed="1" />
+	<xs:element name="fv_positiveInteger"    type="xs:positiveInteger"    fixed="+16" />
+
+	<xs:element name="document3">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:fv_normalizedString" />
+				<xs:element ref="tns:fv_token" />
+				<xs:element ref="tns:fv_language" />
+				<xs:element ref="tns:fv_nmtoken" />
+				<xs:element ref="tns:fv_nmtokens" />
+				<xs:element ref="tns:fv_integer" />
+				<xs:element ref="tns:fv_nonPositiveInteger" />
+				<xs:element ref="tns:fv_negativeInteger" />
+				<xs:element ref="tns:fv_long" />
+				<xs:element ref="tns:fv_int" />
+				<xs:element ref="tns:fv_short" />
+				<xs:element ref="tns:fv_byte" />
+				<xs:element ref="tns:fv_nonNegativeInteger" />
+				<xs:element ref="tns:fv_unsignedLong" />
+				<xs:element ref="tns:fv_unsignedInt" />
+				<xs:element ref="tns:fv_unsignedShort" />
+				<xs:element ref="tns:fv_unsignedByte" />
+				<xs:element ref="tns:fv_positiveInteger" />
+			</xs:sequence>
+			<xs:attribute name="fa_normalizedString"   type="xs:normalizedString"   fixed="normal" />
+			<xs:attribute name="fa_token"              type="xs:token"              fixed="token" />
+			<xs:attribute name="fa_language"           type="xs:language"           fixed="en-US" />
+			<xs:attribute name="fa_nmtoken"            type="xs:NMTOKEN"            fixed="nospace" />
+			<xs:attribute name="fa_nmtokens"           type="xs:NMTOKENS"           fixed="nospace1 nospace2" />
+			<xs:attribute name="fa_integer"            type="xs:integer"            fixed="-6" />
+			<xs:attribute name="fa_nonPositiveInteger" type="xs:nonPositiveInteger" fixed="0" />
+			<xs:attribute name="fa_negativeInteger"    type="xs:negativeInteger"    fixed="-16" />
+			<xs:attribute name="fa_long"               type="xs:long"               fixed="-7" />
+			<xs:attribute name="fa_int"                type="xs:int"                fixed="-5" />
+			<xs:attribute name="fa_short"              type="xs:short"              fixed="-8" />
+			<xs:attribute name="fa_byte"               type="xs:byte"               fixed="-1" />
+			<xs:attribute name="fa_nonNegativeInteger" type="xs:nonNegativeInteger" fixed="0" />
+			<xs:attribute name="fa_unsignedLong"       type="xs:unsignedLong"       fixed="7" />
+			<xs:attribute name="fa_unsignedInt"        type="xs:unsignedInt"        fixed="5" />
+			<xs:attribute name="fa_unsignedShort"      type="xs:unsignedShort"      fixed="8" />
+			<xs:attribute name="fa_unsignedByte"       type="xs:unsignedByte"       fixed="1" />
+			<xs:attribute name="fa_positiveInteger"    type="xs:positiveInteger"    fixed="+16" />
+		</xs:complexType>
+	</xs:element>
+
+	<!-- List Datatypes -->
+
+	<xs:simpleType name="decimalList">  <xs:list itemType="xs:decimal"/>  </xs:simpleType>
+	<xs:simpleType name="integerList">  <xs:list itemType="xs:integer"/>  </xs:simpleType>
+	<xs:simpleType name="booleanList">  <xs:list itemType="xs:boolean"/>  </xs:simpleType>
+	<xs:simpleType name="byteList">     <xs:list itemType="xs:byte"/>     </xs:simpleType>
+	<xs:simpleType name="doubleList">   <xs:list itemType="xs:double"/>   </xs:simpleType>
+	<xs:simpleType name="durationList"> <xs:list itemType="xs:duration"/> </xs:simpleType>
+	<xs:simpleType name="floatList">    <xs:list itemType="xs:float"/>    </xs:simpleType>
+	<xs:simpleType name="intList">      <xs:list itemType="xs:int"/>      </xs:simpleType>
+	<xs:simpleType name="longList">     <xs:list itemType="xs:long"/>     </xs:simpleType>
+	<xs:simpleType name="shortList">    <xs:list itemType="xs:short"/>    </xs:simpleType>
+	<xs:simpleType name="stringList">   <xs:list itemType="xs:string"/>   </xs:simpleType>
+	<xs:simpleType name="dateTimeList"> <xs:list itemType="xs:dateTime"/> </xs:simpleType>
+
+	<xs:element name="fv_decimalValues"  type="tns:decimalList"  fixed="-7.50 5.75"/>
+	<xs:element name="fv_integerValues"  type="tns:integerList"  fixed="-11 13"/>
+	<xs:element name="fv_booleanValues"  type="tns:booleanList"  fixed="true false"/>
+	<xs:element name="fv_byteValues"     type="tns:byteList"     fixed="-128 127"/>
+	<xs:element name="fv_doubleValues"   type="tns:doubleList"   fixed="-3.14 2.718 -INF INF NaN"/>
+	<xs:element name="fv_durationValues" type="tns:durationList" fixed="P3Y2M1D P6Y4M2D"/>
+	<xs:element name="fv_floatValues"    type="tns:floatList"    fixed="-3.14 2.718 -INF INF NaN"/>
+	<xs:element name="fv_intValues"      type="tns:intList"      fixed="-123 123"/>
+	<xs:element name="fv_longValues"     type="tns:longList"     fixed="-123 123"/>
+	<xs:element name="fv_shortValues"    type="tns:shortList"    fixed="-123 123"/>
+	<xs:element name="fv_stringValues"   type="tns:stringList"   fixed="string1 string2"/>
+	<xs:element name="fv_dateTimeValues" type="tns:dateTimeList" fixed="2023-02-28T17:59:59.999Z 2023-03-01T17:59:59.999Z"/>
+	
+	<xs:element name="document4">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:fv_decimalValues" />
+				<xs:element ref="tns:fv_integerValues" />
+				<xs:element ref="tns:fv_booleanValues" />
+				<xs:element ref="tns:fv_byteValues" />
+				<xs:element ref="tns:fv_doubleValues" />
+				<xs:element ref="tns:fv_durationValues" />
+				<xs:element ref="tns:fv_floatValues" />
+				<xs:element ref="tns:fv_intValues" />
+				<xs:element ref="tns:fv_longValues" />
+				<xs:element ref="tns:fv_shortValues" />
+				<xs:element ref="tns:fv_stringValues" />
+				<xs:element ref="tns:fv_dateTimeValues" />
+			</xs:sequence>
+			<xs:attribute name="fa_decimalValues"  type="tns:decimalList"  fixed="-7.50 5.75" />
+			<xs:attribute name="fa_integerValues"  type="tns:integerList"  fixed="-11 13" />
+			<xs:attribute name="fa_booleanValues"  type="tns:booleanList"  fixed="true false" />
+			<xs:attribute name="fa_byteValues"     type="tns:byteList"     fixed="-128 127" />
+			<xs:attribute name="fa_doubleValues"   type="tns:doubleList"   fixed="-3.14 2.718 -INF INF NaN" />
+			<xs:attribute name="fa_durationValues" type="tns:durationList" fixed="P3Y2M1D P6Y4M2D" />
+			<xs:attribute name="fa_floatValues"    type="tns:floatList"    fixed="-3.14 2.718 -INF INF NaN" />
+			<xs:attribute name="fa_intValues"      type="tns:intList"      fixed="-123 123" />
+			<xs:attribute name="fa_longValues"     type="tns:longList"     fixed="-123 123" />
+			<xs:attribute name="fa_shortValues"    type="tns:shortList"    fixed="-123 123" />
+			<xs:attribute name="fa_stringValues"   type="tns:stringList"   fixed="string1 string2" />
+			<xs:attribute name="fa_dateTimeValues" type="tns:dateTimeList" fixed="2023-02-28T17:59:59.999Z 2023-03-01T17:59:59.999Z" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

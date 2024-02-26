@@ -30,8 +30,7 @@
       <xsd:element name="state"  type="xsd:string"/>
       <xsd:element name="zip"    type="xsd:decimal"/>
     </xsd:sequence>
-    <xsd:attribute name="country" type="xsd:NMTOKEN"
-                   fixed="US"/>
+    <xsd:attribute name="country" type="xsd:NMTOKEN" fixed="US"/>
   </xsd:complexType>
 
   <xsd:complexType name="Items">

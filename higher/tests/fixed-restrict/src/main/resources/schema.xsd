@@ -4,12 +4,14 @@
 	xmlns:tns="http://example.org/document"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
+	<!-- See https://github.com/highsource/jaxb2-basics/issues/166 -->
+
 	<xs:complexType name="complexTypeWithSequence">
 		<xs:sequence>
 			<xs:element name="a" type="xs:string"/>
 			<xs:element name="b" type="xs:long"/>
 		</xs:sequence>
-		<xs:attribute name="attributeA" type="xs:string" use="optional"/>
+		<xs:attribute name="attributeA" type="xs:string" use="required" fixed="exampleConstantValue"/>
 	</xs:complexType>
 
 	<xs:complexType name="complexTypeWithSequenceAndConst">
@@ -19,7 +21,7 @@
 					<xs:element name="a" type="xs:string"/>
 					<xs:element name="b" type="xs:long"/>
 				</xs:sequence>
-				<xs:attribute name="attributeA" type="xs:string" use="optional" fixed="exampleConstantValue"/>
+				<xs:attribute name="attributeA" type="xs:string" use="required" fixed="exampleConstantValue"/>
 			</xs:restriction>
 		</xs:complexContent>
 	</xs:complexType>

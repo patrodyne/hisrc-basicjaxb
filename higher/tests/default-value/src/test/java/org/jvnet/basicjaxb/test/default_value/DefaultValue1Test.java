@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.StringWriter;
 
 import org.example.document.Document1;
 import org.example.document.DvChoice;
@@ -18,17 +17,10 @@ import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.w3c.dom.Node;
 
 import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Unmarshaller;
 
 @Order(2)
 public class DefaultValue1Test extends AbstractSamplesTest
 {
-	private Map<String, File> sampleMap = new HashMap<>();
-	@Override
-	protected Map<String, File> getSampleMap() { return sampleMap; }
-	@Override
-	protected void setSampleMap(Map<String, File> sampleMap) { this.sampleMap = sampleMap; }
-	
 	protected Document1 document1A = null;
 	protected Document1 document1B = null;
 	protected Document1 document1C = null;
@@ -44,26 +36,30 @@ public class DefaultValue1Test extends AbstractSamplesTest
 		throws Exception
 	{
 		assertNotNull(sampleFile, "Sample must exist.");
-		getSampleMap().put(sampleFile.getName(), sampleFile);
 	}
 	
 	@BeforeEach
 	public void beforeAll() throws JAXBException
 	{
-		for ( File sampleFile : getSampleFiles() )
-			getSampleMap().put(sampleFile.getName(), sampleFile);
-		
-		Unmarshaller unmarshaller = createContext().createUnmarshaller();
-		
-		document1A = (Document1) unmarshaller.unmarshal(getSampleMap().get("document1.xml"));
+		document1A = (Document1) getUnmarshaller().unmarshal(getSampleMap().get("document1.xml"));
 		document1B = new Document1();
 		document1C = new Document1();
 	}
 
 	@Test
-	public void testDefaultValue1AB()
+	public void testDefaultValue1AB() throws JAXBException
 	{
-		// document1A: All attributes and elements have set values, see documentN.xml.
+		StringWriter sw1A = new StringWriter();
+		getMarshaller().marshal(document1A, sw1A);
+		String doc1A = sw1A.toString();
+		getLogger().debug("doc1A: {}\n", doc1A);
+
+		StringWriter sw1B = new StringWriter();
+		getMarshaller().marshal(document1B, sw1B);
+		String doc1B = sw1B.toString();
+		getLogger().debug("doc1B: {}\n", doc1B);
+		
+		// document1A: All attributes and elements have set values, see document1.xml.
 		// document1B: All attributes and elements use the unset default values.
 		assertNotEquals(document1A, document1B, "document1A is set but document1B is unset");
 	}
