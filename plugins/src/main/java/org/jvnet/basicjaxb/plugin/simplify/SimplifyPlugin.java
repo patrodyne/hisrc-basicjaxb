@@ -57,9 +57,27 @@ import com.sun.tools.xjc.outline.Outline;
  * </p>
  *
  * <p>
- * The JAXB Simplify Plugin implements this task. It allows you to simplify your complex
- * properties. The plugin will remove the complex property and insert several simpler
- * properties instead of the original (complex) property.
+ * The Simplify Plugin allows you to simplify your complex properties. The plugin
+ * will remove the complex property and insert several simpler properties instead
+ * of the original (complex) property.
+ * </p>
+ * 
+ * <p>
+ * By default, XJC will complex properties modeling several references or
+ * elements in one. 
+ * </p>
+ * 
+ * <p>
+ * These complex properties are required to model complex content of the XML
+ * schema adequately, i.e. to maintain the order of the elements in the repeatable
+ * choice. 
+ * </p>
+ * 
+ * <p>
+ * However, if the order of the elements is not significant - that is, you can
+ * live with the fact that it will change after re-marshalling, the structures of
+ * these properties can be simplified: complex properties can be split into
+ * several simple properties.
  * </p>
  * 
  * <p>
