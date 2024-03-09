@@ -176,6 +176,16 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 		this.fluentMethodPrefix = fluentMethodPrefix;
 	}
 	
+	private Boolean overrideFluentMethods = false;
+	public Boolean getOverrideFluentMethods()
+	{
+		return overrideFluentMethods;
+	}
+	public void setOverrideFluentMethods(Boolean overrideFluentMethods)
+	{
+		this.overrideFluentMethods = overrideFluentMethods;
+	}
+	
 	// Plugin Processing
 	
 	@Override
@@ -186,10 +196,11 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  EnforceTypeSafety..: " + getEnforceTypeSafety());
-			sb.append("\n  FluentMethodPrefix.: " + getFluentMethodPrefix());
-			sb.append("\n  Verbose............: " + isVerbose());
-			sb.append("\n  Debug..............: " + isDebug());
+			sb.append("\n  EnforceTypeSafety.....: " + getEnforceTypeSafety());
+			sb.append("\n  FluentMethodPrefix....: " + getFluentMethodPrefix());
+			sb.append("\n  OverrideFluentMethods.: " + getOverrideFluentMethods());
+			sb.append("\n  Verbose...............: " + isVerbose());
+			sb.append("\n  Debug.................: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -305,6 +316,10 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 			classOutline = classOutline.getSuperClass();
 			if (classOutline != null)
 				isOverride = true;
+			
+			// Break when override of super class fluent methods is disabled.
+			if ( isOverride && !getOverrideFluentMethods() )
+				break;
 		}
 		
 		// Generate a respective fluent method for each setter method
