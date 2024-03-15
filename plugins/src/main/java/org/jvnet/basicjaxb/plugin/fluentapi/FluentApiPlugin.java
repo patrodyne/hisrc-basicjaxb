@@ -156,16 +156,6 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 	
 	public static final String PARAMETERIZED_LIST_PREFIX = List.class.getName() + "<";
 	
-	private Boolean enforceTypeSafety = true;
-	public Boolean getEnforceTypeSafety()
-	{
-		return enforceTypeSafety;
-	}
-	public void setEnforceTypeSafety(Boolean enforceTypeSafety)
-	{
-		this.enforceTypeSafety = enforceTypeSafety;
-	}
-	
 	private String fluentMethodPrefix = FLUENT_METHOD_PREFIX;
 	public String getFluentMethodPrefix()
 	{
@@ -176,12 +166,22 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 		this.fluentMethodPrefix = fluentMethodPrefix;
 	}
 	
-	private Boolean overrideFluentMethods = false;
-	public Boolean getOverrideFluentMethods()
+	private Boolean enforceTypeSafety = true;
+	public Boolean getEnforceTypeSafety()
+	{
+		return enforceTypeSafety;
+	}
+	public void setEnforceTypeSafety(Boolean enforceTypeSafety)
+	{
+		this.enforceTypeSafety = enforceTypeSafety;
+	}
+	
+	private boolean overrideFluentMethods = true;
+	public boolean isOverrideFluentMethods()
 	{
 		return overrideFluentMethods;
 	}
-	public void setOverrideFluentMethods(Boolean overrideFluentMethods)
+	public void setOverrideFluentMethods(boolean overrideFluentMethods)
 	{
 		this.overrideFluentMethods = overrideFluentMethods;
 	}
@@ -196,9 +196,9 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  EnforceTypeSafety.....: " + getEnforceTypeSafety());
 			sb.append("\n  FluentMethodPrefix....: " + getFluentMethodPrefix());
-			sb.append("\n  OverrideFluentMethods.: " + getOverrideFluentMethods());
+			sb.append("\n  EnforceTypeSafety.....: " + getEnforceTypeSafety());
+			sb.append("\n  OverrideFluentMethods.: " + isOverrideFluentMethods());
 			sb.append("\n  Verbose...............: " + isVerbose());
 			sb.append("\n  Debug.................: " + isDebug());
 			info(sb.toString());
@@ -318,7 +318,7 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 				isOverride = true;
 			
 			// Break when override of super class fluent methods is disabled.
-			if ( isOverride && !getOverrideFluentMethods() )
+			if ( isOverride && !isOverrideFluentMethods() )
 				break;
 		}
 		
