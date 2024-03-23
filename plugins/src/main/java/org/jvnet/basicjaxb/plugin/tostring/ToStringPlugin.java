@@ -282,7 +282,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 						.arg(theField)
 						.arg(theFieldIsSet);
 					
-					trace("{}, generateHashCode$hashCode; Class={}, Field={}",
+					trace("{}, generateToString$appendFields; Class={}, Field={}",
 						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
 			}

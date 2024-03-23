@@ -149,7 +149,7 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 		boolean isCollection = false;
 		if ( (value() != null) && value().type() instanceof JClass )
 		{
-			JClass jclass = (JClass) value().type();
+			JClass jclass = (JClass) value().type().erasure();
 			isCollection = getCodeModel().ref(Collection.class).isAssignableFrom(jclass) ||
 				getCodeModel().ref(Map.class).isAssignableFrom(jclass);
 		}

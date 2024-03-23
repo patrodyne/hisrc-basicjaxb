@@ -8,6 +8,7 @@ import static org.jvnet.basicjaxb.util.FieldUtils.getPossibleTypes;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -20,11 +21,14 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JFieldVar;
+import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
@@ -103,42 +107,107 @@ public class SimpleHashCodePlugin extends AbstractCodeGeneratorPlugin<HashCodeAr
 			final JBlock body = object$hashCode.body();
 			final JExpression currentHashCodeExpression = JExpr.lit(1);
 			final JVar currentHashCode = body.decl(codeModel.INT, "currentHashCode", currentHashCodeExpression);
+			
 			final Boolean superClassImplementsHashCode = superClassNotIgnored(classOutline, getIgnoring());
 			if (superClassImplementsHashCode != null)
 			{
 				body.assign(currentHashCode,
 					currentHashCode.mul(JExpr.lit(getMultiplier())).plus(JExpr._super().invoke("hashCode")));
 			}
+			
 			final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
-			if (declaredFields.length > 0)
+			for (final FieldOutline fieldOutline : declaredFields)
 			{
-				for (final FieldOutline fieldOutline : declaredFields)
+				final FieldAccessorEx fieldAccessor =
+					getFieldAccessorFactory().createFieldAccessor(fieldOutline, JExpr._this());
+				
+				final CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
+				if ( !fieldAccessor.isConstant() )
 				{
-					final FieldAccessorEx fieldAccessor =
-						getFieldAccessorFactory().createFieldAccessor(fieldOutline, JExpr._this());
-					
-					if (fieldAccessor.isConstant())
-						continue;
-					
-					final CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
 					final JBlock block = body.block();
 					block.assign(currentHashCode, currentHashCode.mul(JExpr.lit(getMultiplier())));
-					String propertyName = fieldInfo.getName(true);
-					final JVar value = block.decl(fieldAccessor.getType(), "the" + propertyName);
-					fieldAccessor.toRawValue(block, value);
+					final String propertyName = fieldInfo.getName(true);
+					
 					final JType exposedType = fieldAccessor.getType();
-					final Collection<JType> possibleTypes = getPossibleTypes(fieldOutline, Aspect.EXPOSED);
-					final boolean isAlwaysSet = fieldAccessor.isAlwaysSet();
+					final JVar value = block.decl(exposedType, "the" + propertyName);
+					fieldAccessor.toRawValue(block, value);
+					
 					// final JExpression hasSetValue = exposedType.isPrimitive() ? JExpr.TRUE : value.ne(JExpr._null());
 					final JExpression hasSetValue = (fieldAccessor.isAlwaysSet() || fieldAccessor.hasSetValue() == null)
 						? JExpr.TRUE : fieldAccessor .hasSetValue();
-					getCodeGenerator().generate(block, exposedType, possibleTypes, isAlwaysSet,
-						new HashCodeArguments(codeModel, currentHashCode, getMultiplier(), value, hasSetValue));
 					
-					trace("{}, generate; Class={}, Field={}",
-						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldInfo.getName(false));
+					final HashCodeArguments arguments = new HashCodeArguments
+					(
+						codeModel,
+						currentHashCode,
+						getMultiplier(),
+						value,
+						hasSetValue
+					);
+					
+					final Collection<JType> possibleTypes = getPossibleTypes(fieldOutline, Aspect.EXPOSED);
+					final boolean isAlwaysSet = fieldAccessor.isAlwaysSet();
+					
+					getCodeGenerator().generate
+					(
+						block,
+						exposedType,
+						possibleTypes,
+						isAlwaysSet,
+						arguments
+					);
 				}
+				
+				trace("{}, generate; Class={}, Field={}",
+					toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldInfo.getName(false));
 			}
+			
+			if ( classOutline.target.declaresAttributeWildcard() )
+			{
+				final Outline outline = classOutline.parent();
+				final Model model = outline.getModel();
+				
+				final JBlock block = body.block();
+
+				final String FIELD_NAME = "otherAttributes";
+				final String METHOD_SEED = model.getNameConverter().toClassName(FIELD_NAME);
+				final String METHOD_NAME = "get" + METHOD_SEED;
+				
+				final JDefinedClass coi = classOutline.implClass;
+				final JFieldVar field = coi.fields().get(FIELD_NAME);
+				final JMethod getter = coi.getMethod(METHOD_NAME, NOARGS);
+				
+				final JType exposedType = field.type();
+				final JInvocation invokeGetter = JExpr._this().invoke(getter);
+				final JVar value = block.decl(exposedType, "the" + METHOD_SEED, invokeGetter);
+				
+				final JExpression hasSetValue = JExpr.TRUE;
+				
+				final HashCodeArguments arguments = new HashCodeArguments
+				(
+					codeModel,
+					currentHashCode,
+					getMultiplier(),
+					value,
+					hasSetValue
+				);
+				
+				final Collection<JType> possibleTypes = Set.of(exposedType);
+				final boolean isAlwaysSet = true;
+				
+				getCodeGenerator().generate
+				(
+					block,
+					exposedType,
+					possibleTypes,
+					isAlwaysSet,
+					arguments
+				);
+				
+				trace("{}, generate; Class={}, Field={}",
+					toLocation(classOutline), theClass.name(), theClass.name(), FIELD_NAME);
+			}
+			
 			body._return(currentHashCode);
 		}
 		debug("{}, generate; Class={}", toLocation(theClass.metadata), theClass.name());

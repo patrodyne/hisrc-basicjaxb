@@ -8,6 +8,7 @@ import static org.jvnet.basicjaxb.util.FieldUtils.getPossibleTypes;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -20,12 +21,15 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JFieldVar;
+import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.model.CDefaultValue;
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
@@ -176,8 +180,8 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 			toStringFieldsMethod.annotate(Override.class);
 		toStringFieldsMethod.param(codeModel.ref(StringBuilder.class), "stringBuilder");
 		{
-			final JVar stringBuilder = toStringFieldsMethod.params().get(0);
 			final JBlock body = toStringFieldsMethod.body();
+			final JVar stringBuilder = toStringFieldsMethod.params().get(0);
 			
 			String fieldSeparator = null;
 			if ( sciToStringFields )
@@ -187,68 +191,109 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 			}
 			
 			final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
-
-			if (declaredFields.length > 0)
+			for (final FieldOutline fieldOutline : declaredFields)
 			{
-				for (final FieldOutline fieldOutline : declaredFields)
+				final FieldAccessorEx fieldAccessor = getFieldAccessorFactory()
+					.createFieldAccessor(fieldOutline, JExpr._this());
+				
+				final CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
+				if ( !fieldAccessor.isConstant() )
 				{
-					final FieldAccessorEx fieldAccessor = getFieldAccessorFactory()
-							.createFieldAccessor(fieldOutline, JExpr._this());
+					final JBlock block = body.block();
+					final String propertyName = fieldInfo.getName(true);
 					
-					final CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
-					if ( !fieldAccessor.isConstant() )
-					{
-						final JBlock block = body.block();
+					final JType exposedType = fieldAccessor.getType();
+					final JVar value = block.decl(exposedType, "the" + propertyName);
+					fieldAccessor.toRawValue(block, value);
 
-						String propertyName = fieldInfo.getName(true);
-						
-						final JVar value = block.decl(fieldAccessor.getType(), "the" + propertyName);
-						fieldAccessor.toRawValue(block, value);
-						
-						final JType exposedType = fieldAccessor.getType();
-
-						final JExpression hasSetValue = ( fieldAccessor.isAlwaysSet() || fieldAccessor.hasSetValue() == null )
-							? JExpr.TRUE : fieldAccessor.hasSetValue();
-
-						String fieldName = null;
-						if ( isShowFieldNames() )
-							fieldName = fieldInfo.getName(false);
-						
-						CPropertyInfo propertyInfo = fieldAccessor.getPropertyInfo();
-						CDefaultValue defaultValue = propertyInfo.defaultValue;
-						
-						ToStringArguments arguments = new ToStringArguments
-						(
-							codeModel,
-							stringBuilder,
-							value,
-							hasSetValue,
-							fieldSeparator,
-							fieldName,
-							isShowChildItems(),
-							(defaultValue != null)
-						);
-
-						final Collection<JType> possibleTypes =	getPossibleTypes(fieldOutline, Aspect.EXPOSED);
-						final boolean isAlwaysSet = fieldAccessor.isAlwaysSet();
-						
-						getCodeGenerator().generate
-						(
-							block,
-							exposedType,
-							possibleTypes,
-							isAlwaysSet,
-							arguments
-						);
-						
-						fieldSeparator = FIELD_SEPARATOR;
-					}
+					final JExpression hasSetValue = ( fieldAccessor.isAlwaysSet() || fieldAccessor.hasSetValue() == null )
+						? JExpr.TRUE : fieldAccessor.hasSetValue();
+					final String fieldName = isShowFieldNames() ? fieldInfo.getName(false) : null;
+					final CDefaultValue defaultValue = fieldInfo.defaultValue;
 					
-					trace("{}, generateToStringFieldsMethod; Class={}, Field={}",
-						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldInfo.getName(false));
+					final ToStringArguments arguments = new ToStringArguments
+					(
+						codeModel,
+						stringBuilder,
+						value,
+						hasSetValue,
+						fieldSeparator,
+						fieldName,
+						isShowChildItems(),
+						(defaultValue != null)
+					);
+
+					final Collection<JType> possibleTypes =	getPossibleTypes(fieldOutline, Aspect.EXPOSED);
+					final boolean isAlwaysSet = fieldAccessor.isAlwaysSet();
+					
+					getCodeGenerator().generate
+					(
+						block,
+						exposedType,
+						possibleTypes,
+						isAlwaysSet,
+						arguments
+					);
+					
+					fieldSeparator = FIELD_SEPARATOR;
 				}
+				
+				trace("{}, generateToStringFieldsMethod; Class={}, Field={}",
+					toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldInfo.getName(false));
+			}
+
+			if ( classOutline.target.declaresAttributeWildcard() )
+			{
+				final Outline outline = classOutline.parent();
+				final Model model = outline.getModel();
+				
+				final JBlock block = body.block();
+
+				final String FIELD_NAME = "otherAttributes";
+				final String METHOD_SEED = model.getNameConverter().toClassName(FIELD_NAME);
+				final String METHOD_NAME = "get" + METHOD_SEED;
+				
+				final JDefinedClass coi = classOutline.implClass;
+				final JFieldVar field = coi.fields().get(FIELD_NAME);
+				final JMethod getter = coi.getMethod(METHOD_NAME, NOARGS);
+				
+				final JType exposedType = field.type();
+				final JInvocation invokeGetter = JExpr._this().invoke(getter);
+				final JVar value = block.decl(exposedType, "the" + METHOD_SEED, invokeGetter);
+				
+				final JExpression hasSetValue = JExpr.TRUE;
+				final String fieldName = isShowFieldNames() ? FIELD_NAME : null;
+				final boolean hasDefaultValue = false;
+				
+				final ToStringArguments arguments = new ToStringArguments
+				(
+					codeModel,
+					stringBuilder,
+					value,
+					hasSetValue ,
+					fieldSeparator,
+					fieldName,
+					isShowChildItems(),
+					hasDefaultValue
+				);
+				
+				final Collection<JType> possibleTypes = Set.of(exposedType);
+				final boolean isAlwaysSet = true;
+				
+				getCodeGenerator().generate
+				(
+					block,
+					exposedType,
+					possibleTypes,
+					isAlwaysSet,
+					arguments
+				);
+				
+				trace("{}, generateToStringFieldsMethod; Class={}, Field={}",
+					toLocation(classOutline), theClass.name(), FIELD_NAME);
 			}
 		}
+		
 		return toStringFieldsMethod;
 	}
 }
