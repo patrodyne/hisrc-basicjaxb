@@ -2,8 +2,8 @@
 <jaxb:bindings jaxb:version="3.0"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:a="a"
-	xmlns:b="b"
+	xmlns:a="public:hisrc-basicjaxb.test.episodes.a"
+	xmlns:b="public:hisrc-basicjaxb.test.episodes.b"
 >
 	
 	<jaxb:bindings scd="x-schema::b">

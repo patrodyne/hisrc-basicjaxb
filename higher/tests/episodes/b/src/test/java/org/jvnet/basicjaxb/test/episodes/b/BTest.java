@@ -28,6 +28,8 @@ public class BTest extends AbstractSamplesTest
 	@Override
 	protected void checkSample(File sample) throws Exception
 	{
+		setFailFast(true);
+
 		Object object = createContext().createUnmarshaller().unmarshal(sample);
 
 		if ( object instanceof JAXBElement)

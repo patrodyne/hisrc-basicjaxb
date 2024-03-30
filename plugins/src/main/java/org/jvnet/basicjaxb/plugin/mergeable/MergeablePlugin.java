@@ -2,6 +2,8 @@ package org.jvnet.basicjaxb.plugin.mergeable;
 
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.mergeable.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.FIELD_NAME;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.HAS_SET_VALUE;
 import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
@@ -25,6 +27,7 @@ import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
+import org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments;
 import org.jvnet.basicjaxb.plugin.util.OutlineUtils;
 import org.jvnet.basicjaxb.util.ClassUtils;
 import org.jvnet.basicjaxb.util.FieldAccessorFactory;
@@ -297,7 +300,7 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 					lhsFieldAccessorMap.put(fieldOutline, lhsFieldAccessor);
 			}
 			
-			if (lhsFieldAccessorMap.size() > 0)
+			if ( (lhsFieldAccessorMap.size() > 0) || classOutline.target.declaresAttributeWildcard() )
 			{
 				final JBlock body = methodBody._if(rhs._instanceof(theClass))._then();
 				JVar target = body.decl(JMod.FINAL, theClass, "target", JExpr._this());
@@ -406,6 +409,53 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 					
 					trace("{}, generateMergeFrom$mergeFrom; Class={}, Field={}",
 						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
+				}
+				
+				if ( classOutline.target.declaresAttributeWildcard() )
+				{
+					final AttributeWildcardArguments awa =
+						new AttributeWildcardArguments(classOutline);
+					
+					final JBlock block = body.block();
+					final JVar lhsField = awa.fieldVar(block, lhsObject, "lhs", "Field");
+					final JVar rhsField = awa.fieldVar(block, rhsObject, "rhs", "Field");
+					final JVar tgtField = awa.fieldVar(block, target, "tgt", "Field");
+					
+					final JExpression lhsFieldLocatorValue = awa.fieldLocatorValue(lhsLocator, lhsField);
+					final JVar lhsFieldLocator = awa.fieldLocator(block, lhsLocator, lhsFieldLocatorValue, "lhs");
+					
+					final JExpression rhsFieldLocatorValue = awa.fieldLocatorValue(rhsLocator, rhsField);
+					final JVar rhsFieldLocator = awa.fieldLocator(block, rhsLocator, rhsFieldLocatorValue, "rhs");
+					
+					final JType mergedFieldType = awa.getExposedType();
+
+					final JExpression mergedValue = JExpr.cast
+					(
+						mergedFieldType,
+						mergeStrategy.invoke("merge")
+							.arg(lhsFieldLocator)
+							.arg(rhsFieldLocator)
+							.arg(lhsField)
+							.arg(rhsField)
+							.arg(HAS_SET_VALUE)
+							.arg(HAS_SET_VALUE)
+					);
+					
+					final JVar mergedField = block.decl
+					(
+						mergedFieldType,
+						fieldName("merged"),
+						mergedValue
+					);
+					
+					if (mergedFieldType instanceof JClass && ((JClass) mergedFieldType).isParameterized())
+						mergedField.annotate(SuppressWarnings.class).param("value", "unchecked");
+					
+					block.invoke(tgtField, "clear");
+					block.invoke(tgtField, "putAll").arg(mergedField);
+
+					trace("{}, generateMergeFrom$mergeFrom; Class={}, Field={}",
+						toLocation(classOutline), theClass.name(), FIELD_NAME);
 				}
 			}
 		}

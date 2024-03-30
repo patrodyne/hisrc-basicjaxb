@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="a"
-	xmlns:a="a"
-	elementFormDefault="qualified">
+	targetNamespace="public:hisrc-basicjaxb.test.episodes.a"
+	xmlns:a="public:hisrc-basicjaxb.test.episodes.a"
+	elementFormDefault="qualified"
+>
 
 	<xsd:element name="a" type="a:AType"/>
 	<xsd:complexType name="AType">

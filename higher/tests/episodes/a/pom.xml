@@ -27,9 +27,9 @@
 					<verbose>true</verbose>
 					<debug>true</debug>
 					<args>
-						<arg>-XtoString</arg>
-						<arg>-Xequals</arg>
 						<arg>-XhashCode</arg>
+						<arg>-Xequals</arg>
+						<arg>-XtoString</arg>
 						<arg>-Xcopyable</arg>
 						<arg>-Xmergeable</arg>
 					</args>

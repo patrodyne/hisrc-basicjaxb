@@ -14,6 +14,7 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
+import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
@@ -149,17 +150,18 @@ public class FixOtherAttributes extends AbstractPlugin
 				{
 					JMethod method = theClass.getMethod(GET_OTHER_ATTRIBUTES, NO_ARGS);
 					if ( method != null )
-						removeFieldAndMethod(theClass, fieldEntry, method);
+						removeFieldAndMethod(theClass, fieldEntry, method, classOutline.target);
 				}
 			}
 		}
 		debug("{}, processClassOutline; Class={}", toLocation(theClass.metadata), theClass.name());
 	}
 
-	private void removeFieldAndMethod(final JDefinedClass theClass, Entry<String, JFieldVar> fieldEntry, JMethod method)
+	private void removeFieldAndMethod(JDefinedClass theClass, Entry<String, JFieldVar> fieldEntry, JMethod method, CClassInfo target)
 	{
 		theClass.methods().remove(method);
 		theClass.removeField(fieldEntry.getValue());
+		target.hasAttributeWildcard(false);
 		trace("{}, removeFieldAndMethod; Class={}; Field={}", toLocation(theClass.metadata), theClass.name(), fieldEntry.getValue().name());
 	}
 	

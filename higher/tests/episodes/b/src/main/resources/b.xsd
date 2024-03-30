@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="b"
-	xmlns:a="a"
-	xmlns:b="b"
+	targetNamespace="public:hisrc-basicjaxb.test.episodes.b"
+	xmlns:a="public:hisrc-basicjaxb.test.episodes.a"
+	xmlns:b="public:hisrc-basicjaxb.test.episodes.b"
 	elementFormDefault="qualified">
 
-	<xsd:import namespace="a" schemaLocation="https://raw.githubusercontent.com/patrodyne/hisrc-basicjaxb/master/higher/tests/episodes/a/src/main/resources/a.xsd"/>
+	<!--
+		XJC: Resolved by catalog.xml and publicId.
+		IDE: Resolved by "preferences" XML Catalog Manager.
+		key: public:hisrc-basicjaxb-test-episodes-a
+		loc: hisrc-basicjaxb/higher/tests/episodes/a/src/main/resources/a.xsd
+	-->
+	<xsd:import namespace="public:hisrc-basicjaxb.test.episodes.a" />
 
 	<xsd:element name="b" type="b:BType"/>
 

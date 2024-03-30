@@ -7,9 +7,10 @@
 <!-- xmlcatalog -v catalog.xml [publicId|systemId] -->
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
 
-	<!-- The system element associates a URI reference with a system identifier. -->
-	<system
-		systemId="https://raw.githubusercontent.com/patrodyne/hisrc-basicjaxb/master/higher/tests/episodes/a/src/main/resources/a.xsd"
+	<!-- The public element associates a URI reference with a public identifier. -->
+	<public
+		publicId="public:hisrc-basicjaxb.test.episodes.a"
 		uri="maven:org.patrodyne.jvnet:hisrc-basicjaxb-test-episodes-a:jar::!/a.xsd"
 	/>
+
 </catalog>

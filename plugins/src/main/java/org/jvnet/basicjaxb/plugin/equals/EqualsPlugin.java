@@ -2,6 +2,8 @@ package org.jvnet.basicjaxb.plugin.equals;
 
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.equals.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.FIELD_NAME;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.HAS_SET_VALUE;
 import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
@@ -25,6 +27,7 @@ import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
+import org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments;
 import org.jvnet.basicjaxb.plugin.util.OutlineUtils;
 import org.jvnet.basicjaxb.util.ClassUtils;
 import org.jvnet.basicjaxb.util.FieldAccessorFactory;
@@ -268,7 +271,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 					lhsFieldAccessorMap.put(fieldOutline, lhsFieldAccessor);
 			}
 			
-			if (lhsFieldAccessorMap.size() > 0)
+			if ( (lhsFieldAccessorMap.size() > 0) || classOutline.target.declaresAttributeWildcard() )
 			{
 				final JVar _that = body.decl(JMod.FINAL, theClass, "that", JExpr.cast(theClass, object));
 				
@@ -324,7 +327,37 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 					trace("{}, generateEquals$equals; Class={}, Field={}",
 						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
+				
+				if ( classOutline.target.declaresAttributeWildcard() )
+				{
+					final AttributeWildcardArguments awa =
+						new AttributeWildcardArguments(classOutline);
+					
+					final JBlock block = body.block();
+					final JVar lhsField = awa.fieldVar(block, _this, "lhs", "Field");
+					final JVar rhsField = awa.fieldVar(block, _that, "rhs", "Field");
+
+					final JExpression lhsFieldLocatorValue = awa.fieldLocatorValue(lhsLocator, lhsField);
+					final JVar lhsFieldLocator = awa.fieldLocator(block, lhsLocator, lhsFieldLocatorValue, "lhs");
+					
+					final JExpression rhsFieldLocatorValue = awa.fieldLocatorValue(rhsLocator, rhsField);
+					final JVar rhsFieldLocator = awa.fieldLocator(block, rhsLocator, rhsFieldLocatorValue, "rhs");
+					
+					block
+						._if(JOp.not(JExpr.invoke(equalsStrategy, "equals")
+							.arg(lhsFieldLocator)
+							.arg(rhsFieldLocator)
+							.arg(lhsField)
+							.arg(rhsField)
+							.arg(HAS_SET_VALUE)
+							.arg(HAS_SET_VALUE)))
+						._then()._return(JExpr.FALSE);
+					
+					trace("{}, generateEquals$equals; Class={}, Field={}",
+						toLocation(classOutline), theClass.name(), FIELD_NAME);
+				}
 			}
+
 			body._return(JExpr.TRUE);
 		}
 		return equals;

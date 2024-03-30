@@ -1,7 +1,10 @@
 package org.jvnet.basicjaxb.plugin.hashcode;
 
+import static com.sun.codemodel.JExpr._this;
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.hashcode.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.FIELD_NAME;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.HAS_SET_VALUE;
 import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
@@ -23,6 +26,7 @@ import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
+import org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments;
 import org.jvnet.basicjaxb.util.ClassUtils;
 import org.jvnet.basicjaxb.util.FieldAccessorFactory;
 import org.jvnet.basicjaxb.util.PropertyFieldAccessorFactory;
@@ -243,8 +247,8 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 			final JVar hashCodeStrategy = hashCode$hashCode.param(HashCodeStrategy.class, "strategy");
 			final JBlock body = hashCode$hashCode.body();
 			final JExpression currentHashCodeExpression;
-			final Boolean superClassImplementsHashCode = superClassImplements(classOutline, ignoring, HashCode.class);
 			
+			final Boolean superClassImplementsHashCode = superClassImplements(classOutline, ignoring, HashCode.class);
 			if (superClassImplementsHashCode == null)
 				currentHashCodeExpression = JExpr.lit(1);
 			else if (superClassImplementsHashCode.booleanValue())
@@ -253,44 +257,70 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 				currentHashCodeExpression = JExpr._super().invoke("hashCode");
 			
 			final JVar currentHashCode = body.decl(codeModel.INT, "currentHashCode", currentHashCodeExpression);
+
 			final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
-			
 			for (final FieldOutline fieldOutline : declaredFields)
 			{
-				final FieldAccessorEx fieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, JExpr._this());
-				if (fieldAccessor.isConstant())
-					continue;
-				
-				final JBlock block = body.block();
-
-				final JExpression theFieldIsSetEx = (fieldAccessor.isAlwaysSet() || fieldAccessor.hasSetValue() == null)
-					? JExpr.TRUE : fieldAccessor .hasSetValue();
-				final JVar theFieldIsSet = block.decl(codeModel.ref(Boolean.class).unboxify(), "theFieldIsSet", theFieldIsSetEx);
-				
-				final JVar theField = block.decl(fieldAccessor.getType(), fieldName("the"));
-				fieldAccessor.toRawValue(block, theField);
-				
 				String fieldName = fieldName(fieldOutline);
+
+				final FieldAccessorEx fieldAccessor =
+					getFieldAccessorFactory().createFieldAccessor(fieldOutline, JExpr._this());
+				if ( !fieldAccessor.isConstant() )
+				{
+					final JBlock block = body.block();
+
+					final JExpression theFieldIsSetEx = (fieldAccessor.isAlwaysSet() || fieldAccessor.hasSetValue() == null)
+						? JExpr.TRUE : fieldAccessor .hasSetValue();
+					final JVar theFieldIsSet = block.decl(codeModel.ref(Boolean.class).unboxify(), "theFieldIsSet", theFieldIsSetEx);
+					
+					final JVar theField = block.decl(fieldAccessor.getType(), fieldName("the"));
+					fieldAccessor.toRawValue(block, theField);
+					
+					final JExpression theFieldLocatorEx = codeModel.ref(LocatorUtils.class).staticInvoke("property")
+						.arg(locator)
+						.arg(fieldName)
+						.arg(theField);
+								
+					final JVar theFieldLocator = block.decl(locator.type(), "theFieldLocator", theFieldLocatorEx);
+					
+					block.assign
+					(
+						currentHashCode,
+						hashCodeStrategy.invoke("hashCode")
+							.arg(theFieldLocator)
+							.arg(currentHashCode)
+							.arg(theField)
+							.arg(theFieldIsSet)
+					);
+				}
 				
-				final JExpression theFieldLocatorEx = codeModel.ref(LocatorUtils.class).staticInvoke("property")
-					.arg(locator)
-					.arg(fieldName)
-					.arg(theField);
-							
-				final JVar theFieldLocator = block.decl(locator.type(), "theFieldLocator", theFieldLocatorEx);
-				
+				trace("{}, generateHashCode$hashCode; Class={}, Field={}",
+					toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
+			}
+			
+			if ( classOutline.target.declaresAttributeWildcard() )
+			{
+				final AttributeWildcardArguments awa =
+					new AttributeWildcardArguments(classOutline);
+
+				final JBlock block = body.block();
+				final JVar theField = awa.fieldVar(block, _this(), "the", "Field");
+
+				final JExpression theFieldLocatorValue = awa.fieldLocatorValue(locator, theField);
+				final JVar theFieldLocator = awa.fieldLocator(block, locator, theFieldLocatorValue, "the");
+								
 				block.assign
 				(
 					currentHashCode,
 					hashCodeStrategy.invoke("hashCode")
-					.arg(theFieldLocator)
-					.arg(currentHashCode)
-					.arg(theField)
-					.arg(theFieldIsSet)
+						.arg(theFieldLocator)
+						.arg(currentHashCode)
+						.arg(theField)
+						.arg(HAS_SET_VALUE)
 				);
 				
 				trace("{}, generateHashCode$hashCode; Class={}, Field={}",
-					toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
+					toLocation(classOutline), theClass.name(), FIELD_NAME);
 			}
 			
 			body._return(currentHashCode);

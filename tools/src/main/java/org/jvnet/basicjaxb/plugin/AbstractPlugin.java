@@ -15,6 +15,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import com.sun.codemodel.JType;
 import com.sun.tools.xjc.BadCommandLineException;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.Plugin;
@@ -67,6 +68,9 @@ public abstract class AbstractPlugin extends Plugin
 	/** Represents the XJC plugin logging finish message.*/
 	public static final String LOGGING_FINISH = ": Finish";
 	
+	/** Represents an empty JType array. **/
+	protected static final JType[] NOARGS = new JType[0];
+
 	private Options options = new Options();
 	protected Options getOptions() { return options; }
 	protected void setOptions(Options options)

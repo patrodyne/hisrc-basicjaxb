@@ -2,7 +2,7 @@
 <jaxb:bindings jaxb:version="3.0"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:a="a"
+	xmlns:a="public:hisrc-basicjaxb.test.episodes.a"
 >
 	
 	<jaxb:bindings scd="x-schema::a">

@@ -1,4 +1,7 @@
-<b xmlns:a="a" xmlns="b">
+<b
+	xmlns:a="public:hisrc-basicjaxb.test.episodes.a"
+	xmlns="public:hisrc-basicjaxb.test.episodes.b"
+>
 	<a:a>
 		<a:a1>test</a:a1>
 	</a:a>

@@ -1,7 +1,10 @@
 package org.jvnet.basicjaxb.plugin.tostring;
 
+import static com.sun.codemodel.JExpr._this;
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.FIELD_NAME;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.HAS_SET_VALUE;
 import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
@@ -21,6 +24,7 @@ import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
+import org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments;
 import org.jvnet.basicjaxb.plugin.util.OutlineUtils;
 import org.jvnet.basicjaxb.plugin.util.StrategyClassUtils;
 import org.jvnet.basicjaxb.util.ClassUtils;
@@ -285,6 +289,29 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 					trace("{}, generateToString$appendFields; Class={}, Field={}",
 						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
+			}
+			
+			if ( classOutline.target.declaresAttributeWildcard() )
+			{
+				final AttributeWildcardArguments awa =
+					new AttributeWildcardArguments(classOutline);
+
+				final JBlock block = body.block();
+				final JVar theField = awa.fieldVar(block, _this(), "the", "Field");
+
+				final JExpression theFieldLocatorValue = awa.fieldLocatorValue(locator, theField);
+				final JVar theFieldLocator = awa.fieldLocator(block, locator, theFieldLocatorValue, "the");
+				
+				block.invoke(toStringStrategy, "appendField")
+					.arg(theFieldLocator)
+					.arg(JExpr._this())
+					.arg(JExpr.lit(FIELD_NAME))
+					.arg(buffer)
+					.arg(theField)
+					.arg(HAS_SET_VALUE);
+				
+				trace("{}, generateToString$appendFields; Class={}, Field={}",
+					toLocation(classOutline), theClass.name(), FIELD_NAME);
 			}
 			
 			body._return(buffer);

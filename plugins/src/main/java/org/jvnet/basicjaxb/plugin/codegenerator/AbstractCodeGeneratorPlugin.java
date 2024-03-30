@@ -19,7 +19,6 @@ import org.xml.sax.SAXException;
 
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
-import com.sun.codemodel.JType;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
@@ -32,9 +31,6 @@ import com.sun.tools.xjc.outline.Outline;
 public abstract class AbstractCodeGeneratorPlugin<A extends Arguments<A>>
 	extends AbstractParameterizablePlugin
 {
-	/** Represents an empty JType array. **/
-	protected static final JType[] NOARGS = new JType[0];
-	
 	// Represents a field accessor factory with default instance.
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;
 	public FieldAccessorFactory getFieldAccessorFactory()

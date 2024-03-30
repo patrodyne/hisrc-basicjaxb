@@ -1,19 +1,24 @@
 package org.jvnet.basicjaxb.plugin.simpletostring;
 
+import static com.sun.codemodel.JExpr._this;
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.tostring.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.FIELD_NAME;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.HAS_DEFAULT_VALUE;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.HAS_SET_VALUE;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.IS_ALWAYS_SET;
 import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
 import static org.jvnet.basicjaxb.util.FieldUtils.getPossibleTypes;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Collection;
-import java.util.Set;
 
 import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.plugin.codegenerator.AbstractCodeGeneratorPlugin;
 import org.jvnet.basicjaxb.plugin.codegenerator.CodeGenerator;
+import org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments;
 import org.jvnet.basicjaxb.xjc.outline.FieldAccessorEx;
 
 import com.sun.codemodel.JBlock;
@@ -21,15 +26,12 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
-import com.sun.codemodel.JFieldVar;
-import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.model.CDefaultValue;
 import com.sun.tools.xjc.model.CPropertyInfo;
-import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.Aspect;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
@@ -244,48 +246,31 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 
 			if ( classOutline.target.declaresAttributeWildcard() )
 			{
-				final Outline outline = classOutline.parent();
-				final Model model = outline.getModel();
+				final AttributeWildcardArguments awa =
+					new AttributeWildcardArguments(classOutline);
 				
 				final JBlock block = body.block();
-
-				final String FIELD_NAME = "otherAttributes";
-				final String METHOD_SEED = model.getNameConverter().toClassName(FIELD_NAME);
-				final String METHOD_NAME = "get" + METHOD_SEED;
-				
-				final JDefinedClass coi = classOutline.implClass;
-				final JFieldVar field = coi.fields().get(FIELD_NAME);
-				final JMethod getter = coi.getMethod(METHOD_NAME, NOARGS);
-				
-				final JType exposedType = field.type();
-				final JInvocation invokeGetter = JExpr._this().invoke(getter);
-				final JVar value = block.decl(exposedType, "the" + METHOD_SEED, invokeGetter);
-				
-				final JExpression hasSetValue = JExpr.TRUE;
+				final JVar theValue = awa.fieldVar(block, _this(), "the");
 				final String fieldName = isShowFieldNames() ? FIELD_NAME : null;
-				final boolean hasDefaultValue = false;
 				
 				final ToStringArguments arguments = new ToStringArguments
 				(
 					codeModel,
 					stringBuilder,
-					value,
-					hasSetValue ,
+					theValue,
+					HAS_SET_VALUE,
 					fieldSeparator,
 					fieldName,
 					isShowChildItems(),
-					hasDefaultValue
+					HAS_DEFAULT_VALUE
 				);
-				
-				final Collection<JType> possibleTypes = Set.of(exposedType);
-				final boolean isAlwaysSet = true;
 				
 				getCodeGenerator().generate
 				(
 					block,
-					exposedType,
-					possibleTypes,
-					isAlwaysSet,
+					awa.getExposedType(),
+					awa.getPossibleTypes(),
+					IS_ALWAYS_SET,
 					arguments
 				);
 				

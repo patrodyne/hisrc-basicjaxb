@@ -51,9 +51,9 @@
 					<debug>true</debug>
 					<args>
 						<arg>-XfixOtherAttributes</arg>
-						<arg>-XtoString</arg>
-						<arg>-Xequals</arg>
 						<arg>-XhashCode</arg>
+						<arg>-Xequals</arg>
+						<arg>-XtoString</arg>
 						<arg>-Xcopyable</arg>
 						<arg>-Xmergeable</arg>
 					</args>

@@ -1,7 +1,10 @@
 package org.jvnet.basicjaxb.plugin.copyable;
 
+import static com.sun.codemodel.JExpr._this;
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.copyable.Customizations.IGNORED_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.FIELD_NAME;
+import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.HAS_SET_VALUE;
 import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
@@ -25,6 +28,7 @@ import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
+import org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments;
 import org.jvnet.basicjaxb.util.ClassUtils;
 import org.jvnet.basicjaxb.util.FieldAccessorFactory;
 import org.jvnet.basicjaxb.util.PropertyFieldAccessorFactory;
@@ -262,7 +266,6 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 	protected JMethod generateCopyTo$copyTo(ClassOutline classOutline, final JDefinedClass theClass)
 	{
 		final JCodeModel codeModel = theClass.owner();
-		ClassUtils._implements(theClass, codeModel.ref(CopyTo.class));
 		final JMethod copyTo = theClass.method(JMod.PUBLIC, codeModel.ref(Object.class), "copyTo");
 		copyTo.annotate(Override.class);
 		{
@@ -308,7 +311,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 					sourceFieldAccessorMap.put(fieldOutline, sourceFieldAccessor);
 			}
 			
-			if (sourceFieldAccessorMap.size() > 0)
+			if ( (sourceFieldAccessorMap.size() > 0) || classOutline.target.declaresAttributeWildcard() )
 			{
 				final JBlock bl = body._if(draftCopy._instanceof(theClass))._then();
 				final JVar copy = bl.decl(JMod.FINAL, theClass, "copy", JExpr.cast(theClass, draftCopy));
@@ -390,6 +393,42 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 					copyFieldAccessor.unsetValues(ifShouldBeUnsetBlock);
 					trace("{}, generateCopyTo$copyTo; Class={}, Field={}",
 						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
+				}
+				
+				if ( classOutline.target.declaresAttributeWildcard() )
+				{
+					final AttributeWildcardArguments awa =
+						new AttributeWildcardArguments(classOutline);
+					
+					final JBlock block = bl.block();
+					final JVar srcField = awa.fieldVar(block, _this(), "src", "Field");
+					final JVar cpyField = awa.fieldVar(block, copy, "cpy", "Field");
+
+					final JExpression srcFieldLocatorValue = awa.fieldLocatorValue(locator, srcField);
+					final JVar srcFieldLocator = awa.fieldLocator(block, locator, srcFieldLocatorValue, "src");
+					
+					final JExpression bldCopy = JExpr.invoke(copyStrategy, "copy")
+						.arg(srcFieldLocator)
+						.arg(srcField)
+						.arg(HAS_SET_VALUE);
+					
+					final JType bldFieldType = awa.getExposedType();
+					final JVar bldField = block.decl
+					(
+						bldFieldType,
+						fieldName("bld"),
+						JExpr.cast(bldFieldType, bldCopy)
+					);
+					
+					if (bldFieldType instanceof JClass && ((JClass) bldFieldType).isParameterized())
+						bldField.annotate(SuppressWarnings.class).param("value", "unchecked");
+					
+					block.invoke(cpyField, "clear");
+					block.invoke(cpyField, "putAll").arg(bldField);
+					
+					trace("{}, generateCopyTo$copyTo; Class={}, Field={}",
+						toLocation(classOutline), theClass.name(), FIELD_NAME);
+
 				}
 			}
 			body._return(draftCopy);
