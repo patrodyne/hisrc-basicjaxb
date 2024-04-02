@@ -37,6 +37,7 @@ else
 fi
 
 # Release to Maven Central via Sonatype Nexus Repository Manager
+# 0) Pre-requisite: hisrc-basicjaxb-annox
 # 1) Set MVN_ARGS to "-T 1" and commit/push
 # 2) Use the same TTY to reuse gpg signing daemon
 # 3) To delete a TAG: git tag -d N.N.N; git push origin --delete N.N.N

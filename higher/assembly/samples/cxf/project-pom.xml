@@ -18,6 +18,7 @@
 		<hisrc-basicjaxb.version>${hisrc-basicjaxb.version}</hisrc-basicjaxb.version>
 		<jaxb-api.version>${jaxb-api.version}</jaxb-api.version>
 		<jaxb-imp.version>${jaxb-imp.version}</jaxb-imp.version>
+		<jaxws-api.version>${jaxws-api.version}</jaxws-api.version>
 		<junit-jupiter.version>${junit-jupiter.version}</junit-jupiter.version>
 		<slf4j.version>${slf4j.version}</slf4j.version>
 	</properties>
@@ -43,7 +44,7 @@
 		<dependency>
 			<groupId>jakarta.xml.ws</groupId>
 			<artifactId>jakarta.xml.ws-api</artifactId>
-			<version>\${jaxb-api.version}</version>
+			<version>\${jaxws-api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>

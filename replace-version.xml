@@ -29,6 +29,18 @@
 			<replacevalue><![CDATA[BASICJAXB_VERSION="2.2.0"]]></replacevalue>
 		</replace>
 
+		<replace dir="${basedir}" summary="true">
+			<include name="higher/assembly/pom.xml"/>
+			<replacetoken><![CDATA[version>2.2.0</]]></replacetoken>
+			<replacevalue><![CDATA[version>2.2.0</]]></replacevalue>
+		</replace>
+
+		<replace dir="${basedir}" summary="true">
+			<include name="higher/pom.xml"/>
+			<replacetoken><![CDATA[version>2.2.1-SNAPSHOT</]]></replacetoken>
+			<replacevalue><![CDATA[version>2.2.1-SNAPSHOT</]]></replacevalue>
+		</replace>
+
 	</target>
 
 </project>
