@@ -39,8 +39,12 @@ fi
 # Release to Maven Central via Sonatype Nexus Repository Manager
 # 0) Pre-requisite: hisrc-basicjaxb-annox
 # 1) Set MVN_ARGS to "-T 1" and commit/push
-# 2) Use the same TTY to reuse gpg signing daemon
-# 3) To delete a TAG: git tag -d N.N.N; git push origin --delete N.N.N
+# 2) Exit mc, use the same TTY to reuse gpg signing daemon.
+# 3) To "prime" the GnuPG agent...............: echo "test" | gpg --clearsign
+# 4) To delete a TAG..........................: git tag -d N.N.N; git push origin --delete N.N.N
+# 5) To throw away the last N local commits...: git reset --hard HEAD~N 
+# 6) To ruthlessly force local repo to remote.: git push --force origin master
+# Note: Child modules are SKIPPED (normally) for some goals.
 # ./build-JXX.sh -DskipTests=true clean install
 # ./build-JXX.sh -DskipTests=true -Pnexus-deploy clean deploy
 # ./build-JXX.sh -DskipTests=true -DdryRun=false release:clean
