@@ -44,6 +44,7 @@ fi
 # 4) To delete a TAG..........................: git tag -d N.N.N; git push origin --delete N.N.N
 # 5) To throw away the last N local commits...: git reset --hard HEAD~N 
 # 6) To ruthlessly force local repo to remote.: git push --force origin master
+# 7) git status; git remote show origin
 # Note: Child modules are SKIPPED (normally) for some goals.
 # ./build-JXX.sh -DskipTests=true clean install
 # ./build-JXX.sh -DskipTests=true -Pnexus-deploy clean deploy
