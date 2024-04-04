@@ -48,6 +48,8 @@ original `maven-jaxb2-plugin` name.
 	* [Central Repository](https://central.sonatype.com/search?q=org.patrodyne.jvnet+hisrc-basicjaxb&sort=name)
 * Index
 	* [Central Repository](https://repo1.maven.org/maven2/org/patrodyne/jvnet/)
+* Snapshots
+	* [Sonotype Repository](https://oss.sonatype.org/content/repositories/snapshots/org/patrodyne/jvnet/)
 
 #### JavaDoc
 

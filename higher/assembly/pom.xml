@@ -15,7 +15,7 @@
 	<name>HiSrc BasicJAXB - Higher Assembly</name>
 	<properties>
 		<ant-atleast.version>1.10.4</ant-atleast.version>
-		<hisrc-basicjaxb.version>2.2.0</hisrc-basicjaxb.version>
+		<hisrc-basicjaxb.version>2.2.1</hisrc-basicjaxb.version>
 		<hisrc-higherjaxb-maven-plugin.version>2.2.0</hisrc-higherjaxb-maven-plugin.version>
 		<hisrc-hyperjaxb-annox-plugin.version>2.2.0</hisrc-hyperjaxb-annox-plugin.version>
 		<root.basedir>${basedir}/../..</root.basedir>
