@@ -24,7 +24,7 @@ import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 
 /**
- * Construct arguments for a wildcard from an {@link ClassOutline}.
+ * Construct arguments for an attribute wildcard from an {@link ClassOutline}.
  */
 public class AttributeWildcardArguments
 {

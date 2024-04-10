@@ -35,6 +35,7 @@ original `maven-jaxb2-plugin` name.
 
 #### GitHub Releases, Demonstrations
 
+* [HiSrc BasicJAXB v2.2.1, Explorations][36]
 * [HiSrc BasicJAXB v2.2.0, Explorations][35]
 * [HiSrc BasicJAXB v2.1.1, Explorations][34]
 * [HiSrc BasicJAXB v2.1.0, Explorations][33]
@@ -77,6 +78,19 @@ New goals for the next release are:
 * Review in progress.
 
 ### Fork History
+
+#### Version 2.2.1
+
+* Added [FixedValuePlugin][60] to set _fixed_ values from the schema.
+* For [FluentApiPlugin][4]:
+    * Allow blank fluent method prefix.
+    * Provide alternative logic to resolve the field's class name.
+    * Added `EnforceTypeSafety` parameter for mixed type lists.
+    * Added `OverrideFluentMethods` parameter for strong return types.
+* Handle anonymous simple type for [DefaultValuePlugin][3].
+* Support ['otherAttributes'][61] (anyAttribute) in several XJC plugins.
+* Updated Maven plugin and dependency versions.
+* Build with JDK 21 and Java 11 compatibility.
 
 #### Version 2.2.0
 
@@ -200,6 +214,7 @@ New goals for the next release are:
   [33]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.1.0
   [34]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.1.1
   [35]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.2.0
+  [36]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.2.1
   [40]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-ant/latest/index.html
   [41]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-plugins/latest/index.html
   [42]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-runtime/latest/index.html
@@ -207,4 +222,5 @@ New goals for the next release are:
   [44]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-testing/latest/index.html
   [45]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-tools/latest/index.html
   [46]: https://github.com/patrodyne/hisrc-basicjaxb/issues/11#issuecomment-1698145616
-
+  [60]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/fixedvalue/FixedValuePlugin.java
+  [61]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/util/AttributeWildcardArguments.java
