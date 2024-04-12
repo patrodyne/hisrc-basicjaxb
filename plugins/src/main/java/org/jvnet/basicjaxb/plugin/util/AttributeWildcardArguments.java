@@ -1,7 +1,5 @@
 package org.jvnet.basicjaxb.plugin.util;
 
-import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.FIELD_NAME;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -9,7 +7,6 @@ import java.util.Set;
 import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 
 import com.sun.codemodel.JBlock;
-import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;

@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.patrodyne.jvnet</groupId>
-	<artifactId>hisrc-basicjaxb-sample-cxf-maven</artifactId>
+	<artifactId>hisrc-basicjaxb-sample-cxf-codegen-maven</artifactId>
 	<version>${hisrc-basicjaxb.version}</version>
 	<packaging>jar</packaging>
 	<name>${project.name}</name>

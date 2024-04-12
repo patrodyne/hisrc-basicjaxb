@@ -9,9 +9,9 @@
 		<artifactId>hisrc-basicjaxb-higher-assembly-samples</artifactId>
 		<version>2.2.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>hisrc-basicjaxb-sample-cxf</artifactId>
+	<artifactId>hisrc-basicjaxb-sample-cxf-codegen</artifactId>
 	<packaging>pom</packaging>
-	<name>HiSrc BasicJAXB - Sample [cxf]</name>
+	<name>HiSrc BasicJAXB - Sample [cxf-codegen]</name>
 	<properties>
 		<root.basedir>${basedir}/../../../..</root.basedir>
 	</properties>
