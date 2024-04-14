@@ -64,7 +64,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>hisrc-basicjaxb-sample-cxf</artifactId>
+			<artifactId>hisrc-basicjaxb-sample-cxf-codegen</artifactId>
 			<version>${project.version}</version>
 			<type>zip</type>
 			<classifier>mvn-src</classifier>
