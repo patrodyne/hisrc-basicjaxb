@@ -27,6 +27,15 @@
 				<inh:elements>rawtypes unchecked</inh:elements>
 			</inh:annotates>
 		</inh:objectFactory>
+
+		<jaxb:bindings node="//xs:element[@name='document1']">
+			<jaxb:bindings node="//xs:element[@name='dv_DataMap']">
+				<jaxb:property>
+					<jaxb:baseType name="java.util.Map&lt;String,Object&gt;" />
+				</jaxb:property>
+			</jaxb:bindings>
+		</jaxb:bindings>
+
     </jaxb:bindings>
 
 </jaxb:bindings>

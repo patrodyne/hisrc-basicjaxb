@@ -21,12 +21,18 @@ public class RunDefaultValuePluginTest extends AbstractMojoTest
 		// Dependencies
 		//
 
+		final Dependency hyperannox = new Dependency();
+		hyperannox.setGroupId("org.patrodyne.jvnet");
+		hyperannox.setArtifactId("hisrc-hyperjaxb-annox-plugin");
+		hyperannox.setVersion(getProjectVersion());
+		hyperannox.setScope(SCOPE_RUNTIME);
+
 		final Dependency basicjaxb = new Dependency();
 		basicjaxb.setGroupId("org.patrodyne.jvnet");
 		basicjaxb.setArtifactId("hisrc-basicjaxb-plugins");
 		basicjaxb.setVersion(getProjectVersion());
 		basicjaxb.setScope(SCOPE_RUNTIME);
-
+		
 		//
 		// MOJO Execution
 		//
@@ -48,13 +54,20 @@ public class RunDefaultValuePluginTest extends AbstractMojoTest
 		mojo.setNoFileHeader(true);
 		mojo.setExtension(true);
 		mojo.setArgs(new ArrayList<>());
+		
+		mojo.getArgs().add("-Xannotate");
+		mojo.getArgs().add("-Xcustomizations");
+		mojo.getArgs().add("-Xcustomizations-directory=src/main/resources");
+		mojo.getArgs().add("-Xcustomizations-verbose=true");
+		mojo.getArgs().add("-Xcustomizations-debug=true");
 		mojo.getArgs().add("-XhashCode");
 		mojo.getArgs().add("-Xequals");
 		mojo.getArgs().add("-XtoString");
 		mojo.getArgs().add("-Xinheritance");
 		mojo.getArgs().add("-XdefaultValue");
+		mojo.getArgs().add("-XdefaultValue-mapClass=java.util.TreeMap");
 
-		mojo.setPlugins(new Dependency[] { basicjaxb });
+		mojo.setPlugins(new Dependency[] { hyperannox, basicjaxb });
 		
 		mojo.execute();
 	}

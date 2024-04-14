@@ -22,6 +22,21 @@
 	da_hexBinary="0FB8" 
 	da_anySimpleType="3.14159" 
 >
+	<ns1:dv_DataMap>
+		<entry>
+			<key>Key1</key>
+			<value>Value1</value>
+		</entry>
+		<entry>
+			<key>Key2</key>
+			<value>Value2</value>
+		</entry>
+		<entry>
+			<key>Key3</key>
+			<value>Value3</value>
+		</entry>
+	</ns1:dv_DataMap>
+
 	<ns1:dv_limit>1000</ns1:dv_limit>
 	<ns1:dv_dow>Monday</ns1:dv_dow>
 	<ns1:dv_boolean>true</ns1:dv_boolean>

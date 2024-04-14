@@ -5,19 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
-import java.io.StringWriter;
 
 import org.example.document.Document4;
 import org.example.document.ObjectFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 
 import jakarta.xml.bind.JAXBException;
 
 @Order(2)
-public class DefaultValue4Test extends AbstractSamplesTest
+public class DefaultValue4Test extends AbstractDefaultValueTest
 {
 	protected Document4 document4A = null;
 	protected Document4 document4B = null;
@@ -45,16 +43,12 @@ public class DefaultValue4Test extends AbstractSamplesTest
 	}
 
 	@Test
-	public void testDefaultValue4AB() throws JAXBException
+	public void testDefaultValue4AB() throws Exception
 	{
-		StringWriter sw4A = new StringWriter();
-		getMarshaller().marshal(document4A, sw4A);
-		String doc4A = sw4A.toString();
+		String doc4A = marshalToString(document4A);
 		getLogger().debug("doc4A: {}\n", doc4A);
 
-		StringWriter sw4B = new StringWriter();
-		getMarshaller().marshal(document4B, sw4B);
-		String doc4B = sw4B.toString();
+		String doc4B = marshalToString(document4B);
 		getLogger().debug("doc4B: {}\n", doc4B);
 		
 		// document4A: All attributes and elements have set values, see document4.xml.

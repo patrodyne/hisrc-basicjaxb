@@ -689,6 +689,44 @@ public class DOMUtils
 		}
 	}
 	
+	/**
+	 * Build a {@link Node} instance into a string representation.
+	 * 
+	 * @param tab The string for indentation.
+	 * @param node The {@link Node} instance to build into a string.
+	 * 
+	 * @return A {@link Node} instance into a formatted XML string.
+	 */
+
+	
+	/**
+	 * Log a {@link Node} instance into a string representation.
+	 * 
+	 * @param logger A SLF4J logger.
+	 * @param label A distinguishing text lable.
+	 * @param node The {@link Node} instance to be logged.
+	 */
+	public static void logNode(Logger logger, String label, Node node)
+	{
+		if ( logger.isTraceEnabled() )
+		{
+			logger.trace("{} BaseURI: {}", label, node.getBaseURI());
+			logger.trace("{} NamespaceURI: {}", label, node.getNamespaceURI());
+			logger.trace("{} LocalName: {}", label, node.getLocalName());
+			logger.trace("{} Prefix: {}", label, node.getPrefix());
+			logger.trace("{} NodeName: {}", label, node.getNodeName());
+			logger.trace("{} NodeType: {}", label, node.getNodeType());
+			logger.trace("{} NodeValue: {}", label, node.getNodeValue());
+			if ( node.getAttributes() != null )
+			{
+				logger.trace("{} Attributes: {}", label, node.getAttributes().getLength());
+				for ( int index = 0; index < node.getAttributes().getLength(); ++index)
+					logNode(logger, label + "[" + index+"]", node.getAttributes().item(index));
+			}
+		}
+		logger.debug("{} TextContent: {}", label, node.getTextContent());
+	}
+	
 	private static boolean isBlank(String value)
 	{
 		return (value != null) ? value.isBlank() : true;

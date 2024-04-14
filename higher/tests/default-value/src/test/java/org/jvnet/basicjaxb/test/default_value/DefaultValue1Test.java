@@ -3,9 +3,10 @@ package org.jvnet.basicjaxb.test.default_value;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.jvnet.basicjaxb.dom.DOMUtils.logNode;
 
 import java.io.File;
-import java.io.StringWriter;
+import java.util.LinkedHashMap;
 
 import org.example.document.Document1;
 import org.example.document.DvChoice;
@@ -13,13 +14,12 @@ import org.example.document.ObjectFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.w3c.dom.Node;
 
 import jakarta.xml.bind.JAXBException;
 
 @Order(2)
-public class DefaultValue1Test extends AbstractSamplesTest
+public class DefaultValue1Test extends AbstractDefaultValueTest
 {
 	protected Document1 document1A = null;
 	protected Document1 document1B = null;
@@ -47,16 +47,12 @@ public class DefaultValue1Test extends AbstractSamplesTest
 	}
 
 	@Test
-	public void testDefaultValue1AB() throws JAXBException
+	public void testDefaultValue1AB() throws Exception
 	{
-		StringWriter sw1A = new StringWriter();
-		getMarshaller().marshal(document1A, sw1A);
-		String doc1A = sw1A.toString();
+		String doc1A = marshalToString(document1A);
 		getLogger().debug("doc1A: {}\n", doc1A);
 
-		StringWriter sw1B = new StringWriter();
-		getMarshaller().marshal(document1B, sw1B);
-		String doc1B = sw1B.toString();
+		String doc1B = marshalToString(document1B);
 		getLogger().debug("doc1B: {}\n", doc1B);
 		
 		// document1A: All attributes and elements have set values, see document1.xml.
@@ -78,6 +74,15 @@ public class DefaultValue1Test extends AbstractSamplesTest
 		document1C.setDvChoice(dvChoiceC);
 		
 		// document1C: All unset elements are set from the default values.
+		if (!document1C.isSetDvDataMap())
+		{
+			LinkedHashMap<String, Object> dvDataMap = new LinkedHashMap<>();
+			dvDataMap.put("Key1", "Value1");
+			dvDataMap.put("Key2", "Value2");
+			dvDataMap.put("Key3", "Value3");
+			document1C.setDvDataMap(dvDataMap);
+		}
+		
 		if (!document1C.isSetDvLimit()) document1C.setDvLimit(document1C.getDvLimit());
 		if (!document1C.isSetDvDow()) document1C.setDvDow(document1C.getDvDow());
 		if (!document1C.isSetDvBoolean()) document1C.setDvBoolean(document1C.isDvBoolean());
@@ -116,34 +121,13 @@ public class DefaultValue1Test extends AbstractSamplesTest
 		document1C.setDaAnySimpleType(document1C.getDaAnySimpleType());
 		
 		if ( document1A.getDvAnySimpleType() instanceof Node)
-			logAnySimpleType("A", (Node) document1A.getDvAnySimpleType());
+			logNode(getLogger(), "A", (Node) document1A.getDvAnySimpleType());
 
 		if ( document1C.getDvAnySimpleType() instanceof Node)
-			logAnySimpleType("C", (Node) document1C.getDvAnySimpleType());
+			logNode(getLogger(), "C", (Node) document1C.getDvAnySimpleType());
 
 //		assertTrue(((Node) document1A.getDvAnySimpleType()).isEqualNode((Node) document1C.getDvAnySimpleType()));
 		
 		assertEquals(document1A, document1C, "document1A is set from XML and document1C is set from defaults");
-	}
-	
-	private void logAnySimpleType(String label, Node dvAnySimpleTypeNode)
-	{
-		if ( getLogger().isDebugEnabled() )
-		{
-			getLogger().debug(label + " BaseURI: " + dvAnySimpleTypeNode.getBaseURI());
-			getLogger().debug(label + " NamespaceURI: " + dvAnySimpleTypeNode.getNamespaceURI());
-			getLogger().debug(label + " LocalName: " + dvAnySimpleTypeNode.getLocalName());
-			getLogger().debug(label + " Prefix: " + dvAnySimpleTypeNode.getPrefix());
-			getLogger().debug(label + " NodeName: " + dvAnySimpleTypeNode.getNodeName());
-			getLogger().debug(label + " NodeType: " + dvAnySimpleTypeNode.getNodeType());
-			getLogger().debug(label + " NodeValue: " + dvAnySimpleTypeNode.getNodeValue());
-			if ( dvAnySimpleTypeNode.getAttributes() != null )
-			{
-				getLogger().debug(label + " Attributes: " + dvAnySimpleTypeNode.getAttributes().getLength());
-				for ( int index = 0; index < dvAnySimpleTypeNode.getAttributes().getLength(); ++index)
-					logAnySimpleType(label + "[" + index+"]", dvAnySimpleTypeNode.getAttributes().item(index));
-			}
-			getLogger().debug(label + " TextContent: " + dvAnySimpleTypeNode.getTextContent());
-		}
 	}
 }

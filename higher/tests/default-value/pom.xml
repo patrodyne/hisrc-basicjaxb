@@ -19,12 +19,19 @@
 
 	<properties>
 		<root.basedir>${basedir}/../../..</root.basedir>
+		<source.dir>${basedir}/src</source.dir>
+		<target.dir>${project.build.directory}</target.dir>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-hyperjaxb-annox-plugin</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
@@ -52,6 +59,11 @@
 					<debug>true</debug>
 					<args>
 						<arg>-no-header</arg>
+						<arg>-Xannotate</arg>
+						<arg>-Xcustomizations</arg>
+						<arg>-Xcustomizations-directory=${source.dir}/main/resources</arg>
+						<arg>-Xcustomizations-verbose=true</arg>
+						<arg>-Xcustomizations-debug=true</arg>
 						<arg>-XhashCode</arg>
 						<arg>-Xequals</arg>
 						<arg>-XtoString</arg>
@@ -61,12 +73,11 @@
 					<plugins>
 						<plugin>
 							<groupId>org.patrodyne.jvnet</groupId>
-							<artifactId>hisrc-basicjaxb-plugins</artifactId>
+							<artifactId>hisrc-hyperjaxb-annox-plugin</artifactId>
 						</plugin>
 						<plugin>
 							<groupId>org.patrodyne.jvnet</groupId>
-							<artifactId>hisrc-hyperjaxb-annox-plugin</artifactId>
-							<version>${hisrc-hyperjaxb-annox-plugin.version}</version>
+							<artifactId>hisrc-basicjaxb-plugins</artifactId>
 						</plugin>
 					</plugins>
 				</configuration>

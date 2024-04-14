@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -154,6 +155,16 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 		);
 	}
 	
+	private String mapClass = LinkedHashMap.class.getName();
+	public String getMapClass()
+	{
+		return mapClass;
+	}
+	public void setMapClass(String mapClass)
+	{
+		this.mapClass = mapClass;
+	}
+	
 	// Plugin Processing
 	
 	@Override
@@ -164,8 +175,9 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  Verbose.: " + isVerbose());
-			sb.append("\n  Debug...: " + isDebug());
+			sb.append("\n  MapClass.: " + getMapClass());
+			sb.append("\n  Verbose..: " + isVerbose());
+			sb.append("\n  Debug....: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -259,6 +271,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			
 			// Get the field type's full name.
 			String typeFullName = fieldType.fullName();
+			String typeErasedFullName = fieldType.erasure().fullName();
 
 			// Represent the XML schema element's or attribute's default value.
 			XmlString defaultValue = null;
@@ -337,7 +350,44 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			// Provide initialization for the default value, when non-null.
 			if ( defaultValue != null )
 				processDefaultValue(outline, classOutline, fieldInfo, fieldType, fieldIsPrimitive, typeFullName, defaultValue, schemaType);
+			else
+				processDefaultValue(outline, classOutline, fieldInfo, fieldType, fieldIsPrimitive, typeErasedFullName);
 		} // for FieldOutline
+	}
+	
+	private void processDefaultValue(Outline outline, ClassOutline classOutline,
+		CPropertyInfo fieldInfo, JType fieldType, boolean fieldIsPrimitive,
+		String typeErasedFullName)
+	{
+		// Get handle to JModel representing the field
+		JDefinedClass theClass = classOutline.implClass;
+		
+		// Get the field variable for the given fieldInfo private name
+		// from the map of fields for theClass. .
+		Map<String, JFieldVar> fields = theClass.fields();
+		JFieldVar var = fields.get(fieldInfo.getName(false));
+		
+		// Get the BOUND for the given fieldInfo public name
+		// from the list of methods for theClass.
+		String publicName = fieldInfo.getName(true);
+		String accessorName = "get" + publicName;
+		JMethod accessor = theClass.getMethod(accessorName, NO_ARGS);
+		if ( accessor == null )
+		{
+			accessorName = "is" + publicName;
+			accessor = theClass.getMethod(accessorName, NO_ARGS);
+		}
+		
+		String fieldLoc = toLocation(fieldInfo.getLocator());
+		String fieldName = fieldInfo.displayName();
+		
+		// PROCESS: Create an appropriate default expression depending on type
+		if (Map.class.getName().equals(typeErasedFullName))
+		{
+			JExpression literalValue = JExpr.direct("new " + getMapClass() + "<>()");
+			initializerMap(var, accessor, fieldIsPrimitive, literalValue);
+			debug("{}, processDefaultValue; {} = {{}} (Map<>)", fieldLoc, fieldName, literalValue);
+		}
 	}
 
 	private void processDefaultValue(Outline outline, ClassOutline classOutline,
@@ -596,6 +646,18 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			accessor.body().pos(1);
 			JConditional ifVarIsEmpty = accessor.body()._if(JExpr.invoke(var, "isEmpty"));
 			ifVarIsEmpty._then().assign(var, literalValue);
+		}
+		else
+			var.init(literalValue);
+	}
+
+	private void initializerMap(JFieldVar var, JMethod accessor, boolean fieldIsPrimitive, JExpression literalValue)
+	{
+		if ( (accessor != null) && !fieldIsPrimitive )
+		{
+			accessor.body().pos(0);
+			JConditional ifVarIsNull = accessor.body()._if(var.eq(JExpr._null()));
+			ifVarIsNull._then().assign(var, literalValue);
 		}
 		else
 			var.init(literalValue);
