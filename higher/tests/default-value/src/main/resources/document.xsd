@@ -6,20 +6,19 @@
 >
 
 	<!-- DocumentDataMapXmlAdapter example -->
-	<xs:element name="dv_DataMap">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="key" minOccurs="0" type="xs:string"/>
-							<xs:element name="value" minOccurs="0" type="xs:anyType"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+	<xs:element name="dv_DataMap" type="tns:dv_DataMap" />
+	<xs:complexType name ="dv_DataMap">
+		<xs:sequence>
+			<xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="key" minOccurs="0" type="xs:string"/>
+						<xs:element name="value" minOccurs="0" type="xs:anyType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
 	<!-- Anonymous simple type -->
 	<xs:element name="dv_limit" default="1000">

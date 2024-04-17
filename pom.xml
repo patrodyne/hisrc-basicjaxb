@@ -102,6 +102,7 @@
 		<jaxb-imp.version>4.0.5</jaxb-imp.version>
 		<jaxb-core.version>2.3.0.1</jaxb-core.version> <!-- cxf -->
 		<jaxws-api.version>4.0.1</jaxws-api.version>
+		<jts.version>1.13</jts.version>
 		<junit-jupiter.version>5.10.2</junit-jupiter.version>
 		<junit-platform.version>1.10.2</junit-platform.version>
 		<maven.compiler.release>11</maven.compiler.release>
@@ -111,6 +112,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<slf4j.version>2.0.12</slf4j.version>
+		<xmlunit.version>1.6</xmlunit.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -253,7 +255,7 @@
 			<dependency>
 				<groupId>xmlunit</groupId>
 				<artifactId>xmlunit</artifactId>
-				<version>1.6</version>
+				<version>${xmlunit.version}</version>
 			</dependency>
 			<!-- Ant -->
 			<dependency>
@@ -533,8 +535,32 @@
 							<goal>jar</goal>
 						</goals>
 						<configuration>
+							<additionalOptions>
+								<additionalOption>--link-modularity-mismatch=info</additionalOption>
+							</additionalOptions>
+							<detectLinks>true</detectLinks>
 							<doclint>all,-missing</doclint>
 							<failOnError>false</failOnError>
+							<links>
+								<link>https://javadoc.io/doc/com.vividsolutions/jts/${jts.version}/</link>
+								<link>https://javadoc.io/doc/jakarta.activation/jakarta.activation-api/${activation-api.version}/</link>
+								<link>https://javadoc.io/doc/jakarta.xml.bind/jakarta.xml.bind-api/${jaxb-api.version}/</link>
+								<link>https://javadoc.io/doc/org.apache.ant/ant/${ant.version}/</link>
+								<link>https://javadoc.io/doc/org.glassfish.jaxb/codemodel/${jaxb-imp.version}/</link>
+								<link>https://javadoc.io/doc/org.glassfish.jaxb/jaxb-core/${jaxb-imp.version}/</link>
+								<link>https://javadoc.io/doc/org.glassfish.jaxb/jaxb-runtime/${jaxb-imp.version}/</link>
+								<link>https://javadoc.io/doc/org.glassfish.jaxb/jaxb-xjc/${jaxb-imp.version}/</link>
+								<link>https://javadoc.io/doc/com.google.code.javaparser/javaparser/${javaparser.version}/</link>
+								<link>https://javadoc.io/doc/org.junit.jupiter/junit-jupiter-api/${junit-jupiter.version}/</link>
+								<link>https://javadoc.io/doc/xmlunit/xmlunit/${xmlunit.version}/</link>
+								<!-- HiSrc links -->
+								<link>https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-ant/latest</link>
+								<link>https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-tools/latest</link>
+								<link>https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-plugins/latest</link>
+								<link>https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-runtime/latest</link>
+								<link>https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-testing/latest</link>
+							</links>
+							<quiet>false</quiet>
 						</configuration>
 					</execution>
 				</executions>
