@@ -163,6 +163,14 @@ Example:
     java ReadJarManifest <build.log
 ~~~
 
+> **Note:** The [ReadJarManifest.java][32] tool catches most issues but can also report false conflicts. In this example, the conflict percentage is high because two non-conflicting jars have the same version number and similar names.
+
+~~~
+Conflict%: 89
+  file:/home/rick/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar
+  file:/home/rick/.m2/repository/org/glassfish/jaxb/xsom/4.0.5/xsom-4.0.5.jar
+~~~
+
 <!-- References -->
 
 [1]: https://cxf.apache.org/cxf-xjc-plugin.html
