@@ -97,7 +97,6 @@
 		<activation-imp.version>2.0.2</activation-imp.version>
 		<ant.version>1.10.14</ant.version>
 		<commons-io.version>2.16.0</commons-io.version>
-		<cxf.version>3.3.0</cxf.version>
 		<guice.version>5.1.0</guice.version>
 		<jaxb-api.version>4.0.2</jaxb-api.version>
 		<jaxb-imp.version>4.0.5</jaxb-imp.version>
