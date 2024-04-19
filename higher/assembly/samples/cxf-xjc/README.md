@@ -168,7 +168,7 @@ Example:
 [1]: https://cxf.apache.org/cxf-xjc-plugin.html
 [2]: https://cxf.apache.org/
 [3]: https://github.com/patrodyne/hisrc-basicjaxb#
-[4]: https://github.com/patrodyne/hisrc-basicjaxb/releases/download/2.1.1/hisrc-basicjaxb-sample-cxf-xjc-po-2.2.1-mvn-src.zip
+[4]: https://github.com/patrodyne/hisrc-basicjaxb/releases/download/2.2.1/hisrc-basicjaxb-sample-cxf-xjc-po-2.2.1-mvn-src.zip
 [5]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/fluentapi/FluentApiPlugin.java
 [6]: https://javadoc.io/doc/com.sun.xml.bind/jaxb-xjc/latest/com.sun.tools.xjc/com/sun/tools/xjc/Driver.html
 [7]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/tools/src/main/java/org/jvnet/basicjaxb/plugin/AbstractParameterizablePlugin.java
