@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.patrodyne.jvnet</groupId>
+	<artifactId>${project.artifactId}</artifactId>
+	<version>${hisrc-higherjaxb-maven-plugin.version}</version>
+	<packaging>jar</packaging>
+	<name>${project.name}</name>
+
+	<properties>
+		<maven.compiler.release>${maven.compiler.release}</maven.compiler.release>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<commons-io.version>${commons-io.version}</commons-io.version>
+		<cxf-xjc-plugin.version>${cxf-xjc-plugin.version}</cxf-xjc-plugin.version>
+		<hisrc-basicjaxb.version>${hisrc-basicjaxb.version}</hisrc-basicjaxb.version>
+		<jaxb-api.version>${jaxb-api.version}</jaxb-api.version>
+		<jaxb-imp.version>${jaxb-imp.version}</jaxb-imp.version>
+		<slf4j.version>${slf4j.version}</slf4j.version>
+	</properties>
+
+	<dependencies>
+		<!-- HiSrc BasicJAXB -->
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-runtime</artifactId>
+			<version>\${hisrc-basicjaxb.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<defaultGoal>package</defaultGoal>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<compilerArgs>
+						<arg>-proc:full</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<configuration>
+					<argLine>\${env.JVM_SYS_ARGS}</argLine>
+					<systemPropertiesFile>\${basedir}/src/test/resources/jvmsystem.properties</systemPropertiesFile>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>${exec-maven-plugin.version}</version>
+				<configuration>
+					<mainClass>org.example.po.Main</mainClass>
+					<classpathScope>test</classpathScope>
+				</configuration>
+			</plugin>
+
+			<!-- mvn cxf-xjc:help -Ddetail=true -->
+			<!-- mvn cxf-xjc::generate -->
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-xjc-plugin</artifactId>
+				<version>\${cxf-xjc-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>xsdtojava</goal>
+						</goals>
+						<configuration>
+							<fork>false</fork>
+							<sourceRoot>\${basedir}/target/generated-sources/xjc/</sourceRoot>
+							<extensions>
+								<extension>org.patrodyne.jvnet:hisrc-basicjaxb-plugins:${hisrc-basicjaxb.version}</extension>
+							</extensions>
+							<xsdOptions>
+								<xsdOption>
+									<xsd>\${basedir}/src/main/resources/po.xsd</xsd>
+									<bindingFile>\${basedir}/src/main/resources/po.xjb</bindingFile>
+									<extensionArgs>
+										<extensionArg>-no-header</extensionArg>
+										<extensionArg>-XfixedValue</extensionArg>
+										<extensionArg>-XhashCode</extensionArg>
+										<extensionArg>-Xequals</extensionArg>
+										<extensionArg>-XtoString</extensionArg>
+										<extensionArg>-Xcopyable</extensionArg>
+										<extensionArg>-XfluentAPI</extensionArg>
+										<extensionArg>-XfluentAPI-fluentMethodPrefix=use</extensionArg>
+									</extensionArgs>
+								</xsdOption>
+							</xsdOptions>
+						</configuration>
+					</execution>
+				</executions>
+				<!--
+                    Below, declare newer dependencies used by XJC extensions
+                    (i.e. hisrc-basicjaxb-plugins) that need to override
+					older versions used by cxf-xjc-plugin.
+					Hint: To review the cxf-xjc-plugin Manifest for jar conflicts use:
+						mvn -Dorg.slf4j.simpleLogger.log.org.apache.cxf.maven_plugin.XSDToJavaMojo=DEBUG -Ptest clean test
+				-->
+				<dependencies>
+					<dependency>
+						<groupId>commons-io</groupId>
+						<artifactId>commons-io</artifactId>
+						<version>\${commons-io.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>jakarta.xml.bind</groupId>
+						<artifactId>jakarta.xml.bind-api</artifactId>
+						<version>\${jaxb-api.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.glassfish.jaxb</groupId>
+						<artifactId>jaxb-runtime</artifactId>
+						<version>\${jaxb-imp.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.glassfish.jaxb</groupId>
+						<artifactId>jaxb-xjc</artifactId>
+						<version>\${jaxb-imp.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.glassfish.jaxb</groupId>
+						<artifactId>codemodel</artifactId>
+						<version>\${jaxb-imp.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.glassfish.jaxb</groupId>
+						<artifactId>xsom</artifactId>
+						<version>\${jaxb-imp.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+						<version>\${slf4j.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-simple</artifactId>
+						<version>\${slf4j.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jcl-over-slf4j</artifactId>
+						<version>\${slf4j.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.slf4j</groupId>
+						<artifactId>jul-to-slf4j</artifactId>
+						<version>\${slf4j.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jxr-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<profiles>
+		<!-- All modules for testing, etc. -->
+		<profile>
+			<id>all</id>
+			<modules>
+			</modules>
+		</profile>
+
+		<!-- Execution mode -->
+		<profile>
+			<id>exec</id>
+			<activation>
+				<property>
+					<name>org.jvnet.basicjaxb.profile</name>
+					<value>exec</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+					<version>\${slf4j.version}</version>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<resources>
+					<resource>
+						<directory>\${basedir}/src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>\${basedir}/src/test/resources</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+
+		<!-- Test mode -->
+		<profile>
+			<id>test</id>
+			<activation>
+				<property>
+					<name>org.jvnet.basicjaxb.profile</name>
+					<value>!exec</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.patrodyne.jvnet</groupId>
+					<artifactId>hisrc-basicjaxb-testing</artifactId>
+					<version>\${hisrc-basicjaxb.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+					<version>\${slf4j.version}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+</project>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4 noexpandtab:-->

@@ -96,6 +96,7 @@
 		<activation-api.version>2.1.3</activation-api.version>
 		<activation-imp.version>2.0.2</activation-imp.version>
 		<ant.version>1.10.14</ant.version>
+		<commons-io.version>2.16.0</commons-io.version>
 		<cxf.version>3.3.0</cxf.version>
 		<guice.version>5.1.0</guice.version>
 		<jaxb-api.version>4.0.2</jaxb-api.version>
@@ -238,7 +239,7 @@
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
-				<version>2.16.0</version>
+				<version>${commons-io.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-beanutils</groupId>

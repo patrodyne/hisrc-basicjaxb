@@ -41,6 +41,12 @@
 		<!-- SLF4J Implementation -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>\${slf4j.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
 			<version>\${slf4j.version}</version>
 			<scope>runtime</scope>

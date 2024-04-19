@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings jaxb:version="3.0"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<jaxb:globalBindings localScoping="toplevel" fixedAttributeAsConstantProperty="false">
+		<jaxb:serializable uid="20240401" />
+	</jaxb:globalBindings>
+
+	<jaxb:bindings schemaLocation="po.xsd" node="/xs:schema">
+		<jaxb:schemaBindings>
+			<jaxb:package name="org.example.po"/>
+		</jaxb:schemaBindings>
+	</jaxb:bindings>
+
+</jaxb:bindings>
