@@ -1,4 +1,4 @@
-# Sample: cxf-xjc
+# Sample: cxf-xjc-po
 
 This is a Maven project to demonstrate using the Maven [cxf-xjc-plugin][1] from [Apache CXF][2] together with the XJC [HiSrc BasicJAXB Plugins][3].
 
@@ -180,21 +180,21 @@ Conflict%: 89
 [5]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/fluentapi/FluentApiPlugin.java
 [6]: https://javadoc.io/doc/com.sun.xml.bind/jaxb-xjc/latest/com.sun.tools.xjc/com/sun/tools/xjc/Driver.html
 [7]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/tools/src/main/java/org/jvnet/basicjaxb/plugin/AbstractParameterizablePlugin.java
-[20]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/README.md
-[21]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/OUTPUT.txt
-[22]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/pom.xml
-[23]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/project-pom.xml
-[30]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/bin/run.sh
-[31]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/bin/run.cmd
-[32]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/bin/ReadJarManifest.java
-[40]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/src/main/resources/po.xsd
-[41]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/src/main/resources/po.xjb
-[42]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/src/main/java/org/example/po/Main.java
-[50]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/src/test/samples/po.xml
-[51]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/src/test/resources/jvmsystem.arguments
-[52]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/src/test/resources/jvmsystem.properties
-[53]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/src/test/resources/simplelogger.properties
-[54]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/src/test/java/org/example/po/EqualsTest.java
-[55]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/src/test/java/org/example/po/CopyableTest.java
-[56]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/src/test/java/org/example/po/ToStringTest.java
-[57]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/src/test/java/org/example/po/FluentAPITest.java
+[20]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/README.md
+[21]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/OUTPUT.txt
+[22]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/pom.xml
+[23]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/project-pom.xml
+[30]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/bin/run.sh
+[31]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/bin/run.cmd
+[32]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/bin/ReadJarManifest.java
+[40]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/src/main/resources/po.xsd
+[41]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/src/main/resources/po.xjb
+[42]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/src/main/java/org/example/po/Main.java
+[50]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/src/test/samples/po.xml
+[51]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/src/test/resources/jvmsystem.arguments
+[52]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/src/test/resources/jvmsystem.properties
+[53]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/src/test/resources/simplelogger.properties
+[54]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/src/test/java/org/example/po/EqualsTest.java
+[55]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/src/test/java/org/example/po/CopyableTest.java
+[56]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/src/test/java/org/example/po/ToStringTest.java
+[57]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/cxf-xjc/cxf-xjc-po/src/test/java/org/example/po/FluentAPITest.java
