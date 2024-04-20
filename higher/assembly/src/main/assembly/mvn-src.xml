@@ -17,7 +17,6 @@
 		<fileSet>
 			<directory>bin</directory>
 			<includes>
-				<include>*.java</include>
 				<include>*.sh</include>
 			</includes>
 			<outputDirectory>./</outputDirectory>
@@ -27,6 +26,7 @@
 			<directory>bin</directory>
 			<includes>
 				<include>*.cmd</include>
+				<include>*.java</include>
 			</includes>
 			<outputDirectory>./</outputDirectory>
 			<fileMode>0664</fileMode>
@@ -34,19 +34,19 @@
 	</fileSets>
 	<files>
 		<file>
-			<source>${basedir}/../../../project-pom-build-cfg.sh</source>
+			<source>${root.basedir}/higher/project-pom-build-cfg.sh</source>
 			<destName>build-cfg.sh</destName>
 			<filtered>false</filtered>
 			<fileMode>0774</fileMode>
 		</file>
 		<file>
-			<source>${basedir}/../../../project-pom-build-inc.sh</source>
+			<source>${root.basedir}/higher/project-pom-build-inc.sh</source>
 			<destName>build-inc.sh</destName>
 			<filtered>false</filtered>
 			<fileMode>0774</fileMode>
 		</file>
 		<file>
-			<source>${basedir}/../../../project-pom-build.sh</source>
+			<source>${root.basedir}/higher//project-pom-build.sh</source>
 			<destName>build.sh</destName>
 			<filtered>false</filtered>
 			<fileMode>0774</fileMode>

@@ -73,7 +73,7 @@
 						</goals>
 						<configuration>
 							<descriptors>
-								<descriptor>../../src/main/assembly/mvn-src.xml</descriptor>
+								<descriptor>${root.basedir}/higher/assembly/src/main/assembly/mvn-src.xml</descriptor>
 							</descriptors>
 							<escapeString>\</escapeString>
 						</configuration>
@@ -87,7 +87,7 @@
 						</goals>
 						<configuration>
 							<descriptors>
-								<descriptor>../../src/main/assembly/ant-src.xml</descriptor>
+								<descriptor>${root.basedir}/higher/assembly/src/main/assembly/ant-src.xml</descriptor>
 							</descriptors>
 							<escapeString>\</escapeString>
 						</configuration>
