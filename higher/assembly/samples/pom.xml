@@ -20,6 +20,7 @@
 	<modules>
 		<module>basic</module>
 		<module>cxf-codegen</module>
+		<module>cxf-xjc</module>
 		<module>platce-01</module>
 		<module>platce-02</module>
 		<module>po</module>
