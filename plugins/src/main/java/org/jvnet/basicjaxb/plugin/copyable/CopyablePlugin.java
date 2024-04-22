@@ -12,7 +12,7 @@ import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -303,7 +303,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 			final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
 			
 			// Filter out constant fields
-			Map<FieldOutline, FieldAccessorEx> sourceFieldAccessorMap = new HashMap<>();
+			Map<FieldOutline, FieldAccessorEx> sourceFieldAccessorMap = new LinkedHashMap<>();
 			for (final FieldOutline fieldOutline : declaredFields)
 			{
 				final FieldAccessorEx sourceFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, JExpr._this());
