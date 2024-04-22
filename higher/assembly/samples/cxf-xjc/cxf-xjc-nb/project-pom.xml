@@ -59,7 +59,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>${exec-maven-plugin.version}</version>
 				<configuration>
-					<mainClass>org.example.po.Main</mainClass>
+					<mainClass>org.example.nb.Main</mainClass>
 					<classpathScope>test</classpathScope>
 				</configuration>
 			</plugin>
@@ -81,19 +81,48 @@
 							<fork>false</fork>
 							<sourceRoot>\${basedir}/target/generated-sources/xjc/</sourceRoot>
 							<extensions>
-								<extension>org.patrodyne.jvnet:hisrc-basicjaxb-plugins:\${hisrc-basicjaxb.version}</extension>
+								<extension>org.patrodyne.jvnet:hisrc-basicjaxb-plugins:${hisrc-basicjaxb.version}</extension>
+								<extension>org.patrodyne.jvnet:hisrc-hyperjaxb-annox-plugin:${hisrc-hyperjaxb-annox-plugin.version}</extension>
 							</extensions>
 							<xsdOptions>
 								<xsdOption>
-									<xsd>\${basedir}/src/main/resources/po.xsd</xsd>
-									<bindingFile>\${basedir}/src/main/resources/po.xjb</bindingFile>
+									<bindingFiles>
+										<bindingFile>\${basedir}/src/main/resources/nb.xjb</bindingFile>
+										<bindingFile>\${basedir}/src/main/resources/nbA.xjb</bindingFile>
+									</bindingFiles>
+									<packagename>org.example.nb.A</packagename>
+									<xsd>\${basedir}/src/main/resources/nbA.xsd</xsd>
+									<extension>true</extension>
 									<extensionArgs>
 										<extensionArg>-no-header</extensionArg>
-										<extensionArg>-XfixedValue</extensionArg>
-										<extensionArg>-XhashCode</extensionArg>
-										<extensionArg>-Xequals</extensionArg>
-										<extensionArg>-XtoString</extensionArg>
-										<extensionArg>-Xcopyable</extensionArg>
+										<extensionArg>-Xannotate</extensionArg>
+										<extensionArg>-XsimpleEquals</extensionArg>
+										<extensionArg>-XsimpleHashCode</extensionArg>
+										<extensionArg>-XsimpleToString</extensionArg>
+										<extensionArg>-XsimpleToString-showFieldNames=true</extensionArg>
+										<extensionArg>-XsimpleToString-showChildItems=false</extensionArg>
+										<extensionArg>-XsimpleToString-fullClassName=false</extensionArg>
+										<extensionArg>-XfluentAPI</extensionArg>
+										<extensionArg>-XfluentAPI-fluentMethodPrefix=use</extensionArg>
+									</extensionArgs>
+								</xsdOption>
+								<xsdOption>
+									<bindingFiles>
+										<bindingFile>\${basedir}/src/main/resources/nb.xjb</bindingFile>
+										<bindingFile>\${basedir}/src/main/resources/nbB.xjb</bindingFile>
+									</bindingFiles>
+									<packagename>org.example.nb.B</packagename>
+									<xsd>\${basedir}/src/main/resources/nbB.xsd</xsd>
+									<extension>true</extension>
+									<extensionArgs>
+										<extensionArg>-no-header</extensionArg>
+										<extensionArg>-Xannotate</extensionArg>
+										<extensionArg>-XsimpleEquals</extensionArg>
+										<extensionArg>-XsimpleHashCode</extensionArg>
+										<extensionArg>-XsimpleToString</extensionArg>
+										<extensionArg>-XsimpleToString-showFieldNames=true</extensionArg>
+										<extensionArg>-XsimpleToString-showChildItems=false</extensionArg>
+										<extensionArg>-XsimpleToString-fullClassName=false</extensionArg>
 										<extensionArg>-XfluentAPI</extensionArg>
 										<extensionArg>-XfluentAPI-fluentMethodPrefix=use</extensionArg>
 									</extensionArgs>
@@ -116,34 +145,9 @@
 						<version>\${commons-io.version}</version>
 					</dependency>
 					<dependency>
-						<groupId>jakarta.xml.bind</groupId>
-						<artifactId>jakarta.xml.bind-api</artifactId>
-						<version>\${jaxb-api.version}</version>
-					</dependency>
-					<dependency>
 						<groupId>org.glassfish.jaxb</groupId>
-						<artifactId>jaxb-runtime</artifactId>
+						<artifactId>jaxb-core</artifactId>
 						<version>\${jaxb-imp.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.glassfish.jaxb</groupId>
-						<artifactId>jaxb-xjc</artifactId>
-						<version>\${jaxb-imp.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.glassfish.jaxb</groupId>
-						<artifactId>codemodel</artifactId>
-						<version>\${jaxb-imp.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.glassfish.jaxb</groupId>
-						<artifactId>xsom</artifactId>
-						<version>\${jaxb-imp.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.slf4j</groupId>
-						<artifactId>slf4j-api</artifactId>
-						<version>\${slf4j.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>org.slf4j</groupId>

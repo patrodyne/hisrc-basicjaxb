@@ -24,7 +24,7 @@ public class FluentAPITest extends AbstractSamplesTest
 	protected void checkSample(File sample) throws Exception
 	{
 		setFailFast(true);
-		final Object object = createContext().createUnmarshaller().unmarshal(sample);
+		final Object object = getUnmarshaller().unmarshal(sample);
 		if ( object instanceof PurchaseOrder )
 		{
 			PurchaseOrder po1 = (PurchaseOrder) object;

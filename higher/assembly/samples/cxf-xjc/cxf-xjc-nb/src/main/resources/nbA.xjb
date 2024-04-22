@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings jaxb:version="3.0"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:anx="http://jvnet.org/basicjaxb/xjc/annox" 
+>
+
+	<!--
+		Use "jaxb:class" to add the "Analog" suffix to each JAXB class genetated by
+		this "A" schema. Note: The "ObjectFacory" is geneated by XJC which registers
+		it as a reserved name in com.sun.tools.xjc.reader.xmlschema.ClassSelector.
+	-->
+	<jaxb:bindings schemaLocation="nbA.xsd" node="/xs:schema">
+
+		<!--
+			Warning: Using "jaxb:class" to rename the Notebook class to NotebookAnalog
+			         causes XJC to omit the @XmlRootElement annotation. The HiSrc
+					 HyperJAXB Annox extension is used, below, to add it back!
+		-->
+		<jaxb:bindings node="//xs:element[@name='notebook']/xs:complexType">
+        	<anx:annotate>@jakarta.xml.bind.annotation.XmlRootElement(name = "notebook")</anx:annotate>
+			<jaxb:class name="NotebookAnalog" />
+		</jaxb:bindings>
+		
+		<jaxb:bindings node="//xs:complexType[@name='Owner']">
+			<jaxb:class name="OwnerAnalog" />
+		</jaxb:bindings>
+
+		<jaxb:bindings node="//xs:complexType[@name='PageSpec']">
+			<jaxb:class name="PageSpecAnalog" />
+		</jaxb:bindings>
+	
+	</jaxb:bindings>
+
+</jaxb:bindings>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4 noexpandtab:-->

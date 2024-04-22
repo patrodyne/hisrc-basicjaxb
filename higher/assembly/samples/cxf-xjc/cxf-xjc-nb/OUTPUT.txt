@@ -1,0 +1,313 @@
+Apache Maven 3.9.6 (bc0240f3c744dd6b6ec2920b3cd08dcc295161ae)
+Maven home: /opt/java/Apache/Maven/apache-maven-3.9.6
+Java version: 21.0.2, vendor: Private Build, runtime: /usr/lib/jvm/java-21-openjdk-amd64
+Default locale: en_US, platform encoding: UTF-8
+OS name: "linux", version: "6.8.0-76060800daily20240311-generic", arch: "amd64", family: "unix"
+[INFO] Error stacktraces are turned on.
+[INFO] Scanning for projects...
+[WARNING] The requested profile "assembly" could not be activated because it does not exist.
+[INFO] 
+[INFO] -------< org.patrodyne.jvnet:hisrc-basicjaxb-sample-cxf-xjc-nb >--------
+[INFO] Building HiSrc BasicJAXB - Sample [cxf-xjc-nb] 2.2.1
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- cxf-xjc:4.0.1:xsdtojava (generate-sources) @ hisrc-basicjaxb-sample-cxf-xjc-nb ---
+[DEBUG] Manifest: Manifest-Version: 1.0
+Class-Path: /home/rick/dev/work/repos/jvnet/hisrc-basicjaxb/higher/assem
+ bly/samples/cxf-xjc/cxf-xjc-nb/target/test-maven-assembly-it/hisrc-basi
+ cjaxb-sample-cxf-xjc-nb-2.2.1/target/classes file:/home/rick/.m2/reposi
+ tory/org/patrodyne/jvnet/hisrc-basicjaxb-runtime/2.2.1/hisrc-basicjaxb-
+ runtime-2.2.1.jar file:/home/rick/.m2/repository/jakarta/activation/jak
+ arta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar file:/home/r
+ ick/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.
+ xml.bind-api-4.0.2.jar file:/home/rick/.m2/repository/org/glassfish/jax
+ b/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar file:/home/rick/.m2/reposit
+ ory/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar file:/home/r
+ ick/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar file:/h
+ ome/rick/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/ist
+ ack-commons-runtime-4.1.2.jar file:/home/rick/.m2/repository/commons-io
+ /commons-io/2.16.0/commons-io-2.16.0.jar file:/home/rick/.m2/repository
+ /org/slf4j/slf4j-api/2.0.12/slf4j-api-2.0.12.jar file:/home/rick/.m2/re
+ pository/org/apache/cxf/cxf-xjc-plugin/4.0.1/cxf-xjc-plugin-4.0.1.jar f
+ ile:/home/rick/.m2/repository/commons-io/commons-io/2.16.0/commons-io-2
+ .16.0.jar file:/home/rick/.m2/repository/org/glassfish/jaxb/jaxb-core/4
+ .0.5/jaxb-core-4.0.5.jar file:/home/rick/.m2/repository/org/eclipse/ang
+ us/angus-activation/2.0.2/angus-activation-2.0.2.jar file:/home/rick/.m
+ 2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar file:/home/ri
+ ck/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-co
+ mmons-runtime-4.1.2.jar file:/home/rick/.m2/repository/org/slf4j/slf4j-
+ simple/2.0.12/slf4j-simple-2.0.12.jar file:/home/rick/.m2/repository/or
+ g/slf4j/slf4j-api/2.0.12/slf4j-api-2.0.12.jar file:/home/rick/.m2/repos
+ itory/org/slf4j/jcl-over-slf4j/2.0.12/jcl-over-slf4j-2.0.12.jar file:/h
+ ome/rick/.m2/repository/org/slf4j/jul-to-slf4j/2.0.12/jul-to-slf4j-2.0.
+ 12.jar file:/home/rick/.m2/repository/org/sonatype/plexus/plexus-build-
+ api/0.0.7/plexus-build-api-0.0.7.jar file:/home/rick/.m2/repository/org
+ /codehaus/plexus/plexus-utils/1.5.8/plexus-utils-1.5.8.jar file:/home/r
+ ick/.m2/repository/org/codehaus/plexus/plexus-archiver/4.9.1/plexus-arc
+ hiver-4.9.1.jar file:/home/rick/.m2/repository/javax/inject/javax.injec
+ t/1/javax.inject-1.jar file:/home/rick/.m2/repository/org/codehaus/plex
+ us/plexus-io/3.4.1/plexus-io-3.4.1.jar file:/home/rick/.m2/repository/o
+ rg/apache/commons/commons-compress/1.25.0/commons-compress-1.25.0.jar f
+ ile:/home/rick/.m2/repository/org/iq80/snappy/snappy/0.4/snappy-0.4.jar
+  file:/home/rick/.m2/repository/org/tukaani/xz/1.9/xz-1.9.jar file:/hom
+ e/rick/.m2/repository/com/github/luben/zstd-jni/1.5.5-11/zstd-jni-1.5.5
+ -11.jar file:/home/rick/.m2/repository/jakarta/xml/bind/jakarta.xml.bin
+ d-api/3.0.1/jakarta.xml.bind-api-3.0.1.jar file:/home/rick/.m2/reposito
+ ry/com/sun/activation/jakarta.activation/2.0.1/jakarta.activation-2.0.1
+ .jar file:/home/rick/.m2/repository/org/glassfish/jaxb/jaxb-xjc/3.0.2/j
+ axb-xjc-3.0.2.jar file:/home/rick/.m2/repository/org/glassfish/jaxb/xso
+ m/3.0.2/xsom-3.0.2.jar file:/home/rick/.m2/repository/com/sun/xml/bind/
+ external/relaxng-datatype/3.0.2/relaxng-datatype-3.0.2.jar file:/home/r
+ ick/.m2/repository/org/glassfish/jaxb/codemodel/3.0.2/codemodel-3.0.2.j
+ ar file:/home/rick/.m2/repository/com/sun/xml/bind/external/rngom/3.0.2
+ /rngom-3.0.2.jar file:/home/rick/.m2/repository/com/sun/xml/dtd-parser/
+ dtd-parser/1.4.5/dtd-parser-1.4.5.jar file:/home/rick/.m2/repository/co
+ m/sun/istack/istack-commons-tools/4.0.1/istack-commons-tools-4.0.1.jar 
+ file:/home/rick/.m2/repository/org/glassfish/jaxb/jaxb-runtime/3.0.2/ja
+ xb-runtime-3.0.2.jar file:/home/rick/.m2/repository/xml-resolver/xml-re
+ solver/1.2/xml-resolver-1.2.jar file:/home/rick/.m2/repository/org/java
+ ssist/javassist/3.30.2-GA/javassist-3.30.2-GA.jar file:/home/rick/.m2/r
+ epository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annot
+ ation-api-2.1.1.jar file:/home/rick/.m2/repository/jakarta/xml/ws/jakar
+ ta.xml.ws-api/3.0.1/jakarta.xml.ws-api-3.0.1.jar file:/home/rick/.m2/re
+ pository/jakarta/xml/soap/jakarta.xml.soap-api/2.0.1/jakarta.xml.soap-a
+ pi-2.0.1.jar file:/home/rick/.m2/repository/jakarta/jws/jakarta.jws-api
+ /3.0.0/jakarta.jws-api-3.0.0.jar file:/home/rick/.m2/repository/jakarta
+ /activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.j
+ ar
+Main-Class: org.apache.cxf.maven_plugin.XSDToJavaRunner
+
+
+[INFO] Building jar: /tmp/cxf-xjc-plugin17371049457103676570.jar
+[DEBUG] [main] INFO org.jvnet.hyperjaxb_annox.plugin.annotate.AnnotatePlugin - XJC> Xannotate: : Start
+[DEBUG] Parameters
+[DEBUG]   DefaultFieldTarget.: getter
+[DEBUG]   AnnotationParser...: org.jvnet.basicjaxb_annox.parser.XAnnotationParser@7d42c224
+[DEBUG]   Annotator..........: org.jvnet.hyperjaxb_annox.plugin.annotate.Annotator@56aaaecd
+[DEBUG]   Verbose............: true
+[DEBUG]   Debug..............: false
+[DEBUG] [main] INFO org.jvnet.hyperjaxb_annox.plugin.annotate.AnnotatePlugin - XJC> Xannotate: : Finish
+[DEBUG] Results
+[DEBUG]   HadError.: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.simpleequals.SimpleEqualsPlugin - XJC> XsimpleEquals: : Start
+[DEBUG] Parameters
+[DEBUG]   Verbose.: true
+[DEBUG]   Debug...: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.simpleequals.SimpleEqualsPlugin - XJC> XsimpleEquals: : Finish
+[DEBUG] Results
+[DEBUG]   HadError.: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.simplehashcode.SimpleHashCodePlugin - XJC> XsimpleHashCode: : Start
+[DEBUG] Parameters
+[DEBUG]   Verbose.: true
+[DEBUG]   Debug...: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.simplehashcode.SimpleHashCodePlugin - XJC> XsimpleHashCode: : Finish
+[DEBUG] Results
+[DEBUG]   HadError.: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.simpletostring.SimpleToStringPlugin - XJC> XsimpleToString: : Start
+[DEBUG] Parameters
+[DEBUG]   ShowFieldNames.: true
+[DEBUG]   ShowChildItems.: false
+[DEBUG]   FullClassName..: false
+[DEBUG]   Verbose........: true
+[DEBUG]   Debug..........: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.simpletostring.SimpleToStringPlugin - XJC> XsimpleToString: : Finish
+[DEBUG] Results
+[DEBUG]   HadError.: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.fluentapi.FluentApiPlugin - XJC> XfluentAPI: : Start
+[DEBUG] Parameters
+[DEBUG]   FluentMethodPrefix....: use
+[DEBUG]   EnforceTypeSafety.....: true
+[DEBUG]   OverrideFluentMethods.: true
+[DEBUG]   Verbose...............: true
+[DEBUG]   Debug.................: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.fluentapi.FluentApiPlugin - XJC> XfluentAPI: : Finish
+[DEBUG] Results
+[DEBUG]   HadError.: false
+[DEBUG] Manifest: Manifest-Version: 1.0
+Class-Path: /home/rick/dev/work/repos/jvnet/hisrc-basicjaxb/higher/assem
+ bly/samples/cxf-xjc/cxf-xjc-nb/target/test-maven-assembly-it/hisrc-basi
+ cjaxb-sample-cxf-xjc-nb-2.2.1/target/classes file:/home/rick/.m2/reposi
+ tory/org/patrodyne/jvnet/hisrc-basicjaxb-runtime/2.2.1/hisrc-basicjaxb-
+ runtime-2.2.1.jar file:/home/rick/.m2/repository/jakarta/activation/jak
+ arta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar file:/home/r
+ ick/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.
+ xml.bind-api-4.0.2.jar file:/home/rick/.m2/repository/org/glassfish/jax
+ b/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar file:/home/rick/.m2/reposit
+ ory/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar file:/home/r
+ ick/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar file:/h
+ ome/rick/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/ist
+ ack-commons-runtime-4.1.2.jar file:/home/rick/.m2/repository/commons-io
+ /commons-io/2.16.0/commons-io-2.16.0.jar file:/home/rick/.m2/repository
+ /org/slf4j/slf4j-api/2.0.12/slf4j-api-2.0.12.jar file:/home/rick/.m2/re
+ pository/org/apache/cxf/cxf-xjc-plugin/4.0.1/cxf-xjc-plugin-4.0.1.jar f
+ ile:/home/rick/.m2/repository/commons-io/commons-io/2.16.0/commons-io-2
+ .16.0.jar file:/home/rick/.m2/repository/org/glassfish/jaxb/jaxb-core/4
+ .0.5/jaxb-core-4.0.5.jar file:/home/rick/.m2/repository/org/eclipse/ang
+ us/angus-activation/2.0.2/angus-activation-2.0.2.jar file:/home/rick/.m
+ 2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar file:/home/ri
+ ck/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-co
+ mmons-runtime-4.1.2.jar file:/home/rick/.m2/repository/org/slf4j/slf4j-
+ simple/2.0.12/slf4j-simple-2.0.12.jar file:/home/rick/.m2/repository/or
+ g/slf4j/slf4j-api/2.0.12/slf4j-api-2.0.12.jar file:/home/rick/.m2/repos
+ itory/org/slf4j/jcl-over-slf4j/2.0.12/jcl-over-slf4j-2.0.12.jar file:/h
+ ome/rick/.m2/repository/org/slf4j/jul-to-slf4j/2.0.12/jul-to-slf4j-2.0.
+ 12.jar file:/home/rick/.m2/repository/org/sonatype/plexus/plexus-build-
+ api/0.0.7/plexus-build-api-0.0.7.jar file:/home/rick/.m2/repository/org
+ /codehaus/plexus/plexus-utils/1.5.8/plexus-utils-1.5.8.jar file:/home/r
+ ick/.m2/repository/org/codehaus/plexus/plexus-archiver/4.9.1/plexus-arc
+ hiver-4.9.1.jar file:/home/rick/.m2/repository/javax/inject/javax.injec
+ t/1/javax.inject-1.jar file:/home/rick/.m2/repository/org/codehaus/plex
+ us/plexus-io/3.4.1/plexus-io-3.4.1.jar file:/home/rick/.m2/repository/o
+ rg/apache/commons/commons-compress/1.25.0/commons-compress-1.25.0.jar f
+ ile:/home/rick/.m2/repository/org/iq80/snappy/snappy/0.4/snappy-0.4.jar
+  file:/home/rick/.m2/repository/org/tukaani/xz/1.9/xz-1.9.jar file:/hom
+ e/rick/.m2/repository/com/github/luben/zstd-jni/1.5.5-11/zstd-jni-1.5.5
+ -11.jar file:/home/rick/.m2/repository/jakarta/xml/bind/jakarta.xml.bin
+ d-api/3.0.1/jakarta.xml.bind-api-3.0.1.jar file:/home/rick/.m2/reposito
+ ry/com/sun/activation/jakarta.activation/2.0.1/jakarta.activation-2.0.1
+ .jar file:/home/rick/.m2/repository/org/glassfish/jaxb/jaxb-xjc/3.0.2/j
+ axb-xjc-3.0.2.jar file:/home/rick/.m2/repository/org/glassfish/jaxb/xso
+ m/3.0.2/xsom-3.0.2.jar file:/home/rick/.m2/repository/com/sun/xml/bind/
+ external/relaxng-datatype/3.0.2/relaxng-datatype-3.0.2.jar file:/home/r
+ ick/.m2/repository/org/glassfish/jaxb/codemodel/3.0.2/codemodel-3.0.2.j
+ ar file:/home/rick/.m2/repository/com/sun/xml/bind/external/rngom/3.0.2
+ /rngom-3.0.2.jar file:/home/rick/.m2/repository/com/sun/xml/dtd-parser/
+ dtd-parser/1.4.5/dtd-parser-1.4.5.jar file:/home/rick/.m2/repository/co
+ m/sun/istack/istack-commons-tools/4.0.1/istack-commons-tools-4.0.1.jar 
+ file:/home/rick/.m2/repository/org/glassfish/jaxb/jaxb-runtime/3.0.2/ja
+ xb-runtime-3.0.2.jar file:/home/rick/.m2/repository/xml-resolver/xml-re
+ solver/1.2/xml-resolver-1.2.jar file:/home/rick/.m2/repository/org/java
+ ssist/javassist/3.30.2-GA/javassist-3.30.2-GA.jar file:/home/rick/.m2/r
+ epository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annot
+ ation-api-2.1.1.jar file:/home/rick/.m2/repository/jakarta/xml/ws/jakar
+ ta.xml.ws-api/3.0.1/jakarta.xml.ws-api-3.0.1.jar file:/home/rick/.m2/re
+ pository/jakarta/xml/soap/jakarta.xml.soap-api/2.0.1/jakarta.xml.soap-a
+ pi-2.0.1.jar file:/home/rick/.m2/repository/jakarta/jws/jakarta.jws-api
+ /3.0.0/jakarta.jws-api-3.0.0.jar file:/home/rick/.m2/repository/jakarta
+ /activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.j
+ ar
+Main-Class: org.apache.cxf.maven_plugin.XSDToJavaRunner
+
+
+[INFO] Building jar: /tmp/cxf-xjc-plugin2658471455690530190.jar
+[DEBUG] [main] INFO org.jvnet.hyperjaxb_annox.plugin.annotate.AnnotatePlugin - XJC> Xannotate: : Start
+[DEBUG] Parameters
+[DEBUG]   DefaultFieldTarget.: getter
+[DEBUG]   AnnotationParser...: org.jvnet.basicjaxb_annox.parser.XAnnotationParser@7d42c224
+[DEBUG]   Annotator..........: org.jvnet.hyperjaxb_annox.plugin.annotate.Annotator@56aaaecd
+[DEBUG]   Verbose............: true
+[DEBUG]   Debug..............: false
+[DEBUG] [main] INFO org.jvnet.hyperjaxb_annox.plugin.annotate.AnnotatePlugin - XJC> Xannotate: : Finish
+[DEBUG] Results
+[DEBUG]   HadError.: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.simpleequals.SimpleEqualsPlugin - XJC> XsimpleEquals: : Start
+[DEBUG] Parameters
+[DEBUG]   Verbose.: true
+[DEBUG]   Debug...: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.simpleequals.SimpleEqualsPlugin - XJC> XsimpleEquals: : Finish
+[DEBUG] Results
+[DEBUG]   HadError.: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.simplehashcode.SimpleHashCodePlugin - XJC> XsimpleHashCode: : Start
+[DEBUG] Parameters
+[DEBUG]   Verbose.: true
+[DEBUG]   Debug...: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.simplehashcode.SimpleHashCodePlugin - XJC> XsimpleHashCode: : Finish
+[DEBUG] Results
+[DEBUG]   HadError.: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.simpletostring.SimpleToStringPlugin - XJC> XsimpleToString: : Start
+[DEBUG] Parameters
+[DEBUG]   ShowFieldNames.: true
+[DEBUG]   ShowChildItems.: false
+[DEBUG]   FullClassName..: false
+[DEBUG]   Verbose........: true
+[DEBUG]   Debug..........: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.simpletostring.SimpleToStringPlugin - XJC> XsimpleToString: : Finish
+[DEBUG] Results
+[DEBUG]   HadError.: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.fluentapi.FluentApiPlugin - XJC> XfluentAPI: : Start
+[DEBUG] Parameters
+[DEBUG]   FluentMethodPrefix....: use
+[DEBUG]   EnforceTypeSafety.....: true
+[DEBUG]   OverrideFluentMethods.: true
+[DEBUG]   Verbose...............: true
+[DEBUG]   Debug.................: false
+[DEBUG] [main] INFO org.jvnet.basicjaxb.plugin.fluentapi.FluentApiPlugin - XJC> XfluentAPI: : Finish
+[DEBUG] Results
+[DEBUG]   HadError.: false
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hisrc-basicjaxb-sample-cxf-xjc-nb ---
+[INFO] Copying 5 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ hisrc-basicjaxb-sample-cxf-xjc-nb ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 11 source files with javac [debug release 11] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hisrc-basicjaxb-sample-cxf-xjc-nb ---
+[INFO] Copying 3 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ hisrc-basicjaxb-sample-cxf-xjc-nb ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 4 source files with javac [debug release 11] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ hisrc-basicjaxb-sample-cxf-xjc-nb ---
+[INFO] Surefire report directory: hisrc-basicjaxb-sample-cxf-xjc-nb-2.2.1/target/surefire-reports
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.example.nb.EqualsTest
+11:53:47:201 DEBUG Testing samples, start
+11:53:47:207 DEBUG Sample directory [hisrc-basicjaxb-sample-cxf-xjc-nb-2.2.1/src/test/samples].
+11:53:47:225 DEBUG Testing sample, start [nbA.xml].
+11:53:47:362 INFO Testing sample, SUCCESS [nbA.xml].
+11:53:47:362 DEBUG Testing sample, start [nbB.xml].
+11:53:47:365 INFO Testing sample, SUCCESS [nbB.xml].
+11:53:47:365 DEBUG Testing samples, finish
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.256 s -- in org.example.nb.EqualsTest
+[INFO] Running org.example.nb.FluentAPITest
+11:53:47:386 DEBUG Testing samples, start
+11:53:47:386 DEBUG Sample directory [hisrc-basicjaxb-sample-cxf-xjc-nb-2.2.1/src/test/samples].
+11:53:47:387 DEBUG Testing sample, start [nbA.xml].
+11:53:47:395 DEBUG NBA1: NotebookAnalog@2415fc55[owner=OwnerAnalog@14f232c4[firstname=Paul, lastname=McCartney], pageSpec=PageSpecAnalog@13bc8645[linesPerPage=66, pageCount=100], title=PaperBook]
+11:53:47:395 DEBUG NBA2: NotebookAnalog@93081b6[owner=OwnerAnalog@cd1e646[firstname=Paul, lastname=McCartney], pageSpec=PageSpecAnalog@7ba8c737[linesPerPage=66, pageCount=100], title=PaperBook]
+11:53:47:397 INFO Testing sample, SUCCESS [nbA.xml].
+11:53:47:397 DEBUG Testing sample, start [nbB.xml].
+11:53:47:398 DEBUG NBB1: NotebookDigital@205d38da[owner=OwnerDigital@6950ed69[firstname=John, lastname=Lennon], pageSpec=PageSpecDigital@6dd7b5a3[kbPerPage=512, pageCount=1024], title=EBook]
+11:53:47:398 DEBUG NBB2: NotebookDigital@6f3187b0[owner=OwnerDigital@2663e964[firstname=John, lastname=Lennon], pageSpec=PageSpecDigital@48b67364[kbPerPage=512, pageCount=1024], title=EBook]
+11:53:47:399 INFO Testing sample, SUCCESS [nbB.xml].
+11:53:47:399 DEBUG Testing samples, finish
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in org.example.nb.FluentAPITest
+[INFO] Running org.example.nb.ToStringTest
+11:53:47:407 DEBUG Testing samples, start
+11:53:47:407 DEBUG Sample directory [hisrc-basicjaxb-sample-cxf-xjc-nb-2.2.1/src/test/samples].
+11:53:47:408 DEBUG Testing sample, start [nbA.xml].
+11:53:47:417 INFO NotebookAnalog: PaperBook
+
+NotebookAnalog@72ade7e3[owner=OwnerAnalog@239105a8[firstname=Paul, lastname=McCartney], pageSpec=PageSpecAnalog@3fce8fd9[linesPerPage=66, pageCount=100], title=PaperBook]
+
+11:53:47:417 INFO Testing sample, SUCCESS [nbA.xml].
+11:53:47:417 DEBUG Testing sample, start [nbB.xml].
+11:53:47:419 INFO NotebookDigital: EBook
+
+NotebookDigital@1df8b5b8[owner=OwnerDigital@23202fce[firstname=John, lastname=Lennon], pageSpec=PageSpecDigital@7b993c65[kbPerPage=512, pageCount=1024], title=EBook]
+
+11:53:47:419 INFO Testing sample, SUCCESS [nbB.xml].
+11:53:47:419 DEBUG Testing samples, finish
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in org.example.nb.ToStringTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ hisrc-basicjaxb-sample-cxf-xjc-nb ---
+[INFO] Building jar: hisrc-basicjaxb-sample-cxf-xjc-nb-2.2.1/target/hisrc-basicjaxb-sample-cxf-xjc-nb-2.2.1.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.072 s
+[INFO] Finished at: 2024-04-22T11:53:47-04:00
+[INFO] ------------------------------------------------------------------------
+[WARNING] The requested profile "assembly" could not be activated because it does not exist.

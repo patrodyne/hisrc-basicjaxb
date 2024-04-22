@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notebook title="EBook"
+	xmlns="urn:org.example.nb/B"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:org.example.nb/B ../../main/resources/nbB.xsd"
+>
+	<owner>
+		<firstname>John</firstname>
+		<lastname>Lennon</lastname>
+	</owner>
+	
+	<pageSpec>
+		<kbPerPage>512</kbPerPage>
+		<pageCount>1024</pageCount>
+	</pageSpec>
+	
+</notebook>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4 noexpandtab:-->

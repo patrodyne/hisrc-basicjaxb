@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notebook title="PaperBook"
+	xmlns="urn:org.example.nb/A"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:org.example.nb/A ../../main/resources/nbA.xsd"
+>
+	<owner>
+		<firstname>Paul</firstname>
+		<lastname>McCartney</lastname>
+	</owner>
+	
+	<pageSpec>
+		<linesPerPage>66</linesPerPage>
+		<pageCount>100</pageCount>
+	</pageSpec>
+	
+</notebook>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4 noexpandtab:-->

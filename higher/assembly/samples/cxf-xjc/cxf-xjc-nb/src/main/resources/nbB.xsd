@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	targetNamespace="urn:org.example.nb/B"
+	xmlns:tns="urn:org.example.nb/B"
+>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en">
+			See https://stackoverflow.com/questions/78334725/
+		</xs:documentation>
+	</xs:annotation>
+
+	<!--
+		Top element(s) with anonymous complex type become XmlRootElement(s).
+		Except when <jaxb:class name="NotebookDigital" is customized! />
+	-->
+	<xs:element name="notebook" >
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="owner" type="tns:Owner"/>
+				<xs:element name="pageSpec" type="tns:PageSpec"/>
+			</xs:sequence>
+			<xs:attribute name="title" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="Owner">
+		<xs:sequence>
+			<xs:element name="firstname" type="xs:string"/>
+			<xs:element name="lastname" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PageSpec">
+		<xs:sequence>
+			<xs:element name="kbPerPage" type="xs:positiveInteger"/>
+			<xs:element name="pageCount" type="xs:positiveInteger"/>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4: -->

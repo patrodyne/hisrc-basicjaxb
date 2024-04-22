@@ -14,7 +14,7 @@ import jakarta.xml.bind.Unmarshaller;
  */
 public class Main
 {
-	public static final String SAMPLE_TRILOGY_FILE = "src/test/samples/po.xml";
+	public static final String SAMPLE_PO_FILE = "src/test/samples/po.xml";
 	
 	private static Logger logger = LoggerFactory.getLogger(Main.class);
 	public static Logger getLogger() { return logger; }
@@ -54,7 +54,7 @@ public class Main
 	 */
 	public static void main(String[] args) throws Exception
 	{
-		String path = args.length > 0 ? args[0] : SAMPLE_TRILOGY_FILE;
+		String path = args.length > 0 ? args[0] : SAMPLE_PO_FILE;
 		Main main = new Main();
 		main.execute(path);
 	}
