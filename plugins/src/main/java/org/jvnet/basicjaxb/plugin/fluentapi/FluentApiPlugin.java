@@ -11,7 +11,7 @@ import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -267,7 +267,7 @@ public class FluentApiPlugin extends AbstractParameterizablePlugin
 	{
 		final JDefinedClass targetClass = classOutline.implClass;
 		
-		Map<String, FieldOutline> filteredFieldMap = new HashMap<>();
+		Map<String, FieldOutline> filteredFieldMap = new LinkedHashMap<>();
 		putFieldOutlines(filteredFieldMap, getSuperClassFilteredFields(classOutline));
 		putFieldOutlines(filteredFieldMap, filter(classOutline.getDeclaredFields(), getIgnoring()));
 		

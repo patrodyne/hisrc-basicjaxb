@@ -9,7 +9,7 @@ import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
@@ -208,7 +208,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 	@Override
 	public boolean run(Outline outline) throws Exception
 	{
-		final Map<String, JClass> knownClasses = new HashMap<String, JClass>();
+		final Map<String, JClass> knownClasses = new LinkedHashMap<String, JClass>();
 		final Map<JClass, CClassInfo> knownClassInfos = new IdentityHashMap<JClass, CClassInfo>();
 		
 		for (final ClassOutline classOutline : outline.getClasses())

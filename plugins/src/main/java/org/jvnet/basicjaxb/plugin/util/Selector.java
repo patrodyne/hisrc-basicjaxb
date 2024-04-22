@@ -1,8 +1,8 @@
 package org.jvnet.basicjaxb.plugin.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +62,7 @@ public class Selector
 	public Map<JDefinedClass, List<JFieldVar>> getSelectedFieldMap()
 	{
 		if ( selectedFieldMap == null )
-			setSelectedFieldMap(new HashMap<>());
+			setSelectedFieldMap(new LinkedHashMap<>());
 		return selectedFieldMap;
 	}
 	protected void setSelectedFieldMap(Map<JDefinedClass, List<JFieldVar>> selectedFieldMap)
@@ -114,10 +114,10 @@ public class Selector
 			}
 
 			JDefinedClass rootClass = getClassOutline().getImplClass();
-			Set<JDefinedClass> selectedClassSet = new HashSet<>();
+			Set<JDefinedClass> selectedClassSet = new LinkedHashSet<>();
 			for ( List<String> selectedPath : getSelectedPaths() )
 			{
-				Set<JDefinedClass> selectClassSet = new HashSet<>();
+				Set<JDefinedClass> selectClassSet = new LinkedHashSet<>();
 				selectClassSet.add(rootClass);
 				
 				Iterator<String> selectedPathIter = selectedPath.iterator();
@@ -131,7 +131,7 @@ public class Selector
 					}
 					else
 					{
-						Set<JDefinedClass> nextSelectClassSet = new HashSet<>();
+						Set<JDefinedClass> nextSelectClassSet = new LinkedHashSet<>();
 						for ( JDefinedClass selectClass : selectClassSet )
 						{
 							Set<JDefinedClass> walkSelectedPath = walkSelectedPath(selectedPathPart, selectClass);
@@ -231,7 +231,7 @@ public class Selector
 
 	private Set<JDefinedClass> walkSelectedPath(String selectedPathPart, JDefinedClass selectClass)
 	{
-		Set<JDefinedClass> walkSelectedPath = new HashSet<>(); 
+		Set<JDefinedClass> walkSelectedPath = new LinkedHashSet<>(); 
 		for ( Entry<String, JFieldVar> scField : selectClass.fields().entrySet() )
 		{
 			boolean addedPath = false;

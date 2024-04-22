@@ -11,7 +11,7 @@ import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -263,7 +263,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 			final FieldOutline[] declaredFields = OutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
 			
 			// Filter out constant fields
-			Map<FieldOutline, FieldAccessorEx> lhsFieldAccessorMap = new HashMap<>();
+			Map<FieldOutline, FieldAccessorEx> lhsFieldAccessorMap = new LinkedHashMap<>();
 			for (final FieldOutline fieldOutline : declaredFields)
 			{
 				final FieldAccessorEx lhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _this);
