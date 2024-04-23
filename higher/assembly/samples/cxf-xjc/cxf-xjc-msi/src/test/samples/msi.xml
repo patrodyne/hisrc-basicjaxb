@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Message 
+	xmlns="http://www.example.com/messagedefinitions"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.com/messagedefinitions ../../main/resources/msi.xsd"
+>
+	<status xmlns="">PASS</status>
+	<id xmlns="">1001</id>
+</Message>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4 noexpandtab:-->
