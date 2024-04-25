@@ -21,6 +21,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-higherjaxb-maven-plugin-testing</artifactId>
 			<scope>test</scope>
 		</dependency>
@@ -40,8 +45,12 @@
 					<args>
 						<arg>-no-header</arg>
 						<arg>-XfixedValue</arg>
-						<arg>-Xequals</arg>
 						<arg>-XhashCode</arg>
+						<arg>-Xequals</arg>
+						<arg>-XclassName</arg>
+						<arg>-XclassName-prefix=PO</arg>
+						<arg>-XclassName-suffix=Type</arg>
+						<arg>-XclassName-infix=/Type$//</arg>
 					</args>
 					<plugins>
 						<plugin>

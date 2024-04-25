@@ -1,6 +1,7 @@
 org.jvnet.basicjaxb.plugin.autoinheritance.AutoInheritancePlugin
 org.jvnet.basicjaxb.plugin.copyable.CopyablePlugin
 org.jvnet.basicjaxb.plugin.customizations.CustomizationsPlugin
+org.jvnet.basicjaxb.plugin.classname.ClassNamePlugin
 org.jvnet.basicjaxb.plugin.defaultvalue.DefaultValuePlugin
 org.jvnet.basicjaxb.plugin.enumvalue.EnumValuePlugin
 org.jvnet.basicjaxb.plugin.equals.EqualsPlugin

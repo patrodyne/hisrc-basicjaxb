@@ -178,6 +178,7 @@ public abstract class AbstractPlugin extends Plugin
 	@Override
 	public void postProcessModel(Model model, ErrorHandler errorHandler)
 	{
+		setOptions(model.options);
 		setErrorHandler(errorHandler);
 		try
 		{
@@ -297,9 +298,12 @@ public abstract class AbstractPlugin extends Plugin
 		// Sub-class may override.
 	}
 
+	// Sub-class may override.
 	protected void init(Options options) throws Exception
 	{
-		// Sub-class may override.
+		setDebug(options.debugMode);
+		setQuiet(options.quiet);
+		setVerbose(options.verbose);
 	}
 
 	public Collection<QName> getCustomizationElementNames()

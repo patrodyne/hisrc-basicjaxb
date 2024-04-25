@@ -25,7 +25,8 @@ import com.sun.tools.xjc.Options;
  * </p>
  * <p>
  * Values are injected using Commons {@link BeanUtils} as bean properties, so
- * types will be converted correspondingly
+ * types will be converted correspondingly. A missing value after '=' becomes
+ * a blank string.
  * </p>
  * 
  * @author valikov
@@ -48,6 +49,8 @@ public abstract class AbstractParameterizablePlugin extends AbstractPlugin
 		if (arg.startsWith(optionPrefix) && equalsPosition > optionPrefixLength)
 		{
 			final String propertyName = arg.substring(optionPrefixLength, equalsPosition);
+			// Nothing after an '=' returns a blank string.
+			// Use org.jvnet.basic.lang.StringUtils.isBlank(value);
 			final String value = arg.substring(equalsPosition + 1);
 			consumed++;
 			try
