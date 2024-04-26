@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns="urn://IntegralAdmission_bis"
+	targetNamespace="urn://IntegralAdmission_bis"
+	elementFormDefault="qualified" 
+	attributeFormDefault="qualified"
+>
+
+	<!-- Elements with a named type are unmarshalled as JAXBElement. -->
+	<xs:element name="root" type="Root"/>
+
+	<xs:complexType name="Root">
+		<xs:sequence>
+			<xs:element name="frontespizioPostel" type="xs:string"/>
+			<xs:group ref="RootGroup"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:group name="RootGroup">
+		<xs:sequence>
+			<xs:element name="modulo" type="Modulo">
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:complexType name="Modulo">
+		<xs:sequence>
+			<xs:element name="denominazioneAzienda" type="xs:string"/>
+			<xs:element name="indirizzo" type="xs:string"/>
+			<xs:element name="pecAzienda" type="xs:string"/>
+			<xs:element name="dataProvvedimento" type="xs:date"/>
+			<xs:element name="tipoPrestazione" type="xs:string"/>
+			<xs:element name="numeroProtocollo" type="xs:string"/>
+			<xs:element name="numeroProvvedimento" type="xs:string"/>
+			<xs:element name="annoProvvedimento" type="xs:string"/>
+			<xs:element name="dataPresentazione" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

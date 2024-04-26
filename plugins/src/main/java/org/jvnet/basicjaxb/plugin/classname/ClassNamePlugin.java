@@ -131,6 +131,7 @@ public class ClassNamePlugin extends AbstractParameterizablePlugin
 	{
 		this.toClassNameImplMap = toClassNameImplMap;
 	}
+
 	private FieldAccessorFactory fieldAccessorFactory = PropertyFieldAccessorFactory.INSTANCE;
 	public FieldAccessorFactory getFieldAccessorFactory()
 	{

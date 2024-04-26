@@ -17,6 +17,7 @@
 		<root.basedir>${basedir}/../../../..</root.basedir>
 	</properties>
 	<modules>
+		<module>cxf-xjc-modulo</module>
 		<module>cxf-xjc-msi</module>
 		<module>cxf-xjc-nb</module>
 		<module>cxf-xjc-po</module>

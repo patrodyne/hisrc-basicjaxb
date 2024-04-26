@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:aci="urn://IntegralAdmission_bis"
+	xmlns:acp="urn://PartialAdmission_bis"
+	xmlns="urn://GenerateReport"
+	targetNamespace="urn://GenerateReport"
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified"
+>
+	<xs:import namespace="urn://IntegralAdmission_bis" schemaLocation="IntegralAdmission_bis.xsd"/>
+	<xs:import namespace="urn://PartialAdmission_bis" schemaLocation="PartialAdmission_bis.xsd"/>
+
+	<!-- Elements with a named type are unmarshalled as JAXBElement. -->
+	<xs:element name="root" type="Root"/>
+
+	<xs:complexType name="Root">
+		<xs:sequence>
+			<xs:element name="frontespizioPostel" type="xs:string"/>
+			<xs:group ref="RootGroup"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:group name="RootGroup">
+		<xs:sequence>
+			<xs:choice>
+				<xs:group ref="aci:RootGroup"/>
+				<xs:group ref="acp:RootGroup"/>
+			</xs:choice>
+			<!--xs:element name="metadati" type="Metadati"/-->
+		</xs:sequence>
+	</xs:group>
+
+</xs:schema>

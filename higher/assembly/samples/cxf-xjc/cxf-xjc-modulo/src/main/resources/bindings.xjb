@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings jaxb:version="3.0"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<jaxb:globalBindings localScoping="toplevel">
+		<jaxb:serializable uid="20240401" />
+	</jaxb:globalBindings>
+
+	<jaxb:bindings schemaLocation="IntegralAdmission_bis.xsd" node="/xs:schema">
+		<jaxb:schemaBindings>
+			<jaxb:package name="org.example.modulo.ia"/>
+		</jaxb:schemaBindings>
+		<!--
+			Resolve SAXParseException2:
+			Two declarations cause a collision in the ObjectFactory class.
+		-->
+		<jaxb:bindings node="//xs:group[@name='RootGroup']//xs:element[@name='modulo']">
+			<!-- 
+			<jaxb:property name="moduloIA"/>
+			 -->
+			<jaxb:factoryMethod name="ModuloIA"/>
+		</jaxb:bindings>
+	</jaxb:bindings>
+
+	<jaxb:bindings schemaLocation="PartialAdmission_bis.xsd" node="/xs:schema">
+		<jaxb:schemaBindings>
+			<jaxb:package name="org.example.modulo.pa"/>
+		</jaxb:schemaBindings>
+		<!--
+			Resolve SAXParseException2:
+			Two declarations cause a collision in the ObjectFactory class.
+		-->
+		<jaxb:bindings node="//xs:group[@name='RootGroup']//xs:element[@name='modulo']">
+			<!-- 
+			<jaxb:property name="moduloPA"/>
+			 -->
+			<jaxb:factoryMethod name="ModuloPA"/>
+		</jaxb:bindings>
+	</jaxb:bindings>
+
+	<jaxb:bindings schemaLocation="PExGeneraReport_bis.xsd" node="/xs:schema">
+		<jaxb:schemaBindings>
+			<jaxb:package name="org.example.modulo.pgr"/>
+		</jaxb:schemaBindings>
+	</jaxb:bindings>
+
+</jaxb:bindings>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4 noexpandtab:-->

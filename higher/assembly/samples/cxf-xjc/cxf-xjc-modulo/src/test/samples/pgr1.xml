@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root 
+	xmlns="urn://GenerateReport"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn://GenerateReport ../../main/resources/PExGeneraReport_bis.xsd"
+>
+	<frontespizioPostel>Passport Photograph</frontespizioPostel>
+	<modulo xmlns="urn://PartialAdmission_bis">
+		<denominazioneAzienda>Company Name</denominazioneAzienda>
+		<indirizzo>Address</indirizzo>
+		<pecAzienda>https://www.inipec.gov.it/cerca-pec</pecAzienda>
+		<dataProvvedimento>2024-01-01</dataProvvedimento>
+		<tipoPrestazione>Performance Type</tipoPrestazione>
+		<numeroProtocollo>Protocol Number</numeroProtocollo>
+		<numeroProvvedimento>Provision Number</numeroProvvedimento>
+		<annoProvvedimento>Provision Year</annoProvvedimento>
+		<dataPresentazione>2024-04-01</dataPresentazione>
+		<causale>Yes</causale>
+	</modulo>
+</root>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4 noexpandtab:-->
