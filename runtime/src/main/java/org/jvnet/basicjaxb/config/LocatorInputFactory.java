@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.config;
 
+import static java.lang.Thread.currentThread;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
@@ -10,6 +11,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.slf4j.Logger;
@@ -139,8 +142,8 @@ public class LocatorInputFactory
 					inputStream = clazz.getResourceAsStream(resourcePath);			
 				else
 				{
-					if ( locator.startsWith("/") )
-						locator = locator.substring(1);
+					if ( resourcePath.startsWith("/") )
+						resourcePath = resourcePath.substring(1);
 					inputStream = LocatorInputFactory.class.getClassLoader().getResourceAsStream(resourcePath);
 				}
 			}
@@ -159,6 +162,59 @@ public class LocatorInputFactory
 			}
 		}
 		return inputStream;
+	}
+
+	/**
+	 * Resolve a locator to an {@link URI}. The locator may represent a
+	 * URL or a File. If the URL protocol is "classpath:" then the URI
+	 * will be located as a resource.
+	 * 
+	 * If the class parameter is null, a {@link ClassLoader} is used to
+	 * resolve classpath resources; thus, a "classpath:" locator must
+	 * provide the full path relative to the classpath root and any
+	 * leading '/' will be ignored.
+	 * 
+	 * @param locator The location of a file or resource.
+	 * @param clazz A classpath location for relative locators.
+	 * 
+	 * @return A {@link URI} representing the locator.
+	 * 
+	 * @throws URISyntaxException When a URI cannot be parsed.
+	 * @throws MalformedURLException When a URL cannot be parsed.
+	 */
+	public static URI resolveLocator(String locator, Class<?> clazz) throws URISyntaxException, MalformedURLException
+	{
+		URI resourceURI = null;
+		URL resourceURL = null;
+		
+		if ( locator != null )
+		{
+			if ( locator.startsWith(PROTOCOL_CLASSPATH) )
+			{
+				String resourcePath = locator.substring(PROTOCOL_CLASSPATH.length());
+				if ( clazz != null )
+					resourceURL = clazz.getResource(resourcePath);	
+				else
+				{
+					if ( resourcePath.startsWith("/") )
+						resourcePath = resourcePath.substring(1);
+					ClassLoader classloader = currentThread().getContextClassLoader();
+					resourceURL = classloader.getResource(resourcePath);
+				}
+			}
+			else
+				resourceURL = new URL(locator);
+
+			if ( resourceURL != null )
+			{
+				resourceURI = resourceURL.toURI();
+				logger.debug("Resolved: '{}' to '{}'", locator, resourceURI.toString());
+			}
+		}
+		else
+			logger.warn("resolveLocator: locator is null");
+		
+		return resourceURI;
 	}
 
 	/**

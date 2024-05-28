@@ -45,6 +45,7 @@
 							<artifactId>hisrc-basicjaxb-test-episodes-a</artifactId>
 						</episode>
 					</episodes>
+					<catalogResolver>org.jvnet.higherjaxb.mojo.resolver.tools.MavenCatalogResolver</catalogResolver>
 					<catalog>src/main/resources/catalog.xml</catalog>
 					<strict>false</strict>
 					<verbose>true</verbose>

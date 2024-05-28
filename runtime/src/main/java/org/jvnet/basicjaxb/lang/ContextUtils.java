@@ -8,6 +8,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -44,18 +46,25 @@ public class ContextUtils
 		if (classes == null)
 			throw new IllegalArgumentException("The validated object is null");
 		
+		Set<String> packageNameSet = new LinkedHashSet<>();
+		
 		for (int i = 0; i < classes.length; i++)
 		{
 			if (classes[i] == null)
 				throw new IllegalArgumentException("The validated array contains null element at index: " + i);
+			else
+				packageNameSet.add(classes[i].getPackageName());
 		}
 		
 		final StringBuilder contextPath = new StringBuilder();
-		for (int index = 0; index < classes.length; index++)
+		boolean firstPackageName = true;
+		for ( String packageName : packageNameSet )
 		{
-			if (index > 0)
+			if ( firstPackageName )
+				firstPackageName = false;
+			else
 				contextPath.append(':');
-			contextPath.append(classes[index].getPackageName());
+			contextPath.append(packageName);
 		}
 		
 		return contextPath.toString();

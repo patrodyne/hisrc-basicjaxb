@@ -34,7 +34,7 @@ public class StrategyClassUtils
 			try
 			{
 				final Method getInstanceMethod = strategyClass.getMethod("getInstance", new Class<?>[0]);
-				if (getInstanceMethod != null	&& strategyInterface.isAssignableFrom(getInstanceMethod.getReturnType())
+				if ((getInstanceMethod != null) && strategyInterface.isAssignableFrom(getInstanceMethod.getReturnType())
 					&& Modifier.isStatic(getInstanceMethod.getModifiers())
 					&& Modifier.isPublic(getInstanceMethod.getModifiers()))
 				{

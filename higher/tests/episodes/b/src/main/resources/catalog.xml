@@ -8,6 +8,7 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
 
 	<!-- The public element associates a URI reference with a public identifier. -->
+	<!-- Requires: org.jvnet.higherjaxb.mojo.resolver.tools.MavenCatalogResolver -->
 	<public
 		publicId="public:hisrc-basicjaxb.test.episodes.a"
 		uri="maven:org.patrodyne.jvnet:hisrc-basicjaxb-test-episodes-a:jar::!/a.xsd"

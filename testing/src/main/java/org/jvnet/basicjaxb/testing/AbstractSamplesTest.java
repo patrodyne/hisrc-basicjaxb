@@ -2,9 +2,12 @@ package org.jvnet.basicjaxb.testing;
 
 import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 import static java.util.Arrays.sort;
+import static javax.xml.catalog.CatalogFeatures.Feature.FILES;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.io.StringWriter;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
@@ -12,12 +15,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 
 import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
@@ -28,7 +36,7 @@ import jakarta.xml.bind.Unmarshaller;
 public abstract class AbstractSamplesTest
 {
 	public static final String DEFAULT_SAMPLES_DIRECTORY_NAME = "src/test/samples";
-
+	
 	// Represents the Logger for this class and sub-classes.
 	private Logger logger = LoggerFactory.getLogger(getTestClass());
 	protected Logger getLogger() { return logger; }
@@ -46,7 +54,12 @@ public abstract class AbstractSamplesTest
 	{
 		return getClass();
 	}
-
+	
+	// Enable OASIS DTD Entity Resolution XML Catalog
+	private URI catalogURI;
+	public URI getCatalogURI() { return catalogURI; }
+	public void setCatalogURI(URI catalogURI) { this.catalogURI = catalogURI; }
+	
 	/**
 	 * Get the JAXB context path or configure a path by override.
 	 * 
@@ -183,6 +196,25 @@ public abstract class AbstractSamplesTest
 		this.jaxbContext = jaxbContext;
 	}
 
+	// Represents a {@link DocumentBuilderFactory} with support for catalogs.
+	private DocumentBuilderFactory documentBuilderFactory = null;
+	public DocumentBuilderFactory getDocumentBuilderFactory()
+	{
+		if ( documentBuilderFactory == null )
+		{
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		    dbf.setNamespaceAware(true);
+			if ( getCatalogURI() != null )
+				   dbf.setAttribute(FILES.getPropertyName(), getCatalogURI().toString());
+			setDocumentBuilderFactory(dbf);
+		}
+		return documentBuilderFactory;
+	}
+	public void setDocumentBuilderFactory(DocumentBuilderFactory documentBuilderFactory)
+	{
+		this.documentBuilderFactory = documentBuilderFactory;
+	}
+	
 	// Represents the JAXB {@link Unmarshaller}.
 	private Unmarshaller unmarshaller = null;
 	protected Unmarshaller getUnmarshaller() throws JAXBException
@@ -285,4 +317,149 @@ public abstract class AbstractSamplesTest
 		File targetClassesDirAbsoluteParentParentFile = targetClassesDirParentParentFile.getAbsoluteFile();
 		return targetClassesDirAbsoluteParentParentFile;
 	}
+	
+	// JAXB Context Methods
+
+	/**
+	 * Use the current {@link Unmarshaller} to unmarshal the given {@link File}.
+	 * 
+	 * @param <T> The type of the declared class.
+	 * @param xmlFileName The file name to be read for unmarshalling.
+	 * 
+	 * @return An instance representaion of the contents of the given {@link File}.
+	 * 
+	 * @throws JAXBException When the instance cannot be marshaled to a {@link File}.
+	 */
+	protected <T> T unmarshal(String xmlFileName) throws JAXBException
+	{
+		File xmlFile = new File(xmlFileName);
+		return unmarshal(xmlFile);
+	}
+	
+	/**
+	 * Use the current {@link Unmarshaller} to unmarshal the given {@link File}.
+	 * 
+	 * @param <T> The type of the declared class.
+	 * @param xmlFile The {@link File} to be read for unmarshalling.
+	 * 
+	 * @return An instance representaion of the contents of the given {@link File}.
+	 * 
+	 * @throws JAXBException When the instance cannot be marshaled to a {@link File}.
+	 */
+	protected <T> T unmarshal(File xmlFile) throws JAXBException
+	{
+		return unmarshal(xmlFile, null);
+	}
+	
+	/**
+	 * Use the current {@link Unmarshaller} to unmarshal the given {@link File}
+	 * and {@link Class} declaration to a Java object.
+	 * 
+	 * @param <T> The type of the declared class.
+	 * @param xmlFileName The file name to be read for unmarshalling.
+	 * @param clazz The declared class type expected.
+	 * 
+	 * @return An instance representaion of the contents of the given {@link File}.
+	 * 
+	 * @throws JAXBException When the instance cannot be marshaled to a {@link File}.
+	 */
+	protected <T> T unmarshal(String xmlFileName, Class<T> clazz) throws JAXBException
+	{
+		File xmlFile = new File(xmlFileName);
+		return unmarshal(xmlFile, clazz);
+	}
+	
+	/**
+	 * Use the current {@link Unmarshaller} to unmarshal the given {@link File}
+	 * and {@link Class} declaration to a Java object.
+	 * 
+	 * <p>This implementation uses a {@link DocumentBuilderFactory} with
+	 * support for an OASIS catalog file.</p>
+	 * 
+	 * @param <T> The type of the declared class.
+	 * @param xmlFile The {@link File} to be read for unmarshalling.
+	 * @param clazz The declared class type expected.
+	 * 
+	 * @return An instance representaion of the contents of the given {@link File}.
+	 * 
+	 * @throws JAXBException When the instance cannot be marshaled to a {@link File}.
+	 */
+	@SuppressWarnings("unchecked")
+	protected <T> T unmarshal(File xmlFile, Class<T> clazz) throws JAXBException
+	{
+		try
+		{
+			DocumentBuilder db = getDocumentBuilderFactory().newDocumentBuilder();
+			Document doc = db.parse(xmlFile);
+
+			Object result = null;
+			if ( clazz != null )
+				result = getUnmarshaller().unmarshal(doc, clazz);
+			else
+				result = getUnmarshaller().unmarshal(doc);
+			
+			if ( result instanceof JAXBElement )
+				return ((JAXBElement<T>) result).getValue();
+			else
+				return (T) result;
+		}
+		catch (Exception ex)
+		{
+			throw new JAXBException("unmarshal: "+xmlFile, ex);
+		}
+	}
+	
+	/**
+     * Use the current {@link Marshaller} to marshal the given instance
+     * to a {@link File} with the given name.
+	 * 
+     * @param instance The object to be marshaled.
+	 * @param xmlFileName The name of the file to be created.
+	 * 
+	 * @throws JAXBException When the instance cannot be marshaled to a {@link File}.
+	 */
+    protected void marshal(Object instance, String xmlFileName) throws JAXBException
+    {
+		File xmlFile = new File(xmlFileName);
+    	try
+    	{
+	        if ( instance != null)
+                getMarshaller().marshal(instance, xmlFile);
+    	}
+		catch (Exception ex)
+		{
+			throw new JAXBException("marshal: " + xmlFileName, ex);
+		}
+    }
+
+    /**
+     * Use the current {@link Marshaller} to marshal the given instance
+     * to a {@link String}.
+     * 
+     * @param instance The object to be marshaled.
+     * 
+     * @return An XML {@link String} representation of the instance.
+     * 
+	 * @throws JAXBException When the instance cannot be marshaled to a {@link String}.
+     */
+    protected String marshalToString(Object instance) throws JAXBException
+    {
+    	try
+    	{
+	        String xml = null;
+	        if ( instance != null)
+	        {
+	            try ( StringWriter writer = new StringWriter() )
+	            {
+	                getMarshaller().marshal(instance, writer);
+	                xml = writer.toString();
+	            }
+	        }
+	        return xml;
+    	}
+		catch (Exception ex)
+		{
+			throw new JAXBException("marshalToString: "+instance, ex);
+		}
+    }
 }
