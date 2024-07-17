@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxb:bindings jaxb:version="3.0"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+	<!--  Global Bindings
+		* JPA section 2.1, entities must be top-level classes.
+		* JPA section 2.1, entities must implement the serializable interface.
+		* When processing a Microsoft WCF service WSDL, it is recommended that the
+		  generateElementProperty customization be set to 'false' in globalBindings.
+		* Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512".
+		*
+		* For XMLSchema v1.0 (w3c/2001):
+		*    There are no nested types; thus, "localScoping" is for futire use.
+		*    There are no fixed values; thus, "fixedAttributeAsConstantProperty" is for future use.
+		*    There are no enumerated types; thus, the "typesafe" options are for future use.
+	-->
+	<jaxb:globalBindings
+		localScoping="toplevel"
+		fixedAttributeAsConstantProperty="true"
+		typesafeEnumBase="xs:string"
+		typesafeEnumMemberName="generateName" 
+		generateIsSetMethod="true"
+		generateMixedExtensions="true"
+	>
+		<jaxb:serializable uid="20240201" />
+		<!--
+			These customizations were valid in XJC 1.0, but in 2.0 we
+			don't use them. OTOH, we don't want to issue an error for
+			them, so we just define a mapping and ignore the value.
+
+			<xjc:noValidator />
+			<xjc:noValidatingUnmarshaller />
+		-->
+	</jaxb:globalBindings>
+
+</jaxb:bindings>
+
+

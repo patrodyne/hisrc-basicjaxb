@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE catalog
-    PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
-           "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd"
->
 <!-- See https://www.oasis-open.org/committees/entity/spec.html -->
 <!-- xmlcatalog -v catalog.xml [publicId|systemId] -->
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:oasis:names:tc:entity:xmlns:xml:catalog
+		../../../../../../src/test/resources/w3c/2005/10/catalog/catalog.xsd"
+>
 
 	<system
 		systemId="http://dublincore.org/schemas/xmls/simpledc20021212.xsd"
