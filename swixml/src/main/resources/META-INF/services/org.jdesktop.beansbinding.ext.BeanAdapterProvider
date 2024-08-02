@@ -1,0 +1,10 @@
+# Copyright (C) 2007 Sun Microsystems, Inc. All rights reserved. Use is
+# subject to license terms.
+
+org.jdesktop.swingbinding.adapters.AbstractButtonAdapterProvider
+org.jdesktop.swingbinding.adapters.JTextComponentAdapterProvider
+org.jdesktop.swingbinding.adapters.JListAdapterProvider
+org.jdesktop.swingbinding.adapters.JTableAdapterProvider
+org.jdesktop.swingbinding.adapters.JSliderAdapterProvider
+org.jdesktop.swingbinding.adapters.JSpinnerAdapterProvider
+org.jdesktop.swingbinding.adapters.JComboBoxAdapterProvider

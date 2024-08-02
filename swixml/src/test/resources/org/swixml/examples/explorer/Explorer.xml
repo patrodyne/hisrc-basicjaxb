@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<frame	size="500,600"
+		resizable="true" 
+		alwaysOnTop="false"
+		title="SWIXM2 Explorer (Release 2.5-SNAPSHOT)" 
+		defaultCloseOperation="JFrame.EXIT_ON_CLOSE">
+
+<panel name="explorer" layout="BorderLayout">
+<toolbar constraints="BorderLayout.NORTH">
+     <button ToolTipText="run application" action="runApplication" icon="icons/new.gif" />
+</toolbar>
+
+
+<splitpane dividerLocation="300" resizeWeight=".2" constraints="BorderLayout.CENTER" >
+<scrollpane minimumSize="150,800">
+<tree id="mainTree" model="${applications}" action="selectNode" dblClickAction="activeNode" toolTipText="double clik to run demo" />
+</scrollpane>
+
+<panel id="contentPanel" name="contentPanel" layout="CardLayout" >
+</panel>
+
+
+</splitpane>
+
+</panel>
+
+</frame>

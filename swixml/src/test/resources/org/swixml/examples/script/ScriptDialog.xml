@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog 
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
+	
+	name="dialog"
+	minimumSize="400,240"
+	resizable="true" 
+	title="Example of Script usage" 
+	undecorated="false" 
+	alwaysOnTop="true"
+	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE" 
+	modal="false"
+>
+
+<!-- 
+	This implementation of SWIXML uses Jakarta Expression Language (EL)
+	to provide bindings in the XML to reference objects, methods and/or
+	functions in the JVM. It does not use and is not dependent on any
+	JavaScipt engine. It uses "org.glassfish:jakarta.el", as a Maven
+	dependency.
+	
+	This "script" demo has been refactored to demonstrate the usage of
+	an EL function to reference the radio band ("AM" or "FM") using an
+	EL function instead of a JavaScript function.
+-->
+ 
+<!-- 
+Usage: xmlns:script="http://www.swixml.org/2007/Swixml/script"
+
+<script><![CDATA[
+
+function radioText(i) {
+    var a = ["AM", "FM" ];
+    
+    return a[i];
+}
+
+function close() {
+
+	client.setVisible(false);
+	
+	//application.exit();
+}
+
+]]></script>
+ -->
+
+	<panel layout="borderLayout">
+	
+		<vbox constraints="BorderLayout.CENTER">
+		
+			<button name="tb" id="toggleButton" text="action" action="onCLick" />
+			
+			<box.vstrut height="10"></box.vstrut>
+
+			<!-- 
+				Resolvable by org.swixml.converters.BorderConverter
+				<hbox border="BorderFactory.createEtchedBorder()">
+			-->
+			<!--
+				Resolvable by jakarta.el.StaticFieldELResolver.StaticFieldELResolver() 
+			-->		
+			<hbox border="${createEtchedBorder()}">
+			    <buttongroup >
+			        <radiobutton id="am" text="${sd:radioText(0)}" selected="true"/>
+			        <radiobutton id="fm" text="${sd:radioText(1)}"/>
+			    </buttongroup>
+			</hbox>
+			
+			<box.vstrut height="10"></box.vstrut>
+		
+		</vbox>
+		
+		<hbox constraints="BorderLayout.SOUTH">
+		<!-- 
+			<button text="close" script:action="close"/>
+		 -->
+		</hbox>
+	</panel>
+
+
+</dialog>

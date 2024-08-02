@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<panel
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
+
+	layout="BorderLayout"
+>
+
+	<tabbedpane constraints="BorderLayout.CENTER">
+	
+		<panel name="XML Source" layout="BorderLayout">
+			<!--
+			<RTextScrollPane>
+				<filetextarea  syntaxEditingStyle="text/xml" source="examples/task/BackgroundTaskDialog.xml" ></filetextarea>
+			</RTextScrollPane>
+			-->
+		</panel>
+		
+		<panel name="Java Source (Application)" layout="BorderLayout">
+			<!--
+			<RTextScrollPane>
+				<filetextarea  syntaxEditingStyle="text/java" source="examples/task/BackgroundTaskExample.java" ></filetextarea>
+			</RTextScrollPane>
+			-->
+		</panel>
+		
+		<panel name="Java Source (Dialog)" layout="BorderLayout">
+			<!--
+			<RTextScrollPane>
+				<filetextarea  syntaxEditingStyle="text/java" source="examples/task/BackgroundTaskDialog.java" ></filetextarea>
+			</RTextScrollPane>
+			-->
+		</panel>
+		
+		<panel name="NetworkTimeRetriever" layout="BorderLayout">
+			<!--
+			<RTextScrollPane>
+				<filetextarea  syntaxEditingStyle="text/java" source="examples/task/NetworkTimeRetrieverTask.java" ></filetextarea>
+			</RTextScrollPane>
+			-->
+		</panel>
+		
+		<panel name="ListFilesTask" layout="BorderLayout">
+			<!--
+			<RTextScrollPane>
+				<filetextarea  syntaxEditingStyle="text/java" source="examples/task/ListFilesTask.java" ></filetextarea>
+			</RTextScrollPane>
+			-->
+		</panel>
+	
+	</tabbedpane>
+
+</panel>

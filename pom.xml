@@ -38,6 +38,7 @@
 		<module>plugins</module>
 		<module>runtime</module>
 		<module>shaded</module>
+		<module>swixml</module>
 		<module>testing</module>
 		<module>tools</module>
 	</modules>
@@ -567,6 +568,23 @@
 								<link>https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-testing/latest</link>
 							</links>
 							<quiet>false</quiet>
+							<tags>
+								<tag>
+									<name>apiNote</name>
+									<placement>a</placement>
+									<head>API Note:</head>
+								</tag>
+								<tag>
+									<name>implSpec</name>
+									<placement>a</placement>
+									<head>Implementation Requirements:</head>
+								</tag>
+								<tag>
+									<name>implNote</name>
+									<placement>a</placement>
+									<head>Implementation Note:</head>
+								</tag>
+							</tags>
 						</configuration>
 					</execution>
 				</executions>

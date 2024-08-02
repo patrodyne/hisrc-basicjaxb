@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<panel  >
+
+<label>
+<![CDATA[
+<html>
+<body>
+
+<br>
+
+These examples show the new features provided by SWIXML2 <br>
+
+JSR295 - Binding feature <br>
+
+JSR296 - Swing Application Framework <br>
+
+</body>
+</html>
+]]>
+</label>
+
+</panel>

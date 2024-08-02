@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
+
+	size="500,500" resizable="false" title="Login Dialog" defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+>
+
+	<vbox>
+	
+	    <panel 
+	    	layout="GridLayout(2,2,1,10)"
+	    	border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Security information))"
+	    >
+	        <label text="Login" />
+	        <textfield bindWith="login" columns="15"/>
+	
+	        <label text="Password" />
+	        <passwordfield bindWith="password" columns="15" />
+	    </panel>
+	
+	   	<box.vstrut height="10"/>
+	
+	    <hbox>
+	    	<box.glue/>
+	    	<button id="defaultButton" text="Submit" action="enterAction"/>
+	    	<box.hstrut width="5"/>
+	    	<button text="Close" action="escapeAction"/>
+	    </hbox>
+	    
+	</vbox>
+
+</dialog>

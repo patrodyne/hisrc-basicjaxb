@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog 
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
+
+	minimumSize="300,300"
+	resizable="false"
+	title="Slider Dialog"
+	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
+>
+	<vbox>
+	
+	    <panel border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Slider))">
+			<slider id="transparency" constraints="3,43,5,1" minimum="0" maximum="255" value="200"
+				action="transparencyAction" bindWith="transparency"/>
+	    </panel>
+	
+	   	<box.vstrut height="10"/>
+	
+	    <hbox>
+	    	<button text="Test" action="test"/>
+	    	<box.glue/>
+	    	<button text="Submit" action="submit"/>
+	    	<box.hstrut width="5"/>
+	    	<button text="Close" action="close"/>
+	    </hbox>
+	    
+	</vbox>
+</dialog>

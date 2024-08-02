@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
+
+	name="mainframe"
+	minimumSize="640,480"
+	title="S W I X M L"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+>
+
+	<!-- 
+	plaf="javax.swing.plaf.gtk.GTKLookAndFeel"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plaf="javax.swing.plaf.motif.MotifLookAndFeel"
+	plaf="javax.swing.plaf.nimbus.NimbusLookAndFeel"
+	plaf="javax.swing.plaf.windows.WindowsLookAndFeel"
+	-->
+
+	<menubar name="menubar">
+		<menu name="filemenu" text="File">
+			<menuitem name="mi_new" text="New" icon="org/swixml/icons/new.gif" mnemonic="VK_N" accelerator="control N" action="newAction" />
+			<menuitem name="mi_open" text="Open" icon="org/swixml/icons/open.gif" mnemonic="VK_O" accelerator="control O" actionCommand="open" />
+			<menuitem name="mi_save" text="Save" icon="org/swixml/icons/save.gif" mnemonic="VK_S" actionCommand="save" />
+			<separator />
+			<menuitem name="mi_exit" text="Exit" icon="org/swixml/icons/exit.gif" mnemonic="VK_X" accelerator="control X" actionCommand="exitAction" />
+		</menu>
+		<menu text="Help">
+			<menuitem name="mi_about" text="About" enabled="true" icon="org/swixml/icons/about.gif" accelerator="alt A" action="aboutAction" />
+		</menu>
+	</menubar>
+
+	<panel layout="borderLayout" background="666666">
+
+		<splitpane oneTouchExpandable="true" dividerLocation="200" constraints="BorderLayout.CENTER">
+
+			<splitpane oneTouchExpandable="true" dividerLocation="140" orientation="HORIZONTAL">
+				<scrollpane background="blue">
+					<tree name="tree" />
+				</scrollpane>
+				<panel layout="borderlayout">
+					<panel constraints="BorderLayout.NORTH">
+						<button name="btn_copy" toolTipText="JPanel" enabled="true" borderPainted="false" focusPainted="false" icon="org/swixml/icons/copy.gif" size="24,24" />
+						<button name="btn_paste" toolTipText="JButton" enabled="true" borderPainted="false" focusPainted="false" icon="org/swixml/icons/paste.gif" size="24,24" />
+						<button name="btn_cut" toolTipText="JLabel" enabled="true" icon="org/swixml/icons/cut.gif" borderPainted="false" focusPainted="false" size="24,24" />
+					</panel>
+					<scrollpane constraints="BorderLayout.CENTER">
+						<table name="table" />
+					</scrollpane>
+				</panel>
+			</splitpane>
+
+			<panel name="preview" border="LoweredBevelBorder">
+				<textarea name="ta" />
+			</panel>
+
+		</splitpane>
+
+		<panel constraints="BorderLayout.SOUTH">
+			<label text="Status:" />
+			<textfield text="OK" />
+		</panel>
+
+	</panel>
+</dialog>
+

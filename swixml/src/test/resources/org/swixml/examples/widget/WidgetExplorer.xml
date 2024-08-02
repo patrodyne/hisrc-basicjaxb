@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<frame size="100,100" resizable="true" alwaysOnTop="true" title="Client Attribute Sample" defaultCloseOperation="JFrame.EXIT_ON_CLOSE">
+
+<panel layout="BorderLayout">
+
+<tabbedpane constraints="BorderLayout.CENTER">
+
+<panel name="table" layout="BorderLayout">
+
+<scrollpane>
+<table id="testTable" action="selectRow" dblClickAction="activateRow" cellSelectionEnabled="false" bindList="${myData}" bindClass="${myDataClass}" />
+</scrollpane>
+
+</panel>
+
+</tabbedpane>        
+
+</panel>
+</frame>

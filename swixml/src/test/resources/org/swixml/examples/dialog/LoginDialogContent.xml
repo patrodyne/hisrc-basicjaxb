@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<panel
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
+
+	layout="BorderLayout"
+>
+	<tabbedpane constraints="BorderLayout.CENTER">
+		<panel name="XML Source" layout="BorderLayout">
+			<!-- 
+			<RTextScrollPane>
+				<fileTextArea syntaxEditingStyle="text/xml" source="examples/dialog/LoginDialog.xml"  editable="false"/>
+			</RTextScrollPane>
+			-->
+		</panel>
+		<panel name="Application" layout="BorderLayout">
+			<!-- 
+			<RTextScrollPane>
+				<fileTextArea syntaxEditingStyle="text/java" source="examples/dialog/LoginExample.java"  editable="false"/>
+			</RTextScrollPane>
+			-->
+		</panel>
+		<panel name="Dialog" layout="BorderLayout">
+			<!-- 
+			<RTextScrollPane>
+				<fileTextArea syntaxEditingStyle="text/java" source="examples/dialog/LoginDialog.java"  editable="false"/>
+			</RTextScrollPane>
+			-->
+		</panel>
+	</tabbedpane>
+</panel>

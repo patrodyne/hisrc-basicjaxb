@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<frame
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
+
+	id="frame"
+	title="Swixml - Action Sample"
+	size="640,480"
+	layout="BorderLayout"
+	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+>
+
+	<menubar id="mb">
+		<menu id="mu_file" text="File">
+			<menuitem               text="New"   icon="org/swixml/icons/new.gif"  mnemonic="VK_N" action="newAction" />
+			<menuitem               text="Open"  icon="org/swixml/icons/open.gif" mnemonic="VK_O" action="openAction" />
+			<menuitem id="mi_save"  text="Save"  icon="org/swixml/icons/save.gif" mnemonic="VK_S" actionCommand="AC_SAVE" />
+			<separator />
+			<menuitem id="mi_exit"  text="Exit"  icon="org/swixml/icons/exit.gif" mnemonic="VK_X" actionCommand="AC_EXIT" />
+		</menu>
+		<menu id="mu_help" text="Help">
+			<menuitem id="mi_help"  text="Help"  icon="org/swixml/icons/help.gif" enabled="true"  actionCommand="AC_HELP" />
+			<separator />
+			<menuitem id="mi_about" text="About" icon="org/swixml/icons/info.gif" enabled="true"  actionCommand="AC_ABOUT" />
+		</menu>
+	</menubar>
+
+	<panel id="pnl_North" layout="borderlayout" constraints="BorderLayout.NORTH">
+		<toolbar id="tb" floatable="true" borderPainted="true" orientation="HORIZONTAL">
+			<button toolTipText="New"  enabled="true" icon="org/swixml/icons/new.gif"  action="newAction" />
+			<button toolTipText="Help" enabled="true" icon="org/swixml/icons/help.gif" actionCommand="AC_HELP" />
+			<button toolTipText="Exit" enabled="true" icon="org/swixml/icons/exit.gif" actionCommand="AC_EXIT" />
+		</toolbar>
+	</panel>
+
+	<panel border="EtchedBorder">
+		<label labelFor="cbx" font="SansSerif-BOLD-12" foreground="blue">ComboBox</label>
+		<combobox
+			id="cbx"
+			initclass="org.swixml.examples.legacy.Actions$ComboModel"
+			action="petAction"
+			prototypeDisplayValue="1234567890|1234567890"
+		/>
+	</panel>
+
+	<panel constraints="BorderLayout.SOUTH">
+		<label>Status:</label>
+	</panel>
+
+</frame>

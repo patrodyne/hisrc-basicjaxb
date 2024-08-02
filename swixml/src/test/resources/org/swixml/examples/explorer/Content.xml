@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<panel  layout="BorderLayout">
+
+<tabbedpane constraints="BorderLayout.CENTER">
+
+<panel name="XML Source" layout="BorderLayout">
+<RTextScrollPane>
+	<RSyntaxTextArea id="xmlSource" syntaxEditingStyle="text/xml" bindWith="xmlSource"  editable="false" font="Courier New-PLAIN-13"/>
+</RTextScrollPane>
+</panel>
+
+<panel name="Java Source" layout="BorderLayout" >
+<RTextScrollPane>
+	<RSyntaxTextArea id="javaSource" syntaxEditingStyle="text/java" bindWith="javaSource"  editable="false" font="Courier New-PLAIN-13"/>
+</RTextScrollPane>
+
+</panel>
+
+</tabbedpane>
+
+</panel>

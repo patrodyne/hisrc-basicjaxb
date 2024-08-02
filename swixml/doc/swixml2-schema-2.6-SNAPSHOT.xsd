@@ -1,0 +1,3636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.swixml.org/2007/Swixml" elementFormDefault="qualified">
+  <xs:element name="applet">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="layeredPane" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="contentPane" type="xs:string" />
+      <xs:attribute name="JMenuBar" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="stub" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="glassPane" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="box.glue">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="box.hglue">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="box.hstrut">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="width" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="box.rigidarea">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="size" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="box.vglue">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="box.vstrut">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="height" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="button">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="rolloverIcon" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="rolloverSelectedIcon" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="displayedMnemonicIndex" type="xs:string" />
+      <xs:attribute name="disabledIcon" type="xs:string" />
+      <xs:attribute name="focusPainted" type="xs:boolean" />
+      <xs:attribute name="hideActionText" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="rolloverEnabled" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="contentAreaFilled" type="xs:boolean" />
+      <xs:attribute name="actionCommand" type="xs:string" />
+      <xs:attribute name="label" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="mnemonic" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="selectedIcon" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="icon" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="iconTextGap" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="horizontalTextPosition" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="disabledSelectedIcon" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="verticalTextPosition" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="horizontalAlignment" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="verticalAlignment" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="borderPainted" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="selected" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="multiClickThreshhold" type="xs:string" />
+      <xs:attribute name="pressedIcon" type="xs:string" />
+      <xs:attribute name="defaultCapable" type="xs:boolean" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="buttongroup">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="checkbox">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="rolloverIcon" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="borderPaintedFlat" type="xs:boolean" />
+      <xs:attribute name="rolloverSelectedIcon" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="displayedMnemonicIndex" type="xs:string" />
+      <xs:attribute name="disabledIcon" type="xs:string" />
+      <xs:attribute name="focusPainted" type="xs:boolean" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="hideActionText" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="rolloverEnabled" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="contentAreaFilled" type="xs:boolean" />
+      <xs:attribute name="actionCommand" type="xs:string" />
+      <xs:attribute name="label" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="mnemonic" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="selectedIcon" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="icon" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="iconTextGap" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="horizontalTextPosition" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="disabledSelectedIcon" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="verticalTextPosition" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="horizontalAlignment" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="verticalAlignment" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="borderPainted" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="selected" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="multiClickThreshhold" type="xs:string" />
+      <xs:attribute name="pressedIcon" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="checkboxmenuitem">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="rolloverIcon" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="rolloverSelectedIcon" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="displayedMnemonicIndex" type="xs:string" />
+      <xs:attribute name="disabledIcon" type="xs:string" />
+      <xs:attribute name="focusPainted" type="xs:boolean" />
+      <xs:attribute name="hideActionText" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="rolloverEnabled" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="contentAreaFilled" type="xs:boolean" />
+      <xs:attribute name="actionCommand" type="xs:string" />
+      <xs:attribute name="label" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="mnemonic" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="selectedIcon" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="icon" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="accelerator" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="iconTextGap" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="armed" type="xs:boolean" />
+      <xs:attribute name="horizontalTextPosition" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="disabledSelectedIcon" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="verticalTextPosition" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="horizontalAlignment" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="verticalAlignment" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="borderPainted" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="state" type="xs:boolean" />
+      <xs:attribute name="selected" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="multiClickThreshhold" type="xs:string" />
+      <xs:attribute name="pressedIcon" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="combobox">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="keySelectionManager" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="lightWeightPopupEnabled" type="xs:boolean" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="popupVisible" type="xs:boolean" />
+      <xs:attribute name="editor" type="xs:string" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="renderer" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="bindList" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="actionCommand" type="xs:string" />
+      <xs:attribute name="editable" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="prototypeDisplayValue" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="selectedIndex" type="xs:string" />
+      <xs:attribute name="maximumRowCount" type="xs:string" />
+      <xs:attribute name="selectedItem" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="component">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="desktoppane">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="desktopManager" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="dragMode" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="selectedFrame" type="xs:string" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="dialog">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="undecorated" type="xs:boolean" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="focusableWindowState" type="xs:boolean" />
+      <xs:attribute name="locationByPlatform" type="xs:boolean" />
+      <xs:attribute name="defaultCloseOperation" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="defaultLookAndFeelDecorated" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="iconImages" type="xs:string" />
+      <xs:attribute name="layeredPane" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="modalityType" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="resizable" type="xs:boolean" />
+      <xs:attribute name="contentPane" type="xs:string" />
+      <xs:attribute name="JMenuBar" type="xs:string" />
+      <xs:attribute name="modalExclusionType" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="title" type="xs:string" />
+      <xs:attribute name="modal" type="xs:boolean" />
+      <xs:attribute name="alwaysOnTop" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="iconImage" type="xs:string" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="glassPane" type="xs:string" />
+      <xs:attribute name="locationRelativeTo" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="editorpane">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="dropMode" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="keymap" type="xs:string" />
+      <xs:attribute name="editorKit" type="xs:string" />
+      <xs:attribute name="document" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="selectionEnd" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="selectedTextColor" type="xs:string" />
+      <xs:attribute name="caretColor" type="xs:string" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="editable" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="focusAccelerator" type="xs:string" />
+      <xs:attribute name="contentType" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="page" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="selectionColor" type="xs:string" />
+      <xs:attribute name="disabledTextColor" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="caret" type="xs:string" />
+      <xs:attribute name="dragEnabled" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="caretPosition" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="navigationFilter" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="highlighter" type="xs:string" />
+      <xs:attribute name="selectionStart" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="formattedtextfield">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="columns" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="dropMode" type="xs:string" />
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="keymap" type="xs:string" />
+      <xs:attribute name="document" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="selectionEnd" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="selectedTextColor" type="xs:string" />
+      <xs:attribute name="caretColor" type="xs:string" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="actionCommand" type="xs:string" />
+      <xs:attribute name="editable" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="focusLostBehavior" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="formatterFactory" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="focusAccelerator" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="selectionColor" type="xs:string" />
+      <xs:attribute name="disabledTextColor" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="caret" type="xs:string" />
+      <xs:attribute name="dragEnabled" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="horizontalAlignment" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="caretPosition" type="xs:string" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="value" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="navigationFilter" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="scrollOffset" type="xs:string" />
+      <xs:attribute name="highlighter" type="xs:string" />
+      <xs:attribute name="selectionStart" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="frame">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="undecorated" type="xs:boolean" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="focusableWindowState" type="xs:boolean" />
+      <xs:attribute name="locationByPlatform" type="xs:boolean" />
+      <xs:attribute name="defaultCloseOperation" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="defaultLookAndFeelDecorated" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="iconImages" type="xs:string" />
+      <xs:attribute name="layeredPane" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="resizable" type="xs:boolean" />
+      <xs:attribute name="contentPane" type="xs:string" />
+      <xs:attribute name="JMenuBar" type="xs:string" />
+      <xs:attribute name="modalExclusionType" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="title" type="xs:string" />
+      <xs:attribute name="alwaysOnTop" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="menuBar" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="maximizedBounds" type="xs:string" />
+      <xs:attribute name="extendedState" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="iconImage" type="xs:string" />
+      <xs:attribute name="state" type="xs:string" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="glassPane" type="xs:string" />
+      <xs:attribute name="locationRelativeTo" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="glue">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="gridbagconstraints">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="fill" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="gridheight" type="xs:string" />
+      <xs:attribute name="anchor" type="xs:string" />
+      <xs:attribute name="weightx" type="xs:string" />
+      <xs:attribute name="gridwidth" type="xs:string" />
+      <xs:attribute name="weighty" type="xs:string" />
+      <xs:attribute name="insets" type="xs:string" />
+      <xs:attribute name="ipady" type="xs:string" />
+      <xs:attribute name="ipadx" type="xs:string" />
+      <xs:attribute name="gridx" type="xs:string" />
+      <xs:attribute name="gridy" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="hbox">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="gap" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="hgapbox">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="gap" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="internalframe">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="defaultCloseOperation" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="maximum" type="xs:boolean" />
+      <xs:attribute name="desktopIcon" type="xs:string" />
+      <xs:attribute name="layeredPane" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="icon" type="xs:boolean" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="layer" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="frameIcon" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="resizable" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="contentPane" type="xs:string" />
+      <xs:attribute name="JMenuBar" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="title" type="xs:string" />
+      <xs:attribute name="iconifiable" type="xs:boolean" />
+      <xs:attribute name="closed" type="xs:boolean" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="maximizable" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="menuBar" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="normalBounds" type="xs:string" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="selected" type="xs:boolean" />
+      <xs:attribute name="closable" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="glassPane" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="label">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="displayedMnemonic" type="xs:string" />
+      <xs:attribute name="displayedMnemonicIndex" type="xs:string" />
+      <xs:attribute name="disabledIcon" type="xs:string" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="icon" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="iconTextGap" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="horizontalTextPosition" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="labelFor" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="verticalTextPosition" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="horizontalAlignment" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="verticalAlignment" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="list">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="dropMode" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="fixedCellWidth" type="xs:string" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="visibleRowCount" type="xs:string" />
+      <xs:attribute name="valueIsAdjusting" type="xs:boolean" />
+      <xs:attribute name="bindList" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="layoutOrientation" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="selectionModel" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="prototypeCellValue" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="selectedIndex" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="selectedIndices" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="selectionMode" type="xs:string" />
+      <xs:attribute name="cellRenderer" type="xs:string" />
+      <xs:attribute name="dragEnabled" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="fixedCellHeight" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="selectionBackground" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="selectionForeground" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="listData" type="xs:string" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="menu">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="rolloverIcon" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="rolloverSelectedIcon" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="displayedMnemonicIndex" type="xs:string" />
+      <xs:attribute name="disabledIcon" type="xs:string" />
+      <xs:attribute name="focusPainted" type="xs:boolean" />
+      <xs:attribute name="hideActionText" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="rolloverEnabled" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="contentAreaFilled" type="xs:boolean" />
+      <xs:attribute name="actionCommand" type="xs:string" />
+      <xs:attribute name="label" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="mnemonic" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="selectedIcon" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="icon" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="accelerator" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="iconTextGap" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="armed" type="xs:boolean" />
+      <xs:attribute name="horizontalTextPosition" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="delay" type="xs:string" />
+      <xs:attribute name="disabledSelectedIcon" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="verticalTextPosition" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="horizontalAlignment" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="verticalAlignment" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="popupMenuVisible" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="borderPainted" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="selected" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="multiClickThreshhold" type="xs:string" />
+      <xs:attribute name="pressedIcon" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="menubar">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="selectionModel" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="borderPainted" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="selected" type="xs:string" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="helpMenu" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="menuitem">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="rolloverIcon" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="rolloverSelectedIcon" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="displayedMnemonicIndex" type="xs:string" />
+      <xs:attribute name="disabledIcon" type="xs:string" />
+      <xs:attribute name="focusPainted" type="xs:boolean" />
+      <xs:attribute name="hideActionText" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="rolloverEnabled" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="contentAreaFilled" type="xs:boolean" />
+      <xs:attribute name="actionCommand" type="xs:string" />
+      <xs:attribute name="label" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="mnemonic" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="selectedIcon" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="icon" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="accelerator" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="iconTextGap" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="armed" type="xs:boolean" />
+      <xs:attribute name="horizontalTextPosition" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="disabledSelectedIcon" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="verticalTextPosition" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="horizontalAlignment" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="verticalAlignment" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="borderPainted" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="selected" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="multiClickThreshhold" type="xs:string" />
+      <xs:attribute name="pressedIcon" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="optionpane">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="initialValue" type="xs:string" />
+      <xs:attribute name="inputValue" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="selectionValues" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="icon" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="message" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="rootFrame" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="messageType" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="options" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="initialSelectionValue" type="xs:string" />
+      <xs:attribute name="value" type="xs:string" />
+      <xs:attribute name="optionType" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="wantsInput" type="xs:boolean" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="panel">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="passwordfield">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="columns" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="dropMode" type="xs:string" />
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="keymap" type="xs:string" />
+      <xs:attribute name="document" type="xs:string" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="selectionEnd" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="selectedTextColor" type="xs:string" />
+      <xs:attribute name="caretColor" type="xs:string" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="actionCommand" type="xs:string" />
+      <xs:attribute name="editable" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="focusAccelerator" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="echoChar" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="selectionColor" type="xs:string" />
+      <xs:attribute name="disabledTextColor" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="caret" type="xs:string" />
+      <xs:attribute name="dragEnabled" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="horizontalAlignment" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="caretPosition" type="xs:string" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="navigationFilter" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="scrollOffset" type="xs:string" />
+      <xs:attribute name="highlighter" type="xs:string" />
+      <xs:attribute name="selectionStart" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="popupmenu">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="lightWeightPopupEnabled" type="xs:boolean" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="label" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="selectionModel" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="invoker" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="popupSize" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="borderPainted" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="defaultLightWeightPopupEnabled" type="xs:boolean" />
+      <xs:attribute name="selected" type="xs:string" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="progressbar">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="minimum" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="string" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="maximum" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="indeterminate" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="orientation" type="xs:string" />
+      <xs:attribute name="stringPainted" type="xs:boolean" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="value" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="borderPainted" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="radiobutton">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="rolloverIcon" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="rolloverSelectedIcon" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="displayedMnemonicIndex" type="xs:string" />
+      <xs:attribute name="disabledIcon" type="xs:string" />
+      <xs:attribute name="focusPainted" type="xs:boolean" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="hideActionText" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="rolloverEnabled" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="contentAreaFilled" type="xs:boolean" />
+      <xs:attribute name="actionCommand" type="xs:string" />
+      <xs:attribute name="label" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="mnemonic" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="selectedIcon" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="icon" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="iconTextGap" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="horizontalTextPosition" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="disabledSelectedIcon" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="verticalTextPosition" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="horizontalAlignment" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="verticalAlignment" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="borderPainted" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="selected" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="multiClickThreshhold" type="xs:string" />
+      <xs:attribute name="pressedIcon" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="radiobuttonmenuitem">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="rolloverIcon" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="rolloverSelectedIcon" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="displayedMnemonicIndex" type="xs:string" />
+      <xs:attribute name="disabledIcon" type="xs:string" />
+      <xs:attribute name="focusPainted" type="xs:boolean" />
+      <xs:attribute name="hideActionText" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="rolloverEnabled" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="contentAreaFilled" type="xs:boolean" />
+      <xs:attribute name="actionCommand" type="xs:string" />
+      <xs:attribute name="label" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="mnemonic" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="selectedIcon" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="icon" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="accelerator" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="iconTextGap" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="armed" type="xs:boolean" />
+      <xs:attribute name="horizontalTextPosition" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="disabledSelectedIcon" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="verticalTextPosition" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="horizontalAlignment" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="verticalAlignment" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="borderPainted" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="selected" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="multiClickThreshhold" type="xs:string" />
+      <xs:attribute name="pressedIcon" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="script">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="scrollpane">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="horizontalScrollBarPolicy" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="verticalScrollBarPolicy" type="xs:string" />
+      <xs:attribute name="viewportBorder" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="viewport" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="rowHeaderView" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="viewportView" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="verticalScrollBar" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="rowHeader" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="wheelScrollingEnabled" type="xs:boolean" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="horizontalScrollBar" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="columnHeader" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="columnHeaderView" type="xs:string" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="separator">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="orientation" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="slider">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="inverted" type="xs:boolean" />
+      <xs:attribute name="minimum" type="xs:string" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="valueIsAdjusting" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="majorTickSpacing" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="maximum" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="orientation" type="xs:string" />
+      <xs:attribute name="snapToTicks" type="xs:boolean" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="labelTable" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="paintTicks" type="xs:boolean" />
+      <xs:attribute name="minorTickSpacing" type="xs:string" />
+      <xs:attribute name="paintTrack" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="value" type="xs:string" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="paintLabels" type="xs:boolean" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="extent" type="xs:string" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="spinner">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="editor" type="xs:string" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="value" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="spinner.date">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="editor" type="xs:string" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="dateFormat" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="value" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="splitpane">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="resizeWeight" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="leftComponent" type="xs:string" />
+      <xs:attribute name="topComponent" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="bottomComponent" type="xs:string" />
+      <xs:attribute name="continuousLayout" type="xs:boolean" />
+      <xs:attribute name="dividerSize" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="dividerLocation" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="rightComponent" type="xs:string" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="oneTouchExpandable" type="xs:boolean" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="orientation" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="lastDividerLocation" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="tabbedpane">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="disabledIcons" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="titles" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="displayedMnemonics" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="toolTipTexts" type="xs:string" />
+      <xs:attribute name="enabled" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="tabLayoutPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="selectedIndex" type="xs:string" />
+      <xs:attribute name="icons" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="tabPlacement" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="mnemonics" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="selectedComponent" type="xs:string" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="table">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="columnModel" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="dropMode" type="xs:string" />
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="cellSelectionEnabled" type="xs:boolean" />
+      <xs:attribute name="gridColor" type="xs:string" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="intercellSpacing" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="autoCreateRowSorter" type="xs:boolean" />
+      <xs:attribute name="bindList" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="columnSelectionAllowed" type="xs:boolean" />
+      <xs:attribute name="tableHeader" type="xs:string" />
+      <xs:attribute name="allPropertiesBound" type="xs:boolean" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="rowSorter" type="xs:string" />
+      <xs:attribute name="showGrid" type="xs:boolean" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="selectionModel" type="xs:string" />
+      <xs:attribute name="fillsViewportHeight" type="xs:boolean" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="showVerticalLines" type="xs:boolean" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="cellEditor" type="xs:string" />
+      <xs:attribute name="showHorizontalLines" type="xs:boolean" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="editingColumn" type="xs:string" />
+      <xs:attribute name="rowHeight" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="rowMargin" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="preferredScrollableViewportSize" type="xs:string" />
+      <xs:attribute name="dblClickAction" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="autoCreateColumnsFromModel" type="xs:boolean" />
+      <xs:attribute name="selectionMode" type="xs:string" />
+      <xs:attribute name="dragEnabled" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="selectionBackground" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="selectionForeground" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="surrendersFocusOnKeystroke" type="xs:boolean" />
+      <xs:attribute name="autoResizeMode" type="xs:string" />
+      <xs:attribute name="updateSelectionOnSort" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="editingRow" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="rowSelectionAllowed" type="xs:boolean" />
+      <xs:attribute name="bindClass" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="tablecolumn">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="headerRenderer" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="type" type="xs:string" />
+      <xs:attribute name="maxWidth" type="xs:string" />
+      <xs:attribute name="headerValue" type="xs:string" />
+      <xs:attribute name="resizable" type="xs:boolean" />
+      <xs:attribute name="width" type="xs:string" />
+      <xs:attribute name="cellEditor" type="xs:string" />
+      <xs:attribute name="editable" type="xs:boolean" />
+      <xs:attribute name="minWidth" type="xs:string" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="preferredWidth" type="xs:string" />
+      <xs:attribute name="cellRenderer" type="xs:string" />
+      <xs:attribute name="modelIndex" type="xs:string" />
+      <xs:attribute name="identifier" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="tableheader">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="columnModel" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="reorderingAllowed" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="draggedColumn" type="xs:string" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="updateTableInRealTime" type="xs:boolean" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="draggedDistance" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="defaultRenderer" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="table" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="resizingAllowed" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="resizingColumn" type="xs:string" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="textarea">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="columns" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="dropMode" type="xs:string" />
+      <xs:attribute name="lineWrap" type="xs:boolean" />
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="keymap" type="xs:string" />
+      <xs:attribute name="document" type="xs:string" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="selectionEnd" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="selectedTextColor" type="xs:string" />
+      <xs:attribute name="caretColor" type="xs:string" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="editable" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="tabSize" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="focusAccelerator" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="wrapStyleWord" type="xs:boolean" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="selectionColor" type="xs:string" />
+      <xs:attribute name="disabledTextColor" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="caret" type="xs:string" />
+      <xs:attribute name="dragEnabled" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="caretPosition" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="rows" type="xs:string" />
+      <xs:attribute name="navigationFilter" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="highlighter" type="xs:string" />
+      <xs:attribute name="selectionStart" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="textfield">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="columns" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="dropMode" type="xs:string" />
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="keymap" type="xs:string" />
+      <xs:attribute name="document" type="xs:string" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="selectionEnd" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="selectedTextColor" type="xs:string" />
+      <xs:attribute name="caretColor" type="xs:string" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="actionCommand" type="xs:string" />
+      <xs:attribute name="editable" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="focusAccelerator" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="selectionColor" type="xs:string" />
+      <xs:attribute name="disabledTextColor" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="caret" type="xs:string" />
+      <xs:attribute name="dragEnabled" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="horizontalAlignment" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="caretPosition" type="xs:string" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="navigationFilter" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="scrollOffset" type="xs:string" />
+      <xs:attribute name="highlighter" type="xs:string" />
+      <xs:attribute name="selectionStart" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="textpane">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="dropMode" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="keymap" type="xs:string" />
+      <xs:attribute name="editorKit" type="xs:string" />
+      <xs:attribute name="document" type="xs:string" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="selectionEnd" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="selectedTextColor" type="xs:string" />
+      <xs:attribute name="caretColor" type="xs:string" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="editable" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="logicalStyle" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="focusAccelerator" type="xs:string" />
+      <xs:attribute name="contentType" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="page" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="selectionColor" type="xs:string" />
+      <xs:attribute name="disabledTextColor" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="caret" type="xs:string" />
+      <xs:attribute name="dragEnabled" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="caretPosition" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="styledDocument" type="xs:string" />
+      <xs:attribute name="navigationFilter" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="highlighter" type="xs:string" />
+      <xs:attribute name="selectionStart" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="titledseparator">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="alignment" type="xs:string" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="togglebutton">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="rolloverIcon" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="rolloverSelectedIcon" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="displayedMnemonicIndex" type="xs:string" />
+      <xs:attribute name="disabledIcon" type="xs:string" />
+      <xs:attribute name="focusPainted" type="xs:boolean" />
+      <xs:attribute name="hideActionText" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="rolloverEnabled" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="text" type="xs:string" />
+      <xs:attribute name="contentAreaFilled" type="xs:boolean" />
+      <xs:attribute name="actionCommand" type="xs:string" />
+      <xs:attribute name="label" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="mnemonic" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="selectedIcon" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="icon" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="iconTextGap" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="horizontalTextPosition" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="disabledSelectedIcon" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="verticalTextPosition" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="horizontalAlignment" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="verticalAlignment" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="borderPainted" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="selected" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="multiClickThreshhold" type="xs:string" />
+      <xs:attribute name="pressedIcon" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="toolbar">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="rollover" type="xs:boolean" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="margin" type="xs:string" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="orientation" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="floatable" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="borderPainted" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="tree">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="dropMode" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="converter" type="xs:string" />
+      <xs:attribute name="rootVisible" type="xs:boolean" />
+      <xs:attribute name="UI" type="xs:string" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="visibleRowCount" type="xs:string" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="editable" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="selectionModel" type="xs:string" />
+      <xs:attribute name="selectionRow" type="xs:string" />
+      <xs:attribute name="model" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="cellEditor" type="xs:string" />
+      <xs:attribute name="bindWith" type="xs:string" />
+      <xs:attribute name="showsRootHandles" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="leadSelectionPath" type="xs:string" />
+      <xs:attribute name="rowHeight" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="selectionRows" type="xs:string" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="selectionPath" type="xs:string" />
+      <xs:attribute name="largeModel" type="xs:boolean" />
+      <xs:attribute name="anchorSelectionPath" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="openIcon" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="dblClickAction" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="leafIcon" type="xs:string" />
+      <xs:attribute name="invokesStopCellEditing" type="xs:boolean" />
+      <xs:attribute name="cellRenderer" type="xs:string" />
+      <xs:attribute name="scrollsOnExpand" type="xs:boolean" />
+      <xs:attribute name="dragEnabled" type="xs:boolean" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="closedIcon" type="xs:string" />
+      <xs:attribute name="action" type="xs:string" />
+      <xs:attribute name="selectionPaths" type="xs:string" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="expandsSelectedPaths" type="xs:boolean" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+      <xs:attribute name="toggleClickCount" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="vbox">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="gap" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="vgapbox">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:any />
+      </xs:sequence>
+      <xs:attribute name="inputVerifier" type="xs:string" />
+      <xs:attribute name="constraints" type="xs:string" />
+      <xs:attribute name="plaf" type="xs:string" />
+      <xs:attribute name="bundle" type="xs:string" />
+      <xs:attribute name="locale" type="xs:string" />
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="refid" type="xs:string" />
+      <xs:attribute name="use" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include" type="xs:string" />
+      <xs:attribute name="initclass" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>deprecated</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="foreground" type="xs:string" />
+      <xs:attribute name="ignoreRepaint" type="xs:boolean" />
+      <xs:attribute name="focusable" type="xs:boolean" />
+      <xs:attribute name="background" type="xs:string" />
+      <xs:attribute name="visible" type="xs:boolean" />
+      <xs:attribute name="preferredSize" type="xs:string" />
+      <xs:attribute name="focusCycleRoot" type="xs:boolean" />
+      <xs:attribute name="enabled" type="xs:boolean" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="bounds" type="xs:string" />
+      <xs:attribute name="actionMap" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicy" type="xs:string" />
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="componentPopupMenu" type="xs:string" />
+      <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean" />
+      <xs:attribute name="maximumSize" type="xs:string" />
+      <xs:attribute name="nextFocusableComponent" type="xs:string" />
+      <xs:attribute name="cursor" type="xs:string" />
+      <xs:attribute name="alignmentY" type="xs:string" />
+      <xs:attribute name="alignmentX" type="xs:string" />
+      <xs:attribute name="opaque" type="xs:boolean" />
+      <xs:attribute name="doubleBuffered" type="xs:boolean" />
+      <xs:attribute name="border" type="xs:string" />
+      <xs:attribute name="debugGraphicsOptions" type="xs:string" />
+      <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean" />
+      <xs:attribute name="gap" type="xs:string" />
+      <xs:attribute name="transferHandler" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:string" />
+      <xs:attribute name="location" type="xs:string" />
+      <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean" />
+      <xs:attribute name="componentOrientation" type="xs:string" />
+      <xs:attribute name="font" type="xs:string" />
+      <xs:attribute name="toolTipText" type="xs:string" />
+      <xs:attribute name="dropTarget" type="xs:string" />
+      <xs:attribute name="inheritsPopupMenu" type="xs:boolean" />
+      <xs:attribute name="requestFocusEnabled" type="xs:boolean" />
+      <xs:attribute name="layout" type="xs:string" />
+      <xs:attribute name="autoscrolls" type="xs:boolean" />
+      <xs:attribute name="minimumSize" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+

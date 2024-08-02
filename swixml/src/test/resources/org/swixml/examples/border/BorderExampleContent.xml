@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<panel
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
+
+	layout="BorderLayout"
+>
+
+	<tabbedpane constraints="BorderLayout.CENTER">
+	
+		<panel name="XML Source" layout="BorderLayout">
+		
+			<!-- org.fife.ui.rtextarea
+			<RTextScrollPane>
+				<fileTextArea syntaxEditingStyle="text/xml" source="org/swixml/examples/border/BorderDialog.xml"
+					editable="false"/>
+			</RTextScrollPane>
+			-->
+		
+		</panel>
+		
+		<panel name="Application" layout="BorderLayout">
+		
+			<!-- org.fife.ui.rtextarea
+			<RTextScrollPane>
+				<fileTextArea syntaxEditingStyle="text/java" source="org/swixml/examples/border/BorderExample.java"
+					editable="false"/>
+			</RTextScrollPane>
+			-->
+	
+		</panel>
+		
+		<panel name="Dialog" layout="BorderLayout">
+		
+			<!-- org.fife.ui.rtextarea
+			<RTextScrollPane>
+				<fileTextArea syntaxEditingStyle="text/java" source="org/swixml/examples/border/BorderDialog.java"
+					editable="false"/>
+			</RTextScrollPane>
+			-->
+		
+		</panel>
+		
+	</tabbedpane>
+
+</panel>

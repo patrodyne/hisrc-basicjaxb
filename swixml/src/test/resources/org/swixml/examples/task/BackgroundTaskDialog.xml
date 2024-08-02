@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog 
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
+
+    minimumSize="400,240"
+	resizable="true" 
+	title="Network Time [Async Task example] " 
+	undecorated="false" 
+	alwaysOnTop="true"
+	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE" 
+	modal="false"
+>
+
+	<vbox gap="20" >
+	
+		<hbox maximumSize="500,30">
+			<label text="Get time from NIST"/>
+			<textfield id="txtShowTime" editable="false" bindWith="time"/>
+			<button id="btnShowTime" text="Retrieve Time" action="retrieveTime"/>	
+		</hbox>
+		
+		<vbox >
+			<label border="EmptyBorder(1,1,1,1)" bindWith="file" />	
+			<hbox>
+				<progressbar id="progressBar" stringPainted="false" />
+				<button text="Scan User Dir" action="scanDir"/>
+			</hbox> 
+		</vbox>
+	    
+	</vbox>
+
+</dialog>

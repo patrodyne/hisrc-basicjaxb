@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<panel  >
+
+<label>
+<![CDATA[
+<html>
+<body>
+
+<center><h1>WIZARD EXAMPLE</h1></center>
+
+<hr><br><br>
+
+These examples show the the integration with NETBEAN WIZARD API <U>https://wizard.dev.java.net/</U>
+
+<br><br>
+
+The example consists in a simple wizard that allows to generate bean from db  
+
+<br><br>
+
+This wizard is a demo version of wizard provided by Bean Manager <U> http://code.google.com/p/bean-manager/ </U>
+
+<br><br>
+
+<hr><br><br>
+
+The source code of the project could be check out from  <a>https://swixml2.googlecode.com/svn/trunk/examples/wizard<a>
+
+</body>
+</html>
+]]>
+</label>
+
+</panel>

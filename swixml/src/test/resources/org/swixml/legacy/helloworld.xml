@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frame
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
+
+	size="650,400"
+	layout="BorderLayout"
+	title="Hello SWIXML World"
+	defaultCloseOperation="JFrame.EXIT_ON_CLOSE"
+>
+
+	<panel constraints="BorderLayout.CENTER">
+		<label labelFor="tf" font="SansSerif-BOLD-12" foreground="blue" text="Hello World!" />
+		<textfield id="tf" columns="20" text="Swixml" />
+		<button text="Click Here" action="submit" />
+	</panel>
+
+	<panel constraints="BorderLayout.SOUTH">
+		<label font="SansSerif-BOLD-36" text="Clicks:" />
+		<label font="SansSerif-BOLD-36" id="cnt" />
+	</panel>
+
+</frame>

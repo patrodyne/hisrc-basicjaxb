@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog 
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
+
+    minimumSize="400,240"
+	resizable="false" 
+	title="Example ComboBox usage" 
+	undecorated="false" 
+	alwaysOnTop="true"
+	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	modal="false"
+>
+	<vbox gap="20">
+	
+		<hbox gap="5" border="CompoundBorder(TitledBorder(Template List), EmptyBorder(5,5,10,5))" >
+			<label text="Template:" font="Garuda-BOLD-16" />
+			<combobox id="cmbTemplate" bindList="${window.templateList}" action="selectTemplate" bindWith="template" font="SansSerif-BOLD-12" editable="false" />
+			<box.hglue/>
+			<checkbox text="remove On Submit" bindWith="removeOnSubmit" font="Garuda-BOLD-16" />
+		</hbox>
+	
+		<hbox border="CompoundBorder(TitledBorder(Result, EmptyBorder(5,5,10,15))" font="Serif-BOLD-16">	
+			<combobox id="cmbResult" bindList="${window.resultList}" action="selectResult" editable="false" font="SansSerif-BOLD-12"/>
+		</hbox>
+	
+		<hbox border="CompoundBorder(TitledBorder(Result, EmptyBorder(5,5,10,15))" font="Serif-BOLD-16">
+	   		<combobox id="cmbNumber"  bindList="${window.resultList}" editable="true" bindWith="number" font="SansSerif-BOLD-12"/>
+		</hbox>
+	
+		<hbox>
+			<button id="btnOK" text="Submit" action="submit" font="Garuda-BOLD-16"/>
+		</hbox>
+		
+	</vbox>
+</dialog>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<frame
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
+
+	title="Swixml: Custom Tags"
+	size="400,260"
+	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+>
+
+	<!--plaf="org.jvnet.substance.skin.SubstanceRavenLookAndFeel"> -->
+	<panel layout="BorderLayout">
+	
+		<panel border="TitledBorder(JCalendar,0,1,SansSerif-BOLD-18)" background="white" constraints="BorderLayout.NORTH">
+			<label font="SansSerif-BOLD-18" foreground="black">Custom Components in Swixml</label>
+		</panel>
+		
+		<calendar initclass="java.util.Date" />
+		
+	</panel>
+	
+</frame>

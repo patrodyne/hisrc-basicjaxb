@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<frame size="${frameSize}" resizable="true" alwaysOnTop="true" title="Client Attribute Sample" defaultCloseOperation="JFrame.EXIT_ON_CLOSE">
+
+<panel layout="BorderLayout">
+
+<tabbedpane constraints="BorderLayout.CENTER">
+<panel name="commons" layout="FlowLayout(FlowLayout.LEFT)">
+<vbox gap="20">
+
+	<hbox>
+	<checkbox text="connected" bindWith="connected" />
+	<box.hglue/>
+	</hbox>
+	
+	<hbox gap="5">
+	<label text="texField Binding"/>
+	<textfield id="tv" bindWith="testValue" columns="20" ></textfield>
+	<box.hglue/>
+	</hbox>
+
+	<hbox>
+	<combobox  bindList="${comboList}" action="comboAction"/>
+	<box.hglue/>
+	</hbox>
+
+	<hbox>
+	<scrollpane>
+	<list  bindList="${comboList}" action="listAction" cellRenderer="${listRenderer}" />
+	</scrollpane>
+	<box.glue/>	
+	</hbox>
+      
+	<hbox gap="10">        
+	<button id="btn" Text="Show Client Attributes" X="Client" Y="Attribute" action="show"/>
+	
+	<button action="test">Test Button</button>
+
+	<button id="btn1" Text="Show Client Attributes" X="Client" Y="Attribute" action="show"/>
+    </hbox>     
+       
+</vbox>
+</panel>
+
+<panel name="table-tree" layout="BorderLayout">
+<splitpane constraints="BorderLayout.CENTER">
+<scrollpane>
+<tree model="${myTree}" action="selectNode"/>
+</scrollpane>
+
+<scrollpane>
+<table id="testTable" action="selectRow" dblClickAction="activateRow" cellSelectionEnabled="true" bindList="${myData}" bindClass="${myDataClass}" />
+</scrollpane>
+
+</splitpane>
+</panel>
+
+</tabbedpane>        
+
+    <vbox constraints="BorderLayout.SOUTH" background="blue">
+   
+        <scrollpane >
+            <textarea id="ta" rows="3"></textarea>
+        </scrollpane>
+
+        <box.vstrut height="5"/>
+
+        <label id="statusbar" foreground="gray">status</label>
+    
+    </vbox>
+  </panel>
+</frame>

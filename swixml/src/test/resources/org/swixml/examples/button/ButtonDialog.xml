@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<dialog
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
+
+	name="dialog"
+    minimumSize="400,240"
+	resizable="true" 
+	title="Example Button usage" 
+	undecorated="false" 
+	alwaysOnTop="true"
+	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE" 
+	modal="false"
+>
+
+	<panel layout="borderLayout">
+	
+		<vbox constraints="BorderLayout.CENTER">
+		
+			<togglebutton name="tb" id="toggleButton" action="onCLick">Click Me</togglebutton>
+			
+			<box.vstrut height="10"></box.vstrut>
+			
+			<hbox>
+			    <buttongroup >
+			        <radiobutton id="am" text="AM" selected="true"/>
+			        <radiobutton id="fm" text="FM" selected="false"/>
+			    </buttongroup>
+			</hbox>
+			
+			<box.vstrut height="10"></box.vstrut>
+			
+			<!-- 
+			<panel layout="borderLayout">
+				<buttongroup >
+				    <radiobutton id="north" text="north" constraints="BorderLayout.NORTH"/>
+				    <radiobutton id="south" text="south" constraints="BorderLayout.SOUTH"/>
+				    <radiobutton id="center" text="center" constraints="BorderLayout.CENTER"/>
+				    <radiobutton id="west" text="west" constraints="BorderLayout.WEST"/>
+				    <radiobutton id="east" text="east" constraints="BorderLayout.EAST"/>
+				</buttongroup>
+			</panel>
+			-->
+			
+		</vbox>
+		
+		<hbox constraints="BorderLayout.SOUTH">
+			<button action="close">CLOSE</button>
+		</hbox>
+
+	</panel>
+
+</dialog>

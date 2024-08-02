@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frame
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
+
+	name="mainframe"
+	size="650,400"
+	title="JGoodies FormLayout Sample Descriptor"
+	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE">
+
+	<panel id="formPanel1">
+	
+		<layout
+			type="FormLayout"
+			columns="pref, 4dlu, 50dlu, 4dlu, min"
+			rows="pref, 2dlu, pref, 2dlu, pref"
+		/>
+		
+		<label text="Label 1" constraints="1,1" />
+		<label text="Label 2" constraints="1,3" />
+		<label text="Label 3" constraints="1,5" />
+		
+		<textfield id="textField1" constraints="3,1" />
+		<textfield id="textField2" constraints="3,3" />
+		<textfield id="textField3" constraints="3,5" />
+		
+	</panel>
+</frame>

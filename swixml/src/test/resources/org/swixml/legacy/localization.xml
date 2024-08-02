@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frame
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
+
+	name="mainframe"
+	layout="BorderLayout"
+	size="600,400"
+	title="app_Title"
+	iconImage="org/swixml/icons/Duke.svg"
+	bundle="org/swixml/legacy/locale/swix"
+	locale="en"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	defaultCloseOperation="JFrame.EXIT_ON_CLOSE"
+>
+	<menubar name="menubar">
+		<menu name="filemenu" text="mus_File">
+			<menuitem name="mi_new" text="mis_New" icon="org/swixml/icons/new.gif" mnemonic="mn_New" actionCommand="new" accelerator="acc_New" />
+			<menuitem name="mi_open" text="mis_Open" icon="org/swixml/icons/open.gif" mnemonic="mn_Open" actionCommand="open" />
+			<menuitem name="mi_save" text="mis_Save" icon="org/swixml/icons/save.gif" mnemonic="mn_Save" actionCommand="save" />
+			<separator />
+			<menuitem name="mi_options" text="mis_Options" action="actionOptions" />
+			<separator />
+			<menuitem name="mi_exit" text="mis_Exit" icon="org/swixml/icons/exit.gif" mnemonic="mn_Exit" action="actionExit" accelerator="acc_Exit" />
+		</menu>
+		<menu text="mus_Help">
+			<menuitem name="mi_help" text="mis_Help" icon="org/swixml/icons/help.gif" action="actionHelp" accelerator="acc_Help" />
+			<separator />
+			<menuitem name="mi_about" text="mis_About" icon="org/swixml/icons/about.gif" action="actionAbout" accelerator="acc_About" />
+		</menu>
+	</menubar>
+
+	<panel layout="borderlayout" constraints="BorderLayout.NORTH">
+		<toolbar floatable="true" borderPainted="true" orientation="HORIZONTAL">
+			<button name="btn_panel" toolTipText="tt_Panel" icon="org/swixml/icons/panel.gif" actionCommand="widget_panel" />
+			<button name="btn_button" toolTipText="tt_Button" icon="org/swixml/icons/button.gif" actionCommand="widget_button" />
+			<separator />
+			<button name="btn_label" toolTipText="tt_Label" icon="org/swixml/icons/label.gif" actionCommand="widget_label" />
+		</toolbar>
+	</panel>
+
+	<panel layout="borderlayout" background="666666" constraints="BorderLayout.CENTER">
+		<splitpane oneTouchExpandable="true" dividerLocation="200">
+			<splitpane oneTouchExpandable="true" dividerLocation="140" orientation="HORIZONTAL">
+				<scrollpane>
+					<tree name="tree" />
+				</scrollpane>
+				<panel layout="borderlayout">
+					<panel constraints="BorderLayout.NORTH">
+						<button name="btn_copy" toolTipText="tt_Copy" borderPainted="false" focusPainted="false" icon="org/swixml/icons/copy.gif" size="24,24" />
+						<button name="btn_paste" toolTipText="tt_Paste" borderPainted="false" focusPainted="false" icon="org/swixml/icons/paste.gif" size="24,24" />
+						<button name="btn_cut" toolTipText="tt_Cut" icon="org/swixml/icons/cut.gif" borderPainted="false" focusPainted="false" size="24,24" />
+					</panel>
+					<scrollpane constraints="BorderLayout.CENTER">
+						<table name="table" />
+					</scrollpane>
+				</panel>
+			</splitpane>
+			<panel name="preview" border="LoweredBevelBorder">
+				<textarea name="ta" />
+			</panel>
+		</splitpane>
+	</panel>
+
+	<panel constraints="BorderLayout.SOUTH">
+		<label text="Status:" />
+		<textfield text="OK" />
+	</panel>
+</frame>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.patrodyne.jvnet</groupId>
+		<artifactId>hisrc-basicjaxb-project</artifactId>
+		<version>2.2.2-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>hisrc-basicjaxb-swixml</artifactId>
+	<packaging>jar</packaging>
+	<name>HiSrc BasicJAXB - SWIXML</name>
+
+	<properties>
+		<root.basedir>${basedir}/..</root.basedir>
+	</properties>
+
+	<dependencies>
+		<!-- Jakarata Expression Language -->
+		<!--
+		<dependency>
+			<groupId>jakarta.el</groupId>
+			<artifactId>jakarta.el-api</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		-->
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>jakarta.el</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+
+		<!-- BeanBinding: JSR 295 -->
+		<!--
+		<dependency>
+			<groupId>org.jdesktop</groupId>
+			<artifactId>beansbinding</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+		-->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency> 
+
+		<!-- JavaScript Engine -->
+		<!--
+		<dependency>
+			<groupId>org.graalvm.js</groupId>
+			<artifactId>js-scriptengine</artifactId>
+			<version>19.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.graalvm.js</groupId>
+			<artifactId>js</artifactId>
+			<version>19.3.0</version>
+			<scope>runtime</scope>
+		</dependency>
+		-->
+		<!--
+		<dependency>
+			<groupId>org.graalvm.sdk</groupId>
+			<artifactId>graal-sdk</artifactId>
+			<version>24.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.graalvm.truffle</groupId>
+			<artifactId>truffle-api</artifactId>
+			<version>24.0.1</version>
+		</dependency>
+		-->
+
+		<!-- SLF4J Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Testing-->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fifesoft</groupId>
+			<artifactId>rsyntaxtextarea</artifactId>
+			<version>2.5.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.toedter</groupId>
+			<artifactId>jcalendar</artifactId>
+			<version>1.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jgoodies</groupId>
+			<artifactId>forms</artifactId>
+			<version>1.1.0</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+	</build>
+</project>

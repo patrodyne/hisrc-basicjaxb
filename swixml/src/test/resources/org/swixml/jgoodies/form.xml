@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frame
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
+
+	name="frame"
+	size="400,200"
+	title="JGoodies FormLayout Sample"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+>
+
+	<panel border="EmptyBorder(10,10,10,10)">
+	
+		<layout
+			type="FormLayout"
+			columns="right:max(40dlu;pref), 3dlu, d:grow, 7dlu, right:pref, 3dlu, d:grow"
+			rows="p, 3dlu, p, 3dlu, p, 9dlu, p, 3dlu, p, 3dlu, p"
+			columnGroups="1,5; 3,7"
+		/>
+
+		<titledseparator constraints="1,1,7,1" text="General" />
+		<label constraints="1,3" text="Company" />
+		<textfield constraints="3,3,5,1" />
+		<label constraints="1,5" text="Contact" />
+		<textfield constraints="3,5,5,1" />
+
+		<titledseparator constraints="1,7,7,1" text="Propeller" />
+		<label constraints="1,9" text="PTI [kW]" />
+		<textfield constraints="3,9" />
+		<label constraints="5,9" text="Power [kW]" />
+		<textfield constraints="7,9" />
+		<label constraints="1,11" text="R [mm]" />
+		<textfield constraints="3,11" />
+		<label constraints="5,11" text="D [mm]" />
+		<textfield constraints="7,11" />
+		
+	</panel>
+</frame>

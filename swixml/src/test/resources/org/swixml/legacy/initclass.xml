@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frame
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
+
+	size="520,320"
+	layout="BorderLayout"
+	title="InitClass Attribute Sample"
+	defaultCloseOperation="JFrame.EXIT_ON_CLOSE"
+>
+
+	<panel constraints="BorderLayout.CENTER" border="EtchedBorder">
+	
+		<label font="SansSerif-BOLD-12" foreground="blue">
+			ComboBox
+		</label>
+		
+		<combobox
+			initclass="org.swixml.legacy.InitClass$ComboModel"
+			action="DO_SELECT"
+			prototypeDisplayValue="1234567890|1234567890"
+		/>
+		
+	</panel>
+	
+	<panel constraints="BorderLayout.SOUTH">
+		<button>OK</button>
+		<button text="Cancel" />
+	</panel>
+
+</frame>

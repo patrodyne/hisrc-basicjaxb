@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog 
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
+
+	minimumSize="500,500"
+	preferredSize="500,500"
+	resizable="false" title="Spinner Dialog"
+	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
+>
+
+	<vbox>
+	
+	    <panel layout="GridLayout(3,2,1,10)" border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Spinners))">
+	
+	        <label text="Spinner Date : " />
+	        <spinner.date id="spinnerDate" bindWith="dateValue" model="${window.spinnerDateModel}" dateFormat="dd/MM/yyyy hh:mm" />
+	
+	        <label text="Spinner (default)" />
+	        <spinner bindWith="numberValue"  />
+	
+	        <label text="Spinner list " />
+	        <spinner id="spinnerList" bindWith="stringValue" model="${window.spinnerListModel}" />
+	
+	    </panel>
+	
+	   	<box.vstrut height="10"/>
+	
+	    <hbox>
+	    	<button text="Test" action="test"/>
+	    	<box.glue/>
+	    	<button text="Submit" action="submit"/>
+	    	<box.hstrut width="5"/>
+	    	<button text="Close" action="close"/>
+	    </hbox>
+	    
+	</vbox>
+
+</dialog>
