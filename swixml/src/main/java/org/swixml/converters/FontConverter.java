@@ -36,9 +36,9 @@ public class FontConverter extends AbstractConverter<Font>
 	 * 
 	 * <p>In which <i>style</i> is one of the three case-insensitive strings:
 	 * <code>"BOLD"</code>, <code>"BOLDITALIC"</code>, or <code>"ITALIC"</code>,
-	 * and pointsize is a decimal representation of the point size. For example,
-	 * if you want a font that is Serif, bold, and a point size of 18, you would
-	 * call this method with: "Serif-BOLD-18".</p>
+	 * and <code>pointsize</code> is a decimal representation of the point size.
+	 * For example, if you want a font that is Serif, bold, and a point size of
+	 * 18, you would call this method with: "Serif-BOLD-18".</p>
 	 * 
 	 * <p>The default size is 12 and the default style is PLAIN. If you don't
 	 * specify a valid size, the returned <code>Font</code> has a size of 12. If

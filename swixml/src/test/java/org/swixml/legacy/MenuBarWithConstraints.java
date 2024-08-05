@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import org.swixml.SwingEngine;
 
 // $Id: MenuBarWithConstraints.java,v 1.1 2005/08/22 21:20:01 tichy Exp $
+
 /**
  * Sample program to show a menubar with constraints attribute in it.
  * 

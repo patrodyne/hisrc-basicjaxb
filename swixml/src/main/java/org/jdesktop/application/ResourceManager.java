@@ -119,7 +119,7 @@ public class ResourceManager extends AbstractBean
 	}
 
 	/*
-	 * Creates a parent chain of ResourceMaps for the specfied ResourceBundle
+	 * Creates a parent chain of ResourceMaps for the specified ResourceBundle
 	 * names. One ResourceMap is created for each subsequence of ResourceBundle
 	 * names with a common bundle package name, i.e. with a common resourcesDir.
 	 * The parent of the final ResourceMap in the chain is root.

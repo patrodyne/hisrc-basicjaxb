@@ -13,6 +13,8 @@ import org.swixml.jsr295.BindingUtils;
 public class JCheckBoxEx extends JCheckBox implements BindableBasicWidget
 {
 	private static final long serialVersionUID = 20240701L;
+	
+	@Override
 	public String getBindWith()
 	{
 		return (String) getClientProperty(BINDWITH_PROPERTY);

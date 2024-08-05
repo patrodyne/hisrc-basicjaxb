@@ -813,7 +813,7 @@ public class SessionStorage
 		 * Throws an {@code IllegalArgumentException} if {@code Component c}
 		 * isn't a non-null {@code JTabbedPane}.
 		 * 
-		 * @param c the {@code JTabbedPane} whose selectedIndex will recoreded
+		 * @param c the {@code JTabbedPane} whose selectedIndex will record
 		 *            in a {@code TabbedPaneState} object.
 		 * @return the {@code TabbedPaneState} object
 		 * @see #setSessionState

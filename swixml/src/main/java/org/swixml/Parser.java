@@ -179,7 +179,7 @@ public class Parser implements LogAware
 	public static final String ATTR_MACOS_PRINT = ATTR_MACOS_PREFIX + "print";
 	
 	/**
-	 * Attribute name that flags an Action as the default Re-Open Applicaiton
+	 * Attribute name that flags an Action as the default Re-Open Application
 	 * handler on a Mac
 	 */
 	public static final String ATTR_MACOS_REOPEN = ATTR_MACOS_PREFIX + "reopen";
@@ -235,13 +235,13 @@ public class Parser implements LogAware
 	private Map<String, Action> mac_map = new HashMap<String, Action>();
 	
 	/**
-	 * docoument, to be parsed
+	 * Document, to be parsed
 	 */
 	private Document jdoc;
 	
 	/**
 	 * Static Initializer adds Attribute Names into the LOCALIZED_ATTRIBUTES
-	 * Vector Needs to be inserted all lowercase.
+	 * Vector Needs to be inserted all lower case.
 	 */
 	static
 	{
@@ -302,14 +302,14 @@ public class Parser implements LogAware
 	}
 
 	/**
-	 * Looks for custom attributes to be proccessed.
+	 * Looks for custom attributes to be processed.
 	 *
 	 * @param element <code>Element</code> custom attr. tag are looked for in
 	 *            this jdoc element
 	 * @return <code>Element</code> - passed in (and maybe modified) element
 	 *         <br />
 	 *         <b>Note:</b> <br />
-	 *         Successfully proccessed custom attributes will be removed from
+	 *         Successfully processed custom attributes will be removed from
 	 *         the jdoc element.
 	 * @throws Exception if parsing fails
 	 */
@@ -392,7 +392,7 @@ public class Parser implements LogAware
 	 * @param obj <code>Object</code> if not null, only this elements children
 	 *            will be processed, not the element itself
 	 * @return <code>java.awt.Container</code> representing the GUI
-	 *         impementation of the XML tag.
+	 *         implementation of the XML tag.
 	 * @throws Exception - if parsing fails
 	 */
 	public Object getSwing(Element element, Object obj)
@@ -402,8 +402,9 @@ public class Parser implements LogAware
 		factory.setSwingEngine(getSwingEngine());
 		
 		// look for <id> attribute value
-		final String id = element.getAttributeNode(Parser.ATTR_ID) != null	? element.getAttribute(Parser.ATTR_ID).trim()
-																			: null;
+		final String id = element.getAttributeNode(Parser.ATTR_ID) != null
+			? element.getAttribute(Parser.ATTR_ID).trim()
+			: null;
 		// either there is no id or the id is not user so far
 		boolean unique = !getSwingEngine().getIdMap().containsKey(id);
 		boolean constructed = false;
@@ -447,6 +448,7 @@ public class Parser implements LogAware
 			cloneAttributes(element);
 			element.removeAttribute(Parser.ATTR_USE);
 		}
+		
 		//
 		// let the factory instantiate a new object
 		//
@@ -466,7 +468,8 @@ public class Parser implements LogAware
 						// load update type
 						Class<?> initClass = Class.forName(st.nextToken()); 
 						try
-						{ // look for a getInstance() methode
+						{ 
+							// look for a getInstance() method
 							Method factoryMethod = initClass.getMethod(Parser.GETINSTANCE);
 							if ( Modifier.isStatic(factoryMethod.getModifiers()) )
 							{
@@ -565,10 +568,19 @@ public class Parser implements LogAware
 					throw new Exception(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
 				}
 			}
-			obj = initParameter != null ? factory.newInstance(getSwingEngine(), initParameter)
-										: factory.create(getSwingEngine(), element);
+			
+			// If initParameter is not null,
+			// then initialize a new object whose type is determined
+			// by the factory's backing class template; otherwise, 
+			// create a new instance of a template class.
+			if ( initParameter != null )
+				obj = factory.newInstance(getSwingEngine(), initParameter);
+			else
+				obj = factory.create(getSwingEngine(), element);
+			
 			constructed = true;
 		}
+		
 		//
 		// put newly created object in the map if it has an <id> attribute
 		// (uniqueness is given att this point)
@@ -728,37 +740,27 @@ public class Parser implements LogAware
 	/**
 	 * Creates an object and sets properties based on the XML tag's attributes
 	 *
+	 * <ol>
+	 *   <li><p>For every attribute, <code>createContainer()</code> first tries to find a setter in the given factory.</p>
+	 *       <p>If a setter can be found and the converter exists to convert the parameter string into a type that fits the setter method, then the setter gets invoked.</p></li>
+	 *   <li>Otherwise, <code>createContainer()</code> looks for a public field with a matching name.</li>
+	 * </ol>
+	 * 
+	 * <p><b>Example:</b></p>
+	 * <ol>
+	 * <li>Try to create a parameter obj using the ParameterFactory: <p><code>background="FFC9AA" = container.setBackground ( new Color(attr.value) )</code></p></li>
+	 * <li>Try to find a simple setter taking a primitive or String: <p><code>width="25" container.setWidth( new Integer( attr.  getIntValue() ) )</code></p></li>
+	 * <li>Try to find a public field: <code>container.BOTTOM_ALIGNMENT</code></li>
+	 * </ol>
+	 * 
 	 * @param obj <code>Object</code> object representing a tag found in the
 	 *            SWIXML descriptor document
 	 * @param factory <code>Factory</code> factory to instantiate a new object
 	 * @param attributes <code>List</code> attribute list
+	 * 
 	 * @return <code>List</code> - list of attributes that could not be applied.
+	 * 
 	 * @throws Exception
-	 *             <p/>
-	 *             <ol>
-	 *             <li>For every attribute, createContainer() 1st tries to find
-	 *             a setter in the given factory.<br>
-	 *             if a setter can be found and converter exists to convert the
-	 *             parameter string into a type that fits the setter method, the
-	 *             setter gets invoked.</li>
-	 *             <li>Otherwise, createContainer() looks for a public field
-	 *             with a matching name.</li>
-	 *             </ol>
-	 *             </p>
-	 *             <p>
-	 *             <b>Example:</b><br>
-	 *             <br>
-	 *             1.) try to create a parameter obj using the ParameterFactory:
-	 *             i.e. <br>
-	 *             background="FFC9AA" = container.setBackground ( new
-	 *             Color(attr.value) ) <br>
-	 *             2.) try to find a simple setter taking a primitive or String:
-	 *             i.e. <br>
-	 *             width="25" container.setWidth( new Interger( attr.
-	 *             getIntValue() ) ) <br>
-	 *             3.) try to find a public field, <br>
-	 *             container.BOTTOM_ALIGNMENT
-	 *             </p>
 	 */
 	@SuppressWarnings("unchecked")
 	private List<Attribute> applyAttributes(Object obj, Factory factory, List<Attribute> attributes)
@@ -769,12 +771,16 @@ public class Parser implements LogAware
 		// otherwise the action would override already applied attributes like
 		// text etc.
 		//
-		/*
-		 * for ( int i = 0; i < attributes.size(); i++) { Attribute attr =
-		 * (Attribute) attributes.get(i); if
-		 * (Parser.ATTR_ACTION.equalsIgnoreCase(attr.getLocalName())) {
-		 * attributes.remove(i); attributes.add(0, attr); break; } }
-		 */
+//		for ( int i = 0; i < attributes.size(); i++ )
+//		{
+//			Attribute attr = (Attribute) attributes.get(i);
+//			if ( Parser.ATTR_ACTION.equalsIgnoreCase(attr.getLocalName()) )
+//			{
+//				attributes.remove(i);
+//				attributes.add(0, attr);
+//				break;
+//			}
+//		}
 		
 		//
 		// pass 2: process the attributes
@@ -815,8 +821,10 @@ public class Parser implements LogAware
 				lbl_map.put((JLabel) obj, attr.getValue());
 				continue;
 			}
+			
 			// Method method = null;
 			Object para = null;
+			
 			/////////////////////////
 			if ( isVariable(attr) )
 			{
@@ -831,6 +839,7 @@ public class Parser implements LogAware
 						logger.warn("property " + attr.getValue() + " is not readable!");
 						continue;
 					}
+					
 					para = elp.getValue(owner);
 					if ( null != para )
 					{
@@ -841,15 +850,12 @@ public class Parser implements LogAware
 							bp.setValue(obj, para);
 						}
 						else
-						{
 							logger.warn("property " + attr.getLocalName() + " is not writable!");
-						}
+						
 						continue;
 					}
 					else
-					{
 						logger.warn("value of " + attr.getLocalName() + "=" + attr.getValue() + " is null! ignored!");
-					}
 				}
 				catch (PropertyResolutionException ex)
 				{
@@ -874,13 +880,11 @@ public class Parser implements LogAware
 					try
 					{
 						if ( null == para )
-						{
 							para = converter.convert(paraType, attr, getSwingEngine());
-						}
+						
 						if ( para instanceof Action )
-						{
 							action = (Action) para;
-						}
+						
 						// ATTR SET
 						factory.setProperty(obj, attr, para, paraType); 
 					}
@@ -900,8 +904,7 @@ public class Parser implements LogAware
 						if ( cause != null )
 						{
 							if ( logger.isDebugEnabled() )
-								logger.warn("exception during invocation of "	+ attr.getLocalName() + ": "
-												+ cause.getMessage());
+								logger.warn("exception during invocation of " + attr.getLocalName() + ": " + cause.getMessage());
 							else
 								logger.warn("exception during invocation of " + attr.getLocalName(),
 									cause);
@@ -930,9 +933,7 @@ public class Parser implements LogAware
 							}
 						}
 						else
-						{
 							notAppliedAttrList.add(attr);
-						}
 					}
 					catch (Exception e)
 					{
@@ -940,6 +941,7 @@ public class Parser implements LogAware
 					}
 					continue;
 				}
+				
 				//
 				// try this: call the setter with an Object.class Type
 				//
@@ -949,9 +951,8 @@ public class Parser implements LogAware
 					{
 						String s = attr.getValue();
 						if ( Parser.LOCALIZED_ATTRIBUTES.contains(attr.getLocalName().toLowerCase()) )
-						{
 							s = getSwingEngine().getLocalizer().getString(s);
-						}
+						
 						// ATTR SET
 						factory.setProperty(obj, attr, s, paraType);
 					}
@@ -961,6 +962,7 @@ public class Parser implements LogAware
 					}
 					continue;
 				}
+				
 				//
 				// try this: call the setter with a primitive
 				//
@@ -977,6 +979,7 @@ public class Parser implements LogAware
 					}
 					continue;
 				}
+				
 				//
 				// try again later
 				//
@@ -1009,14 +1012,10 @@ public class Parser implements LogAware
 							field.set(obj, fieldValue); // ATTR SET
 						}
 						else
-						{
 							notAppliedAttrList.add(attr);
-						}
 					}
 					else
-					{
 						notAppliedAttrList.add(attr);
-					}
 				}
 				catch (Exception e)
 				{
@@ -1024,10 +1023,10 @@ public class Parser implements LogAware
 				}
 			}
 		} // end_while
+		
 		if ( attr_id != null && attr_name == null )
-		{
 			notAppliedAttrList.add(new Attribute("name", attr_id.getValue()));
-		}
+		
 		return notAppliedAttrList;
 	}
 
@@ -1078,7 +1077,7 @@ public class Parser implements LogAware
 	 *
 	 * @param parent <code>Component</code>
 	 * @param component <code>Component</code> child to be added to the parent
-	 * @param constrains <code>Object</code> contraints
+	 * @param constrains <code>Object</code> constraints
 	 * @return <code>Component</code> - the passed in component
 	 */
 	public Component addChild(Container parent, Component component, Object constrains)
@@ -1207,7 +1206,7 @@ public class Parser implements LogAware
 		else if ( parent instanceof Container )
 		{
 			//
-			// add compontent into container
+			// add component into container
 			//
 			if ( constrains == null )
 			{
@@ -1222,7 +1221,7 @@ public class Parser implements LogAware
 	}
 
 	/**
-	 * Moves the content from the source into the traget <code>Element</code>
+	 * Moves the content from the source into the target <code>Element</code>
 	 *
 	 * @param source <code>Element</code> Content provider
 	 * @param target <code>Element</code> Content receiver

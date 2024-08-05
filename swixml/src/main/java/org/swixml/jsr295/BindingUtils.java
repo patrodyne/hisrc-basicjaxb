@@ -339,7 +339,7 @@ public class BindingUtils
 	 * @param beanList
 	 */
 	public static <E> JTableBinding<E,List<E>,JTable> initTableBindingFromTableColumns(
-		BindingGroup group,	UpdateStrategy startegy, JTable table, List<E> beanList)
+		BindingGroup group,	UpdateStrategy strategy, JTable table, List<E> beanList)
 	{
 		if ( null == table )
 			throw new IllegalArgumentException("table argument is null!");
@@ -361,7 +361,7 @@ public class BindingUtils
 		if ( null == tableColumns )
 			throw new IllegalStateException("columnModel hasn't not tableColumns!");
 		
-		JTableBinding<E,List<E>,JTable> binding = createJTableBinding(startegy, beanList, table);
+		JTableBinding<E,List<E>,JTable> binding = createJTableBinding(strategy, beanList, table);
 		
 		while (tableColumns.hasMoreElements())
 		{
@@ -441,7 +441,7 @@ public class BindingUtils
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> JTableBinding<E,List<E>,JTable> initTableBindingFromBeanInfo(
-		BindingGroup group,	UpdateStrategy startegy, JTable table, List<?> beanList,
+		BindingGroup group,	UpdateStrategy strategy, JTable table, List<?> beanList,
 		Class<E> beanClass,	boolean isAllPropertiesBound)
 	{
 		if ( null == table )
@@ -462,7 +462,7 @@ public class BindingUtils
 		PropertyDescriptor[] pp = getPropertyDescriptors(beanClass);
 		
 		JTableBinding<?, ?, JTable> binding =
-			createJTableBinding(startegy, beanList, table);
+			createJTableBinding(strategy, beanList, table);
 		
 		if ( null == pp )
 		{

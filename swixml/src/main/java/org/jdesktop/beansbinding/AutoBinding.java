@@ -46,7 +46,7 @@ package org.jdesktop.beansbinding;
  *   by calling {@code refresh}. If the call succeeds, notifies the binding listeners of a
  *   successful sync. If the call returns failure, then tries to instead sync the
  *   source from the target by calling {@code save}. If this second call succeeds,
- *   notifies the binding listeners of a succesful sync. If it returns failure,
+ *   notifies the binding listeners of a successful sync. If it returns failure,
  *   notifies the binding listeners of a failed sync, indicating the reason for
  *   the original refresh failure.</p>
  *   <p>Automatically responds to changes in the state of the source as follows: If

@@ -23,7 +23,7 @@ public class HelloWorld extends JFrame
 	 */
 	public JTextField tf;
 	
-	/** Jlabel to display number of button clicks */
+	/** JLabel to display number of button clicks */
 	public JLabel cnt;
 	
 	/** Action appends a '#' to the textfields content. */

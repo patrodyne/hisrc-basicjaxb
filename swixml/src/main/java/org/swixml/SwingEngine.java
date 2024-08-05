@@ -183,7 +183,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	//
 
 	/**
-	 * Classload to load resources
+	 * Classloader to load resources
 	 */
 	private final TagLibrary taglib = SwingTagLibrary.getInstance(this);
 	
@@ -365,7 +365,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	/**
 	 * Gets the parsing of the XML file started.
 	 *
-	 * @param jdoc <code>Document</code> xml gui descritptor
+	 * @param jdoc <code>Document</code> xml gui descriptor
 	 * @return <code>Object</code>- instanced swing object tree root
 	 */
 	@SuppressWarnings({ "unchecked" })
@@ -591,7 +591,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	/**
 	 * Returns an Iterator for all parsed GUI components.
 	 *
-	 * @return <code>Iterator</code> GUI components itearator
+	 * @return <code>Iterator</code> GUI components iterator
 	 */
 	public Iterator<Component> getAllComponentItertor()
 	{
@@ -603,7 +603,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	/**
 	 * Returns an Iterator for id-ed parsed GUI components.
 	 *
-	 * @return <code>Iterator</code> GUI components itearator
+	 * @return <code>Iterator</code> GUI components iterator
 	 */
 	public Iterator<?> getIdComponentItertor()
 	{
@@ -624,9 +624,9 @@ public class SwingEngine<T extends Container> implements LogAware
 	 * Removes all un-displayable components from the id map and deletes the
 	 * components collection (for recreation at the next request).
 	 * 
-	 * <p>A component is made undisplayable either when it is removed from a
+	 * <p>A component is made un-displayable either when it is removed from a
 	 * displayable containment hierarchy or when its containment hierarchy is
-	 * made undisplayable. A containment hierarchy is made undisplayable when
+	 * made un-displayable. A containment hierarchy is made un-displayable when
 	 * its ancestor window is disposed.</p>
 	 *
 	 * @return <code>int</code> number of removed components.

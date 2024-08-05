@@ -4,33 +4,56 @@ import javax.swing.JFrame;
 
 import org.swixml.jsr296.SwingApplication;
 
+import jakarta.el.ELException;
 
-public class BindingExamplesApplication extends SwingApplication<BindingExamplesFrame> {
-
-	public static void main(String args []) {
-		SwingApplication.launch(BindingExamplesApplication.class, args);
-	}
-	
+public class BindingExamplesApplication
+	extends SwingApplication<BindingExamplesFrame>
+{
+	private static final BindingExamplesFrame WINDOW = new BindingExamplesFrame();
 	
 	@Override
-	protected void startup() {
+	protected void initialize(String[] args)
+	{
+		// initializations that must occur before the GUI 
+		// is constructed by {@code startup}.
+		try
+		{
+			// Create the SwingEngine, ElContext, etc.
+			setSwingEngine(createEngine(WINDOW));
 
-		try {
-/*			
-			JDialog dialog = render( new LoginDialog(), "org/swixml/examples/SimpleDialog.xml"); 
-			
-			show( dialog );
-*/
-			JFrame frame = render( new BindingExamplesFrame(), "org/swixml/examples/BindingExamples.xml" );
+			// Process other initial conditions.
+			// getELProcessor().setVariable("var", "expression");
+			// getELProcessor().setValue("expression", value);
+			// getELProcessor().defineBean("name", bean);
+			// getELProcessor().defineFunction("prefix", "function", method);
+			// getELProcessor().defineFunction("prefix", "function", "className", "method");
 
-			show( frame );
-			
-		} catch (Exception e) {
-
+			 getELProcessor().defineBean("window", WINDOW);
+		}
+		catch ( SecurityException ex)
+		{
+			throw new ELException("Cannot initialize EL context.", ex);
+		}
+	}
+	
+	@Override
+	protected void startup()
+	{
+		try
+		{
+			JFrame frame = render(WINDOW);
+			frame.setLocationRelativeTo(null);
+			show(frame);
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			exit();
 		}
-		
 	}
-
+	
+	public static void main(String args[])
+	{
+		SwingApplication.launch(BindingExamplesApplication.class, args);
+	}
 }

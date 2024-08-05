@@ -62,7 +62,7 @@ import javax.swing.border.EmptyBorder;
  * defined by the ResourceBundles named when the ResourceMap was created as well
  * as all of its parent ResourceMaps. Resources are retrieved with the
  * <code>getObject</code> method which requires both the name of the resource and
- * its expected type. The latter is used to convert strings if neccessary.
+ * its expected type. The latter is used to convert strings if necessary.
  * Converted values are cached. As a convenience, <code>getObject</code> wrapper
  * methods for common GUI types, like <code>getFont</code>, and <code>getColor</code>,
  * are provided.
@@ -113,9 +113,9 @@ public class ResourceMap
 	 * just one ResourceBundle is specified however one might name additional
 	 * ResourceBundles that contain platform or Swing look and feel specific
 	 * resources. When multiple bundles are named, a resource defined in
-	 * bundle<sub>n</sub> will overide the same resource defined in
+	 * bundle<sub>n</sub> will override the same resource defined in
 	 * bundles<sub>0..n-1</sub>. In other words bundles named later in the
-	 * argument list take precendence over the bundles named earlier.
+	 * argument list take precedence over the bundles named earlier.
 	 * <p>
 	 * ResourceBundles are loaded with the specified ClassLoader. If
 	 * <code>classLoader</code> is null, an IllegalArgumentException is thrown.
@@ -1613,7 +1613,7 @@ public class ResourceMap
 
 		/*
 		 * Just delegates to Font.decode. Typical string is: face-STYLE-size,
-		 * for example "Arial-PLAIN-12"
+		 * for example "SansSerif-PLAIN-12"
 		 */
 		@Override
 		public Object parseString(String s, ResourceMap ignore)

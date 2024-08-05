@@ -11,7 +11,7 @@ import org.swixml.dom.Attribute;
  * A Converter that turns a Strings in the form of a filename into an KeyStroke
  * objects.
  * 
- *   <p><b>Valild syntax includes:</b></p>
+ *   <p><b>Valid syntax includes:</b></p>
  *   <ul>
  *     <li>accelerator="F7"</li>
  *     <li>accelerator="control N"</li>

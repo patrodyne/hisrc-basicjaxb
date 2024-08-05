@@ -165,7 +165,7 @@ public class PropertyStateEvent extends EventObject
 
 	/**
 	 * Returns whether or not the {@code Property's} readability has changed for
-	 * the source object. In particuler, this returns {@code true} if the value
+	 * the source object. In particular, this returns {@code true} if the value
 	 * has changed and either the old value or new value is {@code UNREADABLE},
 	 * and {@code false} otherwise.
 	 *

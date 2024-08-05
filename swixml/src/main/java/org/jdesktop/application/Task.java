@@ -265,7 +265,7 @@ public abstract class Task<T, V> extends SwingWorker<T, V>
 	 * ResourceMap is the value of <code>
 	 * ApplicationContext.getInstance().getResourceMap(this.getClass(), Task.class)
 	 * </code>. The {@code resourcePrefix} is used to construct the resource
-	 * names for the intial values of the {@code title}, {@code description},
+	 * names for the initial values of the {@code title}, {@code description},
 	 * and {@code message} Task properties and for message
 	 * {@link java.util.Formatter format} strings.
 	 * 
@@ -548,7 +548,7 @@ public abstract class Task<T, V> extends SwingWorker<T, V>
 	 * be ephemeral, application GUI elements like status bars may want to clear
 	 * messages after 20 or 30 seconds have elapsed.
 	 * <p>
-	 * Localized messages that require paramters can be constructed with the
+	 * Localized messages that require parameters can be constructed with the
 	 * {@link #message message} method.
 	 * 
 	 * @param message a short one-line status message.

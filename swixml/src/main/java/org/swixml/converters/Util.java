@@ -71,7 +71,7 @@ public final class Util
 			}
 			catch (NumberFormatException e)
 			{
-				// no exceptiion handling required
+				// no exception handling required
 			}
 		}
 		int[] b = new int[i];
@@ -100,7 +100,7 @@ public final class Util
 			}
 			catch (NumberFormatException e)
 			{
-				// no exceptiion handling required
+				// no exception handling required
 			}
 		}
 		double[] b = new double[i];
@@ -141,7 +141,7 @@ public final class Util
 		}
 		catch (NumberFormatException e)
 		{
-			// no exceptiion handling required
+			// no exception handling required
 			return def;
 		}
 	}

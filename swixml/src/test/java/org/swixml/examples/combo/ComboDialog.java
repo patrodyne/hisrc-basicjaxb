@@ -143,17 +143,17 @@ public class ComboDialog extends JDialog
 					logEvent("changedUpdate", de);
 				}
 				
-				private void logEvent(String lable, DocumentEvent de)
+				private void logEvent(String label, DocumentEvent de)
 				{
 					Document doc = de.getDocument();
 					try
 					{
 						String text = doc.getText(0, doc.getLength());
-						logger.info("{}: {}", lable, text);
+						logger.info("{}: {}", label, text);
 					}
 					catch (BadLocationException ex)
 					{
-						logger.info("{}: {}", lable, doc);
+						logger.info("{}: {}", label, doc);
 					}
 				}
 			});

@@ -90,7 +90,7 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * 
  * <p>{@code JListBinding} works by installing a custom model on the target
  * {@code JList}, as appropriate, to represent the source {@code List}. The
- * model is installed on a target {@code JList} with the first succesful call
+ * model is installed on a target {@code JList} with the first successful call
  * to {@code refresh} with that {@code JList} as the target. Subsequent calls
  * to {@code refresh} update the elements in this already-installed model.
  * The model is uninstalled from a target {@code JList} when either the

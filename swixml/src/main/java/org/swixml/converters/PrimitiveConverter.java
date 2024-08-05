@@ -233,7 +233,7 @@ public class PrimitiveConverter	implements Converter<Object>,
 		catch (Exception ex)
 		{
 			LogUtil.logger.warn(
-				String.format("exception reading contant field [%s] in class [%s]. Default is returned!", cv,
+				String.format("exception reading constant field [%s] in class [%s]. Default is returned!", cv,
 					clazz.getSimpleName()), ex);
 			return def;
 		}

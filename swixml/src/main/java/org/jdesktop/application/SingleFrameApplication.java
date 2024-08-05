@@ -258,7 +258,7 @@ public abstract class SingleFrameApplication extends Application
 				}
 				catch (Exception e)
 				{
-					String msg = String.format("couldn't restore sesssion [%s]", filename);
+					String msg = String.format("couldn't restore session [%s]", filename);
 					logger.warn(msg, e);
 				}
 			}
@@ -390,7 +390,7 @@ public abstract class SingleFrameApplication extends Application
 			}
 			catch (IOException e)
 			{
-				logger.warn("couldn't save sesssion", e);
+				logger.warn("couldn't save session", e);
 			}
 		}
 	}

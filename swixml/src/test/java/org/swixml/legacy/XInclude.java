@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import org.swixml.SwingEngine;
 
 /**
- * The XInclude class shows in simple way how to use xml includes.
+ * The XInclude class shows in simple way how to use XML includes.
  * <code>XInclude</code> extends the WindowAdapter and uses a SwingEngine
  * to render the GUI.
  *

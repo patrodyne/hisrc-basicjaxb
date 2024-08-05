@@ -85,7 +85,7 @@ public class ConverterLibrary
 	}
 
 	/**
-	 * @return <code>ConverterLibrary</code> the single instacne of the
+	 * @return <code>ConverterLibrary</code> the single instance of the
 	 *         ConverterLibrary.
 	 */
 	public static synchronized ConverterLibrary getInstance()
@@ -170,7 +170,7 @@ public class ConverterLibrary
 	 *
 	 * @param template <code>Class</code>
 	 * @return <code>boolean</code> true, if the ConverterLibrary has a
-	 *         Converter to produce an instances of the gioven class.
+	 *         Converter to produce an instances of the given class.
 	 */
 	public boolean hasConverter(Class<?> template)
 	{

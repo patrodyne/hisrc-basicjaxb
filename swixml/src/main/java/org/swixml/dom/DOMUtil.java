@@ -101,7 +101,7 @@ public class DOMUtil implements LogAware
 	}
 
 	/**
-	 * Moves the content from the source into the traget <code>Element</code>
+	 * Moves the content from the source into the target <code>Element</code>
 	 *
 	 * @param source <code>Element</code> Content provider
 	 * @param target <code>Element</code> Content receiver

@@ -13,49 +13,65 @@
 	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE" 
 	modal="false"
 >
-
 	<panel layout="BorderLayout">
-	
 		<splitpane constraints="BorderLayout.CENTER" orientation="JSplitPane.VERTICAL_SPLIT">
-		
 			<panel layout="BorderLayout" minimumSize="800,150" >
-				<label constraints="BorderLayout.NORTH" text="Table using meta data from external beanInfo"
-					font="SansSerif-BOLD-16" />
-				
+				<label
+					constraints="BorderLayout.NORTH"
+					text="Table using meta data from external beanInfo"
+					font="SansSerif-BOLD-16"
+				/>
 				<scrollpane constraints="BorderLayout.CENTER">
-					<table id="table" action="selectRow" dblClickAction="activateRow"
-						cellSelectionEnabled="true" bindList="${window.myData}"
-						bindClass="${window.myDataClass}" />
+					<table
+						id="table"
+						action="selectRow"
+						dblClickAction="activateRow"
+						cellSelectionEnabled="true"
+						bindList="${window.myData}"
+						bindClass="${window.myDataClass}"
+					/>
 				</scrollpane>
-				
 			</panel>
-		
 			<panel layout="BorderLayout" >
-				<label constraints="BorderLayout.NORTH" text="Table using new sub-tag tableColumn"
-					font="SansSerif-BOLD-16"/>
-			
+				<label
+					constraints="BorderLayout.NORTH"
+					text="Table using new sub-tag tableColumn"
+					font="SansSerif-BOLD-16"
+				/>
 				<scrollpane constraints="BorderLayout.CENTER">
-				
-					<table id="table2" action="selectRow" dblClickAction="activateRow2"
-						cellSelectionEnabled="false" rowSelectionAllowed="true"
-						selectionBackground="red" bindList="${window.myData2}">
-
-						<tablecolumn bindWith="field2" type="java.lang.Boolean" maxWidth="20" resizable="false"
-							headerValue="X" editable="true"  />
-							
-						<tablecolumn bindWith="field1" type="java.lang.Integer" headerValue="#" maxWidth="50"
-							resizable="false"/>
-							
-						<tablecolumn bindWith="field3" preferredWidth="20"  editable="true"
-							resizable="true"/>
-							
+					<table
+						id="table2"
+						action="selectRow"
+						dblClickAction="activateRow2"
+						cellSelectionEnabled="false"
+						rowSelectionAllowed="true"
+						selectionBackground="red"
+						bindList="${window.myData2}"
+					>
+						<tablecolumn
+							bindWith="field2"
+							type="java.lang.Boolean"
+							maxWidth="20"
+							resizable="false"
+							headerValue="X"
+							editable="true"
+						/>
+						<tablecolumn
+							bindWith="field1"
+							type="java.lang.Integer"
+							headerValue="#"
+							maxWidth="50"
+							resizable="false"
+						/>
+						<tablecolumn
+							bindWith="field3"
+							preferredWidth="20"
+							editable="true"
+							resizable="true"
+						/>
 					</table>
-					
 				</scrollpane>
-				
 			</panel>
-			
 		</splitpane>
 	</panel>
-
 </dialog>

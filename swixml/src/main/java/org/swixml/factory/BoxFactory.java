@@ -29,7 +29,6 @@ public class BoxFactory extends BeanFactory
 
 	/**
 	 *
-	 * @author sorrentino
 	 */
 	public static class VGapBox extends Box implements GapBox
 	{
@@ -89,7 +88,6 @@ public class BoxFactory extends BeanFactory
 
 	/**
 	 *
-	 * @author sorrentino
 	 */
 	public static class HGapBox extends Box implements GapBox
 	{
@@ -184,15 +182,16 @@ public class BoxFactory extends BeanFactory
 		attributes.removeNamedItem(name);
 		Converter<Integer> c = ConverterLibrary.getInstance().getConverter(Integer.class);
 		return c.convert(Integer.class, new Attribute(an), getSwingEngine());
-		/*
-		 * for( Attribute a : attributes ) {
-		 * 
-		 * if( name.equalsIgnoreCase( a.getLocalName() )){ attributes.remove(a);
-		 * Converter<Integer> c =
-		 * ConverterLibrary.getInstance().getConverter(Integer.class);
-		 * 
-		 * return c.convert(Integer.class, a, (SwingEngine<?>)null); } }
-		 */
+		
+//		for ( Attribute a : attributes )
+//		{
+//			if ( name.equalsIgnoreCase(a.getLocalName()) )
+//			{
+//				attributes.remove(a);
+//				Converter<Integer> c = ConverterLibrary.getInstance().getConverter(Integer.class);
+//				return c.convert(Integer.class, a, (SwingEngine<?>) null);
+//			}
+//		}
 	}
 
 	protected Dimension getDimensionAttribute(String name, NamedNodeMap attributes)
@@ -214,15 +213,16 @@ public class BoxFactory extends BeanFactory
 		attributes.removeNamedItem(name);
 		Converter<Dimension> c = ConverterLibrary.getInstance().getConverter(Dimension.class);
 		return c.convert(Dimension.class, new Attribute(an), getSwingEngine());
-		/*
-		 * for( Attribute a : attributes ) {
-		 * 
-		 * if( name.equalsIgnoreCase( a.getLocalName() )){ attributes.remove(a);
-		 * Converter<Dimension> c =
-		 * ConverterLibrary.getInstance().getConverter(Dimension.class);
-		 * 
-		 * return c.convert(Dimension.class, a, (SwingEngine<?>)null); } }
-		 */
+		
+//		for ( Attribute a : attributes )
+//		{
+//			if ( name.equalsIgnoreCase(a.getLocalName()) )
+//			{
+//				attributes.remove(a);
+//				Converter<Dimension> c = ConverterLibrary.getInstance().getConverter(Dimension.class);
+//				return c.convert(Dimension.class, a, (SwingEngine<?>) null);
+//			}
+//		}
 	}
 
 	protected Component createGlue(Element element)

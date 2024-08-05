@@ -42,7 +42,7 @@ public class ComboExample extends SwingApplication<ComboDialog>
 	{
 		try
 		{
-			JDialog dialog = render(new ComboDialog());
+			JDialog dialog = render(WINDOW);
 			// Center dialog on desktop.
 			dialog.setLocationRelativeTo(null);
 			show(dialog);

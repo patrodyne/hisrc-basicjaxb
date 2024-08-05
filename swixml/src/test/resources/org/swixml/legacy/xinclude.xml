@@ -22,7 +22,8 @@
 	<panel
 		id="pnl_footer"
 		constraints="BorderLayout.SOUTH"
-		include="org/swixml/legacy/fragments.xml#PNL_OK_CANCEL"
+		include="org/swixml/legacy/xpanel.xml#PNL_OK_CANCEL"
 	/>
+		<!-- include="org/swixml/legacy/fragments.xml#PNL_OK_CANCEL" -->
 
 </frame>

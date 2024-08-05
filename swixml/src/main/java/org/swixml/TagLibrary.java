@@ -87,8 +87,8 @@ public abstract class TagLibrary
 	 * Un-registers (removes) a registered tag.
 	 *
 	 * @param name <code>String</code> the tag's name
-	 * @return <code>boolean</code> true if tag was registered befoire and now
-	 *         successfuly removed.
+	 * @return <code>boolean</code> true if tag was registered before and now
+	 *         successfully removed.
 	 */
 	public boolean unregisterTag(String name)
 	{
@@ -111,7 +111,7 @@ public abstract class TagLibrary
 	 * Returns the Factory that is currently registered for the given Tag name
 	 * 
 	 * @param name <code>String</code>
-	 * @return <code>Factory</code> - regsitered for the given tag name
+	 * @return <code>Factory</code> - registered for the given tag name
 	 */
 	public Factory getFactory(String name)
 	{
@@ -122,7 +122,7 @@ public abstract class TagLibrary
 	 * Returns the Factory that is currently registered for the given Tag name
 	 * 
 	 * @param template <code>Class</code>
-	 * @return <code>Factory</code> - regsitered for the given tag name
+	 * @return <code>Factory</code> - registered for the given tag name
 	 */
 	public Factory getFactory(Class<?> template)
 	{

@@ -158,7 +158,7 @@ public abstract class Application extends AbstractBean
 	/**
 	 * Not to be called directly, see {@link #launch launch}.
 	 * <p>
-	 * Subclasses can provide a no-args construtor to initialize private final
+	 * Subclasses can provide a no-args constructor to initialize private final
 	 * state however GUI initialization, and anything else that might refer to
 	 * public API, should be done in the {@link #startup startup} method.
 	 */

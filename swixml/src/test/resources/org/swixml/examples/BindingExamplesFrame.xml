@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<frame
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
+
+	size="${window.frameSize}"
+	resizable="true"
+	alwaysOnTop="true"
+	title="Client Attribute Sample"
+	defaultCloseOperation="JFrame.EXIT_ON_CLOSE"
+>
+
+	<panel layout="BorderLayout">
+
+		<tabbedpane constraints="BorderLayout.CENTER">
+		
+			<panel name="commons" layout="FlowLayout(FlowLayout.LEFT)">
+			
+				<vbox gap="20">
+
+					<hbox>
+						<checkbox text="connected" bindWith="connected" />
+						<box.hglue />
+					</hbox>
+
+					<hbox gap="5">
+						<label text="texField Binding" />
+						<textfield id="tv" bindWith="testValue" columns="20"></textfield>
+						<box.hglue />
+					</hbox>
+
+					<hbox>
+						<combobox bindList="${window.comboList}" action="comboAction" />
+						<box.hglue />
+					</hbox>
+
+					<hbox>
+						<scrollpane>
+							<list
+								bindList="${window.comboList}"
+								action="listAction"
+								cellRenderer="${window.listRenderer}"
+							/>
+						</scrollpane>
+						<box.glue />
+					</hbox>
+
+					<hbox gap="10">
+						<button id="btn1" text="Show Client Attributes" X="Client1" Y="Attribute1" action="show" />
+
+						<button action="test">Test Button</button>
+
+						<button id="btn2" text="Show Client Attributes" X="Client2" Y="Attribute2" action="show" />
+					</hbox>
+
+				</vbox>
+			</panel>
+
+			<panel name="table-tree" layout="BorderLayout">
+			
+				<splitpane constraints="BorderLayout.CENTER">
+				
+					<scrollpane>
+						<tree model="${window.myTree}" action="selectNode" />
+					</scrollpane>
+
+					<scrollpane>
+						<table
+							id="testTable"
+							action="selectRow"
+							dblClickAction="activateRow"
+							cellSelectionEnabled="true"
+							bindList="${window.myData}"
+							bindClass="${window.myDataClass}"
+						/>
+					</scrollpane>
+
+				</splitpane>
+				
+			</panel>
+
+		</tabbedpane>
+
+		<vbox constraints="BorderLayout.SOUTH" background="blue">
+
+			<scrollpane>
+				<textarea id="ta" rows="3"></textarea>
+			</scrollpane>
+
+			<box.vstrut height="5" />
+
+			<label id="statusbar" foreground="gray">status</label>
+
+		</vbox>
+	</panel>
+	
+</frame>

@@ -63,9 +63,9 @@ import org.swixml.LogAware;
  */
 public class Toaster implements LogAware
 {
-	// Width of the toster
+	// Width of the toaster
 	private int toasterWidth = 300;
-	// Height of the toster
+	// Height of the toaster
 	private int toasterHeight = 80;
 	// Step for the toaster
 	private int step = 20;
@@ -77,7 +77,7 @@ public class Toaster implements LogAware
 	private int currentNumberOfToaster = 0;
 	// Last opened toaster
 	private int maxToaster = 0;
-	// Max number of toasters for the sceen
+	// Max number of toasters for the screen
 	private int maxToasterInSceen;
 	// Font used to display message
 	private Font font;

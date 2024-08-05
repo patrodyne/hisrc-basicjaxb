@@ -44,7 +44,7 @@ public class XAction
 		catch (Exception e)
 		{
 			// @TODO
-			// logger.log( Level.WARNING, "erron on Action initialization", e);
+			// logger.log( Level.WARNING, "error on Action initialization", e);
 			logger.warn(String.format("error on Action initialization [%s]", e.getMessage()));
 		}
 	}

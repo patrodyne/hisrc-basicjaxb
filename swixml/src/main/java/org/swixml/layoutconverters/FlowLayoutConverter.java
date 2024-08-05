@@ -96,7 +96,7 @@ public class FlowLayoutConverter implements LayoutConverter
 				Object o = PrimitiveConverter.conv(null, new Attribute("NA", st.nextToken()), null);
 				int[] para = Util.ia(st);
 				//
-				// Remaining paramters should be integer values
+				// Remaining parameters should be integer values
 				//
 				if ( para.length < 2 )
 					return new FlowLayout(Integer.valueOf(o.toString()).intValue());

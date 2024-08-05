@@ -185,7 +185,7 @@ public class ApplicationAction extends AbstractAction
 	 * <li><code>Action.text</code><br>
 	 * Used to initialize the Action properties with keys <code>Action.NAME</code>,
 	 * <code>Action.MNEMONIC_KEY</code> and
-	 * <code>Action.DISPLAYED_MNEMONIC_INDEX</code>. If the resources's value
+	 * <code>Action.DISPLAYED_MNEMONIC_INDEX</code>. If the resource's value
 	 * contains an <code>"&amp;"</code> or an <code>"_"</code> it's assumed to mark
 	 * the following character as the mnemonic. If
 	 * Action.mnemonic/Action.displayedMnemonic resources are also defined
@@ -659,7 +659,7 @@ public class ApplicationAction extends AbstractAction
 	 * 
 	 * @param pType parameter type
 	 * @param pKey the value of the &#064;Action.Parameter annotation
-	 * @param actionEvent the ActionEvent that trigged this Action
+	 * @param actionEvent the ActionEvent that triggered this Action
 	 */
 	protected Object getActionArgument(Class<?> pType, String pKey, ActionEvent actionEvent)
 	{

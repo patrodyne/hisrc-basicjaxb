@@ -2,30 +2,42 @@ package org.swixml.examples;
 
 import java.awt.Frame;
 
-import javax.swing.JDialog;
-
 import org.jdesktop.application.Action;
-import org.jdesktop.application.Application;
-import org.swixml.jsr296.SwingApplication;
+import org.swixml.SwingEngine;
+import org.swixml.XDialog;
 
-public class TestDialog extends JDialog
+public class TestDialog extends XDialog
 {
 	private static final long serialVersionUID = 20240701L;
+	
+	private SwingEngine<XDialog> swix = null;
+	
 	private String testValue = "TEST1";
-
-	public TestDialog(Frame owner)
-	{
-		super(owner);
-	}
-
 	public final String getTestValue()
 	{
 		return testValue;
 	}
-
 	public final void setTestValue(String testValue)
 	{
 		this.testValue = testValue;
+	}
+
+	/**
+	 * Construct without a {@link Frame} owner.
+	 */
+	public TestDialog()
+	{
+		try
+		{
+			swix = new SwingEngine<>(this);
+			swix.render("org/swixml/examples/TestDialog.xml");
+			setLocationRelativeTo(null);
+			setVisible(true);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public boolean isSubmitEnabled()
@@ -38,20 +50,9 @@ public class TestDialog extends JDialog
 	{
 		System.out.printf("submit\n");
 	}
-
-	public static void showDialog(Frame parent)
+	
+	public static void main(String[] args)
 	{
-		try
-		{
-			@SuppressWarnings("unchecked")
-			SwingApplication<JDialog> app = Application.getInstance(SwingApplication.class);
-			JDialog dlg = app.render(new TestDialog(parent), "xml/jsr296component.xml");
-			app.show(dlg);
-		}
-		catch (Exception e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		new TestDialog();
 	}
 }

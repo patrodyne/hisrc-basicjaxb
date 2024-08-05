@@ -28,7 +28,7 @@ public class ConstraintsTagProcessor implements TagProcessor
 		T result = null;
 		//
 		// A CONSTRAINTS attribute is removed from the childtag but used to add
-		// the child into the currrent obj
+		// the child into the current obj
 		//
 		Attr constrnAttr = child.getAttributeNode(Parser.ATTR_CONSTRAINTS);
 		Object constrains = null;
@@ -43,7 +43,7 @@ public class ConstraintsTagProcessor implements TagProcessor
 				constrains = layoutConverter.convertConstraintsAttribute(new Attribute(constrnAttr));
 		}
 		//
-		// A CONSTRAINTS element is used to add the child into the currrent obj
+		// A CONSTRAINTS element is used to add the child into the current obj
 		//
 		org.w3c.dom.Element constrnElement = DOMUtil.getChildByTagName(child, Parser.TAG_CONSTRAINTS); // child.getChild(Parser.TAG_CONSTRAINTS);
 		if ( constrnElement != null && layoutMgr != null )

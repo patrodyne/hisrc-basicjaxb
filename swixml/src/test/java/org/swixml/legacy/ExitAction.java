@@ -8,7 +8,7 @@ import javax.swing.AbstractAction;
  * Simple Action to exit a program.
  * 
  * This is intended for usage in swixml xml descriptors and may be instantiated
- * through <code>initclass="ExitAction"</code> for arbitary enclosing
+ * through <code>initclass="ExitAction"</code> for arbitrarily enclosing
  * {@link javax.swing.AbstractButton} objects.
  */
 public class ExitAction extends AbstractAction

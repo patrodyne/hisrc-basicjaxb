@@ -26,7 +26,6 @@ public class LocaleConverter extends AbstractConverter<Locale>
 	 *
 	 * @param attr <code>Attribute</code> the attribute, providing the value to
 	 *            be converted.
-	 *
 	 */
 	public static Locale conv(Attribute attr)
 		throws Exception
@@ -37,30 +36,36 @@ public class LocaleConverter extends AbstractConverter<Locale>
 	}
 
 	/**
+	 * Obtains a locale from a language, country and/or variant codes.
+     * This method normalizes the language value to lower case.
+     * 
+	 * @param csvCodes comma separated locale codes. 
+	 * @param attr Value to be converted; but, not implemented!
 	 * 
-	 * @param value evaluated value
-	 * @param attr
-	 * @return
-	 * @throws Exception
+	 * @return An object represents a specific geographical, political, or cultural region. 
 	 */
-	protected static Locale conv(String value, Attribute attr)
-		throws Exception
+	protected static Locale conv(String csvCodes, Attribute attr)
 	{
-		Locale locale = null; // Locale.getDefault();
-		StringTokenizer st = new StringTokenizer(value, ",");
+		// Locale.getDefault();
+		Locale locale = null; 
+		
+		StringTokenizer st = new StringTokenizer(csvCodes, ",");
 		int n = st.countTokens();
-		if ( 1 == n )
-		{
-			locale = new Locale(st.nextToken());
-		}
-		else if ( 2 == n )
-		{
-			locale = new Locale(st.nextToken(), st.nextToken());
-		}
-		else if ( 3 <= n )
-		{
-			locale = new Locale(st.nextToken(), st.nextToken(), st.nextToken());
-		}
+		
+		StringBuilder sb = new StringBuilder();
+		
+		if ( n > 0 )
+			sb.append(st.nextToken());
+		
+		if ( n > 1 )
+			sb.append("-" + st.nextToken());
+		
+		if ( n > 2 )
+			sb.append("-" + st.nextToken());
+		
+		if ( sb.length() > 0 )
+			locale =  Locale.forLanguageTag(sb.toString());
+		
 		return locale;
 	}
 
@@ -76,7 +81,6 @@ public class LocaleConverter extends AbstractConverter<Locale>
 	 */
 	@Override
 	public Locale convert(String value, Class<Locale> type, Attribute attr, SwingEngine<?> engine)
-		throws Exception
 	{
 		return LocaleConverter.conv(value, attr);
 	}

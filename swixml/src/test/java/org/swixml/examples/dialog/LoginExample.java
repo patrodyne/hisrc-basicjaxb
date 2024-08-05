@@ -40,7 +40,7 @@ public class LoginExample extends SwingApplication<LoginDialog>
 	{
 		try
 		{
-			LoginDialog dialog = super.render(new LoginDialog());
+			LoginDialog dialog = super.render(WINDOW);
 			// Center dialog on desktop.
 			dialog.setLocationRelativeTo(null);
 			super.show(dialog);

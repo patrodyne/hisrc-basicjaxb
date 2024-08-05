@@ -1,5 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<panel id="PNL_OK_CANCEL">
-	<button Text="OK" Action="okAction" />
-	<button Text="Cancel" Action="cancelAction" />
-</panel>
+<?xml version="1.0" encoding="UTF-8" ?>
+<frame
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
+>
+
+	<panel id="PNL_OK_CANCEL">
+		<button text="OK" action="okAction" />
+		<button text="Cancel" action="cancelAction" />
+	</panel>
+	
+</frame>

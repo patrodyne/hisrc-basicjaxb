@@ -852,7 +852,7 @@ public abstract class Binding<SS, SV, TS, TV>
 	 * This final value is returned in a {@code ValueResult}.
 	 * <p>
 	 * Any {@code RuntimeException} or {@code ClassCastException} thrown by a
-	 * converter or the final cast is propogated up to the caller of this
+	 * converter or the final cast is propagated up to the caller of this
 	 * method.
 	 *
 	 * @return a {@code ValueResult} as described above
@@ -885,7 +885,7 @@ public abstract class Binding<SS, SV, TS, TV>
 		else
 		{
 			// may throw ClassCastException or other RuntimeException here;
-			// allow it to be propogated back to the user of Binding
+			// allow it to be propagated back to the user of Binding
 			value = convertForward(rawValue);
 		}
 		return new ValueResult<TV>(value);
@@ -927,7 +927,7 @@ public abstract class Binding<SS, SV, TS, TV>
 	 * {@code ValueResult} is returned containing the final validated value.
 	 * <p>
 	 * Any {@code ClassCastException} thrown by a converter or the final cast is
-	 * propogated up to the caller of this method.
+	 * propagated up to the caller of this method.
 	 *
 	 * @return a {@code ValueResult} as described above
 	 * @throws ClassCastException if thrown by a converter or the final cast

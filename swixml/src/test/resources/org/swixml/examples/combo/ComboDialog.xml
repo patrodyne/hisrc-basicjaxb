@@ -15,10 +15,10 @@
 	<vbox gap="20">
 	
 		<hbox gap="5" border="CompoundBorder(TitledBorder(Template List), EmptyBorder(5,5,10,5))" >
-			<label text="Template:" font="Garuda-BOLD-16" />
+			<label text="Template:" font="Serif-BOLD-16" />
 			<combobox id="cmbTemplate" bindList="${window.templateList}" action="selectTemplate" bindWith="template" font="SansSerif-BOLD-12" editable="false" />
 			<box.hglue/>
-			<checkbox text="remove On Submit" bindWith="removeOnSubmit" font="Garuda-BOLD-16" />
+			<checkbox text="remove On Submit" bindWith="removeOnSubmit" font="Serif-BOLD-16" />
 		</hbox>
 	
 		<hbox border="CompoundBorder(TitledBorder(Result, EmptyBorder(5,5,10,15))" font="Serif-BOLD-16">	
@@ -30,7 +30,7 @@
 		</hbox>
 	
 		<hbox>
-			<button id="btnOK" text="Submit" action="submit" font="Garuda-BOLD-16"/>
+			<button id="btnOK" text="Submit" action="submit" font="Serif-BOLD-16"/>
 		</hbox>
 		
 	</vbox>

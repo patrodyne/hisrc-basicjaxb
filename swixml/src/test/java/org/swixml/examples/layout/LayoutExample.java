@@ -10,6 +10,7 @@ import jakarta.el.ELException;
 
 public class LayoutExample extends SwingApplication<JDialog>
 {
+	private static final String SWIXML_SOURCE = "org/swixml/examples/layout/LayoutFrame.xml";
 	private static final JDialog WINDOW = new JDialog();
 	private JDialog dialog;
 
@@ -41,7 +42,7 @@ public class LayoutExample extends SwingApplication<JDialog>
 	{
 		try
 		{
-			dialog = super.render(new JDialog(), "org/swixml/examples/layout/LayoutFrame.xml");
+			dialog = super.render(WINDOW, SWIXML_SOURCE);
 			// Center dialog on desktop.
 			dialog.setLocationRelativeTo(null);
 			super.show(dialog);

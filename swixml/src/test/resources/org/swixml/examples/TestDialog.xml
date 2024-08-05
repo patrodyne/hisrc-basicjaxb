@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
+
+	size="650,400"
+	layout="BorderLayout"
+	title="Test Dialog"
+	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+>
+
+	<panel constraints="BorderLayout.CENTER">
+		<label labelFor="testValue" text="Test" />
+		<textfield id="testValue" columns="20" text="text" />
+		<button text="Submit" action="submit" />
+	</panel>
+
+</dialog>

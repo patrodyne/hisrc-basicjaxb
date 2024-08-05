@@ -34,8 +34,8 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 	 * Converts a String into an Dimension object
 	 *
 	 * @param type <code>Class</code> not used
-	 * @param attr <code>Attribute</code> value fields needs provides
-	 *            convertable String
+	 * @param attr <code>Attribute</code> value fields needs provides convertible string.
+	 * 
 	 * @return <code>Object</code> - runtime type is <code>Dimension</code>
 	 */
 	@Override

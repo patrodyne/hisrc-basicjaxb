@@ -74,7 +74,7 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * 
  * <p>{@code JComboBoxBinding} works by installing a custom model on the target
  * {@code JComboBox}, as appropriate, to represent the source {@code List}. The
- * model is installed on a target {@code JComboBox} with the first succesful
+ * model is installed on a target {@code JComboBox} with the first successful
  * call to {@code refresh} with that {@code JComboBox} as the target. Subsequent
  * calls to {@code refresh} update the elements in this already-installed model.
  * The model is uninstalled from a target {@code JComboBox} when either the

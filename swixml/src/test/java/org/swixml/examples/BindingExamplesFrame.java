@@ -1,5 +1,7 @@
 package org.swixml.examples;
 
+import static org.jdesktop.observablecollections.ObservableCollections.observableList;
+
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -18,7 +20,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TreeSelectionEvent;
 
 import org.jdesktop.application.Action;
-import org.jdesktop.observablecollections.ObservableCollections;
 
 /**
  * The ApplicationTest shows in the usage of client attributes in swixml tags.
@@ -31,18 +32,23 @@ import org.jdesktop.observablecollections.ObservableCollections;
 public class BindingExamplesFrame extends JFrame
 {
 	private static final long serialVersionUID = 20240701L;
-	public JButton btn;
+	
+	public JButton btn1, btn2;
 	public JTextArea ta;
 	public Container panel_dlg;
 	public ActionMap actionMap;
 	public JLabel statusbar;
 	public JTextField tv;
 	public JTable testTable;
+	
+	private TestDialog testDialog = null;
+	
 	final CustomListCellRenderer listRenderer = new CustomListCellRenderer();
 	boolean connected = false;
-	List<SimpleBean> myData = ObservableCollections.observableList(new ArrayList<SimpleBean>());
-	final List<String> comboList = ObservableCollections.observableList(Arrays.asList("item1", "item2", "item3"));
+	List<SimpleBean> myData = observableList(new ArrayList<SimpleBean>());
+	final List<String> comboList = observableList(Arrays.asList("item1", "item2", "item3"));
 	TestTreeModel myTree = new TestTreeModel();
+	
 	private String testValue = "TEST";
 
 	public final CustomListCellRenderer getListRenderer()
@@ -91,7 +97,7 @@ public class BindingExamplesFrame extends JFrame
 	public void test()
 	{
 		System.out.printf("hello world! %s\n", testValue);
-		setTestValue("hello world!\n");
+		setTestValue("hello world!");
 		firePropertyChange("testValue", null, "hello world!");
 	}
 
@@ -107,8 +113,8 @@ public class BindingExamplesFrame extends JFrame
 	public void selectRow(ActionEvent e)
 	{
 		ListSelectionEvent ev = (ListSelectionEvent) e.getSource();
-		System.out.printf("selectRow firstIndex=%d lastIndex=%d valueIsAdjusting=%b\n", ev.getFirstIndex(),
-			ev.getLastIndex(), ev.getValueIsAdjusting());
+		System.out.printf("selectRow firstIndex=%d lastIndex=%d valueIsAdjusting=%b\n",
+			ev.getFirstIndex(), ev.getLastIndex(), ev.getValueIsAdjusting());
 	}
 
 	@Action
@@ -120,9 +126,15 @@ public class BindingExamplesFrame extends JFrame
 	@Action()
 	public void show(ActionEvent e)
 	{
-		ta.setText("X:" + btn.getClientProperty("X") + "\n" + "Y:" + btn.getClientProperty("Y"));
-		setConnected(true);
-		TestDialog.showDialog(this);
+		if ( (e.getSource() == btn1) ||  (e.getSource() == btn2) )
+		{
+			JButton btn = (JButton) e.getSource();
+			ta.setText("X:" + btn.getClientProperty("X") + "\n" + "Y:" + btn.getClientProperty("Y"));
+			setConnected(true);
+			if ( testDialog == null )
+				testDialog = new TestDialog();
+			testDialog.setVisible(true);
+		}
 	}
 
 	public boolean isConnected()

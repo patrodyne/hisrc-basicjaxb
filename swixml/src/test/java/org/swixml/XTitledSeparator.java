@@ -7,9 +7,8 @@ import javax.swing.SwingConstants;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 /**
- * A wrapper class for JGoodies Forms
- * <code>ComponentFactory.createSeparator()</code>, which creates a titled
- * separator.
+ * A wrapper class for JGoodies Forms <code>ComponentFactory.createSeparator()</code>,
+ * which creates a titled separator.
  * 
  * @author Karl Tauber
  * 

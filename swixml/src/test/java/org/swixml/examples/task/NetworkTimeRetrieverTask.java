@@ -1,6 +1,7 @@
 package org.swixml.examples.task;
 
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,7 +22,7 @@ public class NetworkTimeRetrieverTask extends Task<Date, Void>
 	protected Date doInBackground()
 		throws Exception
 	{
-		URL nistServer = new URL("http://time.nist.gov:13");
+		URL nistServer = new URI("https://time.nist.gov:13").toURL();
 		InputStream is = nistServer.openStream();
 		int ch = is.read();
 		StringBuffer dateInput = new StringBuffer();

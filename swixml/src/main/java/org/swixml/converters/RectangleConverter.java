@@ -32,8 +32,8 @@ public final class RectangleConverter extends AbstractConverter<Rectangle>
 	 * Converts a String into a Rectangle object
 	 * 
 	 * @param type <code>Class</code> not used
-	 * @param attr <code>Attribute</code> value fields needs provides
-	 *            convertable String
+	 * @param attr <code>Attribute</code> value fields needs provides convertible string.
+	 * 
 	 * @return <code>Object</code> - runtime type is <code>Dimension</code>
 	 */
 	@Override

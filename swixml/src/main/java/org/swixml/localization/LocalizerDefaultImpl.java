@@ -134,7 +134,7 @@ public class LocalizerDefaultImpl extends Localizer
 	}
 
 	/**
-	 * Informs about the usablility of this Localizer.
+	 * Informs about the usability of this Localizer.
 	 *
 	 * @return <code>boolean</code> - true if Localizer is setup with Locale and
 	 *         ResourceBundle.

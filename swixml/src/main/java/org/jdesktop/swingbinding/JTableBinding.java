@@ -104,7 +104,7 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * 
  * <p>{@code JTableBinding} works by installing a custom model on the target
  * {@code JTable}, as appropriate, to represent the source {@code List}. The
- * model is installed on a target {@code JTable} with the first succesful call
+ * model is installed on a target {@code JTable} with the first successful call
  * to {@code refresh} with that {@code JTable} as the target. Subsequent calls
  * to {@code refresh} update the elements in this already-installed model.
  * The model is un-installed from a target {@code JTable} when either the

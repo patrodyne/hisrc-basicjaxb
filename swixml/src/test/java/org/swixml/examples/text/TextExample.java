@@ -40,7 +40,7 @@ public class TextExample extends SwingApplication<TextDialog>
 	{
 		try
 		{
-			JDialog dialog = render(new TextDialog());
+			JDialog dialog = render(WINDOW);
 			// Center dialog on desktop.
 			dialog.setLocationRelativeTo(null);
 			show(dialog);

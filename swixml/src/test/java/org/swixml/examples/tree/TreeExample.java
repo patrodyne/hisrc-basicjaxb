@@ -41,7 +41,7 @@ public class TreeExample extends SwingApplication<TreeDialog>
 	{
 		try
 		{
-			JDialog dialog = render(new TreeDialog());
+			JDialog dialog = render(WINDOW);
 			// Center dialog on desktop.
 			dialog.setLocationRelativeTo(null);
 			show(dialog);

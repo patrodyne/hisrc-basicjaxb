@@ -38,7 +38,7 @@ public class SliderExample extends SwingApplication<SliderDialog>
 	{
 		try
 		{
-			JDialog dialog = render(new SliderDialog());
+			JDialog dialog = render(WINDOW);
 			// Center dialog on desktop.
 			dialog.setLocationRelativeTo(null);
 			show(dialog);
