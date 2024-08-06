@@ -17,13 +17,6 @@
 
 	<dependencies>
 		<!-- Jakarata Expression Language -->
-		<!--
-		<dependency>
-			<groupId>jakarta.el</groupId>
-			<artifactId>jakarta.el-api</artifactId>
-			<version>4.0.0</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>jakarta.el</artifactId>
@@ -31,44 +24,10 @@
 		</dependency>
 
 		<!-- BeanBinding: JSR 295 -->
-		<!--
-		<dependency>
-			<groupId>org.jdesktop</groupId>
-			<artifactId>beansbinding</artifactId>
-			<version>1.2.1</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 		</dependency> 
-
-		<!-- JavaScript Engine -->
-		<!--
-		<dependency>
-			<groupId>org.graalvm.js</groupId>
-			<artifactId>js-scriptengine</artifactId>
-			<version>19.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.graalvm.js</groupId>
-			<artifactId>js</artifactId>
-			<version>19.3.0</version>
-			<scope>runtime</scope>
-		</dependency>
-		-->
-		<!--
-		<dependency>
-			<groupId>org.graalvm.sdk</groupId>
-			<artifactId>graal-sdk</artifactId>
-			<version>24.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.graalvm.truffle</groupId>
-			<artifactId>truffle-api</artifactId>
-			<version>24.0.1</version>
-		</dependency>
-		-->
 
 		<!-- SLF4J Logging -->
 		<dependency>
