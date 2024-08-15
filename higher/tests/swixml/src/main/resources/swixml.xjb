@@ -18,7 +18,7 @@
 
 	<jaxb:bindings schemaLocation="swixml-norm.xsd" node="/xs:schema">
 		<jaxb:schemaBindings>
-			<jaxb:package name="org.jvnet.basicjaxb.swixml"/>
+			<jaxb:package name="org.swixml.schema.model"/>
 		</jaxb:schemaBindings>
 	</jaxb:bindings>
 

@@ -16,6 +16,7 @@
 	</properties>
 
 	<dependencies>
+
 		<!-- Jakarata Expression Language -->
 		<dependency>
 			<groupId>org.glassfish</groupId>
@@ -28,6 +29,12 @@
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 		</dependency> 
+
+		<!-- HiSrc BasicJAXB -->
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-runtime</artifactId>
+		</dependency>
 
 		<!-- SLF4J Logging -->
 		<dependency>
@@ -42,7 +49,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<scope>runtime</scope>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Testing-->

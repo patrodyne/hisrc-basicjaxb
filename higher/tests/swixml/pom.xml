@@ -35,6 +35,10 @@
 		<plugins>
 			<!-- mvn hisrc-higherjaxb:help -Ddetail=true -->
 			<!-- mvn hisrc-higherjaxb:generate -->
+			<!--
+				Note: These generated classes can be used to update
+				      the classes at org.swixml.schmea.model.
+			-->
 			<plugin>
 				<groupId>org.patrodyne.jvnet</groupId>
 				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
@@ -70,9 +74,9 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<scanPackages>
-								<scanPackage>org.jvnet.basicjaxb.swixml</scanPackage>
+								<scanPackage>org.swixml.schema.model</scanPackage>
 							</scanPackages>
-							<blacklistRegexp>org\.jvnet\.basicjaxb\.swixml\.(ObjectFactory|.*_)$</blacklistRegexp>
+							<blacklistRegexp>org\.swixml\.schema\.model\.(ObjectFactory|.*_)$</blacklistRegexp>
 							<fieldClassifierListToIgnore>STATIC</fieldClassifierListToIgnore>
 							<hideFields>false</hideFields>
 							<removeMethods>true</removeMethods>
