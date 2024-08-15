@@ -1,0 +1,1010 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.swixml.org/2007/Swixml" elementFormDefault="qualified" targetNamespace="http://www.swixml.org/2007/Swixml">
+    <xs:complexType name="AbstractButton">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="action" type="xs:string"/>
+                <xs:attribute name="actionCommand" type="xs:string"/>
+                <xs:attribute name="borderPainted" type="xs:boolean"/>
+                <xs:attribute name="contentAreaFilled" type="xs:boolean"/>
+                <xs:attribute name="disabledIcon" type="xs:string"/>
+                <xs:attribute name="disabledSelectedIcon" type="xs:string"/>
+                <xs:attribute name="displayedMnemonicIndex" type="xs:string"/>
+                <xs:attribute name="focusPainted" type="xs:boolean"/>
+                <xs:attribute name="hideActionText" type="xs:boolean"/>
+                <xs:attribute name="horizontalAlignment" type="xs:string"/>
+                <xs:attribute name="horizontalTextPosition" type="xs:string"/>
+                <xs:attribute name="icon" type="xs:string"/>
+                <xs:attribute name="iconTextGap" type="xs:string"/>
+                <xs:attribute name="margin" type="xs:string"/>
+                <xs:attribute name="mnemonic" type="xs:string"/>
+                <xs:attribute name="model" type="xs:string"/>
+                <xs:attribute name="multiClickThreshhold" type="xs:string"/>
+                <xs:attribute name="pressedIcon" type="xs:string"/>
+                <xs:attribute name="rolloverEnabled" type="xs:boolean"/>
+                <xs:attribute name="rolloverIcon" type="xs:string"/>
+                <xs:attribute name="rolloverSelectedIcon" type="xs:string"/>
+                <xs:attribute name="selected" type="xs:boolean"/>
+                <xs:attribute name="selectedIcon" type="xs:string"/>
+                <xs:attribute name="text" type="xs:string"/>
+                <xs:attribute name="verticalAlignment" type="xs:string"/>
+                <xs:attribute name="verticalTextPosition" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JComponent">
+        <xs:complexContent>
+            <xs:extension base="tns:Container">
+                <xs:sequence/>
+                <xs:attribute name="actionMap" type="xs:string"/>
+                <xs:attribute name="alignmentX" type="xs:string"/>
+                <xs:attribute name="alignmentY" type="xs:string"/>
+                <xs:attribute name="autoscrolls" type="xs:boolean"/>
+                <xs:attribute name="border" type="xs:string"/>
+                <xs:attribute name="componentPopupMenu" type="xs:string"/>
+                <xs:attribute name="debugGraphicsOptions" type="xs:string"/>
+                <xs:attribute name="defaultLocale" type="xs:string"/>
+                <xs:attribute name="doubleBuffered" type="xs:boolean"/>
+                <xs:attribute name="inheritsPopupMenu" type="xs:boolean"/>
+                <xs:attribute name="inputVerifier" type="xs:string"/>
+                <xs:attribute name="opaque" type="xs:boolean"/>
+                <xs:attribute name="requestFocusEnabled" type="xs:boolean"/>
+                <xs:attribute name="toolTipText" type="xs:string"/>
+                <xs:attribute name="transferHandler" type="xs:string"/>
+                <xs:attribute name="verifyInputWhenFocusTarget" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="Container">
+        <xs:complexContent>
+            <xs:extension base="tns:Component">
+                <xs:sequence/>
+                <xs:attribute name="focusCycleRoot" type="xs:boolean"/>
+                <xs:attribute name="focusTraversalPolicy" type="xs:string"/>
+                <xs:attribute name="focusTraversalPolicyProvider" type="xs:boolean"/>
+                <xs:attribute name="layout" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType mixed="true" name="Component">
+        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+            <xs:any/>
+        </xs:sequence>
+        <xs:attribute name="background" type="xs:string"/>
+        <xs:attribute name="bounds" type="xs:string"/>
+        <xs:attribute name="componentOrientation" type="xs:string"/>
+        <xs:attribute name="cursor" type="xs:string"/>
+        <xs:attribute name="dropTarget" type="xs:string"/>
+        <xs:attribute name="enabled" type="xs:boolean"/>
+        <xs:attribute name="focusTraversalKeysEnabled" type="xs:boolean"/>
+        <xs:attribute name="focusable" type="xs:boolean"/>
+        <xs:attribute name="font" type="xs:string"/>
+        <xs:attribute name="foreground" type="xs:string"/>
+        <xs:attribute name="ignoreRepaint" type="xs:boolean"/>
+        <xs:attribute name="locale" type="xs:string"/>
+        <xs:attribute name="location" type="xs:string"/>
+        <xs:attribute name="maximumSize" type="xs:string"/>
+        <xs:attribute name="minimumSize" type="xs:string"/>
+        <xs:attribute name="mixingCutoutShape" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="preferredSize" type="xs:string"/>
+        <xs:attribute name="size" type="xs:string"/>
+        <xs:attribute name="visible" type="xs:boolean"/>
+    </xs:complexType>
+    <xs:complexType name="JButton">
+        <xs:complexContent>
+            <xs:extension base="tns:AbstractButton">
+                <xs:sequence/>
+                <xs:attribute name="defaultCapable" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JCheckBoxEx">
+        <xs:complexContent>
+            <xs:extension base="tns:JCheckBox">
+                <xs:sequence/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JCheckBox">
+        <xs:complexContent>
+            <xs:extension base="tns:JToggleButton">
+                <xs:sequence/>
+                <xs:attribute name="borderPaintedFlat" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JToggleButton">
+        <xs:complexContent>
+            <xs:extension base="tns:AbstractButton">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JMenuItem">
+        <xs:complexContent>
+            <xs:extension base="tns:AbstractButton">
+                <xs:sequence/>
+                <xs:attribute name="accelerator" type="xs:string"/>
+                <xs:attribute name="armed" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JCheckBoxMenuItem">
+        <xs:complexContent>
+            <xs:extension base="tns:JMenuItem">
+                <xs:sequence/>
+                <xs:attribute name="state" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JComboBox">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="action" type="xs:string"/>
+                <xs:attribute name="actionCommand" type="xs:string"/>
+                <xs:attribute name="editable" type="xs:boolean"/>
+                <xs:attribute name="editor" type="xs:string"/>
+                <xs:attribute name="keySelectionManager" type="xs:string"/>
+                <xs:attribute name="lightWeightPopupEnabled" type="xs:boolean"/>
+                <xs:attribute name="maximumRowCount" type="xs:string"/>
+                <xs:attribute name="model" type="xs:string"/>
+                <xs:attribute name="popupVisible" type="xs:boolean"/>
+                <xs:attribute name="prototypeDisplayValue" type="xs:string"/>
+                <xs:attribute name="renderer" type="xs:string"/>
+                <xs:attribute name="selectedIndex" type="xs:string"/>
+                <xs:attribute name="selectedItem" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JComboBoxEx">
+        <xs:complexContent>
+            <xs:extension base="tns:JComboBox">
+                <xs:sequence/>
+                <xs:attribute name="bindList" type="xs:string"/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JDesktopPane">
+        <xs:complexContent>
+            <xs:extension base="tns:JLayeredPane">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="desktopManager" type="xs:string"/>
+                <xs:attribute name="dragMode" type="xs:string"/>
+                <xs:attribute name="selectedFrame" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JLayeredPane">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JDialog">
+        <xs:complexContent>
+            <xs:extension base="tns:WDialog">
+                <xs:sequence/>
+                <xs:attribute name="JMenuBar" type="xs:string"/>
+                <xs:attribute name="contentPane" type="xs:string"/>
+                <xs:attribute name="defaultCloseOperation" type="xs:string"/>
+                <xs:attribute name="defaultLookAndFeelDecorated" type="xs:boolean"/>
+                <xs:attribute name="glassPane" type="xs:string"/>
+                <xs:attribute name="layeredPane" type="xs:string"/>
+                <xs:attribute name="transferHandler" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="WDialog">
+        <xs:complexContent>
+            <xs:extension base="tns:Window">
+                <xs:sequence/>
+                <xs:attribute name="modal" type="xs:boolean"/>
+                <xs:attribute name="modalityType" type="xs:string"/>
+                <xs:attribute name="resizable" type="xs:boolean"/>
+                <xs:attribute name="title" type="xs:string"/>
+                <xs:attribute name="undecorated" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="Window">
+        <xs:complexContent>
+            <xs:extension base="tns:Container">
+                <xs:sequence/>
+                <xs:attribute name="alwaysOnTop" type="xs:boolean"/>
+                <xs:attribute name="autoRequestFocus" type="xs:boolean"/>
+                <xs:attribute name="focusableWindowState" type="xs:boolean"/>
+                <xs:attribute name="iconImage" type="xs:string"/>
+                <xs:attribute name="iconImages" type="xs:string"/>
+                <xs:attribute name="locationByPlatform" type="xs:boolean"/>
+                <xs:attribute name="locationRelativeTo" type="xs:string"/>
+                <xs:attribute name="modalExclusionType" type="xs:string"/>
+                <xs:attribute name="opacity" type="xs:string"/>
+                <xs:attribute name="shape" type="xs:string"/>
+                <xs:attribute name="type" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="XDialog">
+        <xs:complexContent>
+            <xs:extension base="tns:JDialog">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JTextComponent">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="caret" type="xs:string"/>
+                <xs:attribute name="caretColor" type="xs:string"/>
+                <xs:attribute name="caretPosition" type="xs:string"/>
+                <xs:attribute name="disabledTextColor" type="xs:string"/>
+                <xs:attribute name="document" type="xs:string"/>
+                <xs:attribute name="dragEnabled" type="xs:boolean"/>
+                <xs:attribute name="dropMode" type="xs:string"/>
+                <xs:attribute name="editable" type="xs:boolean"/>
+                <xs:attribute name="focusAccelerator" type="xs:string"/>
+                <xs:attribute name="highlighter" type="xs:string"/>
+                <xs:attribute name="keymap" type="xs:string"/>
+                <xs:attribute name="margin" type="xs:string"/>
+                <xs:attribute name="navigationFilter" type="xs:string"/>
+                <xs:attribute name="selectedTextColor" type="xs:string"/>
+                <xs:attribute name="selectionColor" type="xs:string"/>
+                <xs:attribute name="selectionEnd" type="xs:string"/>
+                <xs:attribute name="selectionStart" type="xs:string"/>
+                <xs:attribute name="text" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JEditorPane">
+        <xs:complexContent>
+            <xs:extension base="tns:JTextComponent">
+                <xs:sequence/>
+                <xs:attribute name="contentType" type="xs:string"/>
+                <xs:attribute name="editorKit" type="xs:string"/>
+                <xs:attribute name="page" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JTextField">
+        <xs:complexContent>
+            <xs:extension base="tns:JTextComponent">
+                <xs:sequence/>
+                <xs:attribute name="action" type="xs:string"/>
+                <xs:attribute name="actionCommand" type="xs:string"/>
+                <xs:attribute name="columns" type="xs:string"/>
+                <xs:attribute name="horizontalAlignment" type="xs:string"/>
+                <xs:attribute name="scrollOffset" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JFormattedTextField">
+        <xs:complexContent>
+            <xs:extension base="tns:JTextField">
+                <xs:sequence/>
+                <xs:attribute name="focusLostBehavior" type="xs:string"/>
+                <xs:attribute name="formatterFactory" type="xs:string"/>
+                <xs:attribute name="value" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JFrame">
+        <xs:complexContent>
+            <xs:extension base="tns:WFrame">
+                <xs:sequence/>
+                <xs:attribute name="JMenuBar" type="xs:string"/>
+                <xs:attribute name="contentPane" type="xs:string"/>
+                <xs:attribute name="defaultCloseOperation" type="xs:string"/>
+                <xs:attribute name="defaultLookAndFeelDecorated" type="xs:boolean"/>
+                <xs:attribute name="glassPane" type="xs:string"/>
+                <xs:attribute name="layeredPane" type="xs:string"/>
+                <xs:attribute name="transferHandler" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="WFrame">
+        <xs:complexContent>
+            <xs:extension base="tns:Window">
+                <xs:sequence/>
+                <xs:attribute name="extendedState" type="xs:string"/>
+                <xs:attribute name="maximizedBounds" type="xs:string"/>
+                <xs:attribute name="menuBar" type="xs:string"/>
+                <xs:attribute name="resizable" type="xs:boolean"/>
+                <xs:attribute name="state" type="xs:string"/>
+                <xs:attribute name="title" type="xs:string"/>
+                <xs:attribute name="undecorated" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="XGridBagConstraints">
+        <xs:complexContent>
+            <xs:extension base="tns:GridBagConstraints">
+                <xs:sequence/>
+                <xs:attribute name="anchor" type="xs:string"/>
+                <xs:attribute name="fill" type="xs:string"/>
+                <xs:attribute name="gridheight" type="xs:string"/>
+                <xs:attribute name="gridwidth" type="xs:string"/>
+                <xs:attribute name="gridx" type="xs:string"/>
+                <xs:attribute name="gridy" type="xs:string"/>
+                <xs:attribute name="insets" type="xs:string"/>
+                <xs:attribute name="ipadx" type="xs:string"/>
+                <xs:attribute name="ipady" type="xs:string"/>
+                <xs:attribute name="weightx" type="xs:string"/>
+                <xs:attribute name="weighty" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType mixed="true" name="GridBagConstraints">
+        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+            <xs:any/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BoxFactoryHGapBox">
+        <xs:complexContent>
+            <xs:extension base="tns:Box">
+                <xs:sequence/>
+                <xs:attribute name="gap" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="Box">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JInternalFrame">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="JMenuBar" type="xs:string"/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="closable" type="xs:boolean"/>
+                <xs:attribute name="closed" type="xs:boolean"/>
+                <xs:attribute name="contentPane" type="xs:string"/>
+                <xs:attribute name="defaultCloseOperation" type="xs:string"/>
+                <xs:attribute name="desktopIcon" type="xs:string"/>
+                <xs:attribute name="frameIcon" type="xs:string"/>
+                <xs:attribute name="glassPane" type="xs:string"/>
+                <xs:attribute name="icon" type="xs:boolean"/>
+                <xs:attribute name="iconifiable" type="xs:boolean"/>
+                <xs:attribute name="layer" type="xs:string"/>
+                <xs:attribute name="layeredPane" type="xs:string"/>
+                <xs:attribute name="maximizable" type="xs:boolean"/>
+                <xs:attribute name="maximum" type="xs:boolean"/>
+                <xs:attribute name="normalBounds" type="xs:string"/>
+                <xs:attribute name="resizable" type="xs:boolean"/>
+                <xs:attribute name="selected" type="xs:boolean"/>
+                <xs:attribute name="title" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JLabel">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="disabledIcon" type="xs:string"/>
+                <xs:attribute name="displayedMnemonic" type="xs:string"/>
+                <xs:attribute name="displayedMnemonicIndex" type="xs:string"/>
+                <xs:attribute name="horizontalAlignment" type="xs:string"/>
+                <xs:attribute name="horizontalTextPosition" type="xs:string"/>
+                <xs:attribute name="icon" type="xs:string"/>
+                <xs:attribute name="iconTextGap" type="xs:string"/>
+                <xs:attribute name="labelFor" type="xs:string"/>
+                <xs:attribute name="text" type="xs:string"/>
+                <xs:attribute name="verticalAlignment" type="xs:string"/>
+                <xs:attribute name="verticalTextPosition" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JLabelEx">
+        <xs:complexContent>
+            <xs:extension base="tns:JLabel">
+                <xs:sequence/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JList">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="cellRenderer" type="xs:string"/>
+                <xs:attribute name="dragEnabled" type="xs:boolean"/>
+                <xs:attribute name="dropMode" type="xs:string"/>
+                <xs:attribute name="fixedCellHeight" type="xs:string"/>
+                <xs:attribute name="fixedCellWidth" type="xs:string"/>
+                <xs:attribute name="layoutOrientation" type="xs:string"/>
+                <xs:attribute name="listData" type="xs:string"/>
+                <xs:attribute name="model" type="xs:string"/>
+                <xs:attribute name="prototypeCellValue" type="xs:string"/>
+                <xs:attribute name="selectedIndex" type="xs:string"/>
+                <xs:attribute name="selectedIndices" type="xs:string"/>
+                <xs:attribute name="selectionBackground" type="xs:string"/>
+                <xs:attribute name="selectionForeground" type="xs:string"/>
+                <xs:attribute name="selectionMode" type="xs:string"/>
+                <xs:attribute name="selectionModel" type="xs:string"/>
+                <xs:attribute name="valueIsAdjusting" type="xs:boolean"/>
+                <xs:attribute name="visibleRowCount" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JListEx">
+        <xs:complexContent>
+            <xs:extension base="tns:JList">
+                <xs:sequence/>
+                <xs:attribute name="action" type="xs:string"/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JMenu">
+        <xs:complexContent>
+            <xs:extension base="tns:JMenuItem">
+                <xs:sequence/>
+                <xs:attribute name="delay" type="xs:string"/>
+                <xs:attribute name="popupMenuVisible" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JMenuBar">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="borderPainted" type="xs:boolean"/>
+                <xs:attribute name="helpMenu" type="xs:string"/>
+                <xs:attribute name="margin" type="xs:string"/>
+                <xs:attribute name="selected" type="xs:string"/>
+                <xs:attribute name="selectionModel" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JOptionPane">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="icon" type="xs:string"/>
+                <xs:attribute name="initialSelectionValue" type="xs:string"/>
+                <xs:attribute name="initialValue" type="xs:string"/>
+                <xs:attribute name="inputValue" type="xs:string"/>
+                <xs:attribute name="message" type="xs:string"/>
+                <xs:attribute name="messageType" type="xs:string"/>
+                <xs:attribute name="optionType" type="xs:string"/>
+                <xs:attribute name="options" type="xs:string"/>
+                <xs:attribute name="rootFrame" type="xs:string"/>
+                <xs:attribute name="selectionValues" type="xs:string"/>
+                <xs:attribute name="value" type="xs:string"/>
+                <xs:attribute name="wantsInput" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JPanel">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JPasswordFieldEx">
+        <xs:complexContent>
+            <xs:extension base="tns:JPasswordField">
+                <xs:sequence/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JPasswordField">
+        <xs:complexContent>
+            <xs:extension base="tns:JTextField">
+                <xs:sequence/>
+                <xs:attribute name="echoChar" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JPopupMenu">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="borderPainted" type="xs:boolean"/>
+                <xs:attribute name="defaultLightWeightPopupEnabled" type="xs:boolean"/>
+                <xs:attribute name="invoker" type="xs:string"/>
+                <xs:attribute name="label" type="xs:string"/>
+                <xs:attribute name="lightWeightPopupEnabled" type="xs:boolean"/>
+                <xs:attribute name="popupSize" type="xs:string"/>
+                <xs:attribute name="selected" type="xs:string"/>
+                <xs:attribute name="selectionModel" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JProgressBar">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="borderPainted" type="xs:boolean"/>
+                <xs:attribute name="indeterminate" type="xs:boolean"/>
+                <xs:attribute name="maximum" type="xs:string"/>
+                <xs:attribute name="minimum" type="xs:string"/>
+                <xs:attribute name="model" type="xs:string"/>
+                <xs:attribute name="orientation" type="xs:string"/>
+                <xs:attribute name="string" type="xs:string"/>
+                <xs:attribute name="stringPainted" type="xs:boolean"/>
+                <xs:attribute name="value" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JRadioButtonEx">
+        <xs:complexContent>
+            <xs:extension base="tns:JRadioButton">
+                <xs:sequence/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JRadioButton">
+        <xs:complexContent>
+            <xs:extension base="tns:JToggleButton">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JScrollPane">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="columnHeader" type="xs:string"/>
+                <xs:attribute name="columnHeaderView" type="xs:string"/>
+                <xs:attribute name="horizontalScrollBar" type="xs:string"/>
+                <xs:attribute name="horizontalScrollBarPolicy" type="xs:string"/>
+                <xs:attribute name="rowHeader" type="xs:string"/>
+                <xs:attribute name="rowHeaderView" type="xs:string"/>
+                <xs:attribute name="verticalScrollBar" type="xs:string"/>
+                <xs:attribute name="verticalScrollBarPolicy" type="xs:string"/>
+                <xs:attribute name="viewport" type="xs:string"/>
+                <xs:attribute name="viewportBorder" type="xs:string"/>
+                <xs:attribute name="viewportView" type="xs:string"/>
+                <xs:attribute name="wheelScrollingEnabled" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="XScrollPane">
+        <xs:complexContent>
+            <xs:extension base="tns:JScrollPane">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JSeparator">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="orientation" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JSlider">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="extent" type="xs:string"/>
+                <xs:attribute name="inverted" type="xs:boolean"/>
+                <xs:attribute name="labelTable" type="xs:string"/>
+                <xs:attribute name="majorTickSpacing" type="xs:string"/>
+                <xs:attribute name="maximum" type="xs:string"/>
+                <xs:attribute name="minimum" type="xs:string"/>
+                <xs:attribute name="minorTickSpacing" type="xs:string"/>
+                <xs:attribute name="model" type="xs:string"/>
+                <xs:attribute name="orientation" type="xs:string"/>
+                <xs:attribute name="paintLabels" type="xs:boolean"/>
+                <xs:attribute name="paintTicks" type="xs:boolean"/>
+                <xs:attribute name="paintTrack" type="xs:boolean"/>
+                <xs:attribute name="snapToTicks" type="xs:boolean"/>
+                <xs:attribute name="value" type="xs:string"/>
+                <xs:attribute name="valueIsAdjusting" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JSliderEx">
+        <xs:complexContent>
+            <xs:extension base="tns:JSlider">
+                <xs:sequence/>
+                <xs:attribute name="action" type="xs:string"/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JSpinner">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="editor" type="xs:string"/>
+                <xs:attribute name="model" type="xs:string"/>
+                <xs:attribute name="value" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JSpinnerEx">
+        <xs:complexContent>
+            <xs:extension base="tns:JSpinner">
+                <xs:sequence/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JSpinnerExDate">
+        <xs:complexContent>
+            <xs:extension base="tns:JSpinnerEx">
+                <xs:sequence/>
+                <xs:attribute name="dateFormat" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JSplitPane">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="bottomComponent" type="xs:string"/>
+                <xs:attribute name="continuousLayout" type="xs:boolean"/>
+                <xs:attribute name="dividerLocation" type="xs:string"/>
+                <xs:attribute name="dividerSize" type="xs:string"/>
+                <xs:attribute name="lastDividerLocation" type="xs:string"/>
+                <xs:attribute name="leftComponent" type="xs:string"/>
+                <xs:attribute name="oneTouchExpandable" type="xs:boolean"/>
+                <xs:attribute name="orientation" type="xs:string"/>
+                <xs:attribute name="resizeWeight" type="xs:string"/>
+                <xs:attribute name="rightComponent" type="xs:string"/>
+                <xs:attribute name="topComponent" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JTabbedPane">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="model" type="xs:string"/>
+                <xs:attribute name="selectedComponent" type="xs:string"/>
+                <xs:attribute name="selectedIndex" type="xs:string"/>
+                <xs:attribute name="tabLayoutPolicy" type="xs:string"/>
+                <xs:attribute name="tabPlacement" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="XTabbedPane">
+        <xs:complexContent>
+            <xs:extension base="tns:JTabbedPane">
+                <xs:sequence/>
+                <xs:attribute name="disabledIcons" type="xs:string"/>
+                <xs:attribute name="displayedMnemonics" type="xs:string"/>
+                <xs:attribute name="icons" type="xs:string"/>
+                <xs:attribute name="mnemonics" type="xs:string"/>
+                <xs:attribute name="titles" type="xs:string"/>
+                <xs:attribute name="toolTipTexts" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JTable">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="autoCreateColumnsFromModel" type="xs:boolean"/>
+                <xs:attribute name="autoCreateRowSorter" type="xs:boolean"/>
+                <xs:attribute name="autoResizeMode" type="xs:string"/>
+                <xs:attribute name="cellEditor" type="xs:string"/>
+                <xs:attribute name="cellSelectionEnabled" type="xs:boolean"/>
+                <xs:attribute name="columnModel" type="xs:string"/>
+                <xs:attribute name="columnSelectionAllowed" type="xs:boolean"/>
+                <xs:attribute name="dragEnabled" type="xs:boolean"/>
+                <xs:attribute name="dropMode" type="xs:string"/>
+                <xs:attribute name="editingColumn" type="xs:string"/>
+                <xs:attribute name="editingRow" type="xs:string"/>
+                <xs:attribute name="fillsViewportHeight" type="xs:boolean"/>
+                <xs:attribute name="gridColor" type="xs:string"/>
+                <xs:attribute name="intercellSpacing" type="xs:string"/>
+                <xs:attribute name="model" type="xs:string"/>
+                <xs:attribute name="preferredScrollableViewportSize" type="xs:string"/>
+                <xs:attribute name="rowHeight" type="xs:string"/>
+                <xs:attribute name="rowMargin" type="xs:string"/>
+                <xs:attribute name="rowSelectionAllowed" type="xs:boolean"/>
+                <xs:attribute name="rowSorter" type="xs:string"/>
+                <xs:attribute name="selectionBackground" type="xs:string"/>
+                <xs:attribute name="selectionForeground" type="xs:string"/>
+                <xs:attribute name="selectionMode" type="xs:string"/>
+                <xs:attribute name="selectionModel" type="xs:string"/>
+                <xs:attribute name="showGrid" type="xs:boolean"/>
+                <xs:attribute name="showHorizontalLines" type="xs:boolean"/>
+                <xs:attribute name="showVerticalLines" type="xs:boolean"/>
+                <xs:attribute name="surrendersFocusOnKeystroke" type="xs:boolean"/>
+                <xs:attribute name="tableHeader" type="xs:string"/>
+                <xs:attribute name="updateSelectionOnSort" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JTableEx">
+        <xs:complexContent>
+            <xs:extension base="tns:JTable">
+                <xs:sequence/>
+                <xs:attribute name="action" type="xs:string"/>
+                <xs:attribute name="allPropertiesBound" type="xs:boolean"/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
+                <xs:attribute name="dblClickAction" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="BindingUtilsColumn">
+        <xs:complexContent>
+            <xs:extension base="tns:TableColumn">
+                <xs:sequence/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="editable" type="xs:boolean"/>
+                <xs:attribute name="type" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType mixed="true" name="TableColumn">
+        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+            <xs:any/>
+        </xs:sequence>
+        <xs:attribute name="cellEditor" type="xs:string"/>
+        <xs:attribute name="cellRenderer" type="xs:string"/>
+        <xs:attribute name="headerRenderer" type="xs:string"/>
+        <xs:attribute name="headerValue" type="xs:string"/>
+        <xs:attribute name="identifier" type="xs:string"/>
+        <xs:attribute name="maxWidth" type="xs:string"/>
+        <xs:attribute name="minWidth" type="xs:string"/>
+        <xs:attribute name="modelIndex" type="xs:string"/>
+        <xs:attribute name="preferredWidth" type="xs:string"/>
+        <xs:attribute name="resizable" type="xs:boolean"/>
+        <xs:attribute name="width" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="JTableHeader">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="columnModel" type="xs:string"/>
+                <xs:attribute name="defaultRenderer" type="xs:string"/>
+                <xs:attribute name="draggedColumn" type="xs:string"/>
+                <xs:attribute name="draggedDistance" type="xs:string"/>
+                <xs:attribute name="reorderingAllowed" type="xs:boolean"/>
+                <xs:attribute name="resizingAllowed" type="xs:boolean"/>
+                <xs:attribute name="resizingColumn" type="xs:string"/>
+                <xs:attribute name="table" type="xs:string"/>
+                <xs:attribute name="updateTableInRealTime" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JTextAreaEx">
+        <xs:complexContent>
+            <xs:extension base="tns:JTextArea">
+                <xs:sequence/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JTextArea">
+        <xs:complexContent>
+            <xs:extension base="tns:JTextComponent">
+                <xs:sequence/>
+                <xs:attribute name="columns" type="xs:string"/>
+                <xs:attribute name="lineWrap" type="xs:boolean"/>
+                <xs:attribute name="rows" type="xs:string"/>
+                <xs:attribute name="tabSize" type="xs:string"/>
+                <xs:attribute name="wrapStyleWord" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JTextFieldEx">
+        <xs:complexContent>
+            <xs:extension base="tns:JTextField">
+                <xs:sequence/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JTextPane">
+        <xs:complexContent>
+            <xs:extension base="tns:JEditorPane">
+                <xs:sequence/>
+                <xs:attribute name="logicalStyle" type="xs:string"/>
+                <xs:attribute name="styledDocument" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JToolBar">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="borderPainted" type="xs:boolean"/>
+                <xs:attribute name="floatable" type="xs:boolean"/>
+                <xs:attribute name="margin" type="xs:string"/>
+                <xs:attribute name="orientation" type="xs:string"/>
+                <xs:attribute name="rollover" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JTree">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+                <xs:attribute name="UI" type="xs:string"/>
+                <xs:attribute name="anchorSelectionPath" type="xs:string"/>
+                <xs:attribute name="cellEditor" type="xs:string"/>
+                <xs:attribute name="cellRenderer" type="xs:string"/>
+                <xs:attribute name="dragEnabled" type="xs:boolean"/>
+                <xs:attribute name="dropMode" type="xs:string"/>
+                <xs:attribute name="editable" type="xs:boolean"/>
+                <xs:attribute name="expandsSelectedPaths" type="xs:boolean"/>
+                <xs:attribute name="invokesStopCellEditing" type="xs:boolean"/>
+                <xs:attribute name="largeModel" type="xs:boolean"/>
+                <xs:attribute name="leadSelectionPath" type="xs:string"/>
+                <xs:attribute name="model" type="xs:string"/>
+                <xs:attribute name="rootVisible" type="xs:boolean"/>
+                <xs:attribute name="rowHeight" type="xs:string"/>
+                <xs:attribute name="scrollsOnExpand" type="xs:boolean"/>
+                <xs:attribute name="selectionModel" type="xs:string"/>
+                <xs:attribute name="selectionPath" type="xs:string"/>
+                <xs:attribute name="selectionPaths" type="xs:string"/>
+                <xs:attribute name="selectionRow" type="xs:string"/>
+                <xs:attribute name="selectionRows" type="xs:string"/>
+                <xs:attribute name="showsRootHandles" type="xs:boolean"/>
+                <xs:attribute name="toggleClickCount" type="xs:string"/>
+                <xs:attribute name="visibleRowCount" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="JTreeEx">
+        <xs:complexContent>
+            <xs:extension base="tns:JTree">
+                <xs:sequence/>
+                <xs:attribute name="action" type="xs:string"/>
+                <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="closedIcon" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
+                <xs:attribute name="dblClickAction" type="xs:string"/>
+                <xs:attribute name="leafIcon" type="xs:string"/>
+                <xs:attribute name="openIcon" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="BoxFactoryVGapBox">
+        <xs:complexContent>
+            <xs:extension base="tns:Box">
+                <xs:sequence/>
+                <xs:attribute name="gap" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="box.glue" type="tns:Component"/>
+    <xs:element name="box.hglue" type="tns:Component"/>
+    <xs:element name="box.hstrut" type="tns:Component"/>
+    <xs:element name="box.rigidarea" type="tns:Component"/>
+    <xs:element name="box.vglue" type="tns:Component"/>
+    <xs:element name="box.vstrut" type="tns:Component"/>
+    <xs:element name="button" type="tns:JButton"/>
+    <xs:complexType mixed="true" name="ButtonGroup">
+        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+            <xs:any/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="buttongroup" type="tns:ButtonGroup"/>
+    <xs:element name="checkbox" type="tns:JCheckBoxEx"/>
+    <xs:element name="checkboxmenuitem" type="tns:JCheckBoxMenuItem"/>
+    <xs:element name="combobox" type="tns:JComboBoxEx"/>
+    <xs:element name="component" type="tns:JComponent"/>
+    <xs:element name="desktoppane" type="tns:JDesktopPane"/>
+    <xs:element name="dialog">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="tns:WDialog"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="editorpane" type="tns:JEditorPane"/>
+    <xs:element name="formattedtextfield" type="tns:JFormattedTextField"/>
+    <xs:element name="frame">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="tns:WFrame"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="XGlue">
+        <xs:complexContent>
+            <xs:extension base="tns:BoxFiller">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="BoxFiller">
+        <xs:complexContent>
+            <xs:extension base="tns:JComponent">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="glue" type="tns:XGlue"/>
+    <xs:element name="gridbagconstraints" type="tns:XGridBagConstraints"/>
+    <xs:element name="hbox" type="tns:BoxFactoryHGapBox"/>
+    <xs:element name="hgapbox" type="tns:BoxFactoryHGapBox"/>
+    <xs:element name="internalframe" type="tns:JInternalFrame"/>
+    <xs:element name="label" type="tns:JLabelEx"/>
+    <xs:element name="list" type="tns:JListEx"/>
+    <xs:element name="menu" type="tns:JMenu"/>
+    <xs:element name="menubar" type="tns:JMenuBar"/>
+    <xs:element name="menuitem" type="tns:JMenuItem"/>
+    <xs:element name="optionpane" type="tns:JOptionPane"/>
+    <xs:element name="panel" type="tns:JPanel"/>
+    <xs:element name="passwordfield" type="tns:JPasswordFieldEx"/>
+    <xs:element name="popupmenu" type="tns:JPopupMenu"/>
+    <xs:element name="progressbar" type="tns:JProgressBar"/>
+    <xs:element name="radiobutton" type="tns:JRadioButtonEx"/>
+    <xs:complexType name="JRadioButtonMenuItem">
+        <xs:complexContent>
+            <xs:extension base="tns:JMenuItem">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="radiobuttonmenuitem" type="tns:JRadioButtonMenuItem"/>
+    <xs:element name="scrollpane" type="tns:XScrollPane"/>
+    <xs:element name="separator" type="tns:JSeparator"/>
+    <xs:element name="slider" type="tns:JSliderEx"/>
+    <xs:element name="spinner" type="tns:JSpinnerEx"/>
+    <xs:element name="spinner.date" type="tns:JSpinnerExDate"/>
+    <xs:complexType name="XSplitPane">
+        <xs:complexContent>
+            <xs:extension base="tns:JSplitPane">
+                <xs:sequence/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="splitpane" type="tns:XSplitPane"/>
+    <xs:element name="tabbedpane" type="tns:XTabbedPane"/>
+    <xs:element name="table" type="tns:JTableEx"/>
+    <xs:element name="tablecolumn" type="tns:BindingUtilsColumn"/>
+    <xs:element name="tableheader" type="tns:JTableHeader"/>
+    <xs:element name="textarea" type="tns:JTextAreaEx"/>
+    <xs:element name="textfield" type="tns:JTextFieldEx"/>
+    <xs:element name="textpane" type="tns:JTextPane"/>
+    <xs:element name="togglebutton" type="tns:JToggleButton"/>
+    <xs:element name="toolbar" type="tns:JToolBar"/>
+    <xs:element name="tree" type="tns:JTreeEx"/>
+    <xs:element name="vbox" type="tns:BoxFactoryVGapBox"/>
+    <xs:element name="vgapbox" type="tns:BoxFactoryVGapBox"/>
+</xs:schema>

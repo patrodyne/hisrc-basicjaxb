@@ -33,6 +33,7 @@
 		<module>simple</module>
 		<module>simplify-01</module>
 		<module>superclass</module>
+		<module>swixml</module>
 		<module>value-constructor</module>
 		<module>wildcard</module>
 		<module>wildcard-bio-01</module>

@@ -29,7 +29,6 @@ import javax.swing.table.JTableHeader;
 
 import org.swixml.factory.BoxFactory;
 import org.swixml.factory.BoxFactory.Type;
-import org.swixml.factory.ScriptFactory;
 import org.swixml.factory.SplitPaneFactory;
 import org.swixml.jsr.widgets.JCheckBoxEx;
 import org.swixml.jsr.widgets.JComboBoxEx;
@@ -153,7 +152,6 @@ public final class SwingTagLibrary extends TagLibrary
 		// registerTag( "VBox", XVBox.class );
 		registerTag("HBox", BoxFactory.HGapBox.class);
 		registerTag("tableColumn", BindingUtils.Column.class);
-		registerTag("script", new ScriptFactory());
 		ServiceLoader<TagLibraryService> loader = ServiceLoader.load(TagLibraryService.class);
 		if ( loader == null )
 			return;

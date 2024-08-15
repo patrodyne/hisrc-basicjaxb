@@ -244,7 +244,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	/**
 	 * Default constructor for a SwingEngine.
 	 */
-	protected SwingEngine()
+	public SwingEngine()
 	{
 		if ( Application.getBooleanProperty(Application.USE_COMMON_LOCALIZER) )
 			setLocalizer(new LocalizerJSR296Impl());
@@ -349,6 +349,11 @@ public class SwingEngine<T extends Container> implements LogAware
 			try
 			{
 				Document doc = getDocumentBuilder().parse(new InputSource(xml_reader));
+				if ( logger.isDebugEnabled() )
+				{
+					String xml = DOMUtil.transformToString(doc);
+					logger.debug("XML: \n" + xml);
+				}
 				return render(doc);
 			}
 			catch (Exception e)

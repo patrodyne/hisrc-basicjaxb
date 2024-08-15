@@ -1,11 +1,12 @@
 package org.swixml.factory;
 
+import static java.lang.reflect.Modifier.isAbstract;
+import static java.lang.reflect.Modifier.isPublic;
 import static org.swixml.LogUtil.logger;
 
 import java.awt.LayoutManager;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.Collection;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -67,27 +68,25 @@ public class BeanFactory implements Factory
 		{
 			java.util.List<Method> methods = nameMap.get(name);
 			if ( methods == null || methods.isEmpty() )
-			{
 				return null;
-			}
+			
 			// if( methods.size()==1 ) return methods.get(0);
 			for ( Method m : methods )
 			{
 				if ( m.getParameterTypes()[0].equals(type) )
-				{
 					return m;
-				}
 			}
+			
 			return null;
 		}
 
 		public Collection<Method> values()
 		{
 			java.util.List<Method> result = new java.util.ArrayList<Method>();
+			
 			for ( java.util.List<Method> lm : nameMap.values() )
-			{
 				result.addAll(lm);
-			}
+			
 			return result;
 		}
 	}
@@ -133,13 +132,17 @@ public class BeanFactory implements Factory
 		
 		Method[] mm = beanClass.getMethods();
 		setNameMap(new MethodMap(mm.length));
-		
 		for ( Method m : mm )
 		{
 			int modifier = m.getModifiers();
 			String name = m.getName();
-			if ( Modifier.isPublic(modifier)	&& !Modifier.isAbstract(modifier) && name.startsWith("set")
-					&& m.getParameterTypes().length == 1 )
+			m.isAnnotationPresent(Deprecated.class);
+			if
+			(
+				isPublic(modifier) && !isAbstract(modifier)
+				&& name.startsWith("set")
+				&& (m.getParameterTypes().length == 1)
+			)
 			{
 				getNameMap().put(name.substring(3).toLowerCase(), m);
 			}
