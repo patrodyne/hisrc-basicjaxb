@@ -10,7 +10,7 @@ import org.swixml.jsr295.BindingUtils;
  * 
  * @author sorrentino
  */
-public class JTextAreaEx
+public class JTextAreaBind
 	extends JTextArea
 	implements BindableBasicWidget
 {

@@ -10,13 +10,13 @@ import org.swixml.jsr295.BindingUtils;
  * 
  * @author softphone
  */
-public class JSpinnerEx
+public class JSpinnerBind
 	extends JSpinner
 	implements BindableBasicWidget
 {
 	private static final long serialVersionUID = 20240701L;
 
-	public static class Date extends JSpinnerEx
+	public static class Date extends JSpinnerBind
 	{
 		private static final long serialVersionUID = 20240701L;
 		private String dateFormat;
@@ -51,7 +51,7 @@ public class JSpinnerEx
 		}
 	}
 
-	public JSpinnerEx()
+	public JSpinnerBind()
 	{
 		super();
 	}

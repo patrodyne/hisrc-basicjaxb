@@ -24,7 +24,7 @@ import org.swixml.jsr295.BindingUtils;
  * 
  * @author sorrentino
  */
-public class JTreeEx
+public class JTreeBind
 	extends JTree
 	implements BindableBasicWidget, LogAware
 {
@@ -38,7 +38,7 @@ public class JTreeEx
 	/**
 	 * 
 	 */
-	public JTreeEx()
+	public JTreeBind()
 	{
 		super();
 		init();
@@ -48,7 +48,7 @@ public class JTreeEx
 	 * 
 	 * @param newModel
 	 */
-	public JTreeEx(TreeModel newModel)
+	public JTreeBind(TreeModel newModel)
 	{
 		super(newModel);
 		init();

@@ -10,13 +10,13 @@ import org.swixml.jsr295.BindingUtils;
  * 
  * @author sorrentino
  */
-public class JRadioButtonEx
+public class JRadioButtonBind
 	extends JRadioButton
 	implements BindableBasicWidget
 {
 	private static final long serialVersionUID = 20240701L;
 
-	public JRadioButtonEx()
+	public JRadioButtonBind()
 	{
 		super();
 	}

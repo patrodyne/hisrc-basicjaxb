@@ -5,9 +5,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import org.jdesktop.application.Action;
-import org.swixml.jsr.widgets.JDialogEx;
+import org.swixml.jsr.widgets.JDialogBind;
 
-public class TextDialog extends JDialogEx
+public class TextDialog extends JDialogBind
 {
 	private static final long serialVersionUID = 20240701L;
 	class JTextFieldLimit extends PlainDocument

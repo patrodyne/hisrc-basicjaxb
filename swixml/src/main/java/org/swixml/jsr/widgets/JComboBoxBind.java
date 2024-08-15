@@ -27,7 +27,7 @@ import org.jdesktop.beansbinding.Property;
  * @param <SS>
  * @param <TS>
  */
-public class JComboBoxEx<E, SS, TS>
+public class JComboBoxBind<E, SS, TS>
 	extends JComboBox<E>
 	implements BindableListWidget, BindableBasicWidget
 {
@@ -35,22 +35,22 @@ public class JComboBoxEx<E, SS, TS>
 	
 	private List<?> beanList;
 
-	public JComboBoxEx()
+	public JComboBoxBind()
 	{
 		super();
 	}
 
-	public JComboBoxEx(ComboBoxModel<E> model)
+	public JComboBoxBind(ComboBoxModel<E> model)
 	{
 		super(model);
 	}
 
-	public JComboBoxEx(E[] items)
+	public JComboBoxBind(E[] items)
 	{
 		super(items);
 	}
 
-	public JComboBoxEx(Vector<E> items)
+	public JComboBoxBind(Vector<E> items)
 	{
 		super(items);
 	}

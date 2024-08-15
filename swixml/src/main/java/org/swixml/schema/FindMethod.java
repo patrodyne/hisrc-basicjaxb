@@ -6,7 +6,7 @@ import java.util.Vector;
 
 /**
  * @author 
- * <a href=https://groups.google.com/g/comp.lang.java.programmer/c/khq5GGXIzC4">Jon Skeet</a>
+ * <a href="https://groups.google.com/g/comp.lang.java.programmer/c/khq5GGXIzC4">Jon Skeet</a>
  */
 @SuppressWarnings("rawtypes")
 public class FindMethod

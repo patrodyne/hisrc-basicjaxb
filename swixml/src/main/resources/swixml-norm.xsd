@@ -101,7 +101,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JCheckBoxEx">
+    <xs:complexType name="JCheckBoxBind">
         <xs:complexContent>
             <xs:extension base="tns:JCheckBox">
                 <xs:sequence/>
@@ -163,7 +163,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JComboBoxEx">
+    <xs:complexType name="JComboBoxBind">
         <xs:complexContent>
             <xs:extension base="tns:JComboBox">
                 <xs:sequence/>
@@ -411,7 +411,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JLabelEx">
+    <xs:complexType name="JLabelBind">
         <xs:complexContent>
             <xs:extension base="tns:JLabel">
                 <xs:sequence/>
@@ -445,7 +445,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JListEx">
+    <xs:complexType name="JListBind">
         <xs:complexContent>
             <xs:extension base="tns:JList">
                 <xs:sequence/>
@@ -505,7 +505,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JPasswordFieldEx">
+    <xs:complexType name="JPasswordFieldBind">
         <xs:complexContent>
             <xs:extension base="tns:JPasswordField">
                 <xs:sequence/>
@@ -555,7 +555,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JRadioButtonEx">
+    <xs:complexType name="JRadioButtonBind">
         <xs:complexContent>
             <xs:extension base="tns:JRadioButton">
                 <xs:sequence/>
@@ -630,7 +630,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JSliderEx">
+    <xs:complexType name="JSliderBind">
         <xs:complexContent>
             <xs:extension base="tns:JSlider">
                 <xs:sequence/>
@@ -651,7 +651,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JSpinnerEx">
+    <xs:complexType name="JSpinnerBind">
         <xs:complexContent>
             <xs:extension base="tns:JSpinner">
                 <xs:sequence/>
@@ -660,9 +660,9 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JSpinnerExDate">
+    <xs:complexType name="JSpinnerBindDate">
         <xs:complexContent>
-            <xs:extension base="tns:JSpinnerEx">
+            <xs:extension base="tns:JSpinnerBind">
                 <xs:sequence/>
                 <xs:attribute name="dateFormat" type="xs:string"/>
             </xs:extension>
@@ -751,7 +751,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JTableEx">
+    <xs:complexType name="JTableBind">
         <xs:complexContent>
             <xs:extension base="tns:JTable">
                 <xs:sequence/>
@@ -763,7 +763,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="BindingUtilsColumn">
+    <xs:complexType name="TableColumnBind">
         <xs:complexContent>
             <xs:extension base="tns:TableColumn">
                 <xs:sequence/>
@@ -806,7 +806,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JTextAreaEx">
+    <xs:complexType name="JTextAreaBind">
         <xs:complexContent>
             <xs:extension base="tns:JTextArea">
                 <xs:sequence/>
@@ -827,7 +827,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JTextFieldEx">
+    <xs:complexType name="JTextFieldBind">
         <xs:complexContent>
             <xs:extension base="tns:JTextField">
                 <xs:sequence/>
@@ -888,7 +888,7 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType name="JTreeEx">
+    <xs:complexType name="JTreeBind">
         <xs:complexContent>
             <xs:extension base="tns:JTree">
                 <xs:sequence/>
@@ -923,9 +923,9 @@
         </xs:sequence>
     </xs:complexType>
     <xs:element name="buttongroup" type="tns:ButtonGroup"/>
-    <xs:element name="checkbox" type="tns:JCheckBoxEx"/>
+    <xs:element name="checkbox" type="tns:JCheckBoxBind"/>
     <xs:element name="checkboxmenuitem" type="tns:JCheckBoxMenuItem"/>
-    <xs:element name="combobox" type="tns:JComboBoxEx"/>
+    <xs:element name="combobox" type="tns:JComboBoxBind"/>
     <xs:element name="component" type="tns:JComponent"/>
     <xs:element name="desktoppane" type="tns:JDesktopPane"/>
     <xs:element name="dialog">
@@ -963,17 +963,17 @@
     <xs:element name="hbox" type="tns:BoxFactoryHGapBox"/>
     <xs:element name="hgapbox" type="tns:BoxFactoryHGapBox"/>
     <xs:element name="internalframe" type="tns:JInternalFrame"/>
-    <xs:element name="label" type="tns:JLabelEx"/>
-    <xs:element name="list" type="tns:JListEx"/>
+    <xs:element name="label" type="tns:JLabelBind"/>
+    <xs:element name="list" type="tns:JListBind"/>
     <xs:element name="menu" type="tns:JMenu"/>
     <xs:element name="menubar" type="tns:JMenuBar"/>
     <xs:element name="menuitem" type="tns:JMenuItem"/>
     <xs:element name="optionpane" type="tns:JOptionPane"/>
     <xs:element name="panel" type="tns:JPanel"/>
-    <xs:element name="passwordfield" type="tns:JPasswordFieldEx"/>
+    <xs:element name="passwordfield" type="tns:JPasswordFieldBind"/>
     <xs:element name="popupmenu" type="tns:JPopupMenu"/>
     <xs:element name="progressbar" type="tns:JProgressBar"/>
-    <xs:element name="radiobutton" type="tns:JRadioButtonEx"/>
+    <xs:element name="radiobutton" type="tns:JRadioButtonBind"/>
     <xs:complexType name="JRadioButtonMenuItem">
         <xs:complexContent>
             <xs:extension base="tns:JMenuItem">
@@ -984,9 +984,9 @@
     <xs:element name="radiobuttonmenuitem" type="tns:JRadioButtonMenuItem"/>
     <xs:element name="scrollpane" type="tns:XScrollPane"/>
     <xs:element name="separator" type="tns:JSeparator"/>
-    <xs:element name="slider" type="tns:JSliderEx"/>
-    <xs:element name="spinner" type="tns:JSpinnerEx"/>
-    <xs:element name="spinner.date" type="tns:JSpinnerExDate"/>
+    <xs:element name="slider" type="tns:JSliderBind"/>
+    <xs:element name="spinner" type="tns:JSpinnerBind"/>
+    <xs:element name="spinner.date" type="tns:JSpinnerBindDate"/>
     <xs:complexType name="XSplitPane">
         <xs:complexContent>
             <xs:extension base="tns:JSplitPane">
@@ -996,15 +996,15 @@
     </xs:complexType>
     <xs:element name="splitpane" type="tns:XSplitPane"/>
     <xs:element name="tabbedpane" type="tns:XTabbedPane"/>
-    <xs:element name="table" type="tns:JTableEx"/>
-    <xs:element name="tablecolumn" type="tns:BindingUtilsColumn"/>
+    <xs:element name="table" type="tns:JTableBind"/>
+    <xs:element name="tablecolumn" type="tns:TableColumnBind"/>
     <xs:element name="tableheader" type="tns:JTableHeader"/>
-    <xs:element name="textarea" type="tns:JTextAreaEx"/>
-    <xs:element name="textfield" type="tns:JTextFieldEx"/>
+    <xs:element name="textarea" type="tns:JTextAreaBind"/>
+    <xs:element name="textfield" type="tns:JTextFieldBind"/>
     <xs:element name="textpane" type="tns:JTextPane"/>
     <xs:element name="togglebutton" type="tns:JToggleButton"/>
     <xs:element name="toolbar" type="tns:JToolBar"/>
-    <xs:element name="tree" type="tns:JTreeEx"/>
+    <xs:element name="tree" type="tns:JTreeBind"/>
     <xs:element name="vbox" type="tns:BoxFactoryVGapBox"/>
     <xs:element name="vgapbox" type="tns:BoxFactoryVGapBox"/>
 </xs:schema>

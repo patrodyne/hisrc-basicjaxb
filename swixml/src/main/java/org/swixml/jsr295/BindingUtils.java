@@ -41,6 +41,7 @@ import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.JListBinding;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.swixml.SwingEngine;
+import org.swixml.jsr.widgets.TableColumnBind;
 
 /**
  * @see <a href="file:../package-info.java">LICENSE: package-info</a>
@@ -59,49 +60,7 @@ public class BindingUtils
 	private BindingUtils()
 	{
 	}
-
-	static public class Column extends TableColumn
-	{
-		private static final long serialVersionUID = 20240701L;
-		boolean editable = false;
-		String type = null;
-
-		public Column()
-		{
-			super();
-		}
-
-		public final String getBindWith()
-		{
-			return (String) super.getIdentifier();
-		}
-
-		public final void setBindWith(String bindWith)
-		{
-			super.setIdentifier(bindWith);
-		}
-
-		public final boolean isEditable()
-		{
-			return editable;
-		}
-
-		public final void setEditable(boolean editable)
-		{
-			this.editable = editable;
-		}
-
-		public final String getType()
-		{
-			return type;
-		}
-
-		public final void setType(String type)
-		{
-			this.type = type;
-		}
-	}
-
+	
 	public static boolean isBound(JComponent comp)
 	{
 		if ( comp == null )
@@ -366,14 +325,14 @@ public class BindingUtils
 		while (tableColumns.hasMoreElements())
 		{
 			TableColumn tc = tableColumns.nextElement();
-			if ( !(tc instanceof Column) )
+			if ( !(tc instanceof TableColumnBind) )
 			{
 				logger.warn(
 					String.format("column [%s] is not valid. It will be ignored in binding!", tc.getIdentifier()));
 				continue;
 			}
 			
-			Column c = (Column) tc;
+			TableColumnBind c = (TableColumnBind) tc;
 			logger.info(String.format(
 				"column [%s] header=[%s] modelIndex=[%d] resizable=[%b] minWidth=[%s] maxWidth=[%d] preferredWidth=[%d]",
 				tc.getIdentifier(), tc.getHeaderValue(), tc.getModelIndex(), tc.getResizable(), tc.getMinWidth(),

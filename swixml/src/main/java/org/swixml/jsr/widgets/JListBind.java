@@ -20,7 +20,7 @@ import org.swixml.SwingEngine;
  * 
  * @param <E>
  */
-public class JListEx<E>
+public class JListBind<E>
 	extends JList<E>
 	implements BindableListWidget, BindableBasicWidget
 {
@@ -28,7 +28,7 @@ public class JListEx<E>
 	private List<?> beanList;
 	private javax.swing.Action action;
 
-	public JListEx()
+	public JListBind()
 	{
 		super.addListSelectionListener(new ListSelectionListener()
 		{

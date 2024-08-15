@@ -10,7 +10,7 @@ import org.swixml.jsr295.BindingUtils;
  * 
  * @author Sorrentino
  */
-public class JTextFieldEx
+public class JTextFieldBind
 	extends JTextField
 	implements BindableBasicWidget
 {

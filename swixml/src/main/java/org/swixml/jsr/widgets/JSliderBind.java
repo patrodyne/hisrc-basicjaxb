@@ -15,7 +15,7 @@ import org.swixml.jsr295.BindingUtils;
  * 
  * @author softphone
  */
-public class JSliderEx
+public class JSliderBind
 	extends JSlider
 	implements BindableBasicWidget
 {

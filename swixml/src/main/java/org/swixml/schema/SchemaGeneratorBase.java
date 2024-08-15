@@ -84,7 +84,7 @@ abstract public class SchemaGeneratorBase
 	/**
 	 * Generate the Swixml XML Schema.
 	 *
-	 * @param uri <code> target Namespace, e.g. http://www.swixml.org/2007/SwixmlTags
+	 * @param uri The target name space, e.g. http://www.swixml.org/2007/SwixmlTags
 	 * 
 	 * @throws ParserConfigurationException When the document cannot be built.
 	 */

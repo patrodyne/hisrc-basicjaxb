@@ -258,7 +258,7 @@ public class SchemaGeneratorNorm extends SchemaGeneratorBase
 	/**
 	 * Writes the schema into the given file. Defaults to standard out.
 	 *
-	 * @param args The <code>String[]<code> arguments; specifically, a file name.
+	 * @param args The <code>String[]</code> arguments; specifically, a file name.
 	 */
 	public static void main(String[] args)
 		throws Exception

@@ -30,7 +30,7 @@ import org.swixml.jsr295.BindingUtils;
  * @see <a href="file:../../package-info.java">LICENSE: package-info</a>
  * @author sorrentino
  */
-public class JTableEx
+public class JTableBind
 	extends JTable
 	implements BindableListWidget, BindableBasicWidget
 {
@@ -42,13 +42,13 @@ public class JTableEx
 	private List<?> beanList;
 	private boolean allPropertiesBound = true;
 
-	public JTableEx()
+	public JTableBind()
 	{
 		super();
 		init();
 	}
 
-	public JTableEx(TableModel dm)
+	public JTableBind(TableModel dm)
 	{
 		super(dm);
 		init();

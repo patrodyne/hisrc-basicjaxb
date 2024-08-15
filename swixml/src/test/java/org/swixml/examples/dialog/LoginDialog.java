@@ -5,10 +5,10 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import static org.jdesktop.application.Application.getInstance;
 
 import org.jdesktop.application.Action;
-import org.swixml.jsr.widgets.JDialogEx;
+import org.swixml.jsr.widgets.JDialogBind;
 import org.swixml.jsr296.SwingApplication;
 
-public class LoginDialog extends JDialogEx
+public class LoginDialog extends JDialogBind
 {
 	private static final long serialVersionUID = 20240701L;
 	private static final String DATA_VALID = "dataValid";

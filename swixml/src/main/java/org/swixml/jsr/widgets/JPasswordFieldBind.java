@@ -8,7 +8,7 @@ import org.swixml.jsr295.BindingUtils;
 /**
  * @see <a href="file:../../package-info.java">LICENSE: package-info</a>
  */
-public class JPasswordFieldEx
+public class JPasswordFieldBind
 	extends JPasswordField
 	implements BindableBasicWidget
 {

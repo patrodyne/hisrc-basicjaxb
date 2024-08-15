@@ -10,7 +10,7 @@ import org.swixml.jsr295.BindingUtils;
  * 
  * @author sorrentino
  */
-public class JLabelEx extends JLabel implements BindableBasicWidget
+public class JLabelBind extends JLabel implements BindableBasicWidget
 {
 	private static final long serialVersionUID = 20240701L;
 	@Override

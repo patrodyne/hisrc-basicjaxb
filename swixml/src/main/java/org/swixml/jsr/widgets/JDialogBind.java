@@ -20,87 +20,87 @@ import org.jdesktop.application.ApplicationActionMap;
  * @see <a href="file:../../package-info.java">LICENSE: package-info</a>
  * @author softphone
  */
-public class JDialogEx extends JDialog
+public class JDialogBind extends JDialog
 {
 	private static final long serialVersionUID = 20240701L;
 	protected JButton defaultButton;
 
-	public JDialogEx()
+	public JDialogBind()
 	{
 		super();
 	}
 
-	public JDialogEx(Dialog owner, boolean modal)
+	public JDialogBind(Dialog owner, boolean modal)
 	{
 		super(owner, modal);
 	}
 
-	public JDialogEx(Dialog owner, String title, boolean modal, GraphicsConfiguration gc)
+	public JDialogBind(Dialog owner, String title, boolean modal, GraphicsConfiguration gc)
 	{
 		super(owner, title, modal, gc);
 	}
 
-	public JDialogEx(Dialog owner, String title, boolean modal)
+	public JDialogBind(Dialog owner, String title, boolean modal)
 	{
 		super(owner, title, modal);
 	}
 
-	public JDialogEx(Dialog owner, String title)
+	public JDialogBind(Dialog owner, String title)
 	{
 		super(owner, title);
 	}
 
-	public JDialogEx(Dialog owner)
+	public JDialogBind(Dialog owner)
 	{
 		super(owner);
 	}
 
-	public JDialogEx(Frame owner, boolean modal)
+	public JDialogBind(Frame owner, boolean modal)
 	{
 		super(owner, modal);
 	}
 
-	public JDialogEx(Frame owner, String title, boolean modal, GraphicsConfiguration gc)
+	public JDialogBind(Frame owner, String title, boolean modal, GraphicsConfiguration gc)
 	{
 		super(owner, title, modal, gc);
 	}
 
-	public JDialogEx(Frame owner, String title, boolean modal)
+	public JDialogBind(Frame owner, String title, boolean modal)
 	{
 		super(owner, title, modal);
 	}
 
-	public JDialogEx(Frame owner, String title)
+	public JDialogBind(Frame owner, String title)
 	{
 		super(owner, title);
 	}
 
-	public JDialogEx(Frame owner)
+	public JDialogBind(Frame owner)
 	{
 		super(owner);
 	}
 
-	public JDialogEx(Window owner, ModalityType mt)
+	public JDialogBind(Window owner, ModalityType mt)
 	{
 		super(owner, mt);
 	}
 
-	public JDialogEx(Window owner, String title, ModalityType mt, GraphicsConfiguration gc)
+	public JDialogBind(Window owner, String title, ModalityType mt, GraphicsConfiguration gc)
 	{
 		super(owner, title, mt, gc);
 	}
 
-	public JDialogEx(Window owner, String arg1, ModalityType arg2)
+	public JDialogBind(Window owner, String arg1, ModalityType arg2)
 	{
 		super(owner, arg1, arg2);
 	}
 
-	public JDialogEx(Window owner, String title)
+	public JDialogBind(Window owner, String title)
 	{
 		super(owner, title);
 	}
 
-	public JDialogEx(Window owner)
+	public JDialogBind(Window owner)
 	{
 		super(owner);
 	}
