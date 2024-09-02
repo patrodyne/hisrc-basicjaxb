@@ -20,7 +20,7 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
  * <pre>{@code
  * <complexType>
  *   <complexContent>
- *     <extension base="{http://www.swixml.org/2007/Swixml}WDialog">
+ *     <extension base="{http://www.swixml.org/2007/Swixml}XDialog">
  *     </extension>
  *   </complexContent>
  * </complexType>
@@ -32,7 +32,7 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
 @XmlType(name = "")
 @XmlRootElement(name = "dialog")
 public class Dialog
-    extends WDialog
+    extends XDialog
     implements Serializable
 {
 

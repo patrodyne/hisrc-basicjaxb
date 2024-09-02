@@ -52,6 +52,11 @@ public class Attribute implements LogAware
 	{
 		return (null != attr) ? new Attribute(attr.cloneNode(true)) : new Attribute(name, new String(value));
 	}
+	
+	public org.w3c.dom.Attr getDomAttribute()
+	{
+		return attr;
+	}
 
 	public final String getValue()
 	{

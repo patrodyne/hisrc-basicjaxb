@@ -8,6 +8,7 @@
 	resizable="true"
 	alwaysOnTop="true"
 	title="Client Attribute Sample"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
 	defaultCloseOperation="JFrame.EXIT_ON_CLOSE"
 >
 
@@ -26,19 +27,23 @@
 
 					<hbox gap="5">
 						<label text="texField Binding" />
-						<textfield id="tv" bindWith="testValue" columns="20"></textfield>
+						<textfield id="tv" bindWith="testValue" columns="20" />
 						<box.hglue />
 					</hbox>
 
 					<hbox>
-						<combobox bindList="${window.comboList}" action="comboAction" />
+						<combobox
+							bindWith="comboItem"
+							bindList="${window.comboList}"
+							action="comboAction"
+						/>
 						<box.hglue />
 					</hbox>
 
 					<hbox>
 						<scrollpane>
 							<list
-								bindList="${window.comboList}"
+								bindWith="comboList"
 								action="listAction"
 								cellRenderer="${window.listRenderer}"
 							/>
@@ -59,21 +64,66 @@
 
 			<panel name="table-tree" layout="BorderLayout">
 			
-				<splitpane constraints="BorderLayout.CENTER">
+				<splitpane
+					constraints="BorderLayout.CENTER"
+					orientation="JSplitPane.HORIZONTAL_SPLIT"
+					oneTouchExpandable="true"
+				>
 				
 					<scrollpane>
 						<tree model="${window.myTree}" action="selectNode" />
 					</scrollpane>
 
-					<scrollpane>
+					<scrollpane
+						horizontalScrollBarPolicy="JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED"
+						verticalScrollBarPolicy="JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED"
+					>
 						<table
 							id="testTable"
 							action="selectRow"
 							dblClickAction="activateRow"
 							cellSelectionEnabled="true"
 							bindList="${window.myData}"
+							autoResizeMode="0"
+							font="Monospaced"
+							rowHeight="${el.fieldHeight(10)}"
+						>
+						<!-- 
 							bindClass="${window.myDataClass}"
-						/>
+						-->
+							<tablecolumn
+								bindWith="name"
+								headerValue="Name"
+								type="java.lang.String"
+								preferredWidth="${el.fieldWidth('Monospaced','W',10)}"
+								resizable="true"
+								editable="false"
+							/>
+							<tablecolumn
+								bindWith="age"
+								headerValue="Age"
+								type="java.lang.Integer"
+								preferredWidth="${el.fieldWidth(5)}"
+								resizable="true"
+								editable="true"
+							/>
+							<tablecolumn
+								bindWith="field3"
+								headerValue="Field #3"
+								type="java.lang.String"
+								preferredWidth="${el.fieldWidth('W',20)}"
+								resizable="true"
+								editable="true"
+							/>
+							<tablecolumn
+								bindWith="field4"
+								headerValue="Field #4"
+								type="java.lang.String"
+								preferredWidth="${el.fieldWidth('Monospaced',20)}"
+								resizable="true"
+								editable="true"
+							/>
+						</table>
 					</scrollpane>
 
 				</splitpane>

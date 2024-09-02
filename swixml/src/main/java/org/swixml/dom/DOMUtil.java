@@ -2,18 +2,11 @@ package org.swixml.dom;
 
 import static java.lang.String.format;
 
-import java.io.StringWriter;
 import java.util.Collections;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.swixml.LogAware;
 import org.w3c.dom.Attr;
@@ -149,24 +142,5 @@ public class DOMUtil implements LogAware
 				n.getNamespaceURI(), n.getPrefix()));
 		}
 	}
-	
-	/**
-	 * Transform a {@link Node} instance into a formatted XML string.
-	 * 
-	 * @param node The {@link Node} instance to be transformed.
-	 * 
-	 * @return A {@link Node} instance into a formatted XML string.
-	 * 
-	 * @throws TransformerException When the {@link Node} instance cannot be transformed.
-	 */
-	public static String transformToString(Node node) throws TransformerException
-	{
-		TransformerFactory tf = TransformerFactory.newInstance();
-		Transformer transformer = tf.newTransformer();
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		StringWriter writer = new StringWriter();
-		transformer.transform(new DOMSource(node), new StreamResult(writer));
-		String xml = writer.toString();
-		return xml.replaceAll("(?m)^[ \t]*\r?\n", "");
-	}
+
 }

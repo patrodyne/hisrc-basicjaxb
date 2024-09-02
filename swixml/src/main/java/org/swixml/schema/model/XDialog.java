@@ -4,6 +4,7 @@ package org.swixml.schema.model;
 import java.io.Serializable;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.XmlType;
 import org.jvnet.basicjaxb.lang.EqualsStrategy;
 import org.jvnet.basicjaxb.lang.HashCodeStrategy;
@@ -31,6 +32,9 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "XDialog")
+@XmlSeeAlso({
+    Dialog.class
+})
 public class XDialog
     extends JDialog
     implements Serializable

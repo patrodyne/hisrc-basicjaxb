@@ -1,5 +1,8 @@
 package org.swixml.jsr.widgets;
 
+import static org.swixml.SwingEngine.ENGINE_PROPERTY;
+import static org.swixml.jsr295.BindingUtils.boundCheckAndSet;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,7 +20,6 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Converter;
 import org.swixml.LogAware;
 import org.swixml.SwingEngine;
-import org.swixml.jsr295.BindingUtils;
 
 /**
  * @see <a href="file:../../package-info.java">LICENSE: package-info</a>
@@ -29,25 +31,113 @@ public class JTreeBind
 	implements BindableBasicWidget, LogAware
 {
 	private static final long serialVersionUID = 20240701L;
-	private Action action;
-	private Action dblClickAction = null;
-	private ImageIcon leafIcon = null;
-	private ImageIcon openIcon = null;
-	private ImageIcon closedIcon = null;
 
-	/**
-	 * 
-	 */
+	@Override
+	public String getBindWith()
+	{
+		return (String) getClientProperty(BINDWITH_PROPERTY);
+	}
+	@Override
+	public void setBindWith(String bindWith)
+	{
+		putClientProperty(BINDWITH_PROPERTY, bindWith);
+	}
+
+	@Override
+	public Converter<?, ?> getConverter()
+	{
+		return null;
+	}
+	@Override
+	public void setConverter(Converter<?, ?> converter)
+	{
+	}
+
+	private Action action;
+	public Action getAction()
+	{
+		return action;
+	}
+	public void setAction(Action action)
+	{
+		this.action = action;
+	}
+
+	private Action dblClickAction = null;
+	public final Action getDblClickAction()
+	{
+		return dblClickAction;
+	}
+	public final void setDblClickAction(Action dblClickAction)
+	{
+		this.dblClickAction = dblClickAction;
+	}
+
+	private ImageIcon openIcon = null;
+	public ImageIcon getOpenIcon()
+	{
+		return openIcon;
+	}
+	public void setOpenIcon(ImageIcon folderIcon)
+	{
+		this.openIcon = folderIcon;
+	}
+
+	private ImageIcon leafIcon = null;
+	public ImageIcon getLeafIcon()
+	{
+		return leafIcon;
+	}
+	public void setLeafIcon(ImageIcon leafIcon)
+	{
+		this.leafIcon = leafIcon;
+	}
+
+	private ImageIcon closedIcon = null;
+	public ImageIcon getClosedIcon()
+	{
+		return closedIcon;
+	}
+	public void setClosedIcon(ImageIcon closedIcon)
+	{
+		this.closedIcon = closedIcon;
+	}
+
+	@Override
+	public void addNotify()
+	{
+		if ( getBindWith() != null )
+		{
+			SwingEngine<?> engine = (SwingEngine<?>) getClientProperty(ENGINE_PROPERTY);
+			BeanProperty<Object, TreeModel> bp = BeanProperty.create(getBindWith());
+			TreeModel tm = bp.getValue(engine.getClient());
+			setModel(tm);
+		}
+		
+		if ( !boundCheckAndSet(this) )
+		{
+			if ( (null != getOpenIcon()) || (null != getLeafIcon()) || (null != getClosedIcon()) )
+			{
+				DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+				if ( null != getLeafIcon() )
+					renderer.setLeafIcon(getLeafIcon());
+				if ( null != getOpenIcon() )
+					renderer.setOpenIcon(getOpenIcon());
+				if ( null != getClosedIcon() )
+					renderer.setClosedIcon(getClosedIcon());
+				setCellRenderer(renderer);
+			}
+		}
+		
+		super.addNotify();
+	}
+	
 	public JTreeBind()
 	{
 		super();
 		init();
 	}
 
-	/**
-	 * 
-	 * @param newModel
-	 */
 	public JTreeBind(TreeModel newModel)
 	{
 		super(newModel);
@@ -75,7 +165,8 @@ public class JTreeBind
 			{
 				int selRow = getRowForLocation(e.getX(), e.getY());
 				// TreePath selPath = getPathForLocation(e.getX(), e.getY());
-				logger.debug(String.format("mousePressed selRow=[%d] clickCount=[%d]", selRow, e.getClickCount()));
+				logger.debug(String.format("mousePressed selRow=[%d] clickCount=[%d]",
+					selRow, e.getClickCount()));
 				if ( selRow != -1 )
 				{
 					if ( e.getClickCount() == 2 )
@@ -90,113 +181,5 @@ public class JTreeBind
 			}
 		};
 		addMouseListener(ml);
-	}
-
-	public final Action getDblClickAction()
-	{
-		return dblClickAction;
-	}
-
-	public final void setDblClickAction(Action dblClickAction)
-	{
-		this.dblClickAction = dblClickAction;
-	}
-
-	public ImageIcon getOpenIcon()
-	{
-		return openIcon;
-	}
-
-	public void setOpenIcon(ImageIcon folderIcon)
-	{
-		this.openIcon = folderIcon;
-	}
-
-	public ImageIcon getLeafIcon()
-	{
-		return leafIcon;
-	}
-
-	public void setLeafIcon(ImageIcon leafIcon)
-	{
-		this.leafIcon = leafIcon;
-	}
-
-	public ImageIcon getClosedIcon()
-	{
-		return closedIcon;
-	}
-
-	public void setClosedIcon(ImageIcon closedIcon)
-	{
-		this.closedIcon = closedIcon;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public Action getAction()
-	{
-		return action;
-	}
-
-	/**
-	 * 
-	 * @param action
-	 */
-	public void setAction(Action action)
-	{
-		this.action = action;
-	}
-
-	@Override
-	public String getBindWith()
-	{
-		return (String) getClientProperty(BINDWITH_PROPERTY);
-	}
-
-	@Override
-	public void setBindWith(String bindWith)
-	{
-		putClientProperty(BINDWITH_PROPERTY, bindWith);
-	}
-
-	@Override
-	public void setConverter(Converter<?, ?> converter)
-	{
-	}
-
-	@Override
-	public Converter<?, ?> getConverter()
-	{
-		return null;
-	}
-
-	@Override
-	public void addNotify()
-	{
-		if ( getBindWith() != null )
-		{
-			Object client = getClientProperty(SwingEngine.CLIENT_PROPERTY);
-			BeanProperty<Object, TreeModel> p = BeanProperty.create(getBindWith());
-			TreeModel m = p.getValue(client);
-			setModel(m);
-		}
-		if ( !BindingUtils.boundCheckAndSet(this) )
-		{
-			if ( null != openIcon || null != leafIcon || null != closedIcon )
-			{
-				DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-				if ( null != leafIcon )
-					renderer.setLeafIcon(leafIcon);
-				if ( null != openIcon )
-					renderer.setOpenIcon(openIcon);
-				if ( null != closedIcon )
-					renderer.setClosedIcon(closedIcon);
-				setCellRenderer(renderer);
-			}
-		}
-		super.addNotify();
 	}
 }

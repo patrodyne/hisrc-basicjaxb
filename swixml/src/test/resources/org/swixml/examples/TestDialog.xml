@@ -7,7 +7,7 @@
 	size="650,400"
 	layout="BorderLayout"
 	title="Test Dialog"
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
 >
 
 	<panel constraints="BorderLayout.CENTER">

@@ -1,5 +1,7 @@
 package org.swixml.jsr.widgets;
 
+import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE;
+import static org.swixml.SwingEngine.ENGINE_PROPERTY;
 import static org.swixml.jsr295.BindingUtils.initListBinding;
 
 import java.awt.event.ActionEvent;
@@ -10,7 +12,6 @@ import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Converter;
 import org.swixml.SwingEngine;
@@ -25,8 +26,51 @@ public class JListBind<E>
 	implements BindableListWidget, BindableBasicWidget
 {
 	private static final long serialVersionUID = 20240701L;
-	private List<?> beanList;
+
+	private List<?> bindList;
+	@Override
+	public final List<?> getBindList()
+	{
+		return bindList;
+	}
+	@Override
+	public final void setBindList(List<?> bindList)
+	{
+		this.bindList = bindList;
+	}
+
+	@Override
+	public String getBindWith()
+	{
+		return (String) getClientProperty(BINDWITH_PROPERTY);
+	}
+	@Override
+	public void setBindWith(String bindWith)
+	{
+		putClientProperty(BINDWITH_PROPERTY, bindWith);
+	}
+
+	@Override
+	public void setConverter(Converter<?, ?> converter)
+	{
+		putClientProperty(CONVERTER_PROPERTY, converter);
+	}
+
+	@Override
+	public Converter<?, ?> getConverter()
+	{
+		return (Converter<?, ?>) getClientProperty(CONVERTER_PROPERTY);
+	}
+
 	private javax.swing.Action action;
+	public javax.swing.Action getAction()
+	{
+		return action;
+	}
+	public void setAction(javax.swing.Action action)
+	{
+		this.action = action;
+	}
 
 	public JListBind()
 	{
@@ -51,79 +95,21 @@ public class JListBind<E>
 		});
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public javax.swing.Action getAction()
-	{
-		return action;
-	}
-
-	/**
-	 * 
-	 * @param action
-	 */
-	public void setAction(javax.swing.Action action)
-	{
-		this.action = action;
-	}
-
-	@Override
-	@Deprecated
-	public final List<?> getBindList()
-	{
-		return beanList;
-	}
-
-	@Override
-	@Deprecated
-	public final void setBindList(List<?> beanList)
-	{
-		this.beanList = beanList;
-	}
-
-	@Override
-	public String getBindWith()
-	{
-		return (String) getClientProperty(BINDWITH_PROPERTY);
-	}
-
-	@Override
-	public void setBindWith(String bindWith)
-	{
-		putClientProperty(BINDWITH_PROPERTY, bindWith);
-	}
-
-	@Override
-	public void setConverter(Converter<?, ?> converter)
-	{
-		putClientProperty(CONVERTER_PROPERTY, converter);
-	}
-
-	@Override
-	public Converter<?, ?> getConverter()
-	{
-		return (Converter<?, ?>) getClientProperty(CONVERTER_PROPERTY);
-	}
-
 	@Override
 	public void addNotify()
 	{
-		if ( beanList == null )
+		if ( getBindList() == null )
 		{
 			if ( getBindWith() != null )
 			{
-				Object client = getClientProperty(SwingEngine.CLIENT_PROPERTY);
-				BeanProperty<Object, List<?>> p = BeanProperty.create(getBindWith());
-				beanList = p.getValue(client);
+				SwingEngine<?> engine = (SwingEngine<?>) getClientProperty(ENGINE_PROPERTY);
+				BeanProperty<Object, List<?>> beanProperty = BeanProperty.create(getBindWith());
+				setBindList(beanProperty.getValue(engine.getClient()));
 			}
 		}
 		
-		if ( beanList != null )
-		{
-			initListBinding(null, UpdateStrategy.READ_WRITE, this, beanList, getConverter());
-		}
+		if ( getBindList() != null )
+			initListBinding(null, READ_WRITE, this, getBindList(), getConverter());
 		
 		super.addNotify();
 	}

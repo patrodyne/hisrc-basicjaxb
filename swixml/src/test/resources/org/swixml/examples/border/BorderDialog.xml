@@ -4,7 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
-	name="mainframe" minimumSize="740,600" title="Fun with SWIXML - Layouts" defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	name="mainframe" minimumSize="740,600" title="Fun with SWIXML - Layouts" defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
 >
   <desktoppane>
 

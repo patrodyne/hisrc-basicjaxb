@@ -7,7 +7,7 @@
 	name="dialog"
 	size="400,200"
 	title="JGoodies Dialog Sample"
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
 	resizable="false"
 >
 

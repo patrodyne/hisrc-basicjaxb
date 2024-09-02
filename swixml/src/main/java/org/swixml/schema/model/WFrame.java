@@ -42,8 +42,7 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "WFrame")
 @XmlSeeAlso({
-    JFrame.class,
-    Frame.class
+    JFrame.class
 })
 public class WFrame
     extends Window

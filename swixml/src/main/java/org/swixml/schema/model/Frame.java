@@ -20,7 +20,7 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
  * <pre>{@code
  * <complexType>
  *   <complexContent>
- *     <extension base="{http://www.swixml.org/2007/Swixml}WFrame">
+ *     <extension base="{http://www.swixml.org/2007/Swixml}JFrame">
  *     </extension>
  *   </complexContent>
  * </complexType>
@@ -32,7 +32,7 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
 @XmlType(name = "")
 @XmlRootElement(name = "frame")
 public class Frame
-    extends WFrame
+    extends JFrame
     implements Serializable
 {
 

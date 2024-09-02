@@ -8,7 +8,7 @@
 	minimumSize="640,480"
 	title="S W I X M L"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
 >
 
 	<!-- 

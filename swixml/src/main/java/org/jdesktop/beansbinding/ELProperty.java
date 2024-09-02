@@ -28,9 +28,9 @@ import jakarta.el.ELException;
 import jakarta.el.ValueExpression;
 
 /**
- * An implementation of {@code Property} that allows Java Beans properties of
+ * An implementation of {@link Property} that allows Java Beans properties of
  * source objects to be addressed using a simple dot-separated path syntax
- * within an EL valueExpressionPlus. For example, to create a simple property
+ * within an EL {@link ValueExpressionPlus}. For example, to create a simple property
  * representing a {@code Person} bean's mother's {@code firstName}:
  * 
  * <pre><code>ELProperty.create("${mother.firstName}")</code></pre>
@@ -52,31 +52,33 @@ import jakarta.el.ValueExpression;
  * 
  * <pre><code>BeanProperty.create("${mother.age > 65}");</code></pre>
  * 
- * <p>
- * Paths specified in the EL expressions are resolved against the source object
+ * <p><em>
+ * <b>Note:</b> Paths specified in the EL expressions are resolved against the source object
  * with which the property is being used.
- * </p>
+ * </em></p>
  * 
- * <p>An instance of {@code ELProperty} is immutable and can be used with different
- * source objects. When a {@code PropertyStateListener} is added to an
- * {@code ELProperty} for a given source object, the {@code ELProperty} starts
- * listening to all objects along the paths in the valueExpressionPlus (based on that
- * source object) for change notification, and reflects any changes by notifying
- * the listener associated with the property for that source object. So, for
- * example, if a {@code PropertyStateListener} is added to the property from the
- * second example above for an object {@code Duke}, the
- * {@code PropertyStateListener} is notified when either {@code Duke's} first
+ * <p>An instance of {@link ELProperty} is immutable and can be used with different
+ * source objects. When a {@link PropertyStateListener} is added to an
+ * {@link ELProperty} for a given source object, the {@link ELProperty} starts
+ * listening to all objects along the paths in the {@link ValueExpressionPlus} 
+ * (based on that source object) for change notification, and reflects any changes
+ * by notifying the listener associated with the property for that source object.</p>
+ * 
+ * <p>For example, if a {@link PropertyStateListener} is added to the property
+ * from the second example above for an object {@code Duke}, the
+ * {@link PropertyStateListener} is notified when either {@code Duke's} first
  * name changes, or his last name changes. If a listener is added to the
- * property from the third example, the {@code PropertyStateListener} is
+ * property from the third example, the {@link PropertyStateListener} is
  * notified when either a change in {@code Duke's} mother or {@code Duke's}
- * mother's {@code age} results in a change to the result of the valueExpressionPlus.</p>
+ * mother's {@code age} results in a change to the result of the
+ * {@link ValueExpressionPlus}.</p>
  * 
  * <p>
  * It is very important that any bean properties addressed via a
- * {@code ELProperty} follow the Java Beans specification, including firing
- * property change notification; otherwise, {@code ELProperty} cannot respond to
+ * {@link ELProperty} follow the Java Beans specification, including firing
+ * property change notification; otherwise, {@link ELProperty} cannot respond to
  * change. As some beans outside of your control may not follow the Java Beans
- * specification, {@code ELProperty} always checks the
+ * specification, {@link ELProperty} always checks the
  * {@link org.jdesktop.beansbinding.ext.BeanAdapterFactory} to see if a delegate
  * provider has been registered to provide a delegate bean to take the place of
  * an object for a given property. See the
@@ -85,91 +87,100 @@ import jakarta.el.ValueExpression;
  * </p>
  * 
  * <p>When there are no {@code PropertyStateListeners} installed on an
- * {@code ELProperty} for a given source, all {@code Property} methods act by
- * evaluating the full valueExpressionPlus, thereby always providing "live" information.
+ * {@link ELProperty} for a given source, all {@link Property} methods act by
+ * evaluating the full {@link ValueExpressionPlus}, thereby always providing "live" information.
  * On the contrary, when there are {@code PropertyStateListeners} installed, the
  * beans along the paths, and the final value, are cached, and only updated upon
  * notification of change from a bean. Again, this makes it very important that
  * any bean property that could change along the path fires property change
- * notification. <i>Note: The {@code setValue} method is currently excluded from
+ * notification.</p>
+ * 
+ * <p><em><b>Note:</b> The {@code setValue} method is currently excluded from
  * the previous assertion; with the exception of checking the cache to determine
- * if the property is writeable, it always evaluates the entire valueExpressionPlus. The
+ * if the property is writable, it always evaluates the entire {@link ValueExpressionPlus}. The
  * result of this is that when working with paths containing beans that don't
  * fire property change notification, you can end up with all methods (including
  * {@code getValue}) working on cached information, but {@code setValue} working
- * on the live valueExpressionPlus. There are plans to resolve this inconsistency in a
- * future release.</i></p>
+ * on the live {@link ValueExpressionPlus}. There are plans to resolve this inconsistency in a
+ * future release.</em></p>
  * 
- * <p>
- * <b>Readability</b> of an {@code ELProperty} for a
- * given source is defined as follows: <i>An {@code ELProperty} is readable for
- * a given source if and only if the following is true for all paths used in the
- * valueExpressionPlus: a) each bean the path, starting with the source, defines a Java
- * Beans getter method for the the property to be read on it AND b) each bean in
- * the path, starting with the source and ending with the bean on which we read
- * the final property, is {@code non-null}. The final value being {@code null}
- * does not affect the readability.</i>
- * </p>
+ * <p><b>Readability</b> of an {@link ELProperty} for a given source is defined as follows:</p>
  * 
- * <p>So, in the third example given earlier, the {@code ELProperty} is readable
+ * <p>An {@link ELProperty} is readable for a given source if and only if the following is
+ * true for all paths used in the {@link ValueExpressionPlus}:<p>
+ * 
+ * <ol>
+ * <li>Each bean in the path, starting with the source, defines a Java
+ * Beans getter method for the the property to be read on it AND</li>
+ * <li>Each bean in the path, starting with the source and ending with
+ * the bean on which we read the final property, is {@code non-null}.</li>
+ * </ol>
+ * 
+ * <p>The final value being {@code null} does not affect the readability.</p>
+ * 
+ * <p>In the third example given earlier, the {@link ELProperty} is readable
  * for {@code Duke} when all of the following are true: {@code Duke} defines a
  * Java Beans getter for {@code mother}, {@code Duke's mother} defines a Java
  * Beans getter for {@code age}, {@code Duke} is {@code non-null},
- * {@code Duke's mother} is {@code non-null}. The {@code ELProperty} is
+ * {@code Duke's mother} is {@code non-null}. The {@link ELProperty} is
  * therefore unreadable when any of the following is true: {@code Duke} does not
  * define a Java Beans getter for {@code mother}, {@code Duke's mother} does not
  * define a Java Beans getter for {@code age}, {@code Duke} is {@code null},
  * {@code Duke's mother} is {@code null}.</p>
  * 
- * <p>
- * <b>Writability</b> of an {@code ELProperty} for a
- * given source is defined as follows: An {@code ELProperty} is writeable for
- * a given source if and only if a) the EL valueExpressionPlus itself is not read-only
- * (ie. it is a simple valueExpressionPlus involving one path such as "${foo.bar.baz}"
- * AND b) each bean in the path, starting with the source and ending with the
- * bean on which we set the final property, defines a Java Beans getter method
- * for the property to be read on it AND c) the bean on which we set the final
- * property defines a Java Beans setter for the property to be set on it AND d)
- * each bean in the path, starting with the source and ending with the bean on
- * which we set the final property, is {@code non-null}. The final value being
- * {@code null} does not affect the writeability.
- * </p>
+ * <p><b>Writability</b> of an {@link ELProperty} for a given source is defined as follows:</p>
  * 
- * <p>So in the first example given earlier (a simple path), the {@code ELProperty}
- * is writeable for {@code Duke} when all of the following are true:
+ * <p>An {@link ELProperty} is writeable for a given source if and only if:</p>
+ * 
+ * <ol>
+ * <li>The EL {@link ValueExpressionPlus} itself is not read-only (ie. it is a simple
+ * {@link ValueExpressionPlus} involving one path such as {@code "${foo.bar.baz}"} AND</li>
+ * <li>Each bean in the path, starting with the source and ending with the
+ * bean on which we set the final property, defines a Java Beans getter method
+ * for the property to be read on it AND</li>
+ * <li>The bean on which we set the final property defines a Java Beans setter for the
+ * property to be set on it</li>
+ * <li>Each bean in the path, starting with the source and ending with the bean on
+ * which we set the final property, is {@code non-null}.</li>
+ * </ol>
+ * 
+ * <p>The final value being {@code null} does not affect the writability.</p>
+ * 
+ * <p>In the first example given earlier (a simple path), the {@link ELProperty}
+ * is writable for {@code Duke} when all of the following are true:
  * {@code Duke} defines a Java Beans getter for {@code mother},
  * {@code Duke's mother} defines a Java Beans setter for {@code firstName},
  * {@code Duke} is {@code non-null}, {@code Duke's mother} is {@code non-null}.
- * The {@code ELProperty} is therefore unreadable when any of the following is
+ * The {@link ELProperty} is therefore unreadable when any of the following is
  * true: {@code Duke} does not define a Java Beans getter for {@code mother},
  * {@code Duke's mother} does not define a Java Beans setter for
  * {@code firstName}, {@code Duke} is {@code null}, {@code Duke's mother} is
  * {@code null}. The second and third examples above both represent read-only
- * ELExpressions and are therefore unwritable.</p>
+ * {@code ELExpressions} and are therefore unwritable.</p>
  * 
  * <p>In addition to working on Java Beans properties, any object in the paths can
  * be an instance of {@code Map}. In this case, the {@code Map's get} method is
  * used with the property name as the getter, and the {@code Map's put} method
- * is used with the property name as the setter. {@code ELProperty} can only
+ * is used with the property name as the setter. {@link ELProperty} can only
  * respond to changes in {@code Maps} if they are instances of
  * {@link org.jdesktop.observablecollections.ObservableMap}.</p>
  * 
  * <p>Some methods in this class document that they can throw
- * {@code PropertyResolutionException} if an exception occurs while trying to
- * evaluate the valueExpressionPlus. The throwing of this exception represents an
+ * {@link PropertyResolutionException} if an exception occurs while trying to
+ * evaluate the {@link ValueExpressionPlus}. The throwing of this exception represents an
  * abnormal condition and if listeners are installed for the given source
- * object, leaves the {@code ELProperty} in an inconsistent state for that
- * source object. An {@code ELProperty} should not be used again for that same
+ * object, leaves the {@link ELProperty} in an inconsistent state for that
+ * source object. An {@link ELProperty} should not be used again for that same
  * source object after such an exception without first removing all listeners
- * associated with the {@code ELProperty} for that source object.</p>
+ * associated with the {@link ELProperty} for that source object.</p>
  *
  * @see <a href="file:package-info.java">LICENSE: package-info</a>
  *
  * @author Shannon Hickey
  * @author Scott Violet
  * 
- * @apiNote {@code <S>} the type of source object that this {@code ELProperty} operates on
- * @apiNote {@code <V>} the type of value that this {@code ELProperty} represents
+ * @apiNote {@code <S>} the type of source object that this {@link ELProperty} operates on
+ * @apiNote {@code <V>} the type of value that this {@link ELProperty} represents
  */
 public final class ELProperty<S, V> extends PropertyHelper<S, V>
 {
@@ -188,9 +199,9 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 	/**
 	 * Private Constructor
 	 * 
-	 * @param elContext EL Context information for valueExpressionPlus parsing and evaluation.
+	 * @param elContext EL Context information for {@link ValueExpressionPlus} parsing and evaluation.
 	 * @param baseProperty the base property for EL path.
-	 * @param expression The EL valueExpressionPlus.
+	 * @param expression The EL {@link ValueExpressionPlus}.
 	 */
 	private ELProperty(ELContext elContext, Property<S, ?> baseProperty, String expression)
 	{
@@ -214,15 +225,15 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 	}
 	
 	/**
-	 * Creates an instance of {@code ELProperty} for the given valueExpressionPlus.
+	 * Creates an instance of {@link ELProperty} for the given {@link ValueExpressionPlus}.
 	 *
-	 * @param elContext EL Context information for valueExpressionPlus parsing and evaluation.
+	 * @param elContext EL Context information for {@link ValueExpressionPlus} parsing and evaluation.
 	 * @param expression The EL value expression plus.
 	 * 
-	 * @return an instance of {@code ELProperty} for the given valueExpressionPlus
+	 * @return an instance of {@link ELProperty} for the given {@link ValueExpressionPlus}
 	 * 
 	 * @throws IllegalArgumentException if the path is null or empty
-	 * @throws PropertyResolutionException if there's a problem with the valueExpressionPlus
+	 * @throws PropertyResolutionException if there's a problem with the {@link ValueExpressionPlus}
 	 */
 	public static final <S, V> ELProperty<S, V> create(ELContext elContext, String expression)
 	{
@@ -230,17 +241,17 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 	}
 
 	/**
-	 * Creates an instance of {@code ELProperty} for the given base property and
-	 * valueExpressionPlus. The valueExpressionPlus is relative to the value of the base property.
+	 * Creates an instance of {@link ELProperty} for the given base property and
+	 * {@link ValueExpressionPlus}. The {@link ValueExpressionPlus} is relative to the value of the base property.
 	 *
-	 * @param elContext EL Context information for valueExpressionPlus parsing and evaluation.
+	 * @param elContext EL Context information for {@link ValueExpressionPlus} parsing and evaluation.
 	 * @param baseProperty the base property for EL path.
-	 * @param expression the valueExpressionPlus
+	 * @param expression the {@link ValueExpressionPlus}
 	 * 
-	 * @return an instance of {@code ELProperty} for the given base property and valueExpressionPlus
+	 * @return an instance of {@link ELProperty} for the given base property and {@link ValueExpressionPlus}
 	 * 
 	 * @throws IllegalArgumentException if the path is null or empty
-	 * @throws PropertyResolutionException if there's a problem with the valueExpressionPlus
+	 * @throws PropertyResolutionException if there's a problem with the {@link ValueExpressionPlus}
 	 */
 	public static final <S, V> ELProperty<S, V> create(ELContext elContext, Property<S, ?> baseProperty, String expression)
 	{
@@ -352,31 +363,45 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 		private void validateCache(int flag)
 		{
 			/* In the future, this debugging code can be enabled via a flag */
-			/*
-			 * if (flag != 0 && getBeanFromSource(source, false) != cachedBean)
-			 * { log("validateCache()", "concurrent modification"); }
-			 * 
-			 * if (flag != 1) { try {
-			 * valueExpressionPlus.setSource(getBeanFromSource(source, true));
-			 * Expression.Result result = valueExpressionPlus.getResult(elContext, false);
-			 * 
-			 * Object currValue; boolean currIsWriteable; Class<?>
-			 * currWriteType;
-			 * 
-			 * if (result.getType() == Expression.Result.Type.UNRESOLVABLE) {
-			 * currValue = NOREAD; currIsWriteable = false; currWriteType =
-			 * null; } else { currValue = result.getResult(); currIsWriteable =
-			 * !valueExpressionPlus.isReadOnly(elContext); currWriteType = currIsWriteable
-			 * ? valueExpressionPlus.getType(elContext) : null; }
-			 * 
-			 * if (!match(currValue, cachedValue) || currIsWriteable !=
-			 * cachedIsWriteable || currWriteType != cachedWriteType) {
-			 * log("validateCache()", "concurrent modification"); } } catch
-			 * (ELException ele) { throw new
-			 * PropertyResolutionException("Error evaluating EL valueExpressionPlus " +
-			 * valueExpressionPlus + " on " + source, ele); } finally {
-			 * valueExpressionPlus.setSource(null); } }
-			 */
+//			if ( flag != 0 && getBeanFromSource(source, false) != cachedBean )
+//				log("validateCache()", "concurrent modification");
+//			if ( flag != 1 )
+//			{
+//				try
+//				{
+//					valueExpressionPlus.setSource(getBeanFromSource(source, true));
+//					Expression.Result result = valueExpressionPlus.getResult(elContext, false);
+//					Object currValue;
+//					boolean currIsWriteable;
+//					Class<?> currWriteType;
+//					if ( result.getType() == Expression.Result.Type.UNRESOLVABLE )
+//					{
+//						currValue = NOREAD;
+//						currIsWriteable = false;
+//						currWriteType = null;
+//					}
+//					else
+//					{
+//						currValue = result.getResult();
+//						currIsWriteable = !valueExpressionPlus.isReadOnly(elContext);
+//						currWriteType = currIsWriteable ? valueExpressionPlus.getType(elContext) : null;
+//					}
+//					if ( !match(currValue, cachedValue) || currIsWriteable != cachedIsWriteable
+//							|| currWriteType != cachedWriteType )
+//					{
+//						log("validateCache()", "concurrent modification");
+//					}
+//				}
+//				catch (ELException ele)
+//				{
+//					throw new PropertyResolutionException(
+//						"Error evaluating EL valueExpressionPlus " + valueExpressionPlus + " on " + source, ele);
+//				}
+//				finally
+//				{
+//					valueExpressionPlus.setSource(null);
+//				}
+//			}
 		}
 
 		@Override
@@ -474,18 +499,18 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 		
 	    private Object source;
 	    /**
-	     * Returns the source of the valueExpressionPlus.
+	     * Returns the source of the {@link ValueExpressionPlus}.
 	     *
-	     * @return the source of the valueExpressionPlus
+	     * @return the source of the {@link ValueExpressionPlus}
 	     */
 	    public Object getSource()
 	    {
 	    	return source;
 	    }
 	    /**
-	     * Sets the source of the valueExpressionPlus. For ValueExpressions that have a 
+	     * Sets the source of the {@link ValueExpressionPlus}. For ValueExpressions that have a 
 	     * source, any identifiers are evaluated relative to the source. For
-	     * example, if the valueExpressionPlus {@code "${first.name}"} has a source,
+	     * example, if the {@link ValueExpressionPlus} {@code "${first.name}"} has a source,
 	     * then {@code "first"} is evaluated relative to the source.
 	     *
 	     * @param source the initial source for identifiers; may be {@code null}
@@ -558,7 +583,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 	 *
 	 * @throws UnsupportedOperationException {@inheritDoc}
 	 * @throws PropertyResolutionException if an exception occurs while
-	 *             evaluating the valueExpressionPlus
+	 *             evaluating the {@link ValueExpressionPlus}
 	 * @see #setValue
 	 * @see #isWriteable
 	 */
@@ -612,7 +637,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 	 *
 	 * @throws UnsupportedOperationException {@inheritDoc}
 	 * @throws PropertyResolutionException if an exception occurs while
-	 *             evaluating the valueExpressionPlus
+	 *             evaluating the {@link ValueExpressionPlus}
 	 * @see #isReadable
 	 */
 	@Override
@@ -660,7 +685,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 	 *
 	 * @throws UnsupportedOperationException {@inheritDoc}
 	 * @throws PropertyResolutionException if an exception occurs while
-	 *             evaluating the valueExpressionPlus
+	 *             evaluating the {@link ValueExpressionPlus}
 	 * @see #isWriteable
 	 * @see #getWriteType
 	 */
@@ -734,7 +759,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 	 * <a href="#READABILITY">readability</a>.</p>
 	 *
 	 * @throws PropertyResolutionException if an exception occurs while
-	 *                                     evaluating the valueExpressionPlus
+	 *                                     evaluating the {@link ValueExpressionPlus}
 	 * @see #isWriteable
 	 */
 	@Override
@@ -776,7 +801,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 	 * <a href="#WRITEABILITY">writeability</a>.</p>
 	 *
 	 * @throws PropertyResolutionException if an exception occurs while
-	 *                                     evaluating the valueExpressionPlus
+	 *                                     evaluating the {@link ValueExpressionPlus}
 	 * 
 	 * @see #isReadable
 	 */
@@ -897,12 +922,12 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 	}
 
 	/**
-	 * Returns a string representation of the {@code ELProperty}. This method is
+	 * Returns a string representation of the {@link ELProperty}. This method is
 	 * intended to be used for debugging purposes only, and the content and
 	 * format of the returned string may vary between implementations. The
 	 * returned string may be empty but may not be {@code null}.
 	 *
-	 * @return a string representation of this {@code ELProperty}
+	 * @return a string representation of this {@link ELProperty}
 	 */
 	@Override
 	public String toString()

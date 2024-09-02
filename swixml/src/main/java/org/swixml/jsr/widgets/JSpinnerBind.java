@@ -1,9 +1,10 @@
 package org.swixml.jsr.widgets;
 
+import static org.swixml.jsr295.BindingUtils.parseBind;
+
 import javax.swing.JSpinner;
 
 import org.jdesktop.beansbinding.Converter;
-import org.swixml.jsr295.BindingUtils;
 
 /**
  * @see <a href="file:../../package-info.java">LICENSE: package-info</a>
@@ -19,18 +20,17 @@ public class JSpinnerBind
 	public static class Date extends JSpinnerBind
 	{
 		private static final long serialVersionUID = 20240701L;
-		private String dateFormat;
 
 		public Date()
 		{
 			super();
 		}
 
+		private String dateFormat;
 		public String getDateFormat()
 		{
 			return dateFormat;
 		}
-
 		public void setDateFormat(String dateFormat)
 		{
 			this.dateFormat = dateFormat;
@@ -40,13 +40,10 @@ public class JSpinnerBind
 		public void addNotify()
 		{
 			if ( getDateFormat() != null )
-			{
 				setEditor(new JSpinner.DateEditor(this, getDateFormat()));
-			}
 			else
-			{
 				setEditor(new JSpinner.DateEditor(this));
-			}
+			
 			super.addNotify();
 		}
 	}
@@ -61,7 +58,6 @@ public class JSpinnerBind
 	{
 		return (String) getClientProperty(BINDWITH_PROPERTY);
 	}
-
 	@Override
 	public void setBindWith(String bindWith)
 	{
@@ -69,25 +65,23 @@ public class JSpinnerBind
 	}
 
 	@Override
+	public Converter<?, ?> getConverter()
+	{
+		return (Converter<?, ?>) getClientProperty(CONVERTER_PROPERTY);
+	}
+	@Override
 	public void setConverter(Converter<?, ?> converter)
 	{
 		putClientProperty(CONVERTER_PROPERTY, converter);
 	}
 
 	@Override
-	public Converter<?, ?> getConverter()
-	{
-		return (Converter<?, ?>) getClientProperty(CONVERTER_PROPERTY);
-	}
-
-	@Override
 	public void addNotify()
 	{
 		final String bindWith = getBindWith();
-		if ( null != bindWith && !bindWith.isEmpty() )
-		{
-			BindingUtils.parseBind(this, "value", bindWith, getConverter());
-		}
+		if ( (null != bindWith) && !bindWith.isEmpty() )
+			parseBind(this, "value", bindWith, getConverter());
+		
 		super.addNotify();
 	}
 }

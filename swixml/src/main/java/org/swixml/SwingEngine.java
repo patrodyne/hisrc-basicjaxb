@@ -36,7 +36,9 @@ import javax.swing.JMenu;
 
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
+import org.jvnet.basicjaxb.dom.DOMUtils;
 import org.swixml.dom.DOMUtil;
+import org.swixml.el.ELMethods;
 import org.swixml.localization.LocalizerDefaultImpl;
 import org.swixml.localization.LocalizerJSR296Impl;
 import org.w3c.dom.Document;
@@ -75,7 +77,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	// Static Constants
 	//
 
-	public static final String CLIENT_PROPERTY = "org.swixml.client";
+	public static final String ENGINE_PROPERTY = "org.swixml.swingengine";
 	
 	/**
 	 * Mac OSX locale variant to localize strings like quit etc.
@@ -156,8 +158,20 @@ public class SwingEngine<T extends Container> implements LogAware
 	 * SwingEngine Class. The object which instantiated this SwingEngine.
 	 */
 	private T client;
-	public Object getClient() { return client; }
+	public T getClient() { return client; }
 	public void setClient(T client) { this.client = client; }
+	
+	private ELMethods<T> elMethods;
+	public ELMethods<T> getELMethods()
+	{
+		if ( elMethods == null )
+			setELMethods(new ELMethods<T>(this));
+		return elMethods;
+	}
+	public void setELMethods(ELMethods<T> elMethods)
+	{
+		this.elMethods = elMethods;
+	}
 
 	/**
 	 * Swing object map, contains only those object that were given an id
@@ -351,7 +365,7 @@ public class SwingEngine<T extends Container> implements LogAware
 				Document doc = getDocumentBuilder().parse(new InputSource(xml_reader));
 				if ( logger.isDebugEnabled() )
 				{
-					String xml = DOMUtil.transformToString(doc);
+					String xml = DOMUtils.transformToString(doc);
 					logger.debug("XML: \n" + xml);
 				}
 				return render(doc);
@@ -381,10 +395,10 @@ public class SwingEngine<T extends Container> implements LogAware
 		idmap.clear();
 		try
 		{
-			if ( client != null )
+			if ( getClient() != null )
 			{
-				parser.parse(jdoc, client);
-				result = client;
+				parser.parse(jdoc, getClient());
+				result = getClient();
 			}
 			else
 				result = (T) parser.parse(jdoc, null);
@@ -534,7 +548,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	public void insert(final Document jdoc, final T container)
 		throws Exception
 	{
-		client = container;
+		setClient(container);
 		try
 		{
 			parser.parse(jdoc, container);
@@ -548,7 +562,7 @@ public class SwingEngine<T extends Container> implements LogAware
 		// reset components collection
 		components = null;
 		// initialize all client fields with UI components by their id
-		mapMembers(client);
+		mapMembers(getClient());
 	}
 
 	/**
@@ -601,7 +615,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	public Iterator<Component> getAllComponentItertor()
 	{
 		if ( components == null )
-			traverse(client, components = new ArrayList<Component>());
+			traverse(getClient(), components = new ArrayList<Component>());
 		return components.iterator();
 	}
 
@@ -807,13 +821,13 @@ public class SwingEngine<T extends Container> implements LogAware
 
 	protected void mapMember(Object widget, String fieldName)
 	{
-		if ( client == null )
+		if ( getClient() == null )
 		{
 			if ( isDesignTime() )
 				return;
 			throw new IllegalStateException("client obj is null!");
 		}
-		final Class<?> cls = client.getClass();
+		final Class<?> cls = getClient().getClass();
 		mapMember(widget, fieldName, cls);
 	}
 
@@ -831,7 +845,7 @@ public class SwingEngine<T extends Container> implements LogAware
 			throw new IllegalArgumentException("parameter widget is null!");
 		if ( fieldName == null )
 			throw new IllegalArgumentException("parameter fieldName is null!");
-		if ( client == null )
+		if ( getClient() == null )
 			throw new IllegalStateException("client obj is null!");
 		
 		boolean fullaccess = true;
@@ -870,25 +884,11 @@ public class SwingEngine<T extends Container> implements LogAware
 			try
 			{
 				// boolean accessible = field.isAccessible();
-				Object clsInstance = cls.getConstructor().newInstance();
-				boolean accessible = field.canAccess(clsInstance);
+				boolean accessible = field.canAccess(getClient());
 				field.setAccessible(true);
-				field.set(client, widget);
+				field.set(getClient(), widget);
 				field.setAccessible(accessible);
 				logger.info(String.format("field [%s] mapped in class [%s]", fieldName, cls.getName()));
-			}
-			catch (NoSuchMethodException | InvocationTargetException | InstantiationException e)
-			{
-				try
-				{
-					fullaccess = false;
-					field.set(client, widget);
-					logger.info(String.format("field [%s] mapped in class [%s]", fieldName, cls.getName()));
-				}
-				catch (IllegalAccessException e1)
-				{
-					logger.error("illegal access exception on set field!");
-				}
 			}
 			catch (IllegalArgumentException e)
 			{
@@ -1133,17 +1133,18 @@ public class SwingEngine<T extends Container> implements LogAware
 			}
 		};
 		
-		if ( client != null )
+		if ( getClient() != null )
 		{
-			if ( JFrame.class.isAssignableFrom(client.getClass()) || JDialog.class.isAssignableFrom(client.getClass()) )
+			Class<? extends Container> clientClass = getClient().getClass();
+			if ( JFrame.class.isAssignableFrom(clientClass) || JDialog.class.isAssignableFrom(clientClass) )
 			{
-				((Window) client).addWindowListener(wl);
-				client.setVisible(true);
+				((Window) getClient()).addWindowListener(wl);
+				getClient().setVisible(true);
 			}
 			else
 			{
 				JFrame jf = new JFrame("SwiXml Test");
-				jf.getContentPane().add(client);
+				jf.getContentPane().add(getClient());
 				jf.pack();
 				jf.addWindowListener(wl);
 				jf.setVisible(true);

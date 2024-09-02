@@ -1,5 +1,7 @@
 package org.swixml.converters;
 
+import static org.swixml.el.ELUtility.isELAttribute;
+
 import java.awt.event.ActionEvent;
 import java.lang.reflect.Field;
 
@@ -12,7 +14,6 @@ import org.swixml.SwingEngine;
 import org.swixml.XAction;
 import org.swixml.dom.Attribute;
 import org.swixml.el.ELAction;
-import org.swixml.el.ELUtility;
 
 /**
  * The ActionConverter is a tagging class that is only used to register the
@@ -59,10 +60,8 @@ public class ActionConverter implements Converter<Action>, LogAware
 		if ( null == client )
 			return EMPTY_ACTION;
 		
-		if ( ELUtility.isELAttribute(attr) )
-		{
+		if ( isELAttribute(attr) )
 			para = new ELAction(engine, attr.getValue());
-		}
 		else
 		{
 			try

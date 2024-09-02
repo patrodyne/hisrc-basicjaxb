@@ -92,6 +92,12 @@
         <xs:attribute name="preferredSize" type="xs:string"/>
         <xs:attribute name="size" type="xs:string"/>
         <xs:attribute name="visible" type="xs:boolean"/>
+        <xs:attribute name="bundle" type="xs:string"/>
+        <xs:attribute name="constraints" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="include" type="xs:string"/>
+        <xs:attribute name="plaf" type="xs:string"/>
+        <xs:attribute name="refid" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="JButton">
         <xs:complexContent>
@@ -100,6 +106,53 @@
                 <xs:attribute name="defaultCapable" type="xs:boolean"/>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType mixed="true" name="ButtonGroup">
+        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+            <xs:any/>
+        </xs:sequence>
+        <xs:attribute name="bundle" type="xs:string"/>
+        <xs:attribute name="constraints" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="include" type="xs:string"/>
+        <xs:attribute name="locale" type="xs:string"/>
+        <xs:attribute name="plaf" type="xs:string"/>
+        <xs:attribute name="refid" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType mixed="true" name="GridBagConstraints">
+        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+            <xs:any/>
+        </xs:sequence>
+        <xs:attribute name="bundle" type="xs:string"/>
+        <xs:attribute name="constraints" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="include" type="xs:string"/>
+        <xs:attribute name="locale" type="xs:string"/>
+        <xs:attribute name="plaf" type="xs:string"/>
+        <xs:attribute name="refid" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType mixed="true" name="TableColumn">
+        <xs:sequence maxOccurs="unbounded" minOccurs="0">
+            <xs:any/>
+        </xs:sequence>
+        <xs:attribute name="bundle" type="xs:string"/>
+        <xs:attribute name="constraints" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="include" type="xs:string"/>
+        <xs:attribute name="locale" type="xs:string"/>
+        <xs:attribute name="plaf" type="xs:string"/>
+        <xs:attribute name="refid" type="xs:string"/>
+        <xs:attribute name="cellEditor" type="xs:string"/>
+        <xs:attribute name="cellRenderer" type="xs:string"/>
+        <xs:attribute name="headerRenderer" type="xs:string"/>
+        <xs:attribute name="headerValue" type="xs:string"/>
+        <xs:attribute name="identifier" type="xs:string"/>
+        <xs:attribute name="maxWidth" type="xs:string"/>
+        <xs:attribute name="minWidth" type="xs:string"/>
+        <xs:attribute name="modelIndex" type="xs:string"/>
+        <xs:attribute name="preferredWidth" type="xs:string"/>
+        <xs:attribute name="resizable" type="xs:boolean"/>
+        <xs:attribute name="width" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="JCheckBoxBind">
         <xs:complexContent>
@@ -346,11 +399,6 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    <xs:complexType mixed="true" name="GridBagConstraints">
-        <xs:sequence maxOccurs="unbounded" minOccurs="0">
-            <xs:any/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:complexType name="BoxFactoryHGapBox">
         <xs:complexContent>
             <xs:extension base="tns:Box">
@@ -450,6 +498,7 @@
             <xs:extension base="tns:JList">
                 <xs:sequence/>
                 <xs:attribute name="action" type="xs:string"/>
+                <xs:attribute name="bindList" type="xs:string"/>
                 <xs:attribute name="bindWith" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
             </xs:extension>
@@ -757,6 +806,8 @@
                 <xs:sequence/>
                 <xs:attribute name="action" type="xs:string"/>
                 <xs:attribute name="allPropertiesBound" type="xs:boolean"/>
+                <xs:attribute name="bindClass" type="xs:string"/>
+                <xs:attribute name="bindList" type="xs:string"/>
                 <xs:attribute name="bindWith" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
                 <xs:attribute name="dblClickAction" type="xs:string"/>
@@ -768,26 +819,11 @@
             <xs:extension base="tns:TableColumn">
                 <xs:sequence/>
                 <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="converter" type="xs:string"/>
                 <xs:attribute name="editable" type="xs:boolean"/>
                 <xs:attribute name="type" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType mixed="true" name="TableColumn">
-        <xs:sequence maxOccurs="unbounded" minOccurs="0">
-            <xs:any/>
-        </xs:sequence>
-        <xs:attribute name="cellEditor" type="xs:string"/>
-        <xs:attribute name="cellRenderer" type="xs:string"/>
-        <xs:attribute name="headerRenderer" type="xs:string"/>
-        <xs:attribute name="headerValue" type="xs:string"/>
-        <xs:attribute name="identifier" type="xs:string"/>
-        <xs:attribute name="maxWidth" type="xs:string"/>
-        <xs:attribute name="minWidth" type="xs:string"/>
-        <xs:attribute name="modelIndex" type="xs:string"/>
-        <xs:attribute name="preferredWidth" type="xs:string"/>
-        <xs:attribute name="resizable" type="xs:boolean"/>
-        <xs:attribute name="width" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="JTableHeader">
         <xs:complexContent>
@@ -917,11 +953,6 @@
     <xs:element name="box.vglue" type="tns:Component"/>
     <xs:element name="box.vstrut" type="tns:Component"/>
     <xs:element name="button" type="tns:JButton"/>
-    <xs:complexType mixed="true" name="ButtonGroup">
-        <xs:sequence maxOccurs="unbounded" minOccurs="0">
-            <xs:any/>
-        </xs:sequence>
-    </xs:complexType>
     <xs:element name="buttongroup" type="tns:ButtonGroup"/>
     <xs:element name="checkbox" type="tns:JCheckBoxBind"/>
     <xs:element name="checkboxmenuitem" type="tns:JCheckBoxMenuItem"/>
@@ -931,7 +962,7 @@
     <xs:element name="dialog">
         <xs:complexType>
             <xs:complexContent>
-                <xs:extension base="tns:WDialog"/>
+                <xs:extension base="tns:XDialog"/>
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
@@ -940,7 +971,7 @@
     <xs:element name="frame">
         <xs:complexType>
             <xs:complexContent>
-                <xs:extension base="tns:WFrame"/>
+                <xs:extension base="tns:JFrame"/>
             </xs:complexContent>
         </xs:complexType>
     </xs:element>

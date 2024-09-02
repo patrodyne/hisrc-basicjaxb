@@ -9,7 +9,7 @@
 	resizable="true" 
 	alwaysOnTop="false" 
 	title="SWIXML2 Tree example" 
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
 >
 	<panel name="explorer" layout="BorderLayout">
 	

@@ -25,6 +25,7 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
  *       <sequence>
  *       </sequence>
  *       <attribute name="bindWith" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       <attribute name="converter" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       <attribute name="editable" type="{http://www.w3.org/2001/XMLSchema}boolean" />
  *       <attribute name="type" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     </extension>
@@ -44,6 +45,8 @@ public class TableColumnBind
     private static final long serialVersionUID = 20240701L;
     @XmlAttribute(name = "bindWith")
     protected String bindWith;
+    @XmlAttribute(name = "converter")
+    protected String converter;
     @XmlAttribute(name = "editable")
     protected Boolean editable;
     @XmlAttribute(name = "type")
@@ -71,6 +74,30 @@ public class TableColumnBind
      */
     public void setBindWith(String value) {
         this.bindWith = value;
+    }
+
+    /**
+     * Gets the value of the converter property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getConverter() {
+        return converter;
+    }
+
+    /**
+     * Sets the value of the converter property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setConverter(String value) {
+        this.converter = value;
     }
 
     /**
@@ -132,6 +159,13 @@ public class TableColumnBind
             currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
         }
         {
+            boolean theFieldIsSet = (this.converter!= null);
+            String theField;
+            theField = this.getConverter();
+            ObjectLocator theFieldLocator = LocatorUtils.property(locator, "converter", theField);
+            currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+        }
+        {
             boolean theFieldIsSet = (this.editable!= null);
             Boolean theField;
             theField = this.isEditable();
@@ -174,6 +208,19 @@ public class TableColumnBind
             }
         }
         {
+            boolean lhsFieldIsSet = (this.converter!= null);
+            boolean rhsFieldIsSet = (that.converter!= null);
+            String lhsField;
+            lhsField = this.getConverter();
+            String rhsField;
+            rhsField = that.getConverter();
+            ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "converter", lhsField);
+            ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "converter", rhsField);
+            if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+                return false;
+            }
+        }
+        {
             boolean lhsFieldIsSet = (this.editable!= null);
             boolean rhsFieldIsSet = (that.editable!= null);
             Boolean lhsField;
@@ -210,6 +257,12 @@ public class TableColumnBind
             String theField;
             theField = this.getBindWith();
             strategy.appendField(locator, this, "bindWith", buffer, theField, theFieldIsSet);
+        }
+        {
+            boolean theFieldIsSet = (this.converter!= null);
+            String theField;
+            theField = this.getConverter();
+            strategy.appendField(locator, this, "converter", buffer, theField, theFieldIsSet);
         }
         {
             boolean theFieldIsSet = (this.editable!= null);

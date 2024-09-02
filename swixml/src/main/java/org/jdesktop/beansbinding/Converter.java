@@ -54,6 +54,7 @@ public abstract class Converter<S, T>
 			return Byte.parseByte(value);
 		}
 	};
+	
 	static final Converter<Short, String> SHORT_TO_STRING_CONVERTER = new Converter<>()
 	{
 		public String convertForward(Short value)
@@ -66,6 +67,7 @@ public abstract class Converter<S, T>
 			return Short.parseShort(value);
 		}
 	};
+	
 	static final Converter<Integer, String> INT_TO_STRING_CONVERTER = new Converter<>()
 	{
 		@Override
@@ -80,6 +82,7 @@ public abstract class Converter<S, T>
 			return Integer.parseInt(value);
 		}
 	};
+	
 	static final Converter<Long, String> LONG_TO_STRING_CONVERTER = new Converter<>()
 	{
 		public String convertForward(Long value)
@@ -92,6 +95,7 @@ public abstract class Converter<S, T>
 			return Long.parseLong(value);
 		}
 	};
+	
 	static final Converter<Float, String> FLOAT_TO_STRING_CONVERTER = new Converter<>()
 	{
 		public String convertForward(Float value)
@@ -104,6 +108,7 @@ public abstract class Converter<S, T>
 			return Float.parseFloat(value);
 		}
 	};
+	
 	static final Converter<Double, String> DOUBLE_TO_STRING_CONVERTER = new Converter<>()
 	{
 		public String convertForward(Double value)
@@ -116,6 +121,7 @@ public abstract class Converter<S, T>
 			return Double.parseDouble(value);
 		}
 	};
+	
 	static final Converter<Character, String> CHAR_TO_STRING_CONVERTER = new Converter<>()
 	{
 		public String convertForward(Character value)
@@ -126,12 +132,11 @@ public abstract class Converter<S, T>
 		public Character convertReverse(String value)
 		{
 			if ( value.length() != 1 )
-			{
 				throw new IllegalArgumentException("String doesn't represent a char");
-			}
 			return value.charAt(0);
 		}
 	};
+	
 	static final Converter<Boolean, String> BOOLEAN_TO_STRING_CONVERTER = new Converter<>()
 	{
 		public String convertForward(Boolean value)
@@ -144,26 +149,26 @@ public abstract class Converter<S, T>
 			return Boolean.parseBoolean(value);
 		}
 	};
+	
 	static final Converter<Integer, Boolean> INT_TO_BOOLEAN_CONVERTER = new Converter<>()
 	{
 		public Boolean convertForward(Integer value)
 		{
 			if ( value.intValue() == 0 )
-			{
 				return Boolean.FALSE;
-			}
-			return Boolean.TRUE;
+			else
+				return Boolean.TRUE;
 		}
 
 		public Integer convertReverse(Boolean value)
 		{
 			if ( value.booleanValue() )
-			{
 				return 1;
-			}
-			return 0;
+			else
+				return 0;
 		}
 	};
+	
 	static final Converter<BigInteger, String> BIGINTEGER_TO_STRING_CONVERTER = new Converter<>()
 	{
 		public String convertForward(BigInteger value)
@@ -176,6 +181,7 @@ public abstract class Converter<S, T>
 			return new BigInteger(value);
 		}
 	};
+	
 	static final Converter<BigDecimal, String> BIGDECIMAL_TO_STRING_CONVERTER = new Converter<>()
 	{
 		public String convertForward(BigDecimal value)
@@ -192,104 +198,61 @@ public abstract class Converter<S, T>
 	static final Object defaultConvert(Object source, Class<?> targetType)
 	{
 		Class<? extends Object> sourceType = source.getClass();
+		
 		if ( sourceType == targetType )
-		{
 			return source;
-		}
+		
 		if ( targetType == String.class )
 		{
 			if ( sourceType == Byte.class )
-			{
 				return BYTE_TO_STRING_CONVERTER.convertForward((Byte) source);
-			}
 			else if ( sourceType == Short.class )
-			{
 				return SHORT_TO_STRING_CONVERTER.convertForward((Short) source);
-			}
 			else if ( sourceType == Integer.class )
-			{
 				return INT_TO_STRING_CONVERTER.convertForward((Integer) source);
-			}
 			else if ( sourceType == Long.class )
-			{
 				return LONG_TO_STRING_CONVERTER.convertForward((Long) source);
-			}
 			else if ( sourceType == Float.class )
-			{
 				return FLOAT_TO_STRING_CONVERTER.convertForward((Float) source);
-			}
 			else if ( sourceType == Double.class )
-			{
 				return DOUBLE_TO_STRING_CONVERTER.convertForward((Double) source);
-			}
 			else if ( sourceType == Boolean.class )
-			{
 				return BOOLEAN_TO_STRING_CONVERTER.convertForward((Boolean) source);
-			}
 			else if ( sourceType == Character.class )
-			{
 				return CHAR_TO_STRING_CONVERTER.convertForward((Character) source);
-			}
 			else if ( sourceType == BigInteger.class )
-			{
 				return BIGINTEGER_TO_STRING_CONVERTER.convertForward((BigInteger) source);
-			}
 			else if ( sourceType == BigDecimal.class )
-			{
 				return BIGDECIMAL_TO_STRING_CONVERTER.convertForward((BigDecimal) source);
-			}
 		}
 		else if ( sourceType == String.class )
 		{
 			if ( targetType == Byte.class )
-			{
 				return BYTE_TO_STRING_CONVERTER.convertReverse((String) source);
-			}
 			else if ( targetType == Short.class )
-			{
 				return SHORT_TO_STRING_CONVERTER.convertReverse((String) source);
-			}
 			else if ( targetType == Integer.class )
-			{
 				return INT_TO_STRING_CONVERTER.convertReverse((String) source);
-			}
 			else if ( targetType == Long.class )
-			{
 				return LONG_TO_STRING_CONVERTER.convertReverse((String) source);
-			}
 			else if ( targetType == Float.class )
-			{
 				return FLOAT_TO_STRING_CONVERTER.convertReverse((String) source);
-			}
 			else if ( targetType == Double.class )
-			{
 				return DOUBLE_TO_STRING_CONVERTER.convertReverse((String) source);
-			}
 			else if ( targetType == Boolean.class )
-			{
 				return BOOLEAN_TO_STRING_CONVERTER.convertReverse((String) source);
-			}
 			else if ( targetType == Character.class )
-			{
 				return CHAR_TO_STRING_CONVERTER.convertReverse((String) source);
-			}
 			else if ( targetType == BigInteger.class )
-			{
 				return BIGINTEGER_TO_STRING_CONVERTER.convertReverse((String) source);
-			}
 			else if ( targetType == BigDecimal.class )
-			{
 				return BIGDECIMAL_TO_STRING_CONVERTER.convertReverse((String) source);
-			}
 		}
 		else if ( sourceType == Integer.class && targetType == Boolean.class )
-		{
 			return INT_TO_BOOLEAN_CONVERTER.convertForward((Integer) source);
-		}
 		else if ( sourceType == Boolean.class && targetType == Integer.class )
-		{
 			return INT_TO_BOOLEAN_CONVERTER.convertReverse((Boolean) source);
-		}
+
 		return source;
 	}
 }

@@ -7,6 +7,7 @@ import static org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding;
 import static org.jdesktop.swingbinding.SwingBindings.createJListBinding;
 import static org.jdesktop.swingbinding.SwingBindings.createJTableBinding;
 import static org.swixml.LogUtil.logger;
+import static org.swixml.SwingEngine.ENGINE_PROPERTY;
 import static org.swixml.SwingEngine.isDesignTime;
 
 import java.beans.PropertyDescriptor;
@@ -34,6 +35,7 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Converter;
+import org.jdesktop.beansbinding.ELProperty;
 import org.jdesktop.beansbinding.Property;
 import org.jdesktop.beansbinding.Validator;
 import org.jdesktop.swingbinding.ColumnBinding;
@@ -54,8 +56,8 @@ public class BindingUtils
 	public static final String TABLE_COLUMN_IS_BOUND = "bind";
 	public static final String TABLE_COLUMN_INDEX = "column.index";
 	public static final String TABLE_COLUMN_RENDERER = "column.renderer";
-	private static final String PATTERN = "[$][{](.*)[}]";
-	private static final Pattern pattern = Pattern.compile(PATTERN);
+	private static final String EL_REGEX = "[$][{](.*)[}]";
+	private static final Pattern EL_PATTERN = Pattern.compile(EL_REGEX);
 
 	private BindingUtils()
 	{
@@ -84,16 +86,18 @@ public class BindingUtils
 	}
 
 	/**
-	 *
-	 * @param value
-	 * @return
+	 * Does the given value match the EL pattern?
+	 * 
+	 * @param value The value to match.
+	 * 
+	 * @return True, when the value matches the EL pattern; otherwise, false.
 	 */
-	public static boolean isVariablePattern(String value)
+	public static boolean isELPattern(String value)
 	{
 		if ( null == value )
 			return false;
-		return pattern.matcher(value).matches();
-		// return Pattern.matches(PATTERN, value);
+		return EL_PATTERN.matcher(value).matches();
+		// return Pattern.matches(EL_REGEX, value);
 	}
 
 	/**
@@ -101,11 +105,11 @@ public class BindingUtils
 	 * @param value
 	 * @return
 	 */
-	public static Matcher getVariableMatcher(String value)
+	public static Matcher getELMatcher(String value)
 	{
 		if ( null == value )
 			throw new IllegalArgumentException("value is null!");
-		return pattern.matcher(value);
+		return EL_PATTERN.matcher(value);
 	}
 
 	/**
@@ -185,18 +189,18 @@ public class BindingUtils
 		if ( boundCheckAndSet(owner) )
 			return null;
 		
-		@SuppressWarnings("unchecked")
-		SS client = (SS) owner.getClientProperty(SwingEngine.CLIENT_PROPERTY);
+		SwingEngine<?> engine = (SwingEngine<?>) owner.getClientProperty(ENGINE_PROPERTY);
 		
 		BindingGroup bindingGroup = null;
 		UpdateStrategy strategy = UpdateStrategy.READ_WRITE;
-		SS source = client;
+		@SuppressWarnings("unchecked")
+		SS source = (SS) engine.getClient();
 		String beanProperty = bindProperty;
 		JComponent target = owner;
 		String targetProperty = property;
 		Validator<? super SV>  validator = null;
 		
-		return addAutoBinding(bindingGroup, strategy,
+		return addAutoBinding(engine, bindingGroup, strategy,
 			source, beanProperty, target, targetProperty, converter, validator);
 	}
 
@@ -207,7 +211,7 @@ public class BindingUtils
 	 * @param property
 	 * @param converter
 	 */
-	public static <SS, SV, TS, TV> AutoBinding<SS, SV, ?, TV> parseBindR(JComponent owner,
+	public static <SS, SV, TS, TV> AutoBinding<SS, SV, ?, TV> parseBindRead(JComponent owner,
 		String property, String bindProperty, Converter<SS, ?> converter)
 	{
 		if ( isDesignTime() )
@@ -215,19 +219,19 @@ public class BindingUtils
 		
 		if ( boundCheckAndSet(owner) )
 			return null;
-		
-		@SuppressWarnings("unchecked")
-		SS client = (SS) owner.getClientProperty(SwingEngine.CLIENT_PROPERTY);
-		
+
+		SwingEngine<?> engine = (SwingEngine<?>) owner.getClientProperty(ENGINE_PROPERTY);
+
 		BindingGroup bindingGroup = null;
 		UpdateStrategy strategy = UpdateStrategy.READ;
-		SS source = client;
+		@SuppressWarnings("unchecked")
+		SS source = (SS) engine.getClient();
 		String beanProperty = bindProperty;
 		JComponent target = owner;
 		String targetProperty = property;
 		Validator<? super SV>  validator = null;
 		
-		return addAutoBinding(bindingGroup, strategy,
+		return addAutoBinding(engine, bindingGroup, strategy,
 			source, beanProperty, target, targetProperty, converter, validator);
 	}
 
@@ -241,7 +245,8 @@ public class BindingUtils
 	 * @param targetProperty
 	 */
 	@SuppressWarnings("unchecked")
-	private static <SS, SV, TS, TV> AutoBinding<SS, SV, TS, TV> addAutoBinding(BindingGroup bindingGroup,
+	private static <SS, SV, TS, TV> AutoBinding<SS, SV, TS, TV> addAutoBinding(
+		SwingEngine<?> engine, BindingGroup bindingGroup,
 		UpdateStrategy strategy,SS source, String beanProperty, TS target, String targetProperty,
 		Converter<SS, ?> converter, Validator<? super SV> validator)
 	{
@@ -256,11 +261,7 @@ public class BindingUtils
 		
 		Property<TS,TV> tp = null;
 		if ( targetProperty.startsWith("$") )
-		{
-			// FIXME: Resolve ELContext ???
-			// tp = ELProperty.create(elContext, targetProperty);
-			throw new IllegalArgumentException("EL for target property not implemented!");
-		}
+			tp = ELProperty.create(engine.getELContext(), targetProperty);
 		else
 			tp = BeanProperty.create(targetProperty);
 		
@@ -293,9 +294,15 @@ public class BindingUtils
 	}
 
 	/**
-	 *
-	 * @param table
-	 * @param beanList
+	 * Initialize table binding from {@link TableColumnBind}
+	 * 
+	 * @param <E> The generic bean type.
+	 * @param group An optional {@link BindingGroup} instance.
+	 * @param strategy The update strategy for an {@link AutoBinding}.
+	 * @param table A {@link JTable} instance.
+	 * @param beanList A list of beans (table rows).
+	 * 
+	 * @return A {@link JTableBinding} instance.
 	 */
 	public static <E> JTableBinding<E,List<E>,JTable> initTableBindingFromTableColumns(
 		BindingGroup group,	UpdateStrategy strategy, JTable table, List<E> beanList)
@@ -332,17 +339,17 @@ public class BindingUtils
 				continue;
 			}
 			
-			TableColumnBind c = (TableColumnBind) tc;
+			TableColumnBind tcb = (TableColumnBind) tc;
 			logger.info(String.format(
 				"column [%s] header=[%s] modelIndex=[%d] resizable=[%b] minWidth=[%s] maxWidth=[%d] preferredWidth=[%d]",
-				tc.getIdentifier(), tc.getHeaderValue(), tc.getModelIndex(), tc.getResizable(), tc.getMinWidth(),
-				tc.getMaxWidth(), tc.getPreferredWidth()));
+				tcb.getIdentifier(), tcb.getHeaderValue(), tcb.getModelIndex(), tcb.getResizable(), tcb.getMinWidth(),
+				tcb.getMaxWidth(), tcb.getPreferredWidth()));
 			
-			final String propertyName = c.getBindWith();
+			final String propertyName = tcb.getBindWith();
 			if ( null == propertyName )
 			{
 				logger.warn(String.format("column [%s] has not set bindWith property. It will be ignored in binding!",
-					tc.getIdentifier()));
+					tcb.getIdentifier()));
 				continue;
 			}
 			
@@ -355,15 +362,15 @@ public class BindingUtils
 			//
 			// set Header
 			//
-			final Object headerValue = c.getHeaderValue();
+			final Object headerValue = tcb.getHeaderValue();
 			if ( null == headerValue )
-				c.setHeaderValue(propertyName);
-			cb.setColumnName(c.getHeaderValue().toString());
+				tcb.setHeaderValue(propertyName);
+			cb.setColumnName(tcb.getHeaderValue().toString());
 			
 			//
 			// set Property type
 			//
-			final String typeName = c.getType();
+			final String typeName = tcb.getType();
 			if ( null != typeName )
 			{
 				Class<?> typeClass = null;
@@ -382,7 +389,7 @@ public class BindingUtils
 			//
 			// set Editable
 			//
-			cb.setEditable(c.isEditable());
+			cb.setEditable(tcb.isEditable());
 		}
 		
 		if ( null != group )
@@ -394,9 +401,17 @@ public class BindingUtils
 	}
 
 	/**
-	 *
-	 * @param table
-	 * @param beanList
+	 * Initialize table binding from bean properties.
+	 * 
+	 * @param <E> The generic bean type.
+	 * @param group An optional {@link BindingGroup} instance.
+	 * @param strategy The update strategy for an {@link AutoBinding}.
+	 * @param table A {@link JTable} instance.
+	 * @param beanList A list of beans (table rows).
+	 * @param beanClass The bean's class.
+	 * @param isAllPropertiesBound Should all properties be bound?
+	 * 
+	 * @return A {@link JTableBinding} instance.
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> JTableBinding<E,List<E>,JTable> initTableBindingFromBeanInfo(
@@ -429,6 +444,7 @@ public class BindingUtils
 			return null;
 		}
 		
+		// Sort property descriptors into column index order.
 		Arrays.sort(pp, new Comparator<PropertyDescriptor>()
 		{
 			@Override

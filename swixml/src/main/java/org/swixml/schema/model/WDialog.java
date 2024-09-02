@@ -40,8 +40,7 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "WDialog")
 @XmlSeeAlso({
-    JDialog.class,
-    Dialog.class
+    JDialog.class
 })
 public class WDialog
     extends Window

@@ -1,10 +1,14 @@
 package org.swixml.jsr.widgets;
 
+import static java.awt.event.KeyEvent.VK_ENTER;
+import static java.awt.event.KeyEvent.VK_ESCAPE;
+import static javax.swing.KeyStroke.getKeyStroke;
+import static org.jdesktop.application.Application.getInstance;
+
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.Window;
-import java.awt.event.KeyEvent;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -13,7 +17,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.KeyStroke;
 
-import org.jdesktop.application.Application;
 import org.jdesktop.application.ApplicationActionMap;
 
 /**
@@ -23,7 +26,10 @@ import org.jdesktop.application.ApplicationActionMap;
 public class JDialogBind extends JDialog
 {
 	private static final long serialVersionUID = 20240701L;
-	protected JButton defaultButton;
+	
+	private JButton defaultButton;
+	public JButton getDefaultButton() { return defaultButton; }
+	public void setDefaultButton(JButton defaultButton) { this.defaultButton = defaultButton; }
 
 	public JDialogBind()
 	{
@@ -108,25 +114,26 @@ public class JDialogBind extends JDialog
 	@Override
 	public void addNotify()
 	{
-		KeyStroke escape = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-		KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+		KeyStroke escape = getKeyStroke(VK_ESCAPE, 0);
+		KeyStroke enter = getKeyStroke(VK_ENTER, 0);
 		InputMap im = rootPane.getInputMap();
 		im.put(enter, "enterAction");
 		im.put(escape, "escapeAction");
-		if ( defaultButton != null )
-			rootPane.setDefaultButton(defaultButton);
+		
+		if ( getDefaultButton() != null )
+			rootPane.setDefaultButton(getDefaultButton());
+		
 		ActionMap am = rootPane.getActionMap();
-		ApplicationActionMap aam = Application.getInstance().getContext().getActionMap(this);
+		ApplicationActionMap aam = getInstance().getContext().getActionMap(this);
+		
 		Action escapeAction = aam.get("escapeAction");
 		if ( escapeAction != null )
-		{
 			am.put("escapeAction", escapeAction);
-		}
+		
 		Action enterAction = aam.get("enterAction");
 		if ( enterAction != null )
-		{
 			am.put("enterAction", enterAction);
-		}
+		
 		super.addNotify();
 	}
 }

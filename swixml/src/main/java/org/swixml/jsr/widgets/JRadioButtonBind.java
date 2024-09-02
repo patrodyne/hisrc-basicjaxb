@@ -1,9 +1,10 @@
 package org.swixml.jsr.widgets;
 
+import static org.swixml.jsr295.BindingUtils.parseBind;
+
 import javax.swing.JRadioButton;
 
 import org.jdesktop.beansbinding.Converter;
-import org.swixml.jsr295.BindingUtils;
 
 /**
  * @see <a href="file:../../package-info.java">LICENSE: package-info</a>
@@ -26,7 +27,6 @@ public class JRadioButtonBind
 	{
 		return (String) getClientProperty(BINDWITH_PROPERTY);
 	}
-
 	@Override
 	public void setBindWith(String bindWith)
 	{
@@ -34,25 +34,23 @@ public class JRadioButtonBind
 	}
 
 	@Override
+	public Converter<?, ?> getConverter()
+	{
+		return (Converter<?, ?>) getClientProperty(CONVERTER_PROPERTY);
+	}
+	@Override
 	public void setConverter(Converter<?, ?> converter)
 	{
 		putClientProperty(CONVERTER_PROPERTY, converter);
 	}
 
 	@Override
-	public Converter<?, ?> getConverter()
-	{
-		return (Converter<?, ?>) getClientProperty(CONVERTER_PROPERTY);
-	}
-
-	@Override
 	public void addNotify()
 	{
 		final String bindWith = getBindWith();
-		if ( null != bindWith && !bindWith.isEmpty() )
-		{
-			BindingUtils.parseBind(this, "selected", bindWith, getConverter());
-		}
+		if ( (null != bindWith) && !bindWith.isEmpty() )
+			parseBind(this, "selected", bindWith, getConverter());
+		
 		super.addNotify();
 	}
 }

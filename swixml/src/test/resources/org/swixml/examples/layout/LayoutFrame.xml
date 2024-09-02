@@ -7,7 +7,7 @@
 	name="mainframe"
 	minimumSize="850,750"
 	title="SWIXML2 - Layouts"
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
 >
   <desktoppane>
 

@@ -173,6 +173,26 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link XDialog }
+     * 
+     * @return
+     *     the new instance of {@link XDialog }
+     */
+    public XDialog createXDialog() {
+        return new XDialog();
+    }
+
+    /**
+     * Create an instance of {@link JDialog }
+     * 
+     * @return
+     *     the new instance of {@link JDialog }
+     */
+    public JDialog createJDialog() {
+        return new JDialog();
+    }
+
+    /**
      * Create an instance of {@link WDialog }
      * 
      * @return
@@ -230,6 +250,16 @@ public class ObjectFactory {
      */
     public Frame createFrame() {
         return new Frame();
+    }
+
+    /**
+     * Create an instance of {@link JFrame }
+     * 
+     * @return
+     *     the new instance of {@link JFrame }
+     */
+    public JFrame createJFrame() {
+        return new JFrame();
     }
 
     /**
@@ -583,6 +613,26 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GridBagConstraints }
+     * 
+     * @return
+     *     the new instance of {@link GridBagConstraints }
+     */
+    public GridBagConstraints createGridBagConstraints() {
+        return new GridBagConstraints();
+    }
+
+    /**
+     * Create an instance of {@link TableColumn }
+     * 
+     * @return
+     *     the new instance of {@link TableColumn }
+     */
+    public TableColumn createTableColumn() {
+        return new TableColumn();
+    }
+
+    /**
      * Create an instance of {@link JCheckBox }
      * 
      * @return
@@ -613,26 +663,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JDialog }
-     * 
-     * @return
-     *     the new instance of {@link JDialog }
-     */
-    public JDialog createJDialog() {
-        return new JDialog();
-    }
-
-    /**
-     * Create an instance of {@link XDialog }
-     * 
-     * @return
-     *     the new instance of {@link XDialog }
-     */
-    public XDialog createXDialog() {
-        return new XDialog();
-    }
-
-    /**
      * Create an instance of {@link JTextComponent }
      * 
      * @return
@@ -650,26 +680,6 @@ public class ObjectFactory {
      */
     public JTextField createJTextField() {
         return new JTextField();
-    }
-
-    /**
-     * Create an instance of {@link JFrame }
-     * 
-     * @return
-     *     the new instance of {@link JFrame }
-     */
-    public JFrame createJFrame() {
-        return new JFrame();
-    }
-
-    /**
-     * Create an instance of {@link GridBagConstraints }
-     * 
-     * @return
-     *     the new instance of {@link GridBagConstraints }
-     */
-    public GridBagConstraints createGridBagConstraints() {
-        return new GridBagConstraints();
     }
 
     /**
@@ -780,16 +790,6 @@ public class ObjectFactory {
      */
     public JTable createJTable() {
         return new JTable();
-    }
-
-    /**
-     * Create an instance of {@link TableColumn }
-     * 
-     * @return
-     *     the new instance of {@link TableColumn }
-     */
-    public TableColumn createTableColumn() {
-        return new TableColumn();
     }
 
     /**

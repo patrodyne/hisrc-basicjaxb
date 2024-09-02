@@ -1,8 +1,13 @@
 package org.swixml.schema;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashSet;
 import java.util.Set;
 
+import org.swixml.Parser;
+import org.swixml.annotation.SchemaAware;
 import org.w3c.dom.Element;
 
 /**
@@ -26,6 +31,38 @@ public class SchemaGeneratorFlat extends SchemaGeneratorBase
 		return addAttribute(attributes, elem, aName, type);
 	}
 	
+	@Override
+	protected void addCustomAttributes(Element elem)
+	{
+		Set<String> attributes = new HashSet<String>();
+		//
+		// add custom swixml attributes
+		//
+		for ( Field field : Parser.class.getFields() )
+		{
+			if ( field.getName().startsWith("ATTR_") && !field.getName().endsWith("PREFIX")
+				&& Modifier.isFinal(field.getModifiers()) )
+			{
+				try
+				{
+					SchemaAware schema = field.getAnnotation(SchemaAware.class);
+					if ( schema != null )
+					{
+						Deprecated deprecated = field.getAnnotation(Deprecated.class);
+						String aName = field.get(Parser.class).toString().toLowerCase();
+						Element e = addAttribute(attributes, elem, aName, String.class);
+						if ( e != null && deprecated != null )
+							addDocumentation(e, "deprecated");
+					}
+				}
+				catch (IllegalAccessException e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+		}
+	}
+
 	/**
 	 * Writes the schema into the given file. Defaults to standard out.
 	 *

@@ -11,17 +11,15 @@ import java.awt.Container;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,10 +31,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.swixml.Factory;
-import org.swixml.Parser;
 import org.swixml.SwingEngine;
 import org.swixml.TagLibrary;
-import org.swixml.annotation.SchemaAware;
 import org.swixml.factory.BoxFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -176,7 +172,7 @@ abstract public class SchemaGeneratorBase
 			for ( Entry<String, Method> setterEntry : settersByName.entrySet() )
 				addAttribute(attributes, elem, setterEntry.getKey(), setterEntry.getValue());
 			
-			addCustomAttributes(attributes, elem);
+			addCustomAttributes(elem);
 		}
 	}
 
@@ -199,35 +195,7 @@ abstract public class SchemaGeneratorBase
 	
 	protected abstract Element addAttribute(Set<String> attributes, Element elem, String key, Method setter);
 
-	protected void addCustomAttributes(Set<String> set, Element elem)
-	{
-		//
-		// add custom swixml attributes
-		//
-		for ( Field field : Parser.class.getFields() )
-		{
-			if ( field.getName().startsWith("ATTR_") && !field.getName().endsWith("PREFIX")
-				&& Modifier.isFinal(field.getModifiers()) )
-			{
-				try
-				{
-					SchemaAware schema = field.getAnnotation(SchemaAware.class);
-					if ( schema != null )
-					{
-						Deprecated deprecated = field.getAnnotation(Deprecated.class);
-						String s = field.get(Parser.class).toString().toLowerCase();
-						Element e = addAttribute(set, elem, s, String.class);
-						if ( e != null && deprecated != null )
-							addDocumentation(e, "deprecated");
-					}
-				}
-				catch (IllegalAccessException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
-		}
-	}
+	protected abstract void addCustomAttributes(Element elem);
 
 	protected void addDocumentation(final Element elem, final String description)
 	{

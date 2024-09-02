@@ -26,7 +26,9 @@ public final class ObservableCollections
 	 * {@code Map}.
 	 *
 	 * @param map the {@code Map} to wrap
+	 * 
 	 * @return an {@code ObservableMap}
+	 * 
 	 * @throws IllegalArgumentException if {@code map} is {@code null}
 	 */
 	public static <K, V> ObservableMap<K, V> observableMap(Map<K, V> map)
@@ -43,7 +45,9 @@ public final class ObservableCollections
 	 * {@code List}.
 	 *
 	 * @param list the {@code List} to wrap
+	 * 
 	 * @return an {@code ObservableList}
+	 * 
 	 * @throws IllegalArgumentException if {@code list} is {@code null}
 	 */
 	public static <E> ObservableList<E> observableList(List<E> list)
@@ -61,7 +65,9 @@ public final class ObservableCollections
 	 * method instead of {@code observableList()}.
 	 *
 	 * @param list the {@code List} to wrap
+	 * 
 	 * @return an {@code ObservableList}
+	 * 
 	 * @throws IllegalArgumentException if {@code list} is {@code null}
 	 *
 	 * @see #observableList
@@ -237,9 +243,7 @@ public final class ObservableCollections
 			listeners.remove(listener);
 		}
 
-		private class EntryIterator
-			implements
-			Iterator<Map.Entry<K, V>>
+		private class EntryIterator implements Iterator<Map.Entry<K, V>>
 		{
 			private Iterator<Map.Entry<K, V>> realIterator;
 			private Map.Entry<K, V> last;
@@ -275,9 +279,7 @@ public final class ObservableCollections
 			}
 		}
 
-		private class EntrySet
-			extends
-			AbstractSet<Map.Entry<K, V>>
+		private class EntrySet extends AbstractSet<Map.Entry<K, V>>
 		{
 			@Override
 			public Iterator<Map.Entry<K, V>> iterator()

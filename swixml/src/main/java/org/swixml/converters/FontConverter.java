@@ -1,5 +1,7 @@
 package org.swixml.converters;
 
+import static java.lang.String.format;
+
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 
@@ -67,6 +69,28 @@ public class FontConverter extends AbstractConverter<Font>
 	public Font convert(String value, Class<Font> type, Attribute attr, SwingEngine<?> engine)
 		throws Exception
 	{
+		return convert(value, engine.getELMethods().fontSize());
+	}
+
+	/**
+	 * Convert the font specification value to a {@link Font} instance.
+	 * 
+	 * @param value The font specification value.
+	 * @param defaultFontSize The default font size.
+	 * 
+	 * @return The {@link Font} instance for the given font specification.
+	 */
+	public static Font convert(String value, int defaultFontSize)
+	{
+		String fontSpec = value;
+		if ( (fontSpec != null) && !fontSpec.isBlank() )
+		{
+			String[] specParts = fontSpec.split("-");
+			if ( specParts.length == 1)
+				value = format("%s-%s-%02d", specParts[0], "PLAIN", defaultFontSize);
+			else if ( specParts.length == 2)
+				value = format("%s-%s-%02d", specParts[0], specParts[1], defaultFontSize);
+		}
 		return Font.decode(value);
 	}
 

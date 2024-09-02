@@ -1,18 +1,26 @@
 package org.swixml.schema;
 
+import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.table.TableColumn;
 
 import org.swixml.Factory;
+import org.swixml.Parser;
 import org.swixml.TagLibrary;
 import org.swixml.XGlue;
 import org.swixml.XSplitPane;
+import org.swixml.annotation.SchemaAware;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -39,10 +47,10 @@ public class SchemaGeneratorNorm extends SchemaGeneratorBase
 					root.appendChild(createElement(doc, name, type));
 					break;
 				case "dialog":
-					root.appendChild(createRootElement(doc, "dialog", "tns:WDialog"));
+					root.appendChild(createRootElement(doc, "dialog", "tns:XDialog"));
 					break;
 				case "frame":
-					root.appendChild(createRootElement(doc, "frame", "tns:WFrame"));
+					root.appendChild(createRootElement(doc, "frame", "tns:JFrame"));
 					break;
 				case "glue":
 					addComplexTypeHierarchy(doc, XGlue.class);
@@ -181,6 +189,61 @@ public class SchemaGeneratorNorm extends SchemaGeneratorBase
 		return attribute;
 	}
 	
+	@Override
+	protected void addCustomAttributes(Element elem)
+	{
+		if ( elem != null )
+		{
+			Document doc = elem.getOwnerDocument();
+			//
+			// add custom swixml attributes to Component, etc.
+			//
+			addCustomAttributes(doc, Component.class);
+			addCustomAttributes(doc, ButtonGroup.class);
+			addCustomAttributes(doc, GridBagConstraints.class);
+			addCustomAttributes(doc, TableColumn.class);
+		}
+	}
+
+	private void addCustomAttributes(Document doc, Class<?> clazz)
+	{
+		Set<String> attributes = new HashSet<String>();
+		Set<String> aNameSet = new TreeSet<>();
+		Element target = getComplexTypeByName(doc, clazz.getSimpleName());
+		if ( target == null )
+		{
+			addComplexTypeHierarchy(doc, clazz);
+			target = getComplexTypeByName(doc, clazz.getSimpleName());
+		}
+		for ( Field field : Parser.class.getFields() )
+		{
+			if ( field.getName().startsWith("ATTR_") && !field.getName().endsWith("PREFIX")
+				&& Modifier.isFinal(field.getModifiers()) )
+			{
+				try
+				{
+					SchemaAware schema = field.getAnnotation(SchemaAware.class);
+					if ( schema != null )
+					{
+						Deprecated deprecated = field.getAnnotation(Deprecated.class);
+						if ( deprecated == null )
+						{
+							String aName = field.get(Parser.class).toString().toLowerCase();
+							if ( getAttributeByName(target, aName) == null  )
+								aNameSet.add(aName);
+						}
+					}
+				}
+				catch (IllegalAccessException e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+		}
+		for ( String aName : aNameSet )
+			addAttribute(attributes, target, aName, String.class);
+	}
+
 	private void addComplexTypeHierarchy(Document doc, Class<?> dc)
 	{
 		String complexTypeName = getComplexTypeName(dc);

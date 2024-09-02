@@ -26,6 +26,8 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
  *       </sequence>
  *       <attribute name="action" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       <attribute name="allPropertiesBound" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+ *       <attribute name="bindClass" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       <attribute name="bindList" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       <attribute name="bindWith" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       <attribute name="converter" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       <attribute name="dblClickAction" type="{http://www.w3.org/2001/XMLSchema}string" />
@@ -48,6 +50,10 @@ public class JTableBind
     protected String action;
     @XmlAttribute(name = "allPropertiesBound")
     protected Boolean allPropertiesBound;
+    @XmlAttribute(name = "bindClass")
+    protected String bindClass;
+    @XmlAttribute(name = "bindList")
+    protected String bindList;
     @XmlAttribute(name = "bindWith")
     protected String bindWith;
     @XmlAttribute(name = "converter")
@@ -101,6 +107,54 @@ public class JTableBind
      */
     public void setAllPropertiesBound(Boolean value) {
         this.allPropertiesBound = value;
+    }
+
+    /**
+     * Gets the value of the bindClass property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getBindClass() {
+        return bindClass;
+    }
+
+    /**
+     * Sets the value of the bindClass property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setBindClass(String value) {
+        this.bindClass = value;
+    }
+
+    /**
+     * Gets the value of the bindList property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getBindList() {
+        return bindList;
+    }
+
+    /**
+     * Sets the value of the bindList property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setBindList(String value) {
+        this.bindList = value;
     }
 
     /**
@@ -193,6 +247,20 @@ public class JTableBind
             currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
         }
         {
+            boolean theFieldIsSet = (this.bindClass!= null);
+            String theField;
+            theField = this.getBindClass();
+            ObjectLocator theFieldLocator = LocatorUtils.property(locator, "bindClass", theField);
+            currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+        }
+        {
+            boolean theFieldIsSet = (this.bindList!= null);
+            String theField;
+            theField = this.getBindList();
+            ObjectLocator theFieldLocator = LocatorUtils.property(locator, "bindList", theField);
+            currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+        }
+        {
             boolean theFieldIsSet = (this.bindWith!= null);
             String theField;
             theField = this.getBindWith();
@@ -255,6 +323,32 @@ public class JTableBind
             }
         }
         {
+            boolean lhsFieldIsSet = (this.bindClass!= null);
+            boolean rhsFieldIsSet = (that.bindClass!= null);
+            String lhsField;
+            lhsField = this.getBindClass();
+            String rhsField;
+            rhsField = that.getBindClass();
+            ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "bindClass", lhsField);
+            ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "bindClass", rhsField);
+            if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+                return false;
+            }
+        }
+        {
+            boolean lhsFieldIsSet = (this.bindList!= null);
+            boolean rhsFieldIsSet = (that.bindList!= null);
+            String lhsField;
+            lhsField = this.getBindList();
+            String rhsField;
+            rhsField = that.getBindList();
+            ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "bindList", lhsField);
+            ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "bindList", rhsField);
+            if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+                return false;
+            }
+        }
+        {
             boolean lhsFieldIsSet = (this.bindWith!= null);
             boolean rhsFieldIsSet = (that.bindWith!= null);
             String lhsField;
@@ -310,6 +404,18 @@ public class JTableBind
             Boolean theField;
             theField = this.isAllPropertiesBound();
             strategy.appendField(locator, this, "allPropertiesBound", buffer, theField, theFieldIsSet);
+        }
+        {
+            boolean theFieldIsSet = (this.bindClass!= null);
+            String theField;
+            theField = this.getBindClass();
+            strategy.appendField(locator, this, "bindClass", buffer, theField, theFieldIsSet);
+        }
+        {
+            boolean theFieldIsSet = (this.bindList!= null);
+            String theField;
+            theField = this.getBindList();
+            strategy.appendField(locator, this, "bindList", buffer, theField, theFieldIsSet);
         }
         {
             boolean theFieldIsSet = (this.bindWith!= null);

@@ -680,7 +680,7 @@ public class ResourceMap
 	/*
 	 * Given the following resources:
 	 * 
-	 * hello = Hello world = World place = ${world}
+	 * hello = Hello; world = World; place = ${world}
 	 * 
 	 * The value of evaluateStringExpression("${hello} ${place}") would be
 	 * "Hello World". The value of ${null} is null.
@@ -721,7 +721,8 @@ public class ResourceMap
 				}
 			}
 			else
-			{ // we've found an escaped variable - "\${"
+			{
+				// we've found an escaped EL variable - "\${"
 				value.append(expr.substring(i0, i1 - 1));
 				value.append("${");
 				i0 = i1 + 2; // skip past "${"

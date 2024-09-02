@@ -25,6 +25,7 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
  *       <sequence>
  *       </sequence>
  *       <attribute name="action" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       <attribute name="bindList" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       <attribute name="bindWith" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       <attribute name="converter" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     </extension>
@@ -44,6 +45,8 @@ public class JListBind
     private static final long serialVersionUID = 20240701L;
     @XmlAttribute(name = "action")
     protected String action;
+    @XmlAttribute(name = "bindList")
+    protected String bindList;
     @XmlAttribute(name = "bindWith")
     protected String bindWith;
     @XmlAttribute(name = "converter")
@@ -71,6 +74,30 @@ public class JListBind
      */
     public void setAction(String value) {
         this.action = value;
+    }
+
+    /**
+     * Gets the value of the bindList property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getBindList() {
+        return bindList;
+    }
+
+    /**
+     * Sets the value of the bindList property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setBindList(String value) {
+        this.bindList = value;
     }
 
     /**
@@ -132,6 +159,13 @@ public class JListBind
             currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
         }
         {
+            boolean theFieldIsSet = (this.bindList!= null);
+            String theField;
+            theField = this.getBindList();
+            ObjectLocator theFieldLocator = LocatorUtils.property(locator, "bindList", theField);
+            currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+        }
+        {
             boolean theFieldIsSet = (this.bindWith!= null);
             String theField;
             theField = this.getBindWith();
@@ -174,6 +208,19 @@ public class JListBind
             }
         }
         {
+            boolean lhsFieldIsSet = (this.bindList!= null);
+            boolean rhsFieldIsSet = (that.bindList!= null);
+            String lhsField;
+            lhsField = this.getBindList();
+            String rhsField;
+            rhsField = that.getBindList();
+            ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "bindList", lhsField);
+            ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "bindList", rhsField);
+            if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+                return false;
+            }
+        }
+        {
             boolean lhsFieldIsSet = (this.bindWith!= null);
             boolean rhsFieldIsSet = (that.bindWith!= null);
             String lhsField;
@@ -210,6 +257,12 @@ public class JListBind
             String theField;
             theField = this.getAction();
             strategy.appendField(locator, this, "action", buffer, theField, theFieldIsSet);
+        }
+        {
+            boolean theFieldIsSet = (this.bindList!= null);
+            String theField;
+            theField = this.getBindList();
+            strategy.appendField(locator, this, "bindList", buffer, theField, theFieldIsSet);
         }
         {
             boolean theFieldIsSet = (this.bindWith!= null);

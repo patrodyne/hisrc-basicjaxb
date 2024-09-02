@@ -3,22 +3,24 @@ package org.swixml.jsr.widgets;
 import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE;
 import static org.jdesktop.beansbinding.BeanProperty.create;
 import static org.jdesktop.beansbinding.Bindings.createAutoBinding;
-import static org.swixml.SwingEngine.CLIENT_PROPERTY;
+import static org.swixml.SwingEngine.ENGINE_PROPERTY;
 import static org.swixml.jsr295.BindingUtils.initComboBinding;
 import static org.swixml.jsr295.BindingUtils.isBound;
 
+import java.awt.Container;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.Property;
+import org.swixml.SwingEngine;
 
 /**
  * @see <a href="file:../../package-info.java">LICENSE: package-info</a>
@@ -32,8 +34,41 @@ public class JComboBoxBind<E, SS, TS>
 	implements BindableListWidget, BindableBasicWidget
 {
 	private static final long serialVersionUID = 20240701L;
-	
-	private List<?> beanList;
+
+	private List<?> bindList;
+	@Override
+	public final List<?> getBindList()
+	{
+		return bindList;
+	}
+	@Override
+	public final void setBindList(List<?> bindList)
+	{
+		this.bindList = bindList;
+	}
+
+	@Override
+	public String getBindWith()
+	{
+		return (String) getClientProperty(BINDWITH_PROPERTY);
+	}
+	@Override
+	public void setBindWith(String bindWith)
+	{
+		putClientProperty(BINDWITH_PROPERTY, bindWith);
+	}
+		
+	@Override
+	@SuppressWarnings("unchecked")
+	public Converter<List<E>, List<?>> getConverter()
+	{
+		return (Converter<List<E>, List<?>>) getClientProperty(CONVERTER_PROPERTY);
+	}
+	@Override
+	public void setConverter(Converter<?, ?> converter)
+	{
+		putClientProperty(CONVERTER_PROPERTY, converter);
+	}
 
 	public JComboBoxBind()
 	{
@@ -54,44 +89,7 @@ public class JComboBoxBind<E, SS, TS>
 	{
 		super(items);
 	}
-
-	@Override
-	public final List<?> getBindList()
-	{
-		return beanList;
-	}
-
-	@Override
-	public final void setBindList(List<?> beanList)
-	{
-		this.beanList = beanList;
-	}
-
-	@Override
-	public void setConverter(Converter<?, ?> converter)
-	{
-		putClientProperty(CONVERTER_PROPERTY, converter);
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public Converter<List<E>, List<?>> getConverter()
-	{
-		return (Converter<List<E>, List<?>>) getClientProperty(CONVERTER_PROPERTY);
-	}
-
-	@Override
-	public String getBindWith()
-	{
-		return (String) getClientProperty(BINDWITH_PROPERTY);
-	}
-
-	@Override
-	public void setBindWith(String bindWith)
-	{
-		putClientProperty(BINDWITH_PROPERTY, bindWith);
-	}
-
+	
 	@Override
 	public void addNotify()
 	{
@@ -101,7 +99,8 @@ public class JComboBoxBind<E, SS, TS>
 			initComboBinding(context, READ_WRITE, this, getBindList(), getConverter());
 			if ( getBindWith() != null )
 			{
-				Object client = getClientProperty(CLIENT_PROPERTY);
+				SwingEngine<?> engine = (SwingEngine<?>) getClientProperty(ENGINE_PROPERTY);
+				Container client = engine.getClient();
 
 				AutoBinding<SS, List<E>, TS, List<?>> binding = createBinding(client);
 				context.addBinding(binding);
@@ -114,6 +113,7 @@ public class JComboBoxBind<E, SS, TS>
 			}
 			context.bind();
 		}
+		
 		super.addNotify();
 	}
 

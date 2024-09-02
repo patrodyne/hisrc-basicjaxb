@@ -11,7 +11,7 @@
 	title="Example Button usage" 
 	undecorated="false" 
 	alwaysOnTop="true"
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE" 
+	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE" 
 	modal="false"
 >
 

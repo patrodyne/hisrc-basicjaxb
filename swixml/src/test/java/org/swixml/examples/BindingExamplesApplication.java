@@ -19,7 +19,7 @@ public class BindingExamplesApplication
 		try
 		{
 			// Create the SwingEngine, ElContext, etc.
-			setSwingEngine(createEngine(WINDOW));
+			setSwingEngine(createEngine(WINDOW, 24));
 
 			// Process other initial conditions.
 			// getELProcessor().setVariable("var", "expression");
@@ -28,6 +28,7 @@ public class BindingExamplesApplication
 			// getELProcessor().defineFunction("prefix", "function", method);
 			// getELProcessor().defineFunction("prefix", "function", "className", "method");
 
+			 getELProcessor().defineBean("el", getSwingEngine().getELMethods());
 			 getELProcessor().defineBean("window", WINDOW);
 		}
 		catch ( SecurityException ex)

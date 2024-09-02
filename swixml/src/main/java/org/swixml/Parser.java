@@ -1,5 +1,10 @@
 package org.swixml;
 
+import static jakarta.el.ELManager.getExpressionFactory;
+import static org.jdesktop.beansbinding.ELProperty.create;
+import static org.swixml.SwingEngine.ENGINE_PROPERTY;
+import static org.swixml.jsr295.BindingUtils.isELPattern;
+
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.LayoutManager;
@@ -36,8 +41,6 @@ import org.swixml.converters.LocaleConverter;
 import org.swixml.converters.PrimitiveConverter;
 import org.swixml.dom.Attribute;
 import org.swixml.dom.DOMUtil;
-import org.swixml.jsr295.BindingUtils;
-import org.swixml.el.ELUtility;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,6 +49,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import jakarta.el.ELContext;
+import jakarta.el.ValueExpression;
 
 /**
  * Singleton Parser to render XML for Swing Documents
@@ -200,6 +204,11 @@ public class Parser implements LogAware
 	 */
 	public static final String ATTR_BIND_WITH = "bindWith";
 	public static final String TAG_SCRIPT = "script";
+	
+	/**
+	 * Expression Language variable names
+	 */
+	public static final String ELVAR_DOM_ELEMENT = "domElement";
 	
 	/**
 	 * the calling swingEngine
@@ -595,7 +604,7 @@ public class Parser implements LogAware
 		//
 		if ( obj instanceof JComponent )
 		{
-			((JComponent) obj).putClientProperty(SwingEngine.CLIENT_PROPERTY, getSwingEngine().getClient());
+			((JComponent) obj).putClientProperty(ENGINE_PROPERTY, getSwingEngine());
 		}
 		//
 		// handle "layout" element or attribute
@@ -677,10 +686,8 @@ public class Parser implements LogAware
 		if ( element.getAttributeNode(ATTR_TEXT) == null )
 		{
 			String text = DOMUtil.getText(element);
-			if ( text != null && !text.isEmpty() )
-			{
+			if ( text != null && !text.isBlank() )
 				remainingAttrs.add(new Attribute(ATTR_TEXT, text));
-			}
 		}
 		remainingAttrs = applyAttributes(obj, factory, Attribute.asList(remainingAttrs, attributes));
 		////////////////////////////////////////////////////
@@ -727,14 +734,12 @@ public class Parser implements LogAware
 	 * 
 	 * @return
 	 */
-	private boolean isVariable(Attribute attr)
+	private boolean isELVariable(Attribute attr)
 	{
-		if ( ELUtility.isELAttribute(attr) )
-			return false;
 		// IS BOUNDED
 		if ( ATTR_BIND_WITH.equalsIgnoreCase(attr.getLocalName()) )
 			return false;
-		return BindingUtils.isVariablePattern(attr.getValue());
+		return isELPattern(attr.getValue());
 	}
 
 	/**
@@ -826,21 +831,29 @@ public class Parser implements LogAware
 			Object para = null;
 			
 			/////////////////////////
-			if ( isVariable(attr) )
+			if ( isELVariable(attr) )
 			{
 				try
 				{
-					// we can use also Application.getInstance();
-					Object owner = getSwingEngine().getClient(); 
-					ELContext elContext = getSwingEngine().getELContext();
-					ELProperty<Object, Object> elp = ELProperty.create(elContext, attr.getValue());
-					if ( !elp.isReadable(owner) )
+					try
+					{
+						ELContext elContext = getSwingEngine().getELContext();
+						
+						// Set an EL variable to reference the current DOM element.
+						Attr domAttribute = attr.getDomAttribute();
+						setVariable(elContext, ELVAR_DOM_ELEMENT, domAttribute.getOwnerElement());
+						
+						ELProperty<Object, Object> elp = create(elContext, attr.getValue());
+						para = elp.getValue(getSwingEngine().getClient());
+						
+						unsetVariable(elContext, ELVAR_DOM_ELEMENT);
+					}
+					catch ( UnsupportedOperationException ex )
 					{
 						logger.warn("property " + attr.getValue() + " is not readable!");
 						continue;
 					}
 					
-					para = elp.getValue(owner);
 					if ( null != para )
 					{
 						BeanProperty<Object, Object> bp = BeanProperty.create(attr.getLocalName());
@@ -859,7 +872,7 @@ public class Parser implements LogAware
 				}
 				catch (PropertyResolutionException ex)
 				{
-					logger.warn("variable " + attr.getValue() + " doesn't exist!", ex);
+					logger.warn("EL variable " + attr.getValue() + " doesn't exist!", ex);
 					continue;
 				}
 			}
@@ -1028,6 +1041,20 @@ public class Parser implements LogAware
 			notAppliedAttrList.add(new Attribute("name", attr_id.getValue()));
 		
 		return notAppliedAttrList;
+	}
+
+	private void setVariable(ELContext elContext, String name, Object value)
+	{
+		if ( value != null )
+		{
+			ValueExpression ve = getExpressionFactory().createValueExpression(value, value.getClass());
+			elContext.getVariableMapper().setVariable(name, ve);
+		}
+	}
+
+	private void unsetVariable(ELContext elContext, String name)
+	{
+		elContext.getVariableMapper().setVariable(name, null);
 	}
 
 	/**

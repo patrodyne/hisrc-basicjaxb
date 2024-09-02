@@ -1,9 +1,10 @@
 package org.swixml.el;
 
+import static jakarta.el.ELManager.getExpressionFactory;
 import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
-import static org.swixml.jsr295.BindingUtils.getVariableMatcher;
+import static org.swixml.jsr295.BindingUtils.getELMatcher;
 
 import java.lang.reflect.Method;
 import java.util.regex.Matcher;
@@ -58,16 +59,18 @@ public class ELUtility implements LogAware
     public static Object evaluateAttribute( ELProcessor elProcessor, Attribute attr )
     {
     	Object result = null;
-        if ( isELAttribute(attr) )
-        {
-            Matcher m = getVariableMatcher(attr.getValue());
-            if( m.matches() )
-                result = evalSafe(elProcessor, m.group(1) );
-            else
-                result = invokeFunctionSafe(elProcessor, attr.getValue());
-        }
+
+        Matcher elMatcher = getELMatcher(attr.getValue());
+        if ( elMatcher.matches() )
+            result = evalSafe(elProcessor, elMatcher.group(1) );
         else
-        	result = attr.getValue();
+        {
+        	if ( isELAttribute(attr) )
+        		result = invokeFunctionSafe(elProcessor, attr.getValue());
+            else
+            	result = attr.getValue();
+        }
+
         return result;
     }
     
@@ -116,7 +119,7 @@ public class ELUtility implements LogAware
 				types[index] = args[index].getClass();
 			
 			// Create and invoke a MethodExpression
-			ExpressionFactory expressionFactory = ELManager.getExpressionFactory();
+			ExpressionFactory expressionFactory = getExpressionFactory();
 			StandardELContext elContext = elProcessor.getELManager().getELContext();
 			MethodExpression me = expressionFactory
 				.createMethodExpression(elContext, elMethod, Object.class, types);

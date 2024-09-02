@@ -3,6 +3,7 @@ package org.swixml.factory;
 import static java.lang.reflect.Modifier.isAbstract;
 import static java.lang.reflect.Modifier.isPublic;
 import static org.swixml.LogUtil.logger;
+import static org.swixml.jsr295.BindingUtils.isELPattern;
 
 import java.awt.LayoutManager;
 import java.lang.reflect.InvocationTargetException;
@@ -17,7 +18,6 @@ import org.swixml.Factory;
 import org.swixml.Parser;
 import org.swixml.SwingEngine;
 import org.swixml.dom.Attribute;
-import org.swixml.jsr295.BindingUtils;
 import org.swixml.processor.ButtonGroupTagProcessor;
 import org.swixml.processor.ConstraintsTagProcessor;
 import org.swixml.processor.ELTagProcessor;
@@ -270,26 +270,28 @@ public class BeanFactory implements Factory
 
 	public final Object getAttributeValue(ELContext elContext, Object owner, Attribute attr)
 	{
-		final boolean isVariable = BindingUtils.isVariablePattern(attr.getValue());
-		if ( !isVariable )
-		{
-			return attr.getValue();
-		}
 		Object result = null;
-		try
+
+		if ( isELPattern(attr.getValue()) )
 		{
-			ELProperty<Object, Object> p = ELProperty.create(elContext, attr.getValue());
-			if ( !p.isReadable(owner) )
+			try
 			{
-				logger.warn("property " + attr.getValue() + " is not readable!");
-				return result;
+				ELProperty<Object, Object> p = ELProperty.create(elContext, attr.getValue());
+				if ( !p.isReadable(owner) )
+				{
+					logger.warn("property " + attr.getValue() + " is not readable!");
+					return result;
+				}
+				result = p.getValue(owner);
 			}
-			result = p.getValue(owner);
+			catch (PropertyResolutionException ex)
+			{
+				logger.warn("EL variable " + attr.getValue() + " doesn't exist!", ex);
+			}
 		}
-		catch (PropertyResolutionException ex)
-		{
-			logger.warn("variable " + attr.getValue() + " doesn't exist!", ex);
-		}
+		else
+			return attr.getValue();
+		
 		return result;
 	}
 }

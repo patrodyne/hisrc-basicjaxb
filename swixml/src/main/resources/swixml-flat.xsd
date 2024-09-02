@@ -121,6 +121,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -238,6 +239,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -331,6 +333,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -411,6 +414,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -474,6 +478,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -541,6 +546,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -611,6 +617,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -696,6 +703,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -786,6 +794,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -858,6 +867,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -921,6 +931,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1020,6 +1031,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1084,6 +1096,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1166,6 +1179,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1243,6 +1257,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1270,6 +1285,7 @@
             <xs:attribute name="alignmentY" type="xs:string"/>
             <xs:attribute name="autoscrolls" type="xs:boolean"/>
             <xs:attribute name="background" type="xs:string"/>
+            <xs:attribute name="bindList" type="xs:string"/>
             <xs:attribute name="bindWith" type="xs:string"/>
             <xs:attribute name="border" type="xs:string"/>
             <xs:attribute name="bounds" type="xs:string"/>
@@ -1327,6 +1343,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1421,6 +1438,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1490,6 +1508,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1582,6 +1601,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1658,6 +1678,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1722,6 +1743,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1812,6 +1834,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1884,6 +1907,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -1957,6 +1981,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -2049,6 +2074,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -2141,6 +2167,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -2217,6 +2244,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -2282,6 +2310,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -2364,6 +2393,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -2433,6 +2463,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -2503,6 +2534,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -2578,6 +2610,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -2653,6 +2686,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -2684,6 +2718,8 @@
             <xs:attribute name="autoResizeMode" type="xs:string"/>
             <xs:attribute name="autoscrolls" type="xs:boolean"/>
             <xs:attribute name="background" type="xs:string"/>
+            <xs:attribute name="bindClass" type="xs:string"/>
+            <xs:attribute name="bindList" type="xs:string"/>
             <xs:attribute name="bindWith" type="xs:string"/>
             <xs:attribute name="border" type="xs:string"/>
             <xs:attribute name="bounds" type="xs:string"/>
@@ -2752,6 +2788,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -2775,6 +2812,7 @@
             <xs:attribute name="bindWith" type="xs:string"/>
             <xs:attribute name="cellEditor" type="xs:string"/>
             <xs:attribute name="cellRenderer" type="xs:string"/>
+            <xs:attribute name="converter" type="xs:string"/>
             <xs:attribute name="editable" type="xs:boolean"/>
             <xs:attribute name="headerRenderer" type="xs:string"/>
             <xs:attribute name="headerValue" type="xs:string"/>
@@ -2863,6 +2901,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -2952,6 +2991,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -3041,6 +3081,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -3128,6 +3169,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -3218,6 +3260,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -3287,6 +3330,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -3380,6 +3424,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -3444,6 +3489,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">
@@ -3508,6 +3554,7 @@
             <xs:attribute name="constraints" type="xs:string"/>
             <xs:attribute name="plaf" type="xs:string"/>
             <xs:attribute name="bundle" type="xs:string"/>
+            <xs:attribute name="locale" type="xs:string"/>
             <xs:attribute name="id" type="xs:string"/>
             <xs:attribute name="refid" type="xs:string"/>
             <xs:attribute name="use" type="xs:string">

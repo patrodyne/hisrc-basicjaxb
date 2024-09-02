@@ -10,6 +10,5 @@ import java.util.List;
 public interface BindableListWidget extends BindableWidget
 {
 	List<?> getBindList();
-
-	void setBindList(java.util.List<?> beanList);
+	void setBindList(java.util.List<?> bindList);
 }
