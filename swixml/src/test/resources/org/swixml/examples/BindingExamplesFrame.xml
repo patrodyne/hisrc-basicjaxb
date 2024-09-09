@@ -26,20 +26,27 @@
 					</hbox>
 
 					<hbox gap="5">
-						<label text="texField Binding" />
-						<textfield id="tv" bindWith="testValue" columns="20" />
-						<box.hglue />
-					</hbox>
-
-					<hbox>
-						<combobox
-							bindWith="comboItem"
-							bindList="${window.comboList}"
-							action="comboAction"
+						<label text="textField Binding" />
+						<textfield
+							id="tv"
+							bindWith="testValue"
+							columns="20"
 						/>
 						<box.hglue />
 					</hbox>
 
+					<hbox>
+						<!-- 
+							Option: Use this to initialize the list in the window client:
+							bindList="${window.comboList}"
+						-->
+						<combobox
+							bindWith="${el.bindWith('window.comboItem','item3')}"
+							bindList="${el.bindList('window.comboList',['item1','item2','item3'])}"
+							action="comboAction"
+						/>
+						<box.hglue />
+					</hbox>
 					<hbox>
 						<scrollpane>
 							<list
@@ -52,11 +59,9 @@
 					</hbox>
 
 					<hbox gap="10">
-						<button id="btn1" text="Show Client Attributes" X="Client1" Y="Attribute1" action="show" />
-
+						<button id="btn1" text="Show Client Attributes 1" X="Client1" Y="Attribute1" action="show" />
 						<button action="test">Test Button</button>
-
-						<button id="btn2" text="Show Client Attributes" X="Client2" Y="Attribute2" action="show" />
+						<button id="btn2" text="Show Client Attributes 2" X="Client2" Y="Attribute2" action="show" />
 					</hbox>
 
 				</vbox>

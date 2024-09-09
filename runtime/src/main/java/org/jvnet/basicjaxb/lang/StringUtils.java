@@ -182,4 +182,25 @@ public class StringUtils
         sb.append(" ]");
         return sb.toString();
 	}
+	
+	public static String trim(String text, String trim)
+	{
+		String result = text;
+		if ( (text != null) && (trim != null) )
+		{
+			result = text.trim();
+			for ( char ch : trim.toCharArray() )
+			{
+				if ( result.charAt(0) == ch )
+					result = result.substring(1);
+				int lastIndex = result.lastIndexOf(ch);
+				if ( lastIndex >= 0 )
+				{
+					if ( result.charAt(lastIndex) == ch )
+						result = result.substring(0, lastIndex);					
+				}
+			}
+		}
+		return result;
+	}
 }

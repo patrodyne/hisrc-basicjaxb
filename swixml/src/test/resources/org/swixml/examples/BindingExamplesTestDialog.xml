@@ -11,8 +11,15 @@
 >
 
 	<panel constraints="BorderLayout.CENTER">
+	
 		<label labelFor="testValue" text="Test" />
-		<textfield id="testValue" columns="20" text="text" />
+		<textfield
+			id="textField"
+			bindWith="testValue"
+			columns="20"
+			text="text"
+		/>
+		
 		<button text="Submit" action="submit" />
 	</panel>
 

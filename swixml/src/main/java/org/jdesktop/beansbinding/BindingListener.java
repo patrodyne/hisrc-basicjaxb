@@ -6,8 +6,8 @@ import java.util.EventListener;
  * {@code BindingListeners} are registered on {@code Bindings} or
  * {@code BindingGroups} to listen for changes to the state of {@code Bindings}
  *
- * @see Binding
- * @see BindingGroup
+ * @see {@link Binding}
+ * @see {@link BindingGroup}
  * @see <a href="file:package-info.java">LICENSE: package-info</a>
  *
  * @author Shannon Hickey

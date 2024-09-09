@@ -46,7 +46,7 @@ public final class ObjectProperty<S>
 	 *         {@code UnsupportedOperationException}; {@code ObjectProperty} is
 	 *         never writable
 	 * @throws UnsupportedOperationException always; {@code ObjectProperty} is
-	 *             never writeable
+	 *             never writable
 	 * @see #isWriteable
 	 */
 	@Override
@@ -69,7 +69,7 @@ public final class ObjectProperty<S>
 
 	/**
 	 * Throws {@code UnsupportedOperationException}; {@code ObjectProperty} is
-	 * never writeable.
+	 * never writable.
 	 *
 	 * @param source {@inheritDoc}
 	 * @throws UnsupportedOperationException always; {@code ObjectProperty} is
@@ -96,9 +96,9 @@ public final class ObjectProperty<S>
 	}
 
 	/**
-	 * Returns {@code false}; {@code ObjectProperty} is never writeable.
+	 * Returns {@code false}; {@code ObjectProperty} is never writable.
 	 *
-	 * @return {@code false}; {@code ObjectPropert} is never writeable
+	 * @return {@code false}; {@code ObjectPropert} is never writable
 	 * @see #isReadable
 	 */
 	@Override

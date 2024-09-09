@@ -130,7 +130,7 @@ import jakarta.el.ValueExpression;
  * 
  * <p><b>Writability</b> of an {@link ELProperty} for a given source is defined as follows:</p>
  * 
- * <p>An {@link ELProperty} is writeable for a given source if and only if:</p>
+ * <p>An {@link ELProperty} is writable for a given source if and only if:</p>
  * 
  * <ol>
  * <li>The EL {@link ValueExpressionPlus} itself is not read-only (ie. it is a simple
@@ -597,7 +597,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 			entry.validateCache(-1);
 			if ( !entry.cachedIsWriteable )
 			{
-				throw new UnsupportedOperationException("Unwriteable");
+				throw new UnsupportedOperationException("Unwritable");
 			}
 			return (Class<? extends V>) entry.cachedWriteType;
 		}
@@ -608,12 +608,12 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 			if ( result.getType() == Result.Type.UNRESOLVABLE )
 			{
 				log("getWriteType()", "valueExpressionPlus is unresolvable");
-				throw new UnsupportedOperationException("Unwriteable");
+				throw new UnsupportedOperationException("Unwritable");
 			}
 			if ( valueExpressionPlus.getValueExpression().isReadOnly(elContext) )
 			{
-				log("getWriteType()", "property is unwriteable");
-				throw new UnsupportedOperationException("Unwriteable");
+				log("getWriteType()", "property is unwritable");
+				throw new UnsupportedOperationException("Unwritable");
 			}
 			return (Class<? extends V>) valueExpressionPlus.getValueExpression().getType(elContext);
 		}
@@ -731,12 +731,12 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 			if ( result.getType() == Result.Type.UNRESOLVABLE )
 			{
 				log("setValue()", "valueExpressionPlus is unresolvable");
-				throw new UnsupportedOperationException("Unwriteable");
+				throw new UnsupportedOperationException("Unwritable");
 			}
 			if ( valueExpressionPlus.getValueExpression().isReadOnly(elContext) )
 			{
-				log("setValue()", "property is unwriteable");
-				throw new UnsupportedOperationException("Unwriteable");
+				log("setValue()", "property is unwritable");
+				throw new UnsupportedOperationException("Unwritable");
 			}
 			valueExpressionPlus.getValueExpression().setValue(elContext, value);
 		}
@@ -825,7 +825,7 @@ public final class ELProperty<S, V> extends PropertyHelper<S, V>
 			}
 			if ( valueExpressionPlus.getValueExpression().isReadOnly(elContext) )
 			{
-				log("isWriteable()", "property is unwriteable");
+				log("isWriteable()", "property is unwritable");
 				return false;
 			}
 			return true;

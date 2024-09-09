@@ -7,7 +7,7 @@ import java.util.List;
  * 
  * @author softphone
  */
-public interface BindableListWidget extends BindableWidget
+public interface BindableListWidget extends BindableBasicWidget
 {
 	List<?> getBindList();
 	void setBindList(java.util.List<?> bindList);

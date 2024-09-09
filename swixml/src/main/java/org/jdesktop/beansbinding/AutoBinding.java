@@ -34,7 +34,7 @@ package org.jdesktop.beansbinding;
  *   <p><b>Details:</b><br>At bind time, tries to sync the target from the source, by calling
  *   {@code refreshAndNotify}. Then automatically tries to sync the target from
  *   the source by calling {@code refreshAndNotify} when either the source changes
- *   value, or the target changes from unwriteable to writeable.</p>
+ *   value, or the target changes from unwritable to writable.</p>
  *   </td>
  *   </tr>
  * 
@@ -52,12 +52,12 @@ package org.jdesktop.beansbinding;
  *   <p>Automatically responds to changes in the state of the source as follows: If
  *   the change represents a value change, use the try-refresh-then-save procedure
  *   mentioned above. Otherwise, if the change represents the source becoming
- *   writeable, tries to update the source from the target by calling
+ *   writable, tries to update the source from the target by calling
  *   {@code saveAndNotify}.</p>
  *   <p>Automatically responds to changes in the state of the target as follows: If
- *   the change represents the target simply becoming writeable, try to sync the
+ *   the change represents the target simply becoming writable, try to sync the
  *   target from the source by calling {@code refreshAndNotify}. If the change
- *   represents the target becoming writeable and the value changing together, use
+ *   represents the target becoming writable and the value changing together, use
  *   the try-refresh-then-save procedure mentioned above. Finally if the change
  *   represents the target's value changing alone, first try to sync the source
  *   from the target by calling {@code save}. If that succeeds, notify the
@@ -114,17 +114,20 @@ public class AutoBinding<SS, SV, TS, TV> extends Binding<SS, SV, TS, TV>
 	 * Create an instance of {@code AutoBinding} between two properties of two
 	 * objects, with the given update strategy.
 	 *
-	 * @param strategy the update strategy
-	 * @param sourceObject the source object
-	 * @param sourceProperty a property on the source object
-	 * @param targetObject the target object
-	 * @param targetProperty a property on the target object
-	 * @param name a name for the {@code Binding}
+	 * @param strategy The update strategy
+	 * @param sourceObject The source object
+	 * @param sourceProperty A property on the source object
+	 * @param targetObject The target object
+	 * @param targetProperty A property on the target object
+	 * @param name A name for the {@code Binding}
+	 * 
 	 * @throws IllegalArgumentException if the source property or target
 	 *             property is {@code null}
 	 */
-	protected AutoBinding(UpdateStrategy strategy, SS sourceObject, Property<SS, SV> sourceProperty, TS targetObject,
-		Property<TS, TV> targetProperty, String name)
+	protected AutoBinding(UpdateStrategy strategy,
+		SS sourceObject, Property<SS, SV> sourceProperty,
+		TS targetObject, Property<TS, TV> targetProperty,
+		String name)
 	{
 		super(sourceObject, sourceProperty, targetObject, targetProperty, name);
 		if ( strategy == null )

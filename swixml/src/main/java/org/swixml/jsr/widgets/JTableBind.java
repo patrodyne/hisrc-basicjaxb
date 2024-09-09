@@ -5,6 +5,8 @@ import static org.swixml.SwingEngine.ENGINE_PROPERTY;
 import static org.swixml.jsr295.BindingUtils.initTableBindingFromBeanInfo;
 import static org.swixml.jsr295.BindingUtils.initTableBindingFromTableColumns;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,7 +24,10 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Binding;
+import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Converter;
 import org.swixml.SwingEngine;
 import org.swixml.jsr295.BindingUtils;
@@ -33,7 +38,7 @@ import org.swixml.jsr295.BindingUtils;
  */
 public class JTableBind
 	extends JTable
-	implements BindableListWidget, BindableBasicWidget
+	implements BindableListWidget
 {
 	private static final long serialVersionUID = 20240701L;
 	
@@ -79,7 +84,37 @@ public class JTableBind
 	public void setConverter(Converter<?, ?> converter)
 	{
 	}
-
+	
+	@Override
+	public Binding<?, ?, ?, ?> getBinding()
+	{
+		return (Binding<?, ?, ?, ?>) getClientProperty(BINDING_PROPERTY);
+	}
+	@Override
+	public void setBinding(Binding<?, ?, ?, ?> binding)
+	{
+		putClientProperty(BINDING_PROPERTY, binding);
+	}
+	
+	@Override
+	public BindingGroup getBindingGroup()
+	{
+		BindingGroup bindingGroup = (BindingGroup) getClientProperty(BINDING_GROUP_PROPERTY);
+		if ( bindingGroup == null )
+		{
+			bindingGroup = new BindingGroup();
+			setBindingGroup(bindingGroup);
+			return bindingGroup;
+		}
+		else
+			return (BindingGroup) bindingGroup;
+	}
+	@Override
+	public void setBindingGroup(BindingGroup bindingGroup)
+	{
+		putClientProperty(BINDING_GROUP_PROPERTY, bindingGroup);
+	}
+	
 	private Action action;
 	public Action getAction()
 	{
@@ -124,7 +159,15 @@ public class JTableBind
 		}
 		return super.getCellRenderer(row, col);
 	}
-
+	
+    /**
+     * Create and add {@link AutoBinding} instance(s) to synchronize model
+     * properties with this {@link JTable}.
+     * 
+     * <p>Notifies this {@link Component} that it now has a parent component. It
+     * makes the {@link Container} displayable by connecting it to a native
+     * screen resource.</p>
+     */
 	@Override
 	public void addNotify()
 	{
@@ -140,16 +183,19 @@ public class JTableBind
 		
 		if ( getBindList() != null )
 		{
+			Binding<?, ?, ?, ?> itb = null;
 			if ( getBindClass() != null )
 			{
-				initTableBindingFromBeanInfo(null, READ_WRITE, this,
+				itb = initTableBindingFromBeanInfo(getBindingGroup(), READ_WRITE, this,
 					getBindList(), getBindClass(), isAllPropertiesBound());
 			}
 			else
 			{
 				super.setAutoCreateColumnsFromModel(false);
-				initTableBindingFromTableColumns(null, READ_WRITE, this, getBindList());
+				itb = initTableBindingFromTableColumns(getBindingGroup(), READ_WRITE, this, getBindList());
 			}
+			setBinding(itb);
+			getBindingGroup().bind();
 		}
 		
 		super.addNotify();

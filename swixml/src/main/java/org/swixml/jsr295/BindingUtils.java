@@ -1,6 +1,8 @@
 package org.swixml.jsr295;
 
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
+import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ;
+import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE;
 import static org.jdesktop.beansbinding.BeanProperty.create;
 import static org.jdesktop.beansbinding.Bindings.createAutoBinding;
 import static org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding;
@@ -58,6 +60,7 @@ public class BindingUtils
 	public static final String TABLE_COLUMN_RENDERER = "column.renderer";
 	private static final String EL_REGEX = "[$][{](.*)[}]";
 	private static final Pattern EL_PATTERN = Pattern.compile(EL_REGEX);
+	private static final String BOUND_SUFFIX = ".bound";
 
 	private BindingUtils()
 	{
@@ -68,16 +71,28 @@ public class BindingUtils
 		if ( comp == null )
 			throw new IllegalArgumentException("comp argument is null!");
 		
-		final String name = comp.getClass().getName().concat(".bound");
+		final String name = comp.getClass().getName().concat(BOUND_SUFFIX);
 		return (Boolean.TRUE.equals(comp.getClientProperty(name)));
 	}
 
+	/**
+	 * Bound check and set the given {@link JComponent} instance.
+	 * Checks the component's client properties for a key matching
+	 * the component's class name concatenated with the {@code BOUND_SUFFIX}.
+	 * 
+	 * <p>Note: This methods puts a bound check in the client's properties
+	 * when it does not exists and then returns false.</p>
+	 * 
+	 * @param comp The component to check and set.
+	 * 
+	 * @return Return's true when the bound check exists; otherwise, false.
+	 */
 	public static boolean boundCheckAndSet(JComponent comp)
 	{
 		if ( comp == null )
 			throw new IllegalArgumentException("comp argument is null!");
 		
-		final String name = comp.getClass().getName().concat(".bound");
+		final String name = comp.getClass().getName().concat(BOUND_SUFFIX);
 		if ( Boolean.TRUE.equals(comp.getClientProperty(name)) )
 			return true;
 		
@@ -174,65 +189,184 @@ public class BindingUtils
 	}
 
 	/**
-	 * parse bind for UpdateStrategy.READ_WRITE
+	 * Parse binding for owner using {@code UpdateStrategy.READ_WRITE} without a
+	 * {@link BindingGroup} or a {@link Validator}.
+	 * 
+	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
+	 * 
+	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
+	 * its client {@link container} instance.</p>
 	 *
-	 * @param owner
-	 * @param property
-	 * @param converter
+	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
+	 * @param targetProperty The target property name.
+	 * @param bindProperty The source property name.
+	 * @param converter An optional {@link Converter} instance.
+	 * 
+	 * @return The new {@link AutoBinding} instance.
 	 */
 	public static <SS, SV, TS, TV> AutoBinding<SS, SV, ?, TV>  parseBind(JComponent owner,
-		String property, String bindProperty, Converter<SS, ?> converter)
+		String targetProperty, String bindProperty, Converter<SS, ?> converter)
 	{
-		if ( isDesignTime() )
-			return null;
-		
-		if ( boundCheckAndSet(owner) )
-			return null;
-		
-		SwingEngine<?> engine = (SwingEngine<?>) owner.getClientProperty(ENGINE_PROPERTY);
-		
-		BindingGroup bindingGroup = null;
-		UpdateStrategy strategy = UpdateStrategy.READ_WRITE;
-		@SuppressWarnings("unchecked")
-		SS source = (SS) engine.getClient();
-		String beanProperty = bindProperty;
-		JComponent target = owner;
-		String targetProperty = property;
-		Validator<? super SV>  validator = null;
-		
-		return addAutoBinding(engine, bindingGroup, strategy,
-			source, beanProperty, target, targetProperty, converter, validator);
+		return parseBind(null, owner, targetProperty, bindProperty, converter);
 	}
 
 	/**
-	 * parse bind for UpdateStrategy.READ
+	 * Parse binding for owner using {@code UpdateStrategy.READ} without a
+	 * {@link BindingGroup} or a {@link Validator}.
+	 * 
+	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
+	 * 
+	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
+	 * its client {@link container} instance.</p>
 	 *
-	 * @param owner
-	 * @param property
-	 * @param converter
+	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
+	 * @param targetProperty The target property name.
+	 * @param bindProperty The source property name.
+	 * @param converter An optional {@link Converter} instance.
+	 * 
+	 * @return The new {@link AutoBinding} instance.
 	 */
 	public static <SS, SV, TS, TV> AutoBinding<SS, SV, ?, TV> parseBindRead(JComponent owner,
-		String property, String bindProperty, Converter<SS, ?> converter)
+		String targetProperty, String bindProperty, Converter<SS, ?> converter)
+	{
+		return parseBindRead(null, owner, targetProperty, bindProperty, converter);
+	}
+	
+	/**
+	 * Parse binding for owner using {@code UpdateStrategy.READ_WRITE} with a {@link BindingGroup}
+	 * instance but without a {@link Validator}.
+	 * 
+	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
+	 * 
+	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
+	 * its client {@link container} instance.</p>
+	 *
+	 * @param bindingGroup A group of {@code Bindings} to operate on and/or track state changes.
+	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
+	 * @param targetProperty The target property name.
+	 * @param bindProperty The source property name.
+	 * @param converter An optional {@link Converter} instance.
+	 * 
+	 * @return The new {@link AutoBinding} instance.
+	 */
+	public static <SS, SV, TS, TV> AutoBinding<SS, SV, ?, TV>  parseBind(BindingGroup bindingGroup,
+		JComponent owner, String targetProperty, String bindProperty, Converter<SS, ?> converter)
+	{
+		return parseBind(bindingGroup, READ_WRITE, owner, targetProperty, bindProperty, converter, null);
+	}
+
+	/**
+	 * Parse binding for owner using {@code UpdateStrategy.READ} with a {@link BindingGroup}
+	 * instance but without a {@link Validator}.
+	 * 
+	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
+	 * 
+	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
+	 * its client {@link container} instance.</p>
+	 *
+	 * @param bindingGroup A group of {@code Bindings} to operate on and/or track state changes.
+	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
+	 * @param targetProperty The target property name.
+	 * @param bindProperty The source property name.
+	 * @param converter An optional {@link Converter} instance.
+	 * 
+	 * @return The new {@link AutoBinding} instance.
+	 */
+	public static <SS, SV, TS, TV> AutoBinding<SS, SV, ?, TV> parseBindRead(BindingGroup bindingGroup,
+		JComponent owner, String targetProperty, String bindProperty, Converter<SS, ?> converter)
+	{
+		return parseBind(bindingGroup, READ, owner, targetProperty, bindProperty, converter, null);
+	}
+	
+	/**
+	 * Parse binding for owner using {@code UpdateStrategy.READ_WRITE} with an optional
+	 * {@link BindingGroup} and optional {@link Validator}.
+	 * 
+	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
+	 * 
+	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
+	 * its client {@link container} instance.</p>
+	 *
+	 * @param bindingGroup A group of {@code Bindings} to operate on and/or track state changes.
+	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
+	 * @param targetProperty The target property name.
+	 * @param bindProperty The source property name.
+	 * @param converter An optional {@link Converter} instance.
+	 * @param validator An optional {@link Validator} instance.
+	 * 
+	 * @return The new {@link AutoBinding} instance.
+	 */
+	public static <SS, SV, TS, TV> AutoBinding<SS, SV, ?, TV>  parseBind(BindingGroup bindingGroup,
+		JComponent owner, String targetProperty, String bindProperty,
+		Converter<SS, ?> converter, Validator<? super SV>  validator)
+	{
+		return parseBind(bindingGroup, READ_WRITE, owner, targetProperty, bindProperty, converter, validator);
+	}
+
+	/**
+	 * Parse binding for owner using {@code UpdateStrategy.READ}.
+	 * 
+	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
+	 * 
+	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
+	 * its client {@link container} instance.</p>
+	 *
+	 * @param bindingGroup A group of {@code Bindings} to operate on and/or track state changes.
+	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
+	 * @param targetProperty The target property name.
+	 * @param bindProperty The source property name.
+	 * @param converter An optional {@link Converter} instance.
+	 * @param validator An optional {@link Validator} instance.
+	 * 
+	 * @return The new {@link AutoBinding} instance.
+	 */
+	public static <SS, SV, TS, TV> AutoBinding<SS, SV, ?, TV> parseBindRead(BindingGroup bindingGroup,
+		JComponent owner, String targetProperty, String bindProperty,
+		Converter<SS, ?> converter, Validator<? super SV>  validator)
+	{
+		return parseBind(bindingGroup, READ, owner, targetProperty, bindProperty, converter, validator);
+	}
+	
+	/**
+	 * Parse binding for owner using {@code UpdateStrategy.READ_WRITE}.
+	 * 
+	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
+	 * 
+	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
+	 * its client {@link container} instance.</p>
+	 * 
+	 * <p>When a {@link BindingGroup} instance is provided a new {@link AutoBinding} instance is
+	 * added to it and the {@code bind()} is not invoked; otherwise, the {@code bind()} is invoked
+	 * on the new {@link AutoBinding} instance.</p>
+	 *
+	 * @param bindingGroup A group of {@code Bindings} to operate on and/or track state changes.
+	 * @param strategy The {@link UpdateStrategy} to synchronize the source and target properties.
+	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
+	 * @param targetProperty The target property name.
+	 * @param bindProperty The source property name.
+	 * @param converter An optional {@link Converter} instance.
+	 * @param validator An optional {@link Validator} instance.
+	 * 
+	 * @return The new {@link AutoBinding} instance.
+	 */
+	public static <SS, SV, TS, TV> AutoBinding<SS, SV, ?, TV>  parseBind(BindingGroup bindingGroup,
+		UpdateStrategy strategy, JComponent owner, String targetProperty, String bindProperty,
+		Converter<SS, ?> converter, Validator<? super SV>  validator)
 	{
 		if ( isDesignTime() )
 			return null;
 		
 		if ( boundCheckAndSet(owner) )
 			return null;
-
+		
 		SwingEngine<?> engine = (SwingEngine<?>) owner.getClientProperty(ENGINE_PROPERTY);
-
-		BindingGroup bindingGroup = null;
-		UpdateStrategy strategy = UpdateStrategy.READ;
+		
 		@SuppressWarnings("unchecked")
 		SS source = (SS) engine.getClient();
-		String beanProperty = bindProperty;
 		JComponent target = owner;
-		String targetProperty = property;
-		Validator<? super SV>  validator = null;
 		
 		return addAutoBinding(engine, bindingGroup, strategy,
-			source, beanProperty, target, targetProperty, converter, validator);
+			source, bindProperty, target, targetProperty, converter, validator);
 	}
 
 	/**
@@ -297,7 +431,7 @@ public class BindingUtils
 	 * Initialize table binding from {@link TableColumnBind}
 	 * 
 	 * @param <E> The generic bean type.
-	 * @param group An optional {@link BindingGroup} instance.
+	 * @param bindingGroup An optional {@link BindingGroup} instance.
 	 * @param strategy The update strategy for an {@link AutoBinding}.
 	 * @param table A {@link JTable} instance.
 	 * @param beanList A list of beans (table rows).
@@ -305,7 +439,7 @@ public class BindingUtils
 	 * @return A {@link JTableBinding} instance.
 	 */
 	public static <E> JTableBinding<E,List<E>,JTable> initTableBindingFromTableColumns(
-		BindingGroup group,	UpdateStrategy strategy, JTable table, List<E> beanList)
+		BindingGroup bindingGroup,	UpdateStrategy strategy, JTable table, List<E> beanList)
 	{
 		if ( null == table )
 			throw new IllegalArgumentException("table argument is null!");
@@ -392,8 +526,8 @@ public class BindingUtils
 			cb.setEditable(tcb.isEditable());
 		}
 		
-		if ( null != group )
-			group.addBinding(binding);
+		if ( null != bindingGroup )
+			bindingGroup.addBinding(binding);
 		else
 			binding.bind();
 		
@@ -404,7 +538,7 @@ public class BindingUtils
 	 * Initialize table binding from bean properties.
 	 * 
 	 * @param <E> The generic bean type.
-	 * @param group An optional {@link BindingGroup} instance.
+	 * @param bindingGroup An optional {@link BindingGroup} instance.
 	 * @param strategy The update strategy for an {@link AutoBinding}.
 	 * @param table A {@link JTable} instance.
 	 * @param beanList A list of beans (table rows).
@@ -415,7 +549,7 @@ public class BindingUtils
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> JTableBinding<E,List<E>,JTable> initTableBindingFromBeanInfo(
-		BindingGroup group,	UpdateStrategy strategy, JTable table, List<?> beanList,
+		BindingGroup bindingGroup,	UpdateStrategy strategy, JTable table, List<?> beanList,
 		Class<E> beanClass,	boolean isAllPropertiesBound)
 	{
 		if ( null == table )
@@ -486,8 +620,8 @@ public class BindingUtils
 			cb.setEditable((null != isEditable && Boolean.TRUE.equals(isEditable)));
 		}
 		
-		if ( null != group )
-			group.addBinding(binding);
+		if ( null != bindingGroup )
+			bindingGroup.addBinding(binding);
 		else
 			binding.bind();
 		
@@ -496,14 +630,14 @@ public class BindingUtils
 
 	/**
 	 *
-	 * @param group
+	 * @param bindingGroup
 	 * @param strategy
 	 * @param combo
 	 * @param beanList
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> JComboBoxBinding<E, List<E>, JComboBox<?>> initComboBinding(
-		BindingGroup group,	UpdateStrategy strategy, JComboBox<?> combo, 
+		BindingGroup bindingGroup,	UpdateStrategy strategy, JComboBox<?> combo, 
 		List<E> beanList, Converter<?, ?> converter)
 	{
 		if ( null == combo )
@@ -524,8 +658,8 @@ public class BindingUtils
 		if ( converter != null )
 			binding.setConverter((Converter<List<E>, List<?>>) converter);
 		
-		if ( null != group )
-			group.addBinding(binding);
+		if ( null != bindingGroup )
+			bindingGroup.addBinding(binding);
 		else
 			binding.bind();
 		
@@ -534,14 +668,14 @@ public class BindingUtils
 
 	/**
 	 *
-	 * @param group
+	 * @param bindingGroup
 	 * @param strategy
 	 * @param list
 	 * @param beanList
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> JListBinding<E, List<E>, JList<?>> initListBinding(
-		BindingGroup group, UpdateStrategy strategy, JList<?> list,
+		BindingGroup bindingGroup, UpdateStrategy strategy, JList<?> list,
 		List<E> beanList, Converter<?, ?> converter)
 	{
 		if ( null == list )
@@ -562,8 +696,8 @@ public class BindingUtils
 		if ( converter != null )
 			binding.setConverter((Converter<List<E>, List<?>>) converter);
 		
-		if ( null != group )
-			group.addBinding(binding);
+		if ( null != bindingGroup )
+			bindingGroup.addBinding(binding);
 		else
 			binding.bind();
 		

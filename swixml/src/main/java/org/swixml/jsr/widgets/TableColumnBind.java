@@ -2,11 +2,9 @@ package org.swixml.jsr.widgets;
 
 import javax.swing.table.TableColumn;
 
-import org.jdesktop.beansbinding.Converter;
-
 public class TableColumnBind
 	extends TableColumn
-	implements BindableBasicWidget
+	implements BindableWidget
 {
 	private static final long serialVersionUID = 20240701L;
 
@@ -19,16 +17,6 @@ public class TableColumnBind
 	public final void setBindWith(String bindWith)
 	{
 		super.setIdentifier(bindWith);
-	}
-	
-	@Override
-	public Converter<?, ?> getConverter()
-	{
-		return null;
-	}
-	@Override
-	public void setConverter(Converter<?, ?> converter)
-	{
 	}
 	
 	boolean editable = false;

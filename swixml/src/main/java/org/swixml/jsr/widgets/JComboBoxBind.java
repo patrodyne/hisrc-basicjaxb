@@ -7,6 +7,7 @@ import static org.swixml.SwingEngine.ENGINE_PROPERTY;
 import static org.swixml.jsr295.BindingUtils.initComboBinding;
 import static org.swixml.jsr295.BindingUtils.isBound;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.util.List;
 import java.util.Vector;
@@ -23,15 +24,17 @@ import org.jdesktop.beansbinding.Property;
 import org.swixml.SwingEngine;
 
 /**
+ * Extend {@link JComboBox} to support <em>Bean Bindings (JSR 295)</em>.
+ * 
  * @see <a href="file:../../package-info.java">LICENSE: package-info</a>
  * 
- * @param <E>
- * @param <SS>
- * @param <TS>
+ * @param <E> The type of the elements of this combo box.
+ * @param <SS> The source type to bind to.
+ * @param <TS> The target type to bind to.
  */
 public class JComboBoxBind<E, SS, TS>
 	extends JComboBox<E>
-	implements BindableListWidget, BindableBasicWidget
+	implements BindableListWidget
 {
 	private static final long serialVersionUID = 20240701L;
 
@@ -69,7 +72,37 @@ public class JComboBoxBind<E, SS, TS>
 	{
 		putClientProperty(CONVERTER_PROPERTY, converter);
 	}
-
+	
+	@Override
+	public Binding<?, ?, ?, ?> getBinding()
+	{
+		return (Binding<?, ?, ?, ?>) getClientProperty(BINDING_PROPERTY);
+	}
+	@Override
+	public void setBinding(Binding<?, ?, ?, ?> binding)
+	{
+		putClientProperty(BINDING_PROPERTY, binding);
+	}
+	
+	@Override
+	public BindingGroup getBindingGroup()
+	{
+		BindingGroup bindingGroup = (BindingGroup) getClientProperty(BINDING_GROUP_PROPERTY);
+		if ( bindingGroup == null )
+		{
+			bindingGroup = new BindingGroup();
+			setBindingGroup(bindingGroup);
+			return bindingGroup;
+		}
+		else
+			return (BindingGroup) bindingGroup;
+	}
+	@Override
+	public void setBindingGroup(BindingGroup bindingGroup)
+	{
+		putClientProperty(BINDING_GROUP_PROPERTY, bindingGroup);
+	}
+	
 	public JComboBoxBind()
 	{
 		super();
@@ -90,34 +123,42 @@ public class JComboBoxBind<E, SS, TS>
 		super(items);
 	}
 	
+    /**
+     * Create and add {@link AutoBinding} instance(s) to synchronize model
+     * properties with this {@link JComboBox}.
+     * 
+     * <p>Notifies this {@link Component} that it now has a parent component. It
+     * makes the {@link Container} displayable by connecting it to a native
+     * screen resource.</p>
+     */
 	@Override
 	public void addNotify()
 	{
 		if ( getBindList() != null && !isBound(this) )
 		{
-			BindingGroup context = new BindingGroup();
-			initComboBinding(context, READ_WRITE, this, getBindList(), getConverter());
+			initComboBinding(getBindingGroup(), READ_WRITE, this, getBindList(), getConverter());
 			if ( getBindWith() != null )
 			{
 				SwingEngine<?> engine = (SwingEngine<?>) getClientProperty(ENGINE_PROPERTY);
 				Container client = engine.getClient();
 
-				AutoBinding<SS, List<E>, TS, List<?>> binding = createBinding(client);
-				context.addBinding(binding);
+				AutoBinding<SS, List<E>, TS, List<?>> bindToSelected = createSelectedBinding(client);
+				getBindingGroup().addBinding(bindToSelected);
+				setBinding(bindToSelected);
 				
 				if ( isEditable() )
 				{
 					Binding<SS, List<E>, TS, List<?>> bindToText = createTextBinding(client);
-					context.addBinding(bindToText);
+					getBindingGroup().addBinding(bindToText);
 				}
 			}
-			context.bind();
+			getBindingGroup().bind();
 		}
 		
 		super.addNotify();
 	}
 
-	private AutoBinding<SS, List<E>, TS, List<?>> createBinding(Object client)
+	private AutoBinding<SS, List<E>, TS, List<?>> createSelectedBinding(Object client)
 	{
 		UpdateStrategy strategy = READ_WRITE;
 		@SuppressWarnings("unchecked")

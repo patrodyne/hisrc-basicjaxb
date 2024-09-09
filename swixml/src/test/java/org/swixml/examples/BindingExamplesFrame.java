@@ -13,14 +13,15 @@ import java.util.List;
 import javax.swing.ActionMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TreeSelectionEvent;
 
 import org.jdesktop.application.Action;
+import org.jdesktop.observablecollections.ObservableList;
+import org.swixml.jsr.widgets.JLabelBind;
+import org.swixml.jsr.widgets.JTableBind;
+import org.swixml.jsr.widgets.JTextAreaBind;
+import org.swixml.jsr.widgets.JTextFieldBind;
 
 /**
  * The ApplicationTest shows in the usage of client attributes in swixml tags.
@@ -33,7 +34,7 @@ import org.jdesktop.application.Action;
 public class BindingExamplesFrame extends JFrame
 {
 	private static final long serialVersionUID = 20240701L;
-	
+
 	// Bound by "id" attribute
 	//
 	// field [tv]        mapped in class [BindingExamplesFrame]
@@ -42,11 +43,14 @@ public class BindingExamplesFrame extends JFrame
 	// field [testTable] mapped in class [BindingExamplesFrame]
 	// field [ta]        mapped in class [BindingExamplesFrame]
 	// field [statusbar] mapped in class [BindingExamplesFrame]	
-	public JTextField tv;
+	public JTextFieldBind tv;
+	public JTextFieldBind getTextField() { return tv; }
+	
 	public JButton btn1, btn2;
-	public JTable testTable;
-	public JTextArea ta;
-	public JLabel statusbar;
+	
+	public JTableBind testTable;
+	public JTextAreaBind ta;
+	public JLabelBind statusbar;
 	
 	public Container panel_dlg;
 	public ActionMap actionMap;
@@ -63,31 +67,45 @@ public class BindingExamplesFrame extends JFrame
 	}
 	public void setConnected(boolean connected)
 	{
-		this.konnected = connected;
-		firePropertyChange("connected", null, konnected);
-		out.printf("OUT: connected %s\n", konnected);
+		boolean oldValue = this.konnected;
+		boolean newValue = connected;
+		this.konnected = newValue;
+		firePropertyChange("connected", oldValue, newValue);
+		out.printf("OUT: connected updated from [%s] to [%s]\n", oldValue, newValue);
 	}
 	
-	private String testValue = "TEST42";
+	private String testValue = "TEST1";
 	public String getTestValue()
 	{
 		return testValue;
 	}
 	public void setTestValue(String testValue)
 	{
-		this.testValue = testValue;
-		out.printf("OUT: updated %s\n", testValue);
+		String oldValue = this.testValue;
+		String newValue = testValue;
+		this.testValue = newValue;
+		firePropertyChange("testValue", oldValue, newValue);
+		out.printf("OUT: testValue updated from [%s] to [%s]\n", oldValue, newValue);
 	}
 
 	// Bound by hbox/combobox AND scrollpane/list
 	private List<String> comboList;
 	public final List<String> getComboList()
 	{
+		// This property may be initialized in BindingExamplesFrame.xml!
 		if ( comboList == null )
-			comboList = observableList(asList("item1", "item2", "item3"));
+			setComboList(asList("item1", "item2", "item3", "item4"));
 		return comboList;
 	}
+	public void setComboList(List<String> comboList)
+	{
+		if ( comboList instanceof ObservableList )
+			this.comboList = comboList;
+		else
+			this.comboList = observableList(comboList);
+	}
 	
+	// Note; BindingExamplesFrame.xml can override the initial value.
 	private String comboItem = "item2";
 	public String getComboItem()
 	{
@@ -131,12 +149,12 @@ public class BindingExamplesFrame extends JFrame
 		return SimpleBean.class;
 	}
 
-	private TestDialog testDialog = null;
-	public TestDialog getTestDialog()
+	private BindingExamplesTestDialog testDialog = null;
+	public BindingExamplesTestDialog getTestDialog()
 	{
 		return testDialog;
 	}
-	public void setTestDialog(TestDialog testDialog)
+	public void setTestDialog(BindingExamplesTestDialog testDialog)
 	{
 		this.testDialog = testDialog;
 	}
@@ -200,7 +218,9 @@ public class BindingExamplesFrame extends JFrame
 			ta.setText("X:" + btn.getClientProperty("X") + "\n" + "Y:" + btn.getClientProperty("Y"));
 			setConnected(true);
 			if ( getTestDialog() == null )
-				setTestDialog(new TestDialog());
+			{
+				setTestDialog(new BindingExamplesTestDialog(this));
+			}
 			getTestDialog().setVisible(true);
 		}
 	}

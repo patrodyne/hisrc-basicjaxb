@@ -47,7 +47,7 @@ public class PropertyStateEvent extends EventObject
 	 *            currently readable for the source object
 	 * @param writeableChanged whether or not the {@code Property's}
 	 *            writeability has changed for the source object
-	 * @param isWriteable whether or not the {@code Property} is now writeable
+	 * @param isWriteable whether or not the {@code Property} is now writable
 	 *            for the source object
 	 * @throws IllegalArgumentException if neither the value or the writeability
 	 *             has changed
@@ -211,13 +211,13 @@ public class PropertyStateEvent extends EventObject
 	}
 
 	/**
-	 * Returns whether or not the {@code Property} is currently writeable for
+	 * Returns whether or not the {@code Property} is currently writable for
 	 * the source object.
 	 * <p>
 	 * Note: This method must only be called if {@code getWriteableChanged}
 	 * returns {@code true}.
 	 *
-	 * @return whether or not the {@code Property} is currently writeable for
+	 * @return whether or not the {@code Property} is currently writable for
 	 *         the source object.
 	 * @throws UnsupportedOperationException if the writeability hasn't changed
 	 */
@@ -257,7 +257,7 @@ public class PropertyStateEvent extends EventObject
 		}
 		if ( getWriteableChanged() )
 		{
-			buffer.append("    writeable changed from ").append(!isWriteable()).append(" to ").append(isWriteable())
+			buffer.append("    writable changed from ").append(!isWriteable()).append(" to ").append(isWriteable())
 				.append('\n');
 		}
 		buffer.deleteCharAt(buffer.length() - 1);

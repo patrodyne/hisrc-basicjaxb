@@ -899,6 +899,19 @@ public class SwingEngine<T extends Container> implements LogAware
 				// intentionally empty
 			}
 		}
+		else
+		{
+			if ( !field.getType().isAssignableFrom(widget.getClass()) )
+			{
+				logger.warn(String.format("field [%s] not mapped in class [%s] because field type [%s] is not assignable from [%s].",
+					fieldName, cls.getName(), field.getType(), widget.getClass()));
+			}
+			else if ( isTransient(field.getModifiers()) )
+			{
+				logger.warn(String.format("field [%s] not mapped in class [%s] because field type [%s] is transient.",
+					fieldName, cls.getName(), field));
+			}
+		}
 	}
 
 	/**

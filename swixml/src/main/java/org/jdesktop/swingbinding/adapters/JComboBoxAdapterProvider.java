@@ -59,10 +59,7 @@ public final class JComboBoxAdapterProvider implements BeanAdapterProvider
 			cachedItem = null;
 		}
 
-		private class Handler
-			implements
-			ActionListener,
-			PropertyChangeListener
+		private class Handler implements ActionListener, PropertyChangeListener
 		{
 			private void comboSelectionChanged()
 			{

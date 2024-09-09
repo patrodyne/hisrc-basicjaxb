@@ -57,7 +57,7 @@ import org.jdesktop.observablecollections.ObservableMapListener;
  * <a href="ext/package-summary.html">ext package level</a> documentation for
  * more details.</p>
  * 
- * <p>When there are no {@code PropertyStateListeners} installed on a
+ * <p>When there are no {@code PropertyStateListener} installed on a
  * {@code BeanProperty} for a given source, all {@code Property} methods act by
  * traversing the entire path from the source to the end point, thereby always
  * providing "live" information. On the contrary, when there are
@@ -104,7 +104,7 @@ import org.jdesktop.observablecollections.ObservableMapListener;
  * define a Java Beans setter for {@code firstName}, {@code Duke} is
  * {@code null}, {@code Duke's mother} is {@code null}.</p>
  * 
- * <p>In addition to working on Java Beans properties, any object in the path can
+ * <p><b>Map Properties:</b> In addition to working on Java Beans properties, any object in the path can
  * be an instance of {@code Map}. In this case, the {@code Map's get} method is
  * used with the property name as the getter, and the {@code Map's put} method
  * is used with the property name as the setter. {@code BeanProperty} can only
@@ -157,10 +157,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V>
 	private static final Object NOREAD = new Object();
 
 	private final class SourceEntry
-		implements
-		PropertyChangeListener,
-		ObservableMapListener,
-		PropertyStateListener
+		implements PropertyChangeListener, ObservableMapListener, PropertyStateListener
 	{
 		private S source;
 		private Object cachedBean;
@@ -302,47 +299,45 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V>
 		private void validateCache(int ignore)
 		{
 			/* In the future, this debugging code can be enabled via a flag */
-			// for ( int i = 0; i < path.length() - 1; i++ )
-			// {
-			// if ( i == ignore - 1 )
-			// {
-			// continue;
-			// }
-			// Object src = cache[i];
-			// if ( src == NOREAD )
-			// {
-			// return;
-			// }
-			// Object next = getProperty(src, path.get(i));
-			// if ( !match(next, cache[i + 1]) )
-			// {
-			// log("validateCache()", "concurrent modification");
-			// }
-			// }
-			// if ( path.length() != ignore )
-			// {
-			// Object next = getProperty(cache[path.length() - 1],
-			// path.getLast());
-			// if ( !match(cachedValue, next) )
-			// {
-			// log("validateCache()", "concurrent modification");
-			// }
-			// Object src = cache[path.length() - 1];
-			// Object writer;
-			// if ( src == null || src == NOREAD )
-			// {
-			// writer = null;
-			// }
-			// else
-			// {
-			// writer = getWriter(cache[path.length() - 1], path.getLast());
-			// }
-			// if ( cachedWriter != writer && (cachedWriter == null ||
-			// !cachedWriter.equals(writer)) )
-			// {
-			// log("validateCache()", "concurrent modification");
-			// }
-			// }
+//			for ( int i = 0; i < path.length() - 1; i++ )
+//			{
+//				if ( i == ignore - 1 )
+//				{
+//					continue;
+//				}
+//				Object src = cache[i];
+//				if ( src == NOREAD )
+//				{
+//					return;
+//				}
+//				Object next = getProperty(src, path.get(i));
+//				if ( !match(next, cache[i + 1]) )
+//				{
+//					log("validateCache()", "concurrent modification");
+//				}
+//			}
+//			if ( path.length() != ignore )
+//			{
+//				Object next = getProperty(cache[path.length() - 1], path.getLast());
+//				if ( !match(cachedValue, next) )
+//				{
+//					log("validateCache()", "concurrent modification");
+//				}
+//				Object src = cache[path.length() - 1];
+//				Object writer;
+//				if ( src == null || src == NOREAD )
+//				{
+//					writer = null;
+//				}
+//				else
+//				{
+//					writer = getWriter(cache[path.length() - 1], path.getLast());
+//				}
+//				if ( cachedWriter != writer && (cachedWriter == null || !cachedWriter.equals(writer)) )
+//				{
+//					log("validateCache()", "concurrent modification");
+//				}
+//			}
 		}
 
 		private void updateCachedWriter()
@@ -559,7 +554,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V>
 			entry.validateCache(-1);
 			if ( entry.cachedWriter == null )
 			{
-				throw new UnsupportedOperationException("Unwriteable");
+				throw new UnsupportedOperationException("Unwritable");
 			}
 			return (Class<? extends V>) getType(entry.cache[path.length() - 1], path.getLast());
 		}
@@ -772,8 +767,8 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V>
 		{
 			return;
 		}
-		oldValue = toUNREADABLE(oldValue);
-		Object newValue = toUNREADABLE(entry.cachedValue);
+		oldValue = toUnreadable(oldValue);
+		Object newValue = toUnreadable(entry.cachedValue);
 		boolean valueChanged = didValueChange(oldValue, newValue);
 		boolean writeableChanged = (wasWriteable != entry.cachedIsWriteable());
 		if ( !valueChanged && !writeableChanged )
@@ -991,7 +986,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V>
 		write(writer, object, string, value);
 	}
 
-	private static Object toUNREADABLE(Object src)
+	private static Object toUnreadable(Object src)
 	{
 		return src == NOREAD ? UNREADABLE : src;
 	}

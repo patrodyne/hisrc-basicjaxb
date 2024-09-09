@@ -8,6 +8,7 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.UIManager;
@@ -19,6 +20,7 @@ import org.swixml.jsr296.SwingApplication;
 import org.w3c.dom.Element;
 
 import jakarta.el.ELContext;
+import jakarta.el.ELProcessor;
 import jakarta.el.ValueExpression;
 import jakarta.el.VariableMapper;
 
@@ -58,6 +60,8 @@ public class ELMethods<T extends Container>
 	}
 
 	public T getContainer() { return getSwingEngine().getClient(); }
+	public ELContext getELContext() { return getSwingEngine().getELContext(); }
+	public ELProcessor getELProcessor() { return getSwingEngine().getELProcessor(); }
 	
 	private Font defaultFont = null;
 	public Font getDefaultFont()
@@ -317,15 +321,48 @@ public class ELMethods<T extends Container>
 	private <VT> VT resolveVariable(String varname, Class<VT> type)
 	{
 		VT value = null;
-		ELContext elContext = getSwingEngine().getELContext();
-		VariableMapper vm = elContext.getVariableMapper();
+		VariableMapper vm = getELContext().getVariableMapper();
 		ValueExpression ve = vm.resolveVariable(varname);
 		if ( ve != null )
 		{
 			Class<?> expectedType = ve.getExpectedType();
 			if ( type.isAssignableFrom(expectedType) )
-				value = (VT) ve.getValue(elContext);
+				value = (VT) ve.getValue(getELContext());
 		}
 		return value;
 	}
+	
+	public String bindWith(String path, String value)
+	{
+		String bindWith = null;
+		if ( (path != null) && !path.isBlank() )
+		{
+			int lastDot = path.lastIndexOf('.');
+			if ( lastDot >= 0 )
+				bindWith = path.substring(lastDot+1);
+			getELProcessor().setValue(path, value);
+		}
+		return bindWith;
+	}
+	
+	public List<String> bindList(String path, List<String> value)
+	{
+		List<String> bindList = value;
+		if ( (path != null) && !path.isBlank() )
+			getELProcessor().setValue(path, value);
+		return bindList;
+	}
+	
+//	public List<String> bindList(String path, String value)
+//	{
+//		List<String> bindList = null;
+//		if ( (path != null) && !path.isBlank() )
+//		{
+//			String trimValue = trim(value, "[]");
+//			bindList = asList(trimValue.split(",", -1));
+//			getELProcessor().eval(value + ".stream().toList()");
+//			getELProcessor().setValue(path, bindList);
+//		}
+//		return bindList;
+//	}
 }

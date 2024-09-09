@@ -3,6 +3,8 @@ package org.swixml.jsr.widgets;
 import static org.swixml.SwingEngine.ENGINE_PROPERTY;
 import static org.swixml.jsr295.BindingUtils.boundCheckAndSet;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -16,8 +18,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
 
+import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.beansbinding.Converter;
 import org.swixml.LogAware;
 import org.swixml.SwingEngine;
 
@@ -28,7 +30,7 @@ import org.swixml.SwingEngine;
  */
 public class JTreeBind
 	extends JTree
-	implements BindableBasicWidget, LogAware
+	implements BindableWidget, LogAware
 {
 	private static final long serialVersionUID = 20240701L;
 
@@ -42,17 +44,7 @@ public class JTreeBind
 	{
 		putClientProperty(BINDWITH_PROPERTY, bindWith);
 	}
-
-	@Override
-	public Converter<?, ?> getConverter()
-	{
-		return null;
-	}
-	@Override
-	public void setConverter(Converter<?, ?> converter)
-	{
-	}
-
+	
 	private Action action;
 	public Action getAction()
 	{
@@ -102,7 +94,15 @@ public class JTreeBind
 	{
 		this.closedIcon = closedIcon;
 	}
-
+	
+    /**
+     * Create and add {@link AutoBinding} instance(s) to synchronize model
+     * properties with this {@link JTableBind}.
+     * 
+     * <p>Notifies this {@link Component} that it now has a parent component. It
+     * makes the {@link Container} displayable by connecting it to a native
+     * screen resource.</p>
+     */
 	@Override
 	public void addNotify()
 	{

@@ -57,7 +57,7 @@ class ElementsProperty<TS> extends PropertyHelper<TS, List<?>>
 	{
 		if ( !accessible )
 		{
-			throw new UnsupportedOperationException("Unwriteable");
+			throw new UnsupportedOperationException("Unwritable");
 		}
 		return (Class<List<?>>) List.class.asSubclass(Object.class);
 	}
@@ -76,7 +76,7 @@ class ElementsProperty<TS> extends PropertyHelper<TS, List<?>>
 	{
 		if ( !accessible )
 		{
-			throw new UnsupportedOperationException("Unwriteable");
+			throw new UnsupportedOperationException("Unwritable");
 		}
 		if ( this.list == list )
 		{

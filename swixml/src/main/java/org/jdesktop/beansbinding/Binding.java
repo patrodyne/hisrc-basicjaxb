@@ -64,12 +64,12 @@ public abstract class Binding<SS, SV, TS, TV>
 	{
 		/**
 		 * A {@code refresh} failed because the {@code Binding's} target
-		 * property is unwriteable for the {@code Binding's} target object.
+		 * property is unwritable for the {@code Binding's} target object.
 		 */
 		TARGET_UNWRITEABLE,
 		/**
 		 * A {@code save} failed because the {@code Binding's} source property
-		 * is unwriteable for the {@code Binding's} source object.
+		 * is unwritable for the {@code Binding's} source object.
 		 */
 		SOURCE_UNWRITEABLE,
 		/**
@@ -828,7 +828,7 @@ public abstract class Binding<SS, SV, TS, TV>
 	 * returns a {@code ValueResult} representing that value in terms that can
 	 * be set on the target property for the target object.
 	 * <p>
-	 * First, if the target property is not writeable for the target object, a
+	 * First, if the target property is not writable for the target object, a
 	 * {@code ValueResult} is returned representing a failure with failure type
 	 * {@code SyncFailureType.TARGET_UNWRITEABLE}. Then, if the source property
 	 * is unreadable for the source object, the value of
@@ -896,7 +896,7 @@ public abstract class Binding<SS, SV, TS, TV>
 	 * returns a {@code ValueResult} representing that value in terms that can
 	 * be set on the source property for the source object.
 	 * <p>
-	 * First, if the source property is not writeable for the source object, a
+	 * First, if the source property is not writable for the source object, a
 	 * {@code ValueResult} is returned representing a failure with failure type
 	 * {@code SyncFailureType.SOURCE_UNWRITEABLE}. Then, if the target property
 	 * is not readable for the target object, a {@code ValueResult} is returned
@@ -1014,9 +1014,7 @@ public abstract class Binding<SS, SV, TS, TV>
 		if ( listeners != null )
 		{
 			for ( BindingListener listener : listeners )
-			{
 				listener.bindingBecameBound(this);
-			}
 		}
 		firePropertyChange("bound", false, true);
 	}
@@ -1033,14 +1031,15 @@ public abstract class Binding<SS, SV, TS, TV>
 	protected abstract void bindImpl();
 
 	/**
-	 * Unbinds this binding. Removes the {@code PropertyStateListeners} added by
-	 * {@code bind}, calls {@link #unbindImpl} to allow subclasses to uninitiate
+	 * Unbind this binding. Removes the {@code PropertyStateListeners} added by
+	 * {@code bind}, calls {@link #unbindImpl} to allow subclasses to un-initiate
 	 * binding, notifies all registered {@code BindingListeners} that the
 	 * binding has become unbound, and fires a property change notification to
 	 * indicate a change to the {@code "bound"} property.
 	 *
 	 * @throws UnsupportedOperationException if the {@code Binding} is managed
 	 * @throws IllegalStateException if the {@code Binding} is not bound
+	 * 
 	 * @see #isBound()
 	 * @see #isManaged()
 	 * @see #bind
@@ -1265,13 +1264,15 @@ public abstract class Binding<SS, SV, TS, TV>
 	}
 
 	/**
-	 * A protected version of {@link #refresh} that allows managed subclasses to
+	 * A protected version of {@link #refresh} that allows unmanaged subclasses to
 	 * refresh without throwing an exception for being managed.
 	 *
 	 * @return the reason for failure if the binding could not be refreshed, or
 	 *         {@code null} for success
+	 *         
 	 * @throws RuntimeException if thrown by {@link #getSourceValueForTarget}
 	 * @throws ClassCastException if thrown by {@link #getSourceValueForTarget}
+	 * 
 	 * @see #isManaged()
 	 */
 	protected final SyncFailure refreshUnmanaged()

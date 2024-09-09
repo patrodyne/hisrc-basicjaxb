@@ -5,6 +5,8 @@ import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static javax.swing.KeyStroke.getKeyStroke;
 import static org.jdesktop.application.Application.getInstance;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
@@ -18,6 +20,7 @@ import javax.swing.JDialog;
 import javax.swing.KeyStroke;
 
 import org.jdesktop.application.ApplicationActionMap;
+import org.jdesktop.beansbinding.AutoBinding;
 
 /**
  * @see <a href="file:../../package-info.java">LICENSE: package-info</a>
@@ -111,6 +114,14 @@ public class JDialogBind extends JDialog
 		super(owner);
 	}
 
+    /**
+     * Create and add {@link AutoBinding} instance(s) to synchronize model
+     * properties with this {@link JDialog}.
+     * 
+     * <p>Notifies this {@link Component} that it now has a parent component. It
+     * makes the {@link Container} displayable by connecting it to a native
+     * screen resource.</p>
+     */
 	@Override
 	public void addNotify()
 	{

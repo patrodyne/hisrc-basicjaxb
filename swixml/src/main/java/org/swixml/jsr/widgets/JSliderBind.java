@@ -2,6 +2,8 @@ package org.swixml.jsr.widgets;
 
 import static org.swixml.jsr295.BindingUtils.parseBind;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 
 import javax.swing.Action;
@@ -9,6 +11,9 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.Binding;
+import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Converter;
 
 /**
@@ -53,13 +58,54 @@ public class JSliderBind
 	{
 		putClientProperty(CONVERTER_PROPERTY, converter);
 	}
-
+	
+	@Override
+	public Binding<?, ?, ?, ?> getBinding()
+	{
+		return (Binding<?, ?, ?, ?>) getClientProperty(BINDING_PROPERTY);
+	}
+	@Override
+	public void setBinding(Binding<?, ?, ?, ?> binding)
+	{
+		putClientProperty(BINDING_PROPERTY, binding);
+	}
+	
+	@Override
+	public BindingGroup getBindingGroup()
+	{
+		BindingGroup bindingGroup = (BindingGroup) getClientProperty(BINDING_GROUP_PROPERTY);
+		if ( bindingGroup == null )
+		{
+			bindingGroup = new BindingGroup();
+			setBindingGroup(bindingGroup);
+			return bindingGroup;
+		}
+		else
+			return (BindingGroup) bindingGroup;
+	}
+	@Override
+	public void setBindingGroup(BindingGroup bindingGroup)
+	{
+		putClientProperty(BINDING_GROUP_PROPERTY, bindingGroup);
+	}
+	
+    /**
+     * Create and add {@link AutoBinding} instance(s) to synchronize model
+     * properties with this {@link JSlider}.
+     * 
+     * <p>Notifies this {@link Component} that it now has a parent component. It
+     * makes the {@link Container} displayable by connecting it to a native
+     * screen resource.</p>
+     */
 	@Override
 	public void addNotify()
 	{
 		final String bindWith = getBindWith();
 		if ( (null != bindWith) && !bindWith.isEmpty() )
-			parseBind(this, "value", bindWith, getConverter());
+		{
+			setBinding(parseBind(getBindingGroup(), this, "value", bindWith, getConverter()));
+			getBindingGroup().bind();
+		}
 		
 		super.addChangeListener(listener);
 		super.addNotify();

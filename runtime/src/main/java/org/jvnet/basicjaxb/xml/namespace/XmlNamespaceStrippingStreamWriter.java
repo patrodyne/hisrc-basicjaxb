@@ -5,9 +5,13 @@ import javax.xml.stream.XMLStreamWriter;
 
 import com.sun.xml.txw2.output.IndentingXMLStreamWriter;
 
-public class NamespaceStrippingXMLStreamWriter extends IndentingXMLStreamWriter
+/**
+ * This class extends {@link IndentingXMLStreamWriter} to implement the
+ * {@link XMLStreamWriter} interface for writing XML.
+ */
+public class XmlNamespaceStrippingStreamWriter extends IndentingXMLStreamWriter
 {
-	public NamespaceStrippingXMLStreamWriter(XMLStreamWriter xmlWriter)
+	public XmlNamespaceStrippingStreamWriter(XMLStreamWriter xmlWriter)
 		throws XMLStreamException
 	{
 		super(xmlWriter);

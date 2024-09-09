@@ -70,10 +70,10 @@ public abstract class Property<S, V>
     public abstract boolean isReadable(S source);
 
     /**
-     * Returns whether or not the {@code Property} is writeable for the given source.
+     * Returns whether or not the {@code Property} is writable for the given source.
      *
      * @param source the source object on which to operate
-     * @return whether or not the {@code Property} is writeable for the given source.
+     * @return whether or not the {@code Property} is writable for the given source.
      * @see #isReadable
      */
     public abstract boolean isWriteable(S source);
@@ -104,7 +104,7 @@ public abstract class Property<S, V>
     public abstract void removePropertyStateListener(S source, PropertyStateListener listener);
 
     /**
-     * Returns an arry containing the listeners registered for the given source.
+     * Returns an array containing the listeners registered for the given source.
      * Order is undefined. Returns an empty array if there are no listeners.
      *
      * @param source the source object on which to operate

@@ -253,6 +253,9 @@ public class ELProcessorTest
 		assertEquals(getELProcessor().eval("((x, y) -> x + y)(3, 5.5)").toString(), "8.5");
 		assertEquals(getELProcessor().eval("[1,2,3,4].stream().sum()").toString(), "10");
 		assertEquals(getELProcessor().eval("[1,3,5,2].stream().sorted().toList()").toString(), "[1, 2, 3, 5]");
+		
+		result = getELProcessor().eval("['item1','item2','item3'].stream().toList()");
+		assertEquals("[item1, item2, item3]", result.toString() );
 	}
 	
 }

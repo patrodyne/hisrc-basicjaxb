@@ -53,7 +53,7 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * {@code JComboBoxBinding} is not the target {@code JComboBox} property
  * provided in the constructor, but rather a private synthetic property
  * representing the {@code List} of objects to show in the target
- * {@code JComboBox}. This synthetic property is readable/writeable only when
+ * {@code JComboBox}. This synthetic property is readable/writable only when
  * the {@code JComboBoxBinding} is bound and the target {@code JComboBox}
  * property is readable with a {@code non-null} value.</p>
  * 
@@ -102,7 +102,7 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * <tr >
  * <td >1</td>
  * <td>explicit call to {@code binding.bind()}</td>
- * <td>- synthetic target property becomes readable/writeable <br>
+ * <td>- synthetic target property becomes readable/writable <br>
  * - {@code refresh()} is called <br>
  * - model is installed on target {@code JComboBox}, representing list of
  * objects</td>

@@ -5,9 +5,11 @@ import static javax.xml.XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Stack;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,11 +17,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.jvnet.basicjaxb.locator.util.LocatorBean;
 import org.slf4j.Logger;
@@ -619,6 +623,28 @@ public class DOMUtils
 		}
 		return locatorBean;
 	}
+
+	public static String formatXml(String xml, int indent)
+	{
+		try
+		{
+			Source xmlInput = new StreamSource(new StringReader(xml));
+			StringWriter stringWriter = new StringWriter();
+			StreamResult xmlOutput = new StreamResult(stringWriter);
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			transformerFactory.setAttribute("indent-number", indent);
+			transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+			transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.transform(xmlInput, xmlOutput);
+			return fixXmlEol(xmlOutput.getWriter().toString());
+		}
+		catch (Exception ex)
+		{
+			throw new RuntimeException(ex);
+		}
+	}
 	
 	/**
 	 * Transform a {@link Node} instance into a formatted XML string.
@@ -636,9 +662,16 @@ public class DOMUtils
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		StringWriter writer = new StringWriter();
 		transformer.transform(new DOMSource(node), new StreamResult(writer));
-		return writer.toString();
+		return fixXmlEol(writer.toString());
 	}
 	
+	private static String fixXmlEol(String xml)
+	{
+		xml = xml.replaceFirst("><", ">\n<");
+		xml = xml.replaceAll("(?m)^[ \t]*\r?\n", "");
+		return xml;
+	}
+
 	/**
 	 * Build a {@link Node} instance into a string representation.
 	 * 

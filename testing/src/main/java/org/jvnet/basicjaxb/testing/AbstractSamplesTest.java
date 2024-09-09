@@ -1,11 +1,14 @@
 package org.jvnet.basicjaxb.testing;
 
 import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.sort;
 import static javax.xml.catalog.CatalogFeatures.Feature.FILES;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,12 +20,21 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.sax.SAXSource;
 
 import org.apache.commons.io.FileUtils;
+import org.glassfish.jaxb.core.marshaller.XMLWriter;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLFilter;
+import org.xml.sax.XMLReader;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
@@ -462,4 +474,58 @@ public abstract class AbstractSamplesTest
 			throw new JAXBException("marshalToString: "+instance, ex);
 		}
     }
+	
+	private XMLReader createXmlReader()
+		throws ParserConfigurationException, SAXException
+	{
+		// Create an XMLReader to use with our filter
+		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+		SAXParser parser = parserFactory.newSAXParser();
+		XMLReader xmlReader = parser.getXMLReader();
+		return xmlReader;
+	}
+	
+	protected SAXSource createSaxSource(File sample, XMLFilter xmlFilter)
+		throws FileNotFoundException, ParserConfigurationException, SAXException
+	{
+		// Prepare the input, in this case a java.io.File (output)
+		InputSource inputSource = new InputSource(new FileInputStream(sample));
+		// Conditionally set the xmlReader as the xmlFilter's parent.
+		if ( xmlFilter.getParent() == null )
+			xmlFilter.setParent(createXmlReader());
+		// Create a SAXSource specifying the filter
+		return new SAXSource(xmlFilter, inputSource);
+	}
+	
+	/**
+	 * Use the current {@link Unmarshaller} to unmarshal the given {@link SAXSource}
+	 * and {@link Class} declaration to a Java object.
+	 * 
+	 * @param <T> The type of the declared class.
+	 * @param saxSource The {@link SAXSource} to be read for unmarshalling.
+	 * @param clazz The declared class type expected.
+	 * 
+	 * @return An instance representaion of the contents of the given {@link SAXSource}.
+	 * 
+	 * @throws JAXBException When the instance cannot be unmarshalled from the {@link SAXSource}.
+	 */
+	@SuppressWarnings("unchecked")
+	protected <T> T unmarshal(SAXSource saxSource, Class<T> clazz) throws JAXBException
+	{
+		Object result = getUnmarshaller().unmarshal(saxSource);
+		if ( result instanceof JAXBElement )
+			return ((JAXBElement<T>) result).getValue();
+		else
+			return (T) result;
+	}
+
+	protected StringWriter createStringWriter(XMLFilter writeFilter)
+	{
+		// Create a XMLWriter that will serve as the ContentHandler for our filter.
+		StringWriter sw = new StringWriter();
+		XMLWriter writer = new XMLWriter(sw, UTF_8.name());
+		// Attach the writer to the filter       
+		writeFilter.setContentHandler(writer);
+		return sw;
+	}
 }

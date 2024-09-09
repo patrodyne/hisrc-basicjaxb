@@ -69,7 +69,7 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * strategy. The target property of a {@code JListBinding} is not the
  * target {@code JList} property provided in the constructor, but rather a
  * private synthetic property representing the {@code List} of objects to show
- * in the target {@code JList}. This synthetic property is readable/writeable
+ * in the target {@code JList}. This synthetic property is readable/writable
  * only when the {@code JListBinding} is bound and the target {@code JList}
  * property is readable with a {@code non-null} value.</p>
  * 
@@ -114,7 +114,7 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  *     <td >1</td>
  *     <td>explicit call to {@code binding.bind()}</td>
  *     <td>
- *         - synthetic target property becomes readable/writeable
+ *         - synthetic target property becomes readable/writable
  *         <br>
  *         - {@code refresh()} is called
  *         <br>

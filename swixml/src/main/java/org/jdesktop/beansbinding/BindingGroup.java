@@ -41,38 +41,27 @@ public class BindingGroup
 	public final void addBinding(Binding<?, ?, ?, ?> binding)
 	{
 		if ( binding == null )
-		{
 			throw new IllegalArgumentException("Binding must be non-null");
-		}
 		if ( binding.isManaged() )
-		{
 			throw new IllegalArgumentException("Managed bindings can't be in a group");
-		}
 		if ( bound.contains(binding) || unbound.contains(binding) )
-		{
 			throw new IllegalArgumentException("Group already contains this binding");
-		}
+		
 		String name = binding.getName();
 		if ( name != null )
 		{
 			if ( getBinding(name) != null )
-			{
 				throw new IllegalArgumentException("Context already contains a binding with name \"" + name + "\"");
-			}
 			else
-			{
 				putNamed(name, binding);
-			}
 		}
+		
 		binding.addBindingListener(getHandler());
+		
 		if ( binding.isBound() )
-		{
 			bound.add(binding);
-		}
 		else
-		{
 			unbound.add(binding);
-		}
 	}
 
 	/**
@@ -85,38 +74,33 @@ public class BindingGroup
 	public final void removeBinding(Binding<?, ?, ?, ?> binding)
 	{
 		if ( binding == null )
-		{
 			throw new IllegalArgumentException("Binding must be non-null");
-		}
+		
 		if ( binding.isBound() )
 		{
 			if ( !bound.remove(binding) )
-			{
 				throw new IllegalArgumentException("Unknown Binding");
-			}
 		}
 		else
 		{
 			if ( !unbound.remove(binding) )
-			{
 				throw new IllegalArgumentException("Unknown Binding");
-			}
 		}
+		
 		String name = binding.getName();
 		if ( name != null )
 		{
 			assert namedBindings != null;
 			namedBindings.remove(name);
 		}
+		
 		binding.removeBindingListener(getHandler());
 	}
 
 	private void putNamed(String name, Binding<?, ?, ?, ?> binding)
 	{
 		if ( namedBindings == null )
-		{
 			namedBindings = new HashMap<String, Binding<?, ?, ?, ?>>();
-		}
 		namedBindings.put(name, binding);
 	}
 
@@ -133,9 +117,8 @@ public class BindingGroup
 	public final Binding<?, ?, ?, ?> getBinding(String name)
 	{
 		if ( name == null )
-		{
 			throw new IllegalArgumentException("cannot fetch unnamed bindings");
-		}
+		
 		return namedBindings == null ? null : namedBindings.get(name);
 	}
 
@@ -159,9 +142,7 @@ public class BindingGroup
 	{
 		List<Binding<?, ?, ?, ?>> toBind = new ArrayList<>(unbound);
 		for ( Binding<?, ?, ?, ?> binding : toBind )
-		{
 			binding.bind();
-		}
 	}
 
 	/**
@@ -171,11 +152,49 @@ public class BindingGroup
 	{
 		List<Binding<?, ?, ?, ?>> toUnbind = new ArrayList<>(bound);
 		for ( Binding<?, ?, ?, ?> binding : toUnbind )
-		{
 			binding.unbind();
-		}
+	}
+	
+	/**
+	 * Calls {@code refresh} on all bound bindings in the group.
+	 */
+	public void refresh()
+	{
+		List<Binding<?, ?, ?, ?>> toRefresh = new ArrayList<>(bound);
+		for ( Binding<?, ?, ?, ?> binding : toRefresh )
+			binding.refresh();
+	}
+	
+	/**
+	 * Calls {@code refreshAndNotify} on all bound bindings in the group.
+	 */
+	public void refreshAndNotify()
+	{
+		List<Binding<?, ?, ?, ?>> toRefresh = new ArrayList<>(bound);
+		for ( Binding<?, ?, ?, ?> binding : toRefresh )
+			binding.refreshAndNotify();
 	}
 
+	/**
+	 * Calls {@code save} on all bound bindings in the group.
+	 */
+	public void save()
+	{
+		List<Binding<?, ?, ?, ?>> toRefresh = new ArrayList<>(bound);
+		for ( Binding<?, ?, ?, ?> binding : toRefresh )
+			binding.save();
+	}
+	
+	/**
+	 * Calls {@code saveAndNotify} on all bound bindings in the group.
+	 */
+	public void saveAndNotify()
+	{
+		List<Binding<?, ?, ?, ?>> toRefresh = new ArrayList<>(bound);
+		for ( Binding<?, ?, ?, ?> binding : toRefresh )
+			binding.saveAndNotify();
+	}
+	
 	/**
 	 * Adds a {@code BindingListener} to be notified of all
 	 * {@code BindingListener} notifications fired by any {@code Binding} in the
@@ -188,15 +207,12 @@ public class BindingGroup
 	 */
 	public final void addBindingListener(BindingListener listener)
 	{
-		if ( listener == null )
+		if ( listener != null )
 		{
-			return;
+			if ( listeners == null )
+				listeners = new ArrayList<BindingListener>();
+			listeners.add(listener);
 		}
-		if ( listeners == null )
-		{
-			listeners = new ArrayList<BindingListener>();
-		}
-		listeners.add(listener);
 	}
 
 	/**
@@ -211,13 +227,10 @@ public class BindingGroup
 	 */
 	public final void removeBindingListener(BindingListener listener)
 	{
-		if ( listener == null )
+		if ( listener != null )
 		{
-			return;
-		}
-		if ( listeners != null )
-		{
-			listeners.remove(listener);
+			if ( listeners != null )
+				listeners.remove(listener);
 		}
 	}
 
@@ -230,77 +243,64 @@ public class BindingGroup
 	 */
 	public final BindingListener[] getBindingListeners()
 	{
-		if ( listeners == null )
+		BindingListener[] ret;
+		if ( listeners != null )
 		{
-			return new BindingListener[0];
+			ret = new BindingListener[listeners.size()];
+			ret = listeners.toArray(ret);
 		}
-		BindingListener[] ret = new BindingListener[listeners.size()];
-		ret = listeners.toArray(ret);
+		else
+			ret = new BindingListener[0];
 		return ret;
 	}
 
 	private final Handler getHandler()
 	{
 		if ( handler == null )
-		{
 			handler = new Handler();
-		}
+		
 		return handler;
 	}
 
-	private class Handler
-		implements
-		BindingListener
+	private class Handler implements BindingListener
 	{
 		@Override
 		public void syncFailed(Binding<?, ?, ?, ?> binding, Binding.SyncFailure failure)
 		{
-			if ( listeners == null )
+			if ( listeners != null )
 			{
-				return;
-			}
-			for ( BindingListener listener : listeners )
-			{
-				listener.syncFailed(binding, failure);
+				for ( BindingListener listener : listeners )
+					listener.syncFailed(binding, failure);
 			}
 		}
 
 		@Override
 		public void synced(Binding<?, ?, ?, ?> binding)
 		{
-			if ( listeners == null )
+			if ( listeners != null )
 			{
-				return;
-			}
-			for ( BindingListener listener : listeners )
-			{
-				listener.synced(binding);
+				for ( BindingListener listener : listeners )
+					listener.synced(binding);
 			}
 		}
 
 		@Override
 		public void sourceChanged(Binding<?, ?, ?, ?> binding, PropertyStateEvent event)
 		{
-			if ( listeners == null )
+			if ( listeners != null )
 			{
-				return;
-			}
-			for ( BindingListener listener : listeners )
-			{
-				listener.sourceChanged(binding, event);
+				for ( BindingListener listener : listeners )
+					listener.sourceChanged(binding, event);
 			}
 		}
 
 		@Override
 		public void targetChanged(Binding<?, ?, ?, ?> binding, PropertyStateEvent event)
 		{
-			if ( listeners == null )
+			if ( listeners != null )
 			{
-				return;
-			}
-			for ( BindingListener listener : listeners )
-			{
-				listener.targetChanged(binding, event);
+				for ( BindingListener listener : listeners )
+					listener.targetChanged(binding, event);
 			}
 		}
 
@@ -309,13 +309,11 @@ public class BindingGroup
 		{
 			unbound.remove(binding);
 			bound.add(binding);
-			if ( listeners == null )
+			
+			if ( listeners != null )
 			{
-				return;
-			}
-			for ( BindingListener listener : listeners )
-			{
-				listener.bindingBecameBound(binding);
+				for ( BindingListener listener : listeners )
+					listener.bindingBecameBound(binding);
 			}
 		}
 
@@ -324,13 +322,11 @@ public class BindingGroup
 		{
 			bound.remove(binding);
 			unbound.add(binding);
-			if ( listeners == null )
+			
+			if ( listeners != null )
 			{
-				return;
-			}
-			for ( BindingListener listener : listeners )
-			{
-				listener.bindingBecameUnbound(binding);
+				for ( BindingListener listener : listeners )
+					listener.bindingBecameUnbound(binding);
 			}
 		}
 	}

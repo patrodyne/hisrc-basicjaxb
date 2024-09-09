@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Listener used for observing {@code Task} execution. A {@code TaskListener} is
- * particularly useful for monitoring the the intermediate results
+ * particularly useful for monitoring the intermediate results
  * {@link Task#publish published} by a Task in situations where it's not
  * practical to override the Task's {@link Task#process process} method. Note
  * that if what you really want to do is monitor a Task's state and progress, a
