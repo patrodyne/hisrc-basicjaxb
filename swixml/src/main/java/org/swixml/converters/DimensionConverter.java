@@ -33,8 +33,10 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 	/**
 	 * Converts a String into an Dimension object
 	 *
-	 * @param type <code>Class</code> not used
-	 * @param attr <code>Attribute</code> value fields needs provides convertible string.
+	 * @param value A comma separated pair representing width and height.
+	 * @param type <code>Class</code> not used.
+	 * @param attr <code>Attribute</code> not used.
+	 * @param engine <code>SwingEngine</code> not used.
 	 * 
 	 * @return <code>Object</code> - runtime type is <code>Dimension</code>
 	 */
@@ -42,20 +44,33 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 	public Dimension convert(String value, Class<Dimension> type, Attribute attr, SwingEngine<?> engine)
 		throws Exception
 	{
-		StringTokenizer st = new StringTokenizer(value, ",");
-		int width = 0;
-		int height = 0;
-		if ( st.hasMoreTokens() )
-		{
-			width = Integer.parseInt(st.nextToken().trim());
-		}
-		if ( st.hasMoreTokens() )
-		{
-			height = Integer.parseInt(st.nextToken().trim());
-		}
-		return new Dimension(width, height);
+		return convert(value);
 	}
 
+	/**
+	 * Converts a String into an Dimension object
+	 *
+	 * @param value A comma separated pair representing width and height.
+	 * 
+	 * @return <code>Object</code> - runtime type is <code>Dimension</code>
+	 */
+	public static Dimension convert(String value)
+		throws Exception
+	{
+		StringTokenizer st = new StringTokenizer(value, ",");
+		
+		int width = 0;
+		int height = 0;
+		
+		if ( st.hasMoreTokens() )
+			width = Integer.parseInt(st.nextToken().trim());
+		
+		if ( st.hasMoreTokens() )
+			height = Integer.parseInt(st.nextToken().trim());
+		
+		return new Dimension(width, height);
+	}
+	
 	/**
 	 * A <code>Converters</code> conversTo method informs about the Class type
 	 * the converter is returning when its <code>convert</code> method is called

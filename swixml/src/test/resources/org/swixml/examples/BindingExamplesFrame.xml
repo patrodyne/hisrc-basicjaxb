@@ -4,7 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 
-	size="${window.frameSize}"
+	size="800,800"
 	resizable="true"
 	alwaysOnTop="true"
 	title="Client Attribute Sample"

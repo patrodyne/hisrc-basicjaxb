@@ -5,9 +5,11 @@ import static javax.swing.UIManager.getLookAndFeelDefaults;
 import static org.swixml.Parser.ELVAR_DOM_ELEMENT;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Window;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
 import org.swixml.SwingEngine;
+import org.swixml.converters.DimensionConverter;
 import org.swixml.converters.FontConverter;
 import org.swixml.jsr296.SwingApplication;
 import org.w3c.dom.Element;
@@ -171,18 +174,22 @@ public class ELMethods<T extends Container>
 					}
 				}
 				else
-				{
-					if ( element.getParentNode() instanceof Element )
-						element = (Element) element.getParentNode();
-					else
-						element = null;
-				}
+					element = parentElement(element);
 				
 			} while ( element != null );
 		}
 		return currentFont;
 	}
-
+	
+	private Element parentElement(Element element)
+	{
+		if ( element.getParentNode() instanceof Element )
+			element = (Element) element.getParentNode();
+		else
+			element = null;
+		return element;
+	}
+	
 	/**
 	 * Gets the standard height (pixels) of a line of text in this font. 
 	 * 
@@ -353,16 +360,16 @@ public class ELMethods<T extends Container>
 		return bindList;
 	}
 	
-//	public List<String> bindList(String path, String value)
-//	{
-//		List<String> bindList = null;
-//		if ( (path != null) && !path.isBlank() )
-//		{
-//			String trimValue = trim(value, "[]");
-//			bindList = asList(trimValue.split(",", -1));
-//			getELProcessor().eval(value + ".stream().toList()");
-//			getELProcessor().setValue(path, bindList);
-//		}
-//		return bindList;
-//	}
+	public Dimension dimension(int width, int height)
+	{
+		return new Dimension(width, height);
+	}
+	
+	public Dimension dimensionScale(Window window, double widthScale, double heightScale)
+	{
+		Dimension currentSize = window.getSize();
+		int width = (int) (widthScale * currentSize.getWidth());
+		int height = (int) (heightScale * currentSize.getHeight());
+		return new Dimension(width, height);
+	}
 }

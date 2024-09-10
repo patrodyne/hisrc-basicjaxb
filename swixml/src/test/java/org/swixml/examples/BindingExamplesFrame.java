@@ -57,7 +57,7 @@ public class BindingExamplesFrame extends JFrame
 
 	public Dimension getFrameSize()
 	{
-		return new Dimension(100, 600);
+		return new Dimension(800, 800);
 	}
 	
 	boolean konnected = false;

@@ -7,6 +7,7 @@ import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE;
 import static org.jdesktop.beansbinding.BeanProperty.create;
 
 import java.awt.Frame;
+import java.awt.Window;
 
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
@@ -22,6 +23,10 @@ public class BindingExamplesTestDialog extends XDialog
 {
 	private static final long serialVersionUID = 20240701L;
 	
+	private Window window;
+	public Window getWindow() { return window; }
+	public void setWindow(Window window) { this.window = window; }
+
 	private SwingEngine<BindingExamplesTestDialog> swingEngine;
 	public SwingEngine<BindingExamplesTestDialog> getSwingEngine()
 	{
@@ -34,6 +39,9 @@ public class BindingExamplesTestDialog extends XDialog
 				sa.getContext().getResourceMap().injectFields(this);
 			se.getELContext().putContext(BindingExamplesTestDialog.class, this);
 			se.getELMethods().setSwingEngine(se);
+			se.getELProcessor().defineBean("el", se.getELMethods());
+			se.getELProcessor().defineBean("dialog", this);
+			se.getELProcessor().defineBean("window", getWindow());
 			setSwingEngine(se);
 		}
 		return swingEngine;
@@ -77,10 +85,11 @@ public class BindingExamplesTestDialog extends XDialog
 	/**
 	 * Construct with a given {@link Frame} owner.
 	 * 
-	 * @param bindingExamplesFrame The owning fraME
+	 * @param bindingExamplesFrame The owning frame.
 	 */
 	public BindingExamplesTestDialog(BindingExamplesFrame target)
 	{
+		setWindow(target);
 		try
 		{
 			getSwingEngine().render("org/swixml/examples/BindingExamplesTestDialog.xml");
