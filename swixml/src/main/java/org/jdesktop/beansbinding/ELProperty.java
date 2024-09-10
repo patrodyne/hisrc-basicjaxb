@@ -107,7 +107,7 @@ import jakarta.el.ValueExpression;
  * <p><b>Readability</b> of an {@link ELProperty} for a given source is defined as follows:</p>
  * 
  * <p>An {@link ELProperty} is readable for a given source if and only if the following is
- * true for all paths used in the {@link ValueExpressionPlus}:<p>
+ * true for all paths used in the {@link ValueExpressionPlus}:</p>
  * 
  * <ol>
  * <li>Each bean in the path, starting with the source, defines a Java

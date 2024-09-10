@@ -12,6 +12,7 @@ import static org.swixml.LogUtil.logger;
 import static org.swixml.SwingEngine.ENGINE_PROPERTY;
 import static org.swixml.SwingEngine.isDesignTime;
 
+import java.awt.Container;
 import java.beans.PropertyDescriptor;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -195,7 +196,7 @@ public class BindingUtils
 	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
 	 * 
 	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
-	 * its client {@link container} instance.</p>
+	 * its client {@link Container} instance.</p>
 	 *
 	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
 	 * @param targetProperty The target property name.
@@ -217,7 +218,7 @@ public class BindingUtils
 	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
 	 * 
 	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
-	 * its client {@link container} instance.</p>
+	 * its client {@link Container} instance.</p>
 	 *
 	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
 	 * @param targetProperty The target property name.
@@ -239,7 +240,7 @@ public class BindingUtils
 	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
 	 * 
 	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
-	 * its client {@link container} instance.</p>
+	 * its client {@link Container} instance.</p>
 	 *
 	 * @param bindingGroup A group of {@code Bindings} to operate on and/or track state changes.
 	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
@@ -262,7 +263,7 @@ public class BindingUtils
 	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
 	 * 
 	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
-	 * its client {@link container} instance.</p>
+	 * its client {@link Container} instance.</p>
 	 *
 	 * @param bindingGroup A group of {@code Bindings} to operate on and/or track state changes.
 	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
@@ -285,7 +286,7 @@ public class BindingUtils
 	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
 	 * 
 	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
-	 * its client {@link container} instance.</p>
+	 * its client {@link Container} instance.</p>
 	 *
 	 * @param bindingGroup A group of {@code Bindings} to operate on and/or track state changes.
 	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
@@ -309,7 +310,7 @@ public class BindingUtils
 	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
 	 * 
 	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
-	 * its client {@link container} instance.</p>
+	 * its client {@link Container} instance.</p>
 	 *
 	 * @param bindingGroup A group of {@code Bindings} to operate on and/or track state changes.
 	 * @param owner A {@link JComponent} instance to be the target of an auto-binding.
@@ -333,7 +334,7 @@ public class BindingUtils
 	 * <p>Bound check and set the owner then make it the target of an auto-binding.</p>
 	 * 
 	 * <p>The source object is obtained from the current {@link SwingEngine} instance as
-	 * its client {@link container} instance.</p>
+	 * its client {@link Container} instance.</p>
 	 * 
 	 * <p>When a {@link BindingGroup} instance is provided a new {@link AutoBinding} instance is
 	 * added to it and the {@code bind()} is not invoked; otherwise, the {@code bind()} is invoked
