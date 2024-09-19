@@ -2,6 +2,8 @@ package org.jvnet.basicjaxb.lang;
 
 import static java.lang.Class.forName;
 import static java.lang.ClassLoader.getSystemClassLoader;
+import static java.lang.Integer.toHexString;
+import static java.lang.System.identityHashCode;
 import static java.util.stream.Collectors.toSet;
 
 import java.io.BufferedReader;
@@ -27,7 +29,7 @@ public class ClassUtils
 	 * @param cls the class to get the short name for.
 	 * @return the class name without the package name or an empty string
 	 */
-	public static String getShortClassName(@SuppressWarnings("rawtypes") Class cls)
+	public static String getShortClassName(Class<?> cls)
 	{
 		if (cls == null)
 			return "";
@@ -95,4 +97,20 @@ public class ClassUtils
 			return null;
 		}
 	}
+	
+	public static String identify(Object object)
+    {
+        return ( object != null ) ? identify(object, object.getClass().getName()) : null;
+    }
+
+	public static String identifySimple(Object object)
+    {
+        return ( object != null ) ? identify(object, object.getClass().getSimpleName()) : null;
+    }
+	
+	private static String identify(Object object, String name)
+    {
+        return name + "@" + toHexString(identityHashCode(object));
+    }
+
 }

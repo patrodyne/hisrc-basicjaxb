@@ -49,6 +49,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import jakarta.el.ELContext;
+import jakarta.el.ELProcessor;
 import jakarta.el.ValueExpression;
 
 /**
@@ -74,6 +75,7 @@ public class Parser implements LogAware
 	public static final String TAG_CONSTRAINTS = "constraints";
 	public static final String TAG_BUTTONGROUP = "buttongroup";
 	public static final String TAG_TABLECOLUMN = "tablecolumn";
+	public static final String TAG_TABLEHEADER = "tableheader";
 	
 	//
 	// Custom Attributes
@@ -209,6 +211,7 @@ public class Parser implements LogAware
 	 * Expression Language variable names
 	 */
 	public static final String ELVAR_DOM_ELEMENT = "domElement";
+	public static final String ELVAR_DOM_ATTRIBUTE = "domAttribute";
 	
 	/**
 	 * the calling swingEngine
@@ -231,7 +234,7 @@ public class Parser implements LogAware
 	 * ConverterLib, to access COnverters, converting String in all kinds of
 	 * things
 	 */
-	private ConverterLibrary cvtlib = ConverterLibrary.getInstance();
+	private static final ConverterLibrary CVTLIB = ConverterLibrary.getInstance();
 	
 	/**
 	 * map to store id-id components, needed to support labelFor attributes
@@ -356,9 +359,7 @@ public class Parser implements LogAware
 			catch (Exception e)
 			{
 				if ( SwingEngine.DEBUG_MODE )
-				{
 					logger.error("processCustomAttributes", e);
-				}
 			}
 			element.removeAttribute(Parser.ATTR_PLAF);
 		}
@@ -798,6 +799,23 @@ public class Parser implements LogAware
 		Action action = null; 
 		Attribute attr_id = null;
 		Attribute attr_name = null;
+		
+		// Prioritize size.
+		Attribute attr_size = null;
+		for ( Attribute attr : attributes )
+		{
+			if ( "size".equalsIgnoreCase(attr.getLocalName()) )
+			{
+				attr_size = attr;
+				break;
+			}
+		}
+		if ( attr_size != null )
+		{
+			attributes.remove(attr_size);
+			attributes.add(0, attr_size);
+		}
+		
 		for ( Attribute attr : attributes )
 		{
 			// loop through all available attributes
@@ -807,15 +825,11 @@ public class Parser implements LogAware
 				continue;
 			}
 			if ( "name".equals(attr.getLocalName()) )
-			{
 				attr_name = attr;
-			}
 			if ( Parser.ATTR_REFID.equals(attr.getLocalName()) )
 				continue;
 			if ( Parser.ATTR_USE.equals(attr.getLocalName()) )
-			{
 				continue;
-			}
 			if ( action != null && attr.getLocalName().startsWith(Parser.ATTR_MACOS_PREFIX) )
 			{
 				mac_map.put(attr.getLocalName(), action);
@@ -838,15 +852,20 @@ public class Parser implements LogAware
 					try
 					{
 						ELContext elContext = getSwingEngine().getELContext();
+						ELProcessor elProcessor = getSwingEngine().getELProcessor();
 						
 						// Set an EL variable to reference the current DOM element.
 						Attr domAttribute = attr.getDomAttribute();
+						setVariable(elContext, ELVAR_DOM_ATTRIBUTE, domAttribute);
 						setVariable(elContext, ELVAR_DOM_ELEMENT, domAttribute.getOwnerElement());
+						elProcessor.defineBean("this", obj);
 						
 						ELProperty<Object, Object> elp = create(elContext, attr.getValue());
 						para = elp.getValue(getSwingEngine().getClient());
 						
+						elProcessor.defineBean("this", null);
 						unsetVariable(elContext, ELVAR_DOM_ELEMENT);
+						unsetVariable(elContext, ELVAR_DOM_ATTRIBUTE);
 					}
 					catch ( UnsupportedOperationException ex )
 					{
@@ -885,7 +904,7 @@ public class Parser implements LogAware
 				Class paraType = paraTypes[0];
 				
 				// A setter method has successfully been identified.
-				Converter<?> converter = cvtlib.getConverter(paraType);
+				Converter<?> converter = CVTLIB.getConverter(paraType);
 				
 				if ( converter != null )
 				{
@@ -1009,7 +1028,7 @@ public class Parser implements LogAware
 					Field field = obj.getClass().getField(attr.getLocalName());
 					if ( field != null )
 					{
-						Converter<?> converter = cvtlib.getConverter(field.getType());
+						Converter<?> converter = CVTLIB.getConverter(field.getType());
 						if ( converter != null )
 						{
 							@SuppressWarnings("rawtypes")

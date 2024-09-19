@@ -24,11 +24,25 @@
 			<version>4.0.2</version>
 		</dependency>
 
-		<!-- BeanBinding: JSR 295 -->
+		<!-- Bean Binding: JSR 295 -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 		</dependency> 
+
+		<!-- Bean Validation: JSR 380 -->
+		<!--
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta-validation-api</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+		-->
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>8.0.1.Final</version>
+		</dependency>
 
 		<!-- HiSrc BasicJAXB -->
 		<dependency>

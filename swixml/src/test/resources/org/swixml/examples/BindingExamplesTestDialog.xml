@@ -4,7 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 
-	size="${el.dimensionScale(window,0.75,0.25)}"
+	size="${el.scaleSize(window,0.75,0.25)}"
 	layout="BorderLayout"
 	title="Test Dialog"
 	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"

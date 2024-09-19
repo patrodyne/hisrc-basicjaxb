@@ -1,5 +1,7 @@
 package org.swixml.converters;
 
+import static java.lang.Integer.parseInt;
+
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -69,12 +71,19 @@ public class ColorConverter extends AbstractConverter<Color>
 		catch (NoSuchFieldException | SecurityException | IllegalAccessException ex)
 		{
 		}
+		
+		// Tokenize on comma.
 		StringTokenizer st = new StringTokenizer(value, ",");
+		
+		// Parse a single token as a radix 16 integer.
 		if ( 1 == st.countTokens() )
 		{
 			try
 			{
-				return new Color(Integer.parseInt(st.nextToken().trim(), 16));
+				String rgb = st.nextToken().trim();
+				if ( rgb.startsWith("#") )
+					rgb = rgb.substring(1);
+				return new Color(parseInt(rgb, 16));
 			}
 			catch (NumberFormatException e)
 			{
@@ -82,19 +91,22 @@ public class ColorConverter extends AbstractConverter<Color>
 				return null;
 			}
 		}
+		
+		// Parse the remaining tokens into an integer array.
 		int[] para = Util.ia(st);
+		
+		// Parse four integers representing red, green and blue and alpha.
 		if ( 4 <= para.length )
-		{
 			return new Color(para[0], para[1], para[2], para[3]);
-		}
+		
+		// Parse three integers representing red, green and blue.
 		if ( 3 <= para.length )
-		{
 			return new Color(para[0], para[1], para[2]);
-		}
+		
+		// Parse a single integer representation of RGB.
 		if ( 1 <= para.length )
-		{
 			return new Color(para[0]);
-		}
+		
 		return null;
 	}
 

@@ -1,7 +1,11 @@
 package org.swixml.jsr.widgets;
 
+import static java.lang.Math.max;
+import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE;
+import static org.jvnet.basicjaxb.lang.StringUtils.isBlank;
 import static org.swixml.SwingEngine.ENGINE_PROPERTY;
+import static org.swixml.el.ELMethods.AVERAGE_LETTER;
 import static org.swixml.jsr295.BindingUtils.initTableBindingFromBeanInfo;
 import static org.swixml.jsr295.BindingUtils.initTableBindingFromTableColumns;
 
@@ -11,7 +15,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyDescriptor;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.Action;
 import javax.swing.JTable;
@@ -21,6 +29,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -30,7 +40,12 @@ import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Converter;
 import org.swixml.SwingEngine;
+import org.swixml.el.ELMethods;
 import org.swixml.jsr295.BindingUtils;
+
+import jakarta.validation.constraints.Size;
+import jakarta.validation.metadata.BeanDescriptor;
+import jakarta.validation.metadata.ConstraintDescriptor;
 
 /**
  * @see <a href="file:../../package-info.java">LICENSE: package-info</a>
@@ -41,6 +56,10 @@ public class JTableBind
 	implements BindableListWidget
 {
 	private static final long serialVersionUID = 20240701L;
+	
+	private static final int DEFAULT_TABLECOLUMN_MINWIDTH = 15;
+	private static final int DEFAULT_TABLECOLUMN_MAXWIDTH = Integer.MAX_VALUE;
+	private static final int DEFAULT_TABLECOLUMN_PREFWIDTH = 75;
 	
 	private Class<?> bindClass;
 	public Class<?> getBindClass()
@@ -160,6 +179,142 @@ public class JTableBind
 		return super.getCellRenderer(row, col);
 	}
 	
+	private SwingEngine<?> getSwingEngine()
+	{
+		return (SwingEngine<?>) getClientProperty(ENGINE_PROPERTY);
+	}
+	
+	private int fieldWidth(int repeat)
+	{
+		ELMethods<?> elm = getSwingEngine().getELMethods();
+		int sw = elm.getFontMetrics(getFont()).stringWidth(AVERAGE_LETTER);
+		return repeat * sw;
+	}
+	
+	@Override
+	public void createDefaultColumnsFromModel()
+	{
+		// If there a bind class then derive column properties
+		// from it; otherwise, fall back to the super method.
+		TableModel tm = getModel();
+		if ( (tm != null) && (getBindClass() != null) )
+		{
+			// Cache any current columns
+			Map<String, TableColumnBind> tcMap = new HashMap<>();
+			TableColumnModel cm = getColumnModel();
+			Enumeration<TableColumn> cme = cm.getColumns();
+			while ( cme.hasMoreElements() )
+			{
+				TableColumn tc = cme.nextElement();
+				if ( tc instanceof TableColumnBind )
+				{
+					TableColumnBind tcb = (TableColumnBind) tc;
+					tcMap.put(tcb.getBindWith(), tcb);
+				}
+			}
+			// Remove any current columns
+			while (cm.getColumnCount() > 0)
+				cm.removeColumn(cm.getColumn(0));
+			
+			// Create a map of the validation property descriptors by property name.
+			BeanDescriptor vbd = getSwingEngine().getBeanValidator()
+				.getConstraintsForClass(getBindClass());
+			Set<jakarta.validation.metadata.PropertyDescriptor> vcpSet = vbd.getConstrainedProperties();
+			Map<String, jakarta.validation.metadata.PropertyDescriptor> vpdMap = new HashMap<>();
+			for ( jakarta.validation.metadata.PropertyDescriptor vcp : vcpSet )
+				vpdMap.put(vcp.getPropertyName(), vcp);
+
+			// Create new columns from properties of the bind class.
+			PropertyDescriptor[] bpds = getPropertyDescriptors(getBindClass());
+			for ( int index=0; index < bpds.length; ++index )
+			{
+				// Get the Bean and the Validation property descriptors.
+				PropertyDescriptor bpd = bpds[index];
+				String bpdName = bpd.getName();
+				jakarta.validation.metadata.PropertyDescriptor vpd = vpdMap.get(bpdName);
+				
+				// Assign column default values
+				String bindWith = bpd.getName();
+				Class<?> type = bpd.getReadMethod().getReturnType();
+		        String headerValue = bpd.getDisplayName();
+		        String identifier = bindWith + "@" + getBindClass().getName();
+
+		        // Assign default values then validation inferred values.
+				int maxWidth = 20;
+				int minWidth = 1;
+				for ( ConstraintDescriptor<?> vcd : vpd.getConstraintDescriptors() )
+				{
+					if ( vcd.getAnnotation() instanceof Size )
+					{
+						Size size = (Size) vcd.getAnnotation();
+						minWidth = max(size.min(), 1);
+						maxWidth = max(size.max(), 0);
+					}
+				}
+				
+				// Evaluate size (char) into Swing units (pixels).
+				int minWidthField = fieldWidth(minWidth);
+				int maxWidthField = fieldWidth(maxWidth);
+
+				// Reuse or create table column and assign values.
+				TableColumnBind tc1 = null;
+				if ( tcMap.containsKey(bindWith) )
+					tc1 = tcMap.get(bindWith);
+				TableColumnBind tc2 = new TableColumnBind();
+				{
+					tc2.setModelIndex(index);
+					tc2.setBindWith(bindWith);
+					
+					tc2.setType(type.getName());
+					tc2.setEditable(true);
+					tc2.setResizable(true);
+
+					tc2.setWidth(maxWidthField);
+					tc2.setPreferredWidth(maxWidthField);
+					tc2.setMinWidth(minWidthField);
+					tc2.setMaxWidth(maxWidthField);
+
+					tc2.setIdentifier(identifier);
+
+					tc2.setHeaderRenderer(null);
+					tc2.setHeaderValue(headerValue);
+
+					tc2.setCellRenderer(null);
+					tc2.setCellEditor(null);
+
+					// Some table column values are reconfigurable here.
+					if ( tc1 != null )
+					{
+						if ( !isBlank(tc1.getType()) )
+							tc2.setType(tc1.getType());
+						tc2.setEditable(tc1.isEditable());
+						tc2.setResizable(tc1.getResizable());
+
+						if ( tc1.getMinWidth() > DEFAULT_TABLECOLUMN_MINWIDTH )
+							tc2.setMinWidth(tc1.getMinWidth());
+						if ( tc1.getMaxWidth() < DEFAULT_TABLECOLUMN_MAXWIDTH )
+							tc2.setMaxWidth(tc1.getMaxWidth());
+						
+						// 'preferredWidth' and 'width' are constrained
+						// by 'minWidth' and 'maxWidth'!
+						if ( tc1.getPreferredWidth() > DEFAULT_TABLECOLUMN_PREFWIDTH )
+							tc2.setPreferredWidth(tc1.getPreferredWidth());
+						if ( tc1.getWidth() > DEFAULT_TABLECOLUMN_PREFWIDTH )
+							tc2.setWidth(tc1.getWidth());
+						
+						if ( !isBlank((String) tc1.getHeaderValue()) )
+							tc2.setIdentifier(tc1.getHeaderValue());
+					}
+				}
+
+				// Add the new table column to the model.
+				cm.addColumn(tc2);
+			}
+		}
+		else
+			super.createDefaultColumnsFromModel();
+	}
+	
     /**
      * Create and add {@link AutoBinding} instance(s) to synchronize model
      * properties with this {@link JTable}.
@@ -175,9 +330,8 @@ public class JTableBind
 		{
 			if ( getBindWith() != null )
 			{
-				SwingEngine<?> engine = (SwingEngine<?>) getClientProperty(ENGINE_PROPERTY);
 				BeanProperty<Object, List<?>> beanProperty = BeanProperty.create(getBindWith());
-				setBindList(beanProperty.getValue(engine.getClient()));
+				setBindList(beanProperty.getValue(getSwingEngine().getClient()));
 			}
 		}
 		
@@ -186,6 +340,7 @@ public class JTableBind
 			Binding<?, ?, ?, ?> itb = null;
 			if ( getBindClass() != null )
 			{
+				// super.setAutoCreateColumnsFromModel(true);
 				itb = initTableBindingFromBeanInfo(getBindingGroup(), READ_WRITE, this,
 					getBindList(), getBindClass(), isAllPropertiesBound());
 			}

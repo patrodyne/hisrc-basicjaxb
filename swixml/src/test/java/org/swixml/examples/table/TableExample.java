@@ -1,5 +1,7 @@
 package org.swixml.examples.table;
 
+import java.awt.Color;
+
 import javax.swing.JDialog;
 
 import org.swixml.jsr296.SwingApplication;
@@ -20,7 +22,7 @@ public class TableExample extends SwingApplication<TableDialog>
 		try
 		{
 			// Create the SwingEngine, ElContext, etc.
-			setSwingEngine(createEngine(WINDOW));
+			setSwingEngine(createEngine(WINDOW, 24));
 			
 			// Process other initial conditions.
 			// getELProcessor().setVariable("var", "expression");
@@ -29,12 +31,17 @@ public class TableExample extends SwingApplication<TableDialog>
 			// getELProcessor().defineFunction("prefix", "function", method);
 			// getELProcessor().defineFunction("prefix", "function", "className", "method");
 			
-			getSwingEngine().getELProcessor().defineBean("window", WINDOW);
+			getELProcessor().defineBean("el", getSwingEngine().getELMethods());
+			getELProcessor().defineBean("window", WINDOW);
+			
+			getELProcessor().defineFunction("color", "rgb", Color.class.getMethod("decode", String.class));
+			getELProcessor().defineFunction("color", "hsb", Color.class.getMethod("getHSBColor", float.class, float.class, float.class));
+
 			// Object result = getSwingEngine().getELProcessor().eval("window.myData");
 			// int x = 0;
 			// getELProcessor().setVariable("myData", "window.myData");
 		}
-		catch ( SecurityException ex)
+		catch ( SecurityException | NoSuchMethodException ex)
 		{
 			throw new ELException("Cannot initialize EL context.", ex);
 		}

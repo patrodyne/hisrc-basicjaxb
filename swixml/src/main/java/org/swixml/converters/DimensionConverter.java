@@ -55,7 +55,6 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 	 * @return <code>Object</code> - runtime type is <code>Dimension</code>
 	 */
 	public static Dimension convert(String value)
-		throws Exception
 	{
 		StringTokenizer st = new StringTokenizer(value, ",");
 		
@@ -69,6 +68,11 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 			height = Integer.parseInt(st.nextToken().trim());
 		
 		return new Dimension(width, height);
+	}
+	
+	public static boolean isZero(Dimension dim)
+	{
+		return (dim == null) || ((dim.getWidth() == 0) && (dim.getHeight() == 0));
 	}
 	
 	/**

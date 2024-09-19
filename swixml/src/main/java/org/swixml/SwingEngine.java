@@ -53,6 +53,9 @@ import jakarta.el.FunctionMapper;
 import jakarta.el.ImportHandler;
 import jakarta.el.StandardELContext;
 import jakarta.el.VariableMapper;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 
 /**
  * The SwingEngine class is the rendering engine able to convert an XML
@@ -143,6 +146,12 @@ public class SwingEngine<T extends Container> implements LogAware
 	{
 		return Boolean.getBoolean("org.swixml.designTime");
 	}
+	
+	/**
+	 * Factory returning initialized Validator instances based on the default
+	 * Jakarta Bean Validation provider and following the XML configuration.
+	 */
+	public static ValidatorFactory VALIDATOR_FACTORY = Validation.buildDefaultValidatorFactory();
 
 	//
 	// Member Variables
@@ -191,6 +200,21 @@ public class SwingEngine<T extends Container> implements LogAware
 	private Localizer localizer = null;
 	public Localizer getLocalizer() { return localizer; }
 	public void setLocalizer(Localizer localizer) { this.localizer = localizer; }
+	
+	/**
+	 * used for bean validation.
+	 */
+	private Validator beanValidator = null;
+	public Validator getBeanValidator()
+	{
+		if ( beanValidator == null )
+			setBeanValidator(VALIDATOR_FACTORY.getValidator());
+		return beanValidator;
+	}
+	public void setBeanValidator(Validator beanValidator)
+	{
+		this.beanValidator = beanValidator;
+	}	
 	
 	//
 	// Private Constants
@@ -757,6 +781,8 @@ public class SwingEngine<T extends Container> implements LogAware
 	{
 		return cl;
 	}
+	
+	
 
 	/**
 	 * Recursively Sets an ActionListener

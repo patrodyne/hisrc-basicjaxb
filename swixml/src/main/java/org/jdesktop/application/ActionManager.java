@@ -195,8 +195,7 @@ public class ActionManager extends AbstractBean
 	}
 
 	private final class KeyboardFocusPCL
-		implements
-		PropertyChangeListener
+		implements PropertyChangeListener
 	{
 		private final TextActions textActions;
 

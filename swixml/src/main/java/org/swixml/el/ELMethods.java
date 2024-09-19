@@ -2,7 +2,11 @@ package org.swixml.el;
 
 import static javax.swing.UIManager.getDefaults;
 import static javax.swing.UIManager.getLookAndFeelDefaults;
+import static org.swixml.Parser.ELVAR_DOM_ATTRIBUTE;
 import static org.swixml.Parser.ELVAR_DOM_ELEMENT;
+import static org.swixml.converters.DimensionConverter.isZero;
+import static org.swixml.converters.FontConverter.encode;
+import static org.swixml.jsr295.BindingUtils.isELPattern;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -10,6 +14,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Window;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +25,7 @@ import org.swixml.SwingEngine;
 import org.swixml.converters.DimensionConverter;
 import org.swixml.converters.FontConverter;
 import org.swixml.jsr296.SwingApplication;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
 import jakarta.el.ELContext;
@@ -39,8 +45,11 @@ public class ELMethods<T extends Container>
 {
 	// Represents the font to use as the default font.
 	private static final String DEFAULT_FONT = "Panel.font";
-	// Represents the widest letter in the alphabet.
+	
+	// Represents the widest, average and thinest letters in the alphabet.
 	public static final String WIDEST_LETTER = "W";
+	public static final String AVERAGE_LETTER = "e";
+	public static final String THINEST_LETTER = "l";
 
 	/**
 	 * Construct with a {@link SwingEngine}.
@@ -67,7 +76,7 @@ public class ELMethods<T extends Container>
 	public ELProcessor getELProcessor() { return getSwingEngine().getELProcessor(); }
 	
 	private Font defaultFont = null;
-	public Font getDefaultFont()
+	protected Font getDefaultFont()
 	{
 	    // In general, developers should use the {@code UIDefaults} returned from
 	    // {@code getDefaults()}. As the current look and feel may expect
@@ -93,7 +102,7 @@ public class ELMethods<T extends Container>
 		}
 		return defaultFont;
 	}
-	public void setDefaultFont(Font defaultFont)
+	protected void setDefaultFont(Font defaultFont)
 	{
 		this.defaultFont = defaultFont;
 	}
@@ -115,7 +124,7 @@ public class ELMethods<T extends Container>
 	 * 
 	 * @return The information about the rendering of a particular or current font.
 	 */
-	private FontMetrics getFontMetrics(Font font)
+	public FontMetrics getFontMetrics(Font font)
 	{
 		FontMetrics metrics = null;
 		if ( getGraphics() != null )
@@ -266,7 +275,7 @@ public class ELMethods<T extends Container>
 	public int fieldWidth(String fontSpec, String text)
 	{
 		if ( (text == null) || text.isBlank() )
-			text = WIDEST_LETTER;
+			text = AVERAGE_LETTER;
 		return getFontMetrics(fontSpec).stringWidth(text);
 	}
 	
@@ -297,9 +306,13 @@ public class ELMethods<T extends Container>
 	}
 	
 	/**
-	 * Gets the repeated width of the text field for the current font. 
+	 * Gets the repeated width of the text field for the current font.
 	 * 
-	 * @param text The text to determine the length for.
+	 * <p>If <code>text</code> is a single character then it will be used
+	 * to the text to determine the length for; otherwise, it will
+	 * be used as the font specification</p>
+	 * 
+	 * @param text The text to determine the length for or font specification.
 	 * @param repeat The number of times to repeat the single width.
 	 * 
 	 * @return The repeated width (pixels) of the text field for the current font.
@@ -309,19 +322,19 @@ public class ELMethods<T extends Container>
 		if ( (text != null) && (text.length() == 1) ) 
 			return fieldWidth(null, text, repeat);
 		else
-			return fieldWidth(text, WIDEST_LETTER, repeat);
+			return fieldWidth(text, AVERAGE_LETTER, repeat);
 	}
 	
 	/**
-	 * Gets the repeated width of "W" for the current font. 
+	 * Gets the repeated width of an average letter for the current font. 
 	 * 
 	 * @param repeat The number of times to repeat the single width.
 	 * 
-	 * @return The repeated width (pixels) of a "W" for the current font.
+	 * @return The repeated width (pixels) of a average letter for the current font.
 	 */
 	public int fieldWidth(int repeat)
 	{
-		return fieldWidth(WIDEST_LETTER, repeat);
+		return fieldWidth(AVERAGE_LETTER, repeat);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -360,16 +373,130 @@ public class ELMethods<T extends Container>
 		return bindList;
 	}
 	
-	public Dimension dimension(int width, int height)
+	public Dimension size()
 	{
-		return new Dimension(width, height);
+		return currentSize();
 	}
 	
-	public Dimension dimensionScale(Window window, double widthScale, double heightScale)
+	public Dimension size(int width, int height)
 	{
-		Dimension currentSize = window.getSize();
-		int width = (int) (widthScale * currentSize.getWidth());
-		int height = (int) (heightScale * currentSize.getHeight());
-		return new Dimension(width, height);
+		Dimension size = new Dimension(width, height);
+		Attr domAttribute = resolveVariable(ELVAR_DOM_ATTRIBUTE, Attr.class);
+		if ( domAttribute != null )
+		{
+			if ( domAttribute.getName().equalsIgnoreCase("size") )
+			{
+				Element domElement = resolveVariable(ELVAR_DOM_ELEMENT, Element.class);
+				getSizeMap().put(domElement, size);
+			}
+		}
+		return size;
+	}
+	
+	public Dimension pageSize(String fontSpec, int cols, int rows, int rowgap, String text)
+	{
+		int width = fieldWidth(fontSpec, text, cols);
+		int height = rows * ( fontHeight(fontSpec) + rowgap);
+		return size(width, height);
+	}
+
+	public Dimension pageSize(String fontSpec, int cols, int rows, int rowgap)
+	{
+		return pageSize(fontSpec, cols, rows, rowgap, AVERAGE_LETTER);
+	}
+
+	public Dimension pageSize(String fontSpec, int cols, int rows)
+	{
+		return pageSize(fontSpec, cols, rows, 0);
+	}
+
+	public Dimension pageSize(int cols, int rows)
+	{
+		return pageSize(encode(currentFont()), cols, rows, 0);
+	}
+	
+	public Dimension scaleSize(double widthScale, double heightScale)
+	{
+		return scaleSize(currentSize(), widthScale, heightScale);
+	}
+	
+	public Dimension scaleSize(Window window, double widthScale, double heightScale)
+	{
+		return scaleSize(window.getSize(), widthScale, heightScale);
+	}
+	
+	private Dimension scaleSize(Dimension size, double widthScale, double heightScale)
+	{
+		int width = (int) (widthScale * size.getWidth());
+		int height = (int) (heightScale * size.getHeight());
+		return size(width, height);
+	}
+	
+	private Map<Element, Dimension> sizeMap;
+	public Map<Element, Dimension> getSizeMap()
+	{
+		if ( sizeMap == null )
+			setSizeMap(new HashMap<>());
+		return sizeMap;
+	}
+	public void setSizeMap(Map<Element, Dimension> sizeMap)
+	{
+		this.sizeMap = sizeMap;
+	}
+	
+	private Dimension currentSize()
+	{
+		Dimension currentDimension = new Dimension();
+		Attr domAttribute = resolveVariable(ELVAR_DOM_ATTRIBUTE, Attr.class);
+		if ( domAttribute != null )
+		{
+			Element domElement = resolveVariable(ELVAR_DOM_ELEMENT, Element.class);
+			// Guard against recursion
+			Element element = domElement;
+//			if ( domAttribute.getName().equalsIgnoreCase("size") )
+//				element = parentElement(domElement);
+			if ( element != null )
+			{
+				do
+				{
+					String sizeSpec = element.getAttribute("size");
+					if ( !sizeSpec.isBlank() )
+					{
+						Dimension size = null;
+						
+						if ( isELPattern(sizeSpec) )
+						{
+							if ( getSizeMap().containsKey(element) )
+								size = getSizeMap().get(element);
+						}
+						else
+						{
+							size = DimensionConverter.convert(sizeSpec);
+							if ( !isZero(size) )
+								if ( element != domElement )
+									getSizeMap().put(element, size);
+						}
+						
+						if ( !isZero(size) )
+						{
+							currentDimension = size;
+							getSizeMap().put(domElement, size);
+							element = null;
+						}
+						else
+							element = parentElement(element);
+					}
+					else
+						element = parentElement(element);
+				} while ( element != null );
+			}
+		}
+		return currentDimension;
+	}
+	
+	public int scale(int minValue, int maxValue, double scale)
+	{
+		Long value = Math.round( scale * (maxValue - minValue) );
+		return Math.toIntExact(value);
 	}
 }

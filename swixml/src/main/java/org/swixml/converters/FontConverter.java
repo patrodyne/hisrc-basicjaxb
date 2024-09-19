@@ -1,10 +1,12 @@
 package org.swixml.converters;
 
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.lang.StringUtils.trim;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 
+import org.jvnet.basicjaxb.lang.StringUtils;
 import org.swixml.SwingEngine;
 import org.swixml.dom.Attribute;
 
@@ -19,6 +21,8 @@ import org.swixml.dom.Attribute;
  */
 public class FontConverter extends AbstractConverter<Font>
 {
+	private static String WILD = " *";
+	
 	/**
 	 * converter's return type
 	 */
@@ -69,9 +73,55 @@ public class FontConverter extends AbstractConverter<Font>
 	public Font convert(String value, Class<Font> type, Attribute attr, SwingEngine<?> engine)
 		throws Exception
 	{
-		return convert(value, engine.getELMethods().fontSize());
+		return convert(value, engine.getELMethods().currentFont());
 	}
 
+	/**
+	 * Convert the font specification value to a {@link Font} instance.
+	 * 
+	 * @param value The font specification value.
+	 * @param currentFont The current font.
+	 * 
+	 * @return The {@link Font} instance for the given font specification.
+	 */
+	public static Font convert(String value, Font currentFont)
+	{
+		String fontSpec = value;
+		if ( (fontSpec != null) && !fontSpec.isBlank() )
+		{
+			String currentName = currentFont.getFontName();
+			String currentStyle = getStyle(currentFont);
+			int currentSize = currentFont.getSize();
+			
+			String[] specParts = fontSpec.split("-");
+			if ( specParts.length == 1)
+				value = format("%s-%s-%02d", specParts[0], currentStyle, currentSize);
+			else if ( specParts.length == 2)
+			{
+				String name = isWild(specParts[0]) ? currentName : specParts[0];
+				String style = isWild(specParts[1]) ? currentStyle : specParts[1];
+				value = format("%s-%s-%02d", name, style, currentSize);
+			}
+			else if ( specParts.length == 3)
+			{
+				String name = isWild(specParts[0]) ? currentName : specParts[0];
+				String style = isWild(specParts[1]) ? currentStyle : specParts[1];
+				if ( isWild(specParts[2]) )
+					value = format("%s-%s-%02d", name, style, currentSize);
+				else
+					value = format("%s-%s-s", name, style, specParts[2]);
+			}
+			return Font.decode(value);
+		}
+		else
+			return currentFont;
+	}
+
+	private static boolean isWild(String specPart)
+	{
+		return trim(specPart, WILD).isBlank();
+	}
+	
 	/**
 	 * Convert the font specification value to a {@link Font} instance.
 	 * 
@@ -92,6 +142,27 @@ public class FontConverter extends AbstractConverter<Font>
 				value = format("%s-%s-%02d", specParts[0], specParts[1], defaultFontSize);
 		}
 		return Font.decode(value);
+	}
+	
+	public static String encode(Font font)
+	{
+		String name = font.getFontName();
+		String style = getStyle(font);
+		int size = font.getSize();
+		return format("%s-%s-%02d", name, style, size);
+	}
+
+	private static String getStyle(Font font)
+	{
+		String style = "PLAIN";
+		if ( font.isBold() )
+		{
+			if ( font.isItalic() )
+				style = "BOLDITALIC";
+			else
+				style = "BOLD";
+		}
+		return style;
 	}
 
 	/**

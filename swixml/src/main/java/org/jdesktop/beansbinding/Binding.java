@@ -501,6 +501,16 @@ public abstract class Binding<SS, SV, TS, TV>
 	}
 
 	/**
+	 * Returns the {@code Binding's Validator}, which may be {@code null}.
+	 *
+	 * @return the {@code Binding's Validator}, or {@code null}
+	 * @see #setValidator
+	 */
+	public final Validator<? super SV> getValidator()
+	{
+		return validator;
+	}
+	/**
 	 * Sets the {@code Validator} for the {@code Binding}, which may be
 	 * {@code null}.
 	 * <p>
@@ -525,14 +535,14 @@ public abstract class Binding<SS, SV, TS, TV>
 	}
 
 	/**
-	 * Returns the {@code Binding's Validator}, which may be {@code null}.
+	 * Returns the {@code Binding's Converter}, which may be {@code null}.
 	 *
-	 * @return the {@code Binding's Validator}, or {@code null}
-	 * @see #setValidator
+	 * @return the {@code Binding's Converter}, or {@code null}
+	 * @see #setConverter
 	 */
-	public final Validator<? super SV> getValidator()
+	public final Converter<SV, TV> getConverter()
 	{
-		return validator;
+		return converter;
 	}
 
 	/**
@@ -561,16 +571,18 @@ public abstract class Binding<SS, SV, TS, TV>
 	}
 
 	/**
-	 * Returns the {@code Binding's Converter}, which may be {@code null}.
+	 * Returns the value to be returned by {@link #getSourceValueForTarget} when
+	 * the source property returns {@code null} for the source object. The
+	 * default for this property is {@code null}.
 	 *
-	 * @return the {@code Binding's Converter}, or {@code null}
-	 * @see #setConverter
+	 * @return the value that replaces a source value of {@code null}, or
+	 *         {@code null} if there is no replacement
+	 * @see #setSourceNullValue
 	 */
-	public final Converter<SV, TV> getConverter()
+	public final TV getSourceNullValue()
 	{
-		return converter;
+		return sourceNullValue;
 	}
-
 	/**
 	 * Sets the value to be returned by {@link #getSourceValueForTarget} when
 	 * the source property returns {@code null} for the source object. The
@@ -593,19 +605,18 @@ public abstract class Binding<SS, SV, TS, TV>
 	}
 
 	/**
-	 * Returns the value to be returned by {@link #getSourceValueForTarget} when
-	 * the source property returns {@code null} for the source object. The
+	 * Returns the value to be returned by {@link #getTargetValueForSource} when
+	 * the target property returns {@code null} for the target object. The
 	 * default for this property is {@code null}.
 	 *
-	 * @return the value that replaces a source value of {@code null}, or
+	 * @return the value that replaces a target value of {@code null}, or
 	 *         {@code null} if there is no replacement
-	 * @see #setSourceNullValue
+	 * @see #setTargetNullValue
 	 */
-	public final TV getSourceNullValue()
+	public final SV getTargetNullValue()
 	{
-		return sourceNullValue;
+		return targetNullValue;
 	}
-
 	/**
 	 * Sets the value to be returned by {@link #getTargetValueForSource} when
 	 * the target property returns {@code null} for the target object. The
@@ -628,19 +639,29 @@ public abstract class Binding<SS, SV, TS, TV>
 	}
 
 	/**
-	 * Returns the value to be returned by {@link #getTargetValueForSource} when
-	 * the target property returns {@code null} for the target object. The
-	 * default for this property is {@code null}.
+	 * If set, returns the value to be returned by
+	 * {@link #getSourceValueForTarget} when the source property is unreadable
+	 * for the source object. Throws {@code UnsupportedOperationException} if
+	 * the property is not set, as indicated by
+	 * {@link #isSourceUnreadableValueSet}.
+	 * <p>
+	 * See the documentation for {@link #setSourceUnreadableValue} for more
+	 * information on this property.
 	 *
-	 * @return the value that replaces a target value of {@code null}, or
-	 *         {@code null} if there is no replacement
-	 * @see #setTargetNullValue
+	 * @return the value that replaces an unreadable source value, which may be
+	 *         {@code null}
+	 * @see #unsetSourceUnreadableValue
+	 * @throws UnsupportedOperationException if the property is not set, as
+	 *             indicated by {@code isSourceUnreadableValueSet}
 	 */
-	public final SV getTargetNullValue()
+	public final TV getSourceUnreadableValue()
 	{
-		return targetNullValue;
+		if ( !isSourceUnreadableValueSet() )
+		{
+			throw new UnsupportedOperationException("not set");
+		}
+		return sourceUnreadableValue;
 	}
-
 	/**
 	 * Sets the value to be returned by {@link #getSourceValueForTarget} when
 	 * the source property is unreadable for the source object. Calling this
@@ -732,31 +753,6 @@ public abstract class Binding<SS, SV, TS, TV>
 	public final boolean isSourceUnreadableValueSet()
 	{
 		return sourceUnreadableValueSet;
-	}
-
-	/**
-	 * If set, returns the value to be returned by
-	 * {@link #getSourceValueForTarget} when the source property is unreadable
-	 * for the source object. Throws {@code UnsupportedOperationException} if
-	 * the property is not set, as indicated by
-	 * {@link #isSourceUnreadableValueSet}.
-	 * <p>
-	 * See the documentation for {@link #setSourceUnreadableValue} for more
-	 * information on this property.
-	 *
-	 * @return the value that replaces an unreadable source value, which may be
-	 *         {@code null}
-	 * @see #unsetSourceUnreadableValue
-	 * @throws UnsupportedOperationException if the property is not set, as
-	 *             indicated by {@code isSourceUnreadableValueSet}
-	 */
-	public final TV getSourceUnreadableValue()
-	{
-		if ( !isSourceUnreadableValueSet() )
-		{
-			throw new UnsupportedOperationException("not set");
-		}
-		return sourceUnreadableValue;
 	}
 
 	/**

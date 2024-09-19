@@ -113,7 +113,9 @@ public class ELProcessorTest
 		User user = new User();
 		user.setName("Arthur");
 		
+		// Add bean to the local bean repository.
 		getELProcessor().defineBean("user", user);
+		
 		Object result = getELProcessor().eval("'Welcome, ' += user.name");
 		assertNotNull(result, "direct property expression eval");
 		
@@ -124,13 +126,18 @@ public class ELProcessorTest
 		}
 		else
 			fail("expected String result");
+		
+		// Remove bean from the local bean repository.
+		getELProcessor().defineBean("user", null);
 	}
 
 	@Test
 	protected void testDirectMethodExpression()
 	{
-		// Direct method expression evaluation
+		// Add bean to the local bean repository.
 		getELProcessor().defineBean("user", new User());
+
+		// Direct method expression evaluation
 		Object result = getELProcessor()
 			.eval("'Welcome, ' += user.shout('Arthur') += ' (' += user.name += ')'");
 		assertNotNull(result, "direct method expression eval");
@@ -142,6 +149,9 @@ public class ELProcessorTest
 		}
 		else
 			fail("expected String result");
+		
+		// Remove bean from the local bean repository.
+		getELProcessor().defineBean("user", null);
 	}
 	
 	@Test
@@ -175,12 +185,17 @@ public class ELProcessorTest
 		User user = new User();
 		user.setName("Arthur");
 		
+		// Add bean to the local bean repository.
+		getELProcessor().defineBean("usuario", user);
+
 		// "usuario" -> "user": Pass
 		// "user" -> "usuario": Fail
-		getELProcessor().defineBean("usuario", user);
 		Object result = getELProcessor().eval("'Welcome, ' += usuario.name");
 		assertNotNull(result, "bean name resolver eval");
 		assertEquals("Welcome, Arthur", result, "bean name resolver eval equals");
+		
+		// Remove bean from the local bean repository.
+		getELProcessor().defineBean("usuario", null);
 	}
 
 	@Test
@@ -188,7 +203,10 @@ public class ELProcessorTest
 	{
 		User user = new User();
 		user.setName("Arthur");
+		
+		// Add bean to the local bean repository.
 		getELProcessor().defineBean("user", user);
+		
 		// ELResolver set value: xx
 		// Attempts to set the value of the given property
 		// object on the given base (elResolveMap ??) object.
@@ -197,6 +215,9 @@ public class ELProcessorTest
 		result = getELProcessor().eval("'Welcome, ' += xx");
 		assertNotNull(result, "resolver set value eval");
 		assertEquals("Welcome, Arthur", result, "resolver set value eval equals");
+		
+		// Remove bean from the local bean repository.
+		getELProcessor().defineBean("user", null);
 	}
 	
 	@Test
@@ -204,9 +225,15 @@ public class ELProcessorTest
 	{
 		User user = new User();
 		user.setName("Arthur");
+		
+		// Add bean to the local bean repository.
 		getELProcessor().defineBean("user", user);
+		
 		Object result = getELProcessor().eval("xx = user.name; 'Welcome, ' += xx");
 		assertEquals("Welcome, Arthur", result, "resolver side effect eval equals");
+		
+		// Remove bean from the local bean repository.
+		getELProcessor().defineBean("user", null);
 	}
 	
 	@Test

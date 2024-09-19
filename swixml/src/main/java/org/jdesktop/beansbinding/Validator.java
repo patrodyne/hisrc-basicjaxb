@@ -7,6 +7,7 @@ package org.jdesktop.beansbinding;
  * @param <T> the type of value that this validator can validate
  * 
  * @see <a href="file:package-info.java">LICENSE: package-info</a>
+ * @see <a href="https://bz.apache.org/netbeans/show_bug.cgi?id=181797">Beansbinding Validator Support</a>
  *
  * @author Shannon Hickey
  */

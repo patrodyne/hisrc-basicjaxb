@@ -44,7 +44,7 @@ import org.swixml.jsr.widgets.JTextFieldBind;
 import org.swixml.jsr.widgets.JTreeBind;
 import org.swixml.jsr.widgets.TableColumnBind;
 import org.swixml.processor.NopTagProcessor;
-import org.swixml.processor.TableColumnTagProcessor;
+import org.swixml.processor.TableChildTagProcessor;
 
 /**
  * The SwingTagLibrary contains Factories for all Swing Objects that can be
@@ -112,7 +112,11 @@ public final class SwingTagLibrary extends TagLibrary
 		registerTag("TextPane", JTextPane.class);
 		registerTag("ToggleButton", JToggleButton.class);
 		registerTag("Toolbar", JToolBar.class);
+		
 		// LET'S INTRODUCE (JSR295) BINDING AND (JSR296) ACTION SUPPORT
+		
+		// REPLACE TAGS
+		
 		// registerTag( "List", JList.class );
 		registerTag("List", JListBind.class);
 		// registerTag( "ComboBox", JComboBox.class );
@@ -124,7 +128,7 @@ public final class SwingTagLibrary extends TagLibrary
 		// registerTag( "TextArea", JTextArea.class );
 		registerTag("TextArea", JTextAreaBind.class);
 		// registerTag( "Table", JTable.class );
-		registerTag("Table", JTableBind.class, new TableColumnTagProcessor());
+		registerTag("Table", JTableBind.class, new TableChildTagProcessor());
 		// registerTag( "Label", JLabel.class );
 		registerTag("Label", JLabelBind.class);
 		// registerTag( "Tree", JTree.class );
@@ -138,7 +142,9 @@ public final class SwingTagLibrary extends TagLibrary
 		registerTag("Spinner.Date", JSpinnerBind.Date.class);
 		// registerTag( "Slider", JSlider.class );
 		registerTag("Slider", JSliderBind.class);
+		
 		// NEW TAGs
+		
 		registerTag("box.glue", new BoxFactory(Type.GLUE, getSwingEngine()));
 		registerTag("box.hglue", new BoxFactory(Type.HGLUE, getSwingEngine()));
 		registerTag("box.vglue", new BoxFactory(Type.VGLUE, getSwingEngine()));
@@ -147,11 +153,12 @@ public final class SwingTagLibrary extends TagLibrary
 		registerTag("box.rigidarea", new BoxFactory(Type.RIGIDAREA, getSwingEngine()));
 		registerTag("vgapbox", BoxFactory.VGapBox.class);
 		registerTag("hgapbox", BoxFactory.HGapBox.class);
-		// registerTag( "HBox", XHBox.class );
-		registerTag("VBox", BoxFactory.VGapBox.class);
 		// registerTag( "VBox", XVBox.class );
+		registerTag("VBox", BoxFactory.VGapBox.class);
+		// registerTag( "HBox", XHBox.class );
 		registerTag("HBox", BoxFactory.HGapBox.class);
 		registerTag("tableColumn", TableColumnBind.class);
+		
 		ServiceLoader<TagLibraryService> loader = ServiceLoader.load(TagLibraryService.class);
 		if ( loader == null )
 			return;
