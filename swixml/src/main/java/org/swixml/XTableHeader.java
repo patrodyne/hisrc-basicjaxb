@@ -1,7 +1,5 @@
 package org.swixml;
 
-import static java.lang.System.identityHashCode;
-
 import java.awt.Color;
 import java.awt.Font;
 
@@ -26,14 +24,12 @@ public class XTableHeader extends JTableHeader
 	public void setBackground(Color bg)
 	{
 		super.setBackground(bg);
-		System.out.println("OUT: XTableHeader Background.: " + identityHashCode(this) + "; "+ bg);
 	}
 	
 	@Override
 	public void setFont(Font font)
 	{
 		super.setFont(font);
-		System.out.println("OUT: XTableHeader Font.......: "  + identityHashCode(this) + "; "+ font);
 	}
 	
 //	private static final DefaultTableCellRenderer head_render = new DefaultTableCellRenderer(); 

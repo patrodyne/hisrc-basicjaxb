@@ -1,6 +1,12 @@
-import javax.swing.*;
-import javax.swing.table.*;
-import java.awt.*;
+import java.awt.Color;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 public class SetColumnHeader
 {
@@ -27,9 +33,6 @@ public class SetColumnHeader
 		
 		JTableHeader header = table.getTableHeader();
 		header.setBackground(Color.yellow);
-		
-		TableColumnModel cm1 = header.getColumnModel();
-		TableColumnModel cm2 = table.getColumnModel();
 		
 		JScrollPane pane = new JScrollPane(table);
 		panel.add(pane);

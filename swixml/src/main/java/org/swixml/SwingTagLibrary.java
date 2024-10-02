@@ -112,7 +112,7 @@ public final class SwingTagLibrary extends TagLibrary
 		registerTag("TextPane", JTextPane.class);
 		registerTag("ToggleButton", JToggleButton.class);
 		registerTag("Toolbar", JToolBar.class);
-		
+
 		// LET'S INTRODUCE (JSR295) BINDING AND (JSR296) ACTION SUPPORT
 		
 		// REPLACE TAGS

@@ -11,6 +11,7 @@
 	alwaysOnTop="true"
 	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
 	modal="false"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
 >
 	<vbox gap="20">
 	

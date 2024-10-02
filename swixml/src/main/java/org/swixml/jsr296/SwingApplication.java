@@ -79,23 +79,6 @@ public abstract class SwingApplication<T extends Window>
 	}
 	
 	/**
-	 * Create a {@link SwingEngine} for the given container.
-	 * 
-	 * @param container A target container.
-	 * @param fontSize The default fontSize.
-	 * 
-	 * @return A @link SwingEngine} instance with injected fields.
-	 * 
-	 * @apiNote {@code <T>} The container type.
-	 */
-	protected SwingEngine<T> createEngine(T container, Integer fontSize)
-	{ 
-		SwingEngine<T> engine = createEngine(container);
-		engine.getELMethods().resetFontSize(fontSize);
-		return engine;
-	}
-
-	/**
 	 * Start the parsing of the inferred XML file.
 	 * 
 	 * <p>The resource is located using the following convention:</p>

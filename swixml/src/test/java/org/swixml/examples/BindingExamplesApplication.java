@@ -19,8 +19,7 @@ public class BindingExamplesApplication
 		try
 		{
 			// Create the SwingEngine, ElContext, etc.
-			setSwingEngine(createEngine(WINDOW, 24));
-
+			setSwingEngine(createEngine(WINDOW));
 			// Process other initial conditions.
 			// getELProcessor().setVariable("var", "expression");
 			// getELProcessor().setValue("expression", value);

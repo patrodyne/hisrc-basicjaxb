@@ -620,6 +620,7 @@
 			<xs:attribute name="undecorated" type="xs:boolean" />
 			<xs:attribute name="constraints" type="xs:string" />
 			<xs:attribute name="plaf" type="xs:string" />
+			<xs:attribute name="plafTheme" type="xs:string" />
 			<xs:attribute name="bundle" type="xs:string" />
 			<xs:attribute name="locale" type="xs:string" />
 			<xs:attribute name="id" type="xs:string" />
@@ -863,6 +864,7 @@
 			<xs:attribute name="undecorated" type="xs:boolean" />
 			<xs:attribute name="constraints" type="xs:string" />
 			<xs:attribute name="plaf" type="xs:string" />
+			<xs:attribute name="plafTheme" type="xs:string" />
 			<xs:attribute name="bundle" type="xs:string" />
 			<xs:attribute name="locale" type="xs:string" />
 			<xs:attribute name="id" type="xs:string" />
@@ -3238,7 +3240,7 @@
 			<xs:attribute name="selectionStart" type="xs:string" />
 		</xs:complexType>
 	</xs:element>
-
+	
 	<xs:element name="titledseparator">
 		<xs:complexType mixed="true">
 			<xs:sequence minOccurs="0" maxOccurs="unbounded">

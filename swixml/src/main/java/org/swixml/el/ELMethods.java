@@ -1,11 +1,14 @@
 package org.swixml.el;
 
+import static java.lang.Math.round;
+import static java.lang.Math.toIntExact;
+import static java.lang.String.format;
 import static javax.swing.UIManager.getDefaults;
 import static javax.swing.UIManager.getLookAndFeelDefaults;
+import static org.jvnet.basicjaxb.lang.StringUtils.isBlank;
 import static org.swixml.Parser.ELVAR_DOM_ATTRIBUTE;
 import static org.swixml.Parser.ELVAR_DOM_ELEMENT;
 import static org.swixml.converters.DimensionConverter.isZero;
-import static org.swixml.converters.FontConverter.encode;
 import static org.swixml.jsr295.BindingUtils.isELPattern;
 
 import java.awt.Container;
@@ -17,9 +20,6 @@ import java.awt.Window;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
 
 import org.swixml.SwingEngine;
 import org.swixml.converters.DimensionConverter;
@@ -44,7 +44,7 @@ import jakarta.el.VariableMapper;
 public class ELMethods<T extends Container>
 {
 	// Represents the font to use as the default font.
-	private static final String DEFAULT_FONT = "Panel.font";
+	private static final String DEFAULT_FONT = "Default.font";
 	
 	// Represents the widest, average and thinest letters in the alphabet.
 	public static final String WIDEST_LETTER = "W";
@@ -88,7 +88,7 @@ public class ELMethods<T extends Container>
 			// This table is monitored by the custom LAF (using PropertyChangeListener)
 			// and the LAF updates its internal default values. The LAF uses these
 			// internal values for UI and doesn't refer back to get the values
-			// from UIManager. 
+			// from UIManager.
 			defaultFont = getDefaults().getFont(DEFAULT_FONT);
 			if ( defaultFont == null )
 			{
@@ -150,44 +150,10 @@ public class ELMethods<T extends Container>
 	{
 		Font font = null;
 		if ( fontSpec != null )
-			font = FontConverter.convert(fontSpec, fontSize());
+			font = FontConverter.convert(fontSpec, parentFont());
 		else
 			font = currentFont();
 		return getFontMetrics(font);
-	}
-
-	/**
-	 * Determine the current font as either an EL variable reference or
-	 * the UI default font.
-	 * 
-	 * @return the current or default font.
-	 */
-	public Font currentFont()
-	{
-		Font currentFont = getDefaultFont();
-		int defaultFontSize = currentFont.getSize();
-		Element domElement = resolveVariable(ELVAR_DOM_ELEMENT, Element.class);
-		if ( domElement != null )
-		{
-			Element element = domElement;
-			do
-			{
-				String fontSpec = element.getAttribute("font");
-				if ( !fontSpec.isBlank() )
-				{
-					Font font = FontConverter.convert(fontSpec, defaultFontSize);
-					if ( font != null )
-					{
-						currentFont = font;
-						element = null;
-					}
-				}
-				else
-					element = parentElement(element);
-				
-			} while ( element != null );
-		}
-		return currentFont;
 	}
 	
 	private Element parentElement(Element element)
@@ -197,6 +163,131 @@ public class ELMethods<T extends Container>
 		else
 			element = null;
 		return element;
+	}
+	
+	private Map<Element, Font> fontMap;
+	public Map<Element, Font> getFontMap()
+	{
+		if ( fontMap == null )
+			setFontMap(new HashMap<>());
+		return fontMap;
+	}
+	public void setFontMap(Map<Element, Font> fontMap)
+	{
+		this.fontMap = fontMap;
+	}
+
+	/**
+	 * Determine the parent font from the fontMap cache.
+	 * 
+	 * @return the parent or default font.
+	 */
+	public Font parentFont()
+	{
+		Element domElement = resolveVariable(ELVAR_DOM_ELEMENT, Element.class);
+		return parentFont(domElement);
+	}
+
+	/**
+	 * Determine the parent font from the fontMap cache
+	 * and the given DOM element.
+	 * 
+	 * @param domElement A DOM element.
+	 * 
+	 * @return the parent or default font.
+	 */
+	private Font parentFont(Element domElement)
+	{
+		Font parentFont = getDefaultFont();
+		if ( domElement != null )
+		{
+			Element element = parentElement(domElement);
+			while ( element != null )
+			{
+				if ( getFontMap().containsKey(element) )
+				{
+					parentFont = getFontMap().get(element);
+					element = null;
+				}
+				else
+					element = parentElement(element);
+				
+			};
+		}
+		return parentFont;
+	}
+	
+	/**
+	 * Determine the current font as either an EL variable reference or
+	 * the UI default font.
+	 * 
+	 * @return the current or default font.
+	 */
+	public Font currentFont()
+	{
+		Font currentFont = getDefaultFont();
+		Element domElement = resolveVariable(ELVAR_DOM_ELEMENT, Element.class);
+		if ( domElement != null )
+		{
+			if ( getFontMap().containsKey(domElement) )
+				currentFont = getFontMap().get(domElement);
+			else
+			{
+				Font parentFont = parentFont(domElement);
+				String fontSpec = domElement.getAttribute("font");
+				if ( !isBlank(fontSpec) )
+				{
+					Font font = FontConverter.convert(fontSpec, parentFont);
+					if ( font != null )
+						currentFont = font;
+				}
+				else
+					currentFont = parentFont;
+				getFontMap().put(domElement, currentFont);
+			}
+		}
+		return currentFont;
+	}
+	
+	/**
+	 * Encode a font name and font style and the current font size into
+	 * the {@link FontConverter} format and convert to a {@link Font}.
+	 * 
+	 * @param name The font name ("Monospaced", "SansSerif", "Serif", "Dialog", etc).
+	 * @param style The font style ("PLAIN", "BOLD", "ITALIC", "BOLDITALIC")
+	 * 
+	 * @return The {@link FontConverter} representation.
+	 */
+	public Font font(String name, String style)
+	{
+		return font(format("%s-%s-%s", name, style, "*"));
+	}
+	
+	/**
+	 * Encode a font name, font style and font size into
+	 * the {@link FontConverter} format and convert to a {@link Font}.
+	 * 
+	 * @param name The font name ("Monospaced", "SansSerif", "Serif", "Dialog", etc).
+	 * @param style The font style ("PLAIN", "BOLD", "ITALIC", "BOLDITALIC")
+	 * @param size The font size (in points).
+	 * 
+	 * @return The {@link FontConverter} representation.
+	 */
+	public Font font(String name, String style, int size)
+	{
+		return font(format("%s-%s-%02d", name, style, size));
+	}
+	
+	private Font font(String fontSpec)
+	{
+		Font font = FontConverter.convert(fontSpec, parentFont());
+		Element domElement = resolveVariable(ELVAR_DOM_ELEMENT, Element.class);
+		if ( domElement != null )
+		{
+			if ( !getFontMap().containsKey(domElement) )
+				getFontMap().put(domElement, font);
+		}
+		return font;
 	}
 	
 	/**
@@ -210,7 +301,11 @@ public class ELMethods<T extends Container>
 	{
 		return getFontMetrics(fontSpec).getHeight();
 	}
-
+	private int fontHeight(Font font)
+	{
+		return getFontMetrics(font).getHeight();
+	}
+	
 	/**
 	 * Gets the standard height of a line of text in the current font.
 	 * 
@@ -218,7 +313,7 @@ public class ELMethods<T extends Container>
 	 */
 	public int fontHeight()
 	{
-		return fontHeight(null);
+		return fontHeight((String) null);
 	}
 	
 	/**
@@ -227,29 +322,6 @@ public class ELMethods<T extends Container>
 	public Integer fontSize()
 	{
 		return currentFont().getSize();
-	}
-	
-	/**
-	 * Reset the font size of all UI {@link FontUIResource}s
-	 * 
-	 * @param fontSize The new font size.
-	 */
-	public void resetFontSize(Integer fontSize)
-	{
-		if ( fontSize != null )
-		{
-			for (Map.Entry<Object, Object> entry : getDefaults().entrySet())
-			{
-			    Object key = entry.getKey();
-			    Object value = UIManager.get(key);
-			    if ( value instanceof FontUIResource )
-			    {
-			        FontUIResource fr1= (FontUIResource) value;
-			        FontUIResource fr2= new FontUIResource(fr1.getFamily(), fr1.getStyle(), fontSize);
-			        getDefaults().put(key, fr2);
-			    }
-			}
-		}
 	}
 	
 	/**
@@ -278,6 +350,12 @@ public class ELMethods<T extends Container>
 			text = AVERAGE_LETTER;
 		return getFontMetrics(fontSpec).stringWidth(text);
 	}
+	private int fieldWidth(Font font, String text)
+	{
+		if ( (text == null) || text.isBlank() )
+			text = AVERAGE_LETTER;
+		return getFontMetrics(font).stringWidth(text);
+	}
 	
 	/**
 	 * Gets the standard width (pixels) of a text field in the current font. 
@@ -288,19 +366,23 @@ public class ELMethods<T extends Container>
 	 */
 	public int fieldWidth(String text)
 	{
-		return fieldWidth(null, text);
+		return fieldWidth((String) null, text);
 	}
 	
 	/**
 	 * Gets the repeated width of a text field in the given or current font. 
 	 * 
-	 * @param font The font to use or null to use the current font.
+	 * @param fontSpec The font to use or null to use the current font.
 	 * @param text The text to determine the length for.
 	 * @param repeat The number of times to repeat the single width.
 	 * 
 	 * @return The repeated width (pixels) of a text field in the given or current font.
 	 */
-	public int fieldWidth(String font, String text, int repeat)
+	public int fieldWidth(String fontSpec, String text, int repeat)
+	{
+		return fieldWidth(fontSpec, text) * repeat;
+	}
+	private int fieldWidth(Font font, String text, int repeat)
 	{
 		return fieldWidth(font, text) * repeat;
 	}
@@ -320,7 +402,7 @@ public class ELMethods<T extends Container>
 	public int fieldWidth(String text, int repeat)
 	{
 		if ( (text != null) && (text.length() == 1) ) 
-			return fieldWidth(null, text, repeat);
+			return fieldWidth((String) null, text, repeat);
 		else
 			return fieldWidth(text, AVERAGE_LETTER, repeat);
 	}
@@ -399,20 +481,34 @@ public class ELMethods<T extends Container>
 		int height = rows * ( fontHeight(fontSpec) + rowgap);
 		return size(width, height);
 	}
-
+	private Dimension pageSize(Font font, int cols, int rows, int rowgap, String text)
+	{
+		int width = fieldWidth(font, text, cols);
+		int height = rows * ( fontHeight(font) + rowgap);
+		return size(width, height);
+	}
+	
 	public Dimension pageSize(String fontSpec, int cols, int rows, int rowgap)
 	{
 		return pageSize(fontSpec, cols, rows, rowgap, AVERAGE_LETTER);
 	}
-
+	private Dimension pageSize(Font font, int cols, int rows, int rowgap)
+	{
+		return pageSize(font, cols, rows, rowgap, AVERAGE_LETTER);
+	}
+	
 	public Dimension pageSize(String fontSpec, int cols, int rows)
 	{
 		return pageSize(fontSpec, cols, rows, 0);
 	}
-
+	private Dimension pageSize(Font font, int cols, int rows)
+	{
+		return pageSize(font, cols, rows, 0);
+	}
+	
 	public Dimension pageSize(int cols, int rows)
 	{
-		return pageSize(encode(currentFont()), cols, rows, 0);
+		return pageSize(currentFont(), cols, rows);
 	}
 	
 	public Dimension scaleSize(double widthScale, double heightScale)
@@ -496,7 +592,7 @@ public class ELMethods<T extends Container>
 	
 	public int scale(int minValue, int maxValue, double scale)
 	{
-		Long value = Math.round( scale * (maxValue - minValue) );
-		return Math.toIntExact(value);
+		Long value = round( scale * (maxValue - minValue) );
+		return minValue + toIntExact(value);
 	}
 }

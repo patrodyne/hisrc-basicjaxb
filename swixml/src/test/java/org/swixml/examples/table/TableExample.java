@@ -11,7 +11,6 @@ import jakarta.el.ELException;
 public class TableExample extends SwingApplication<TableDialog>
 {
 	private static final String SWIXML_SOURCE = "org/swixml/examples/table/TableDialog.xml";
-
 	private static final TableDialog WINDOW = new TableDialog();
 
 	@Override
@@ -22,7 +21,7 @@ public class TableExample extends SwingApplication<TableDialog>
 		try
 		{
 			// Create the SwingEngine, ElContext, etc.
-			setSwingEngine(createEngine(WINDOW, 24));
+			setSwingEngine(createEngine(WINDOW));
 			
 			// Process other initial conditions.
 			// getELProcessor().setVariable("var", "expression");

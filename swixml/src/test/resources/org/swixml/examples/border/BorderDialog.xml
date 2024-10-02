@@ -4,29 +4,40 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
-	name="mainframe" minimumSize="740,600" title="Fun with SWIXML - Layouts" defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
+	name="mainframe"
+	minimumSize="740,600"
+	title="Fun with SWIXML - Layouts"
+	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
 >
   <desktoppane>
 
-    <internalframe title="TitledBorder" bounds="10,10,150,450" visible="true" resizable="true">
-      
+    <internalframe
+    	title="TitledBorder"
+    	bounds="10,10,150,450"
+    	visible="true"
+    	resizable="true"
+    >
       <vbox>
       <panel border="TitledBorder(Simple)"><button>1</button></panel>
       <panel border="TitledBorder(Simple, CENTER)"><button>1</button></panel>
       <panel border="TitledBorder(Simple, RIGHT)"><button>1</button></panel>
       <panel border="TitledBorder(Simple, CENTER, BOTTOM)"><button>1</button></panel>
       </vbox>
-      
     </internalframe>
 
-    <internalframe title="LineBorder" bounds="200,10,150,450" layout="GridLayout(2,2)" visible="true" resizable="true">
-
+    <internalframe
+    	title="LineBorder"
+    	bounds="200,10,150,450"
+    	layout="GridLayout(2,2)"
+    	visible="true"
+    	resizable="true"
+    >
       <vbox gap="2">
       <panel border="LineBorder"><button>1</button></panel>
       <panel border="LineBorder(red)"><button>1</button></panel>
       <panel border="LineBorder(green, 3)"><button>1</button></panel>
       </vbox>
-
     </internalframe>
 
     <!--

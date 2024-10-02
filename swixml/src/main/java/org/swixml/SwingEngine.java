@@ -5,6 +5,7 @@ import static org.swixml.dom.DOMUtil.getDocumentBuilder;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionListener;
@@ -33,6 +34,8 @@ import javax.swing.AbstractButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
 
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
@@ -278,7 +281,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	{
 		return getELManager().getELContext();
 	}
-
+	
 	/**
 	 * Default constructor for a SwingEngine.
 	 */
@@ -290,20 +293,23 @@ public class SwingEngine<T extends Container> implements LogAware
 			setLocalizer(new LocalizerDefaultImpl());
 		getLocalizer().setResourceBundle(SwingEngine.default_resource_bundle_name);
 		setLocale(SwingEngine.default_locale);
+		
+		FontUIResource fontUIR = new FontUIResource(new Font("Dialog", Font.PLAIN, 12));
+		UIManager.getDefaults().put("Default.font", fontUIR);
 	}
-
+	
 	/**
 	 * Constructor to be used if the SwingEngine is not extend but used through
 	 * object composition.
 	 *
-	 * @param client <code>Object</code> owner of this instance
+	 * @param client <code>Container</code> owner of this instance
 	 */
 	public SwingEngine(T client)
 	{
 		this();
 		setClient(client);
 	}
-
+	
 	/**
 	 * Gets the parsing of the XML started.
 	 *
@@ -419,6 +425,7 @@ public class SwingEngine<T extends Container> implements LogAware
 		idmap.clear();
 		try
 		{
+			// Parse Document into the client window or alone.
 			if ( getClient() != null )
 			{
 				parser.parse(jdoc, getClient());

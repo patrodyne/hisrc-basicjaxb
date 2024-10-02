@@ -6,22 +6,27 @@
 
     size="${el.pageSize(80,25)}"
     preferredSize="${el.size()}"
-	resizable="true" 
+	resizable="true"
 	title="Example Table usage" 
 	undecorated="false" 
 	alwaysOnTop="true"
 	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE" 
 	modal="false"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(330,2.0)"
 >
 	<!-- 
-    size="900,600"
-	plaf="javax.swing.plaf.gtk.GTKLookAndFeel"
+	plafTheme="org.swixml.plaf.basic.MatteBasicTheme(330,2.0)"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(330,2.0)"
+	plaf="javax.swing.plaf.basic.BasicLookAndFeel"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
-	plaf="javax.swing.plaf.motif.MotifLookAndFeel"
 	plaf="javax.swing.plaf.nimbus.NimbusLookAndFeel"
+	plaf="javax.swing.plaf.synth.SynthLookAndFeel"
 	plaf="javax.swing.plaf.windows.WindowsLookAndFeel"
+	plaf="com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
+	plaf="com.sun.java.swing.plaf.motif.MotifLookAndFeel"
 	-->
+	
 	<panel
 		layout="BorderLayout"
     	size="${el.size()}"
@@ -29,6 +34,7 @@
 		<splitpane
 			constraints="BorderLayout.CENTER"
 			orientation="JSplitPane.VERTICAL_SPLIT"
+			oneTouchExpandable="true"
 	    	size="${el.size()}"
 		>
 			<panel
@@ -74,11 +80,13 @@
 					</table>
 				</scrollpane>
 			</panel>
-			<panel layout="BorderLayout" >
+			<panel
+				layout="BorderLayout"
+			>
 				<label
 					constraints="BorderLayout.NORTH"
 					text="Table using new sub-tag tableColumn"
-					font="SansSerif-BOLD"
+					font="Serif-BOLDITALIC"
 				/>
 				<scrollpane
 					constraints="BorderLayout.CENTER"
@@ -94,14 +102,14 @@
 						selectionBackground="RED"
 						bindList="${window.myData2}"
 						autoResizeMode="0"
-						font="Monospaced-PLAIN"
+						font="${el.font('Monospaced','PLAIN')}"
 						rowHeight="${el.fieldHeight(10)}"
 						background="${color:hsb(240/360,0.2,1.0)}"
 					>
 						<tableheader
 							id="tableHeader2"
 							opaque="false"
-							font="Monospaced-BOLD"
+							font="${el.font('*','BOLD')}"
 							background="${color:hsb(240/360,0.4,1.0)}"
 						/>
 						<tablecolumn
@@ -125,6 +133,13 @@
 							preferredWidth="${el.scale(this.minWidth, this.maxWidth, 0.80)}"
 							editable="true"
 							resizable="true"
+						/>
+						<tablecolumn
+							bindWith="field4"
+							maxWidth="600"
+							preferredWidth="600"
+							editable="true"
+							resizable="false"
 						/>
 					</table>
 				</scrollpane>

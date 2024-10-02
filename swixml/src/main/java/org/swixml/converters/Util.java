@@ -107,6 +107,57 @@ public final class Util
 		System.arraycopy(a, 0, b, 0, i);
 		return b;
 	}
+	
+	/**
+	 * Returns the remaining tokens of a StringTokenizer in a float-Array
+	 * 
+	 * @param st <code>StringTokenizer</code>
+	 * @return <code>float[]</code> array containing the remaining tokens
+	 *         converted into float(s)
+	 */
+	public static float[] fa(StringTokenizer st)
+	{
+		int size = st != null ? st.countTokens() : 0;
+		float[] a = new float[size];
+		int i = 0;
+		while (st != null && st.hasMoreTokens())
+		{
+			try
+			{
+				a[i] = Float.parseFloat(st.nextToken().trim());
+				i++;
+			}
+			catch (NumberFormatException e)
+			{
+				// no exception handling required
+			}
+		}
+		float[] b = new float[i];
+		System.arraycopy(a, 0, b, 0, i);
+		return b;
+	}
+
+	/**
+	 * Returns the remaining tokens of a StringTokenizer in a String-Array
+	 * 
+	 * @param st <code>StringTokenizer</code>
+	 * @return <code>String[]</code> array containing the remaining tokens
+	 *         converted into String(s)
+	 */
+	public static String[] sa(StringTokenizer st)
+	{
+		int size = st != null ? st.countTokens() : 0;
+		String[] a = new String[size];
+		int i = 0;
+		while (st != null && st.hasMoreTokens())
+		{
+			a[i] = st.nextToken().trim();
+			i++;
+		}
+		String[] b = new String[i];
+		System.arraycopy(a, 0, b, 0, i);
+		return b;
+	}
 
 	/**
 	 * Return a capitalized version of the specified property name.

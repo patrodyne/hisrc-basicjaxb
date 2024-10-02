@@ -32,6 +32,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.RootPaneContainer;
 import javax.swing.UIManager;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.MetalTheme;
 
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.ELProperty;
@@ -39,6 +41,7 @@ import org.jdesktop.beansbinding.PropertyResolutionException;
 import org.swixml.annotation.SchemaAware;
 import org.swixml.converters.LocaleConverter;
 import org.swixml.converters.PrimitiveConverter;
+import org.swixml.converters.Util;
 import org.swixml.dom.Attribute;
 import org.swixml.dom.DOMUtil;
 import org.w3c.dom.Attr;
@@ -92,6 +95,12 @@ public class Parser implements LogAware
 	 */
 	@SchemaAware
 	public static final String ATTR_PLAF = "plaf";
+	
+	/**
+	 * Additional attribute to collect information about the PLAF theme implementation
+	 */
+	@SchemaAware
+	public static final String ATTR_PLAF_THEME = "plafTheme";
 	
 	/**
 	 * Additional attribute to collect layout constrain information
@@ -305,7 +314,10 @@ public class Parser implements LogAware
 		this.jdoc = jdoc;
 		this.lbl_map.clear();
 		this.mac_map.clear();
-		Object result = getSwing(processCustomAttributes(jdoc.getDocumentElement()), container);
+		
+		Element element = processCustomAttributes(jdoc.getDocumentElement());
+		Object result = getSwing(element, container);
+		
 		linkLabels();
 		supportMacOS();
 		this.lbl_map.clear();
@@ -354,7 +366,51 @@ public class Parser implements LogAware
 		{
 			try
 			{
-				UIManager.setLookAndFeel(plaf.getValue());
+				String plafClassName = plaf.getValue();
+				// Set Theme before LAF!
+				if ( MetalLookAndFeel.class.getName().equals(plafClassName) )
+				{
+					Attr plafTheme = element.getAttributeNode(Parser.ATTR_PLAF_THEME);
+					if ( plafTheme != null && plafTheme.getValue() != null && 0 < plafTheme.getValue().length() )
+					{
+						try
+						{
+							StringTokenizer plafThemeTokens = new StringTokenizer(plafTheme.getValue(), "(,)");
+							String plafThemeClassName = plafThemeTokens.nextToken(); 
+
+							Class<?> plafThemeClass = getClass().getClassLoader()
+								.loadClass(plafThemeClassName);
+							
+							Object[] plafThemeArgs = Util.sa(plafThemeTokens);
+							
+							Object theme = null;
+							if ( plafThemeArgs.length > 0 )
+							{
+								Class<?>[] argTypes = new Class<?>[plafThemeArgs.length];
+								for ( int index=0; index < argTypes.length; ++index )
+									argTypes[index] = String.class;
+								theme = plafThemeClass.getConstructor(argTypes).newInstance(plafThemeArgs);
+							}
+							else
+								theme = plafThemeClass.getConstructor().newInstance();
+							
+							if ( theme instanceof MetalTheme )
+								MetalLookAndFeel.setCurrentTheme((MetalTheme) theme);
+						}
+						catch (Exception ex)
+						{
+							if ( SwingEngine.DEBUG_MODE )
+								logger.error("processCustomAttributes", ex);
+						}
+						element.removeAttribute(Parser.ATTR_PLAF_THEME);
+					}
+				}
+				
+				// Load the LAF for the given class name.
+				UIManager.setLookAndFeel(plafClassName);
+				
+				// Reset the EL methods font cache.
+				getSwingEngine().getELMethods().getFontMap().clear();
 			}
 			catch (Exception e)
 			{
@@ -759,8 +815,7 @@ public class Parser implements LogAware
 	 * <li>Try to find a public field: <code>container.BOTTOM_ALIGNMENT</code></li>
 	 * </ol>
 	 * 
-	 * @param obj <code>Object</code> object representing a tag found in the
-	 *            SWIXML descriptor document
+	 * @param tag <code>Object</code> object representing a tag found in the SWIXML descriptor document
 	 * @param factory <code>Factory</code> factory to instantiate a new object
 	 * @param attributes <code>List</code> attribute list
 	 * 
@@ -768,8 +823,7 @@ public class Parser implements LogAware
 	 * 
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
-	private List<Attribute> applyAttributes(Object obj, Factory factory, List<Attribute> attributes)
+	private List<Attribute> applyAttributes(Object tag, Factory factory, List<Attribute> attributes)
 		throws Exception
 	{
 		//
@@ -791,277 +845,344 @@ public class Parser implements LogAware
 		//
 		// pass 2: process the attributes
 		//
-		
-		// remember not applied attributes
-		final List<Attribute> notAppliedAttrList = new ArrayList<Attribute>(attributes.size()); 
 
-		// used to insert an action into the macmap
-		Action action = null; 
-		Attribute attr_id = null;
-		Attribute attr_name = null;
+		// Prioritize attributes for EL processing, etc..
+		prioritize(attributes);
+
+		// reference the EL context and processor.
+		ELContext elContext = getSwingEngine().getELContext();
+		ELProcessor elProcessor = getSwingEngine().getELProcessor();
 		
-		// Prioritize size.
-		Attribute attr_size = null;
+		// Set up the EL processor for this tag.
+		elProcessor.defineBean("this", tag);
+		
+		// Create an ApplyAttribute to store loop-wide results.
+		ApplyAttribute aa = new ApplyAttribute();
 		for ( Attribute attr : attributes )
 		{
-			if ( "size".equalsIgnoreCase(attr.getLocalName()) )
+			// Set up the EL context for this attribute.
+			Attr domAttribute = attr.getDomAttribute();
+			if ( domAttribute != null )
 			{
-				attr_size = attr;
-				break;
-			}
-		}
-		if ( attr_size != null )
-		{
-			attributes.remove(attr_size);
-			attributes.add(0, attr_size);
-		}
-		
-		for ( Attribute attr : attributes )
-		{
-			// loop through all available attributes
-			if ( Parser.ATTR_ID.equals(attr.getLocalName()) )
-			{
-				attr_id = attr;
-				continue;
-			}
-			if ( "name".equals(attr.getLocalName()) )
-				attr_name = attr;
-			if ( Parser.ATTR_REFID.equals(attr.getLocalName()) )
-				continue;
-			if ( Parser.ATTR_USE.equals(attr.getLocalName()) )
-				continue;
-			if ( action != null && attr.getLocalName().startsWith(Parser.ATTR_MACOS_PREFIX) )
-			{
-				mac_map.put(attr.getLocalName(), action);
-				continue;
-			}
-			if ( JLabel.class.isAssignableFrom(obj.getClass()) && attr.getLocalName().equalsIgnoreCase("LabelFor") )
-			{
-				lbl_map.put((JLabel) obj, attr.getValue());
-				continue;
-			}
-			
-			// Method method = null;
-			Object para = null;
-			
-			/////////////////////////
-			if ( isELVariable(attr) )
-			{
-				try
-				{
-					try
-					{
-						ELContext elContext = getSwingEngine().getELContext();
-						ELProcessor elProcessor = getSwingEngine().getELProcessor();
-						
-						// Set an EL variable to reference the current DOM element.
-						Attr domAttribute = attr.getDomAttribute();
-						setVariable(elContext, ELVAR_DOM_ATTRIBUTE, domAttribute);
-						setVariable(elContext, ELVAR_DOM_ELEMENT, domAttribute.getOwnerElement());
-						elProcessor.defineBean("this", obj);
-						
-						ELProperty<Object, Object> elp = create(elContext, attr.getValue());
-						para = elp.getValue(getSwingEngine().getClient());
-						
-						elProcessor.defineBean("this", null);
-						unsetVariable(elContext, ELVAR_DOM_ELEMENT);
-						unsetVariable(elContext, ELVAR_DOM_ATTRIBUTE);
-					}
-					catch ( UnsupportedOperationException ex )
-					{
-						logger.warn("property " + attr.getValue() + " is not readable!");
-						continue;
-					}
-					
-					if ( null != para )
-					{
-						BeanProperty<Object, Object> bp = BeanProperty.create(attr.getLocalName());
-						if ( bp.isWriteable(obj) )
-						{
-							// factory.setSimpleProperty(obj, attr.getLocalName(), para);
-							bp.setValue(obj, para);
-						}
-						else
-							logger.warn("property " + attr.getLocalName() + " is not writable!");
-						
-						continue;
-					}
-					else
-						logger.warn("value of " + attr.getLocalName() + "=" + attr.getValue() + " is null! ignored!");
-				}
-				catch (PropertyResolutionException ex)
-				{
-					logger.warn("EL variable " + attr.getValue() + " doesn't exist!", ex);
-					continue;
-				}
-			}
-			
-			////////////////////////
-			Class<?>[] paraTypes = factory.getPropertyType(obj, attr.getLocalName());
-			if ( null != paraTypes )
-			{
-				@SuppressWarnings("rawtypes")
-				Class paraType = paraTypes[0];
-				
-				// A setter method has successfully been identified.
-				Converter<?> converter = CVTLIB.getConverter(paraType);
-				
-				if ( converter != null )
-				{
-					// call setter with a newly instanced parameter
-					try
-					{
-						if ( null == para )
-							para = converter.convert(paraType, attr, getSwingEngine());
-						
-						if ( para instanceof Action )
-							action = (Action) para;
-						
-						// ATTR SET
-						factory.setProperty(obj, attr, para, paraType); 
-					}
-					catch (NoSuchFieldException e)
-					{
-						// useful for extra attributes
-						final String msg = String.format("property [%s] doesn't exist!", attr.getLocalName());
-						if ( logger.isDebugEnabled() )
-							logger.warn(msg, e);
-						else
-							logger.warn(msg);
-						notAppliedAttrList.add(attr);
-					}
-					catch (InvocationTargetException e)
-					{
-						Throwable cause = e.getCause();
-						if ( cause != null )
-						{
-							if ( logger.isDebugEnabled() )
-								logger.warn("exception during invocation of " + attr.getLocalName() + ": " + cause.getMessage());
-							else
-								logger.warn("exception during invocation of " + attr.getLocalName(),
-									cause);
-						}
-						//
-						// The JFrame class is slightly incompatible with Frame.
-						// Like all other JFC/Swing top-level containers, a
-						// JFrame contains a JRootPane as its only child.
-						// The content pane provided by the root pane should, as
-						// a rule, contain all the non-menu components
-						// displayed by the JFrame. The JFrame class is slightly
-						// incompatible with Frame.
-						//
-						if ( obj instanceof RootPaneContainer )
-						{
-							Container rootpane = ((RootPaneContainer) obj).getContentPane();
-							Factory f = getSwingEngine().getTaglib().getFactory(rootpane.getClass());
-							try
-							{
-								// ATTR SET
-								f.setProperty(rootpane, attr, para, paraType);
-							}
-							catch (Exception ex)
-							{
-								notAppliedAttrList.add(attr);
-							}
-						}
-						else
-							notAppliedAttrList.add(attr);
-					}
-					catch (Exception e)
-					{
-						throw new Exception(e + ":" + attr.getLocalName() + ":" + para, e);
-					}
-					continue;
-				}
-				
-				//
-				// try this: call the setter with an Object.class Type
-				//
-				if ( paraType.equals(Object.class) )
-				{
-					try
-					{
-						String s = attr.getValue();
-						if ( Parser.LOCALIZED_ATTRIBUTES.contains(attr.getLocalName().toLowerCase()) )
-							s = getSwingEngine().getLocalizer().getString(s);
-						
-						// ATTR SET
-						factory.setProperty(obj, attr, s, paraType);
-					}
-					catch (Exception e)
-					{
-						notAppliedAttrList.add(attr);
-					}
-					continue;
-				}
-				
-				//
-				// try this: call the setter with a primitive
-				//
-				if ( paraType.isPrimitive() )
-				{
-					try
-					{
-						// ATTR SET
-						factory.setProperty(obj, attr, PrimitiveConverter.conv(paraType, attr, getSwingEngine()), paraType);
-					}
-					catch (Exception e)
-					{
-						notAppliedAttrList.add(attr);
-					}
-					continue;
-				}
-				
-				//
-				// try again later
-				//
-				notAppliedAttrList.add(attr);
+				setVariable(elContext, ELVAR_DOM_ATTRIBUTE, domAttribute);
+				setVariable(elContext, ELVAR_DOM_ELEMENT, domAttribute.getOwnerElement());
 			}
 			else
+				logger.warn("Missing DOM attr: " + attr.getLocalName() +" = " + attr.getValue());
+			
+			// loop through all available attributes
+			applyAttribute(elContext, tag, factory, attr, aa);
+			
+			// Unset the EL context for this attribute.
+			unsetVariable(elContext, ELVAR_DOM_ELEMENT);
+			unsetVariable(elContext, ELVAR_DOM_ATTRIBUTE);
+		}
+		
+		// Unset the EL processor for this tag.
+		elProcessor.defineBean("this", null);
+		
+		if ( aa.attr_id != null && aa.attr_name == null )
+		{
+			// Originally created just the Attribute without the DOM Attr.
+			// Attribute nameAttribute = new Attribute("name", aa.attr_id.getValue());
+			
+			Document idDoc = aa.attr_id.getDomAttribute().getOwnerDocument();
+			Attr nameDomAttr = idDoc.createAttribute("name");
+			nameDomAttr.setValue(aa.attr_id.getValue());
+			Attribute nameAttribute = new Attribute(nameDomAttr);
+			
+			aa.notAppliedAttrList.add(nameAttribute);
+		}
+		
+		return aa.notAppliedAttrList;
+	}
+	
+	private void prioritize(List<Attribute> attributes)
+	{
+		Attribute attr_plaf = null;
+		Attribute attr_font = null, attr_size = null;
+		for ( Attribute attr : attributes )
+		{
+			if ( "plaf".equalsIgnoreCase(attr.getLocalName()) )
+				attr_plaf = attr;
+			else if ( "font".equalsIgnoreCase(attr.getLocalName()) )
+				attr_font = attr;
+			else if ( "size".equalsIgnoreCase(attr.getLocalName()) )
+				attr_size = attr;
+			if ( (attr_font != null) && (attr_size != null) )
+				break;
+		}
+		prioritize(attributes, attr_size);
+		prioritize(attributes, attr_font);
+		prioritize(attributes, attr_plaf);
+	}
+	
+	private void prioritize(List<Attribute> attributes, Attribute attr)
+	{
+		if ( attr != null )
+		{
+			attributes.remove(attr);
+			attributes.add(0, attr);
+		}
+	}
+	
+	private class ApplyAttribute
+	{
+		Attribute attr_id = null;
+		Attribute attr_name = null;
+		// remember not applied attributes
+		List<Attribute> notAppliedAttrList = new ArrayList<Attribute>(); 
+		// used to insert an action into the macmap
+		Action action = null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void applyAttribute(ELContext elContext, Object obj, Factory factory, Attribute attr, ApplyAttribute aa)
+		throws Exception
+	{
+		// loop through all available attributes
+		if ( ATTR_ID.equals(attr.getLocalName()) )
+		{
+			aa.attr_id = attr;
+			return;
+		}
+		
+		if ( ATTR_REFID.equals(attr.getLocalName()) )
+			return;
+		
+		if ( ATTR_USE.equals(attr.getLocalName()) )
+			return;
+		
+		if ( aa.action != null && attr.getLocalName().startsWith(ATTR_MACOS_PREFIX) )
+		{
+			mac_map.put(attr.getLocalName(), aa.action);
+			return;
+		}
+		
+		if ( JLabel.class.isAssignableFrom(obj.getClass()) && attr.getLocalName().equalsIgnoreCase("LabelFor") )
+		{
+			lbl_map.put((JLabel) obj, attr.getValue());
+			return;
+		}
+		
+		if ( "name".equals(attr.getLocalName()) )
+			aa.attr_name = attr;
+		
+		// The attribute property's parameter value.
+		Object para = null;
+		
+		/////////////////////////
+		// Check for an EL parameter
+		/////////////////////////
+		if ( isELVariable(attr) )
+		{
+			try
 			{
-				//
-				// Search for a public field in the obj.class that matches the
-				// attribute name
-				//
 				try
 				{
-					Field field = obj.getClass().getField(attr.getLocalName());
-					if ( field != null )
+					// Use EL to get the attribute property's parameter value.
+					ELProperty<Object, Object> elp = create(elContext, attr.getValue());
+					para = elp.getValue(getSwingEngine().getClient());
+				}
+				catch ( UnsupportedOperationException ex )
+				{
+					logger.warn("property " + attr.getValue() + " is not readable!");
+					return;
+				}
+				
+				if ( null != para )
+				{
+					BeanProperty<Object, Object> bp = BeanProperty.create(attr.getLocalName());
+					if ( bp.isWriteable(obj) )
 					{
-						Converter<?> converter = CVTLIB.getConverter(field.getType());
-						if ( converter != null )
-						{
-							@SuppressWarnings("rawtypes")
-							Class fieldType = field.getType();
-							//
-							// Localize Strings
-							//
-							Object fieldValue = converter.convert(fieldType, attr, getSwingEngine());
-							if ( String.class.equals(converter.convertsTo()) )
-							{
-								fieldValue = getSwingEngine().getLocalizer().getString((String) fieldValue);
-							}
-							field.set(obj, fieldValue); // ATTR SET
-						}
-						else
-							notAppliedAttrList.add(attr);
+						// factory.setSimpleProperty(obj, attr.getLocalName(), para);
+						bp.setValue(obj, para);
 					}
 					else
-						notAppliedAttrList.add(attr);
+						logger.warn("property " + attr.getLocalName() + " is not writable!");
+					
+					return;
+				}
+				else
+					logger.warn("value of " + attr.getLocalName() + "=" + attr.getValue() + " is null! ignored!");
+			}
+			catch (PropertyResolutionException ex)
+			{
+				logger.warn("EL variable " + attr.getValue() + " doesn't exist!", ex);
+				return;
+			}
+		}
+		
+		////////////////////////
+		// Not an EL parameter
+		////////////////////////
+		
+		Class<?>[] paraTypes = factory.getPropertyType(obj, attr.getLocalName());
+		if ( null != paraTypes )
+		{
+			@SuppressWarnings("rawtypes")
+			Class paraType = paraTypes[0];
+			
+			/////////////////////////
+			// A setter method has successfully been identified.
+			// Is there a SwingEngine data type converter.
+			/////////////////////////
+			Converter<?> converter = CVTLIB.getConverter(paraType);
+			if ( converter != null )
+			{
+				// call setter with a newly instanced parameter
+				try
+				{
+					if ( null == para )
+						para = converter.convert(paraType, attr, getSwingEngine());
+					
+					if ( para instanceof Action )
+						aa.action = (Action) para;
+					
+					// ATTR SET
+					factory.setProperty(obj, attr, para, paraType); 
+				}
+				catch (NoSuchFieldException e)
+				{
+					// useful for extra attributes
+					final String msg = String.format("property [%s] doesn't exist!", attr.getLocalName());
+					if ( logger.isDebugEnabled() )
+						logger.warn(msg, e);
+					else
+						logger.warn(msg);
+					aa.notAppliedAttrList.add(attr);
+				}
+				catch (InvocationTargetException e)
+				{
+					Throwable cause = e.getCause();
+					if ( cause != null )
+					{
+						if ( logger.isDebugEnabled() )
+							logger.warn("exception during invocation of " + attr.getLocalName() + ": " + cause.getMessage());
+						else
+							logger.warn("exception during invocation of " + attr.getLocalName(),
+								cause);
+					}
+					//
+					// The JFrame class is slightly incompatible with Frame.
+					// Like all other JFC/Swing top-level containers, a
+					// JFrame contains a JRootPane as its only child.
+					// The content pane provided by the root pane should, as
+					// a rule, contain all the non-menu components
+					// displayed by the JFrame.
+					//
+					if ( obj instanceof RootPaneContainer )
+					{
+						Container rootpane = ((RootPaneContainer) obj).getContentPane();
+						Factory rpFactory = getSwingEngine().getTaglib().getFactory(rootpane.getClass());
+						try
+						{
+							// ATTR SET
+							rpFactory.setProperty(rootpane, attr, para, paraType);
+						}
+						catch (Exception ex)
+						{
+							aa.notAppliedAttrList.add(attr);
+						}
+					}
+					else
+						aa.notAppliedAttrList.add(attr);
 				}
 				catch (Exception e)
 				{
-					notAppliedAttrList.add(attr);
+					throw new Exception(e + ":" + attr.getLocalName() + ":" + para, e);
 				}
+				return;
 			}
-		} // end_while
-		
-		if ( attr_id != null && attr_name == null )
-			notAppliedAttrList.add(new Attribute("name", attr_id.getValue()));
-		
-		return notAppliedAttrList;
-	}
+			
+			//////////////////////////////////////
+			// No SwingEngine data type converter.
+			//////////////////////////////////////
 
+			//
+			// try this: call the setter with an Object.class Type
+			//
+			if ( paraType.equals(Object.class) )
+			{
+				try
+				{
+					String s = attr.getValue();
+					if ( LOCALIZED_ATTRIBUTES.contains(attr.getLocalName().toLowerCase()) )
+						s = getSwingEngine().getLocalizer().getString(s);
+					
+					// ATTR SET
+					factory.setProperty(obj, attr, s, paraType);
+				}
+				catch (Exception e)
+				{
+					aa.notAppliedAttrList.add(attr);
+				}
+				return;
+			}
+			
+			//
+			// try this: call the setter with a primitive
+			//
+			if ( paraType.isPrimitive() )
+			{
+				try
+				{
+					// ATTR SET
+					factory.setProperty(obj, attr, PrimitiveConverter.conv(paraType, attr, getSwingEngine()), paraType);
+				}
+				catch (Exception e)
+				{
+					aa.notAppliedAttrList.add(attr);
+				}
+				return;
+			}
+			
+			//
+			// try again later
+			//
+			aa.notAppliedAttrList.add(attr);
+		}
+		else
+		{
+			//////////////////////////////////////////
+			// No parameter types; search for a field.
+			//////////////////////////////////////////
+			
+			// Search for a public field in the obj.class that matches the
+			// attribute name
+			try
+			{
+				Field field = obj.getClass().getField(attr.getLocalName());
+				if ( field != null )
+				{
+					Converter<?> converter = CVTLIB.getConverter(field.getType());
+					if ( converter != null )
+					{
+						@SuppressWarnings("rawtypes")
+						Class fieldType = field.getType();
+						//
+						// Localize Strings
+						//
+						Object fieldValue = converter.convert(fieldType, attr, getSwingEngine());
+						if ( String.class.equals(converter.convertsTo()) )
+							fieldValue = getSwingEngine().getLocalizer().getString((String) fieldValue);
+						
+						// ATTR SET
+						field.set(obj, fieldValue);
+					}
+					else
+						aa.notAppliedAttrList.add(attr);
+				}
+				else
+					aa.notAppliedAttrList.add(attr);
+			}
+			catch (Exception e)
+			{
+				aa.notAppliedAttrList.add(attr);
+			}
+		}
+	}
+	
 	private void setVariable(ELContext elContext, String name, Object value)
 	{
 		if ( value != null )
