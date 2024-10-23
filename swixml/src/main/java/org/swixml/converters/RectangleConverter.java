@@ -1,5 +1,8 @@
 package org.swixml.converters;
 
+import static java.lang.Math.toIntExact;
+
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.StringTokenizer;
 
@@ -38,29 +41,53 @@ public final class RectangleConverter extends AbstractConverter<Rectangle>
 	 */
 	@Override
 	public Rectangle convert(String value, Class<Rectangle> type, Attribute attr, SwingEngine<?> engine)
+		throws Exception
 	{
 		StringTokenizer st = new StringTokenizer(value, ",");
-		int x = 0;
-		int y = 0;
-		int width = 0;
-		int height = 0;
+		Dimension size = engine.getELMethods().currentSize();
+		
+		int ix = 0;
+		int iy = 0;
+		int iw = 0;
+		int ih = 0;
+		
 		if ( st.hasMoreTokens() )
 		{
-			x = Integer.parseInt(st.nextToken().trim());
+			String sx = st.nextToken().trim();
+			if ( sx.endsWith("%") )
+				ix = toIntExact(scaleByPercent(sx, size.getWidth()));
+			else
+				ix = Integer.parseInt(sx);
 		}
+		
 		if ( st.hasMoreTokens() )
 		{
-			y = Integer.parseInt(st.nextToken().trim());
+			String sy = st.nextToken().trim();
+			if ( sy.endsWith("%") )
+				iy = toIntExact(scaleByPercent(sy, size.getHeight()));
+			else
+				iy = Integer.parseInt(sy);
 		}
+		
 		if ( st.hasMoreTokens() )
 		{
-			width = Integer.parseInt(st.nextToken().trim());
+			String sw = st.nextToken().trim();
+			if ( sw.endsWith("%") )
+				iw = toIntExact(scaleByPercent(sw, size.getWidth()));
+			else
+				iw = Integer.parseInt(sw);
 		}
+		
 		if ( st.hasMoreTokens() )
 		{
-			height = Integer.parseInt(st.nextToken().trim());
+			String sh = st.nextToken().trim();
+			if ( sh.endsWith("%") )
+				ih = toIntExact(scaleByPercent(sh, size.getHeight()));
+			else
+				ih = Integer.parseInt(sh);
 		}
-		return new Rectangle(x, y, width, height);
+		
+		return new Rectangle(ix, iy, iw, ih);
 	}
 
 	/**

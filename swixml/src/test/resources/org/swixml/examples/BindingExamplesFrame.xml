@@ -4,19 +4,22 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 
-	size="800,800"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(300,1.50)"
+    size="${el.pageSize(65,25)}"
+    preferredSize="${el.size()}"
+    minimumSize="${el.size()}"
 	resizable="true"
 	alwaysOnTop="true"
 	title="Client Attribute Sample"
-	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
-	defaultCloseOperation="JFrame.EXIT_ON_CLOSE"
+	defaultCloseOperation="EXIT_ON_CLOSE"
 >
 
 	<panel layout="BorderLayout">
 
-		<tabbedpane constraints="BorderLayout.CENTER">
+		<tabbedpane constraints="CENTER">
 		
-			<panel name="commons" layout="FlowLayout(FlowLayout.LEFT)">
+			<panel name="commons" layout="FlowLayout(LEFT)">
 			
 				<vbox gap="20">
 
@@ -31,6 +34,7 @@
 							id="tv"
 							bindWith="testValue"
 							columns="20"
+							background="*-10-100"
 						/>
 						<box.hglue />
 					</hbox>
@@ -53,6 +57,7 @@
 								bindWith="comboList"
 								action="listAction"
 								cellRenderer="${window.listRenderer}"
+								background="*-10-100"
 							/>
 						</scrollpane>
 						<box.glue />
@@ -70,18 +75,25 @@
 			<panel name="table-tree" layout="BorderLayout">
 			
 				<splitpane
-					constraints="BorderLayout.CENTER"
-					orientation="JSplitPane.HORIZONTAL_SPLIT"
+					constraints="CENTER"
+					orientation="HORIZONTAL_SPLIT"
 					oneTouchExpandable="true"
+					resizeWeight="0.30"
 				>
 				
 					<scrollpane>
-						<tree model="${window.myTree}" action="selectNode" />
+						<tree
+							id="myTree"
+							model="${window.myTreeModel}"
+							cellRenderer="${window.cellRenderer}"
+							action="selectNode"
+							background="*-10-100"
+						/>
 					</scrollpane>
 
 					<scrollpane
-						horizontalScrollBarPolicy="JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED"
-						verticalScrollBarPolicy="JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED"
+						horizontalScrollBarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+						verticalScrollBarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
 					>
 						<table
 							id="testTable"
@@ -92,6 +104,7 @@
 							autoResizeMode="0"
 							font="Monospaced"
 							rowHeight="${el.fieldHeight(10)}"
+							background="*-10-100"
 						>
 						<!-- 
 							bindClass="${window.myDataClass}"
@@ -137,15 +150,15 @@
 
 		</tabbedpane>
 
-		<vbox constraints="BorderLayout.SOUTH" background="blue">
+		<vbox constraints="SOUTH" background="white" opaque="false">
 
 			<scrollpane>
-				<textarea id="ta" rows="3"></textarea>
+				<textarea id="ta" rows="3" background="*-10-100"/>
 			</scrollpane>
 
 			<box.vstrut height="5" />
 
-			<label id="statusbar" foreground="gray">status</label>
+			<label id="statusbar" foreground="*-100-40">status</label>
 
 		</vbox>
 	</panel>

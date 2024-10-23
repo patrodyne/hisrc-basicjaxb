@@ -4,35 +4,41 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
-    minimumSize="400,240"
+	size="${el.pageSize(45,10)}"
+	preferredSize="${el.size()}"
 	resizable="false" 
 	title="Example ComboBox usage" 
 	undecorated="false" 
 	alwaysOnTop="true"
-	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 	modal="false"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(90,2.0)"
 >
-	<vbox gap="20">
-	
-		<hbox gap="5" border="CompoundBorder(TitledBorder(Template List), EmptyBorder(5,5,10,5))" >
-			<label text="Template:" font="Serif-BOLD-16" />
-			<combobox id="cmbTemplate" bindList="${window.templateList}" action="selectTemplate" bindWith="template" font="SansSerif-BOLD-12" editable="false" />
-			<box.hglue/>
-			<checkbox text="remove On Submit" bindWith="removeOnSubmit" font="Serif-BOLD-16" />
-		</hbox>
-	
-		<hbox border="CompoundBorder(TitledBorder(Result, EmptyBorder(5,5,10,15))" font="Serif-BOLD-16">	
-			<combobox id="cmbResult" bindList="${window.resultList}" action="selectResult" editable="false" font="SansSerif-BOLD-12"/>
-		</hbox>
-	
-		<hbox border="CompoundBorder(TitledBorder(Result, EmptyBorder(5,5,10,15))" font="Serif-BOLD-16">
-	   		<combobox id="cmbNumber"  bindList="${window.resultList}" editable="true" bindWith="number" font="SansSerif-BOLD-12"/>
-		</hbox>
-	
-		<hbox>
-			<button id="btnOK" text="Submit" action="submit" font="Serif-BOLD-16"/>
-		</hbox>
+	<panel>
+		<vbox gap="20">
 		
-	</vbox>
+			<hbox gap="5" border="CompoundBorder(TitledBorder(Template List,LEFT,TOP,*-BOLD-*), EmptyBorder(5,5,10,5))" >
+				<label text="Template:" font="Serif-BOLD" />
+				<combobox id="cmbTemplate" bindList="${window.templateList}" action="selectTemplate" bindWith="template" font="SansSerif-BOLD-75%" editable="false" />
+				<box.hglue/>
+				<checkbox text="remove On Submit" bindWith="removeOnSubmit" font="Serif-BOLD" />
+			</hbox>
+		
+			<hbox border="CompoundBorder(TitledBorder(Result, EmptyBorder(5,5,10,15))" font="Serif-BOLD">	
+				<combobox id="cmbResult" bindList="${window.resultList}" action="selectResult" editable="false" font="SansSerif-BOLD-75%"/>
+			</hbox>
+		
+			<hbox border="CompoundBorder(TitledBorder(Result, EmptyBorder(5,5,10,15))" font="Serif-BOLD">
+		   		<combobox id="cmbNumber"  bindList="${window.resultList}" editable="true" bindWith="number" font="SansSerif-BOLD-75%"/>
+			</hbox>
+		
+			<hbox>
+				<box.hglue/>
+				<button id="btnOK" text="Submit" action="submit" font="Serif-BOLD"/>
+				<box.hglue/>
+			</hbox>
+			
+		</vbox>
+	</panel>
 </dialog>

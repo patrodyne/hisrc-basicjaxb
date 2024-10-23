@@ -5,96 +5,100 @@
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 	
 	name="mainframe"
-	minimumSize="850,750"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(120,1.25)"
+	size="${el.pageSize(120,30)}"
+	minimumSize="${el.size()}"
 	title="SWIXML2 - Layouts"
-	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 >
-  <desktoppane>
 
-    <internalframe title="Grid Layout" bounds="185,10,175,160" layout="GridLayout(2,2)" visible="true" resizable="true">
-      <button text="1"/>
-      <button text="2"/>
-      <button text="3"/>
-      <button text="4"/>
-    </internalframe>
+	<desktoppane>
 
-    <internalframe title="Border Layout" bounds="390,10,320,175" layout="BorderLayout" visible="true" resizable="true">
-      <button constraints="BorderLayout.NORTH">North</button>
-      <button constraints="BorderLayout.EAST">East</button>
-      <button constraints="BorderLayout.SOUTH">South</button>
-      <button constraints="BorderLayout.WEST">West</button>
-      <button constraints="BorderLayout.CENTER">Center</button>
-    </internalframe>
+		<internalframe title="Grid Layout" bounds="${el.scaleBounds('01.5%','02.0%','25%','35.0%')}" layout="GridLayout(2,2)" visible="true" resizable="true">
+			<button text="1"/>
+			<button text="2"/>
+			<button text="3"/>
+			<button text="4"/>
+		</internalframe>
+		
+		<internalframe title="Gridbag Layout" bounds="${el.scaleBounds('55.0%','02.0%','43.0%','35.0%')}" layout="GridBagLayout" visible="true" resizable="true">
+		
+			<button text="Wonderful">
+				<gridbagconstraints id="gbc_1" insets="2,2,2,2" gridx="0" gridy="0" ipadx="15" ipady="15" weightx="1" weighty="1"/>
+			</button>
+			
+			<button text="World">
+				<gridbagconstraints refid="gbc_1" gridx="1"/>
+			</button>
+			
+			<button text="of">
+				<gridbagconstraints refid="gbc_1" gridy="1"/>
+			</button>
+			
+			<button text="SwixML">
+				<gridbagconstraints refid="gbc_1" gridx="1" gridy="1"/>
+			</button>
+			
+		</internalframe>
+		
+		<internalframe title="Vertical Box" bounds="${el.scaleBounds('01.5%','40.0%','25.0%','56.0%')}" layout="GridLayout(1,2)" visible="true" resizable="true">
 
-    <internalframe title="Vertical Box" bounds="10,200,180,250" layout="GridLayout(1,2)" visible="true" resizable="true">
+			<vbox border="TitledBorder(with filler)">
+				<button text="1"/>
+				<box.vstrut height="15" />
+				<button text="2"/>
+				<box.rigidarea size="7,10" />
+				<button text="3"/>
+				<box.vglue/>
+				<button text="4"/>
+			</vbox>
 
-      <vbox border="TitledBorder(with filler)">
-        <button text="1"/>
-        <box.vstrut height="15" />
-        <button text="2"/>
-        <box.rigidarea size="7,10" />
-        <button text="3"/>
-        <box.vglue/>
-        <button text="4"/>
-      </vbox>
+			<vbox gap="5" border="TitledBorder(with gap)">
+				<button text="1"/>
+				<button text="2"/>
+				<button text="3"/>
+				<button text="4"/>
+			</vbox>
 
-      <vbox gap="5" border="TitledBorder(with gap)">
-        <button text="1"/>
-        <button text="2"/>
-        <button text="3"/>
-        <button text="4"/>
-      </vbox>
+		</internalframe>
+		
+		<internalframe title="Border Layout" bounds="${el.scaleBounds('28.0%','02.0%','25.0%','35.0%')}" layout="BorderLayout" visible="true" resizable="true">
+			<button constraints="NORTH">North</button>
+			<button constraints="EAST">East</button>
+			<button constraints="SOUTH">South</button>
+			<button constraints="WEST">West</button>
+			<button constraints="CENTER">Center</button>
+		</internalframe>
 
-    </internalframe>
+		<internalframe title="Horizontal Box" bounds="${el.scaleBounds('28.0%','40.0%','70.0%','38%')}" layout="GridLayout(2,1)" visible="true" resizable="true">
+		
+			<hbox border="TitledBorder(with filler)">
+				<button text="1"/>
+				<box.hstrut width="5" />
+				<button text="2"/>
+				<box.rigidarea size="10,7" />
+				<button text="3"/>
+				<box.hglue/>
+				<button text="4"/>
+			</hbox>
+			
+			<hbox gap="10" border="TitledBorder(with gap)">
+				<button text="1"/>
+				<button text="2"/>
+				<button text="3"/>
+				<button text="4"/>
+			</hbox>
+			
+		</internalframe>
 
-    <internalframe title="Horizontal Box" bounds="200,230,400,180" layout="GridLayout(2,1)" visible="true" resizable="true">
-    
-      <hbox border="TitledBorder(with filler)">
-        <button text="1"/>
-        <box.hstrut width="5" />
-        <button text="2"/>
-        <box.rigidarea size="10,7" />
-        <button text="3"/>
-        <box.hglue/>
-        <button text="4"/>
-      </hbox>
-      
-      <hbox gap="10" border="TitledBorder(with gap)">
-        <button text="1"/>
-        <button text="2"/>
-        <button text="3"/>
-        <button text="4"/>
-      </hbox>
-      
-    </internalframe>
+		<internalframe title="Flow Layout" bounds="${el.scaleBounds('28.0%','81.0%','70.0%','15.0%')}" layout="FlowLayout(CENTER)" visible="true" resizable="true" >
+			<button>1</button>
+			<button>2</button>
+			<button>3</button>
+			<button>4</button>
+		</internalframe>
 
-    <internalframe title="Gridbag Layout" bounds="610,200,220,210" layout="GridBagLayout" visible="true" resizable="true">
-    
-      <button text="Wonderful">
-        <gridbagconstraints id="gbc_1" insets="2,2,2,2" gridx="0" gridy="0" ipadx="15" ipady="15" weightx="1" weighty="1"/>
-      </button>
-      
-      <button text="World">
-        <gridbagconstraints refid="gbc_1" gridx="1"/>
-      </button>
-      
-      <button text="of">
-        <gridbagconstraints refid="gbc_1" gridy="1"/>
-      </button>
-      
-      <button text="SwixML">
-        <gridbagconstraints refid="gbc_1" gridx="1" gridy="1"/>
-      </button>
-      
-    </internalframe>
-
-    <internalframe title="Flow Layout" bounds="200,450,370,200" layout="FlowLayout(FlowLayout.RIGHT)" visible="true" resizable="true">
-      <button>1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>4</button>
-    </internalframe>
-
-  </desktoppane>
+	</desktoppane>
 
 </dialog>

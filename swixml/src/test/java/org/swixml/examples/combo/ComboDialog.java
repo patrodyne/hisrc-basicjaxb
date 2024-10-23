@@ -114,8 +114,8 @@ public class ComboDialog extends JDialog
 				(JTextComponent) cmbNumberEditorComponent;
 			
 			cmbNumberEditorTextComponent
-			.getDocument()
-			.addDocumentListener(new DocumentListener()
+				.getDocument()
+				.addDocumentListener(new DocumentListener()
 			{
 				@Override
 				public void insertUpdate(DocumentEvent de)

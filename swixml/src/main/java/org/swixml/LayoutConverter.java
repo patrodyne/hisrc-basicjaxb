@@ -24,6 +24,12 @@ public interface LayoutConverter
 	 * the layout manager.
 	 */
 	public String getID();
+	
+	/**
+	 * Returns the class that knows how to lay out {@code Container}s.
+	 * @return The class that knows how to lay out {@code Container}s.
+	 */
+	public Class<? extends LayoutManager> getLayoutManagerType();
 
 	/**
 	 * <p>
@@ -46,7 +52,7 @@ public interface LayoutConverter
 	 * &lt;panel layout="mylayout"/&gt;
 	 * </pre>
 	 */
-	public LayoutManager convertLayoutAttribute(final Attribute attr);
+	public LayoutManager convertLayoutAttribute(final Attribute attr, SwingEngine<?> engine);
 
 	/**
 	 * <p>

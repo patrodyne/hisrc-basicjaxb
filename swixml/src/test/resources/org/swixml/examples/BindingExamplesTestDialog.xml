@@ -7,17 +7,19 @@
 	size="${el.scaleSize(window,0.75,0.25)}"
 	layout="BorderLayout"
 	title="Test Dialog"
-	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 >
 
-	<panel constraints="BorderLayout.CENTER">
+	<panel constraints="CENTER">
 	
 		<label labelFor="testValue" text="Test" />
+		
 		<textfield
 			id="textField"
 			bindWith="testValue"
 			columns="20"
 			text="text"
+			background="*-10-100"
 		/>
 		
 		<button text="Submit" action="submit" />

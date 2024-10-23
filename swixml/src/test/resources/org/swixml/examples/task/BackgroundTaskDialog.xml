@@ -4,31 +4,41 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
-    minimumSize="400,240"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(210,1.50)"
+    size="${el.pageSize(60,6)}"
+    preferredSize="${el.size()}"
+    minimumSize="${el.size()}"
 	resizable="true" 
 	title="Network Time [Async Task example] " 
 	undecorated="false" 
 	alwaysOnTop="true"
-	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE" 
+	defaultCloseOperation="DISPOSE_ON_CLOSE" 
 	modal="false"
 >
 
-	<vbox gap="20" >
-	
-		<hbox maximumSize="500,30">
-			<label text="Get time from NIST"/>
-			<textfield id="txtShowTime" editable="false" bindWith="time"/>
-			<button id="btnShowTime" text="Retrieve Time" action="retrieveTime"/>	
-		</hbox>
+	<panel
+		border="TitledBorder(Get time from NIST)"
+		layout="GridBagLayout(columnWeights(1,16))"
+	>
+		<button id="btnShowTime" text="Retrieve Time" action="retrieveTime">
+			<gridbagconstraints id="gbc1" gridx="0" gridy="0" insets="5,5,5,5" fill="HORIZONTAL" />
+		</button>
+		<textfield id="txtShowTime" editable="false" bindWith="time" font="Monospaced-PLAIN-*">
+			<gridbagconstraints refid="gbc1" gridx="1" gridy="0"/>
+		</textfield>
+
+		<button text="Scan User Dir" action="scanDir">
+			<gridbagconstraints refid="gbc1" gridx="0" gridy="1" />
+		</button>
+		<progressbar id="progressBar" stringPainted="false">
+			<gridbagconstraints refid="gbc1" gridx="1" gridy="1" />
+		</progressbar>
 		
-		<vbox >
-			<label border="EmptyBorder(1,1,1,1)" bindWith="file" />	
-			<hbox>
-				<progressbar id="progressBar" stringPainted="false" />
-				<button text="Scan User Dir" action="scanDir"/>
-			</hbox> 
-		</vbox>
-	    
-	</vbox>
+		<label bindWith="file" background="white" opaque="true" font="Monospaced-PLAIN-*">
+			<gridbagconstraints refid="gbc1" gridx="0" gridy="2" gridwidth="2"/>
+		</label>
+
+	</panel>
 
 </dialog>

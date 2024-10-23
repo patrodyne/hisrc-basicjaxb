@@ -5,67 +5,82 @@
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 
 	name="mainframe"
-	minimumSize="740,480"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(135,1.00)"
+	size="${el.pageSize(120,30)}"
+	minimumSize="100%,100%"
 	title="Fun with SWIXML - Layouts"
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 >
+
   <desktoppane>
 
-    <internalframe title="Flow Layout (right aligned)" bounds="10,10,150,150" layout="FlowLayout(FlowLayout.RIGHT)" visible="true" resizable="true">
-      <button>1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>4</button>
-    </internalframe>
+	<internalframe title="Grid Layout" bounds="1.5%,2%,25%,35%" layout="GridLayout(2,2)" visible="true" resizable="true">
+		<button text="1"/>
+		<button text="2"/>
+		<button text="3"/>
+		<button text="4"/>
+	</internalframe>
 
-    <internalframe title="Grid Layout" bounds="200,10,150,150" layout="GridLayout(2,2)" visible="true" resizable="true">
-      <button text="1"/>
-      <button text="2"/>
-      <button text="3"/>
-      <button text="4"/>
-    </internalframe>
+	<internalframe title="Gridbag Layout" bounds="55%,2%,43%,35%" layout="GridBagLayout" visible="true" resizable="true">
 
-    <internalframe title="Border Layout" bounds="390,10,150,150" layout="borderlayout" visible="true" resizable="true">
-      <button constraints="BorderLayout.NORTH">1</button>
-      <button constraints="BorderLayout.EAST">2</button>
-      <button constraints="BorderLayout.SOUTH">3</button>
-      <button constraints="BorderLayout.WEST">4</button>
-    </internalframe>
+		<button text="Wonderful">
+			<gridbagconstraints id="gbc_1" insets="2,2,2,2" gridx="0" gridy="0" ipadx="15" ipady="15" weightx="1" weighty="1"/>
+		</button>
+	   
+		<button text="World">
+			<gridbagconstraints refid="gbc_1" gridx="1"/>
+		</button>
+	   
+		<button text="of">
+			<gridbagconstraints refid="gbc_1" gridy="1"/>
+		</button>
+	   
+		<button text="SwixML">
+			<gridbagconstraints refid="gbc_1" gridx="1" gridy="1"/>
+		</button>
 
-    <internalframe title="Vertical Box" bounds="10,170,150,210" visible="true" resizable="true">
-      <vbox>
-        <button text="1"/>
-        <button text="2"/>
-        <button text="3"/>
-        <glue/>
-        <button text="4"/>
-      </vbox>
-    </internalframe>
+	</internalframe>
 
-    <internalframe title="Horizontal Box" bounds="180,170,200,180" visible="true" resizable="true">
-      <hbox border="TitledBorder(A Titled Border)">
-        <button text="1"/>
-        <button text="2"/>
-        <button text="3"/>
-        <glue/>
-        <button text="4"/>
-      </hbox>
-    </internalframe>
+	<internalframe title="Vertical Box" bounds="1.5%,40%,25%,56%" visible="true" resizable="true">
 
-    <internalframe title="Gridbag Layout" bounds="400,170,220,210" layout="GridBagLayout" visible="true" resizable="true">
-      <button text="Wonderful">
-        <gridbagconstraints id="gbc_1" insets="2,2,2,2" gridx="0" gridy="0" ipadx="15" ipady="15" weightx="1" weighty="1"/>
-      </button>
-      <button text="World">
-        <gridbagconstraints refid="gbc_1" gridx="1"/>
-      </button>
-      <button text="of">
-        <gridbagconstraints refid="gbc_1" gridy="1"/>
-      </button>
-      <button text="Swixml">
-        <gridbagconstraints refid="gbc_1" gridx="1" gridy="1"/>
-      </button>
-    </internalframe>
+	  <vbox border="TitledBorder(with filler)">
+		<button text="1"/>
+		<button text="2"/>
+		<button text="3"/>
+		<glue/>
+		<button text="4"/>
+	  </vbox>
+
+	</internalframe>
+
+	<internalframe title="Border Layout" bounds="28%,2%,25%,35%" layout="borderlayout" visible="true" resizable="true">
+		<button constraints="NORTH">North</button>
+		<button constraints="EAST">East</button>
+		<button constraints="SOUTH">South</button>
+		<button constraints="WEST">West</button>
+		<button constraints="CENTER">Center</button>
+	</internalframe>
+
+	<internalframe title="Horizontal Box" bounds="28%,40%,70%,38%" visible="true" resizable="true">
+
+	  <hbox border="TitledBorder(with filler)">
+		<button text="1"/>
+		<button text="2"/>
+		<button text="3"/>
+		<glue/>
+		<button text="4"/>
+	  </hbox>
+
+	</internalframe>
+
+	<internalframe title="Flow Layout (right aligned)" bounds="28%,81%,70%,15%" layout="FlowLayout(RIGHT)" visible="true" resizable="true">
+		<button>1</button>
+		<button>2</button>
+		<button>3</button>
+		<button>4</button>
+	</internalframe>
 
   </desktoppane>
+
 </frame>

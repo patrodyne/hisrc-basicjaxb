@@ -1,6 +1,7 @@
 package org.swixml.examples.dialog;
 
-import javax.swing.JOptionPane;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import org.jdesktop.application.Application;
 import org.swixml.jsr296.SwingApplication;
@@ -17,9 +18,12 @@ public class LoginExample extends SwingApplication<LoginDialog>
 		// initializations that must occur before the GUI 
 		// is constructed by {@code startup}.
 		try
-		{
+		{ 
 			// Create the SwingEngine, ElContext, etc.
 			setSwingEngine(createEngine(WINDOW));
+			
+			// Define EL bean(s)
+			getELProcessor().defineBean("el", getELMethods());
 
 			// Process other initial conditions.
 			// getELProcessor().setVariable("var", "expression");
@@ -41,15 +45,30 @@ public class LoginExample extends SwingApplication<LoginDialog>
 		try
 		{
 			LoginDialog dialog = super.render(WINDOW);
+			dialog.addWindowListener(new WindowListener());
 			// Center dialog on desktop.
 			dialog.setLocationRelativeTo(null);
 			super.show(dialog);
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
-			JOptionPane.showMessageDialog(null, "error on startup " + e.getMessage(), "ERROR",
-				JOptionPane.ERROR_MESSAGE);
+			showErrorDialog(ex);
+			logger.error("startup: ", ex);
+			exit();
 		}
+	}
+	
+	/*
+	 * Gracefully shutdown the application.
+	 */
+	private class WindowListener extends WindowAdapter
+	{
+        @Override
+        public void windowClosing(WindowEvent we)
+        {
+        	// Close tasks, etc.
+        	exit(we);
+        }
 	}
 
 	/**

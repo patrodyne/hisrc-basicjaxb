@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog 
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
+
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(210,1.50)"
+    size="${el.pageSize(60,10)}"
+    preferredSize="${el.size()}"
+    minimumSize="${el.size()}"
+	resizable="true" 
+	title="Network Time [Async Task example] " 
+	undecorated="false" 
+	alwaysOnTop="true"
+	defaultCloseOperation="DISPOSE_ON_CLOSE" 
+	modal="false"
+>
+
+	<vbox gap="20" background="*-20-100" opaque="true">
+	
+		<hbox background="*-20-90" opaque="true">
+			<box.hglue/>
+			<label text="Get time from NIST"/>
+			<box.hglue/>
+		</hbox>
+
+		<hbox background="*-20-80" opaque="true">
+			<textfield id="txtShowTime" editable="false" bindWith="time"/>
+			<button id="btnShowTime" text="Retrieve Time" action="retrieveTime"/>	
+		</hbox>
+		
+		<vbox  background="*-20-70" opaque="true">
+			<label border="EmptyBorder(1,1,1,1)" bindWith="file" />	
+			<hbox>
+				<progressbar id="progressBar" stringPainted="false" />
+				<button text="Scan User Dir" action="scanDir"/>
+			</hbox> 
+		</vbox>
+	    
+	</vbox>
+
+</dialog>

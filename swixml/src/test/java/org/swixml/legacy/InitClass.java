@@ -25,6 +25,7 @@ public class InitClass extends JFrame
 	public static class ComboModel extends DefaultComboBoxModel<Object>
 	{
 		private static final long serialVersionUID = 20240701L;
+		
 		/**
 		 * Constructs a DefaultComboBoxModel object.
 		 */
@@ -47,8 +48,10 @@ public class InitClass extends JFrame
 	private InitClass()
 		throws Exception
 	{
-		new SwingEngine<JFrame>(this)
-			.render("org/swixml/legacy/initclass.xml");
+		SwingEngine<JFrame> swix = new SwingEngine<>(this);
+		swix.getELProcessor().defineBean("el", swix.getELMethods());
+		swix.getELProcessor().defineBean("window", this);
+		swix.render("org/swixml/legacy/initclass.xml");
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

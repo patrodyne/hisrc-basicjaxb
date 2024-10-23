@@ -4,6 +4,7 @@ import static java.lang.System.out;
 import static java.util.Arrays.asList;
 import static org.jdesktop.observablecollections.ObservableCollections.observableList;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -13,8 +14,11 @@ import java.util.List;
 import javax.swing.ActionMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JTree;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TreeSelectionEvent;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeCellRenderer;
 
 import org.jdesktop.application.Action;
 import org.jdesktop.observablecollections.ObservableList;
@@ -124,17 +128,46 @@ public class BindingExamplesFrame extends JFrame
 			listRenderer = new CustomListCellRenderer();
 		return listRenderer;
 	}
-
-	// Bound by scrollpane-1/tree in "table-tree" panel
-	private TestTreeModel myTree;
-	public TestTreeModel getMyTree()
+	
+	/* myTree bound by model="${window.cellRenderer}" */
+	private TreeCellRenderer cellRenderer = null;
+	public TreeCellRenderer getCellRenderer()
 	{
-		if ( myTree == null)
-			myTree = new TestTreeModel();
-		return myTree;
+		if ( cellRenderer == null )
+		{
+			cellRenderer = new DefaultTreeCellRenderer()
+			{
+			    private static final long serialVersionUID = 20240701L;
+
+				@Override
+				public Color getBackgroundNonSelectionColor()
+			    {
+			        return getMyTree().getBackground();
+			    }
+			};
+		}
+		return cellRenderer;
+	}
+	public void setCellRenderer(TreeCellRenderer cellRenderer)
+	{
+		this.cellRenderer = cellRenderer;
 	}
 	
-	// Bound by scrollpane-2/table in "table-tree" panel
+	/* automatically bound by id="myTree" */
+	private JTree myTree;
+	public JTree getMyTree() { return myTree; }
+	public void setMyTree(JTree myTree) { this.myTree = myTree; }
+	
+	// Bound by scrollpane-1/myTree in "table-myTree" panel
+	private TestTreeModel myTreeModel;
+	public TestTreeModel getMyTreeModel()
+	{
+		if ( myTreeModel == null)
+			myTreeModel = new TestTreeModel();
+		return myTreeModel;
+	}
+	
+	// Bound by scrollpane-2/table in "table-myTree" panel
 	private List<SimpleBean> myData;
 	public List<SimpleBean> getMyData()
 	{
@@ -143,7 +176,7 @@ public class BindingExamplesFrame extends JFrame
 		return myData;
 	}
 
-	// Bound by scrollpane-2/table in "table-tree" panel
+	// Bound by scrollpane-2/table in "table-myTree" panel
 	public Class<?> getMyDataClass()
 	{
 		return SimpleBean.class;

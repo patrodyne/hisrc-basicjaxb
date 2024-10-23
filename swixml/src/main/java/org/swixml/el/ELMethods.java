@@ -1,5 +1,6 @@
 package org.swixml.el;
 
+import static java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment;
 import static java.lang.Math.round;
 import static java.lang.Math.toIntExact;
 import static java.lang.String.format;
@@ -8,15 +9,22 @@ import static javax.swing.UIManager.getLookAndFeelDefaults;
 import static org.jvnet.basicjaxb.lang.StringUtils.isBlank;
 import static org.swixml.Parser.ELVAR_DOM_ATTRIBUTE;
 import static org.swixml.Parser.ELVAR_DOM_ELEMENT;
+import static org.swixml.SwingEngine.DEFAULT_COLOR_KEY;
+import static org.swixml.SwingEngine.DEFAULT_FONT_KEY;
+import static org.swixml.converters.AbstractConverter.PRECENT_FORMAT;
 import static org.swixml.converters.DimensionConverter.isZero;
 import static org.swixml.jsr295.BindingUtils.isELPattern;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Window;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,9 +51,6 @@ import jakarta.el.VariableMapper;
  */
 public class ELMethods<T extends Container>
 {
-	// Represents the font to use as the default font.
-	private static final String DEFAULT_FONT = "Default.font";
-	
 	// Represents the widest, average and thinest letters in the alphabet.
 	public static final String WIDEST_LETTER = "W";
 	public static final String AVERAGE_LETTER = "e";
@@ -76,7 +81,7 @@ public class ELMethods<T extends Container>
 	public ELProcessor getELProcessor() { return getSwingEngine().getELProcessor(); }
 	
 	private Font defaultFont = null;
-	protected Font getDefaultFont()
+	public Font getDefaultFont()
 	{
 	    // In general, developers should use the {@code UIDefaults} returned from
 	    // {@code getDefaults()}. As the current look and feel may expect
@@ -89,7 +94,7 @@ public class ELMethods<T extends Container>
 			// and the LAF updates its internal default values. The LAF uses these
 			// internal values for UI and doesn't refer back to get the values
 			// from UIManager.
-			defaultFont = getDefaults().getFont(DEFAULT_FONT);
+			defaultFont = getDefaults().getFont(DEFAULT_FONT_KEY);
 			if ( defaultFont == null )
 			{
 				// getLookAndFeelDefaults() returns a UIDefaults that is created
@@ -97,14 +102,30 @@ public class ELMethods<T extends Container>
 				// itself is not monitoring the changes for this table. But
 				// UIManager gives a value from this table whenever requested by
 				// a component before looking at the one maintained by it.
-				defaultFont = getLookAndFeelDefaults().getFont(DEFAULT_FONT);
+				defaultFont = getLookAndFeelDefaults().getFont(DEFAULT_FONT_KEY);
 			}
 		}
 		return defaultFont;
 	}
-	protected void setDefaultFont(Font defaultFont)
+	public void setDefaultFont(Font defaultFont)
 	{
 		this.defaultFont = defaultFont;
+	}
+	
+	private Color defaultColor = null;
+	public Color getDefaultColor()
+	{
+		if ( defaultColor == null )
+		{
+			defaultColor = getDefaults().getColor(DEFAULT_COLOR_KEY);
+			if ( defaultColor == null )
+				defaultColor = getLookAndFeelDefaults().getColor(DEFAULT_COLOR_KEY);
+		}
+		return defaultColor;
+	}
+	public void setDefaultColor(Color defaultColor)
+	{
+		this.defaultColor = defaultColor;
 	}
 	
 	/**
@@ -420,11 +441,11 @@ public class ELMethods<T extends Container>
 	}
 	
 	@SuppressWarnings("unchecked")
-	private <VT> VT resolveVariable(String varname, Class<VT> type)
+	public <VT> VT resolveVariable(String varName, Class<VT> type)
 	{
 		VT value = null;
 		VariableMapper vm = getELContext().getVariableMapper();
-		ValueExpression ve = vm.resolveVariable(varname);
+		ValueExpression ve = vm.resolveVariable(varName);
 		if ( ve != null )
 		{
 			Class<?> expectedType = ve.getExpectedType();
@@ -434,6 +455,28 @@ public class ELMethods<T extends Container>
 		return value;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <BT> BT resolveBean(String beanName, Class<BT> type)
+	{
+		try
+		{
+			return (BT) getELProcessor().getValue(beanName, type);
+		}
+		catch ( Exception ex )
+		{
+			return null;
+		}
+	}
+	
+	/**
+	 * Set the 'bindWith' path to the given value then
+	 * return the 'bindWith path.
+	 * 
+	 * @param path The 'bindWith' path.
+	 * @param value The 'bindWith' value.
+	 * 
+	 * @return The given 'bindWith' path.
+	 */
 	public String bindWith(String path, String value)
 	{
 		String bindWith = null;
@@ -447,6 +490,15 @@ public class ELMethods<T extends Container>
 		return bindWith;
 	}
 	
+	/**
+	 * Set the 'bindList' path to the given value then
+	 * return the 'bindList path.
+	 * 
+	 * @param path The 'bindList' path.
+	 * @param value The 'bindList' value.
+	 * 
+	 * @return The given 'bindList' path.
+	 */
 	public List<String> bindList(String path, List<String> value)
 	{
 		List<String> bindList = value;
@@ -511,9 +563,73 @@ public class ELMethods<T extends Container>
 		return pageSize(currentFont(), cols, rows);
 	}
 	
+	public int scaleSizeWidth(String pw)
+	{
+		return scaleSizeWidth(parsePercent(pw));
+	}
+	
+	public int scaleSizeWidth(double scale)
+	{
+		double sw = currentSize().getWidth();
+		return toIntExact(round(scale * sw));
+	}
+	
+	public int scaleSizeHeight(String ph)
+	{
+		return scaleSizeHeight(parsePercent(ph));
+	}
+	
+	public int scaleSizeHeight(double scale)
+	{
+		return toIntExact(round(scale * currentSize().getHeight()));
+	}
+	
+	public Dimension scaleSize(String pw, String ph)
+	{
+		double dw = parsePercent(pw);
+		double dh = parsePercent(ph);
+		return scaleSize(dw, dh);
+	}
+	
+	private double parsePercent(String pct)
+	{
+		try
+		{
+			return PRECENT_FORMAT.parse(pct).doubleValue();
+		}
+		catch (ParseException pe)
+		{
+			throw new IllegalArgumentException("Cannot parse size: " + pct, pe);
+		}
+	}
+
+	public Dimension scaleSize(String ps)
+	{
+		return scaleSize(ps, ps);
+	}
+	
 	public Dimension scaleSize(double widthScale, double heightScale)
 	{
 		return scaleSize(currentSize(), widthScale, heightScale);
+	}
+	
+	public Dimension scaleSize(double scale)
+	{
+		return scaleSize(scale, scale);
+	}
+	
+	public Dimension scaleSize(Window window, String pw, String ph)
+	{
+		try
+		{
+			double dw = PRECENT_FORMAT.parse(pw).doubleValue();
+			double dh = PRECENT_FORMAT.parse(ph).doubleValue();
+			return scaleSize(window, dw, dh);
+		}
+		catch (ParseException pe)
+		{
+			throw new IllegalArgumentException("Cannot parse size", pe);
+		}
 	}
 	
 	public Dimension scaleSize(Window window, double widthScale, double heightScale)
@@ -540,7 +656,7 @@ public class ELMethods<T extends Container>
 		this.sizeMap = sizeMap;
 	}
 	
-	private Dimension currentSize()
+	public Dimension currentSize()
 	{
 		Dimension currentDimension = new Dimension();
 		Attr domAttribute = resolveVariable(ELVAR_DOM_ATTRIBUTE, Attr.class);
@@ -594,5 +710,75 @@ public class ELMethods<T extends Container>
 	{
 		Long value = round( scale * (maxValue - minValue) );
 		return minValue + toIntExact(value);
+	}
+	
+	public Rectangle scaleBounds(String px, String py, String pw, String ph)
+	{
+		try
+		{
+			double dx = PRECENT_FORMAT.parse(px).doubleValue();
+			double dy = PRECENT_FORMAT.parse(py).doubleValue();
+			double dw = PRECENT_FORMAT.parse(pw).doubleValue();
+			double dh = PRECENT_FORMAT.parse(ph).doubleValue();
+			return scaleBounds(currentSize(), dx, dy, dw, dh);
+		}
+		catch (ParseException pe)
+		{
+			throw new IllegalArgumentException("Cannot parse bounds", pe);
+		}
+	}
+	
+	public Rectangle scaleBounds(double dx, double dy, double dw, double dh)
+	{
+		return scaleBounds(currentSize(), dx, dy, dw, dh);
+	}
+	
+	private Rectangle scaleBounds(Dimension size, double dx, double dy, double dw, double dh)
+	{
+		double sw = size.getWidth();
+		double sh = size.getHeight();
+		
+		int bx = toIntExact(round(dx * sw));
+		int by = toIntExact(round(dy * sh));
+		int bw = toIntExact(round(dw * sw));
+		int bh = toIntExact(round(dh * sh));
+		
+		return new Rectangle(bx, by, bw, bh);
+	}
+	
+	public Rectangle centerBounds(int bw, int bh)
+	{
+		// FIXME: Need component's center point
+		// Rectangle bounds = (Rectangle) getSwingEngine().getELProcessor().getValue("this.getBounds()", Rectangle.class);
+		Point cp = getLocalGraphicsEnvironment().getCenterPoint();
+		int bx = toIntExact(round(cp.x - (bw / 2.0)));
+		int by = toIntExact(round(cp.y - (bh / 2.0)));
+		return new Rectangle(bx, by, bw, bh);
+	}
+	
+	public Rectangle centerBounds(double dw, double dh)
+	{
+		return centerBounds(toIntExact(round(dw)), toIntExact(round(dh)));
+	}
+	
+	public Rectangle centerBounds(Dimension size, String pw, String ph)
+	{
+		try
+		{
+			double sw = size.getWidth();
+			double sh = size.getHeight();
+			double dw = PRECENT_FORMAT.parse(pw).doubleValue();
+			double dh = PRECENT_FORMAT.parse(ph).doubleValue();
+			return centerBounds(dw * sw, dh *sh);
+		}
+		catch (ParseException pe)
+		{
+			throw new IllegalArgumentException("Cannot parse bounds", pe);
+		}
+	}
+	
+	public Rectangle centerBounds(String pw, String ph)
+	{
+		return centerBounds(currentSize(), pw, ph);
 	}
 }

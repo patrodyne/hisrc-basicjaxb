@@ -5,6 +5,7 @@ import java.awt.LayoutManager;
 import java.util.StringTokenizer;
 
 import org.swixml.LayoutConverter;
+import org.swixml.SwingEngine;
 import org.swixml.converters.Util;
 import org.swixml.dom.Attribute;
 import org.w3c.dom.Element;
@@ -61,6 +62,16 @@ public class CardLayoutConverter implements LayoutConverter
 	}
 
 	/**
+	 * Returns the @{link CardLayout} class that knows how to lay out {@code Container}s.
+	 * @return The @{link CardLayout} class that knows how to lay out {@code Container}s.
+	 */
+	@Override
+	public Class<CardLayout> getLayoutManagerType()
+	{
+		return CardLayout.class;
+	}
+	
+	/**
 	 * <p>
 	 * Creates a CardLayout instance.
 	 * </p>
@@ -74,7 +85,7 @@ public class CardLayoutConverter implements LayoutConverter
 	 * </ul>
 	 */
 	@Override
-	public LayoutManager convertLayoutAttribute(final Attribute attr)
+	public LayoutManager convertLayoutAttribute(final Attribute attr, SwingEngine<?> engine)
 	{
 		StringTokenizer st = new StringTokenizer(attr.getValue(), "(,)");
 		st.nextToken(); // skip layout type
@@ -129,7 +140,11 @@ public class CardLayoutConverter implements LayoutConverter
 	public Object convertConstraintsAttribute(final Attribute attr)
 	{
 		//
-		// CardLayout accepts only constraints of type String
+		// CardLayout accepts only constraints of type String.
+		// The card layout stores this string and the card as a key-value
+	    // pair that can be used for random access to a particular card.
+		//
+		// See java.awt.CardLayout.addLayoutComponent(Component, Object).
 		//
 		return attr.getValue();
 	}

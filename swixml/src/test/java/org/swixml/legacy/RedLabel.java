@@ -16,6 +16,7 @@ public class RedLabel extends JLabel
 		this.setFont(Font.decode("SansSerif-BOLD-24"));
 	}
 
+	// See TimeZoneConverter
 	public void setTimeZone(TimeZone tz)
 	{
 		this.setText(tz.getDisplayName());

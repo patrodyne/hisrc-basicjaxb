@@ -5,57 +5,65 @@
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
 	name="mainframe"
-	minimumSize="740,600"
+	size="${el.pageSize(60,25)}"
+	minimumSize="${el.size()}"
 	title="Fun with SWIXML - Layouts"
-	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(30,1.25)"
 >
-  <desktoppane>
+	<desktoppane>
 
-    <internalframe
-    	title="TitledBorder"
-    	bounds="10,10,150,450"
-    	visible="true"
-    	resizable="true"
-    >
-      <vbox>
-      <panel border="TitledBorder(Simple)"><button>1</button></panel>
-      <panel border="TitledBorder(Simple, CENTER)"><button>1</button></panel>
-      <panel border="TitledBorder(Simple, RIGHT)"><button>1</button></panel>
-      <panel border="TitledBorder(Simple, CENTER, BOTTOM)"><button>1</button></panel>
-      </vbox>
-    </internalframe>
+		<internalframe
+			title="TitledBorder"
+			bounds="${el.scaleBounds(1/24,1/20,2/5,4/5)}"
+			visible="true"
+			resizable="true"
+		>
+			<vbox>
+				<panel border="TitledBorder(Simple)"><button>1</button></panel>
+				<panel border="TitledBorder(Simple, CENTER)"><button>1</button></panel>
+				<panel border="TitledBorder(Simple, RIGHT)"><button>1</button></panel>
+				<panel border="TitledBorder(Simple, CENTER, BOTTOM)"><button>1</button></panel>
+			</vbox>
+		</internalframe>
 
-    <internalframe
-    	title="LineBorder"
-    	bounds="200,10,150,450"
-    	layout="GridLayout(2,2)"
-    	visible="true"
-    	resizable="true"
-    >
-      <vbox gap="2">
-      <panel border="LineBorder"><button>1</button></panel>
-      <panel border="LineBorder(red)"><button>1</button></panel>
-      <panel border="LineBorder(green, 3)"><button>1</button></panel>
-      </vbox>
-    </internalframe>
+		<internalframe
+			title="LineBorder"
+			bounds="${el.scaleBounds(12/24,1/20,2/5,4/5)}"
+			layout="GridLayout(2,1)"
+			visible="true"
+			resizable="true"
+		>
+			<vbox gap="2">
+				<panel border="LineBorder"><button>1</button></panel>
+				<panel border="LineBorder(30-90-100)"><button>1</button></panel>
+				<panel border="LineBorder(*-80-100, 3)"><button>1</button></panel>
+			</vbox>
+			<hbox background="*-20-100" opaque="true">
+				<box.glue/>
+				<label text="EMPTY" foreground="RED"/>
+				<box.glue/>
+			</hbox>
+		</internalframe>
 
-    <!--
-    <internalframe xmlns:x="http://code.google.com/p/swinghtmltemplate/" 
-        title="Border from htmltemplate" 
-        bounds="400,10,150,450" 
-        layout="GridLayout(2,2)" 
-        visible="true" r
-        esizable="true">
+		<!--
+		<internalframe xmlns:x="https://code.google.com/archive/p/swinghtmltemplate/" 
+				title="Border from htmltemplate" 
+				bounds="400,10,150,450" 
+				layout="GridLayout(2,2)" 
+				visible="true"
+				resizable="true"
+		>
 
-      <vbox gap="2">
-      <panel  x:border="etched lowered white black;"><button>1</button></panel>
-      <panel border="LineBorder(red)"><button>1</button></panel>
-      <panel x:border='titled "Foo" (line black) left bottom (Arial) red;'><button>1</button></panel>
-      </vbox>
+			<vbox gap="2">
+				<panel	x:border="etched lowered white black;"><button>1</button></panel>
+				<panel border="LineBorder(RED)"><button>1</button></panel>
+				<panel x:border='titled "Foo" (line black) left bottom (SansSerif) red;'><button>1</button></panel>
+			</vbox>
 
-    </internalframe>
-    -->
+		</internalframe>
+		-->
 
-  </desktoppane>
+	</desktoppane>
 </dialog>

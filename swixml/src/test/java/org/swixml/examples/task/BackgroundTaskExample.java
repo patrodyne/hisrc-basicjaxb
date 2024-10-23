@@ -1,7 +1,7 @@
 package org.swixml.examples.task;
 
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import org.jdesktop.application.Application;
 import org.swixml.jsr296.SwingApplication;
@@ -21,6 +21,8 @@ public class BackgroundTaskExample extends SwingApplication<BackgroundTaskDialog
 		{
 			// Create the SwingEngine, ElContext, etc.
 			setSwingEngine(createEngine(WINDOW));
+			
+			getELProcessor().defineBean("el", getSwingEngine().getELMethods());
 
 			// Process other initial conditions.
 			// getELProcessor().setVariable("var", "expression");
@@ -40,18 +42,38 @@ public class BackgroundTaskExample extends SwingApplication<BackgroundTaskDialog
 	{
 		try
 		{
-			JDialog dialog = super.render(WINDOW);
+			BackgroundTaskDialog dialog = super.render(WINDOW);
+			dialog.addWindowListener(new WindowListener());
 			// Center dialog on desktop.
 			dialog.setLocationRelativeTo(null);
 			super.show(dialog);
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
-			JOptionPane.showMessageDialog(null, "error on startup " + e.getMessage(), "ERROR",
-				JOptionPane.ERROR_MESSAGE);
-			// Exit to application
-			// exit();
+			showErrorDialog(ex);
+			logger.error("startup: ", ex);
+			exit();
 		}
+	}
+	
+	private class WindowListener extends WindowAdapter
+	{
+        @Override
+        public void windowClosing(WindowEvent we)
+        {
+        	BackgroundTaskDialog window =
+        		(BackgroundTaskDialog) we.getWindow();
+        	if ( window.getRetrieveTimeTask() != null )
+        		window.getRetrieveTimeTask().cancel(true);
+        	if ( window.getScanDirTask() != null )
+        		window.getScanDirTask().cancel(true);
+        	exit(we);
+        }
+        
+        @Override
+        public void windowClosed(WindowEvent we)
+        {
+        }
 	}
 
 	public static void main(String[] args)

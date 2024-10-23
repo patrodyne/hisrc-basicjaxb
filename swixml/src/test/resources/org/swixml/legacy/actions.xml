@@ -5,10 +5,13 @@
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 
 	id="frame"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(360,1.50)"
 	title="Swixml - Action Sample"
-	size="640,480"
+	size="${el.pageSize(40,12)}"
+	preferredSize="${el.size()}"
 	layout="BorderLayout"
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 >
 
 	<menubar id="mb">
@@ -26,7 +29,7 @@
 		</menu>
 	</menubar>
 
-	<panel id="pnl_North" layout="borderlayout" constraints="BorderLayout.NORTH">
+	<panel id="pnl_North" layout="borderlayout" constraints="NORTH">
 		<toolbar id="tb" floatable="true" borderPainted="true" orientation="HORIZONTAL">
 			<button toolTipText="New"  enabled="true" icon="org/swixml/icons/new.gif"  action="newAction" />
 			<button toolTipText="Help" enabled="true" icon="org/swixml/icons/help.gif" actionCommand="AC_HELP" />
@@ -35,17 +38,22 @@
 	</panel>
 
 	<panel border="EtchedBorder">
-		<label labelFor="cbx" font="SansSerif-BOLD-12" foreground="blue">ComboBox</label>
+		<label labelFor="cbx" font="*-BOLD" foreground="*-100-70">ComboBox:</label>
 		<combobox
 			id="cbx"
-			initclass="org.swixml.examples.legacy.Actions$ComboModel"
+			initclass="org.swixml.legacy.Actions$ComboModel"
 			action="petAction"
 			prototypeDisplayValue="1234567890|1234567890"
 		/>
+		<!--
+			If a prototype display value is specified, the preferred size of the combo box
+			is calculated by configuring the renderer with the prototype display value and
+			obtaining its preferred size. 
+		 -->
 	</panel>
 
-	<panel constraints="BorderLayout.SOUTH">
-		<label>Status:</label>
+	<panel constraints="SOUTH">
+		<label>Status: OK</label>
 	</panel>
 
 </frame>

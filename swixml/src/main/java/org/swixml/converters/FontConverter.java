@@ -1,10 +1,10 @@
 package org.swixml.converters;
 
 import static java.lang.String.format;
-import static org.jvnet.basicjaxb.lang.StringUtils.trim;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.text.ParseException;
 
 import org.swixml.SwingEngine;
 import org.swixml.dom.Attribute;
@@ -20,13 +20,11 @@ import org.swixml.dom.Attribute;
  */
 public class FontConverter extends AbstractConverter<Font>
 {
-	private static String WILD = " *";
-	
 	/**
 	 * converter's return type
 	 */
 	public static final Class<Font> TEMPLATE = Font.class;
-
+	
 	/**
 	 * Convert the value of the given <code>Attribute</code> object into an
 	 * output object of the specified type. Returns the <code>Font</code> that
@@ -57,7 +55,7 @@ public class FontConverter extends AbstractConverter<Font>
 	 * style. If <code>str</code> is <code>null</code>, a new <code>Font</code>
 	 * is returned with the name "dialog", a size of 12 and a PLAIN style.</p>
 	 *
-	 * @param value the name of the font, or null
+	 * @param fontSpec the name of the font, or null
 	 * @param type <code>Class</code> Data type to which the Attribute's value
 	 *            should be converted
 	 * @param attr <code>Attribute</code> the attribute, providing the value to
@@ -69,28 +67,45 @@ public class FontConverter extends AbstractConverter<Font>
 	 *         <code>null</code>.
 	 */
 	@Override
-	public Font convert(String value, Class<Font> type, Attribute attr, SwingEngine<?> engine)
+	public Font convert(String fontSpec, Class<Font> type, Attribute attr, SwingEngine<?> engine)
 		throws Exception
 	{
-		return convert(value, engine.getELMethods().parentFont());
+		return convert(fontSpec, engine);
+	}
+	
+
+	/**
+	 * Convert the font specification value to a {@link Font} instance.
+	 * 
+	 * @param fontSpec The font specification value.
+	 * @param engine The rendering engine able to convert an XML descriptor into a java.swing UI.
+	 * 
+	 * @return The {@link Font} instance for the given font specification.
+	 */
+	public static Font convert(String fontSpec, SwingEngine<?> engine)
+	{
+		return convert(fontSpec, engine.getELMethods().parentFont());
 	}
 
 	/**
 	 * Convert the font specification value to a {@link Font} instance.
 	 * 
-	 * @param value The font specification value.
+	 * @param fontSpec The font specification value.
 	 * @param parentFont The parent (default) font.
 	 * 
 	 * @return The {@link Font} instance for the given font specification.
 	 */
-	public static Font convert(String value, Font parentFont)
+	public static Font convert(String fontSpec, Font parentFont)
 	{
-		String fontSpec = value;
+		String value = null;
 		if ( (fontSpec != null) && !fontSpec.isBlank() && parentFont != null)
 		{
 			String currentName = parentFont.getName();
 			String currentStyle = getStyle(parentFont);
 			int currentSize = parentFont.getSize();
+			
+			// Initialize, for guaranteed result.
+			value = format("%s-%s-%02d", currentName, currentStyle, currentSize);
 			
 			String[] specParts = fontSpec.split("-");
 			if ( specParts.length == 1)
@@ -108,28 +123,27 @@ public class FontConverter extends AbstractConverter<Font>
 				if ( isWildPart(specParts[2]) )
 					value = format("%s-%s-%02d", name, style, currentSize);
 				else
-					value = format("%s-%s-%s", name, style, specParts[2]);
+				{
+					if ( specParts[2].endsWith("%") )
+					{
+						try
+						{
+							long scaledSize = scaleByPercent(specParts[2], currentSize);
+							value = format("%s-%s-%02d", name, style, scaledSize);
+						}
+						catch (ParseException pe)
+						{
+							logger.warn("cannot parse {}", specParts[2], pe);
+						}
+					}
+					else
+						value = format("%s-%s-%s", name, style, specParts[2]);
+				}
 			}
 			return Font.decode(value);
 		}
 		else
 			return parentFont;
-	}
-
-	private static boolean isWildPart(String specPart)
-	{
-		return trim(specPart, WILD).isBlank();
-	}
-	
-	public static boolean isWildSpec(String fontSpec)
-	{
-		String[] specParts = fontSpec.split("-");
-		for ( String specPart : specParts )
-		{
-			if ( isWildPart(specPart) )
-				return true;
-		}
-		return false;
 	}
 	
 	public static String encode(Font font)

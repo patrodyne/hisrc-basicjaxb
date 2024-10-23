@@ -1,5 +1,7 @@
 package org.swixml.converters;
 
+import static java.lang.Math.toIntExact;
+
 import java.awt.Dimension;
 import java.util.StringTokenizer;
 
@@ -36,7 +38,7 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 	 * @param value A comma separated pair representing width and height.
 	 * @param type <code>Class</code> not used.
 	 * @param attr <code>Attribute</code> not used.
-	 * @param engine <code>SwingEngine</code> not used.
+	 * @param engine <code>SwingEngine</code> used for current size.
 	 * 
 	 * @return <code>Object</code> - runtime type is <code>Dimension</code>
 	 */
@@ -44,11 +46,12 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 	public Dimension convert(String value, Class<Dimension> type, Attribute attr, SwingEngine<?> engine)
 		throws Exception
 	{
-		return convert(value);
+		Dimension size = engine.getELMethods().currentSize();
+		return convert(value, size);
 	}
 
 	/**
-	 * Converts a String into an Dimension object
+	 * Converts a String into an Dimension object.
 	 *
 	 * @param value A comma separated pair representing width and height.
 	 * 
@@ -58,16 +61,62 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 	{
 		StringTokenizer st = new StringTokenizer(value, ",");
 		
-		int width = 0;
-		int height = 0;
+		int iw = 0;
+		int ih = 0;
 		
 		if ( st.hasMoreTokens() )
-			width = Integer.parseInt(st.nextToken().trim());
+			iw = Integer.parseInt(st.nextToken().trim());
 		
 		if ( st.hasMoreTokens() )
-			height = Integer.parseInt(st.nextToken().trim());
+			ih = Integer.parseInt(st.nextToken().trim());
+		else
+			ih = iw;
 		
-		return new Dimension(width, height);
+		return new Dimension(iw, ih);
+	}
+	
+	/**
+	 * Converts a String into an Dimension object.
+	 *
+	 * @param value A comma separated pair representing width and height.
+	 * @param size <code>Dimension</code> the current size.
+	 * 
+	 * @return <code>Object</code> - runtime type is <code>Dimension</code>
+	 */
+	public static Dimension convert(String value, Dimension size)
+		throws Exception
+	{
+		StringTokenizer st = new StringTokenizer(value, ",");
+		
+		String sw = "100%", sh = "100%";
+		int iw = 0, ih = 0;
+		
+		if ( st.hasMoreTokens() )
+		{
+			sw = st.nextToken().trim();
+			if ( sw.endsWith("%") && size != null )
+				iw = toIntExact(scaleByPercent(sw, size.getWidth()));
+			else
+				iw = Integer.parseInt(sw);
+		}
+		
+		if ( st.hasMoreTokens() )
+		{
+			sh = st.nextToken().trim();
+			if ( sh.endsWith("%") && size != null )
+				ih = toIntExact(scaleByPercent(sh, size.getHeight()));
+			else
+				ih = Integer.parseInt(sh);
+		}
+		else
+		{
+			if ( sw.endsWith("%") && size != null )
+				ih = toIntExact(scaleByPercent(sw, size.getHeight()));
+			else
+				ih = iw;
+		}
+		
+		return new Dimension(iw, ih);
 	}
 	
 	public static boolean isZero(Dimension dim)

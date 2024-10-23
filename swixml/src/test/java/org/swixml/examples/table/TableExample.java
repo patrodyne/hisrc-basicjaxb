@@ -1,6 +1,8 @@
 package org.swixml.examples.table;
 
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JDialog;
 
@@ -23,15 +25,15 @@ public class TableExample extends SwingApplication<TableDialog>
 			// Create the SwingEngine, ElContext, etc.
 			setSwingEngine(createEngine(WINDOW));
 			
+			getELProcessor().defineBean("el", getSwingEngine().getELMethods());
+			getELProcessor().defineBean("window", WINDOW);
+			
 			// Process other initial conditions.
 			// getELProcessor().setVariable("var", "expression");
 			// getELProcessor().setValue("expression", value);
 			// getELProcessor().defineBean("name", bean);
 			// getELProcessor().defineFunction("prefix", "function", method);
 			// getELProcessor().defineFunction("prefix", "function", "className", "method");
-			
-			getELProcessor().defineBean("el", getSwingEngine().getELMethods());
-			getELProcessor().defineBean("window", WINDOW);
 			
 			getELProcessor().defineFunction("color", "rgb", Color.class.getMethod("decode", String.class));
 			getELProcessor().defineFunction("color", "hsb", Color.class.getMethod("getHSBColor", float.class, float.class, float.class));
@@ -52,14 +54,29 @@ public class TableExample extends SwingApplication<TableDialog>
 		try
 		{
 			JDialog dialog = render(WINDOW, SWIXML_SOURCE);
+			dialog.addWindowListener(new WindowListener());
 			dialog.setLocationRelativeTo(null);
 			show(dialog);
 		}
 		catch (Exception ex)
 		{
+			showErrorDialog(ex);
 			logger.error("startup: ", ex);
 			exit();
 		}
+	}
+	
+	/*
+	 * Gracefully shutdown the application.
+	 */
+	private class WindowListener extends WindowAdapter
+	{
+        @Override
+        public void windowClosing(WindowEvent we)
+        {
+        	// Close tasks, etc.
+        	exit(we);
+        }
 	}
 
 	public static void main(String args[])

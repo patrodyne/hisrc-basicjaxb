@@ -16,6 +16,8 @@ public class CustomTags extends JFrame
 		throws Exception
 	{
 		SwingEngine<JFrame> swix = new SwingEngine<>(this);
+		swix.getELProcessor().defineBean("el", swix.getELMethods());
+		swix.getELProcessor().defineBean("window", this);
 		swix.getTaglib().registerTag("Calendar", JCalendar.class);
 		swix.render("org/swixml/legacy/customtags.xml").setVisible(true);
 		setLocationRelativeTo(null);

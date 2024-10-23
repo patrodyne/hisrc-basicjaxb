@@ -1,5 +1,8 @@
 package org.swixml.examples.button;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JDialog;
 
 import org.jdesktop.application.ResourceMap;
@@ -26,9 +29,44 @@ public class ButtonExample extends SwingApplication<ButtonDialog>
 			// is constructed by {@code startup}.
 			SwingTagLibrary.getInstance(getSwingEngine())
 				.registerTag("toggleButton", JToggleButtonEx.class);
+			
+			//
+			// ResourceMaps are typically obtained with the {@code ApplicationContext}
+			// {@link ApplicationContext#getResourceMap getResourceMap} method which
+			// lazily creates per Application.
+			//
+			// ResourceMaps can be used to "inject" resource values into Swing component
+			// properties and into object fields.
+			//
 			ResourceMap rMap = getContext().getResourceManager().getResourceMap(WINDOW.getClass());
-			String tbText = rMap.getString("tb.text");
-			logger.info("==> " + tbText);
+
+			if ( logger.isDebugEnabled() )
+			{
+				ResourceMap rMapChain = rMap;
+				while ( rMapChain != null )
+				{
+					for ( String bundleName : rMapChain.getBundleNames() )
+						logger.debug("Resource Bundle: " + bundleName + " ==> " + rMapChain.getResourcesDir());
+					rMapChain = rMapChain.getParent();
+				}
+			}
+			
+			for ( String key : rMap.keySet() )
+			{
+				switch (key)
+				{
+					case "tb.text":
+					case "tb.selectedText":
+					case "Application.id":
+						logger.info("    " + key + " ==> " + rMap.getString(key));
+						break;
+					default:
+						logger.debug("    " + key + " ==> " + rMap.getString(key));
+						break;
+				}
+			}
+			
+			getELProcessor().defineBean("el", getSwingEngine().getELMethods());
 			
 			// Process other initial conditions.
 			// getELProcessor().setVariable("var", "expression");
@@ -49,17 +87,32 @@ public class ButtonExample extends SwingApplication<ButtonDialog>
 		try
 		{
 			JDialog dialog = render(WINDOW);
+			dialog.addWindowListener(new WindowListener());
 			// Center dialog on desktop.
 			dialog.setLocationRelativeTo(null);
 			show(dialog);
 		}
 		catch (Exception ex)
 		{
+			showErrorDialog(ex);
 			logger.error("Cannot render window", ex);
 			exit();
 		}
 	}
-
+	
+	/*
+	 * Gracefully shutdown the application.
+	 */
+	private class WindowListener extends WindowAdapter
+	{
+        @Override
+        public void windowClosing(WindowEvent we)
+        {
+        	// Close tasks, etc.
+        	exit(we);
+        }
+	}
+	
 	/**
 	 * @param args
 	 */

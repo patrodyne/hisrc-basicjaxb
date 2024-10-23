@@ -4,23 +4,25 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(195,1.25)"
+	size="${el.pageSize(60,10)}"
 	name="mainframe"
 	layout="BorderLayout"
-	size="640,480"
 	title="S W I X M L"
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 >
 	<panel layout="BorderLayout">
 	
-		<menubar constraints="BorderLayout.SOUTH">
-			<menu text="This should appear at the bottom">
-				<menuitem text="and exits the program" action="exitAction" />
+		<menubar constraints="SOUTH" background="a180-10-100">
+			<menu text="This should appear at the bottom" background="a180-20-100">
+				<menuitem text="and exits the program" action="exitAction" background="a180-30-100" />
 			</menu>
 		</menubar>
-		
-		<menubar constraints="BorderLayout.NORTH">
-			<menu text="This should appear at the top">
-				<menuitem text="...and exits the program as well" action="exitAction" />
+
+		<menubar constraints="NORTH"  background="a180-10-100">
+			<menu text="This should appear at the top" background="a180-20-100">
+				<menuitem text="...and exits the program as well" action="exitAction" background="a180-30-100" />
 			</menu>
 		</menubar>
 		

@@ -4,37 +4,77 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
-	minimumSize="500,500"
-	preferredSize="500,500"
-	resizable="false" title="Spinner Dialog"
-	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(180,2.00)"
+	size="${el.pageSize(40,8)}"
+	minimumSize="${el.size()}"
+	resizable="false"
+	title="Spinner Dialog"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 >
+	<panel>
+	
+		<vbox>
+		
+			<!--  ALT: GridLayout(rows, cols, hgap, vgap) -->
+		    <panel
+		    	layout="GridBagLayout"
+		    	border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Spinners,LEFT,TOP,*-BOLD-*))"
+		    >
+		
+		        <label text="Spinner Date">
+		        	<gridbagconstraints id="gbc1" gridx="0" gridy="0" ipadx="20" anchor="WEST"/>
+		        </label>
 
-	<vbox>
-	
-	    <panel layout="GridLayout(3,2,1,10)" border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Spinners))">
-	
-	        <label text="Spinner Date : " />
-	        <spinner.date id="spinnerDate" bindWith="dateValue" model="${window.spinnerDateModel}" dateFormat="dd/MM/yyyy hh:mm" />
-	
-	        <label text="Spinner (default)" />
-	        <spinner bindWith="numberValue"  />
-	
-	        <label text="Spinner list " />
-	        <spinner id="spinnerList" bindWith="stringValue" model="${window.spinnerListModel}" />
-	
-	    </panel>
-	
-	   	<box.vstrut height="10"/>
-	
-	    <hbox>
-	    	<button text="Test" action="test"/>
-	    	<box.glue/>
-	    	<button text="Submit" action="submit"/>
-	    	<box.hstrut width="5"/>
-	    	<button text="Close" action="close"/>
-	    </hbox>
-	    
-	</vbox>
+		        <spinner.date
+		        	id="spinnerDate"
+		        	bindWith="dateValue"
+		        	model="${window.spinnerDateModel}"
+		        	dateFormat="yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+		        	horizontalAlignment="RIGHT"
+		        	font="Monospaced-PLAIN-*"
+		        >
+		        	<gridbagconstraints id="gbc2" gridx="1" gridy="0" ipadx="20" anchor="EAST" fill="HORIZONTAL"/>
+		        </spinner.date>
+		
+		        <label text="Spinner (default)">
+		        	<gridbagconstraints refid="gbc1" gridy="1" />
+		        </label>
+		        <spinner
+		        	bindWith="numberValue"
+		        	horizontalAlignment="RIGHT"
+		        	font="Monospaced-PLAIN-*"
+		        >
+		        	<gridbagconstraints refid="gbc2" gridy="1" />
+		        </spinner>
+		
+		        <label text="Spinner list ">
+		        	<gridbagconstraints refid="gbc1" gridy="2" />
+		        </label>
+		        <spinner
+		        	id="spinnerList"
+		        	bindWith="stringValue"
+		        	model="${window.spinnerListModel}"
+		        	horizontalAlignment="RIGHT"
+		        	font="Monospaced-PLAIN-*"
+		        >
+		        	<gridbagconstraints refid="gbc2" gridy="2" />
+		        </spinner>
+		
+		    </panel>
+		
+		   	<box.vstrut height="10"/>
+		
+		    <hbox>
+		    	<button text="Test" action="test"/>
+		    	<box.glue/>
+		    	<button text="Submit" action="submit"/>
+		    	<box.hstrut width="5"/>
+		    	<button text="Close" action="close"/>
+		    </hbox>
+		    
+		</vbox>
+		
+	</panel>
 
 </dialog>

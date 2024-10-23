@@ -1,5 +1,8 @@
 package org.swixml.legacy;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -28,26 +31,45 @@ public class XInclude extends JFrame
 	{
 		try
 		{
+			swix.getELProcessor().defineBean("el", swix.getELMethods());
+			swix.getELProcessor().defineBean("window", this);
 			swix.render("org/swixml/legacy/xinclude.xml");
 			setLocationRelativeTo(null);
 			setVisible(true);
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
-			e.printStackTrace();
+			showErrorDialog(ex);
 		}
 	}
 
+	public Action cancelAction = new AbstractAction()
+	{
+		private static final long serialVersionUID = 20240701L;
+		@Override
+		public void actionPerformed(ActionEvent ae)
+		{
+			showMessageDialog(XInclude.this, "Sorry, 'Cancel' is not implemented yet.");
+		}
+	};
+	
 	public Action okAction = new AbstractAction()
 	{
 		private static final long serialVersionUID = 20240701L;
 		@Override
-		public void actionPerformed(ActionEvent e)
+		public void actionPerformed(ActionEvent ae)
 		{
-			System.out.println("ok");
+			showMessageDialog(XInclude.this, "Sorry, 'OK' is not implemented yet.");
 		}
 	};
-
+	
+	private static void showErrorDialog(Exception ex)
+	{
+		ex.printStackTrace();
+		String msg = ex.getClass().getSimpleName() + ": " + ex.getMessage() +"\n";
+		showMessageDialog(null, msg, "ERROR", ERROR_MESSAGE);
+	} 
+	
 	public static void main(String[] args)
 	{
 		new XInclude();

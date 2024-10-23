@@ -1,5 +1,8 @@
 package org.swixml.legacy;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import javax.swing.JFrame;
 
 import org.swixml.SwingEngine;
@@ -21,17 +24,26 @@ public class GridBag extends JFrame
 	{
 		try
 		{
-			new SwingEngine<JFrame>(this)
-				.render("org/swixml/legacy/gridbag.xml");
+			SwingEngine<JFrame> swix = new SwingEngine<>(this);
+			swix.getELProcessor().defineBean("el", swix.getELMethods());
+			swix.getELProcessor().defineBean("window", this);
+			swix.render("org/swixml/legacy/gridbag.xml");
 			setLocationRelativeTo(null);
 			setVisible(true);
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
-			e.printStackTrace();
+			showErrorDialog(ex);
 		}
 	}
-
+	
+	private static void showErrorDialog(Exception ex)
+	{
+		ex.printStackTrace();
+		String msg = ex.getClass().getSimpleName() + ": " + ex.getMessage() +"\n";
+		showMessageDialog(null, msg, "ERROR", ERROR_MESSAGE);
+	}
+	
 	public static void main(String[] args)
 	{
 		new GridBag();

@@ -5,6 +5,7 @@ import java.awt.LayoutManager;
 import java.util.StringTokenizer;
 
 import org.swixml.LayoutConverter;
+import org.swixml.SwingEngine;
 import org.swixml.converters.Util;
 import org.swixml.dom.Attribute;
 import org.w3c.dom.Element;
@@ -66,6 +67,16 @@ public class GridLayoutConverter implements LayoutConverter
 	}
 
 	/**
+	 * Returns the @{link GridLayout} class that knows how to lay out {@code Container}s.
+	 * @return The @{link GridLayout} class that knows how to lay out {@code Container}s.
+	 */
+	@Override
+	public Class<GridLayout> getLayoutManagerType()
+	{
+		return GridLayout.class;
+	}
+	
+	/**
 	 * <p>
 	 * Creates a GridLayout instance.
 	 * </p>
@@ -80,7 +91,7 @@ public class GridLayoutConverter implements LayoutConverter
 	 * </ul>
 	 */
 	@Override
-	public LayoutManager convertLayoutAttribute(final Attribute attr)
+	public LayoutManager convertLayoutAttribute(final Attribute attr, SwingEngine<?> engine)
 	{
 		StringTokenizer st = new StringTokenizer(attr.getValue(), "(,)");
 		st.nextToken(); // skip layout type
@@ -133,6 +144,11 @@ public class GridLayoutConverter implements LayoutConverter
 	@Override
 	public Object convertConstraintsAttribute(final Attribute attr)
 	{
+		//
+		// GridLayout does not use constraints.
+		//
+		// See java.awt.GridLayout.addLayoutComponent(String, Component)
+		//
 		return null;
 	}
 

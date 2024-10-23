@@ -4,15 +4,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 
-	size="520,320"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(105,1.00)"
+	size="${el.pageSize(60,12)}"
+	preferredSize="${el.size()}"
 	layout="BorderLayout"
 	title="InitClass Attribute Sample"
-	defaultCloseOperation="JFrame.EXIT_ON_CLOSE"
+	defaultCloseOperation="EXIT_ON_CLOSE"
 >
 
-	<panel constraints="BorderLayout.CENTER" border="EtchedBorder">
+	<panel constraints="CENTER" border="EtchedBorder">
 	
-		<label font="SansSerif-BOLD-12" foreground="blue">
+		<label font="*-BOLD-125%" foreground="a180-100-100">
 			ComboBox
 		</label>
 		
@@ -24,7 +27,7 @@
 		
 	</panel>
 	
-	<panel constraints="BorderLayout.SOUTH">
+	<panel constraints="SOUTH">
 		<button>OK</button>
 		<button text="Cancel" />
 	</panel>

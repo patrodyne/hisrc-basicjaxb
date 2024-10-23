@@ -18,26 +18,33 @@ public class NewTag extends JFrame
 
 	private NewTag()
 	{
-		//
-		// Register a new new Converter,
-		// Generally, Converters should be registered before Tags
-		//
-		ConverterLibrary.getInstance().register(TimeZone.class, new TimeZoneConverter());
-		
-		//
-		// Register a Tag that uses a SwingEngine itself ...
-		//
-		swix.getTaglib().registerTag("xpanel", XPanel.class);
 		try
 		{
+			//
+			// Register a new new Converter,
+			// Generally, Converters should be registered before Tags
+			//
+			ConverterLibrary.getInstance().register(TimeZone.class, new TimeZoneConverter());
+
+			//
+			// Register the 'xpanel' Tag that uses a SwingEngine itself ...
+			//
+			swix.getTaglib().registerTag("xpanel", XPanel.class);
+
+			//
+			// Register the 'redlabel' Tag that uses a SwingEngine itself ...
+			//
 			swix.getTaglib().registerTag("redlabel", RedLabel.class);
 		}
 		catch (Exception e)
 		{
 			System.err.println(e.getMessage());
 		}
+		
 		try
 		{
+			swix.getELProcessor().defineBean("el", swix.getELMethods());
+			swix.getELProcessor().defineBean("window", this);
 			swix.render("org/swixml/legacy/newtag.xml");
 			setLocationRelativeTo(null);
 			setVisible(true);

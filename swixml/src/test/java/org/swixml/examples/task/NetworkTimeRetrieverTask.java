@@ -1,17 +1,15 @@
 package org.swixml.examples.task;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.net.URI;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
 
-public class NetworkTimeRetrieverTask extends Task<Date, Void>
+public class NetworkTimeRetrieverTask extends Task<String, Void>
 {
 	public NetworkTimeRetrieverTask(Application app)
 	{
@@ -19,26 +17,25 @@ public class NetworkTimeRetrieverTask extends Task<Date, Void>
 	}
 
 	@Override
-	protected Date doInBackground()
+	protected String doInBackground()
 		throws Exception
 	{
-		URL nistServer = new URI("https://time.nist.gov:13").toURL();
-		InputStream is = nistServer.openStream();
-		int ch = is.read();
-		StringBuffer dateInput = new StringBuffer();
-		
-		while (ch != -1)
+		String line = null;
+		URL wtServer = new URI("http://worldtimeapi.org/api/ip.txt").toURL();
+		try ( InputStream is = wtServer.openStream() )
 		{
-			dateInput.append((char) ch);
-			ch = is.read();
+			InputStreamReader isr = new InputStreamReader(is);
+			LineNumberReader lnr = new LineNumberReader(isr);
+			while ( (line = lnr.readLine()) != null )
+			{
+				// datetime: 2024-10-11T16:22:54.150754-04:00
+				if ( line.startsWith("datetime: ") )
+				{
+					line = line.substring(10);
+					break;
+				}
+			}
 		}
-		
-		String strDate = dateInput.substring(7, 24);
-		DateFormat dateFormat = DateFormat.getDateTimeInstance();
-		SimpleDateFormat sdf = (SimpleDateFormat) dateFormat;
-		sdf.applyPattern("yy-MM-dd HH:mm:ss");
-		sdf.setTimeZone(TimeZone.getTimeZone("GMT-00:00"));
-		Date now = dateFormat.parse(strDate);
-		return now;
+		return line;
 	}
 }

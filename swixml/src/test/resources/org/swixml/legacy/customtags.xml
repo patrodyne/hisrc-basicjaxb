@@ -4,16 +4,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
 	title="Swixml: Custom Tags"
-	size="400,260"
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	size="${el.pageSize(80,20)}"
+	preferredSize="${el.size()}"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 >
 
 	<!--plaf="org.jvnet.substance.skin.SubstanceRavenLookAndFeel"> -->
 	<panel layout="BorderLayout">
 	
-		<panel border="TitledBorder(JCalendar,0,1,SansSerif-BOLD-18)" background="white" constraints="BorderLayout.NORTH">
-			<label font="SansSerif-BOLD-18" foreground="black">Custom Components in Swixml</label>
+		<panel border="TitledBorder(JCalendar,LEFT,TOP,*-BOLD-150%)" background="*-05-100" constraints="NORTH">
+			<label font="*-BOLD-150%" foreground="black">Custom Components in Swixml</label>
 		</panel>
 		
 		<calendar initclass="java.util.Date" />

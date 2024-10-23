@@ -5,6 +5,7 @@ import java.awt.LayoutManager;
 import java.util.StringTokenizer;
 
 import org.swixml.LayoutConverter;
+import org.swixml.SwingEngine;
 import org.swixml.converters.PrimitiveConverter;
 import org.swixml.converters.Util;
 import org.swixml.dom.Attribute;
@@ -54,6 +55,17 @@ public class BorderLayoutConverter implements LayoutConverter
 	{
 		return "borderlayout";
 	}
+	
+
+	/**
+	 * Returns the @{link BorderLayout} class that knows how to lay out {@code Container}s.
+	 * @return The @{link BorderLayout} class that knows how to lay out {@code Container}s.
+	 */
+	@Override
+	public Class<BorderLayout> getLayoutManagerType()
+	{
+		return BorderLayout.class;
+	}
 
 	/**
 	 * <p>
@@ -69,7 +81,7 @@ public class BorderLayoutConverter implements LayoutConverter
 	 * </ul>
 	 */
 	@Override
-	public LayoutManager convertLayoutAttribute(final Attribute attr)
+	public LayoutManager convertLayoutAttribute(final Attribute attr, SwingEngine<?> engine)
 	{
 		StringTokenizer st = new StringTokenizer(attr.getValue(), "(,)");
 		st.nextToken(); // skip layout type
@@ -125,24 +137,13 @@ public class BorderLayoutConverter implements LayoutConverter
 	public Object convertConstraintsAttribute(final Attribute attr)
 	{
 		String value = attr.getValue();
-		
-//		Field[] fields = BorderLayout.class.getFields();
-//		for ( int i = 0; i < fields.length; i++ )
-//		{
-//			if ( value.endsWith(fields[i].getName()) )
-//			{
-//				try
-//				{
-//					return fields[i].get(BorderLayout.class);
-//				}
-//				catch (Exception e)
-//				{
-//				}
-//				break;
-//			}
-//		}
-//		return null;
-		
+		// 
+		// The BorderLayout value is a string that specifies how the component is added to the layout:
+		// BorderLayout.CENTER, BorderLayout.NORTH, BorderLayout.SOUTH, BorderLayout.WEST, BorderLayout.EAST,
+		// BorderLayout.PAGE_START, BorderLayout.PAGE_END, BorderLayout.LINE_START, BorderLayout.LINE_END.
+		//
+		// See java.awt.BorderLayout.addLayoutComponent(Component, Object)
+		//
 		return PrimitiveConverter.getConstantValue(BorderLayout.class, value, null);
 	}
 

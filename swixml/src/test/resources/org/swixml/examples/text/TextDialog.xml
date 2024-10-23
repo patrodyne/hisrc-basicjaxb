@@ -4,24 +4,34 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(240,1.50)"
 	name="dialog"
-    minimumSize="600,400"
-    preferredSize="600,400"
+    size="${el.pageSize(40,5)}"
+    preferredSize="${el.size()}"
+    minimumSize="${el.size()}"
 	resizable="true" 
 	title="Example Text usage" 
 	undecorated="false" 
 	alwaysOnTop="true"
-	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE" 
+	defaultCloseOperation="DISPOSE_ON_CLOSE" 
 	modal="false"
 >
 	<panel layout="borderLayout">
 
-		<panel constraints="BorderLayout.CENTER">
-			<textfield id="limitedFeld" border="titledBorder(limited text field)"
-				columns="30" document="${window.textLimit}" />
+		<panel constraints="CENTER">
+			<textfield
+				id="limitedTextField"
+				border="titledBorder(limited text field,LEFT,TOP,*-ITALIC-*,*-100-100)"
+				font="Monospaced-PLAIN-*"
+				columns="30"
+				document="${window.limitLengthDocument}"
+				background="*-10-100"
+			/>
 		</panel>
 
-		<hbox constraints="BorderLayout.SOUTH">
+		<hbox constraints="SOUTH">
+			<box.glue/>
 			<button text="close" action="close"/>
 		</hbox>
 

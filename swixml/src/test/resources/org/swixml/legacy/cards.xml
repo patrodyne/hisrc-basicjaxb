@@ -5,33 +5,35 @@
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 
 	name="mainframe"
-	layout="BorderLayout"
-	size="640,480"
-	title="S W I X M L"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(15,1.25)"
+	size="${el.pageSize(60,20)}"
+	preferredSize="${el.size()}"
+	title="S W I X M L"
+	layout="BorderLayout"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 >
-	<panel id="pnl" layout="CardLayout(10,10)" border="EtchedBorder">
+	<panel id="pnl" layout="CardLayout(20,20)" border="EtchedBorder">
 
-		<panel id="c1" name="c1" abc="c1" border="TitledBorder(Card 1)" constraints="c1" background="red">
-			<label text="Card 1" font="SansSerif-BOLD-16" foreground="white" />
+		<panel border="TitledBorder(Card 1)" constraints="c1" background="*-100-100" layout="BorderLayout" id="c1" name="c1" abc="c1" >
+			<label text="Card 1" font="*-BOLD-100%" foreground="90-100-100" horizontalAlignment="CENTER"/>
 		</panel>
 
-		<panel border="TitledBorder(Card 2)" constraints="c2" background="blue">
-			<label text="Card 2" font="SansSerif-BOLD-20" foreground="white" />
+		<panel border="TitledBorder(Card 2)" constraints="c2" background="*-100-80" layout="BorderLayout" >
+			<label text="Card 2" font="*-BOLD-125%" foreground="75-100-100" horizontalAlignment="CENTER"/>
 		</panel>
 
-		<panel border="TitledBorder(Card 3)" constraints="c3" background="green">
-			<label text="Card 3" font="SansSerif-BOLD-24" foreground="white" />
+		<panel border="TitledBorder(Card 3)" constraints="c3" background="*-100-60" layout="BorderLayout" >
+			<label text="Card 3" font="*-BOLD-150%" foreground="60-100-100" horizontalAlignment="CENTER"/>
 		</panel>
 
-		<panel border="TitledBorder(Card 4)" constraints="c4" background="gray">
-			<label text="Card 4" font="SansSerif-BOLD-32" foreground="white" />
+		<panel border="TitledBorder(Card 4)" constraints="c4" background="*-100-40" layout="BorderLayout" >
+			<label text="Card 4" font="*-BOLD-200%" foreground="45-100-100" horizontalAlignment="CENTER"/>
 		</panel>
 
 	</panel>
 
-	<panel constraints="BorderLayout.SOUTH">
+	<panel constraints="SOUTH">
 		<button text="Card 1" action="showAction" actionCommand="c1" />
 		<button text="Card 2" action="showAction" actionCommand="c2" />
 		<button text="Card 3" action="showAction" actionCommand="c3" />

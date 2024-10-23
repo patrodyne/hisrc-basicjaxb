@@ -4,28 +4,43 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
-	preferredSize="800,600"
-	minimumSize="800,600"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(270,1.50)"
+    size="${el.pageSize(40,10)}"
+    preferredSize="${el.size()}"
+    minimumSize="${el.size()}"
 	resizable="true" 
 	alwaysOnTop="false" 
 	title="SWIXML2 Tree example" 
-	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 >
 	<panel name="explorer" layout="BorderLayout">
 	
-		<splitpane constraints="BorderLayout.CENTER">
-			<scrollpane minimumSize="200,400" preferredSize="200,400">
-			<tree id="tree" model="${window.myModel}" action="selectNode"
-				dblClickAction="activeNode" toolTipText="this is a tooltip" />
-		</scrollpane>
+		<splitpane constraints="CENTER" resizeWeight="0.15" oneTouchExpandable="true">
 		
-		<panel id="contentPanel" name="contentPanel" layout="BorderLayout">
-			<textarea constraints="BorderLayout.CENTER" bindWith="result" editable="false">
-		</textarea>
-	
-	</panel>
-</splitpane>
+			<tree
+				id="tree"
+				model="${window.myModel}"
+				cellRenderer="${window.cellRenderer}"
+				action="selectNode"
+				dblClickAction="activeNode"
+				toolTipText="this is a tooltip"
+				background="*-20-100"
+			/>
+			
+			<panel id="contentPanel" name="contentPanel" layout="BorderLayout">
+				<scrollpane>
+					<textarea
+						constraints="CENTER"
+						bindWith="result"
+						editable="false"
+						background="*-10-100"
+					/>
+				</scrollpane>
+			</panel>
+		
+		</splitpane>
 
-</panel>
+	</panel>
 
 </dialog>

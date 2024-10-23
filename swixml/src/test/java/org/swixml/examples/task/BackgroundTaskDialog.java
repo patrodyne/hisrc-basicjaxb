@@ -3,7 +3,6 @@ package org.swixml.examples.task;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.util.Date;
 
 import javax.swing.JDialog;
 import javax.swing.JProgressBar;
@@ -11,31 +10,15 @@ import javax.swing.JProgressBar;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
+import org.swixml.jsr.widgets.JTextFieldBind;
 
 public class BackgroundTaskDialog extends JDialog
 {
 	private static final long serialVersionUID = 20240701L;
-	public class NetworkTimeRetriever extends NetworkTimeRetrieverTask
-	{
-		public NetworkTimeRetriever(Application app)
-		{
-			super(app);
-		}
 
-		@Override
-		protected void succeeded(Date time)
-		{
-			setTime(time.toString());
-		}
-	}
-
-	JProgressBar progressBar;
-
-	@Override
-	public void addNotify()
-	{
-		super.addNotify();
-	}
+	private JTextFieldBind txtShowTime;
+	public JTextFieldBind getTxtShowTime() { return txtShowTime; }
+	public void setTxtShowTime(JTextFieldBind txtShowTime) { this.txtShowTime = txtShowTime; }
 
 	private String time;
 	public final String getTime() { return time; }
@@ -45,7 +28,7 @@ public class BackgroundTaskDialog extends JDialog
 		firePropertyChange("time", null, null);
 	}
 
-	private String file;
+	private String file = "file";
 	public final String getFile() { return file; }
 	public final void setFile(String file)
 	{
@@ -53,28 +36,66 @@ public class BackgroundTaskDialog extends JDialog
 		firePropertyChange("file", null, null);
 	}
 
+	private JProgressBar progressBar;
+	public JProgressBar getProgressBar() { return progressBar; }
+	public void setProgressBar(JProgressBar progressBar) { this.progressBar = progressBar; }
+
+	public class NetworkTimeRetriever extends NetworkTimeRetrieverTask
+	{
+		public NetworkTimeRetriever(Application app)
+		{
+			super(app);
+		}
+
+		@Override
+		protected void succeeded(String time)
+		{
+			setTime(time.toString());
+		}
+	}
+	
+	@Override
+	public void addNotify()
+	{
+		super.addNotify();
+	}
+	
+	private Task<?, ?> retrieveTimeTask = null;
+	public Task<?, ?> getRetrieveTimeTask() { return retrieveTimeTask; }
+	public void setRetrieveTimeTask(Task<?, ?> retrieveTimeTask) { this.retrieveTimeTask = retrieveTimeTask; }
+	
 	@Action
 	public Task<?, ?> retrieveTime()
 	{
-		Task<Date, Void> task = new NetworkTimeRetriever(Application.getInstance());
-		return task;
+		if ( getRetrieveTimeTask() == null )
+			setRetrieveTimeTask(new NetworkTimeRetriever(Application.getInstance()));
+		return getRetrieveTimeTask();
 	}
 
+	private Task<?, ?> scanDirTask = null;
+	public Task<?, ?> getScanDirTask() { return scanDirTask; }
+	public void setScanDirTask(Task<?, ?> scanDirTask) { this.scanDirTask = scanDirTask; }
+	
 	@Action
 	public Task<?, ?> scanDir()
 	{
-		Task<Void, File> task = new ListFilesTask(Application.getInstance(), new File(System.getProperty("user.home")));
-		task.addPropertyChangeListener(new PropertyChangeListener()
+		if ( getScanDirTask() == null )
 		{
-			@Override
-			public void propertyChange(PropertyChangeEvent evt)
+			File userHome = new File(System.getProperty("user.home"));
+			Task<Void, File> task = new ListFilesTask(Application.getInstance(), userHome);
+			task.addPropertyChangeListener(new PropertyChangeListener()
 			{
-				progressBar.setValue(1);
-				progressBar.setString((null != evt.getNewValue()) ? evt.getNewValue().toString() : "");
-				setFile(String.format("[%2$s]", evt.getPropertyName(), evt.getNewValue()));
-			}
-		});
-		progressBar.setIndeterminate(true);
-		return task;
+				@Override
+				public void propertyChange(PropertyChangeEvent evt)
+				{
+					getProgressBar().setValue(1);
+					getProgressBar().setString((null != evt.getNewValue()) ? evt.getNewValue().toString() : "");
+					setFile(String.format("[%2$s]", evt.getPropertyName(), evt.getNewValue()));
+				}
+			});
+			getProgressBar().setIndeterminate(true);
+			setScanDirTask(task);
+		}
+		return getScanDirTask();
 	}
 }

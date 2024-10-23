@@ -4,26 +4,38 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 
-	size="640,480"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(225,1.25)"
+	size="${el.pageSize(60,10)}"
+	minimumSize="${el.size()}"
 	title="XInclude Sample"
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 	layout="BorderLayout"
 >
 
-	<panel constraints="BorderLayout.CENTER">
-
-		<label id="lbl" font="SansSerif-BOLD-14" foreground="blue">
-			Swixml now understands some XPointer / XInclude syntax
-		</label>
+	<panel constraints="CENTER" layout="GridBagLayout">
+		
+		<textarea opaque="false"
+			preferredSize="${el.scaleSize('50%','25%')}"
+			text="Swixml now understands some XPointer / XInclude syntax"
+			lineWrap="true"
+			wrapStyleWord="true"
+			border="RaisedBevelBorder"
+		>
+			<gridbagconstraints gridx="0" gridy="1" />
+		</textarea>
 
 	</panel>
 
-	<!-- INCLUDE FRAGMENT -->
-	<panel
-		id="pnl_footer"
-		constraints="BorderLayout.SOUTH"
+	<!-- INCLUDE A FRAGMENT -->
+	<!--
 		include="org/swixml/legacy/xpanel.xml#PNL_OK_CANCEL"
+		include="org/swixml/legacy/fragments.xml#PNL_OK_CANCEL"
+	-->
+	<panel constraints="SOUTH"
+		id="pnl_footer"
+		include="org/swixml/legacy/fragments.xml#PNL_OK_CANCEL"
 	/>
-		<!-- include="org/swixml/legacy/fragments.xml#PNL_OK_CANCEL" -->
+	
 
 </frame>

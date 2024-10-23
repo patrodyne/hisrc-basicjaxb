@@ -1,5 +1,11 @@
 package org.swixml.converters;
 
+import static java.lang.Math.round;
+import static org.jvnet.basicjaxb.lang.StringUtils.trim;
+
+import java.text.NumberFormat;
+import java.text.ParseException;
+
 import org.swixml.Converter;
 import org.swixml.Localizer;
 import org.swixml.LogAware;
@@ -20,6 +26,73 @@ import org.swixml.el.ELUtility;
  */
 public abstract class AbstractConverter<T> implements Converter<T>, LogAware
 {
+	// Add /  Subtract characters to be evaluated.
+	protected static String VARY = "^[as][0-9]+";
+	// Wildcard characters to be trimmed.
+	protected static String WILD = " *";
+	
+	// A percentage format for the current default locale.
+	public static final NumberFormat PRECENT_FORMAT = NumberFormat.getPercentInstance();
+	
+	protected static boolean isWildPart(String specPart)
+	{
+		return trim(specPart, WILD).isBlank();
+	}
+	
+	protected static boolean isWildParts(String spec)
+	{
+		boolean isWildPart = false;
+		String[] specParts = spec.split("-");
+		for ( String specPart : specParts )
+		{
+			if ( isWildPart(specPart) )
+			{
+				isWildPart = true;
+				break;
+			}
+		}
+		return isWildPart;
+	}
+	
+	
+	protected static boolean isVaryPart(String specPart)
+	{
+		boolean isVaryPart = false;
+		if (trim(specPart, " ").matches(VARY) )
+			isVaryPart = true;
+		return isVaryPart;
+	}
+	
+	protected static boolean isVaryParts(String spec)
+	{
+		boolean isVaryPart = false;
+		String[] specParts = spec.split("-");
+		for ( String specPart : specParts )
+		{
+			if ( isVaryPart(specPart) )
+			{
+				isVaryPart = true;
+				break;
+			}
+		}
+		return isVaryPart;
+	}
+	
+//	protected static long scaleByPercent(String percent, int value)
+//		throws ParseException
+//	{
+//		return scaleByPercent(percent, (double) value);
+//	}
+	
+	protected static long scaleByPercent(String percent, double value)
+		throws ParseException
+	{
+		Number percentValue = PRECENT_FORMAT.parse(percent);
+		long scaledValue = round(percentValue.doubleValue() * value);
+		return scaledValue;
+	}
+
+	
 	public Localizer getLocalizer(SwingEngine<?> engine)
 	{
 		return Util.getLocalizer(engine);

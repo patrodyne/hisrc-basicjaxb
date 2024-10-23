@@ -4,31 +4,63 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
-	size="500,500" resizable="false" title="Login Dialog" defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
+	size="${el.pageSize(60,8)}"
+	preferredSize="${el.size()}"
+	resizable="false"
+	title="Login Dialog"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(120,1.25)"
 >
-
-	<vbox>
-	
-	    <panel 
-	    	layout="GridLayout(2,2,1,10)"
-	    	border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Security information))"
-	    >
-	        <label text="Login" />
-	        <textfield bindWith="login" columns="15"/>
-	
-	        <label text="Password" />
-	        <passwordfield bindWith="password" columns="15" />
-	    </panel>
-	
-	   	<box.vstrut height="10"/>
-	
-	    <hbox>
-	    	<box.glue/>
-	    	<button id="defaultButton" text="Submit" action="enterAction"/>
-	    	<box.hstrut width="5"/>
-	    	<button text="Close" action="escapeAction"/>
-	    </hbox>
-	    
-	</vbox>
+	<panel>
+		<vbox>
+		
+			<!--
+		    <panel 
+		    	layout="GridLayout(2,2,1,10)"
+		    	border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Security information,LEFT,TOP,*-BOLD-*))"
+		    	background="*-30-95"
+		    	preferredSize="${el.scaleSize('90%')}"
+		    >
+		        <label text="Login" />
+		        <textfield bindWith="login" columns="15"/>
+		
+		        <label text="Password" />
+		        <passwordfield bindWith="password" columns="15" />
+		    </panel>
+			-->
+			
+		    <panel 
+		    	layout="GridbagLayout(columnWeights(1,10))"
+		    	border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Security information,LEFT,TOP,*-BOLD-*))"
+		    	background="*-30-95"
+		    	preferredSize="${el.scaleSize('90%')}"
+		    >
+		        <label text="Login">
+		        	<gridbagconstraints id="gbc1" gridx="0" gridy="0" ipadx="20" anchor="WEST"/>
+		        </label>
+		        <textfield bindWith="login" font="Monospaced-PLAIN-*">
+		        	<gridbagconstraints id="gbc2" gridx="1" gridy="0" ipadx="20" anchor="EAST" fill="HORIZONTAL"/>
+		        </textfield>
+		
+		        <label text="Password">
+		        	<gridbagconstraints refid="gbc1" gridy="1" />
+		        </label>
+		        <passwordfield bindWith="password" font="Monospaced-PLAIN-*">
+		        	<gridbagconstraints refid="gbc2" gridy="1" />
+		        </passwordfield>
+		    </panel>
+		
+		   	<box.vstrut height="10"/>
+		
+		    <hbox>
+		    	<box.glue/>
+		    	<button id="defaultButton" text="Submit" action="enterAction"/>
+		    	<box.hstrut width="5"/>
+		    	<button text="Close" action="escapeAction"/>
+		    </hbox>
+		    
+		</vbox>
+	</panel>
 
 </dialog>

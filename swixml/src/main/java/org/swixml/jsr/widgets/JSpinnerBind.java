@@ -1,11 +1,17 @@
 package org.swixml.jsr.widgets;
 
+import static javax.swing.SwingConstants.LEFT;
+import static org.swixml.converters.PrimitiveConverter.getConstantValue;
 import static org.swixml.jsr295.BindingUtils.parseBind;
 
 import java.awt.Component;
 import java.awt.Container;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
+import javax.swing.SpinnerModel;
 
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.Binding;
@@ -29,19 +35,13 @@ public class JSpinnerBind
 
 		public Date()
 		{
-			super();
+			super(new SpinnerDateModel());
 		}
 
 		private String dateFormat;
-		public String getDateFormat()
-		{
-			return dateFormat;
-		}
-		public void setDateFormat(String dateFormat)
-		{
-			this.dateFormat = dateFormat;
-		}
-
+		public String getDateFormat() { return dateFormat; }
+		public void setDateFormat(String dateFormat) { this.dateFormat = dateFormat; }
+		
 		@Override
 		public void addNotify()
 		{
@@ -57,6 +57,11 @@ public class JSpinnerBind
 	public JSpinnerBind()
 	{
 		super();
+	}
+
+	public JSpinnerBind(SpinnerModel spinnerModel)
+	{
+		super(spinnerModel);
 	}
 
 	@Override
@@ -111,7 +116,15 @@ public class JSpinnerBind
 		putClientProperty(BINDING_GROUP_PROPERTY, bindingGroup);
 	}
 	
-    /**
+	private String columns;
+    public String getColumns() { return columns; }
+	public void setColumns(String columns) { this.columns = columns; }
+
+	private String horizontalAlignment;
+	public String getHorizontalAlignment() { return horizontalAlignment; }
+	public void setHorizontalAlignment(String horizontalAlignment) { this.horizontalAlignment = horizontalAlignment; }
+	
+	/**
      * Create and add {@link AutoBinding} instance(s) to synchronize model
      * properties with this {@link JSpinner}.
      * 
@@ -127,6 +140,25 @@ public class JSpinnerBind
 		{
 			setBinding(parseBind(getBindingGroup(), this, "value", bindWith, getConverter()));
 			getBindingGroup().bind();
+		}
+
+		JFormattedTextField textField = null;
+		if ( getEditor() instanceof JSpinner.DateEditor )
+			textField = ((JSpinner.DateEditor) getEditor()).getTextField();
+		else if ( getEditor() instanceof JSpinner.ListEditor )
+			textField = ((JSpinner.ListEditor) getEditor()).getTextField();
+		else if ( getEditor() instanceof JSpinner.NumberEditor )
+			textField = ((JSpinner.NumberEditor) getEditor()).getTextField();
+
+		if ( textField != null )
+		{
+			if ( getColumns() != null )
+				textField.setColumns(Integer.parseInt(getColumns()));
+			if ( getHorizontalAlignment() != null )
+			{
+				Integer alignment = getConstantValue(JTextField.class, getHorizontalAlignment(), LEFT);
+				textField.setHorizontalAlignment(alignment);
+			}
 		}
 		
 		super.addNotify();

@@ -1,5 +1,8 @@
 package org.swixml.legacy;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -19,7 +22,7 @@ import org.swixml.SwingEngine;
 
 /**
  * The Actions class shows how to use the <code>Actions</code> and
- * <code>ActionCommand</code> attributes
+ * <code>ActionCommand</code> attributes.
  *
  * @author <a href="mailto:wolf@paulus.com">Wolf Paulus</a>
  * @version $Revision: 1.1 $
@@ -29,9 +32,11 @@ public class Actions extends JFrame implements ActionListener
 {
 	private static final long serialVersionUID = 20240701L;
 
+	// Instantiated by initclass="org.swixml.legacy.Actions$ComboModel"
 	public static class ComboModel extends DefaultComboBoxModel<Object>
 	{
 		private static final long serialVersionUID = 20240701L;
+		
 		/**
 		 * Constructs a DefaultComboBoxModel object.
 		 */
@@ -67,10 +72,10 @@ public class Actions extends JFrame implements ActionListener
 		private static final long serialVersionUID = 20240701L;
 
 		@Override
-		public void actionPerformed(ActionEvent e)
+		public void actionPerformed(ActionEvent ae)
 		{
 			// show the access outer class member ..
-			System.out.println("New"); 
+			showMessageDialog(Actions.this, "'New' is not implemented.");
 			// disables ALL buttons that are tied to this action
 			this.setEnabled(false); 
 		}
@@ -86,9 +91,9 @@ public class Actions extends JFrame implements ActionListener
 		
 		/** Invoked when an action occurs. */
 		@Override
-		public void actionPerformed(ActionEvent e)
+		public void actionPerformed(ActionEvent ae)
 		{
-			System.out.println("Open");
+			showMessageDialog(Actions.this, "'Open' is not implemented.");
 		}
 	};
 	
@@ -97,9 +102,10 @@ public class Actions extends JFrame implements ActionListener
 	{
 		private static final long serialVersionUID = 20240701L;
 		@Override
-		public void actionPerformed(ActionEvent e)
+		public void actionPerformed(ActionEvent ae)
 		{
-			System.out.println(((JComboBox<?>) e.getSource()).getSelectedItem().toString());
+			Object pet = ((JComboBox<?>) ae.getSource()).getSelectedItem();
+			showMessageDialog(Actions.this, "'Pet' is " + pet);
 		}
 	};
 
@@ -113,68 +119,79 @@ public class Actions extends JFrame implements ActionListener
 		try
 		{
 			swix = new SwingEngine<>(this);
+			swix.getELProcessor().defineBean("el", swix.getELMethods());
+			swix.getELProcessor().defineBean("window", this);
 			swix.render("org/swixml/legacy/actions.xml");
 			setLocationRelativeTo(null);
 			
-			// at this point all AbstractActions are linked with the button etc.
+			// at this point all AbstractActions are linked with the buttons
+			// in id="pnl_North".
+			swix.setActionListener(pnl_North, this);
+
 			// ActionCommands however need to be linked manually, see below ...
 			// add this class as an action listener to all buttons inside the
 			// panel with the id = center_panel
-			swix.setActionListener(pnl_North, this);
-			
-			// add this class as an action listener to MenuItem with the
+
+			// add these classes as an action listener to MenuItem with the
 			// id =  mi_exit.
 			mi_exit.addActionListener(this);
-			
-			// add this class as an action listener to MenuItem with the
 			// id = mi_save
 			mi_save.addActionListener(this);
-			
+			// id = mi_help
+			mi_help.addActionListener(this);
+			// id = mi_about
+			mi_about.addActionListener(this);
+
 			//
 			// Note: The mi_about MenuItem was not linked at all so far.
 			// Therefore, no action is performed when this menu item gets
-			// requested.
+			// requested. 2024-10-17, mi_help and mi_about have been linked!
 			//
 			// The Toolbar button with the Actions="newAction" attribute is
 			// covered twice, during parsing the AbstactAction newAction is
 			// linked in and later, the setActionListener() adds this object's
 			// actionPerformed(). Therefore, when clicked, both actionPerformed()
-			// methods are getting called.
+			// methods are getting called; but, command is null on one.
+			//
 			setVisible(true);
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
-			e.printStackTrace();
+			showErrorDialog(ex);
 		}
 	}
+	
 	//
 	// Implement ActionListener
 	//
 
 	/**
-	 * Invoked when an action occurs.
+	 * Invoked when an action occurs because
+	 * Actions implements ActionListener, here.
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e)
+	public void actionPerformed(ActionEvent ae)
 	{
-		String command = e.getActionCommand();
-		if ( "AC_EXIT".equals(command) )
+		String command = ae.getActionCommand();
+		if ( command != null )
 		{
-			this.windowClosing(null);
-		}
-		else if ( "AC_SAVE".equals(command) )
-		{
-			System.out.println("Save");
-		}
-		else
-		{
-			System.out.println("Click");
+			switch (command)
+			{
+				case "AC_EXIT":
+					showMessageDialog(Actions.this, "Good Bye!");
+					this.windowClosing(null);
+					break;
+				case "AC_ABOUT":
+				case "AC_HELP":
+				case "AC_SAVE":
+					showMessageDialog(Actions.this, command + " is not implemented.");
+					break;
+				default:
+					showMessageDialog(Actions.this, "'Click' is not implemented.");
+					break;
+			}
 		}
 	}
-	
-	//
-	// Overwrite Superclass implementation
-	//
 
 	/**
 	 * Invoked when the user attempts to close the window from the window's
@@ -182,19 +199,32 @@ public class Actions extends JFrame implements ActionListener
 	 * window while processing this event, the window close operation will be
 	 * cancelled.
 	 */
-	public void windowClosing(WindowEvent e)
+	public void windowClosing(WindowEvent we)
 	{
-		System.out.println("Good Bye!");
 		frame.setVisible(false);
 		System.exit(0);
 	}
+	
+	private static void showErrorDialog(Exception ex)
+	{
+		ex.printStackTrace();
+		String msg = ex.getClass().getSimpleName() + ": " + ex.getMessage() +"\n";
+		showMessageDialog(null, msg, "ERROR", ERROR_MESSAGE);
+	} 
 	
 	//
 	// Make the class bootable
 	//
 	public static void main(String[] args)
 	{
-		SwingEngine.DEBUG_MODE = true;
-		frame = new Actions();
+		try
+		{
+			SwingEngine.DEBUG_MODE = true;
+			frame = new Actions();
+		}
+		catch (Exception ex)
+		{
+			showErrorDialog(ex);
+		}
 	}
 }

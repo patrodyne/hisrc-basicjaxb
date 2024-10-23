@@ -41,7 +41,7 @@ import org.swixml.el.ELUtility;
  * @see <a href="file:package-info.java">LICENSE: package-info</a>
  */
 public class PrimitiveConverter	implements Converter<Object>,
-	SwingConstants, ScrollPaneConstants, KeyEvent, InputEvent
+	ScrollPaneConstants, KeyEvent, InputEvent
 {
 	private static final Logger logger = LoggerFactory.getLogger(PrimitiveConverter.class);
 
@@ -58,17 +58,20 @@ public class PrimitiveConverter	implements Converter<Object>,
 	 */
 	static
 	{
-		PrimitiveConverter.addConstantProvider(JTabbedPane.class);
-		PrimitiveConverter.addConstantProvider(JScrollPane.class);
-		PrimitiveConverter.addConstantProvider(JSplitPane.class);
-		PrimitiveConverter.addConstantProvider(GridBagConstraints.class);
-		PrimitiveConverter.addConstantProvider(FlowLayout.class);
-		PrimitiveConverter.addConstantProvider(ListSelectionModel.class);
-		PrimitiveConverter.addConstantProvider(TreeSelectionModel.class);
-		PrimitiveConverter.addConstantProvider(JDialog.class);
-		PrimitiveConverter.addConstantProvider(JFrame.class);
-		PrimitiveConverter.addConstantProvider(TitledBorder.class);
-		PrimitiveConverter.addConstantProvider(JComponent.class);
+		addConstantProvider(JTabbedPane.class);
+		addConstantProvider(JScrollPane.class);
+		addConstantProvider(JSplitPane.class);
+		addConstantProvider(GridBagConstraints.class);
+		addConstantProvider(FlowLayout.class);
+		addConstantProvider(ListSelectionModel.class);
+		addConstantProvider(TreeSelectionModel.class);
+		addConstantProvider(JDialog.class);
+		addConstantProvider(JFrame.class);
+		addConstantProvider(TitledBorder.class);
+		addConstantProvider(JComponent.class);
+		//
+		// See also: PrimitiveConverter.convConstants(String)
+		//
 	}
 
 	protected PrimitiveConverter()
@@ -149,32 +152,85 @@ public class PrimitiveConverter	implements Converter<Object>,
 					obj = Double.valueOf(a.getDoubleValue());
 			}
 		}
-		catch (NumberFormatException e)
+		catch (Exception ex)
 		{
 			// intent. empty
+			logger.debug("Cannot convert attribute [{}] as [{}]", attr.getLocalName(), type, ex);
 		}
-		finally
+		
+		// Try to convert a reference to a constant value.
+		if ( obj == null )
 		{
-			if ( obj == null )
+			String av1 = a.getValue();
+			String av2 = av1;
+			try
 			{
-				try
+				int k = av1.indexOf('.');
+				if ( k >= 0 )
 				{
-					String s = a.getValue();
-					int k = s.indexOf('.');
-					Class<?> pp = dictionaries.get(s.substring(0, k));
-					obj = pp.getField(s.substring(k + 1)).get(pp);
+					av2 = av1.substring(k+1);
+					Class<?> pp = dictionaries.get(av1.substring(0, k));
+					obj = pp.getField(av2).get(pp);
 				}
-				catch (Exception ex)
+				else
 				{
 					//
 					// Try to find the given value as a Constant in
-					// SwingConstants
+					// the "this" bean in the EL context.
 					//
-					obj = PrimitiveConverter.class.getField(a.getValue()).get(PrimitiveConverter.class);
+					obj = engine.getELProcessor().getValue("this", Object.class);
+					if ( obj != null )
+					{
+						Class<? extends Object> clz;
+						if ( obj instanceof Class<?> )
+							clz = (Class<? extends Object>) obj;
+						else
+							clz = obj.getClass();
+						obj = clz.getField(av1).get(clz);
+					}
+					else
+						obj = convConstants(av1);
+				}
+			}
+			catch (Exception ex)
+			{
+				obj = convConstants(av2);
+			}
+		}
+		
+		return (P) obj;
+	}
+
+	//
+	// Try to find the given value as a Constant in PrimitiveConverter:
+	// SwingConstants, KeyEvent, InputEvent.
+	//
+	protected static Object convConstants(String constant)
+	{
+		Object obj = null;
+		try
+		{
+			obj = SwingConstants.class.getField(constant).get(SwingConstants.class);
+		}
+		catch ( Exception ex1 )
+		{
+			try
+			{
+				obj = KeyEvent.class.getField(constant).get(KeyEvent.class);
+			}
+			catch ( Exception ex2 )
+			{
+				try
+				{
+					obj = InputEvent.class.getField(constant).get(InputEvent.class);
+				}
+				catch ( Exception ex3 )
+				{
+					logger.warn("cannot convert constant [{}]", constant, ex3);
 				}
 			}
 		}
-		return (P) obj;
+		return obj;
 	}
 
 	/**

@@ -4,27 +4,43 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
-	minimumSize="300,300"
+	size="${el.pageSize(30,5)}"
+	minimumSize="${el.size()}"
 	resizable="false"
 	title="Slider Dialog"
-	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(150,2.00)"
 >
-	<vbox>
-	
-	    <panel border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Slider))">
-			<slider id="transparency" constraints="3,43,5,1" minimum="0" maximum="255" value="200"
-				action="transparencyAction" bindWith="transparency"/>
-	    </panel>
-	
-	   	<box.vstrut height="10"/>
-	
-	    <hbox>
-	    	<button text="Test" action="test"/>
-	    	<box.glue/>
-	    	<button text="Submit" action="submit"/>
-	    	<box.hstrut width="5"/>
-	    	<button text="Close" action="close"/>
-	    </hbox>
-	    
-	</vbox>
+	<panel >
+		<vbox background="150-10-85" opaque="true">
+		    <panel
+		    	border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Slider))"
+				background="150-10-80" 
+		    >
+		    	<!--
+		    		The constraints attribute is ignored;
+		    		it may have once been used in a FormLayout context?
+					constraints="3,43,5,1"
+		    	-->
+				<slider
+					id="transparency"
+					bindWith="${el.bindWith('window.transparencyValue',200)}"
+					minimum="0"
+					maximum="255"
+					action="transparencyAction"
+					background="150-10-75" 
+					preferredSize="${el.scaleSize('100%','10%')}"
+				/>
+		    </panel>
+		   	<box.vstrut height="10"/>
+		    <hbox>
+		    	<button text="Test" action="test"/>
+		    	<box.glue/>
+		    	<button text="Submit" action="submit"/>
+		    	<box.hstrut width="5"/>
+		    	<button text="Close" action="close"/>
+		    </hbox>
+		</vbox>
+	</panel>
 </dialog>

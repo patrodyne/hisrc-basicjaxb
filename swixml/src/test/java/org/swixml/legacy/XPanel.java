@@ -1,5 +1,11 @@
 package org.swixml.legacy;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JPanel;
 
 import org.swixml.SwingEngine;
@@ -34,4 +40,24 @@ public class XPanel extends JPanel
 			System.err.println(e.getMessage());
 		}
 	}
+	
+	public Action okAction = new AbstractAction()
+	{
+		private static final long serialVersionUID = 20240701L;
+		@Override
+		public void actionPerformed(ActionEvent ae)
+		{
+			showMessageDialog(XPanel.this, "Sorry, 'OK' is not implemented yet.");
+		}
+	};
+	
+	public Action cancelAction = new AbstractAction()
+	{
+		private static final long serialVersionUID = 20240701L;
+		@Override
+		public void actionPerformed(ActionEvent ae)
+		{
+			showMessageDialog(XPanel.this, "Sorry, 'Cancel' is not implemented yet.");
+		}
+	};
 }

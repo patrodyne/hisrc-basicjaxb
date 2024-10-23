@@ -1,5 +1,8 @@
 package org.swixml.legacy;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 
@@ -23,6 +26,7 @@ public class Cards extends JFrame
 	private static final long serialVersionUID = 20240701L;
 	
 	private static final String DESCRIPTOR = "org/swixml/legacy/cards.xml";
+	
 	private SwingEngine<JFrame> swix = new SwingEngine<>(this);
 	
 	/** panel with a CardLayout */
@@ -31,6 +35,8 @@ public class Cards extends JFrame
 	private Cards()
 		throws Exception
 	{
+		swix.getELProcessor().defineBean("el", swix.getELMethods());
+		swix.getELProcessor().defineBean("window", this);
 		swix.render(Cards.DESCRIPTOR);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -64,16 +70,24 @@ public class Cards extends JFrame
 			}
 		}
 	};
-
+	
+	private static void showErrorDialog(Exception ex)
+	{
+		ex.printStackTrace();
+		String msg = ex.getClass().getSimpleName() + ": " + ex.getMessage() +"\n";
+		showMessageDialog(null, msg, "ERROR", ERROR_MESSAGE);
+	}
+	
 	public static void main(String[] args)
 	{
 		try
 		{
 			new Cards();
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
-			System.err.println(e.getMessage());
+			System.err.println(ex.getMessage());
+			showErrorDialog(ex);
 		}
 	}
 }

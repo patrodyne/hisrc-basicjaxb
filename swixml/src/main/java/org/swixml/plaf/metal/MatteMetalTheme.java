@@ -6,6 +6,8 @@ import static java.awt.Font.PLAIN;
 import static java.lang.Float.valueOf;
 import static java.lang.Math.round;
 import static javax.swing.UIManager.getDefaults;
+import static org.swixml.SwingEngine.DEFAULT_COLOR_KEY;
+import static org.swixml.SwingEngine.DEFAULT_FONT_KEY;
 
 import java.awt.Font;
 
@@ -16,49 +18,75 @@ import javax.swing.plaf.metal.DefaultMetalTheme;
 public class MatteMetalTheme extends DefaultMetalTheme
 {
 	// Private Fonts: name, style, size
-	private static final Object[] FONT_DIALOG_BOLD  = { "Dialog", BOLD,  12 };
 	private static final Object[] FONT_DIALOG_PLAIN = { "Dialog", PLAIN, 12 };
 	private static final Object[] FONT_DIALOG_BOLD1 = { "Dialog", BOLD,  12 };
 	private static final Object[] FONT_DIALOG_BOLD2 = { "Dialog", BOLD,  10 };
 
 	// Public Fonts: name, style, size
-	public static final Object[] FONT_CONTROL_TEXT = FONT_DIALOG_BOLD;
-	public static final Object[] FONT_SYSTEM_TEXT  = FONT_DIALOG_PLAIN;
-	public static final Object[] FONT_USER_TEXT    = FONT_DIALOG_PLAIN;
-	public static final Object[] FONT_MENU_TEXT    = FONT_DIALOG_PLAIN;
-	public static final Object[] FONT_WINDOW_TEXT  = FONT_DIALOG_BOLD1;
-	public static final Object[] FONT_SUB_TEXT     = FONT_DIALOG_BOLD2;
+	private static final Object[] FONT_CONTROL_TEXT = FONT_DIALOG_PLAIN;
+	private static final Object[] FONT_SYSTEM_TEXT  = FONT_DIALOG_PLAIN;
+	private static final Object[] FONT_USER_TEXT    = FONT_DIALOG_PLAIN;
+	private static final Object[] FONT_MENU_TEXT    = FONT_DIALOG_PLAIN;
+	private static final Object[] FONT_WINDOW_TEXT  = FONT_DIALOG_BOLD1;
+	private static final Object[] FONT_SUB_TEXT     = FONT_DIALOG_BOLD2;
 
-	private Font toFont(Object[] specs)
+	private static class FontSpec
 	{
-		if ( (specs == null) || (specs.length < 3) )
-			specs = FONT_SYSTEM_TEXT;
-		
-		String name = (String) specs[0];
-		int style = (int) specs[1];
-		int size = (int) specs[2];
+		private String name;
+		private int style;
+		private int size;
+		private FontSpec(Object[] specs)
+		{
+			if ( (specs == null) || (specs.length < 3) )
+				specs = FONT_SYSTEM_TEXT;
+			
+			this.name = (String) specs[0];
+			this.style = (int) specs[1];
+			this.size = (int) specs[2];
+		}
+	}
+	
+	private static Font toFont(Object[] specs)
+	{
+		FontSpec fs = new FontSpec(specs);
+		return new Font(fs.name, fs.style, fs.size);
+	}
+	
+	private Font toScaledFont(Object[] specs)
+	{
+		FontSpec fs = new FontSpec(specs);
 		
 		if ( (getScale() != null) && getScale() > 0.0f )
-			size = scalePoints(size);
+			fs.size = scalePoints(fs.size);
 		
-		return new Font(name, style, size);
+		return new Font(fs.name, fs.style, fs.size);
+	}
+	
+	public static FontUIResource getDefaultFontUIResource()
+	{
+		return new FontUIResource(toFont(FONT_SYSTEM_TEXT));
 	}
 	
 	private void customScale()
 	{
-		getDefaults().put("Default.font", getSystemTextFont());
+		getDefaults().put(DEFAULT_FONT_KEY, getSystemTextFont());
 		// See also toFont(int)
 	}
 	
 	// Public Colors: Hue [0 -> 360], Saturation [0, 100], Value [0, 100]
-	public static final float[] HSV_PRIMARY1    = { 195f, 34.0f,  34.0f };
-	public static final float[] HSV_PRIMARY2    = { 195f, 30.0f,  62.0f };
-	public static final float[] HSV_PRIMARY3    = { 195f, 28.0f,  78.0f };
-	public static final float[] HSV_SECONDARY1  = { 195f, 44.0f,  44.0f };
-	public static final float[] HSV_SECONDARY2  = { 195f, 31.0f,  62.0f };
-	public static final float[] HSV_SECONDARY3  = { 195f, 21.0f,  91.0f };
-	public static final float[] HSV_BLACK       = { 195f,  0.0f,   0.0f };
-	public static final float[] HSV_WHITE       = { 195f,  0.0f, 100.0f };
+	private static final float[] HSV_PRIMARY1    = { 195f, 34.0f,  34.0f };
+	private static final float[] HSV_PRIMARY2    = { 195f, 30.0f,  62.0f };
+	private static final float[] HSV_PRIMARY3    = { 195f, 28.0f,  78.0f };
+	private static final float[] HSV_SECONDARY1  = { 195f, 44.0f,  44.0f };
+	private static final float[] HSV_SECONDARY2  = { 195f, 31.0f,  70.0f };
+	private static final float[] HSV_SECONDARY3  = { 195f, 21.0f,  91.0f };
+	private static final float[] HSV_BLACK       = { 195f,  0.0f,   0.0f };
+	private static final float[] HSV_WHITE       = { 195f,  0.0f, 100.0f };
+	
+	public static ColorUIResource getDefaultColorUIResource()
+	{
+		return new ColorUIResource(hsb2rgb(HSV_PRIMARY1));
+	}
 	
 	private void customHue()
 	{
@@ -72,6 +100,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 			HSV_SECONDARY3[0] = getHue();
 			HSV_BLACK[0] = getHue();
 			HSV_WHITE[0] = getHue();
+			getDefaults().put(DEFAULT_COLOR_KEY, getPrimary1());
 		}
 	}
 	
@@ -86,7 +115,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	public FontUIResource getControlTextFont()
 	{
 		if ( controlTextFont == null )
-			setControlTextFont(new FontUIResource(toFont(FONT_CONTROL_TEXT)));
+			setControlTextFont(new FontUIResource(toScaledFont(FONT_CONTROL_TEXT)));
 		return controlTextFont;
 	}
 	public void setControlTextFont(FontUIResource controlTextFont)
@@ -99,7 +128,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	public FontUIResource getSystemTextFont()
 	{
 		if ( systemTextFont == null )
-			setSystemTextFont(new FontUIResource(toFont(FONT_SYSTEM_TEXT)));
+			setSystemTextFont(new FontUIResource(toScaledFont(FONT_SYSTEM_TEXT)));
 		return systemTextFont;
 	}
 	public void setSystemTextFont(FontUIResource systemTextFont)
@@ -112,7 +141,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	public FontUIResource getUserTextFont()
 	{
 		if ( userTextFont == null )
-			setUserTextFont(new FontUIResource(toFont(FONT_USER_TEXT)));
+			setUserTextFont(new FontUIResource(toScaledFont(FONT_USER_TEXT)));
 		return userTextFont;
 	}
 	public void setUserTextFont(FontUIResource userTextFont)
@@ -125,7 +154,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	public FontUIResource getMenuTextFont()
 	{
 		if ( menuTextFont == null )
-			setMenuTextFont(new FontUIResource(toFont(FONT_MENU_TEXT)));
+			setMenuTextFont(new FontUIResource(toScaledFont(FONT_MENU_TEXT)));
 		return menuTextFont;
 	}
 	public void setMenuTextFont(FontUIResource menuTextFont)
@@ -138,7 +167,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	public FontUIResource getWindowTitleFont()
 	{
 		if ( windowTitleFont == null )
-			setWindowTitleFont(new FontUIResource(toFont(FONT_WINDOW_TEXT)));
+			setWindowTitleFont(new FontUIResource(toScaledFont(FONT_WINDOW_TEXT)));
 		return windowTitleFont;
 	}
 	public void setWindowTitleFont(FontUIResource windowTitleFont)
@@ -151,7 +180,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	public FontUIResource getSubTextFont()
 	{
 		if ( subTextFont == null )
-			setSubTextFont(new FontUIResource(toFont(FONT_SUB_TEXT)));
+			setSubTextFont(new FontUIResource(toScaledFont(FONT_SUB_TEXT)));
 		return subTextFont;
 	}
 	public void setSubTextFont(FontUIResource subTextFont)
@@ -263,7 +292,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 		this.white = white;
 	}
 	
-	private int hsb2rgb(float[] hsv)
+	private static int hsb2rgb(float[] hsv)
 	{
 		float hue = (hsv[0]/360f);
 		float sat = (hsv[1]/100.0f);

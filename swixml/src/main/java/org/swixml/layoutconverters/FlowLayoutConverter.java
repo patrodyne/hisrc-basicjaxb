@@ -5,6 +5,7 @@ import java.awt.LayoutManager;
 import java.util.StringTokenizer;
 
 import org.swixml.LayoutConverter;
+import org.swixml.SwingEngine;
 import org.swixml.converters.PrimitiveConverter;
 import org.swixml.converters.Util;
 import org.swixml.dom.Attribute;
@@ -67,6 +68,16 @@ public class FlowLayoutConverter implements LayoutConverter
 	}
 
 	/**
+	 * Returns the @{link FlowLayout} class that knows how to lay out {@code Container}s.
+	 * @return The @{link FlowLayout} class that knows how to lay out {@code Container}s.
+	 */
+	@Override
+	public Class<FlowLayout> getLayoutManagerType()
+	{
+		return FlowLayout.class;
+	}
+
+	/**
 	 * <p>
 	 * Creates a FlowLayout instance.
 	 * </p>
@@ -81,7 +92,7 @@ public class FlowLayoutConverter implements LayoutConverter
 	 * </ul>
 	 */
 	@Override
-	public LayoutManager convertLayoutAttribute(final Attribute attr)
+	public LayoutManager convertLayoutAttribute(final Attribute attr, SwingEngine<?> engine)
 	{
 		StringTokenizer st = new StringTokenizer(attr.getValue(), "(,)");
 		st.nextToken(); // skip layout type
@@ -90,13 +101,15 @@ public class FlowLayoutConverter implements LayoutConverter
 			if ( st.hasMoreTokens() )
 			{
 				//
-				// First FlowLayout parameter might be a pre-defined constant's
-				// name
+				// The first parameter might be a pre-defined constant's name
 				//
-				Object o = PrimitiveConverter.conv(null, new Attribute("NA", st.nextToken()), null);
+				Class<Object> type = Object.class;
+				Attribute tokenAttr = new Attribute("align", st.nextToken());
+				Object o = PrimitiveConverter.conv(type, tokenAttr, engine);
 				int[] para = Util.ia(st);
+				
 				//
-				// Remaining parameters should be integer values
+				// The remaining parameters should be integer values
 				//
 				if ( para.length < 2 )
 					return new FlowLayout(Integer.valueOf(o.toString()).intValue());
@@ -104,8 +117,9 @@ public class FlowLayoutConverter implements LayoutConverter
 					return new FlowLayout(Integer.valueOf(o.toString()).intValue(), para[0], para[1]);
 			}
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
+			ex.printStackTrace();
 		}
 		return new FlowLayout();
 	}
@@ -142,11 +156,15 @@ public class FlowLayoutConverter implements LayoutConverter
 			String value = element.getAttribute("alignment");
 			try
 			{
-				Object o = PrimitiveConverter.conv(null, new Attribute("NA", value), null);
+				Class<Object> type = Object.class;
+				Attribute valueAttr = new Attribute("align", value);
+				SwingEngine<?> engine = null;
+				Object o = PrimitiveConverter.conv(type, valueAttr, engine);
 				align = Integer.valueOf(o.toString()).intValue();
 			}
 			catch (Exception ex)
 			{
+				ex.printStackTrace();
 			}
 		}
 		int hgap = Util.getInteger(element, "hgap", 5);
@@ -160,6 +178,11 @@ public class FlowLayoutConverter implements LayoutConverter
 	@Override
 	public Object convertConstraintsAttribute(final Attribute attr)
 	{
+		//
+		// FlowLayout does not use constraints.
+		//
+		// See java.awt.FlowLayout.addLayoutComponent(String, Component)
+		//
 		return null;
 	}
 

@@ -234,6 +234,16 @@ public class Parser implements LogAware
 	{
 		this.swingEngine = swingEngine;
 	}
+	
+	public ELContext getElContext()
+	{
+		return getSwingEngine().getELContext();
+	}
+
+	public ELProcessor getElProcessor()
+	{
+		return getSwingEngine().getELProcessor();
+	}
 
 	//
 	// Private Members
@@ -452,16 +462,18 @@ public class Parser implements LogAware
 
 	/**
 	 * Recursively converts <code>org.jdom.Element</code>s into
-	 * <code>javax.swing</code> or <code>java.awt</code> objects
+	 * <code>javax.swing</code> or <code>java.awt</code> objects.
 	 *
 	 * @param element <code>org.jdom.Element</code> XML tag
-	 * @param obj <code>Object</code> if not null, only this elements children
+	 * @param tag <code>Object</code> if not null, only this elements children
 	 *            will be processed, not the element itself
-	 * @return <code>java.awt.Container</code> representing the GUI
-	 *         implementation of the XML tag.
+	 *            
+	 * @return A <code>javax.swing</code> or <code>java.awt</code> object
+	 *         representing Swing/AWT implementation of the XML tag.
+	 *         
 	 * @throws Exception - if parsing fails
 	 */
-	public Object getSwing(Element element, Object obj)
+	public Object getSwing(Element element, Object tag)
 		throws Exception
 	{
 		Factory factory = getSwingEngine().getTaglib().getFactory(element.getLocalName());
@@ -493,10 +505,9 @@ public class Parser implements LogAware
 			Document doc = DOMUtil.getDocumentBuilder().parse(getSwingEngine().getClassLoader().getResourceAsStream(token));
 			Element xelem = find(doc.getDocumentElement(), st.nextToken().trim());
 			if ( xelem != null )
-			{
 				moveContent(xelem, element);
-			}
 		}
+		
 		//
 		// clone attribute if <em>refid</em> attribute is available
 		//
@@ -519,131 +530,9 @@ public class Parser implements LogAware
 		// let the factory instantiate a new object
 		//
 		NamedNodeMap attributes = element.getAttributes();
-		if ( obj == null )
+		if ( tag == null )
 		{
-			Object initParameter = null;
-			if ( element.getAttributeNode(Parser.ATTR_INITCLASS) != null )
-			{
-				StringTokenizer st = new StringTokenizer(element.getAttribute(Parser.ATTR_INITCLASS), "( )");
-				element.removeAttribute(Parser.ATTR_INITCLASS);
-				// try {
-				try
-				{
-					if ( st.hasMoreTokens() )
-					{
-						// load update type
-						Class<?> initClass = Class.forName(st.nextToken()); 
-						try
-						{ 
-							// look for a getInstance() method
-							Method factoryMethod = initClass.getMethod(Parser.GETINSTANCE);
-							if ( Modifier.isStatic(factoryMethod.getModifiers()) )
-							{
-								initParameter = factoryMethod.invoke(null);
-							}
-						}
-						catch (NoSuchMethodException nsme)
-						{
-							// really nothing to do here
-						}
-						
-						if ( initParameter == null && st.hasMoreTokens() )
-						{ // now try to instantiate with String taking ctor
-							try
-							{
-								Constructor<?> ctor = initClass.getConstructor(new Class[] { String.class });
-								String pattern = st.nextToken();
-								initParameter = ctor.newInstance(new Object[] { pattern });
-							}
-							catch (NoSuchMethodException e)
-							{ // intentionally empty
-							}
-							catch (SecurityException e)
-							{ // intentionally empty
-							}
-							catch (InstantiationException e)
-							{ // intentionally empty
-							}
-							catch (IllegalAccessException e)
-							{ // intentionally empty
-							}
-							catch (IllegalArgumentException e)
-							{ // intentionally empty
-							}
-							catch (InvocationTargetException e)
-							{ // intentionally empty
-							}
-						}
-						
-						if ( initParameter == null )
-						{
-							// now try to instantiate with default ctor
-							initParameter = initClass.getDeclaredConstructor().newInstance();
-						}
-						
-						if ( Action.class.isInstance(initParameter) )
-						{
-							for ( int i = 0, n = attributes.getLength(); i < n; i++ )
-							{
-								Attr attrib = (Attr) attributes.item(i);
-								String attribName = attrib.getLocalName();
-								if ( attribName != null && attribName.startsWith(ATTR_MACOS_PREFIX) )
-								{
-									mac_map.put(attribName, (Action) initParameter);
-								}
-							}
-						}
-					}
-				}
-				catch (ClassNotFoundException e)
-				{
-					logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(),
-						e);
-				}
-				catch (SecurityException e)
-				{
-					logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(),
-						e);
-				}
-				catch (IllegalAccessException e)
-				{
-					logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(),
-						e);
-				}
-				catch (IllegalArgumentException e)
-				{
-					logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(),
-						e);
-				}
-				catch (InvocationTargetException e)
-				{
-					logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(),
-						e);
-				}
-				catch (InstantiationException e)
-				{
-					logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(),
-						e);
-				}
-				catch (RuntimeException re)
-				{
-					throw re;
-				}
-				catch (Exception e)
-				{
-					throw new Exception(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
-				}
-			}
-			
-			// If initParameter is not null,
-			// then initialize a new object whose type is determined
-			// by the factory's backing class template; otherwise, 
-			// create a new instance of a template class.
-			if ( initParameter != null )
-				obj = factory.newInstance(getSwingEngine(), initParameter);
-			else
-				obj = factory.create(getSwingEngine(), element);
-			
+			tag = fromFactory(factory, element, attributes);
 			constructed = true;
 		}
 		
@@ -653,20 +542,35 @@ public class Parser implements LogAware
 		//
 		if ( id != null )
 		{
-			getSwingEngine().getIdMap().put(id, obj);
-			getSwingEngine().mapMember(obj, id);
+			getSwingEngine().getIdMap().put(id, tag);
+			getSwingEngine().mapMember(tag, id);
 		}
 		//
 		// add extra property
 		//
-		if ( obj instanceof JComponent )
-		{
-			((JComponent) obj).putClientProperty(ENGINE_PROPERTY, getSwingEngine());
-		}
-		//
-		// handle "layout" element or attribute
-		//
-		if ( obj instanceof Container )
+		if ( tag instanceof JComponent )
+			((JComponent) tag).putClientProperty(ENGINE_PROPERTY, getSwingEngine());
+		
+		////////////////////////////////////////////////
+		// handle "layout" container and tag attributes.
+		////////////////////////////////////////////////
+		
+		// Process container
+		processContainer(tag, element, attributes);
+		
+		// Set up the EL processor for this tag.
+		getElProcessor().defineBean("this", tag);
+		// Process tag
+		processTag(id, tag, factory, element, attributes);
+		// Unset the EL processor for this tag.
+		getElProcessor().defineBean("this", null);
+		
+		return (constructed ? tag : null);
+	}
+	
+	protected void processContainer(Object tag, Element element, NamedNodeMap attributes)
+	{
+		if ( tag instanceof Container )
 		{
 			LayoutManager lm = null;
 			// element.getChild("layout");
@@ -678,9 +582,7 @@ public class Parser implements LogAware
 				LayoutConverter layoutConverter = LayoutConverterLibrary.getInstance()
 					.getLayoutConverterByID(layoutType);
 				if ( layoutConverter != null )
-				{
 					lm = layoutConverter.convertLayoutElement(layoutElement);
-				}
 			}
 			if ( lm == null )
 			{
@@ -704,28 +606,41 @@ public class Parser implements LogAware
 					String layoutType = layoutAttr.getValue();
 					int index = layoutType.indexOf('(');
 					if ( index > 0 )
-						layoutType = layoutType.substring(0, index); // strip
-																		// parameters
+					{
+						// strip parameters
+						layoutType = layoutType.substring(0, index); 
+					}
 					LayoutConverter layoutConverter = LayoutConverterLibrary.getInstance()
 						.getLayoutConverterByID(layoutType);
 					if ( layoutConverter != null )
 					{
-						lm = layoutConverter.convertLayoutAttribute(new Attribute(layoutAttr));
+						// Set up the EL processor for this tag.
+						getElProcessor().defineBean("this", layoutConverter.getLayoutManagerType());
+						// Convert layout attribute to a LayoutManager
+						lm = layoutConverter.convertLayoutAttribute
+						(
+							new Attribute(layoutAttr),
+							getSwingEngine()
+						);
+						// Unset the EL processor for this tag.
+						getElProcessor().defineBean("this", null);
 					}
 				}
 			}
 			if ( lm != null )
-				setLayoutManager(obj, lm);
+				setLayoutManager(tag, lm);
 		}
-		////////////////////////////////////////////////////
-		// process tag
-		//
-		////////////////////////////////////////////////////
+	}
+	
+	protected void processTag(final String id, Object tag, Factory factory, Element element, NamedNodeMap attributes)
+		throws Exception
+	{
 		List<Attribute> remainingAttrs = new java.util.ArrayList<Attribute>(attributes.getLength() + 2);
-		////////////////////////////////////////////////////
+		
+		/////////////////////////////////////////////////////////////////
 		// 1st attempt to apply attributes (call setters on the objects)
 		// put an action attribute at the beginning of the attribute list
-		////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////
 		Attr actionAttr = element.getAttributeNode(ATTR_ACTION);
 		if ( actionAttr != null )
 		{
@@ -746,12 +661,11 @@ public class Parser implements LogAware
 			if ( text != null && !text.isBlank() )
 				remainingAttrs.add(new Attribute(ATTR_TEXT, text));
 		}
-		remainingAttrs = applyAttributes(obj, factory, Attribute.asList(remainingAttrs, attributes));
+		remainingAttrs = applyAttributes(tag, factory, Attribute.asList(remainingAttrs, attributes));
 		////////////////////////////////////////////////////
 		// process child tags
-		//
 		////////////////////////////////////////////////////
-		LayoutManager layoutMgr = getLayoutManager(obj);
+		LayoutManager layoutMgr = getLayoutManager(tag);
 		NodeList children = element.getChildNodes();
 		for ( int i = 0; i < children.getLength(); ++i )
 		{
@@ -759,24 +673,25 @@ public class Parser implements LogAware
 			if ( n instanceof Element )
 			{
 				Element child = (Element) n;
-				factory.process(this, obj, child, layoutMgr);
+				factory.process(this, tag, child, layoutMgr);
 			}
 		}
-		//
+		
+		////////////////////////////////////////////////////////////////
 		// 2nd attempt to apply attributes (call setters on the objects)
-		//
+		////////////////////////////////////////////////////////////////
 		if ( remainingAttrs != null && !remainingAttrs.isEmpty() )
 		{
-			remainingAttrs = applyAttributes(obj, factory, remainingAttrs);
+			remainingAttrs = applyAttributes(tag, factory, remainingAttrs);
 			if ( remainingAttrs != null )
 			{
 				for ( Attribute attr : remainingAttrs )
 				{
-					if ( JComponent.class.isAssignableFrom(obj.getClass()) )
+					if ( JComponent.class.isAssignableFrom(tag.getClass()) )
 					{
-						((JComponent) obj).putClientProperty(attr.getLocalName(), attr.getValue());
+						((JComponent) tag).putClientProperty(attr.getLocalName(), attr.getValue());
 						logger.debug("putClientProperty: id={}, class={}, attr={}, value={}",
-							id, obj.getClass().getName(), attr.getLocalName(),
+							id, tag.getClass().getName(), attr.getLocalName(),
 							(attr.getValue() != null) ? attr.getValue().replaceAll("\n", "") : "");
 					}
 					else
@@ -784,18 +699,145 @@ public class Parser implements LogAware
 				}
 			}
 		}
-		return (constructed ? obj : null);
+	}
+	
+	protected Object fromFactory(Factory factory, Element element, NamedNodeMap attributes)
+		throws Exception, InstantiationException, IllegalAccessException, InvocationTargetException
+	{
+		Object obj;
+		Object initParameter = null;
+		if ( element.getAttributeNode(Parser.ATTR_INITCLASS) != null )
+		{
+			StringTokenizer st = new StringTokenizer(element.getAttribute(Parser.ATTR_INITCLASS), "( )");
+			element.removeAttribute(Parser.ATTR_INITCLASS);
+			// try {
+			try
+			{
+				if ( st.hasMoreTokens() )
+				{
+					// load update type
+					Class<?> initClass = Class.forName(st.nextToken()); 
+					try
+					{ 
+						// look for a getInstance() method
+						Method factoryMethod = initClass.getMethod(Parser.GETINSTANCE);
+						if ( Modifier.isStatic(factoryMethod.getModifiers()) )
+						{
+							initParameter = factoryMethod.invoke(null);
+						}
+					}
+					catch (NoSuchMethodException nsme)
+					{
+						// really nothing to do here
+					}
+					
+					if ( initParameter == null && st.hasMoreTokens() )
+					{ // now try to instantiate with String taking ctor
+						try
+						{
+							Constructor<?> ctor = initClass.getConstructor(new Class[] { String.class });
+							String pattern = st.nextToken();
+							initParameter = ctor.newInstance(new Object[] { pattern });
+						}
+						catch (NoSuchMethodException e)
+						{ // intentionally empty
+						}
+						catch (SecurityException e)
+						{ // intentionally empty
+						}
+						catch (InstantiationException e)
+						{ // intentionally empty
+						}
+						catch (IllegalAccessException e)
+						{ // intentionally empty
+						}
+						catch (IllegalArgumentException e)
+						{ // intentionally empty
+						}
+						catch (InvocationTargetException e)
+						{ // intentionally empty
+						}
+					}
+					
+					if ( initParameter == null )
+					{
+						// now try to instantiate with default ctor
+						initParameter = initClass.getDeclaredConstructor().newInstance();
+					}
+					
+					if ( Action.class.isInstance(initParameter) )
+					{
+						for ( int i = 0, n = attributes.getLength(); i < n; i++ )
+						{
+							Attr attrib = (Attr) attributes.item(i);
+							String attribName = attrib.getLocalName();
+							if ( attribName != null && attribName.startsWith(ATTR_MACOS_PREFIX) )
+							{
+								mac_map.put(attribName, (Action) initParameter);
+							}
+						}
+					}
+				}
+			}
+			catch (ClassNotFoundException e)
+			{
+				logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
+			}
+			catch (SecurityException e)
+			{
+				logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
+			}
+			catch (IllegalAccessException e)
+			{
+				logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
+			}
+			catch (IllegalArgumentException e)
+			{
+				logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
+			}
+			catch (InvocationTargetException e)
+			{
+				logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
+			}
+			catch (InstantiationException e)
+			{
+				logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
+			}
+			catch (RuntimeException re)
+			{
+				throw re;
+			}
+			catch (Exception e)
+			{
+				throw new Exception(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
+			}
+		}
+		
+		// If initParameter is not null, then initialize a new object
+		// whose type is determined by the factory's backing class template;
+		// otherwise, create a new instance of a template class.
+		if ( initParameter != null )
+			obj = factory.newInstance(getSwingEngine(), initParameter);
+		else
+			obj = factory.create(getSwingEngine(), element);
+		return obj;
 	}
 
 	/**
+	 * Is the given attribute an EL variable.
 	 * 
-	 * @return
+	 * @param attr The given attribute.
+	 * 
+	 * @return True when the given attribute is
+	 *         an EL variable.
 	 */
 	private boolean isELVariable(Attribute attr)
 	{
-		// IS BOUNDED
+		// Is binded variable, return no EL variable.
 		if ( ATTR_BIND_WITH.equalsIgnoreCase(attr.getLocalName()) )
 			return false;
+		
+		// Is EL variable?
 		return isELPattern(attr.getValue());
 	}
 
@@ -849,13 +891,6 @@ public class Parser implements LogAware
 		// Prioritize attributes for EL processing, etc..
 		prioritize(attributes);
 
-		// reference the EL context and processor.
-		ELContext elContext = getSwingEngine().getELContext();
-		ELProcessor elProcessor = getSwingEngine().getELProcessor();
-		
-		// Set up the EL processor for this tag.
-		elProcessor.defineBean("this", tag);
-		
 		// Create an ApplyAttribute to store loop-wide results.
 		ApplyAttribute aa = new ApplyAttribute();
 		for ( Attribute attr : attributes )
@@ -864,23 +899,20 @@ public class Parser implements LogAware
 			Attr domAttribute = attr.getDomAttribute();
 			if ( domAttribute != null )
 			{
-				setVariable(elContext, ELVAR_DOM_ATTRIBUTE, domAttribute);
-				setVariable(elContext, ELVAR_DOM_ELEMENT, domAttribute.getOwnerElement());
+				setVariable(getElContext(), ELVAR_DOM_ATTRIBUTE, domAttribute);
+				setVariable(getElContext(), ELVAR_DOM_ELEMENT, domAttribute.getOwnerElement());
 			}
 			else
-				logger.warn("Missing DOM attr: " + attr.getLocalName() +" = " + attr.getValue());
+				logger.debug("Missing DOM attr: " + attr.getLocalName() +" = " + attr.getValue());
 			
 			// loop through all available attributes
-			applyAttribute(elContext, tag, factory, attr, aa);
+			applyAttribute(getElContext(), tag, factory, attr, aa);
 			
 			// Unset the EL context for this attribute.
-			unsetVariable(elContext, ELVAR_DOM_ELEMENT);
-			unsetVariable(elContext, ELVAR_DOM_ATTRIBUTE);
+			unsetVariable(getElContext(), ELVAR_DOM_ELEMENT);
+			unsetVariable(getElContext(), ELVAR_DOM_ATTRIBUTE);
 		}
-		
-		// Unset the EL processor for this tag.
-		elProcessor.defineBean("this", null);
-		
+
 		if ( aa.attr_id != null && aa.attr_name == null )
 		{
 			// Originally created just the Attribute without the DOM Attr.
@@ -899,8 +931,8 @@ public class Parser implements LogAware
 	
 	private void prioritize(List<Attribute> attributes)
 	{
-		Attribute attr_plaf = null;
-		Attribute attr_font = null, attr_size = null;
+		Attribute attr_plaf = null, attr_size = null;
+		Attribute attr_font = null, attr_type = null;
 		for ( Attribute attr : attributes )
 		{
 			if ( "plaf".equalsIgnoreCase(attr.getLocalName()) )
@@ -909,9 +941,14 @@ public class Parser implements LogAware
 				attr_font = attr;
 			else if ( "size".equalsIgnoreCase(attr.getLocalName()) )
 				attr_size = attr;
+			else if ( "type".equalsIgnoreCase(attr.getLocalName()) )
+				attr_type = attr;
 			if ( (attr_font != null) && (attr_size != null) )
 				break;
 		}
+		// Order invocations by reverse priority
+		// to achieve forward priority!
+		prioritize(attributes, attr_type);
 		prioritize(attributes, attr_size);
 		prioritize(attributes, attr_font);
 		prioritize(attributes, attr_plaf);
@@ -937,7 +974,7 @@ public class Parser implements LogAware
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void applyAttribute(ELContext elContext, Object obj, Factory factory, Attribute attr, ApplyAttribute aa)
+	private void applyAttribute(ELContext elContext, Object tag, Factory factory, Attribute attr, ApplyAttribute aa)
 		throws Exception
 	{
 		// loop through all available attributes
@@ -959,9 +996,9 @@ public class Parser implements LogAware
 			return;
 		}
 		
-		if ( JLabel.class.isAssignableFrom(obj.getClass()) && attr.getLocalName().equalsIgnoreCase("LabelFor") )
+		if ( JLabel.class.isAssignableFrom(tag.getClass()) && attr.getLocalName().equalsIgnoreCase("LabelFor") )
 		{
-			lbl_map.put((JLabel) obj, attr.getValue());
+			lbl_map.put((JLabel) tag, attr.getValue());
 			return;
 		}
 		
@@ -993,10 +1030,10 @@ public class Parser implements LogAware
 				if ( null != para )
 				{
 					BeanProperty<Object, Object> bp = BeanProperty.create(attr.getLocalName());
-					if ( bp.isWriteable(obj) )
+					if ( bp.isWriteable(tag) )
 					{
 						// factory.setSimpleProperty(obj, attr.getLocalName(), para);
-						bp.setValue(obj, para);
+						bp.setValue(tag, para);
 					}
 					else
 						logger.warn("property " + attr.getLocalName() + " is not writable!");
@@ -1017,7 +1054,7 @@ public class Parser implements LogAware
 		// Not an EL parameter
 		////////////////////////
 		
-		Class<?>[] paraTypes = factory.getPropertyType(obj, attr.getLocalName());
+		Class<?>[] paraTypes = factory.getPropertyType(tag, attr.getLocalName());
 		if ( null != paraTypes )
 		{
 			@SuppressWarnings("rawtypes")
@@ -1040,7 +1077,7 @@ public class Parser implements LogAware
 						aa.action = (Action) para;
 					
 					// ATTR SET
-					factory.setProperty(obj, attr, para, paraType); 
+					factory.setProperty(tag, attr, para, paraType); 
 				}
 				catch (NoSuchFieldException e)
 				{
@@ -1071,9 +1108,9 @@ public class Parser implements LogAware
 					// a rule, contain all the non-menu components
 					// displayed by the JFrame.
 					//
-					if ( obj instanceof RootPaneContainer )
+					if ( tag instanceof RootPaneContainer )
 					{
-						Container rootpane = ((RootPaneContainer) obj).getContentPane();
+						Container rootpane = ((RootPaneContainer) tag).getContentPane();
 						Factory rpFactory = getSwingEngine().getTaglib().getFactory(rootpane.getClass());
 						try
 						{
@@ -1111,7 +1148,7 @@ public class Parser implements LogAware
 						s = getSwingEngine().getLocalizer().getString(s);
 					
 					// ATTR SET
-					factory.setProperty(obj, attr, s, paraType);
+					factory.setProperty(tag, attr, s, paraType);
 				}
 				catch (Exception e)
 				{
@@ -1128,7 +1165,7 @@ public class Parser implements LogAware
 				try
 				{
 					// ATTR SET
-					factory.setProperty(obj, attr, PrimitiveConverter.conv(paraType, attr, getSwingEngine()), paraType);
+					factory.setProperty(tag, attr, PrimitiveConverter.conv(paraType, attr, getSwingEngine()), paraType);
 				}
 				catch (Exception e)
 				{
@@ -1152,7 +1189,7 @@ public class Parser implements LogAware
 			// attribute name
 			try
 			{
-				Field field = obj.getClass().getField(attr.getLocalName());
+				Field field = tag.getClass().getField(attr.getLocalName());
 				if ( field != null )
 				{
 					Converter<?> converter = CVTLIB.getConverter(field.getType());
@@ -1168,7 +1205,7 @@ public class Parser implements LogAware
 							fieldValue = getSwingEngine().getLocalizer().getString((String) fieldValue);
 						
 						// ATTR SET
-						field.set(obj, fieldValue);
+						field.set(tag, fieldValue);
 					}
 					else
 						aa.notAppliedAttrList.add(attr);

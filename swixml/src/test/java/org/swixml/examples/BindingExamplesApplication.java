@@ -1,5 +1,8 @@
 package org.swixml.examples;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 
 import org.swixml.jsr296.SwingApplication;
@@ -42,14 +45,29 @@ public class BindingExamplesApplication
 		try
 		{
 			JFrame frame = render(WINDOW);
+			frame.addWindowListener(new WindowListener());
 			frame.setLocationRelativeTo(null);
 			show(frame);
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
-			e.printStackTrace();
+			showErrorDialog(ex);
+			logger.error("startup: ", ex);
 			exit();
 		}
+	}
+	
+	/*
+	 * Gracefully shutdown the application.
+	 */
+	private class WindowListener extends WindowAdapter
+	{
+        @Override
+        public void windowClosing(WindowEvent we)
+        {
+        	// Close tasks, etc.
+        	exit(we);
+        }
 	}
 	
 	public static void main(String args[])

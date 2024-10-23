@@ -5,7 +5,6 @@ import static org.swixml.dom.DOMUtil.getDocumentBuilder;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionListener;
@@ -35,7 +34,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
 
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
@@ -44,6 +42,7 @@ import org.swixml.dom.DOMUtil;
 import org.swixml.el.ELMethods;
 import org.swixml.localization.LocalizerDefaultImpl;
 import org.swixml.localization.LocalizerJSR296Impl;
+import org.swixml.plaf.metal.MatteMetalTheme;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -73,6 +72,11 @@ import jakarta.validation.ValidatorFactory;
  */
 public class SwingEngine<T extends Container> implements LogAware
 {
+	// Represents the font to use as the default font.
+	public static final String DEFAULT_FONT_KEY = "Default.font";
+	// Represents the color to use as the default color.
+	public static final String DEFAULT_COLOR_KEY = "Default.color";
+	
 	public static interface Namespaces
 	{
 		final String main = "http://www.swixml.org/2007/Swixml";
@@ -294,8 +298,8 @@ public class SwingEngine<T extends Container> implements LogAware
 		getLocalizer().setResourceBundle(SwingEngine.default_resource_bundle_name);
 		setLocale(SwingEngine.default_locale);
 		
-		FontUIResource fontUIR = new FontUIResource(new Font("Dialog", Font.PLAIN, 12));
-		UIManager.getDefaults().put("Default.font", fontUIR);
+		UIManager.getDefaults().put(DEFAULT_FONT_KEY, MatteMetalTheme.getDefaultFontUIResource());
+		UIManager.getDefaults().put(DEFAULT_COLOR_KEY, MatteMetalTheme.getDefaultColorUIResource());
 	}
 	
 	/**

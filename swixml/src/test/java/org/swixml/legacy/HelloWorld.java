@@ -43,8 +43,10 @@ public class HelloWorld extends JFrame
 	private HelloWorld()
 		throws Exception
 	{
-		new SwingEngine<JFrame>(this)
-			.render("org/swixml/legacy/helloworld.xml");
+		SwingEngine<JFrame> swix = new SwingEngine<>(this);
+		swix.getELProcessor().defineBean("el", swix.getELMethods());
+		swix.getELProcessor().defineBean("window", this);
+		swix.render("org/swixml/legacy/helloworld.xml");
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

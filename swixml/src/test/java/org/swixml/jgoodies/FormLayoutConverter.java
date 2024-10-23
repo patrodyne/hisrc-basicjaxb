@@ -4,6 +4,7 @@ import java.awt.LayoutManager;
 import java.util.StringTokenizer;
 
 import org.swixml.LayoutConverter;
+import org.swixml.SwingEngine;
 import org.swixml.converters.Util;
 import org.swixml.dom.Attribute;
 import org.w3c.dom.Attr;
@@ -71,10 +72,20 @@ public class FormLayoutConverter implements LayoutConverter
 	}
 
 	/**
+	 * Returns the @{link FormLayout} class that knows how to lay out {@code Container}s.
+	 * @return The @{link FormLayout} class that knows how to lay out {@code Container}s.
+	 */
+	@Override
+	public Class<FormLayout> getLayoutManagerType()
+	{
+		return FormLayout.class;
+	}
+
+	/**
 	 * Returns always <code>null</code>.
 	 */
 	@Override
-	public LayoutManager convertLayoutAttribute(final Attribute attr)
+	public LayoutManager convertLayoutAttribute(final Attribute attr, SwingEngine<?> engine)
 	{
 		return null;
 	}
@@ -166,6 +177,18 @@ public class FormLayoutConverter implements LayoutConverter
 	@Override
 	public Object convertConstraintsAttribute(final Attribute attr)
 	{
+		//
+		// FormLayout decodes and returns the grid bounds and alignments for the 
+		// constraints as an array of six integers. The string representation
+		// is a comma separated sequence, one of:
+		//
+		// "x, y"
+		// "x, y, w, h"
+		// "x, y, hAlign, vAlign"
+		// "x, y, w, h, hAlign, vAlign"
+		//
+		// See com.jgoodies.forms.layout.FormLayout.addLayoutComponent(Component, Object)
+		//
 		return new CellConstraints(attr.getValue());
 	}
 

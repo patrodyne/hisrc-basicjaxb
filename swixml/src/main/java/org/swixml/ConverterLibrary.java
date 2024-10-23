@@ -18,6 +18,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.border.Border;
+import javax.swing.table.TableCellRenderer;
 
 import org.swixml.converters.ActionConverter;
 import org.swixml.converters.BorderConverter;
@@ -34,6 +35,7 @@ import org.swixml.converters.PointConverter;
 import org.swixml.converters.PrimitiveConverter;
 import org.swixml.converters.RectangleConverter;
 import org.swixml.converters.StringConverter;
+import org.swixml.converters.TableCellRendererConverter;
 
 /**
  * <p>
@@ -77,7 +79,7 @@ public class ConverterLibrary
 	private Map<Class<?>, Converter<?>> converters = new HashMap<Class<?>, Converter<?>>();
 
 	/**
-	 * The only available Ctor is private to make this a Singleton
+	 * The only available constructor is private to make this a Singleton
 	 */
 	private ConverterLibrary()
 	{
@@ -125,6 +127,7 @@ public class ConverterLibrary
 		register(Point.class, new PointConverter());
 		register(Rectangle.class, new RectangleConverter());
 		register(String.class, new StringConverter());
+		register(TableCellRenderer.class, new TableCellRendererConverter());
 		//
 		// Register the PrimitiveConverter class for java primitive types
 		//

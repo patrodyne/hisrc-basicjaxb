@@ -4,21 +4,23 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 	
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(45,1.00)"
 	name="frame"
-	size="500,300"
+	size="${el.pageSize(60,20)}"
+	preferredSize="${el.size()}"
 	title="Simple Complaint Dialog"
-	background="FFCCEE"
 	layout="BorderLayout"
-	defaultCloseOperation="JFrame.DISPOSE_ON_CLOSE"
+	defaultCloseOperation="DISPOSE_ON_CLOSE"
 >
-	<panel name="pnl" background="3399CC" border="MatteBorder(4,4,4,4,red)" constraints="BorderLayout.CENTER" layout="GridBagLayout">
+	<panel name="pnl" background="*-05-100" border="MatteBorder(4,4,4,4,'*-100-100')" constraints="CENTER" layout="GridBagLayout">
 	
 		<button name="btn1" text="Wonderful">
 			<gridbagconstraints id="gbc_1" insets="2,2,2,2" gridx="0" gridy="0" ipadx="15" ipady="15" weightx="1" weighty="1" />
 		</button>
 		
 		<button name="btn2" text="World">
-			<gridbagconstraints use="gbc_1" gridx="1" />
+			<gridbagconstraints refid="gbc_1" gridx="1" />
 		</button>
 		
 		<button name="btn3" text="of">

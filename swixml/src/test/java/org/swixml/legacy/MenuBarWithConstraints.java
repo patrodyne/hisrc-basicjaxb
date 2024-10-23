@@ -17,6 +17,7 @@ import org.swixml.SwingEngine;
 public class MenuBarWithConstraints extends JFrame
 {
 	private static final long serialVersionUID = 20240701L;
+	
 	public Action exitAction = new AbstractAction()
 	{
 		private static final long serialVersionUID = 20240701L;
@@ -35,6 +36,7 @@ public class MenuBarWithConstraints extends JFrame
 		throws Exception
 	{
 		SwingEngine<JFrame> se = new SwingEngine<>(new MenuBarWithConstraints());
+		se.getELProcessor().defineBean("el", se.getELMethods());
 		JFrame container = se.render("org/swixml/legacy/menu-bar.xml");
 		container.setLocationRelativeTo(null);
 		container.setVisible(true);

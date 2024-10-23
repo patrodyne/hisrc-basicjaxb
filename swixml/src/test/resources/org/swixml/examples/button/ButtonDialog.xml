@@ -6,26 +6,28 @@
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
 	name="dialog"
-    minimumSize="400,240"
+	size="${el.pageSize(40,10)}"
+	minimumSize="${el.size()}"
 	resizable="true" 
 	title="Example Button usage" 
 	undecorated="false" 
 	alwaysOnTop="true"
-	defaultCloseOperation="JDialog.DISPOSE_ON_CLOSE" 
+	defaultCloseOperation="DISPOSE_ON_CLOSE" 
 	modal="false"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(60,2.0)"
 >
 
 	<panel layout="borderLayout">
 	
-		<vbox constraints="BorderLayout.CENTER">
+		<vbox constraints="CENTER">
 		
-			<togglebutton name="tb" id="toggleButton" action="onCLick">Click Me</togglebutton>
+			<togglebutton id="toggleButton" name="tb" action="onCLick">Click Me</togglebutton>
 			
 			<box.vstrut height="10"></box.vstrut>
 			
 			<hbox>
-			    <buttongroup >
+			    <buttongroup>
 			        <radiobutton id="am" text="AM" selected="true"/>
 			        <radiobutton id="fm" text="FM" selected="false"/>
 			    </buttongroup>
@@ -33,22 +35,42 @@
 			
 			<box.vstrut height="10"></box.vstrut>
 			
-			<!-- 
-			<panel layout="borderLayout">
-				<buttongroup >
-				    <radiobutton id="north" text="north" constraints="BorderLayout.NORTH"/>
-				    <radiobutton id="south" text="south" constraints="BorderLayout.SOUTH"/>
-				    <radiobutton id="center" text="center" constraints="BorderLayout.CENTER"/>
-				    <radiobutton id="west" text="west" constraints="BorderLayout.WEST"/>
-				    <radiobutton id="east" text="east" constraints="BorderLayout.EAST"/>
+			<panel layout="borderLayout" border="LineBorder(*-90-50, 3)">
+				<buttongroup>
+					<hbox constraints="NORTH" background="*-60-90" opaque="true">
+						<box.hglue />
+				    	<radiobutton id="north"  text="North"  action="onRadio" background="*-30-60"/>
+				    	<box.hglue />
+					</hbox>
+					<hbox constraints="WEST" background="*-40-80" opaque="true">
+						<box.hglue />
+				    	<radiobutton id="west"   text="West"   action="onRadio" background="*-30-60"/>
+				    	<box.hglue />
+					</hbox>
+					<hbox constraints="CENTER" background="*-30-70" opaque="true">
+						<box.hglue />
+					    <radiobutton id="center" text="Center" action="onRadio" background="*-30-60" />
+				    	<box.hglue />
+					</hbox>
+					<hbox constraints="EAST" background="*-40-80" opaque="true">
+						<box.hglue />
+					    <radiobutton id="east"   text="East"   action="onRadio" background="*-30-60"/>
+				    	<box.hglue />
+					</hbox>
+					<hbox constraints="SOUTH" background="*-60-90" opaque="true">
+						<box.hglue />
+					    <radiobutton id="south"  text="South"  action="onRadio" background="*-30-60"/>
+				    	<box.hglue />
+					</hbox>
 				</buttongroup>
 			</panel>
-			-->
 			
 		</vbox>
 		
-		<hbox constraints="BorderLayout.SOUTH">
+		<hbox constraints="SOUTH">
+			<box.hglue />
 			<button action="close">CLOSE</button>
+			<box.hglue />
 		</hbox>
 
 	</panel>

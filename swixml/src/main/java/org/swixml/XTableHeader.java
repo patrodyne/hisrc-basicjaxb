@@ -32,11 +32,11 @@ public class XTableHeader extends JTableHeader
 		super.setFont(font);
 	}
 	
-//	private static final DefaultTableCellRenderer head_render = new DefaultTableCellRenderer(); 
+//	private static final DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer(); 
 //    
 //	@Override
 //	public TableCellRenderer getDefaultRenderer()
 //	{
-//		return head_render;
+//		return DEFAULT_RENDERER;
 //	}
 }

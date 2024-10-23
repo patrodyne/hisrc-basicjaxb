@@ -59,6 +59,16 @@ public class GridBagLayoutConverter implements LayoutConverter
 	{
 		return "gridbaglayout";
 	}
+	
+	/**
+	 * Returns the @{link GridBagLayout} class that knows how to lay out {@code Container}s.
+	 * @return The @{link GridBagLayout} class that knows how to lay out {@code Container}s.
+	 */
+	@Override
+	public Class<GridBagLayout> getLayoutManagerType()
+	{
+		return GridBagLayout.class;
+	}
 
 	/**
 	 * <p>
@@ -77,12 +87,13 @@ public class GridBagLayoutConverter implements LayoutConverter
 	 * </ul>
 	 */
 	@Override
-	public LayoutManager convertLayoutAttribute(final Attribute attr)
+	public LayoutManager convertLayoutAttribute(final Attribute attr, SwingEngine<?> engine)
 	{
 		StringTokenizer st = new StringTokenizer(attr.getValue(), "(,)");
 		st.nextToken(); // skip layout type
 		//
-		// Gridbag Layouts have some public arrays, accept one but only one.
+		// Gridbag Layouts have some public arrays, accept one but only one:
+		//
 		// public double[] rowWeights
 		// public double[] colWeights
 		//
@@ -174,6 +185,11 @@ public class GridBagLayoutConverter implements LayoutConverter
 	@Override
 	public Object convertConstraintsAttribute(final Attribute attr)
 	{
+		//
+		// GridBagLayout does not use a per-component string.
+		//
+		// See java.awt.GridBagLayout.addLayoutComponent(String, Component)
+		//
 		return null;
 	}
 
@@ -183,6 +199,11 @@ public class GridBagLayoutConverter implements LayoutConverter
 	@Override
 	public Object convertConstraintsElement(final Element element)
 	{
+		//
+		// Has no effect, since GridBagLayout does not use a per-component string.
+		//
+		// See java.awt.GridBagLayout.addLayoutComponent(String, Component)
+		//
 		return null;
 	}
 }

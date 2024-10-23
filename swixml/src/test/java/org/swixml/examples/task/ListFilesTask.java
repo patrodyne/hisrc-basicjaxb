@@ -27,35 +27,30 @@ public class ListFilesTask extends Task<Void, File>
 
 	private void expand(File file)
 	{
-		if ( isCancelled() )
+		sleep(200l);
+		if ( !isCancelled() )
 		{
-			return;
-		}
-		try
-		{
-			Thread.sleep(200);
-		}
-		catch (InterruptedException e)
-		{
-			// TODO log condition
-			return;
-		}
-		setMessage(file.toString());
-		if ( file.isDirectory() )
-		{
-			for ( File f : file.listFiles() )
+			setMessage(file.toString());
+			
+			if ( file.isDirectory() )
 			{
-				expand(f);
+				for ( File f : file.listFiles() )
+				{
+					if ( isCancelled() )
+						break;
+					else
+						expand(f);
+				}
 			}
-		}
-		else
-		{
-			buffer.add(file);
-			if ( buffer.size() >= bufferSize )
+			else
 			{
-				File bufferFiles[] = new File[buffer.size()];
-				publish(buffer.toArray(bufferFiles));
-				buffer.clear();
+				buffer.add(file);
+				if ( buffer.size() >= bufferSize )
+				{
+					File bufferFiles[] = new File[buffer.size()];
+					publish(buffer.toArray(bufferFiles));
+					buffer.clear();
+				}
 			}
 		}
 	}
@@ -70,5 +65,18 @@ public class ListFilesTask extends Task<Void, File>
 			publish(bufferFiles);
 		}
 		return null;
+	}
+	
+	private void sleep(long ms)
+	{
+		try
+		{
+			Thread.sleep(ms);
+		}
+		catch (InterruptedException e)
+		{
+			// TODO log condition
+			return;
+		}
 	}
 }

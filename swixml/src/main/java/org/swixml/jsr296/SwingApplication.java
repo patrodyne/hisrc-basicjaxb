@@ -1,12 +1,20 @@
 package org.swixml.jsr296;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.YES_OPTION;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
+
+import java.awt.Component;
 import java.awt.Window;
 import java.io.File;
 import java.io.Reader;
 import java.net.URL;
+import java.util.EventObject;
 
 import org.jdesktop.application.SingleFrameApplication;
 import org.swixml.SwingEngine;
+import org.swixml.el.ELMethods;
 
 import jakarta.el.ELProcessor;
 
@@ -55,6 +63,16 @@ public abstract class SwingApplication<T extends Window>
 	public ELProcessor getELProcessor()
 	{
 		return getSwingEngine().getELProcessor();
+	}
+	
+	/**
+	 * Get API for using Jakarta Expression Language in a stand-alone environment.
+	 * 
+	 * @return The {@link ELMethods} for using Jakarta EL in a stand-alone environment.
+	 */
+	public ELMethods<T> getELMethods()
+	{
+		return getSwingEngine().getELMethods();
 	}
 	
 	/**
@@ -203,5 +221,41 @@ public abstract class SwingApplication<T extends Window>
 		else
 			throw new IllegalArgumentException("url is null!");
 	}
+	
+	public class ConfirmExit implements ExitListener
+	{
+		private String message;
+		public String getMessage() { return message; }
+		public void setMessage(String message) { this.message = message; }
+		
+		public ConfirmExit()
+		{
+			this("Confirm Exit?");
+		}
+		
+		public ConfirmExit(String message)
+		{
+			setMessage(message);
+		}
 
+		@Override
+		public boolean canExit(EventObject eo)
+		{
+			Object source = (eo != null) ? eo.getSource() : null;
+			Component owner = (source instanceof Component) ? (Component) source : null;
+			int option = showConfirmDialog(owner, getMessage());
+			return option == YES_OPTION;
+		}
+
+		@Override
+		public void willExit(EventObject e)
+		{
+		}
+	}
+	
+	public static void showErrorDialog(Exception ex)
+	{
+		String msg = ex.getClass().getSimpleName() + ": " + ex.getMessage();
+		showMessageDialog(null, msg, "ERROR", ERROR_MESSAGE);
+	}
 }

@@ -4,17 +4,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 
-	size="640,480"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(180,1.25)"
+	size="${el.pageSize(50,5)}"
+	preferredSize="${el.size()}"
 	title="Hello SWIXML World"
-	defaultCloseOperation="JFrame.EXIT_ON_CLOSE"
+	defaultCloseOperation="EXIT_ON_CLOSE"
 	layout="BorderLayout"
 >
 
-	<panel constraints="BorderLayout.CENTER">
+	<panel constraints="CENTER">
 		<redlabel TimeZone="CST" />
 	</panel>
 	
-	<panel constraints="BorderLayout.SOUTH">
+	<panel constraints="SOUTH">
 		<xpanel xml="xpanel.xml" />
 	</panel>
 	

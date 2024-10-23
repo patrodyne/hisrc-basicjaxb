@@ -20,8 +20,10 @@ public class Layout extends JFrame
 	private Layout()
 		throws Exception
 	{
-		new SwingEngine<JFrame>(this)
-			.render(Layout.DESCRIPTOR);
+		SwingEngine<JFrame> swix = new SwingEngine<>(this);
+		swix.getELProcessor().defineBean("el", swix.getELMethods());
+		swix.getELProcessor().defineBean("window", this);
+		swix.render(DESCRIPTOR);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

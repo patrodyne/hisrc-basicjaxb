@@ -2491,6 +2491,8 @@
 			<xs:attribute name="foreground" type="xs:string" />
 			<xs:attribute name="ignoreRepaint" type="xs:boolean" />
 			<xs:attribute name="editor" type="xs:string" />
+			<xs:attribute name="columns" type="xs:string" />
+			<xs:attribute name="horizontalAlignment" type="xs:string" />
 			<xs:attribute name="converter" type="xs:string" />
 			<xs:attribute name="UI" type="xs:string" />
 			<xs:attribute name="focusable" type="xs:boolean" />
@@ -2561,10 +2563,12 @@
 			<xs:attribute name="foreground" type="xs:string" />
 			<xs:attribute name="ignoreRepaint" type="xs:boolean" />
 			<xs:attribute name="editor" type="xs:string" />
+			<xs:attribute name="columns" type="xs:string" />
+			<xs:attribute name="dateFormat" type="xs:string" />
+			<xs:attribute name="horizontalAlignment" type="xs:string" />
 			<xs:attribute name="converter" type="xs:string" />
 			<xs:attribute name="UI" type="xs:string" />
 			<xs:attribute name="focusable" type="xs:boolean" />
-			<xs:attribute name="dateFormat" type="xs:string" />
 			<xs:attribute name="background" type="xs:string" />
 			<xs:attribute name="visible" type="xs:boolean" />
 			<xs:attribute name="preferredSize" type="xs:string" />

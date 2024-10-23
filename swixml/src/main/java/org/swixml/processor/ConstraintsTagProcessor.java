@@ -1,5 +1,10 @@
 package org.swixml.processor;
 
+import static org.swixml.Parser.ATTR_CONSTRAINTS;
+import static org.swixml.Parser.TAG_CONSTRAINTS;
+import static org.swixml.Parser.TAG_GRIDBAGCONSTRAINTS;
+import static org.swixml.dom.DOMUtil.getChildByTagName;
+
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.LayoutManager;
@@ -8,8 +13,8 @@ import org.swixml.LayoutConverter;
 import org.swixml.LayoutConverterLibrary;
 import org.swixml.Parser;
 import org.swixml.dom.Attribute;
-import org.swixml.dom.DOMUtil;
 import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
 
 /**
  * @see <a href="file:../package-info.java">LICENSE: package-info</a>
@@ -22,65 +27,76 @@ public class ConstraintsTagProcessor implements TagProcessor
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Component> T processComponent(Parser p, Object obj, org.w3c.dom.Element child,
-		LayoutManager layoutMgr)
-		throws Exception
+		LayoutManager layoutMgr) throws Exception
 	{
-		T result = null;
+		T component = null;
+		
 		//
-		// A CONSTRAINTS attribute is removed from the childtag but used to add
-		// the child into the current obj
+		// A constraints ATTRIBUTE is removed from the child tag then used to add
+		// the child into the current object.
 		//
-		Attr constrnAttr = child.getAttributeNode(Parser.ATTR_CONSTRAINTS);
-		Object constrains = null;
-		if ( constrnAttr != null && layoutMgr != null )
+		Attr constraintsAttr = child.getAttributeNode(ATTR_CONSTRAINTS);
+		Object constraintsObj = null;
+		if ( constraintsAttr != null && layoutMgr != null )
 		{
-			child.removeAttribute(Parser.ATTR_CONSTRAINTS); // therefore it
-															// won't be used in
-															// getSwing(child)
+			// ATTR_CONSTRAINTS won't be used in getSwing(child)
+			child.removeAttribute(ATTR_CONSTRAINTS); 
+			
+			// ATTR_CONSTRAINTS may be converted to a layout specific object.
 			LayoutConverter layoutConverter = LayoutConverterLibrary.getInstance()
 				.getLayoutConverter(layoutMgr.getClass());
 			if ( layoutConverter != null )
-				constrains = layoutConverter.convertConstraintsAttribute(new Attribute(constrnAttr));
+			{
+				// Converts the given "constraints" attribute to a
+				// layout manager specific constraints object.
+				constraintsObj = layoutConverter.convertConstraintsAttribute(new Attribute(constraintsAttr));
+			}
 		}
+		
 		//
-		// A CONSTRAINTS element is used to add the child into the current obj
+		// A constraints ELEMENT may be used to add the child into the current object.
 		//
-		org.w3c.dom.Element constrnElement = DOMUtil.getChildByTagName(child, Parser.TAG_CONSTRAINTS); // child.getChild(Parser.TAG_CONSTRAINTS);
-		if ( constrnElement != null && layoutMgr != null )
+		Element constraintsElement = getChildByTagName(child, TAG_CONSTRAINTS); 
+		if ( constraintsElement != null && layoutMgr != null )
 		{
 			LayoutConverter layoutConverter = LayoutConverterLibrary.getInstance()
 				.getLayoutConverter(layoutMgr.getClass());
 			if ( layoutConverter != null )
-				constrains = layoutConverter.convertConstraintsElement(constrnElement);
+			{
+				// Converts the given "constraints" element to a layout manager specific
+				// constraints object. The element may have any layout manager specific
+				// attributes or child elements.
+				constraintsObj = layoutConverter.convertConstraintsElement(constraintsElement);
+			}
 		}
+		
 		//
-		// A constraints or GridBagConstraints grand-childtag is not added at
-		// all ..
-		// .. but used to add the child into this container
+		// A constraints or GridBagConstraints grand-childtag is not added at all;
+		// but, used to add the child into this container.
 		//
-		org.w3c.dom.Element grandchild = DOMUtil.getChildByTagName(child, Parser.TAG_GRIDBAGCONSTRAINTS,
-			child.getNamespaceURI()); // child.getChild(Parser.TAG_GRIDBAGCONSTRAINTS,
-										// child.getNamespace()); // Fix Issue
-										// 74
+		// Fix Issue 74, https://github.com/bsorrentino/swixml2/issues/74
+		org.w3c.dom.Element grandchild = getChildByTagName(child,
+			TAG_GRIDBAGCONSTRAINTS, child.getNamespaceURI()); 
 		if ( grandchild != null )
 		{
-			result = (T) p.getSwing(child, null);
-			p.addChild((Container) obj, result, p.getSwing(grandchild, null));
+			component = (T) p.getSwing(child, null);
+			p.addChild((Container) obj, component, p.getSwing(grandchild, null));
 		}
-		else if ( !child.getLocalName().equals(Parser.TAG_CONSTRAINTS)
-					&& !child.getLocalName().equals(Parser.TAG_GRIDBAGCONSTRAINTS) )
+		else if ( !child.getLocalName().equals(TAG_CONSTRAINTS)
+			&& !child.getLocalName().equals(TAG_GRIDBAGCONSTRAINTS) )
 		{
-			result = (T) p.getSwing(child, null);
-			p.addChild((Container) obj, result, constrains);
+			component = (T) p.getSwing(child, null);
+			p.addChild((Container) obj, component, constraintsObj);
 		}
-		return result;
+		
+		return component;
 	}
 
 	@Override
-	public boolean process(Parser p, Object obj, org.w3c.dom.Element child, LayoutManager layoutMgr)
+	public boolean process(Parser p, Object obj, Element child, LayoutManager layoutMgr)
 		throws Exception
 	{
-		Component c = processComponent(p, obj, child, layoutMgr);
-		return c != null;
+		Component component = processComponent(p, obj, child, layoutMgr);
+		return (component != null);
 	}
 }
