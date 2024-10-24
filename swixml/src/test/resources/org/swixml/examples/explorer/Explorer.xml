@@ -7,7 +7,7 @@
 
 <panel name="explorer" layout="BorderLayout">
 <toolbar constraints="BorderLayout.NORTH">
-     <button ToolTipText="run application" action="runApplication" icon="icons/new.gif" />
+	 <button ToolTipText="run application" action="runApplication" icon="icons/new.gif" />
 </toolbar>
 
 

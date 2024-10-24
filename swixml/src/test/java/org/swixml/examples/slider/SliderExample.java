@@ -64,12 +64,12 @@ public class SliderExample extends SwingApplication<SliderDialog>
 	 */
 	private class WindowListener extends WindowAdapter
 	{
-        @Override
-        public void windowClosing(WindowEvent we)
-        {
-        	// Close tasks, etc.
-        	exit(we);
-        }
+		@Override
+		public void windowClosing(WindowEvent we)
+		{
+			// Close tasks, etc.
+			exit(we);
+		}
 	}
 
 	public static void main(String args[])

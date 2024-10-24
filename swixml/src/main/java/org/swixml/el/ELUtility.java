@@ -26,54 +26,54 @@ import jakarta.el.StandardELContext;
  */
 public class ELUtility implements LogAware
 {
-    public final static String PREFIX = "el";
+	public final static String PREFIX = "el";
 
-    // Sealed constructor
-    protected ELUtility()
-    {
-    }
-    
-    /**
-     * Is the given attribute in the namespace prefixed for
-     * expression language.
-     * 
-     * A SWIXML attribute wraps a {@link org.w3c.dom.Attr}.
-     * 
-     * @param attr A SWIXML attribute (wraps {@link org.w3c.dom.Attr})
-     * 
-     * @return true, if attr is a "el" attribute.
-     */
-    public static boolean isELAttribute( Attribute attr )
-    {
-        return PREFIX.equalsIgnoreCase(attr.getPrefix());
-    }
-    
+	// Sealed constructor
+	protected ELUtility()
+	{
+	}
+	
+	/**
+	 * Is the given attribute in the namespace prefixed for
+	 * expression language.
+	 * 
+	 * A SWIXML attribute wraps a {@link org.w3c.dom.Attr}.
+	 * 
+	 * @param attr A SWIXML attribute (wraps {@link org.w3c.dom.Attr})
+	 * 
+	 * @return true, if attr is a "el" attribute.
+	 */
+	public static boolean isELAttribute( Attribute attr )
+	{
+		return PREFIX.equalsIgnoreCase(attr.getPrefix());
+	}
+	
    /**
-     * Evaluate a SWIXML attribute and return its value.
-     *  
+	 * Evaluate a SWIXML attribute and return its value.
+	 *	
 	 * @param elProcessor An API for using Jakarta EL in a stand-alone environment.
-     * @param attr A SWIXML attribute (wraps {@link org.w3c.dom.Attr})
-     * 
-     * @return The attribute value
-     */
-    public static Object evaluateAttribute( ELProcessor elProcessor, Attribute attr )
-    {
-    	Object result = null;
+	 * @param attr A SWIXML attribute (wraps {@link org.w3c.dom.Attr})
+	 * 
+	 * @return The attribute value
+	 */
+	public static Object evaluateAttribute( ELProcessor elProcessor, Attribute attr )
+	{
+		Object result = null;
 
-        Matcher elMatcher = getELMatcher(attr.getValue());
-        if ( elMatcher.matches() )
-            result = evalSafe(elProcessor, elMatcher.group(1) );
-        else
-        {
-        	if ( isELAttribute(attr) )
-        		result = invokeFunctionSafe(elProcessor, attr.getValue());
-            else
-            	result = attr.getValue();
-        }
+		Matcher elMatcher = getELMatcher(attr.getValue());
+		if ( elMatcher.matches() )
+			result = evalSafe(elProcessor, elMatcher.group(1) );
+		else
+		{
+			if ( isELAttribute(attr) )
+				result = invokeFunctionSafe(elProcessor, attr.getValue());
+			else
+				result = attr.getValue();
+		}
 
-        return result;
-    }
-    
+		return result;
+	}
+	
 	/**
 	 * Load declared, static, public methods from the given class.
 	 * 
@@ -86,14 +86,14 @@ public class ELUtility implements LogAware
 	{
 		for ( Method dm : clazz.getDeclaredMethods() )
 		{
-            if ( isStatic(dm.getModifiers()) && isPublic(dm.getModifiers())
-            	&& (dm.getReturnType() != Void.TYPE) )
-            {
-    			String prefix = clazz.getSimpleName();
-    			String localname = dm.getName();
-    			StandardELContext elContext = elProcessor.getELManager().getELContext();
-    			elContext.getFunctionMapper().mapFunction(prefix, localname, dm);
-            }
+			if ( isStatic(dm.getModifiers()) && isPublic(dm.getModifiers())
+				&& (dm.getReturnType() != Void.TYPE) )
+			{
+				String prefix = clazz.getSimpleName();
+				String localname = dm.getName();
+				StandardELContext elContext = elProcessor.getELManager().getELContext();
+				elContext.getFunctionMapper().mapFunction(prefix, localname, dm);
+			}
 		}
 	}
 	
@@ -143,7 +143,7 @@ public class ELUtility implements LogAware
 	 * 
 	 * @return The function return object.
 	 * 
-     * @throws ELException When evaluation of expression has failed.
+	 * @throws ELException When evaluation of expression has failed.
 	 */
 	public static Object invokeFunction( ELProcessor elProcessor, String elMethod, Object... args )
 		throws ELException
@@ -174,9 +174,9 @@ public class ELUtility implements LogAware
 	 * Evaluates an Jakarta Expression Language expression.
 	 * 
 	 * @param elProcessor An API for using Jakarta EL in a stand-alone environment.
-     * @param expression The Jakarta EL expression to be evaluated.
-     * 
-     * @return The result of the expression evaluation.
+	 * @param expression The Jakarta EL expression to be evaluated.
+	 * 
+	 * @return The result of the expression evaluation.
 	 */
 	public static Object evalSafe(ELProcessor elProcessor, String expression)
 	{
@@ -196,11 +196,11 @@ public class ELUtility implements LogAware
 	 * Evaluates an Jakarta Expression Language expression.
 	 * 
 	 * @param elProcessor An API for using Jakarta EL in a stand-alone environment.
-     * @param expression The Jakarta EL expression to be evaluated.
-     * 
-     * @return The result of the expression evaluation.
-     * 
-     * @throws ELException When evaluation of expression has failed.
+	 * @param expression The Jakarta EL expression to be evaluated.
+	 * 
+	 * @return The result of the expression evaluation.
+	 * 
+	 * @throws ELException When evaluation of expression has failed.
 	 */
 	public static Object eval(ELProcessor elProcessor, String expression)
 	{

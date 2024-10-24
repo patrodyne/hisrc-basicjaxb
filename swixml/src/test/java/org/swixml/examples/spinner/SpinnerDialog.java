@@ -65,7 +65,7 @@ public class SpinnerDialog extends JDialog
 	 * Model returned from ${spinnerDateModel} evaluation.
 	 *
 	 * @return A <code>SpinnerDateModel</code> that represents a sequence
-     *         of dates between <code>start</code> and <code>end</code>.
+	 *		   of dates between <code>start</code> and <code>end</code>.
 	 */
 	public SpinnerModel getSpinnerDateModel()
 	{
@@ -106,7 +106,7 @@ public class SpinnerDialog extends JDialog
 	 * Model returned from ${spinnerListModel} evaluation
 	 *
 	 * @return A <code>SpinnerModel</code> whose sequence of
-     *         values is defined by the specified <code>List</code>.
+	 *		   values is defined by the specified <code>List</code>.
 	 */
 	public SpinnerModel getSpinnerListModel()
 	{

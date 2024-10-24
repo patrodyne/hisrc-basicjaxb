@@ -79,7 +79,7 @@ public class BorderConverter extends AbstractConverter<Border>
 	 * @param engine Rendering engine for an XML descriptor.
 	 * 
 	 * @return <code>Object</code> runtime type is subclass of
-	 *         <code>AbstractBorder</code>
+	 *		   <code>AbstractBorder</code>
 	 */
 	@Override
 	public Border convert(String value, Class<Border> type, Attribute attr, SwingEngine<?> engine)
@@ -103,7 +103,7 @@ public class BorderConverter extends AbstractConverter<Border>
 	 * @param engine rendering engine for an XML descriptor.
 	 * 
 	 * @return <code>Object</code> runtime type is subclass of
-	 *         <code>AbstractBorder</code>
+	 *		   <code>AbstractBorder</code>
 	 */
 	protected Border convert(final Class<Border> type, final String borderSpec, SwingEngine<?> engine)
 	{
@@ -143,7 +143,7 @@ public class BorderConverter extends AbstractConverter<Border>
 	 * the converter is returning when its <code>convert</code> method is called
 	 *
 	 * @return <code>Class</code> - the Class the converter is returning when
-	 *         its convert method is called
+	 *		   its convert method is called
 	 */
 	@Override
 	public Class<Border> convertsTo()
@@ -249,15 +249,15 @@ public class BorderConverter extends AbstractConverter<Border>
 
 	/*
 	 * Creates a TitledBorder instance with the default border,
-     * title, title-justification, title-position, and title-font.
-     * 
-     * param[0]: title
-     * param[1]: title-justification
-     * param[2]: title-position
-     * param[3]: title-font
-     * 
-     * border="TitledBorder(myTitle, CENTER, BELOW_BOTTOM, 'SansSerif-BOLD-18', blue)"
-     * 
+	 * title, title-justification, title-position, and title-font.
+	 * 
+	 * param[0]: title
+	 * param[1]: title-justification
+	 * param[2]: title-position
+	 * param[3]: title-font
+	 * 
+	 * border="TitledBorder(myTitle, CENTER, BELOW_BOTTOM, 'SansSerif-BOLD-18', blue)"
+	 * 
 	 */
 	private TitledBorder convertTitledBorder(ConverterLibrary cvtlib, SwingEngine<?> engine, String[] params)
 		throws Exception

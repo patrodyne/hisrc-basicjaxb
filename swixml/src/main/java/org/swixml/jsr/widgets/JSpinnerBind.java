@@ -117,7 +117,7 @@ public class JSpinnerBind
 	}
 	
 	private String columns;
-    public String getColumns() { return columns; }
+	public String getColumns() { return columns; }
 	public void setColumns(String columns) { this.columns = columns; }
 
 	private String horizontalAlignment;
@@ -125,13 +125,13 @@ public class JSpinnerBind
 	public void setHorizontalAlignment(String horizontalAlignment) { this.horizontalAlignment = horizontalAlignment; }
 	
 	/**
-     * Create and add {@link AutoBinding} instance(s) to synchronize model
-     * properties with this {@link JSpinner}.
-     * 
-     * <p>Notifies this {@link Component} that it now has a parent component. It
-     * makes the {@link Container} displayable by connecting it to a native
-     * screen resource.</p>
-     */
+	 * Create and add {@link AutoBinding} instance(s) to synchronize model
+	 * properties with this {@link JSpinner}.
+	 * 
+	 * <p>Notifies this {@link Component} that it now has a parent component. It
+	 * makes the {@link Container} displayable by connecting it to a native
+	 * screen resource.</p>
+	 */
 	@Override
 	public void addNotify()
 	{

@@ -24,11 +24,11 @@ public class MatteMetalTheme extends DefaultMetalTheme
 
 	// Public Fonts: name, style, size
 	private static final Object[] FONT_CONTROL_TEXT = FONT_DIALOG_PLAIN;
-	private static final Object[] FONT_SYSTEM_TEXT  = FONT_DIALOG_PLAIN;
-	private static final Object[] FONT_USER_TEXT    = FONT_DIALOG_PLAIN;
-	private static final Object[] FONT_MENU_TEXT    = FONT_DIALOG_PLAIN;
-	private static final Object[] FONT_WINDOW_TEXT  = FONT_DIALOG_BOLD1;
-	private static final Object[] FONT_SUB_TEXT     = FONT_DIALOG_BOLD2;
+	private static final Object[] FONT_SYSTEM_TEXT	= FONT_DIALOG_PLAIN;
+	private static final Object[] FONT_USER_TEXT	= FONT_DIALOG_PLAIN;
+	private static final Object[] FONT_MENU_TEXT	= FONT_DIALOG_PLAIN;
+	private static final Object[] FONT_WINDOW_TEXT	= FONT_DIALOG_BOLD1;
+	private static final Object[] FONT_SUB_TEXT		= FONT_DIALOG_BOLD2;
 
 	private static class FontSpec
 	{
@@ -74,14 +74,14 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	}
 	
 	// Public Colors: Hue [0 -> 360], Saturation [0, 100], Value [0, 100]
-	private static final float[] HSV_PRIMARY1    = { 195f, 34.0f,  34.0f };
-	private static final float[] HSV_PRIMARY2    = { 195f, 30.0f,  62.0f };
-	private static final float[] HSV_PRIMARY3    = { 195f, 28.0f,  78.0f };
+	private static final float[] HSV_PRIMARY1	 = { 195f, 34.0f,  34.0f };
+	private static final float[] HSV_PRIMARY2	 = { 195f, 30.0f,  62.0f };
+	private static final float[] HSV_PRIMARY3	 = { 195f, 28.0f,  78.0f };
 	private static final float[] HSV_SECONDARY1  = { 195f, 44.0f,  44.0f };
 	private static final float[] HSV_SECONDARY2  = { 195f, 31.0f,  70.0f };
 	private static final float[] HSV_SECONDARY3  = { 195f, 21.0f,  91.0f };
-	private static final float[] HSV_BLACK       = { 195f,  0.0f,   0.0f };
-	private static final float[] HSV_WHITE       = { 195f,  0.0f, 100.0f };
+	private static final float[] HSV_BLACK		 = { 195f,	0.0f,	0.0f };
+	private static final float[] HSV_WHITE		 = { 195f,	0.0f, 100.0f };
 	
 	public static ColorUIResource getDefaultColorUIResource()
 	{
@@ -104,7 +104,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 		}
 	}
 	
-    @Override
+	@Override
 	public String getName()
 	{
 		return "Matte";
@@ -189,11 +189,11 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	}
 	
 	private ColorUIResource primary1 = null;
-    @Override
+	@Override
 	public ColorUIResource getPrimary1()
 	{
-    	if ( primary1 == null )
-    		setPrimary1(new ColorUIResource(hsb2rgb(HSV_PRIMARY1)));
+		if ( primary1 == null )
+			setPrimary1(new ColorUIResource(hsb2rgb(HSV_PRIMARY1)));
 		return primary1;
 	}
 	public void setPrimary1(ColorUIResource primary1)
@@ -202,11 +202,11 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	}
 	
 	private ColorUIResource primary2 = null;
-    @Override
+	@Override
 	public ColorUIResource getPrimary2()
 	{
-    	if ( primary2 == null )
-    		setPrimary2(new ColorUIResource(hsb2rgb(HSV_PRIMARY2)));
+		if ( primary2 == null )
+			setPrimary2(new ColorUIResource(hsb2rgb(HSV_PRIMARY2)));
 		return primary2;
 	}
 	public void setPrimary2(ColorUIResource primary2)
@@ -215,11 +215,11 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	}
 	
 	private ColorUIResource primary3 = null;
-    @Override
+	@Override
 	public ColorUIResource getPrimary3()
 	{
-    	if ( primary3 == null )
-    		setPrimary3(new ColorUIResource(hsb2rgb(HSV_PRIMARY3)));
+		if ( primary3 == null )
+			setPrimary3(new ColorUIResource(hsb2rgb(HSV_PRIMARY3)));
 		return primary3;
 	}
 	public void setPrimary3(ColorUIResource primary3)
@@ -228,11 +228,11 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	}
 	
 	private ColorUIResource secondary1 = null;
-    @Override
+	@Override
 	public ColorUIResource getSecondary1()
 	{
-    	if ( secondary1 == null )
-    		setSecondary1(new ColorUIResource(hsb2rgb(HSV_SECONDARY1)));
+		if ( secondary1 == null )
+			setSecondary1(new ColorUIResource(hsb2rgb(HSV_SECONDARY1)));
 		return secondary1;
 	}
 	public void setSecondary1(ColorUIResource secondary1)
@@ -241,11 +241,11 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	}
 	
 	private ColorUIResource secondary2 = null;
-    @Override
+	@Override
 	public ColorUIResource getSecondary2()
 	{
-    	if ( secondary2 == null )
-    		setSecondary2(new ColorUIResource(hsb2rgb(HSV_SECONDARY2)));
+		if ( secondary2 == null )
+			setSecondary2(new ColorUIResource(hsb2rgb(HSV_SECONDARY2)));
 		return secondary2;
 	}
 	public void setSecondary2(ColorUIResource secondary2)
@@ -254,11 +254,11 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	}
 	
 	private ColorUIResource secondary3 = null;
-    @Override
+	@Override
 	public ColorUIResource getSecondary3()
 	{
-    	if ( secondary3 == null )
-    		setSecondary3(new ColorUIResource(hsb2rgb(HSV_SECONDARY3)));
+		if ( secondary3 == null )
+			setSecondary3(new ColorUIResource(hsb2rgb(HSV_SECONDARY3)));
 		return secondary3;
 	}
 	public void setSecondary3(ColorUIResource secondary3)
@@ -266,12 +266,12 @@ public class MatteMetalTheme extends DefaultMetalTheme
 		this.secondary3 = secondary3;
 	}
 	
-    private ColorUIResource black = null;
-    @Override
+	private ColorUIResource black = null;
+	@Override
 	public ColorUIResource getBlack()
 	{
-    	if ( black == null )
-    		setBlack(new ColorUIResource(hsb2rgb(HSV_BLACK)));
+		if ( black == null )
+			setBlack(new ColorUIResource(hsb2rgb(HSV_BLACK)));
 		return black;
 	}
 	public void setBlack(ColorUIResource black)
@@ -283,8 +283,8 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	@Override
 	public ColorUIResource getWhite()
 	{
-    	if ( white == null )
-    		setWhite(new ColorUIResource(hsb2rgb(HSV_WHITE)));
+		if ( white == null )
+			setWhite(new ColorUIResource(hsb2rgb(HSV_WHITE)));
 		return white;
 	}
 	public void setWhite(ColorUIResource white)

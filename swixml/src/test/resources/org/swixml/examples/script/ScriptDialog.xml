@@ -32,9 +32,9 @@ Usage: xmlns:script="http://www.swixml.org/2007/Swixml/script"
 <script><![CDATA[
 
 function radioText(i) {
-    var a = ["AM", "FM" ];
-    
-    return a[i];
+	var a = ["AM", "FM" ];
+	
+	return a[i];
 }
 
 function close() {
@@ -63,10 +63,10 @@ function close() {
 				Resolvable by jakarta.el.StaticFieldELResolver.StaticFieldELResolver() 
 			-->		
 			<hbox border="${createEtchedBorder()}">
-			    <buttongroup >
-			        <radiobutton id="am" text="${sd:radioText(0)}" selected="true"/>
-			        <radiobutton id="fm" text="${sd:radioText(1)}"/>
-			    </buttongroup>
+				<buttongroup >
+					<radiobutton id="am" text="${sd:radioText(0)}" selected="true"/>
+					<radiobutton id="fm" text="${sd:radioText(1)}"/>
+				</buttongroup>
 			</hbox>
 			
 			<box.vstrut height="10"></box.vstrut>

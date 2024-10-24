@@ -91,7 +91,7 @@ public class ELProcessorTest
 	@Test
 	protected void testStaticFunction2() throws ClassNotFoundException, NoSuchMethodException
 	{
-        Method sayHello = User.class.getMethod("sayHello", new Class[] { String.class });
+		Method sayHello = User.class.getMethod("sayHello", new Class[] { String.class });
 		getELProcessor().defineFunction("test", "sayHello", sayHello);
 		
 		Object result = getELProcessor().eval("test:sayHello('Earth')");

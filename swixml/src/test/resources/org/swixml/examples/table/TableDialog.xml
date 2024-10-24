@@ -4,8 +4,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
-    size="${el.pageSize(80,25)}"
-    preferredSize="${el.size()}"
+	size="${el.pageSize(80,25)}"
+	preferredSize="${el.size()}"
 	resizable="true"
 	title="Example Table usage" 
 	undecorated="false" 
@@ -30,13 +30,13 @@
 	<splitpane
 		orientation="VERTICAL_SPLIT"
 		oneTouchExpandable="true"
-    	size="${el.size()}"
+		size="${el.size()}"
 	>
 	
 		<panel
 			layout="BorderLayout"
 			minimumSize="${el.scaleSize(1.0,1/4)}"
-	    	size="${el.size()}"
+			size="${el.size()}"
 		>
 			<label
 				constraints="NORTH"

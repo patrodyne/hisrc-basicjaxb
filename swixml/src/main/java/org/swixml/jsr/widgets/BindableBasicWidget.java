@@ -12,16 +12,16 @@ import org.jdesktop.beansbinding.Converter;
 public interface BindableBasicWidget extends BindableWidget
 {
 
-    String CONVERTER_PROPERTY = "org.swixml.jsr.widgets.Converter";
-    String BINDING_PROPERTY = "org.swixml.jsr.widgets.Binding";
-    String BINDING_GROUP_PROPERTY = "org.swixml.jsr.widgets.BindingGroup";
-    
-    Converter<?,?> getConverter();
-    void setConverter( Converter<?,?> converter );
-    
-    Binding<?, ?, ?, ?> getBinding();
-    void setBinding(Binding<?, ?, ?, ?> binding);
+	String CONVERTER_PROPERTY = "org.swixml.jsr.widgets.Converter";
+	String BINDING_PROPERTY = "org.swixml.jsr.widgets.Binding";
+	String BINDING_GROUP_PROPERTY = "org.swixml.jsr.widgets.BindingGroup";
+	
+	Converter<?,?> getConverter();
+	void setConverter( Converter<?,?> converter );
+	
+	Binding<?, ?, ?, ?> getBinding();
+	void setBinding(Binding<?, ?, ?, ?> binding);
 
-    BindingGroup getBindingGroup();
-    void setBindingGroup(BindingGroup bindingGroup);
+	BindingGroup getBindingGroup();
+	void setBindingGroup(BindingGroup bindingGroup);
 }

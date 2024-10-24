@@ -75,14 +75,14 @@ public class JTextAreaBind
 		putClientProperty(BINDING_GROUP_PROPERTY, bindingGroup);
 	}
 	
-    /**
-     * Create and add {@link AutoBinding} instance(s) to synchronize model
-     * properties with this {@link JTextArea}.
-     * 
-     * <p>Notifies this {@link Component} that it now has a parent component. It
-     * makes the {@link Container} displayable by connecting it to a native
-     * screen resource.</p>
-     */
+	/**
+	 * Create and add {@link AutoBinding} instance(s) to synchronize model
+	 * properties with this {@link JTextArea}.
+	 * 
+	 * <p>Notifies this {@link Component} that it now has a parent component. It
+	 * makes the {@link Container} displayable by connecting it to a native
+	 * screen resource.</p>
+	 */
 	@Override
 	public void addNotify()
 	{

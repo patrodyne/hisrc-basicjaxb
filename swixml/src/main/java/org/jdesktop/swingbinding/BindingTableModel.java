@@ -20,10 +20,10 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * 
  * @param <E>  the type of elements in the source {@code List}
  * @param <SS> the type of source object (on which the source property resolves
- *             to {@code List})
+ *			   to {@code List})
  * @param <TS> the type of target object (on which the target property resolves
- *             to {@code JComboBox})
- *             
+ *			   to {@code JComboBox})
+ *			   
  * @see <a href="file:package-info.java">LICENSE: package-info</a>
  */
 public class BindingTableModel<E, SS, TS>
@@ -61,7 +61,7 @@ public class BindingTableModel<E, SS, TS>
 	 * Construct with a {@link JTableBinding} instance.
 	 * 
 	 * @param tableBinding Binds a {@code List} of objects to act as
-	 *        the rows of a {@code JTable}.
+	 *		  the rows of a {@code JTable}.
 	 */
 	public BindingTableModel(JTableBinding<E, SS, TS> tableBinding)
 	{
@@ -121,14 +121,14 @@ public class BindingTableModel<E, SS, TS>
 			listener.bindingBecameBound(cb);
 		
 		Property<?, ?> targetProperty = cb.getTargetProperty();
-        Object targetObject = cb.getTargetObject();
-        boolean valueChanged = true;
-        Object oldValue = getValueAt(rowIndex, columnIndex);
-        Object newValue = value;
-        boolean writeableChanged = false;
-        Property sourceProperty = cb.getSourceProperty();
-        Object sourceObject = cb.getSourceObject();
-        boolean isWriteable = sourceProperty.isWriteable(sourceObject);
+		Object targetObject = cb.getTargetObject();
+		boolean valueChanged = true;
+		Object oldValue = getValueAt(rowIndex, columnIndex);
+		Object newValue = value;
+		boolean writeableChanged = false;
+		Property sourceProperty = cb.getSourceProperty();
+		Object sourceObject = cb.getSourceObject();
+		boolean isWriteable = sourceProperty.isWriteable(sourceObject);
 		
 		PropertyStateEvent pse = new PropertyStateEvent(targetProperty, targetObject,
 			valueChanged, oldValue, newValue, writeableChanged, isWriteable);

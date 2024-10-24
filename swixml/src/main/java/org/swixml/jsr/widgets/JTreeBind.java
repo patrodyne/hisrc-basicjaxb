@@ -95,14 +95,14 @@ public class JTreeBind
 		this.closedIcon = closedIcon;
 	}
 	
-    /**
-     * Create and add {@link AutoBinding} instance(s) to synchronize model
-     * properties with this {@link JTableBind}.
-     * 
-     * <p>Notifies this {@link Component} that it now has a parent component. It
-     * makes the {@link Container} displayable by connecting it to a native
-     * screen resource.</p>
-     */
+	/**
+	 * Create and add {@link AutoBinding} instance(s) to synchronize model
+	 * properties with this {@link JTableBind}.
+	 * 
+	 * <p>Notifies this {@link Component} that it now has a parent component. It
+	 * makes the {@link Container} displayable by connecting it to a native
+	 * screen resource.</p>
+	 */
 	@Override
 	public void addNotify()
 	{

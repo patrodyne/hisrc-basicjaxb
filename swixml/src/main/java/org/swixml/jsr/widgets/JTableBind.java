@@ -236,10 +236,10 @@ public class JTableBind
 				// Assign column default values
 				String bindWith = bpd.getName();
 				Class<?> type = bpd.getReadMethod().getReturnType();
-		        String headerValue = bpd.getDisplayName();
-		        String identifier = bindWith + "@" + getBindClass().getName();
+				String headerValue = bpd.getDisplayName();
+				String identifier = bindWith + "@" + getBindClass().getName();
 
-		        // Assign default values then validation inferred values.
+				// Assign default values then validation inferred values.
 				int maxWidth = 20;
 				int minWidth = 1;
 				for ( ConstraintDescriptor<?> vcd : vpd.getConstraintDescriptors() )
@@ -315,14 +315,14 @@ public class JTableBind
 			super.createDefaultColumnsFromModel();
 	}
 	
-    /**
-     * Create and add {@link AutoBinding} instance(s) to synchronize model
-     * properties with this {@link JTable}.
-     * 
-     * <p>Notifies this {@link Component} that it now has a parent component. It
-     * makes the {@link Container} displayable by connecting it to a native
-     * screen resource.</p>
-     */
+	/**
+	 * Create and add {@link AutoBinding} instance(s) to synchronize model
+	 * properties with this {@link JTable}.
+	 * 
+	 * <p>Notifies this {@link Component} that it now has a parent component. It
+	 * makes the {@link Container} displayable by connecting it to a native
+	 * screen resource.</p>
+	 */
 	@Override
 	public void addNotify()
 	{

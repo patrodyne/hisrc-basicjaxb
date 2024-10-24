@@ -101,9 +101,9 @@ public abstract class AbstractConverter<T> implements Converter<T>, LogAware
 	/**
 	 * Evaluate SWIXML {@link Attribute}.
 	 * 
-     * @param attr A SWIXML attribute (wraps {@link org.w3c.dom.Attr})
+	 * @param attr A SWIXML attribute (wraps {@link org.w3c.dom.Attr})
 	 * @param engine {@link SwingEngine} the rendering swingEngine to convert an XML descriptor a GUI.
-     * 
+	 * 
 	 * @return The attribute value.
 	 */
 	public Object evaluateAttribute(Attribute attr, SwingEngine<?> engine)
@@ -156,7 +156,7 @@ public abstract class AbstractConverter<T> implements Converter<T>, LogAware
 	 * @return The converted value.
 	 * 
 	 * @throws Exception When the {@link Attribute} cannot be converted.
-	 *  
+	 *	
 	 * @apiNote T The Swing conversion type.
 	 */
 	public abstract T convert(String value, Class<T> type, Attribute attr, SwingEngine<?> engine)

@@ -66,12 +66,12 @@ public class LayoutExample extends SwingApplication<JDialog>
 	 */
 	private class WindowListener extends WindowAdapter
 	{
-        @Override
-        public void windowClosing(WindowEvent we)
-        {
-        	// Close tasks, etc.
-        	exit(we);
-        }
+		@Override
+		public void windowClosing(WindowEvent we)
+		{
+			// Close tasks, etc.
+			exit(we);
+		}
 	}
 
 	public static void main(String[] args)

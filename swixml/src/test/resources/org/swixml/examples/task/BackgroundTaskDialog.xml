@@ -6,9 +6,9 @@
 
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
 	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(210,1.50)"
-    size="${el.pageSize(60,6)}"
-    preferredSize="${el.size()}"
-    minimumSize="${el.size()}"
+	size="${el.pageSize(60,6)}"
+	preferredSize="${el.size()}"
+	minimumSize="${el.size()}"
 	resizable="true" 
 	title="Network Time [Async Task example] " 
 	undecorated="false" 

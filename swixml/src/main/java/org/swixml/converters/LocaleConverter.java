@@ -25,7 +25,7 @@ public class LocaleConverter extends AbstractConverter<Locale>
 	 * output object of the specified type.
 	 *
 	 * @param attr <code>Attribute</code> the attribute, providing the value to
-	 *            be converted.
+	 *			  be converted.
 	 */
 	public static Locale conv(Attribute attr)
 		throws Exception
@@ -37,8 +37,8 @@ public class LocaleConverter extends AbstractConverter<Locale>
 
 	/**
 	 * Obtains a locale from a language, country and/or variant codes.
-     * This method normalizes the language value to lower case.
-     * 
+	 * This method normalizes the language value to lower case.
+	 * 
 	 * @param csvCodes comma separated locale codes. 
 	 * @param attr Value to be converted; but, not implemented!
 	 * 
@@ -74,9 +74,9 @@ public class LocaleConverter extends AbstractConverter<Locale>
 	 * output object of the specified type.
 	 *
 	 * @param type <code>Class</code> Data type to which the Attribute's value
-	 *            should be converted
+	 *			  should be converted
 	 * @param attr <code>Attribute</code> the attribute, providing the value to
-	 *            be converted.
+	 *			  be converted.
 	 *
 	 */
 	@Override
@@ -90,7 +90,7 @@ public class LocaleConverter extends AbstractConverter<Locale>
 	 * the converter is returning when its <code>convert</code> method is called
 	 * 
 	 * @return <code>Class</code> - the Class the converter is returning when
-	 *         its convert method is called
+	 *		   its convert method is called
 	 */
 	@Override
 	public Class<Locale> convertsTo()

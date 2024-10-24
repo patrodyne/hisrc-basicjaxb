@@ -10,15 +10,15 @@ public class XTableHeader extends JTableHeader
 {
 	private static final long serialVersionUID = 20240901L;
 
-    public XTableHeader()
-    {
-        this(null);
-    }
-    
-    public XTableHeader(TableColumnModel cm)
-    {
-    	super(cm);
-    }
+	public XTableHeader()
+	{
+		this(null);
+	}
+	
+	public XTableHeader(TableColumnModel cm)
+	{
+		super(cm);
+	}
 	
 	@Override
 	public void setBackground(Color bg)
@@ -33,7 +33,7 @@ public class XTableHeader extends JTableHeader
 	}
 	
 //	private static final DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer(); 
-//    
+//	  
 //	@Override
 //	public TableCellRenderer getDefaultRenderer()
 //	{

@@ -24,93 +24,93 @@ package org.jdesktop.beansbinding;
  */
 public abstract class Property<S, V>
 {
-    /**
-     * Returns the type of object that is suitable for setting as the value
-     * of this {@code Property} by calls to {@code setValue}.
-     *
-     * @param source the source object on which to operate
-     * @return the type of object suitable for setting as the value
-     * @throws UnsupportedOperationException if the {@code Property} is not
-     *         writable for the given source
-     * @see #setValue
-     * @see #isWriteable
-     */
-    public abstract Class<? extends V> getWriteType(S source);
+	/**
+	 * Returns the type of object that is suitable for setting as the value
+	 * of this {@code Property} by calls to {@code setValue}.
+	 *
+	 * @param source the source object on which to operate
+	 * @return the type of object suitable for setting as the value
+	 * @throws UnsupportedOperationException if the {@code Property} is not
+	 *		   writable for the given source
+	 * @see #setValue
+	 * @see #isWriteable
+	 */
+	public abstract Class<? extends V> getWriteType(S source);
 
-    /**
-     * Returns the value of this {@code Property} for the given source.
-     *
-     * @param source the source object on which to operate
-     * @return the value of this {@code Property} for the given source
-     * @throws UnsupportedOperationException if the {@code Property} is not
-     *         readable for the given source
-     * @see #isReadable
-     */
-    public abstract V getValue(S source);
+	/**
+	 * Returns the value of this {@code Property} for the given source.
+	 *
+	 * @param source the source object on which to operate
+	 * @return the value of this {@code Property} for the given source
+	 * @throws UnsupportedOperationException if the {@code Property} is not
+	 *		   readable for the given source
+	 * @see #isReadable
+	 */
+	public abstract V getValue(S source);
 
-    /**
-     * Sets the value of this {@code Property} for the given source.
-     *
-     * @param source the source object on which to operate
-     * @param value the new value for the {@code Property}
-     * @throws UnsupportedOperationException if the {@code Property} is not
-     *         writable for the given source
-     * @see #isWriteable
-     * @see #getWriteType
-     */
-    public abstract void setValue(S source, V value);
+	/**
+	 * Sets the value of this {@code Property} for the given source.
+	 *
+	 * @param source the source object on which to operate
+	 * @param value the new value for the {@code Property}
+	 * @throws UnsupportedOperationException if the {@code Property} is not
+	 *		   writable for the given source
+	 * @see #isWriteable
+	 * @see #getWriteType
+	 */
+	public abstract void setValue(S source, V value);
 
-    /**
-     * Returns whether or not the {@code Property} is readable for the given source.
-     *
-     * @param source the source object on which to operate
-     * @return whether or not the {@code Property} is readable for the given source.
-     * @see #isWriteable
-     */
-    public abstract boolean isReadable(S source);
+	/**
+	 * Returns whether or not the {@code Property} is readable for the given source.
+	 *
+	 * @param source the source object on which to operate
+	 * @return whether or not the {@code Property} is readable for the given source.
+	 * @see #isWriteable
+	 */
+	public abstract boolean isReadable(S source);
 
-    /**
-     * Returns whether or not the {@code Property} is writable for the given source.
-     *
-     * @param source the source object on which to operate
-     * @return whether or not the {@code Property} is writable for the given source.
-     * @see #isReadable
-     */
-    public abstract boolean isWriteable(S source);
+	/**
+	 * Returns whether or not the {@code Property} is writable for the given source.
+	 *
+	 * @param source the source object on which to operate
+	 * @return whether or not the {@code Property} is writable for the given source.
+	 * @see #isReadable
+	 */
+	public abstract boolean isWriteable(S source);
 
-    /**
-     * Adds a {@code PropertyStateListener} to be notified when the state of the
-     * {@code Property} changes with respect to the given source. Does nothing if
-     * the listener is {@code null}. If a listener is added more than once,
-     * notifications are sent to that listener once for every time that it has
-     * been added. The ordering of listener notification is unspecified.
-     *
-     * @param source the source object on which to operate
-     * @param listener the listener to be notified
-     */
-    public abstract void addPropertyStateListener(S source, PropertyStateListener listener);
+	/**
+	 * Adds a {@code PropertyStateListener} to be notified when the state of the
+	 * {@code Property} changes with respect to the given source. Does nothing if
+	 * the listener is {@code null}. If a listener is added more than once,
+	 * notifications are sent to that listener once for every time that it has
+	 * been added. The ordering of listener notification is unspecified.
+	 *
+	 * @param source the source object on which to operate
+	 * @param listener the listener to be notified
+	 */
+	public abstract void addPropertyStateListener(S source, PropertyStateListener listener);
 
-    /**
-     * Removes a {@code PropertyStateListener} for the given source. Does
-     * nothing if the listener is {@code null} or is not one of those registered
-     * for this source object. If the listener being removed was registered more
-     * than once, only one occurrence of the listener is removed from the list of
-     * listeners. The ordering of listener notification is unspecified.
-     *
-     * @param source the source object on which to operate
-     * @param listener the listener to be removed
-     * @see #addPropertyStateListener
-     */
-    public abstract void removePropertyStateListener(S source, PropertyStateListener listener);
+	/**
+	 * Removes a {@code PropertyStateListener} for the given source. Does
+	 * nothing if the listener is {@code null} or is not one of those registered
+	 * for this source object. If the listener being removed was registered more
+	 * than once, only one occurrence of the listener is removed from the list of
+	 * listeners. The ordering of listener notification is unspecified.
+	 *
+	 * @param source the source object on which to operate
+	 * @param listener the listener to be removed
+	 * @see #addPropertyStateListener
+	 */
+	public abstract void removePropertyStateListener(S source, PropertyStateListener listener);
 
-    /**
-     * Returns an array containing the listeners registered for the given source.
-     * Order is undefined. Returns an empty array if there are no listeners.
-     *
-     * @param source the source object on which to operate
-     * @return the set of listeners registered for the given source
-     * @see #addPropertyStateListener
-     */
-    public abstract PropertyStateListener[] getPropertyStateListeners(S source);
+	/**
+	 * Returns an array containing the listeners registered for the given source.
+	 * Order is undefined. Returns an empty array if there are no listeners.
+	 *
+	 * @param source the source object on which to operate
+	 * @return the set of listeners registered for the given source
+	 * @see #addPropertyStateListener
+	 */
+	public abstract PropertyStateListener[] getPropertyStateListeners(S source);
 
 }

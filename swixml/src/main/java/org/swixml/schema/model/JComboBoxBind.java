@@ -20,15 +20,15 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
  * 
  * <pre>{@code
  * <complexType name="JComboBoxBind">
- *   <complexContent>
- *     <extension base="{http://www.swixml.org/2007/Swixml}JComboBox">
- *       <sequence>
- *       </sequence>
- *       <attribute name="bindList" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       <attribute name="bindWith" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       <attribute name="converter" type="{http://www.w3.org/2001/XMLSchema}string" />
- *     </extension>
- *   </complexContent>
+ *	 <complexContent>
+ *	   <extension base="{http://www.swixml.org/2007/Swixml}JComboBox">
+ *		 <sequence>
+ *		 </sequence>
+ *		 <attribute name="bindList" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *		 <attribute name="bindWith" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *		 <attribute name="converter" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *	   </extension>
+ *	 </complexContent>
  * </complexType>
  * }</pre>
  * 
@@ -37,193 +37,193 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "JComboBoxBind")
 public class JComboBoxBind
-    extends JComboBox
-    implements Serializable
+	extends JComboBox
+	implements Serializable
 {
 
-    private static final long serialVersionUID = 20240701L;
-    @XmlAttribute(name = "bindList")
-    protected String bindList;
-    @XmlAttribute(name = "bindWith")
-    protected String bindWith;
-    @XmlAttribute(name = "converter")
-    protected String converter;
+	private static final long serialVersionUID = 20240701L;
+	@XmlAttribute(name = "bindList")
+	protected String bindList;
+	@XmlAttribute(name = "bindWith")
+	protected String bindWith;
+	@XmlAttribute(name = "converter")
+	protected String converter;
 
-    /**
-     * Gets the value of the bindList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getBindList() {
-        return bindList;
-    }
+	/**
+	 * Gets the value of the bindList property.
+	 * 
+	 * @return
+	 *	   possible object is
+	 *	   {@link String }
+	 *	   
+	 */
+	public String getBindList() {
+		return bindList;
+	}
 
-    /**
-     * Sets the value of the bindList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setBindList(String value) {
-        this.bindList = value;
-    }
+	/**
+	 * Sets the value of the bindList property.
+	 * 
+	 * @param value
+	 *	   allowed object is
+	 *	   {@link String }
+	 *	   
+	 */
+	public void setBindList(String value) {
+		this.bindList = value;
+	}
 
-    /**
-     * Gets the value of the bindWith property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getBindWith() {
-        return bindWith;
-    }
+	/**
+	 * Gets the value of the bindWith property.
+	 * 
+	 * @return
+	 *	   possible object is
+	 *	   {@link String }
+	 *	   
+	 */
+	public String getBindWith() {
+		return bindWith;
+	}
 
-    /**
-     * Sets the value of the bindWith property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setBindWith(String value) {
-        this.bindWith = value;
-    }
+	/**
+	 * Sets the value of the bindWith property.
+	 * 
+	 * @param value
+	 *	   allowed object is
+	 *	   {@link String }
+	 *	   
+	 */
+	public void setBindWith(String value) {
+		this.bindWith = value;
+	}
 
-    /**
-     * Gets the value of the converter property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getConverter() {
-        return converter;
-    }
+	/**
+	 * Gets the value of the converter property.
+	 * 
+	 * @return
+	 *	   possible object is
+	 *	   {@link String }
+	 *	   
+	 */
+	public String getConverter() {
+		return converter;
+	}
 
-    /**
-     * Sets the value of the converter property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setConverter(String value) {
-        this.converter = value;
-    }
+	/**
+	 * Sets the value of the converter property.
+	 * 
+	 * @param value
+	 *	   allowed object is
+	 *	   {@link String }
+	 *	   
+	 */
+	public void setConverter(String value) {
+		this.converter = value;
+	}
 
-    @Override
-    public int hashCode(ObjectLocator locator, HashCodeStrategy strategy) {
-        int currentHashCode = super.hashCode(locator, strategy);
-        {
-            boolean theFieldIsSet = (this.bindList!= null);
-            String theField;
-            theField = this.getBindList();
-            ObjectLocator theFieldLocator = LocatorUtils.property(locator, "bindList", theField);
-            currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
-        }
-        {
-            boolean theFieldIsSet = (this.bindWith!= null);
-            String theField;
-            theField = this.getBindWith();
-            ObjectLocator theFieldLocator = LocatorUtils.property(locator, "bindWith", theField);
-            currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
-        }
-        {
-            boolean theFieldIsSet = (this.converter!= null);
-            String theField;
-            theField = this.getConverter();
-            ObjectLocator theFieldLocator = LocatorUtils.property(locator, "converter", theField);
-            currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
-        }
-        return currentHashCode;
-    }
+	@Override
+	public int hashCode(ObjectLocator locator, HashCodeStrategy strategy) {
+		int currentHashCode = super.hashCode(locator, strategy);
+		{
+			boolean theFieldIsSet = (this.bindList!= null);
+			String theField;
+			theField = this.getBindList();
+			ObjectLocator theFieldLocator = LocatorUtils.property(locator, "bindList", theField);
+			currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+		}
+		{
+			boolean theFieldIsSet = (this.bindWith!= null);
+			String theField;
+			theField = this.getBindWith();
+			ObjectLocator theFieldLocator = LocatorUtils.property(locator, "bindWith", theField);
+			currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+		}
+		{
+			boolean theFieldIsSet = (this.converter!= null);
+			String theField;
+			theField = this.getConverter();
+			ObjectLocator theFieldLocator = LocatorUtils.property(locator, "converter", theField);
+			currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+		}
+		return currentHashCode;
+	}
 
-    @Override
-    public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
-        if ((object == null)||(this.getClass()!= object.getClass())) {
-            return false;
-        }
-        if (this == object) {
-            return true;
-        }
-        if (!super.equals(thisLocator, thatLocator, object, strategy)) {
-            return false;
-        }
-        final JComboBoxBind that = ((JComboBoxBind) object);
-        {
-            boolean lhsFieldIsSet = (this.bindList!= null);
-            boolean rhsFieldIsSet = (that.bindList!= null);
-            String lhsField;
-            lhsField = this.getBindList();
-            String rhsField;
-            rhsField = that.getBindList();
-            ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "bindList", lhsField);
-            ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "bindList", rhsField);
-            if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
-                return false;
-            }
-        }
-        {
-            boolean lhsFieldIsSet = (this.bindWith!= null);
-            boolean rhsFieldIsSet = (that.bindWith!= null);
-            String lhsField;
-            lhsField = this.getBindWith();
-            String rhsField;
-            rhsField = that.getBindWith();
-            ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "bindWith", lhsField);
-            ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "bindWith", rhsField);
-            if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
-                return false;
-            }
-        }
-        {
-            boolean lhsFieldIsSet = (this.converter!= null);
-            boolean rhsFieldIsSet = (that.converter!= null);
-            String lhsField;
-            lhsField = this.getConverter();
-            String rhsField;
-            rhsField = that.getConverter();
-            ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "converter", lhsField);
-            ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "converter", rhsField);
-            if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
-                return false;
-            }
-        }
-        return true;
-    }
+	@Override
+	public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
+		if ((object == null)||(this.getClass()!= object.getClass())) {
+			return false;
+		}
+		if (this == object) {
+			return true;
+		}
+		if (!super.equals(thisLocator, thatLocator, object, strategy)) {
+			return false;
+		}
+		final JComboBoxBind that = ((JComboBoxBind) object);
+		{
+			boolean lhsFieldIsSet = (this.bindList!= null);
+			boolean rhsFieldIsSet = (that.bindList!= null);
+			String lhsField;
+			lhsField = this.getBindList();
+			String rhsField;
+			rhsField = that.getBindList();
+			ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "bindList", lhsField);
+			ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "bindList", rhsField);
+			if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+				return false;
+			}
+		}
+		{
+			boolean lhsFieldIsSet = (this.bindWith!= null);
+			boolean rhsFieldIsSet = (that.bindWith!= null);
+			String lhsField;
+			lhsField = this.getBindWith();
+			String rhsField;
+			rhsField = that.getBindWith();
+			ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "bindWith", lhsField);
+			ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "bindWith", rhsField);
+			if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+				return false;
+			}
+		}
+		{
+			boolean lhsFieldIsSet = (this.converter!= null);
+			boolean rhsFieldIsSet = (that.converter!= null);
+			String lhsField;
+			lhsField = this.getConverter();
+			String rhsField;
+			rhsField = that.getConverter();
+			ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "converter", lhsField);
+			ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "converter", rhsField);
+			if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-    @Override
-    public StringBuilder appendFields(ObjectLocator locator, StringBuilder buffer, ToStringStrategy strategy) {
-        super.appendFields(locator, buffer, strategy);
-        {
-            boolean theFieldIsSet = (this.bindList!= null);
-            String theField;
-            theField = this.getBindList();
-            strategy.appendField(locator, this, "bindList", buffer, theField, theFieldIsSet);
-        }
-        {
-            boolean theFieldIsSet = (this.bindWith!= null);
-            String theField;
-            theField = this.getBindWith();
-            strategy.appendField(locator, this, "bindWith", buffer, theField, theFieldIsSet);
-        }
-        {
-            boolean theFieldIsSet = (this.converter!= null);
-            String theField;
-            theField = this.getConverter();
-            strategy.appendField(locator, this, "converter", buffer, theField, theFieldIsSet);
-        }
-        return buffer;
-    }
+	@Override
+	public StringBuilder appendFields(ObjectLocator locator, StringBuilder buffer, ToStringStrategy strategy) {
+		super.appendFields(locator, buffer, strategy);
+		{
+			boolean theFieldIsSet = (this.bindList!= null);
+			String theField;
+			theField = this.getBindList();
+			strategy.appendField(locator, this, "bindList", buffer, theField, theFieldIsSet);
+		}
+		{
+			boolean theFieldIsSet = (this.bindWith!= null);
+			String theField;
+			theField = this.getBindWith();
+			strategy.appendField(locator, this, "bindWith", buffer, theField, theFieldIsSet);
+		}
+		{
+			boolean theFieldIsSet = (this.converter!= null);
+			String theField;
+			theField = this.getConverter();
+			strategy.appendField(locator, this, "converter", buffer, theField, theFieldIsSet);
+		}
+		return buffer;
+	}
 
 }

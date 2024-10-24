@@ -35,20 +35,20 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * objects to a {@code JList}:</p>
  * 
  * <pre><code>
- *    // create the person list
- *    List&lt;Person&gt; people = createPersonList();
+ *	  // create the person list
+ *	  List&lt;Person&gt; people = createPersonList();
  *
- *    // create the binding from List to JList
- *    JListBinding lb = SwingBindings.createJListBinding(READ, people, jList);
+ *	  // create the binding from List to JList
+ *	  JListBinding lb = SwingBindings.createJListBinding(READ, people, jList);
  *
- *    // define the property to be used to derive list elements
- *    ELProperty fullNameP = ELProperty.create("${firstName} ${lastName}");
+ *	  // define the property to be used to derive list elements
+ *	  ELProperty fullNameP = ELProperty.create("${firstName} ${lastName}");
  *
- *    // add the detail binding
- *    lb.setDetailBinding(fullNameP);
+ *	  // add the detail binding
+ *	  lb.setDetailBinding(fullNameP);
  *
- *    // realize the binding
- *    lb.bind();
+ *	  // realize the binding
+ *	  lb.bind();
  * </code></pre>
  * 
  * <p>The {@code JList} target of a {@code JListBinding} acts as a live view of
@@ -108,58 +108,58 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * what happens for each of a sequence of events:</p>
  * 
  * <table border=1>
- *   <caption><b>Sequence of Events</b></caption>
- *   <tr><th>Sequence</th><th>Event</th><th>Result</th></tr>
- *   <tr >
- *     <td >1</td>
- *     <td>explicit call to {@code binding.bind()}</td>
- *     <td>
- *         - synthetic target property becomes readable/writable
- *         <br>
- *         - {@code refresh()} is called
- *         <br>
- *         - model is installed on target {@code JList}, representing list of objects
- *     </td>
- *   </tr>
- *   <tr >
- *     <td >2</td>
- *     <td>{@code listP} changes to a new {@code List}</td>
- *     <td>
- *         - {@code refresh()} is called
- *         <br>
- *         - model is updated with new list of objects
- *     </td>
- *   </tr>
- *   <tr >
- *     <td >3</td>
- *     <td>{@code jListP} changes to a new {@code JList}</td>
- *     <td>
- *         - model is uninstalled from old {@code JList}
- *     </td>
- *   </tr>
- *   <tr >
- *     <td >4</td>
- *     <td>explicit call to {@code binding.refresh()}</td>
- *     <td>
- *         - model is installed on target {@code JList}, representing list of objects
- *     </td>
- *   </tr>
- *   <tr >
- *     <td >5</td>
- *     <td>{@code listP} changes to a new {@code List}</td>
- *     <td>
- *         - {@code refresh()} is called
- *         <br>
- *         - model is updated with new list of objects
- *     </td>
- *   </tr>
- *   <tr >
- *     <td >6</td>
- *     <td>explicit call to {@code binding.unbind()}</td>
- *     <td>
- *         - model is uninstalled from target {@code JList}
- *     </td>
- *   </tr>
+ *	 <caption><b>Sequence of Events</b></caption>
+ *	 <tr><th>Sequence</th><th>Event</th><th>Result</th></tr>
+ *	 <tr >
+ *	   <td >1</td>
+ *	   <td>explicit call to {@code binding.bind()}</td>
+ *	   <td>
+ *		   - synthetic target property becomes readable/writable
+ *		   <br>
+ *		   - {@code refresh()} is called
+ *		   <br>
+ *		   - model is installed on target {@code JList}, representing list of objects
+ *	   </td>
+ *	 </tr>
+ *	 <tr >
+ *	   <td >2</td>
+ *	   <td>{@code listP} changes to a new {@code List}</td>
+ *	   <td>
+ *		   - {@code refresh()} is called
+ *		   <br>
+ *		   - model is updated with new list of objects
+ *	   </td>
+ *	 </tr>
+ *	 <tr >
+ *	   <td >3</td>
+ *	   <td>{@code jListP} changes to a new {@code JList}</td>
+ *	   <td>
+ *		   - model is uninstalled from old {@code JList}
+ *	   </td>
+ *	 </tr>
+ *	 <tr >
+ *	   <td >4</td>
+ *	   <td>explicit call to {@code binding.refresh()}</td>
+ *	   <td>
+ *		   - model is installed on target {@code JList}, representing list of objects
+ *	   </td>
+ *	 </tr>
+ *	 <tr >
+ *	   <td >5</td>
+ *	   <td>{@code listP} changes to a new {@code List}</td>
+ *	   <td>
+ *		   - {@code refresh()} is called
+ *		   <br>
+ *		   - model is updated with new list of objects
+ *	   </td>
+ *	 </tr>
+ *	 <tr >
+ *	   <td >6</td>
+ *	   <td>explicit call to {@code binding.unbind()}</td>
+ *	   <td>
+ *		   - model is uninstalled from target {@code JList}
+ *	   </td>
+ *	 </tr>
  * </table>
  * 
  * <p>Notice that in step 3, when the value
@@ -192,125 +192,125 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  */
 public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, List<?>>
 {
-    private Property<TS, ? extends JList<?>> listP;
-    private ElementsProperty<TS> elementsP;
-    private Handler handler = new Handler();
-    private JList<?> list;
-    private BindingListModel model;
-    private DetailBinding detailBinding;
+	private Property<TS, ? extends JList<?>> listP;
+	private ElementsProperty<TS> elementsP;
+	private Handler handler = new Handler();
+	private JList<?> list;
+	private BindingListModel model;
+	private DetailBinding detailBinding;
 
-    /**
-     * Constructs an instance of {@code JListBinding}.
-     *
-     * @param strategy the update strategy
-     * @param sourceObject the source object
-     * @param sourceListProperty a property on the source object that resolves to the {@code List} of elements
-     * @param targetObject the target object
-     * @param targetJListProperty a property on the target object that resolves to a {@code JList}
-     * @param name a name for the {@code JListBinding}
-     * @throws IllegalArgumentException if the source property or target property is {@code null}
-     */
-    protected JListBinding(UpdateStrategy strategy, SS sourceObject, Property<SS, List<E>> sourceListProperty, TS targetObject, Property<TS, ? extends JList<?>> targetJListProperty, String name) {
-        super(strategy == READ_WRITE ? READ : strategy,
-              sourceObject, sourceListProperty, targetObject, new ElementsProperty<TS>(), name);
+	/**
+	 * Constructs an instance of {@code JListBinding}.
+	 *
+	 * @param strategy the update strategy
+	 * @param sourceObject the source object
+	 * @param sourceListProperty a property on the source object that resolves to the {@code List} of elements
+	 * @param targetObject the target object
+	 * @param targetJListProperty a property on the target object that resolves to a {@code JList}
+	 * @param name a name for the {@code JListBinding}
+	 * @throws IllegalArgumentException if the source property or target property is {@code null}
+	 */
+	protected JListBinding(UpdateStrategy strategy, SS sourceObject, Property<SS, List<E>> sourceListProperty, TS targetObject, Property<TS, ? extends JList<?>> targetJListProperty, String name) {
+		super(strategy == READ_WRITE ? READ : strategy,
+			  sourceObject, sourceListProperty, targetObject, new ElementsProperty<TS>(), name);
 
-        if (targetJListProperty == null) {
-            throw new IllegalArgumentException("target JList property can't be null");
-        }
+		if (targetJListProperty == null) {
+			throw new IllegalArgumentException("target JList property can't be null");
+		}
 
-        listP = targetJListProperty;
-        elementsP = (ElementsProperty<TS>)getTargetProperty();
-        setDetailBinding(null);
-    }
+		listP = targetJListProperty;
+		elementsP = (ElementsProperty<TS>)getTargetProperty();
+		setDetailBinding(null);
+	}
 
-    @Override
+	@Override
 	protected void bindImpl() {
-        elementsP.setAccessible(isListAccessible());
-        listP.addPropertyStateListener(getTargetObject(), handler);
-        elementsP.addPropertyStateListener(null, handler);
-        super.bindImpl();
-    }
+		elementsP.setAccessible(isListAccessible());
+		listP.addPropertyStateListener(getTargetObject(), handler);
+		elementsP.addPropertyStateListener(null, handler);
+		super.bindImpl();
+	}
 
-    @Override
+	@Override
 	protected void unbindImpl() {
-        elementsP.removePropertyStateListener(null, handler);
-        listP.removePropertyStateListener(getTargetObject(), handler);
-        elementsP.setAccessible(false);
-        cleanupForLast();
-        super.unbindImpl();
-    }
+		elementsP.removePropertyStateListener(null, handler);
+		listP.removePropertyStateListener(getTargetObject(), handler);
+		elementsP.setAccessible(false);
+		cleanupForLast();
+		super.unbindImpl();
+	}
 
-    private boolean isListAccessible() {
-        return listP.isReadable(getTargetObject()) && listP.getValue(getTargetObject()) != null;
-    }
+	private boolean isListAccessible() {
+		return listP.isReadable(getTargetObject()) && listP.getValue(getTargetObject()) != null;
+	}
 
-    private boolean isListAccessible(Object value) {
-        return value != null && value != PropertyStateEvent.UNREADABLE;
-    }
+	private boolean isListAccessible(Object value) {
+		return value != null && value != PropertyStateEvent.UNREADABLE;
+	}
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void cleanupForLast() {
-        if (list == null) {
-            return;
-        }
+		if (list == null) {
+			return;
+		}
 
-        resetListSelection();
-        list.setModel(new DefaultListModel());
-        list = null;
-        model.setElements(null, true);
-        model = null;
-    }
-    
-    /**
-     * Creates a {@code DetailBinding} and sets it as the {@code DetailBinding}
-     * for this {@code JListBinding}. A {@code DetailBinding} specifies the property
-     * of the objects in the source {@code List} to be used as the elements of the
-     * {@code JList}. If the {@code detailProperty} parameter is {@code null}, the
-     * {@code DetailBinding} specifies that the objects themselves be used.
-     *
-     * @param detailProperty the property with which to derive each list value
-     *        from its corresponding object in the source {@code List}
-     * @return the {@code DetailBinding}
-     */
-    public DetailBinding setDetailBinding(Property<E, ?> detailProperty) {
-        return setDetailBinding(detailProperty, null);
-    }
+		resetListSelection();
+		list.setModel(new DefaultListModel());
+		list = null;
+		model.setElements(null, true);
+		model = null;
+	}
+	
+	/**
+	 * Creates a {@code DetailBinding} and sets it as the {@code DetailBinding}
+	 * for this {@code JListBinding}. A {@code DetailBinding} specifies the property
+	 * of the objects in the source {@code List} to be used as the elements of the
+	 * {@code JList}. If the {@code detailProperty} parameter is {@code null}, the
+	 * {@code DetailBinding} specifies that the objects themselves be used.
+	 *
+	 * @param detailProperty the property with which to derive each list value
+	 *		  from its corresponding object in the source {@code List}
+	 * @return the {@code DetailBinding}
+	 */
+	public DetailBinding setDetailBinding(Property<E, ?> detailProperty) {
+		return setDetailBinding(detailProperty, null);
+	}
 
-    /**
-     * Creates a named {@code DetailBinding} and sets it as the {@code DetailBinding}
-     * for this {@code JListBinding}. A {@code DetailBinding} specifies the property
-     * of the objects in the source {@code List} to be used as the elements of the
-     * {@code JList}. If the {@code detailProperty} parameter is {@code null}, the
-     * {@code DetailBinding} specifies that the objects themselves be used.
-     *
-     * @param detailProperty the property with which to derive each list value
-     *        from its corresponding object in the source {@code List}
-     * @return the {@code DetailBinding}
-     */
-    public DetailBinding setDetailBinding(Property<E, ?> detailProperty, String name) {
-        throwIfBound();
+	/**
+	 * Creates a named {@code DetailBinding} and sets it as the {@code DetailBinding}
+	 * for this {@code JListBinding}. A {@code DetailBinding} specifies the property
+	 * of the objects in the source {@code List} to be used as the elements of the
+	 * {@code JList}. If the {@code detailProperty} parameter is {@code null}, the
+	 * {@code DetailBinding} specifies that the objects themselves be used.
+	 *
+	 * @param detailProperty the property with which to derive each list value
+	 *		  from its corresponding object in the source {@code List}
+	 * @return the {@code DetailBinding}
+	 */
+	public DetailBinding setDetailBinding(Property<E, ?> detailProperty, String name) {
+		throwIfBound();
 
-        if (name == null && JListBinding.this.getName() != null) {
-            name = JListBinding.this.getName() + ".DETAIL_BINDING";
-        }
+		if (name == null && JListBinding.this.getName() != null) {
+			name = JListBinding.this.getName() + ".DETAIL_BINDING";
+		}
 
-        detailBinding = detailProperty == null ?
-                        new DetailBinding(ObjectProperty.<E>create(), name) :
-                        new DetailBinding(detailProperty, name);
-        return detailBinding;
-    }
+		detailBinding = detailProperty == null ?
+						new DetailBinding(ObjectProperty.<E>create(), name) :
+						new DetailBinding(detailProperty, name);
+		return detailBinding;
+	}
 
-    /**
-     * Returns the {@code DetailBinding} for this {@code JListBinding}.
-     * A {@code DetailBinding} specifies the property of the source {@code List} elements
-     * to be used as the elements of the {@code JList}.
-     *
-     * @return the {@code DetailBinding}
-     * @see #setDetailBinding(Property, String)
-     */
-    public DetailBinding getDetailBinding() {
-        return detailBinding;
-    }
+	/**
+	 * Returns the {@code DetailBinding} for this {@code JListBinding}.
+	 * A {@code DetailBinding} specifies the property of the source {@code List} elements
+	 * to be used as the elements of the {@code JList}.
+	 *
+	 * @return the {@code DetailBinding}
+	 * @see #setDetailBinding(Property, String)
+	 */
+	public DetailBinding getDetailBinding() {
+		return detailBinding;
+	}
 
 	private final Property<?, ?> DETAIL_PROPERTY = new Property<Object, Object>()
 	{
@@ -363,23 +363,23 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
 		}
 	};
 
-    /**
-     * {@code DetailBinding} represents a binding between a property of the elements
-     * in the {@code JListBinding's} source {@code List}, and the values shown in
-     * the {@code JList}. Values in the {@code JList} are acquired by fetching the
-     * value of the {@code DetailBinding's} source property for the associated object
-     * in the source {@code List}.
-     * <p>
-     * A {@code Converter} may be specified on a {@code DetailBinding}. Specifying a
-     * {@code Validator} is also possible, but doesn't make sense since {@code JList}
-     * values aren't editable.
-     * <p>
-     * {@code DetailBindings} are managed by their {@code JListBinding}. They are not
-     * to be explicitly bound, unbound, added to a {@code BindingGroup}, or accessed
-     * in a way that is not allowed for a managed binding.
-     *
-     * @see org.jdesktop.swingbinding.JListBinding#setDetailBinding(Property, String)
-     */
+	/**
+	 * {@code DetailBinding} represents a binding between a property of the elements
+	 * in the {@code JListBinding's} source {@code List}, and the values shown in
+	 * the {@code JList}. Values in the {@code JList} are acquired by fetching the
+	 * value of the {@code DetailBinding's} source property for the associated object
+	 * in the source {@code List}.
+	 * <p>
+	 * A {@code Converter} may be specified on a {@code DetailBinding}. Specifying a
+	 * {@code Validator} is also possible, but doesn't make sense since {@code JList}
+	 * values aren't editable.
+	 * <p>
+	 * {@code DetailBindings} are managed by their {@code JListBinding}. They are not
+	 * to be explicitly bound, unbound, added to a {@code BindingGroup}, or accessed
+	 * in a way that is not allowed for a managed binding.
+	 *
+	 * @see org.jdesktop.swingbinding.JListBinding#setDetailBinding(Property, String)
+	 */
 	@SuppressWarnings("rawtypes")
 	public final class DetailBinding
 		extends AbstractColumnBinding
@@ -391,130 +391,130 @@ public final class JListBinding<E, SS, TS> extends AutoBinding<SS, List<E>, TS, 
 		}
 	}
 
-    private class Handler implements PropertyStateListener {
-        @SuppressWarnings("unchecked")
+	private class Handler implements PropertyStateListener {
+		@SuppressWarnings("unchecked")
 		@Override
 		public void propertyStateChanged(PropertyStateEvent pse) {
-            if (!pse.getValueChanged()) {
-                return;
-            }
+			if (!pse.getValueChanged()) {
+				return;
+			}
 
-            if (pse.getSourceProperty() == listP) {
-                cleanupForLast();
-                
-                boolean wasAccessible = isListAccessible(pse.getOldValue());
-                boolean isAccessible = isListAccessible(pse.getNewValue());
+			if (pse.getSourceProperty() == listP) {
+				cleanupForLast();
+				
+				boolean wasAccessible = isListAccessible(pse.getOldValue());
+				boolean isAccessible = isListAccessible(pse.getNewValue());
 
-                if (wasAccessible != isAccessible) {
-                    elementsP.setAccessible(isAccessible);
-                } else if (elementsP.isAccessible()) {
-                    elementsP.setValueAndIgnore(null, null);
-                }
-            } else {
-                if (((ElementsProperty<?>.ElementsPropertyStateEvent)pse).shouldIgnore()) {
-                    return;
-                }
+				if (wasAccessible != isAccessible) {
+					elementsP.setAccessible(isAccessible);
+				} else if (elementsP.isAccessible()) {
+					elementsP.setValueAndIgnore(null, null);
+				}
+			} else {
+				if (((ElementsProperty<?>.ElementsPropertyStateEvent)pse).shouldIgnore()) {
+					return;
+				}
 
-                if (list == null) {
-                    list = listP.getValue(getTargetObject());
-                    resetListSelection();
-                    model = new BindingListModel();
-                    list.setModel(model);
-                } else {
-                    resetListSelection();
-                }
+				if (list == null) {
+					list = listP.getValue(getTargetObject());
+					resetListSelection();
+					model = new BindingListModel();
+					list.setModel(model);
+				} else {
+					resetListSelection();
+				}
 
-                model.setElements((List<?>)pse.getNewValue(), true);
-            }
-        }
-    }
+				model.setElements((List<?>)pse.getNewValue(), true);
+			}
+		}
+	}
 
-    private void resetListSelection() {
-        ListSelectionModel selectionModel = list.getSelectionModel();
-        selectionModel.setValueIsAdjusting(true);
-        selectionModel.clearSelection();
-        selectionModel.setAnchorSelectionIndex(-1);
-        selectionModel.setLeadSelectionIndex(-1);
-        selectionModel.setValueIsAdjusting(false);
-    }
-    
-    @SuppressWarnings("rawtypes")
+	private void resetListSelection() {
+		ListSelectionModel selectionModel = list.getSelectionModel();
+		selectionModel.setValueIsAdjusting(true);
+		selectionModel.clearSelection();
+		selectionModel.setAnchorSelectionIndex(-1);
+		selectionModel.setLeadSelectionIndex(-1);
+		selectionModel.setValueIsAdjusting(false);
+	}
+	
+	@SuppressWarnings("rawtypes")
 	private final class BindingListModel
-    	extends ListBindingManager
-    	implements ListModel
-    {
-        private final List<ListDataListener> listeners;
+		extends ListBindingManager
+		implements ListModel
+	{
+		private final List<ListDataListener> listeners;
 
-        public BindingListModel() {
-            listeners = new CopyOnWriteArrayList<ListDataListener>();
-        }
+		public BindingListModel() {
+			listeners = new CopyOnWriteArrayList<ListDataListener>();
+		}
 
-        @Override
+		@Override
 		protected AbstractColumnBinding<?,?,?,?>[] getColBindings()
 		{
 			return new AbstractColumnBinding[] { getDetailBinding() };
 		}
 
-        @Override
+		@Override
 		protected void allChanged() {
-            contentsChanged(0, size());
-        }
+			contentsChanged(0, size());
+		}
 
-        @Override
+		@Override
 		protected void valueChanged(int row, int column) {
-            contentsChanged(row, row);
-        }
+			contentsChanged(row, row);
+		}
 
-        @Override
+		@Override
 		protected void added(int index, int length) {
-            assert length > 0; // enforced by ListBindingManager
+			assert length > 0; // enforced by ListBindingManager
 
-            ListDataEvent e = new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, index, index + length - 1);
-            for (ListDataListener listener : listeners) {
-                listener.intervalAdded(e);
-            }
-        }
+			ListDataEvent e = new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, index, index + length - 1);
+			for (ListDataListener listener : listeners) {
+				listener.intervalAdded(e);
+			}
+		}
 
-        @Override
+		@Override
 		protected void removed(int index, int length) {
-            assert length > 0; // enforced by ListBindingManager
+			assert length > 0; // enforced by ListBindingManager
 
-            ListDataEvent e = new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, index, index + length - 1);
-            for (ListDataListener listener : listeners) {
-                listener.intervalRemoved(e);
-            }
-        }
+			ListDataEvent e = new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, index, index + length - 1);
+			for (ListDataListener listener : listeners) {
+				listener.intervalRemoved(e);
+			}
+		}
 
-        @Override
+		@Override
 		protected void changed(int row) {
-            contentsChanged(row, row);
-        }
+			contentsChanged(row, row);
+		}
 
-        private void contentsChanged(int row0, int row1) {
-            ListDataEvent e = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, row0, row1);
-            for (ListDataListener listener : listeners) {
-                listener.contentsChanged(e);
-            }
-        }
+		private void contentsChanged(int row0, int row1) {
+			ListDataEvent e = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, row0, row1);
+			for (ListDataListener listener : listeners) {
+				listener.contentsChanged(e);
+			}
+		}
 
-        @Override
+		@Override
 		public Object getElementAt(int index) {
-            return valueAt(index, 0);
-        }
+			return valueAt(index, 0);
+		}
 
-        @Override
+		@Override
 		public void addListDataListener(ListDataListener l) {
-            listeners.add(l);
-        }
+			listeners.add(l);
+		}
 
-        @Override
+		@Override
 		public void removeListDataListener(ListDataListener l) {
-            listeners.remove(l);
-        }
+			listeners.remove(l);
+		}
 
-        @Override
+		@Override
 		public int getSize() {
-            return size();
-        }
-    }
+			return size();
+		}
+	}
 }

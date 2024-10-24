@@ -58,10 +58,10 @@ public class ButtonExample extends SwingApplication<ButtonDialog>
 					case "tb.text":
 					case "tb.selectedText":
 					case "Application.id":
-						logger.info("    " + key + " ==> " + rMap.getString(key));
+						logger.info("	 " + key + " ==> " + rMap.getString(key));
 						break;
 					default:
-						logger.debug("    " + key + " ==> " + rMap.getString(key));
+						logger.debug("	  " + key + " ==> " + rMap.getString(key));
 						break;
 				}
 			}
@@ -105,12 +105,12 @@ public class ButtonExample extends SwingApplication<ButtonDialog>
 	 */
 	private class WindowListener extends WindowAdapter
 	{
-        @Override
-        public void windowClosing(WindowEvent we)
-        {
-        	// Close tasks, etc.
-        	exit(we);
-        }
+		@Override
+		public void windowClosing(WindowEvent we)
+		{
+			// Close tasks, etc.
+			exit(we);
+		}
 	}
 	
 	/**

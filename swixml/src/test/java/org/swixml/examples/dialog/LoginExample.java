@@ -63,12 +63,12 @@ public class LoginExample extends SwingApplication<LoginDialog>
 	 */
 	private class WindowListener extends WindowAdapter
 	{
-        @Override
-        public void windowClosing(WindowEvent we)
-        {
-        	// Close tasks, etc.
-        	exit(we);
-        }
+		@Override
+		public void windowClosing(WindowEvent we)
+		{
+			// Close tasks, etc.
+			exit(we);
+		}
 	}
 
 	/**

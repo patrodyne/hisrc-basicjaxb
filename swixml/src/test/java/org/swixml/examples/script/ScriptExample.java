@@ -67,7 +67,7 @@ public class ScriptExample extends SwingApplication<ScriptDialog>
 			throw new ELException("Cannot initialize EL context.", ex);
 		}
 	}
-    
+	
 	@Override
 	protected void startup()
 	{

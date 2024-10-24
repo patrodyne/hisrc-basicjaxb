@@ -15,19 +15,19 @@ public class User
 		this.name = name;
 	}
 	
-    public static String sayHelloWorld()
-    {
-        return sayHello("World");
-    }
+	public static String sayHelloWorld()
+	{
+		return sayHello("World");
+	}
 
-    public static String sayHello(String argument)
-    {
-        return "Hello, " + argument;
-    }
-    
-    public String shout(String name)
-    {
-    	setName(name);
-    	return getName().toUpperCase();
-    }
+	public static String sayHello(String argument)
+	{
+		return "Hello, " + argument;
+	}
+	
+	public String shout(String name)
+	{
+		setName(name);
+		return getName().toUpperCase();
+	}
 }

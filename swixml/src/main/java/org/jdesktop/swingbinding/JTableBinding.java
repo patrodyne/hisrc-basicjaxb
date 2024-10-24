@@ -35,24 +35,24 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * objects to a {@code JTable}:</p>
  * 
  * <pre><code>
- *    // create the person List
- *    List&lt;Person&gt; people = createPersonList();
+ *	  // create the person List
+ *	  List&lt;Person&gt; people = createPersonList();
  *
- *    // create the binding from List to JTable
- *    JTableBinding tb = SwingBindings.createJTableBinding(READ, people, jTable);
+ *	  // create the binding from List to JTable
+ *	  JTableBinding tb = SwingBindings.createJTableBinding(READ, people, jTable);
  *
- *    // define the properties to be used for the columns
- *    BeanProperty firstNameP = BeanProperty.create("firstName");
- *    BeanProperty lastNameP = BeanProperty.create("lastName");
- *    BeanProperty ageP = BeanProperty.create("age");
+ *	  // define the properties to be used for the columns
+ *	  BeanProperty firstNameP = BeanProperty.create("firstName");
+ *	  BeanProperty lastNameP = BeanProperty.create("lastName");
+ *	  BeanProperty ageP = BeanProperty.create("age");
  *
- *    // configure how the properties map to columns
- *    tb.addColumnBinding(firstNameP).setColumnName("First Name");
- *    tb.addColumnBinding(lastNameP).setColumnName("Last Name");
- *    tb.addColumnBinding(ageP).setColumnName("Age").setColumnClass(Integer.class);
+ *	  // configure how the properties map to columns
+ *	  tb.addColumnBinding(firstNameP).setColumnName("First Name");
+ *	  tb.addColumnBinding(lastNameP).setColumnName("Last Name");
+ *	  tb.addColumnBinding(ageP).setColumnName("Age").setColumnClass(Integer.class);
  *
- *    // realize the binding
- *    tb.bind();
+ *	  // realize the binding
+ *	  tb.bind();
  * </code></pre>
  * 
  * <p>The {@code JTable} target of a {@code JTableBinding} acts as a live view of
@@ -122,58 +122,58 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
  * what happens for each of a sequence of events:</p>
  * 
  * <table border=1>
- *   <caption><b>Sequence of Events</b></caption>
- *   <tr><th>Sequence</th><th>Event</th><th>Result</th></tr>
- *   <tr>
- *     <td>1</td>
- *     <td>explicit call to {@code binding.bind()}</td>
- *     <td>
- *         - synthetic target property becomes readable/writable
- *         <br>
- *         - {@code refresh()} is called
- *         <br>
- *         - model is installed on target {@code JTable}, representing list of objects
- *     </td>
- *   </tr>
- *   <tr >
- *     <td >2</td>
- *     <td>{@code listP} changes to a new {@code List}</td>
- *     <td>
- *         - {@code refresh()} is called
- *         <br>
- *         - model is updated with new list of objects
- *     </td>
- *   </tr>
- *   <tr>
- *     <td >3</td>
- *     <td>{@code jTableP} changes to a new {@code JTable}</td>
- *     <td>
- *         - model is uninstalled from old {@code JTable}
- *     </td>
- *   </tr>
- *   <tr >
- *     <td >4</td>
- *     <td>explicit call to {@code binding.refresh()}</td>
- *     <td>
- *         - model is installed on target {@code JTable}, representing list of objects
- *     </td>
- *   </tr>
- *   <tr >
- *     <td >5</td>
- *     <td>{@code listP} changes to a new {@code List}</td>
- *     <td>
- *         - {@code refresh()} is called
- *         <br>
- *         - model is updated with new list of objects
- *     </td>
- *   </tr>
- *   <tr >
- *     <td >6</td>
- *     <td>explicit call to {@code binding.unbind()}</td>
- *     <td>
- *         - model is uninstalled from target {@code JTable}
- *     </td>
- *   </tr>
+ *	 <caption><b>Sequence of Events</b></caption>
+ *	 <tr><th>Sequence</th><th>Event</th><th>Result</th></tr>
+ *	 <tr>
+ *	   <td>1</td>
+ *	   <td>explicit call to {@code binding.bind()}</td>
+ *	   <td>
+ *		   - synthetic target property becomes readable/writable
+ *		   <br>
+ *		   - {@code refresh()} is called
+ *		   <br>
+ *		   - model is installed on target {@code JTable}, representing list of objects
+ *	   </td>
+ *	 </tr>
+ *	 <tr >
+ *	   <td >2</td>
+ *	   <td>{@code listP} changes to a new {@code List}</td>
+ *	   <td>
+ *		   - {@code refresh()} is called
+ *		   <br>
+ *		   - model is updated with new list of objects
+ *	   </td>
+ *	 </tr>
+ *	 <tr>
+ *	   <td >3</td>
+ *	   <td>{@code jTableP} changes to a new {@code JTable}</td>
+ *	   <td>
+ *		   - model is uninstalled from old {@code JTable}
+ *	   </td>
+ *	 </tr>
+ *	 <tr >
+ *	   <td >4</td>
+ *	   <td>explicit call to {@code binding.refresh()}</td>
+ *	   <td>
+ *		   - model is installed on target {@code JTable}, representing list of objects
+ *	   </td>
+ *	 </tr>
+ *	 <tr >
+ *	   <td >5</td>
+ *	   <td>{@code listP} changes to a new {@code List}</td>
+ *	   <td>
+ *		   - {@code refresh()} is called
+ *		   <br>
+ *		   - model is updated with new list of objects
+ *	   </td>
+ *	 </tr>
+ *	 <tr >
+ *	   <td >6</td>
+ *	   <td>explicit call to {@code binding.unbind()}</td>
+ *	   <td>
+ *		   - model is uninstalled from target {@code JTable}
+ *	   </td>
+ *	 </tr>
  * </table>
  * 
  * <p>Notice that in <a href="#STEP3">step 3</a>, when the value
@@ -211,309 +211,309 @@ import org.jdesktop.swingbinding.impl.ListBindingManager;
 public final class JTableBinding<E, SS, TS>
 	extends AutoBinding<SS, List<E>, TS, List<?>>
 {
-    private Property<TS, ? extends JTable> tableP;
-    private ElementsProperty<TS> elementsP;
-    private Handler handler = new Handler();
-    private JTable table;
-    private BindingTableModel model;
-    private boolean editable = true;
-    private List<ColumnBinding<?,?,?>> columnBindings = new ArrayList<>();
+	private Property<TS, ? extends JTable> tableP;
+	private ElementsProperty<TS> elementsP;
+	private Handler handler = new Handler();
+	private JTable table;
+	private BindingTableModel model;
+	private boolean editable = true;
+	private List<ColumnBinding<?,?,?>> columnBindings = new ArrayList<>();
 
-    /**
-     * Constructs an instance of {@code JTableBinding}.
-     *
-     * @param strategy the update strategy
-     * @param sourceObject the source object
-     * @param sourceListProperty a property on the source object that resolves to the {@code List} of elements
-     * @param targetObject the target object
-     * @param targetJTableProperty a property on the target object that resolves to a {@code JTable}
-     * @param name a name for the {@code JTableBinding}
-     * @throws IllegalArgumentException if the source property or target property is {@code null}
-     */
-    protected JTableBinding(UpdateStrategy strategy,
-    	SS sourceObject, Property<SS, List<E>> sourceListProperty,
-    	TS targetObject, Property<TS, ? extends JTable> targetJTableProperty,
-    	String name)
-    {
-        super(strategy == READ_WRITE ? READ : strategy,
-              sourceObject, sourceListProperty,
-              targetObject, new ElementsProperty<TS>(),
-              name);
+	/**
+	 * Constructs an instance of {@code JTableBinding}.
+	 *
+	 * @param strategy the update strategy
+	 * @param sourceObject the source object
+	 * @param sourceListProperty a property on the source object that resolves to the {@code List} of elements
+	 * @param targetObject the target object
+	 * @param targetJTableProperty a property on the target object that resolves to a {@code JTable}
+	 * @param name a name for the {@code JTableBinding}
+	 * @throws IllegalArgumentException if the source property or target property is {@code null}
+	 */
+	protected JTableBinding(UpdateStrategy strategy,
+		SS sourceObject, Property<SS, List<E>> sourceListProperty,
+		TS targetObject, Property<TS, ? extends JTable> targetJTableProperty,
+		String name)
+	{
+		super(strategy == READ_WRITE ? READ : strategy,
+			  sourceObject, sourceListProperty,
+			  targetObject, new ElementsProperty<TS>(),
+			  name);
 
-        if (targetJTableProperty == null)
-            throw new IllegalArgumentException("target JTable property can't be null");
+		if (targetJTableProperty == null)
+			throw new IllegalArgumentException("target JTable property can't be null");
 
-        tableP = targetJTableProperty;
-        elementsP = (ElementsProperty<TS>) getTargetProperty();
-    }
+		tableP = targetJTableProperty;
+		elementsP = (ElementsProperty<TS>) getTargetProperty();
+	}
 
-    @Override
+	@Override
 	protected void bindImpl()
-    {
-        elementsP.setAccessible(isTableAccessible());
-        tableP.addPropertyStateListener(getTargetObject(), handler);
-        elementsP.addPropertyStateListener(null, handler);
-        super.bindImpl();
-    }
+	{
+		elementsP.setAccessible(isTableAccessible());
+		tableP.addPropertyStateListener(getTargetObject(), handler);
+		elementsP.addPropertyStateListener(null, handler);
+		super.bindImpl();
+	}
 
-    @Override
+	@Override
 	protected void unbindImpl()
-    {
-        elementsP.removePropertyStateListener(null, handler);
-        tableP.removePropertyStateListener(getTargetObject(), handler);
-        elementsP.setAccessible(false);
-        cleanupForLast();
-        super.unbindImpl();
-    }
+	{
+		elementsP.removePropertyStateListener(null, handler);
+		tableP.removePropertyStateListener(getTargetObject(), handler);
+		elementsP.setAccessible(false);
+		cleanupForLast();
+		super.unbindImpl();
+	}
 
-    private boolean isTableAccessible()
-    {
-        return tableP.isReadable(getTargetObject()) && tableP.getValue(getTargetObject()) != null;
-    }
+	private boolean isTableAccessible()
+	{
+		return tableP.isReadable(getTargetObject()) && tableP.getValue(getTargetObject()) != null;
+	}
 
-    private boolean isTableAccessible(Object value)
-    {
-        return value != null && value != PropertyStateEvent.UNREADABLE;
-    }
+	private boolean isTableAccessible(Object value)
+	{
+		return value != null && value != PropertyStateEvent.UNREADABLE;
+	}
 
-    private void cleanupForLast()
-    {
-        if (table == null)
-            return;
+	private void cleanupForLast()
+	{
+		if (table == null)
+			return;
 
-        table.setModel(new DefaultTableModel());
-        table = null;
-        model.setElements((List<?>) null, true);
-        model = null;
-    }
-    
-    /**
-     * Sets whether or not the cells of the table should be editable.
-     * The default for this property is {@code true}.
-     * See this <a href="#EDITABILITY">paragraph</a> in the class level
-     * documentation on editability.
-     *
-     * @param editable whether or not the cells of the table should be editable
-     */
-    public void setEditable(boolean editable)
-    {
-        this.editable = editable;
-    }
+		table.setModel(new DefaultTableModel());
+		table = null;
+		model.setElements((List<?>) null, true);
+		model = null;
+	}
+	
+	/**
+	 * Sets whether or not the cells of the table should be editable.
+	 * The default for this property is {@code true}.
+	 * See this <a href="#EDITABILITY">paragraph</a> in the class level
+	 * documentation on editability.
+	 *
+	 * @param editable whether or not the cells of the table should be editable
+	 */
+	public void setEditable(boolean editable)
+	{
+		this.editable = editable;
+	}
 
-    /**
-     * Returns whether or not the cells of the table should be editable.
-     * The default for this property is {@code true}.
-     * See this <a href="#EDITABILITY">paragraph</a> in the class level
-     * documentation on editability.
-     *
-     * @return whether or not the cells of the table should be editable
-     */
-    public boolean isEditable()
-    {
-        return editable;
-    }
+	/**
+	 * Returns whether or not the cells of the table should be editable.
+	 * The default for this property is {@code true}.
+	 * See this <a href="#EDITABILITY">paragraph</a> in the class level
+	 * documentation on editability.
+	 *
+	 * @return whether or not the cells of the table should be editable
+	 */
+	public boolean isEditable()
+	{
+		return editable;
+	}
 
-    /**
-     * Creates a {@code ColumnBinding} and adds it to the end of the list of {@code ColumnBindings}
-     * maintained by this {@code JTableBinding}.
-     * <p>
-     * The list of {@code ColumnBindings} dictates the columns to be displayed in the
-     * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
-     * table model index.
-     *
-     * @param columnProperty the property with which to derive cell values from the
-     *                       elements of the source {@code List}
-     *                       
-     * @return the {@code ColumnBinding}
-     * 
-     * @throws IllegalArgumentException if {@code columnProperty} is {@code null}
-     * 
-     * @see org.jdesktop.swingbinding.ColumnBinding
-     */
-    public ColumnBinding<?, ?, ?> addColumnBinding(Property<?, ?> columnProperty)
-    {
-        return addColumnBinding(columnProperty, null);
-    }
+	/**
+	 * Creates a {@code ColumnBinding} and adds it to the end of the list of {@code ColumnBindings}
+	 * maintained by this {@code JTableBinding}.
+	 * <p>
+	 * The list of {@code ColumnBindings} dictates the columns to be displayed in the
+	 * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
+	 * table model index.
+	 *
+	 * @param columnProperty the property with which to derive cell values from the
+	 *						 elements of the source {@code List}
+	 *						 
+	 * @return the {@code ColumnBinding}
+	 * 
+	 * @throws IllegalArgumentException if {@code columnProperty} is {@code null}
+	 * 
+	 * @see org.jdesktop.swingbinding.ColumnBinding
+	 */
+	public ColumnBinding<?, ?, ?> addColumnBinding(Property<?, ?> columnProperty)
+	{
+		return addColumnBinding(columnProperty, null);
+	}
 
-    /**
-     * Creates a named {@code ColumnBinding} and adds it to the end of the list of {@code ColumnBindings}
-     * maintained by this {@code JTableBinding}.
-     * <p>
-     * The list of {@code ColumnBindings} dictates the columns to be displayed in the
-     * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
-     * table model index.
-     *
-     * @param columnProperty the property with which to derive cell values from the
-     *                       elements of the source {@code List}
-     * @param name a name for the column binding
-     * @return the {@code ColumnBinding}
-     * @throws IllegalArgumentException if {@code columnProperty} is {@code null}
-     * @see org.jdesktop.swingbinding.ColumnBinding
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+	/**
+	 * Creates a named {@code ColumnBinding} and adds it to the end of the list of {@code ColumnBindings}
+	 * maintained by this {@code JTableBinding}.
+	 * <p>
+	 * The list of {@code ColumnBindings} dictates the columns to be displayed in the
+	 * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
+	 * table model index.
+	 *
+	 * @param columnProperty the property with which to derive cell values from the
+	 *						 elements of the source {@code List}
+	 * @param name a name for the column binding
+	 * @return the {@code ColumnBinding}
+	 * @throws IllegalArgumentException if {@code columnProperty} is {@code null}
+	 * @see org.jdesktop.swingbinding.ColumnBinding
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ColumnBinding<?, ?, ?> addColumnBinding(Property<?, ?> columnProperty, String name)
-    {
-        throwIfBound();
+	{
+		throwIfBound();
 
-        if (columnProperty == null)
-        {
-            throw new IllegalArgumentException("can't have null column property");
-        }
+		if (columnProperty == null)
+		{
+			throw new IllegalArgumentException("can't have null column property");
+		}
 
-        if (name == null && JTableBinding.this.getName() != null)
-        {
-            name = JTableBinding.this.getName() + ".COLUMN_BINDING";
-        }
+		if (name == null && JTableBinding.this.getName() != null)
+		{
+			name = JTableBinding.this.getName() + ".COLUMN_BINDING";
+		}
 
 		ColumnBinding<?, ?, ?> binding =
 			new ColumnBinding(columnBindings.size(), columnProperty, name);
-        columnBindings.add(binding);
-        return binding;
-    }
+		columnBindings.add(binding);
+		return binding;
+	}
 
-    /**
-     * Creates a {@code ColumnBinding} and inserts it at the given index into the list
-     * of {@code ColumnBindings} maintained by this {@code JTableBinding}.
-     * <p>
-     * The list of {@code ColumnBindings} dictates the columns to be displayed in the
-     * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
-     * table model index.
-     *
-     * @param index the index at which to insert the {@code ColumnBinding}
-     * @param columnProperty the property with which to derive cell values from the
-     *                       elements of the source {@code List}
-     * @return the {@code ColumnBinding}
-     * @throws IllegalArgumentException if {@code columnProperty} is {@code null}
-     * @see org.jdesktop.swingbinding.ColumnBinding
-     */
-    public ColumnBinding<?, ?, ?> addColumnBinding(int index, Property<E, ?> columnProperty) {
-        return addColumnBinding(index, columnProperty, null);
-    }
+	/**
+	 * Creates a {@code ColumnBinding} and inserts it at the given index into the list
+	 * of {@code ColumnBindings} maintained by this {@code JTableBinding}.
+	 * <p>
+	 * The list of {@code ColumnBindings} dictates the columns to be displayed in the
+	 * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
+	 * table model index.
+	 *
+	 * @param index the index at which to insert the {@code ColumnBinding}
+	 * @param columnProperty the property with which to derive cell values from the
+	 *						 elements of the source {@code List}
+	 * @return the {@code ColumnBinding}
+	 * @throws IllegalArgumentException if {@code columnProperty} is {@code null}
+	 * @see org.jdesktop.swingbinding.ColumnBinding
+	 */
+	public ColumnBinding<?, ?, ?> addColumnBinding(int index, Property<E, ?> columnProperty) {
+		return addColumnBinding(index, columnProperty, null);
+	}
 
-    /**
-     * Creates a {@code ColumnBinding} and inserts it at the given index into the list
-     * of {@code ColumnBindings} maintained by this {@code JTableBinding}.
-     * <p>
-     * The list of {@code ColumnBindings} dictates the columns to be displayed in the
-     * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
-     * table model index.
-     *
-     * @param index the index at which to insert the {@code ColumnBinding}
-     * @param columnProperty the property with which to derive cell values from the
-     *                       elements of the source {@code List}
-     * @param name a name for the {@code ColumnBinding}
-     * 
-     * @return the {@code ColumnBinding}
-     * 
-     * @throws IllegalArgumentException if {@code columnProperty} is {@code null}
-     * 
-     * @see org.jdesktop.swingbinding.ColumnBinding
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+	/**
+	 * Creates a {@code ColumnBinding} and inserts it at the given index into the list
+	 * of {@code ColumnBindings} maintained by this {@code JTableBinding}.
+	 * <p>
+	 * The list of {@code ColumnBindings} dictates the columns to be displayed in the
+	 * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
+	 * table model index.
+	 *
+	 * @param index the index at which to insert the {@code ColumnBinding}
+	 * @param columnProperty the property with which to derive cell values from the
+	 *						 elements of the source {@code List}
+	 * @param name a name for the {@code ColumnBinding}
+	 * 
+	 * @return the {@code ColumnBinding}
+	 * 
+	 * @throws IllegalArgumentException if {@code columnProperty} is {@code null}
+	 * 
+	 * @see org.jdesktop.swingbinding.ColumnBinding
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ColumnBinding<?, ?, ?> addColumnBinding(int index, Property<E, ?> columnProperty, String name) {
-        throwIfBound();
+		throwIfBound();
 
-        if (columnProperty == null) {
-            throw new IllegalArgumentException("can't have null column property");
-        }
+		if (columnProperty == null) {
+			throw new IllegalArgumentException("can't have null column property");
+		}
 
-        if (name == null && JTableBinding.this.getName() != null) {
-            name = JTableBinding.this.getName() + ".COLUMN_BINDING";
-        }
-        
-        ColumnBinding binding = new ColumnBinding(index, columnProperty, name);
-        columnBindings.add(index, binding);
-        adjustIndices(index + 1, true);
-        return binding;
-    }
+		if (name == null && JTableBinding.this.getName() != null) {
+			name = JTableBinding.this.getName() + ".COLUMN_BINDING";
+		}
+		
+		ColumnBinding binding = new ColumnBinding(index, columnProperty, name);
+		columnBindings.add(index, binding);
+		adjustIndices(index + 1, true);
+		return binding;
+	}
 
-    /**
-     * Removes the given {@code ColumnBinding} from the list maintained
-     * by this {@code JTableBinding}.
-     * <p>
-     * The list of {@code ColumnBindings} dictates the columns to be displayed in the
-     * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
-     * table model index.
-     *
-     * @param binding the {@code ColumnBinding} to remove
-     * @see #addColumnBinding(Property, String)
-     */
-    @SuppressWarnings("rawtypes")
+	/**
+	 * Removes the given {@code ColumnBinding} from the list maintained
+	 * by this {@code JTableBinding}.
+	 * <p>
+	 * The list of {@code ColumnBindings} dictates the columns to be displayed in the
+	 * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
+	 * table model index.
+	 *
+	 * @param binding the {@code ColumnBinding} to remove
+	 * @see #addColumnBinding(Property, String)
+	 */
+	@SuppressWarnings("rawtypes")
 	public boolean removeColumnBinding(ColumnBinding binding) {
-        throwIfBound();
-        boolean retVal = columnBindings.remove(binding);
+		throwIfBound();
+		boolean retVal = columnBindings.remove(binding);
 
-        if (retVal) {
-            adjustIndices(binding.getColumn(), false);
-        }
+		if (retVal) {
+			adjustIndices(binding.getColumn(), false);
+		}
 
-        return retVal;
-    }
+		return retVal;
+	}
 
-    /**
-     * Removes the {@code ColumnBinding} with the given index from the list maintained
-     * by this {@code JTableBinding}.
-     * <p>
-     * The list of {@code ColumnBindings} dictates the columns to be displayed in the
-     * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
-     * table model index.
-     *
-     * @param index the index of the {@code ColumnBinding} to remove
-     * @see #addColumnBinding(Property, String)
-     */
-    @SuppressWarnings("rawtypes")
+	/**
+	 * Removes the {@code ColumnBinding} with the given index from the list maintained
+	 * by this {@code JTableBinding}.
+	 * <p>
+	 * The list of {@code ColumnBindings} dictates the columns to be displayed in the
+	 * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
+	 * table model index.
+	 *
+	 * @param index the index of the {@code ColumnBinding} to remove
+	 * @see #addColumnBinding(Property, String)
+	 */
+	@SuppressWarnings("rawtypes")
 	public ColumnBinding removeColumnBinding(int index) {
-        throwIfBound();
-        ColumnBinding retVal = columnBindings.remove(index);
-        
-        if (retVal != null) {
-            adjustIndices(index, false);
-        }
+		throwIfBound();
+		ColumnBinding retVal = columnBindings.remove(index);
+		
+		if (retVal != null) {
+			adjustIndices(index, false);
+		}
 
-        return retVal;
-    }
+		return retVal;
+	}
 
-    /**
-     * Returns the {@code ColumnBinding} with the given index in the list maintained
-     * by this {@code JTableBinding}.
-     * <p>
-     * The list of {@code ColumnBindings} dictates the columns to be displayed in the
-     * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
-     * table model index.
-     *
-     * @param index the index of the {@code ColumnBinding} to return
-     * @return the {@code ColumnBinding} at the given index
-     * @see #addColumnBinding(Property, String)
-     */
-    @SuppressWarnings("rawtypes")
+	/**
+	 * Returns the {@code ColumnBinding} with the given index in the list maintained
+	 * by this {@code JTableBinding}.
+	 * <p>
+	 * The list of {@code ColumnBindings} dictates the columns to be displayed in the
+	 * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
+	 * table model index.
+	 *
+	 * @param index the index of the {@code ColumnBinding} to return
+	 * @return the {@code ColumnBinding} at the given index
+	 * @see #addColumnBinding(Property, String)
+	 */
+	@SuppressWarnings("rawtypes")
 	public ColumnBinding getColumnBinding(int index) {
-        return columnBindings.get(index);
-    }
+		return columnBindings.get(index);
+	}
 
-    /**
-     * Returns an unmodifiable copy of the list of {@code ColumnBindings} maintained
-     * by this {@code JTableBinding}.
-     * <p>
-     * The list of {@code ColumnBindings} dictates the columns to be displayed in the
-     * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
-     * table model index.
-     *
-     * @return the list of {@code ColumnBindings}
-     * @see #addColumnBinding(Property, String)
-     */
-    @SuppressWarnings("rawtypes")
+	/**
+	 * Returns an unmodifiable copy of the list of {@code ColumnBindings} maintained
+	 * by this {@code JTableBinding}.
+	 * <p>
+	 * The list of {@code ColumnBindings} dictates the columns to be displayed in the
+	 * {@code JTable}, with a {@code ColumnBinding's} order in the list determining its
+	 * table model index.
+	 *
+	 * @return the list of {@code ColumnBindings}
+	 * @see #addColumnBinding(Property, String)
+	 */
+	@SuppressWarnings("rawtypes")
 	public List<ColumnBinding> getColumnBindings() {
-        return Collections.unmodifiableList(columnBindings);
-    }
+		return Collections.unmodifiableList(columnBindings);
+	}
 
-    @SuppressWarnings("rawtypes")
+	@SuppressWarnings("rawtypes")
 	private void adjustIndices(int start, boolean up) {
-        int size = columnBindings.size();
-        for (int i = start; i < size; i++) {
-            ColumnBinding cb = columnBindings.get(i);
-            cb.adjustColumn(cb.getColumn() + (up ? 1 : -1));
-        }
-    }
+		int size = columnBindings.size();
+		for (int i = start; i < size; i++) {
+			ColumnBinding cb = columnBindings.get(i);
+			cb.adjustColumn(cb.getColumn() + (up ? 1 : -1));
+		}
+	}
 
 	private class Handler implements PropertyStateListener
 	{

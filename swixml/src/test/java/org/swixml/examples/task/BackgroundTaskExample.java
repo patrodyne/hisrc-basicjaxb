@@ -58,22 +58,22 @@ public class BackgroundTaskExample extends SwingApplication<BackgroundTaskDialog
 	
 	private class WindowListener extends WindowAdapter
 	{
-        @Override
-        public void windowClosing(WindowEvent we)
-        {
-        	BackgroundTaskDialog window =
-        		(BackgroundTaskDialog) we.getWindow();
-        	if ( window.getRetrieveTimeTask() != null )
-        		window.getRetrieveTimeTask().cancel(true);
-        	if ( window.getScanDirTask() != null )
-        		window.getScanDirTask().cancel(true);
-        	exit(we);
-        }
-        
-        @Override
-        public void windowClosed(WindowEvent we)
-        {
-        }
+		@Override
+		public void windowClosing(WindowEvent we)
+		{
+			BackgroundTaskDialog window =
+				(BackgroundTaskDialog) we.getWindow();
+			if ( window.getRetrieveTimeTask() != null )
+				window.getRetrieveTimeTask().cancel(true);
+			if ( window.getScanDirTask() != null )
+				window.getScanDirTask().cancel(true);
+			exit(we);
+		}
+		
+		@Override
+		public void windowClosed(WindowEvent we)
+		{
+		}
 	}
 
 	public static void main(String[] args)

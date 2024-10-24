@@ -54,19 +54,19 @@ public class ProductTableModel extends AbstractTableModel
 		getProductList().get(rowIndex).set(columnIndex, value);
 	}
 	
-    @Override
+	@Override
 	public String getColumnName(int columnIndex)
-    {
-    	TableColumn tc = getProductTable().getColumnModel().getColumn(columnIndex);
-    	Object hv = tc.getHeaderValue();
-    	return (hv != null) ? (String) hv : super.getColumnName(columnIndex);
-    }
-    
-    @Override
+	{
+		TableColumn tc = getProductTable().getColumnModel().getColumn(columnIndex);
+		Object hv = tc.getHeaderValue();
+		return (hv != null) ? (String) hv : super.getColumnName(columnIndex);
+	}
+	
+	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex)
-    {
-    	boolean isCellEditable = false;
-    	try
+	{
+		boolean isCellEditable = false;
+		try
 		{
 			BeanInfo bi = getBeanInfo(Product.class);
 			PropertyDescriptor pd = bi.getPropertyDescriptors()[columnIndex];
@@ -76,6 +76,6 @@ public class ProductTableModel extends AbstractTableModel
 		{
 			isCellEditable = false;
 		}
-    	return isCellEditable;
-    }
+		return isCellEditable;
+	}
 }

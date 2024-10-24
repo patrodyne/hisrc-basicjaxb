@@ -6,9 +6,9 @@
 
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
 	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(300,1.50)"
-    size="${el.pageSize(65,25)}"
-    preferredSize="${el.size()}"
-    minimumSize="${el.size()}"
+	size="${el.pageSize(65,25)}"
+	preferredSize="${el.size()}"
+	minimumSize="${el.size()}"
 	resizable="true"
 	alwaysOnTop="true"
 	title="Client Attribute Sample"
