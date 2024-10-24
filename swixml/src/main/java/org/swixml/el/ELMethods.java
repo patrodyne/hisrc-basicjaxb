@@ -13,7 +13,6 @@ import static org.swixml.SwingEngine.DEFAULT_COLOR_KEY;
 import static org.swixml.SwingEngine.DEFAULT_FONT_KEY;
 import static org.swixml.converters.AbstractConverter.PRECENT_FORMAT;
 import static org.swixml.converters.DimensionConverter.isZero;
-import static org.swixml.jsr295.BindingUtils.isELPattern;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -676,11 +675,8 @@ public class ELMethods<T extends Container>
 					{
 						Dimension size = null;
 						
-						if ( isELPattern(sizeSpec) )
-						{
-							if ( getSizeMap().containsKey(element) )
-								size = getSizeMap().get(element);
-						}
+						if ( getSizeMap().containsKey(element) )
+							size = getSizeMap().get(element);
 						else
 						{
 							size = DimensionConverter.convert(sizeSpec);

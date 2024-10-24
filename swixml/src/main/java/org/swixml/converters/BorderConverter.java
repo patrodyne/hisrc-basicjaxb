@@ -66,11 +66,9 @@ public class BorderConverter extends AbstractConverter<Border>
 	 * all methods the BorderFactory provides
 	 */
 	private static final Method[] METHODS = BorderFactory.class.getMethods();
-	private static final Pattern compoundBorderPattern = Pattern
+	private static final Pattern COMPOUND_BORDER_PATTERN = Pattern
 		.compile("CompoundBorder[(][\\s]*(.*)[\\s]*[,][\\s]+(.*)[\\s]*[)]");
-	private static final Pattern borderPattern = Pattern.compile("(\\w+)(?:[(]([\\w, -\\\\*]+)*[)])?");
-	// private Pattern borderPattern =
-	// Pattern.compile("(\\w*)(?:[(](.+)*[)])?");
+	private static final Pattern BORDER_PATTERN = Pattern.compile("(\\w+)(?:[(]([\\w, -\\\\*]+)*[)])?");
 
 	/**
 	 * Returns a <code>javax.swing Border</code>
@@ -87,7 +85,7 @@ public class BorderConverter extends AbstractConverter<Border>
 	public Border convert(String value, Class<Border> type, Attribute attr, SwingEngine<?> engine)
 		throws Exception
 	{
-		Matcher m = compoundBorderPattern.matcher(value);
+		Matcher m = COMPOUND_BORDER_PATTERN.matcher(value);
 		if ( m.matches() )
 		{
 			Border outside = convert(type, m.group(1), engine);
@@ -109,7 +107,7 @@ public class BorderConverter extends AbstractConverter<Border>
 	 */
 	protected Border convert(final Class<Border> type, final String borderSpec, SwingEngine<?> engine)
 	{
-		Matcher m = borderPattern.matcher(borderSpec);
+		Matcher m = BORDER_PATTERN.matcher(borderSpec);
 		if ( !m.matches() )
 		{
 			return null;

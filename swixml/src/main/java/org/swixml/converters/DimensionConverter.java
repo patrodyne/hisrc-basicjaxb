@@ -4,6 +4,8 @@ import static java.lang.Math.toIntExact;
 
 import java.awt.Dimension;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.swixml.SwingEngine;
 import org.swixml.dom.Attribute;
@@ -31,6 +33,10 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 	 * converter's return type
 	 */
 	public static final Class<Dimension> TEMPLATE = Dimension.class;
+	
+	private static final Pattern TAG_PARM_PATTERN = Pattern.compile("(\\w+)(?:[(]([\\w,\\.%]+)*[)])?");
+	
+	private static final Dimension DEFAULT_DIMENSION = new Dimension(100,100);
 
 	/**
 	 * Converts a String into an Dimension object
@@ -46,8 +52,7 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 	public Dimension convert(String value, Class<Dimension> type, Attribute attr, SwingEngine<?> engine)
 		throws Exception
 	{
-		Dimension size = engine.getELMethods().currentSize();
-		return convert(value, size);
+		return convert(value, engine);
 	}
 
 	/**
@@ -55,14 +60,14 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 	 *
 	 * @param value A comma separated pair representing width and height.
 	 * 
-	 * @return <code>Object</code> - runtime type is <code>Dimension</code>
+	 * @return <code>Dimension</code> - runtime type is <code>Dimension</code>
 	 */
 	public static Dimension convert(String value)
 	{
-		StringTokenizer st = new StringTokenizer(value, ",");
-		
 		int iw = 0;
 		int ih = 0;
+		
+		StringTokenizer st = new StringTokenizer(value, ",");
 		
 		if ( st.hasMoreTokens() )
 			iw = Integer.parseInt(st.nextToken().trim());
@@ -79,9 +84,81 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 	 * Converts a String into an Dimension object.
 	 *
 	 * @param value A comma separated pair representing width and height.
+	 * @param engine <code>SwingEngine</code> the Swing engine.
+	 * 
+	 * @return <code>Dimension</code> - runtime type is <code>Dimension</code>
+	 */
+	public static Dimension convert(String value, SwingEngine<?> engine)
+		throws Exception
+	{
+		Dimension size = null;
+		
+		Matcher tpm = TAG_PARM_PATTERN.matcher(value);
+		if ( tpm.matches() )
+		{
+			int groupCount = tpm.groupCount();
+			String dimType = tpm.group(1);
+			String[] parms = new String[0];
+			if ( groupCount > 1 )
+			{
+				String g2 = tpm.group(2);
+				if ( g2 != null )
+					parms = g2.split(",");
+				
+				if ( parms.length > 0 )
+				{
+					if ( "pageSize".equals(dimType) )
+					{
+						int sw = Integer.parseInt(parms[0]);
+						int sh = Integer.parseInt(parms[1]);
+						size = engine.getELMethods().pageSize(sw, sh);
+					}
+					else if ( "size".equals(dimType) )
+					{
+						int sw = Integer.parseInt(parms[0]);
+						int sh = Integer.parseInt(parms[1]);
+						size = engine.getELMethods().size(sw, sh);
+					}
+					else if ( "scaleSize".equals(dimType) )
+					{
+						if ( g2.contains("%") )
+						{
+							if ( parms.length == 1 )
+								size = engine.getELMethods().scaleSize(parms[0]);
+							else
+								size = engine.getELMethods().scaleSize(parms[0], parms[1]);
+						}
+						else
+						{
+							double sw = Double.valueOf(parms[0]);
+							double sh = Double.valueOf(parms[1]);
+							size = engine.getELMethods().scaleSize(sw, sh);
+						}
+					}
+				}
+			}
+			
+			if ( size == null )
+			{
+				if ( "size".equals(dimType) )
+					size = engine.getELMethods().size();
+				else
+					size = DEFAULT_DIMENSION;
+			}
+		}
+		else
+			size = convert(value, engine.getELMethods().currentSize());
+		
+		return size;
+	}
+	
+	/**
+	 * Converts a String into an Dimension object.
+	 *
+	 * @param value A comma separated pair representing width and height.
 	 * @param size <code>Dimension</code> the current size.
 	 * 
-	 * @return <code>Object</code> - runtime type is <code>Dimension</code>
+	 * @return <code>Dimension</code> - runtime type is <code>Dimension</code>
 	 */
 	public static Dimension convert(String value, Dimension size)
 		throws Exception

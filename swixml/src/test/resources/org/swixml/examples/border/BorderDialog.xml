@@ -5,8 +5,8 @@
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
 	name="mainframe"
-	size="${el.pageSize(60,25)}"
-	minimumSize="${el.size()}"
+	size="pageSize(60,25)"
+	minimumSize="size()"
 	title="Fun with SWIXML - Layouts"
 	defaultCloseOperation="DISPOSE_ON_CLOSE"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"

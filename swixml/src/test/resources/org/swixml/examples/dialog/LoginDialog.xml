@@ -34,7 +34,7 @@
 		    	layout="GridbagLayout(columnWeights(1,10))"
 		    	border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Security information,LEFT,TOP,*-BOLD-*))"
 		    	background="*-30-95"
-		    	preferredSize="${el.scaleSize('90%')}"
+		    	preferredSize="scaleSize(90%)"
 		    >
 		        <label text="Login">
 		        	<gridbagconstraints id="gbc1" gridx="0" gridy="0" ipadx="20" anchor="WEST"/>

@@ -44,6 +44,8 @@ public class PrimitiveConverter	implements Converter<Object>,
 	ScrollPaneConstants, KeyEvent, InputEvent
 {
 	private static final Logger logger = LoggerFactory.getLogger(PrimitiveConverter.class);
+	
+	private static final Pattern CONSTANT_EXPRESSION_PATTERN = Pattern.compile("(?:(\\w+)[.])?(\\w+)");
 
 	public static final PrimitiveConverter instance = new PrimitiveConverter();
 	
@@ -250,7 +252,7 @@ public class PrimitiveConverter	implements Converter<Object>,
 		if ( value == null )
 			throw new IllegalArgumentException("value is null!");
 		
-		Matcher m = p.matcher(value.trim());
+		Matcher m = CONSTANT_EXPRESSION_PATTERN.matcher(value.trim());
 		
 		if ( !m.matches() )
 		{
@@ -342,6 +344,4 @@ public class PrimitiveConverter	implements Converter<Object>,
 	{
 		dictionaries.put(clazz.getSimpleName(), clazz);
 	}
-
-	private static Pattern p = Pattern.compile("(?:(\\w+)[.])?(\\w+)");
 }
