@@ -49,7 +49,7 @@ public class SchemaGeneratorFlat extends SchemaGeneratorBase
 					if ( schema != null )
 					{
 						Deprecated deprecated = field.getAnnotation(Deprecated.class);
-						String aName = field.get(Parser.class).toString().toLowerCase();
+						String aName = field.get(Parser.class).toString();
 						Element e = addAttribute(attributes, elem, aName, String.class);
 						if ( e != null && deprecated != null )
 							addDocumentation(e, "deprecated");

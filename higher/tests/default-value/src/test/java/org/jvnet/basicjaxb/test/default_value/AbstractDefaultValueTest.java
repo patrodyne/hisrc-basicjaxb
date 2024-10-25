@@ -6,7 +6,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
-import org.jvnet.basicjaxb.xml.namespace.NamespaceStrippingXMLStreamWriter;
+import org.jvnet.basicjaxb.xml.namespace.XmlNamespaceStrippingStreamWriter;
 
 import jakarta.xml.bind.JAXBException;
 
@@ -31,7 +31,7 @@ public abstract class AbstractDefaultValueTest extends AbstractSamplesTest
 			{
 				XMLStreamWriter xw = XMLOutputFactory.newFactory().createXMLStreamWriter(sw);
 				if ( stripNamespace )
-					getMarshaller().marshal(document, new NamespaceStrippingXMLStreamWriter(xw));
+					getMarshaller().marshal(document, new XmlNamespaceStrippingStreamWriter(xw));
 				else
 					getMarshaller().marshal(document, xw);
 				documentXml = sw.toString();

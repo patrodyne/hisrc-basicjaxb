@@ -27,7 +27,6 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
  *		 <attribute name="action" type="{http://www.w3.org/2001/XMLSchema}string" />
  *		 <attribute name="bindWith" type="{http://www.w3.org/2001/XMLSchema}string" />
  *		 <attribute name="closedIcon" type="{http://www.w3.org/2001/XMLSchema}string" />
- *		 <attribute name="converter" type="{http://www.w3.org/2001/XMLSchema}string" />
  *		 <attribute name="dblClickAction" type="{http://www.w3.org/2001/XMLSchema}string" />
  *		 <attribute name="leafIcon" type="{http://www.w3.org/2001/XMLSchema}string" />
  *		 <attribute name="openIcon" type="{http://www.w3.org/2001/XMLSchema}string" />
@@ -52,8 +51,6 @@ public class JTreeBind
 	protected String bindWith;
 	@XmlAttribute(name = "closedIcon")
 	protected String closedIcon;
-	@XmlAttribute(name = "converter")
-	protected String converter;
 	@XmlAttribute(name = "dblClickAction")
 	protected String dblClickAction;
 	@XmlAttribute(name = "leafIcon")
@@ -131,30 +128,6 @@ public class JTreeBind
 	 */
 	public void setClosedIcon(String value) {
 		this.closedIcon = value;
-	}
-
-	/**
-	 * Gets the value of the converter property.
-	 * 
-	 * @return
-	 *	   possible object is
-	 *	   {@link String }
-	 *	   
-	 */
-	public String getConverter() {
-		return converter;
-	}
-
-	/**
-	 * Sets the value of the converter property.
-	 * 
-	 * @param value
-	 *	   allowed object is
-	 *	   {@link String }
-	 *	   
-	 */
-	public void setConverter(String value) {
-		this.converter = value;
 	}
 
 	/**
@@ -254,13 +227,6 @@ public class JTreeBind
 			currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
 		}
 		{
-			boolean theFieldIsSet = (this.converter!= null);
-			String theField;
-			theField = this.getConverter();
-			ObjectLocator theFieldLocator = LocatorUtils.property(locator, "converter", theField);
-			currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
-		}
-		{
 			boolean theFieldIsSet = (this.dblClickAction!= null);
 			String theField;
 			theField = this.getDblClickAction();
@@ -336,19 +302,6 @@ public class JTreeBind
 			}
 		}
 		{
-			boolean lhsFieldIsSet = (this.converter!= null);
-			boolean rhsFieldIsSet = (that.converter!= null);
-			String lhsField;
-			lhsField = this.getConverter();
-			String rhsField;
-			rhsField = that.getConverter();
-			ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "converter", lhsField);
-			ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "converter", rhsField);
-			if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
-				return false;
-			}
-		}
-		{
 			boolean lhsFieldIsSet = (this.dblClickAction!= null);
 			boolean rhsFieldIsSet = (that.dblClickAction!= null);
 			String lhsField;
@@ -410,12 +363,6 @@ public class JTreeBind
 			String theField;
 			theField = this.getClosedIcon();
 			strategy.appendField(locator, this, "closedIcon", buffer, theField, theFieldIsSet);
-		}
-		{
-			boolean theFieldIsSet = (this.converter!= null);
-			String theField;
-			theField = this.getConverter();
-			strategy.appendField(locator, this, "converter", buffer, theField, theFieldIsSet);
 		}
 		{
 			boolean theFieldIsSet = (this.dblClickAction!= null);

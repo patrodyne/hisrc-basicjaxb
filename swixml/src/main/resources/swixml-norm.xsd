@@ -97,6 +97,7 @@
         <xs:attribute name="id" type="xs:string"/>
         <xs:attribute name="include" type="xs:string"/>
         <xs:attribute name="plaf" type="xs:string"/>
+        <xs:attribute name="plafTheme" type="xs:string"/>
         <xs:attribute name="refid" type="xs:string"/>
     </xs:complexType>
     <xs:complexType name="JButton">
@@ -117,6 +118,7 @@
         <xs:attribute name="include" type="xs:string"/>
         <xs:attribute name="locale" type="xs:string"/>
         <xs:attribute name="plaf" type="xs:string"/>
+        <xs:attribute name="plafTheme" type="xs:string"/>
         <xs:attribute name="refid" type="xs:string"/>
     </xs:complexType>
     <xs:complexType mixed="true" name="GridBagConstraints">
@@ -129,6 +131,7 @@
         <xs:attribute name="include" type="xs:string"/>
         <xs:attribute name="locale" type="xs:string"/>
         <xs:attribute name="plaf" type="xs:string"/>
+        <xs:attribute name="plafTheme" type="xs:string"/>
         <xs:attribute name="refid" type="xs:string"/>
     </xs:complexType>
     <xs:complexType mixed="true" name="TableColumn">
@@ -141,6 +144,7 @@
         <xs:attribute name="include" type="xs:string"/>
         <xs:attribute name="locale" type="xs:string"/>
         <xs:attribute name="plaf" type="xs:string"/>
+        <xs:attribute name="plafTheme" type="xs:string"/>
         <xs:attribute name="refid" type="xs:string"/>
         <xs:attribute name="cellEditor" type="xs:string"/>
         <xs:attribute name="cellRenderer" type="xs:string"/>
@@ -159,6 +163,8 @@
             <xs:extension base="tns:JCheckBox">
                 <xs:sequence/>
                 <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="binding" type="xs:string"/>
+                <xs:attribute name="bindingGroup" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
@@ -222,6 +228,8 @@
                 <xs:sequence/>
                 <xs:attribute name="bindList" type="xs:string"/>
                 <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="binding" type="xs:string"/>
+                <xs:attribute name="bindingGroup" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
@@ -464,6 +472,8 @@
             <xs:extension base="tns:JLabel">
                 <xs:sequence/>
                 <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="binding" type="xs:string"/>
+                <xs:attribute name="bindingGroup" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
@@ -500,6 +510,8 @@
                 <xs:attribute name="action" type="xs:string"/>
                 <xs:attribute name="bindList" type="xs:string"/>
                 <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="binding" type="xs:string"/>
+                <xs:attribute name="bindingGroup" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
@@ -559,6 +571,8 @@
             <xs:extension base="tns:JPasswordField">
                 <xs:sequence/>
                 <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="binding" type="xs:string"/>
+                <xs:attribute name="bindingGroup" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
@@ -609,6 +623,8 @@
             <xs:extension base="tns:JRadioButton">
                 <xs:sequence/>
                 <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="binding" type="xs:string"/>
+                <xs:attribute name="bindingGroup" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
@@ -685,6 +701,8 @@
                 <xs:sequence/>
                 <xs:attribute name="action" type="xs:string"/>
                 <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="binding" type="xs:string"/>
+                <xs:attribute name="bindingGroup" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
@@ -705,7 +723,11 @@
             <xs:extension base="tns:JSpinner">
                 <xs:sequence/>
                 <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="binding" type="xs:string"/>
+                <xs:attribute name="bindingGroup" type="xs:string"/>
+                <xs:attribute name="columns" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
+                <xs:attribute name="horizontalAlignment" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -809,6 +831,8 @@
                 <xs:attribute name="bindClass" type="xs:string"/>
                 <xs:attribute name="bindList" type="xs:string"/>
                 <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="binding" type="xs:string"/>
+                <xs:attribute name="bindingGroup" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
                 <xs:attribute name="dblClickAction" type="xs:string"/>
             </xs:extension>
@@ -819,7 +843,6 @@
             <xs:extension base="tns:TableColumn">
                 <xs:sequence/>
                 <xs:attribute name="bindWith" type="xs:string"/>
-                <xs:attribute name="converter" type="xs:string"/>
                 <xs:attribute name="editable" type="xs:boolean"/>
                 <xs:attribute name="type" type="xs:string"/>
             </xs:extension>
@@ -847,6 +870,8 @@
             <xs:extension base="tns:JTextArea">
                 <xs:sequence/>
                 <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="binding" type="xs:string"/>
+                <xs:attribute name="bindingGroup" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
@@ -868,6 +893,8 @@
             <xs:extension base="tns:JTextField">
                 <xs:sequence/>
                 <xs:attribute name="bindWith" type="xs:string"/>
+                <xs:attribute name="binding" type="xs:string"/>
+                <xs:attribute name="bindingGroup" type="xs:string"/>
                 <xs:attribute name="converter" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
@@ -931,7 +958,6 @@
                 <xs:attribute name="action" type="xs:string"/>
                 <xs:attribute name="bindWith" type="xs:string"/>
                 <xs:attribute name="closedIcon" type="xs:string"/>
-                <xs:attribute name="converter" type="xs:string"/>
                 <xs:attribute name="dblClickAction" type="xs:string"/>
                 <xs:attribute name="leafIcon" type="xs:string"/>
                 <xs:attribute name="openIcon" type="xs:string"/>

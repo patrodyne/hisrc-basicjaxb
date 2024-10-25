@@ -228,7 +228,7 @@ public class SchemaGeneratorNorm extends SchemaGeneratorBase
 						Deprecated deprecated = field.getAnnotation(Deprecated.class);
 						if ( deprecated == null )
 						{
-							String aName = field.get(Parser.class).toString().toLowerCase();
+							String aName = field.get(Parser.class).toString();
 							if ( getAttributeByName(target, aName) == null  )
 								aNameSet.add(aName);
 						}

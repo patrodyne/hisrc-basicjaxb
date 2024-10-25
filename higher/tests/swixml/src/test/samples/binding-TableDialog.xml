@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dialog
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../swixml/src/main/resources/swixml.xsd"
+
+	size="${el.pageSize(80,25)}"
+	preferredSize="${el.size()}"
+	resizable="true"
+	title="Example Table usage" 
+	undecorated="false" 
+	alwaysOnTop="true"
+	defaultCloseOperation="DISPOSE_ON_CLOSE" 
+	modal="false"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(330,2.0)"
+>
+
+	<splitpane
+		orientation="VERTICAL_SPLIT"
+		oneTouchExpandable="true"
+		size="${el.size()}"
+	>
+	
+		<panel
+			layout="BorderLayout"
+			minimumSize="${el.scaleSize(1.0,1/4)}"
+			size="${el.size()}"
+		>
+			<label
+				constraints="NORTH"
+				text="Table using meta data from external beanInfo"
+				font="SansSerif-BOLD"
+			/>
+			<scrollpane
+				constraints="CENTER"
+				horizontalScrollBarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+				verticalScrollBarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
+			>
+				<table
+					id="table1"
+					action="selectRow"
+					dblClickAction="activateRow"
+					cellSelectionEnabled="true"
+					bindList="${window.myData1}"
+					bindClass="${window.myDataClass}"
+					autoResizeMode="0"
+					font="Monospaced-PLAIN"
+					rowHeight="${el.fieldHeight(10)}"
+					background="#FFFF80"
+				>
+					<tableheader
+						id="tableHeader1"
+						opaque="false"
+						font="*-BOLD"
+						background="${color:rgb('#FFFF00').brighter()}"
+					/>
+					<tablecolumn
+						bindWith="name"
+						maxWidth="${el.fieldWidth(20)}"
+						preferredWidth="${this.maxWidth}"
+						editable="false"
+						resizable="true"
+					/>
+				</table>
+			</scrollpane>
+		</panel>
+		
+		<panel
+			layout="BorderLayout"
+		>
+			<label
+				constraints="NORTH"
+				text="Table using new sub-tag tableColumn"
+				font="Serif-BOLDITALIC"
+			/>
+			<scrollpane
+				constraints="CENTER"
+				horizontalScrollBarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+				verticalScrollBarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
+			>
+				<table
+					id="table2"
+					action="selectRow"
+					dblClickAction="activateRow"
+					cellSelectionEnabled="false"
+					rowSelectionAllowed="true"
+					selectionBackground="RED"
+					bindList="${window.myData2}"
+					autoResizeMode="0"
+					font="${el.font('Monospaced','PLAIN')}"
+					rowHeight="${el.fieldHeight(10)}"
+					background="${color:hsb(240/360,0.2,1.0)}"
+				>
+					<tableheader
+						id="tableHeader2"
+						opaque="false"
+						font="${el.font('*','BOLD')}"
+						background="${color:hsb(240/360,0.4,1.0)}"
+					/>
+					<tablecolumn
+						bindWith="field2"
+						type="java.lang.Boolean"
+						preferredWidth="${el.fieldWidth(5)}"
+						resizable="false"
+						headerValue="X"
+						editable="true"
+					/>
+					<tablecolumn
+						bindWith="field1"
+						type="java.lang.Integer"
+						headerValue="#"
+						preferredWidth="${el.fieldWidth(5)}"
+						resizable="false"
+					/>
+					<tablecolumn
+						bindWith="field3"
+						maxWidth="${el.fieldWidth(30)}"
+						preferredWidth="${el.scale(this.minWidth, this.maxWidth, 0.80)}"
+						editable="true"
+						resizable="true"
+					/>
+					<tablecolumn
+						bindWith="field4"
+						maxWidth="600"
+						preferredWidth="600"
+						editable="true"
+						resizable="false"
+					/>
+				</table>
+			</scrollpane>
+		</panel>
+		
+	</splitpane>
+</dialog>

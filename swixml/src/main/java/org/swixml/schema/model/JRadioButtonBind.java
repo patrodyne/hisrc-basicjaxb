@@ -25,6 +25,8 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
  *		 <sequence>
  *		 </sequence>
  *		 <attribute name="bindWith" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *		 <attribute name="binding" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *		 <attribute name="bindingGroup" type="{http://www.w3.org/2001/XMLSchema}string" />
  *		 <attribute name="converter" type="{http://www.w3.org/2001/XMLSchema}string" />
  *	   </extension>
  *	 </complexContent>
@@ -43,6 +45,10 @@ public class JRadioButtonBind
 	private static final long serialVersionUID = 20240701L;
 	@XmlAttribute(name = "bindWith")
 	protected String bindWith;
+	@XmlAttribute(name = "binding")
+	protected String binding;
+	@XmlAttribute(name = "bindingGroup")
+	protected String bindingGroup;
 	@XmlAttribute(name = "converter")
 	protected String converter;
 
@@ -68,6 +74,54 @@ public class JRadioButtonBind
 	 */
 	public void setBindWith(String value) {
 		this.bindWith = value;
+	}
+
+	/**
+	 * Gets the value of the binding property.
+	 * 
+	 * @return
+	 *	   possible object is
+	 *	   {@link String }
+	 *	   
+	 */
+	public String getBinding() {
+		return binding;
+	}
+
+	/**
+	 * Sets the value of the binding property.
+	 * 
+	 * @param value
+	 *	   allowed object is
+	 *	   {@link String }
+	 *	   
+	 */
+	public void setBinding(String value) {
+		this.binding = value;
+	}
+
+	/**
+	 * Gets the value of the bindingGroup property.
+	 * 
+	 * @return
+	 *	   possible object is
+	 *	   {@link String }
+	 *	   
+	 */
+	public String getBindingGroup() {
+		return bindingGroup;
+	}
+
+	/**
+	 * Sets the value of the bindingGroup property.
+	 * 
+	 * @param value
+	 *	   allowed object is
+	 *	   {@link String }
+	 *	   
+	 */
+	public void setBindingGroup(String value) {
+		this.bindingGroup = value;
 	}
 
 	/**
@@ -102,6 +156,20 @@ public class JRadioButtonBind
 			String theField;
 			theField = this.getBindWith();
 			ObjectLocator theFieldLocator = LocatorUtils.property(locator, "bindWith", theField);
+			currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+		}
+		{
+			boolean theFieldIsSet = (this.binding!= null);
+			String theField;
+			theField = this.getBinding();
+			ObjectLocator theFieldLocator = LocatorUtils.property(locator, "binding", theField);
+			currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+		}
+		{
+			boolean theFieldIsSet = (this.bindingGroup!= null);
+			String theField;
+			theField = this.getBindingGroup();
+			ObjectLocator theFieldLocator = LocatorUtils.property(locator, "bindingGroup", theField);
 			currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
 		}
 		{
@@ -140,6 +208,32 @@ public class JRadioButtonBind
 			}
 		}
 		{
+			boolean lhsFieldIsSet = (this.binding!= null);
+			boolean rhsFieldIsSet = (that.binding!= null);
+			String lhsField;
+			lhsField = this.getBinding();
+			String rhsField;
+			rhsField = that.getBinding();
+			ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "binding", lhsField);
+			ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "binding", rhsField);
+			if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+				return false;
+			}
+		}
+		{
+			boolean lhsFieldIsSet = (this.bindingGroup!= null);
+			boolean rhsFieldIsSet = (that.bindingGroup!= null);
+			String lhsField;
+			lhsField = this.getBindingGroup();
+			String rhsField;
+			rhsField = that.getBindingGroup();
+			ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "bindingGroup", lhsField);
+			ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "bindingGroup", rhsField);
+			if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+				return false;
+			}
+		}
+		{
 			boolean lhsFieldIsSet = (this.converter!= null);
 			boolean rhsFieldIsSet = (that.converter!= null);
 			String lhsField;
@@ -163,6 +257,18 @@ public class JRadioButtonBind
 			String theField;
 			theField = this.getBindWith();
 			strategy.appendField(locator, this, "bindWith", buffer, theField, theFieldIsSet);
+		}
+		{
+			boolean theFieldIsSet = (this.binding!= null);
+			String theField;
+			theField = this.getBinding();
+			strategy.appendField(locator, this, "binding", buffer, theField, theFieldIsSet);
+		}
+		{
+			boolean theFieldIsSet = (this.bindingGroup!= null);
+			String theField;
+			theField = this.getBindingGroup();
+			strategy.appendField(locator, this, "bindingGroup", buffer, theField, theFieldIsSet);
 		}
 		{
 			boolean theFieldIsSet = (this.converter!= null);

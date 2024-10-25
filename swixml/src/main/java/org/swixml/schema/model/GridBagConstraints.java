@@ -43,6 +43,7 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
  *		 <attribute name="include" type="{http://www.w3.org/2001/XMLSchema}string" />
  *		 <attribute name="locale" type="{http://www.w3.org/2001/XMLSchema}string" />
  *		 <attribute name="plaf" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *		 <attribute name="plafTheme" type="{http://www.w3.org/2001/XMLSchema}string" />
  *		 <attribute name="refid" type="{http://www.w3.org/2001/XMLSchema}string" />
  *	   </restriction>
  *	 </complexContent>
@@ -77,6 +78,8 @@ public class GridBagConstraints implements Serializable, Equals, HashCode, ToStr
 	protected String locale;
 	@XmlAttribute(name = "plaf")
 	protected String plaf;
+	@XmlAttribute(name = "plafTheme")
+	protected String plafTheme;
 	@XmlAttribute(name = "refid")
 	protected String refid;
 
@@ -258,6 +261,30 @@ public class GridBagConstraints implements Serializable, Equals, HashCode, ToStr
 	}
 
 	/**
+	 * Gets the value of the plafTheme property.
+	 * 
+	 * @return
+	 *	   possible object is
+	 *	   {@link String }
+	 *	   
+	 */
+	public String getPlafTheme() {
+		return plafTheme;
+	}
+
+	/**
+	 * Sets the value of the plafTheme property.
+	 * 
+	 * @param value
+	 *	   allowed object is
+	 *	   {@link String }
+	 *	   
+	 */
+	public void setPlafTheme(String value) {
+		this.plafTheme = value;
+	}
+
+	/**
 	 * Gets the value of the refid property.
 	 * 
 	 * @return
@@ -341,6 +368,13 @@ public class GridBagConstraints implements Serializable, Equals, HashCode, ToStr
 			String theField;
 			theField = this.getPlaf();
 			ObjectLocator theFieldLocator = LocatorUtils.property(locator, "plaf", theField);
+			currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+		}
+		{
+			boolean theFieldIsSet = (this.plafTheme!= null);
+			String theField;
+			theField = this.getPlafTheme();
+			ObjectLocator theFieldLocator = LocatorUtils.property(locator, "plafTheme", theField);
 			currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
 		}
 		{
@@ -466,6 +500,19 @@ public class GridBagConstraints implements Serializable, Equals, HashCode, ToStr
 			}
 		}
 		{
+			boolean lhsFieldIsSet = (this.plafTheme!= null);
+			boolean rhsFieldIsSet = (that.plafTheme!= null);
+			String lhsField;
+			lhsField = this.getPlafTheme();
+			String rhsField;
+			rhsField = that.getPlafTheme();
+			ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "plafTheme", lhsField);
+			ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "plafTheme", rhsField);
+			if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+				return false;
+			}
+		}
+		{
 			boolean lhsFieldIsSet = (this.refid!= null);
 			boolean rhsFieldIsSet = (that.refid!= null);
 			String lhsField;
@@ -544,6 +591,12 @@ public class GridBagConstraints implements Serializable, Equals, HashCode, ToStr
 			String theField;
 			theField = this.getPlaf();
 			strategy.appendField(locator, this, "plaf", buffer, theField, theFieldIsSet);
+		}
+		{
+			boolean theFieldIsSet = (this.plafTheme!= null);
+			String theField;
+			theField = this.getPlafTheme();
+			strategy.appendField(locator, this, "plafTheme", buffer, theField, theFieldIsSet);
 		}
 		{
 			boolean theFieldIsSet = (this.refid!= null);

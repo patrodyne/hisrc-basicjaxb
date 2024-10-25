@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frame
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../swixml/src/main/resources/swixml.xsd"
+
+	name="mainframe"
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(165,1.50)"
+	size="${el.pageSize(120,30)}"
+	preferredSize="${el.size()}"
+	title="S W I X M L"
+	defaultCloseOperation="EXIT_ON_CLOSE"
+	alwaysOnTop="true"
+	layout="BorderLayout"
+	iconImage="org/swixml/icons/Duke.png"
+	bundle="org/swixml/legacy/locale/swix"
+	locale="en"
+>
+	<menubar name="menubar">
+	
+		<menu name="filemenu" text="mus_File">
+			<!--
+				The mnemonic is how you invoke the Action when the menu item is visible.
+				It will be the underlined character in the menu item text.
+			-->
+			<menuitem name="mi_new"  text="mis_New"  icon="org/swixml/icons/new.gif"  mnemonic="mn_New"  action="cmdAction" actionCommand="new"  accelerator="acc_New" />
+			<menuitem name="mi_open" text="mis_Open" icon="org/swixml/icons/open.gif" mnemonic="mn_Open" action="cmdAction" actionCommand="open" />
+			<menuitem name="mi_save" text="mis_Save" icon="org/swixml/icons/save.gif" mnemonic="mn_Save" action="cmdAction" actionCommand="save" />
+			<separator />
+			<menuitem name="mi_options" text="mis_Options" action="optionsAction" />
+			<separator />
+			<menuitem name="mi_exit" text="mis_Exit" icon="org/swixml/icons/exit.gif" mnemonic="mn_Exit" action="exitAction" accelerator="acc_Exit" />
+		</menu>
+		
+		<menu text="mus_Help" >
+			<menuitem name="mi_help"  text="mis_Help"  icon="org/swixml/icons/help.gif" mnemonic="mn_Help" action="helpAction"  accelerator="acc_Help" />
+			<separator />
+			<menuitem name="mi_about" text="mis_About" icon="org/swixml/icons/about.gif" action="aboutAction" accelerator="acc_About" />
+		</menu>
+		
+	</menubar>
+
+	<panel layout="borderlayout" constraints="NORTH">
+		<toolbar floatable="true" borderPainted="false" orientation="HORIZONTAL">
+			<button name="btn_panel"  toolTipText="tt_Panel"  icon="org/swixml/icons/panel.gif"  action="cmdAction" actionCommand="widget_panel" />
+			<button name="btn_button" toolTipText="tt_Button" icon="org/swixml/icons/button.gif" action="cmdAction" actionCommand="widget_button" />
+			<separator />
+			<button name="btn_label"  toolTipText="tt_Label"  icon="org/swixml/icons/label.gif"  action="cmdAction" actionCommand="widget_label" />
+		</toolbar>
+	</panel>
+
+	<panel layout="borderlayout">
+
+		<splitpane oneTouchExpandable="true" dividerLocation="${el.scaleSizeWidth('15%')}" orientation="VERTICAL" constraints="CENTER">
+
+			<scrollpane>
+				<tree id="tree" name="tree" background="*-05-100" cellRenderer="${window.treeCellRenderer}" />
+			</scrollpane>
+
+			<splitpane oneTouchExpandable="true" dividerLocation="${el.scaleSizeWidth('10%')}" orientation="HORIZONTAL">
+
+				<panel name="preview" border="LoweredBevelBorder" background="*-05-100">
+					<textarea name="ta" text="Hello World!" background="*-05-100" />
+				</panel>
+
+				<panel layout="borderlayout">
+
+					<panel constraints="NORTH" layout="FlowLayout(LEFT)">
+						<button name="btn_copy"  toolTipText="tt_Copy"  borderPainted="true" icon="org/swixml/icons/copy.gif" action="cmdAction" actionCommand="copy"/>
+						<button name="btn_paste" toolTipText="tt_Paste" borderPainted="true" icon="org/swixml/icons/paste.gif" action="cmdAction" actionCommand="paste"/>
+						<button name="btn_cut"   toolTipText="tt_Cut"   borderPainted="true" icon="org/swixml/icons/cut.gif" action="cmdAction" actionCommand="cut"/>
+					</panel>
+
+					<scrollpane constraints="CENTER" background="*-05-100">
+						<table
+							id="table"
+							font="Monospaced-PLAIN-*"
+							autoCreateColumnsFromModel="false"
+							autoResizeMode="0"
+							background="*-10-100"
+						>
+							<tableheader
+								opaque="false"
+							/>
+							<tablecolumn
+								headerValue="PartNum"
+								type="java.lang.String"
+								preferredWidth="${el.fieldWidth(14)}"
+								headerRenderer="AlignableTableCellHeaderRenderer"
+								cellRenderer="AlignableTableCellRenderer"
+							/>
+							<tablecolumn
+								headerValue="Picture"
+								type="java.lang.String"
+								preferredWidth="${el.fieldWidth(3)}"
+								cellRenderer="AlignableTableCellRenderer(SwingConstants.CENTER)"
+							/>
+							<tablecolumn
+								headerValue="Description"
+								type="java.lang.String"
+								preferredWidth="${el.fieldWidth(20)}"
+								headerRenderer="AlignableTableCellHeaderRenderer(SwingConstants.CENTER)"
+								cellRenderer="AlignableTableCellRenderer()"
+							/>
+							<tablecolumn
+								headerValue="Price"
+								type="java.math.BigDecimal"
+								preferredWidth="${el.fieldWidth(10)}"
+								headerRenderer="AlignableTableCellHeaderRenderer(SwingConstants.RIGHT)"
+								cellRenderer="AlignableTableCellRenderer(SwingConstants.RIGHT)"
+							/>
+						</table>
+					</scrollpane>
+
+				</panel>
+
+			</splitpane>
+
+		</splitpane>
+
+		<panel constraints="SOUTH">
+			<label text="Status:" />
+			<textfield text="OK" background="*-05-100" />
+		</panel>
+
+	</panel>
+</frame>
