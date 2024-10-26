@@ -25,7 +25,6 @@ import org.swixml.schema.model.JPanel;
 import org.swixml.schema.model.JScrollPane;
 import org.swixml.schema.model.JSeparator;
 import org.swixml.schema.model.JSplitPane;
-import org.swixml.schema.model.JTable;
 import org.swixml.schema.model.JTableBind;
 import org.swixml.schema.model.JTableHeader;
 import org.swixml.schema.model.JTextArea;

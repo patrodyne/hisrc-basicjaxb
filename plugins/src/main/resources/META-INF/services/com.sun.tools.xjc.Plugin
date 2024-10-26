@@ -19,6 +19,7 @@ org.jvnet.basicjaxb.plugin.simpleequals.SimpleEqualsPlugin
 org.jvnet.basicjaxb.plugin.simplehashcode.SimpleHashCodePlugin
 org.jvnet.basicjaxb.plugin.simpletostring.SimpleToStringPlugin
 org.jvnet.basicjaxb.plugin.simplify.SimplifyPlugin
+org.jvnet.basicjaxb.plugin.swing.SwingPlugin
 org.jvnet.basicjaxb.plugin.tostring.ToStringPlugin
 org.jvnet.basicjaxb.plugin.valueconstructor.ValueConstructorPlugin
 org.jvnet.basicjaxb.plugin.wildcard.WildcardPlugin
