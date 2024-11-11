@@ -1,67 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xs:schema
+	targetNamespace="http://example.org/po"
+	xmlns:tns="http://example.org/po"
+	xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"
+	xmlns:simplify="http://jvnet.org/basicjaxb/xjc/simplify"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	jaxb:version="3.0"
+	jaxb:extensionBindingPrefixes="inh simplify"
+	elementFormDefault="qualified"
+>
 
-  <xsd:annotation>
-    <xsd:documentation xml:lang="en">
-     Purchase order schema for Example.com.
-     Copyright 2000 Example.com. All rights reserved.
-    </xsd:documentation>
-  </xsd:annotation>
+	<xs:annotation>
+		<xs:documentation xml:lang="en">
+		Purchase order schema for Example.com.
+		Copyright 2000 Example.com. All rights reserved.
+		</xs:documentation>
+	</xs:annotation>
 
-  <xsd:element name="purchaseOrder" type="PurchaseOrderType"/>
+	<xs:element name="comment" type="xs:string"/>
 
-  <xsd:element name="comment" type="xsd:string"/>
+	<xs:element name="PurchaseOrder">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:annotation>
+						<xs:appinfo>
+							<jaxb:property name="shipTo" />
+						</xs:appinfo>
+					</xs:annotation>
+					<xs:element name="shipToUK" type="tns:UKAddress"/>
+					<xs:element name="shipToUS" type="tns:USAddress"/>
+				</xs:choice>
+				<xs:choice>
+					<xs:element name="billToUK" type="tns:UKAddress"/>
+					<xs:element name="billToUS" type="tns:USAddress"/>
+				</xs:choice>
+				<xs:element ref="tns:comment" minOccurs="0"/>
+				<xs:element name="items" type="tns:Items"/>
+				<xs:choice maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:appinfo>
+							<simplify:as-element-property />
+						</xs:appinfo>
+					</xs:annotation>
+					<xs:element name="credit" type="tns:Credit" />
+					<xs:element name="debit"  type="tns:Debit" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="orderDate" type="xs:date"/>
+			<xs:anyAttribute processContents="lax"/>
+		</xs:complexType>
+	</xs:element>
 
-  <xsd:complexType name="PurchaseOrderType">
-    <xsd:sequence>
-      <xsd:element name="shipTo" type="USAddress"/>
-      <xsd:element name="billTo" type="USAddress"/>
-      <xsd:element ref="comment" minOccurs="0"/>
-      <xsd:element name="items"  type="Items"/>
-    </xsd:sequence>
-    <xsd:attribute name="orderDate" type="xsd:date"/>
-  </xsd:complexType>
+	<xs:complexType name="Contact">
+		<xs:annotation>
+			<xs:appinfo>
+				<inh:annotates annotation="java.beans.JavaBean">
+					<inh:element name="description">Personal identity information.</inh:element>
+				</inh:annotates>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="firstName" type="xs:string"/>
+			<xs:element name="lastName" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
 
-  <xsd:complexType name="USAddress">
-    <xsd:sequence>
-      <xsd:element name="name"   type="xsd:string"/>
-      <xsd:element name="street" type="xsd:string"/>
-      <xsd:element name="city"   type="xsd:string"/>
-      <xsd:element name="state"  type="xsd:string"/>
-      <xsd:element name="zip"    type="xsd:decimal"/>
-    </xsd:sequence>
-    <xsd:attribute name="country" type="xsd:NMTOKEN"
-                   fixed="US"/>
-  </xsd:complexType>
+	<xs:complexType name="Address">
+		<xs:complexContent>
+			<xs:extension base="tns:Contact">
+				<xs:sequence>
+					<xs:element name="line1" type="xs:string" />
+					<xs:element name="line2" type="xs:string" />
+					<xs:element name="line3" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-  <xsd:complexType name="Items">
-    <xsd:sequence>
-      <xsd:element name="item" minOccurs="0" maxOccurs="unbounded">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="productName" type="xsd:string"/>
-            <xsd:element name="quantity">
-              <xsd:simpleType>
-                <xsd:restriction base="xsd:positiveInteger">
-                  <xsd:maxExclusive value="100"/>
-                </xsd:restriction>
-              </xsd:simpleType>
-            </xsd:element>
-            <xsd:element name="USPrice"  type="xsd:decimal"/>
-            <xsd:element ref="comment"   minOccurs="0"/>
-            <xsd:element name="shipDate" type="xsd:date" minOccurs="0"/>
-          </xsd:sequence>
-          <xsd:attribute name="partNum" type="SKU" use="required"/>
-        </xsd:complexType>
-      </xsd:element>
-    </xsd:sequence>
-  </xsd:complexType>
+	<xs:complexType name="CityAddress">
+		<xs:complexContent>
+			<xs:extension base="tns:Address">
+				<xs:sequence>
+					<xs:element name="area" type="tns:area" />
+					<xs:element name="city" type="xs:string" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-  <!-- Stock Keeping Unit, a code for identifying products -->
-  <xsd:simpleType name="SKU">
-    <xsd:restriction base="xsd:string">
-      <xsd:pattern value="\d{3}-[A-Z]{2}"/>
-    </xsd:restriction>
-  </xsd:simpleType>
+	<xs:complexType  name="UKAddress">
+		<xs:complexContent>
+			<xs:extension base="tns:CityAddress">
+				<xs:sequence>
+					<xs:element name="county" type="xs:string" />
+					<xs:element name="postalCode" type="xs:string" />
+				</xs:sequence>
+				<xs:attribute name="country" type="xs:NMTOKEN" fixed="UK"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-</xsd:schema>
+	<xs:complexType  name="USAddress">
+		<xs:complexContent>
+			<xs:extension base="tns:CityAddress">
+				<xs:sequence>
+					<xs:element name="state" type="xs:string" />
+					<xs:element name="zipCode" type="xs:string" />
+				</xs:sequence>
+				<xs:attribute name="country" type="xs:NMTOKEN" fixed="US"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Items">
+		<xs:sequence>
+			<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="productName" type="xs:string"/>
+						<xs:element name="quantity">
+							<xs:simpleType>
+								<xs:restriction base="xs:positiveInteger">
+									<xs:maxExclusive value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="USPrice" type="xs:decimal"/>
+						<xs:element ref="tns:comment" minOccurs="0"/>
+						<xs:element name="shipDate" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attribute name="partNum" type="tns:SKU" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Credit">
+		<xs:attribute name="amount" type="xs:decimal"></xs:attribute>
+		<xs:attribute name="reason" type="xs:string"></xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="Debit">
+		<xs:attribute name="amount" type="xs:decimal"></xs:attribute>
+		<xs:attribute name="reason" type="xs:string"></xs:attribute>
+	</xs:complexType>
+
+	<!-- Stock Keeping Unit, a code for identifying products -->
+	<xs:simpleType name="SKU">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{3}-[A-Z]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="area">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="North" />
+			<xs:enumeration value="East" />
+			<xs:enumeration value="West" />
+			<xs:enumeration value="South" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

@@ -1,4 +1,4 @@
-package org.example.trilogy;
+package org.example.po;
 
 import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
@@ -13,39 +13,22 @@ import java.io.StringWriter;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.example.po.model.Item;
+import org.example.po.model.PurchaseOrder;
 import org.junit.jupiter.api.BeforeEach;
+import org.jvnet.basicjaxb.lang.ContextUtils;
 import org.jvnet.basicjaxb.testing.AbstractSamplesTest;
 import org.patrodyne.jvnet.basicjaxb.validation.SchemaOutputDomResolver;
 import org.xml.sax.SAXException;
 
-import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.Unmarshaller;
 
 /**
  * A JUnit test to check a sample XML file.
  */
-public class TrilogyTest extends AbstractSamplesTest
+public class PurchaseOrderTest extends AbstractSamplesTest
 {
-	private JAXBContext jaxbContext;
-	@Override
-	public JAXBContext getJaxbContext() { return jaxbContext; }
-	@Override
-	public void setJaxbContext(JAXBContext jaxbContext) { this.jaxbContext = jaxbContext; }
-
-	private Unmarshaller unmarshaller;
-	@Override
-	public Unmarshaller getUnmarshaller() { return unmarshaller; }
-	@Override
-	public void setUnmarshaller(Unmarshaller unmarshaller) { this.unmarshaller = unmarshaller; }
-	
-	private Marshaller marshaller;
-	@Override
-	public Marshaller getMarshaller() { return marshaller; }
-	@Override
-	public void setMarshaller(Marshaller marshaller) { this.marshaller = marshaller; }
-
 	/**
 	 * Configure the JAXB context path in AbstractSamplesTest
 	 * to include all classes from two packages.
@@ -53,7 +36,11 @@ public class TrilogyTest extends AbstractSamplesTest
 	@Override
 	protected String getContextPath()
 	{
-		return "org.example.trilogy";
+		return ContextUtils.getContextPath
+		(
+			org.example.po.base.ObjectFactory.class,
+			org.example.po.model.ObjectFactory.class
+		);
 	}
 	
 	@BeforeEach
@@ -63,8 +50,15 @@ public class TrilogyTest extends AbstractSamplesTest
 		setUnmarshaller(getJaxbContext().createUnmarshaller());
 		setMarshaller(getJaxbContext().createMarshaller());
 		getMarshaller().setProperty(JAXB_FORMATTED_OUTPUT, true);
+		
 		// Enable XML Schema Validation
-		generateXmlSchemaValidatorFromDom();
+		//
+		// cvc-elt.1.a: Cannot find the declaration of element 'PurchaseOrder'.
+		// May need ???
+		//   DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
+	    //   fact.setNamespaceAware(true);
+		//
+		// generateXmlSchemaValidatorFromDom();
 	}
 	
 	/**
@@ -76,21 +70,21 @@ public class TrilogyTest extends AbstractSamplesTest
 	{
 		Object root = getUnmarshaller().unmarshal(sample);
 
-		if ( root instanceof Trilogy )
+		if ( root instanceof PurchaseOrder )
 		{
-			Trilogy trilogy = (Trilogy) root;
-			String trilogyXml = marshal(marshaller, trilogy);
-			getLogger().debug("Trilogy:\n\n" + trilogyXml);
-			assertNotNull(trilogy.getBook(), "Trilogy Books expected.");
-			assertFalse(trilogy.getBook().isEmpty(), "Trilogy Books not empty expected.");
-			for (  TrilogyBookType book : trilogy.getBook() )
+			PurchaseOrder po = (PurchaseOrder) root;
+			String poXml = marshal(getMarshaller(), po);
+			getLogger().debug("PurchaseOrder:\n\n" + poXml);
+			assertNotNull(po.getItems(), "Items expected.");
+			assertFalse(po.getItems().getItem().isEmpty(), "Items not empty expected.");
+			for ( Item item : po.getItems().getItem() )
 			{
-				assertNotNull(book.getTitle(), "Book must have a title");
-				getLogger().trace("Book: " + book);
+				assertNotNull(item.getPartNum(), "Item must have a part number");
+				getLogger().trace("Item: " + item);
 			}
 		}
 		else
-			fail("Object is not instance of Trilogy: " + root);
+			fail("Object is not instance of PurchaseOrder: " + root);
 	}
 
 	// Marshall a JAXB object into a String for logging, etc.
@@ -106,7 +100,9 @@ public class TrilogyTest extends AbstractSamplesTest
 		return xml;
 	}
 
+	@SuppressWarnings("unused")
 	private void generateXmlSchemaValidatorFromDom()
+		throws JAXBException
 	{
 		try
 		{

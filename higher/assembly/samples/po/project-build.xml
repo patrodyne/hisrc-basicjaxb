@@ -18,6 +18,7 @@
 			<include name="commons-lang3-*.jar"/>
 			<include name="jakarta.xml.bind-api-*.jar"/>
 			<include name="hisrc-basicjaxb-runtime-*.jar"/>
+			<include name="slf4j-api-*.jar"/>
 		</fileset>
 	</path>
 
@@ -70,6 +71,9 @@
 			<include name="jaxb-core-*.jar"/>
 			<include name="istack-commons-*.jar"/>
 
+			<include name="javaparser-*.jar"/>
+
+			<include name="commons-beanutils-*.jar"/>
 			<include name="commons-lang3-*.jar"/>
 			<include name="codemodel-*.jar"/>
 			<include name="relaxng-datatype-*.jar"/>
@@ -79,6 +83,8 @@
 			<include name="jaxb-xjc-*.jar"/>
 			<include name="hisrc-basicjaxb-ant-*.jar"/>
 
+			<include name="slf4j-api-*.jar"/>
+			<include name="slf4j-simple-*.jar"/>
 			<include name="jcl-over-slf4j-*.jar"/>
 		</fileset>
 	</path>
@@ -101,12 +107,18 @@
 		<mkdir dir="\${basedir}/target/generated-sources/xjc"/>
 		<xjc destdir="\${basedir}/target/generated-sources/xjc" extension="true" failonerror="false">
 			<arg line="
+				-no-header
+				-XtoString
 				-Xequals
 				-XhashCode
-				-XtoString
 				-Xcopyable
 				-Xmergeable
-				-Xinheritance"/>
+				-Xinheritance
+				-Xsimplify
+				-Xsimplify-usePluralForm=true
+				-Xsimplify-verbose=true
+				-Xsimplify-debug=true"
+			/>
 			<binding dir="\${basedir}/src/main/resources">
 			 	<include name="**/*.xjb"/>
 			</binding>
@@ -147,7 +159,7 @@
 			release="${maven.compiler.release}"
 			classpathref="test-compile.path"
 			destdir="\${basedir}/target/test-classes" 
-			srcdir="\${basedir}/src/test/java"
+			srcdir="\${basedir}/src/main/java:\${basedir}/src/test/java:\${basedir}/target/generated-sources/xjc"
 			includeantruntime="false"
 		>
 			<compilerarg line="-proc:full"/>

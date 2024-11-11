@@ -1,42 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>org.patrodyne.jvnet</groupId>
-	<artifactId>hisrc-basicjaxb-sample-po-maven</artifactId>
-	<version>${hisrc-basicjaxb.version}</version>
+	<artifactId>${project.artifactId}</artifactId>
+	<version>${hisrc-higherjaxb-maven-plugin.version}</version>
 	<packaging>jar</packaging>
 	<name>${project.name}</name>
 
 	<properties>
 		<maven.compiler.release>${maven.compiler.release}</maven.compiler.release>
-		<maven-min.version>${maven-min.version}</maven-min.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<hisrc-basicjaxb.version>${hisrc-basicjaxb.version}</hisrc-basicjaxb.version>
 		<hisrc-higherjaxb-maven-plugin.version>${hisrc-higherjaxb-maven-plugin.version}</hisrc-higherjaxb-maven-plugin.version>
-		<jaxb-api.version>${jaxb-api.version}</jaxb-api.version>
-		<jaxb-imp.version>${jaxb-imp.version}</jaxb-imp.version>
 		<slf4j.version>${slf4j.version}</slf4j.version>
 	</properties>
 
 	<dependencies>
-		<!-- JAXB -->
-		<dependency>
-			<groupId>jakarta.xml.bind</groupId>
-			<artifactId>jakarta.xml.bind-api</artifactId>
-			<version>\${jaxb-api.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jaxb</groupId>
-			<artifactId>jaxb-runtime</artifactId>
-			<version>\${jaxb-imp.version}</version>
-		</dependency>
+		<!-- HiSrc BasicJAXB -->
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-runtime</artifactId>
 			<version>\${hisrc-basicjaxb.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-tools</artifactId>
+			<version>\${hisrc-basicjaxb.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<!-- Testing -->
 		<dependency>
@@ -45,116 +41,11 @@
 			<version>\${hisrc-basicjaxb.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>\${slf4j.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>\${slf4j.version}</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
 		<defaultGoal>package</defaultGoal>
-
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-antrun-plugin</artifactId>
-					<version>${maven-antrun-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<version>${maven-assembly-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>${maven-dependency-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>${maven-release-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-surefire-report-plugin</artifactId>
-					<version>${maven-surefire-report-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-jxr-plugin</artifactId>
-					<version>${maven-jxr-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-project-info-reports-plugin</artifactId>
-					<version>${maven-project-info-reports-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>versions-maven-plugin</artifactId>
-					<version>${versions-maven-plugin.version}</version>
-					<configuration>
-						<ruleSet>
-							<ignoreVersions>
-								<ignoreVersion>
-									<type>regex</type>
-                                    <version>(.+\.Alpha\d|.+-alpha-\d)</version>
-								</ignoreVersion>
-								<ignoreVersion>
-									<type>regex</type>
-									<version>.+-M\d</version>
-								</ignoreVersion>
-								<ignoreVersion>
-									<type>regex</type>
-									<version>.+[\.-](CR|RC)\d</version>
-								</ignoreVersion>
-							</ignoreVersions>
-						</ruleSet>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-
 		<plugins>
-			<plugin>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>${maven-enforcer-plugin.version}</version>
-				<executions>
-					<execution>
-						<?m2e ignore?>
-						<id>enforce-java-maven</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<requireJavaVersion>
-									<version>${maven.compiler.release}</version>
-								</requireJavaVersion>
-								<requireMavenVersion>
-									<version>${maven-min.version}</version>
-								</requireMavenVersion>
-							</rules>    
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>${maven-clean-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven-resources-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>${maven-jar-plugin.version}</version>
-			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin.version}</version>
@@ -173,24 +64,12 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<artifactId>maven-install-plugin</artifactId>
-				<version>${maven-install-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<version>${maven-deploy-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>${maven-site-plugin.version}</version>
-			</plugin>
-			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>${exec-maven-plugin.version}</version>
 				<configuration>
-					<ignoredUnusedDeclaredDependencies>
-						<ignoredUnusedDeclaredDependency>org.glassfish.jaxb:jaxb-runtime:jar:</ignoredUnusedDeclaredDependency>
-						<ignoredUnusedDeclaredDependency>org.slf4j:slf4j-simple:jar:</ignoredUnusedDeclaredDependency>
-					</ignoredUnusedDeclaredDependencies>
+					<mainClass>org.example.po.Main</mainClass>
+					<classpathScope>test</classpathScope>
 				</configuration>
 			</plugin>
 			<!-- mvn hisrc-higherjaxb:help -Ddetail=true -->
@@ -208,12 +87,17 @@
 						<configuration>
 							<debug>true</debug>
 							<args>
+								<arg>-no-header</arg>
 								<arg>-XtoString</arg>
 								<arg>-Xequals</arg>
 								<arg>-XhashCode</arg>
 								<arg>-Xcopyable</arg>
 								<arg>-Xmergeable</arg>
 								<arg>-Xinheritance</arg>
+								<arg>-Xsimplify</arg>
+								<arg>-Xsimplify-usePluralForm=true</arg>
+								<arg>-Xsimplify-verbose=true</arg>
+								<arg>-Xsimplify-debug=true</arg>
 							</args>
 							<plugins>
 								<plugin>
@@ -238,5 +122,62 @@
 			</plugin>
 		</plugins>
 	</reporting>
+
+	<profiles>
+		<!-- All modules for testing, etc. -->
+		<profile>
+			<id>all</id>
+			<modules>
+			</modules>
+		</profile>
+
+		<!-- Execution mode -->
+		<profile>
+			<id>exec</id>
+			<activation>
+				<property>
+					<name>org.jvnet.basicjaxb.profile</name>
+					<value>exec</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+					<version>\${slf4j.version}</version>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<resources>
+					<resource>
+						<directory>\${basedir}/src/main/resources</directory>
+					</resource>
+					<resource>
+						<directory>\${basedir}/src/test/resources</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+
+		<!-- Test mode -->
+		<profile>
+			<id>test</id>
+			<activation>
+				<property>
+					<name>org.jvnet.basicjaxb.profile</name>
+					<value>!exec</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+					<version>\${slf4j.version}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>
 <!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4 noexpandtab:-->

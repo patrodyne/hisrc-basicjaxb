@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings jaxb:version="3.0"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"
+	xmlns:simplify="http://jvnet.org/basicjaxb/xjc/simplify"
+	extensionBindingPrefixes="inh simplify"
+>
+	<!--  Global Bindings
+		* JPA section 2.1, entities must be top-level classes.
+		* JPA section 2.1, entities must implement the serializable interface.
+		* When processing a Microsoft WCF service WSDL, it is recommended that the
+		  generateElementProperty customization be set to 'false' in globalBindings.
+		* Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512".
+	-->
+	<!--
+		A non-repeating choice model group is bound to a simple property. The SIMPLE
+		choice content property is derived from a choice model group per specification.
+		Setting 'choiceContentProperty' to "true" causes the elements to be mapped into
+		a single property (the List<Object>). Setting it to "false" causes the elements
+		to be wrapped into separate properties.
+	-->
+	<jaxb:globalBindings localScoping="toplevel" choiceContentProperty="true">
+		<jaxb:serializable uid="20241101" />
+	</jaxb:globalBindings>
+
+	<!-- Warning: Bindings in the XSD override bindings defined here! -->
+	<jaxb:bindings schemaLocation="purchaseorder.xsd" node="/xs:schema">
+
+		<jaxb:schemaBindings>
+			<jaxb:package name="org.example.po.model"/>
+		</jaxb:schemaBindings>
+
+		<!--
+			Use the inheritance XJC plugin to annotate, extend and implement 
+			the ObjectFactory in the 'org.example.po' package.
+		-->
+		<inh:objectFactory packageName="org.example.po.model">
+
+			<inh:annotates annotation="java.lang.SuppressWarnings">
+				<!--
+				<inh:elements name="value" type="java.lang.String">rawtypes unchecked</inh:elements>
+				-->
+				<inh:elements>all</inh:elements>
+			</inh:annotates>
+
+			<inh:annotates annotation="jakarta.xml.bind.annotation.XmlSeeAlso">
+				<inh:element type="java.lang.Class">javax.xml.datatype.XMLGregorianCalendar</inh:element>
+			</inh:annotates>
+
+			<inh:annotates annotation="jakarta.xml.bind.annotation.XmlAccessorType">
+				<inh:element type="java.lang.Enum">jakarta.xml.bind.annotation.XmlAccessType.FIELD</inh:element>
+			</inh:annotates>
+
+			<inh:extends>org.example.po.base.ObjectFactory</inh:extends>
+
+			<inh:implements>java.lang.Cloneable</inh:implements>
+		</inh:objectFactory>
+  	
+		<!-- Use this XJC plugin to extend from the Stageable class. -->
+		<jaxb:bindings node="xs:element[@name='PurchaseOrder']/xs:complexType">
+			<inh:extends>org.example.po.base.Stageable</inh:extends>
+		</jaxb:bindings>
+		
+		<!-- Use this XJC plugin to implement the Nameable class. -->
+		<jaxb:bindings node="xs:complexType[@name='Contact']">
+			<inh:implements>org.example.po.base.Nameable</inh:implements>
+		</jaxb:bindings>
+
+	</jaxb:bindings>
+
+</jaxb:bindings>

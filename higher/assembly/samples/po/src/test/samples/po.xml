@@ -1,31 +1,49 @@
-<purchaseOrder orderDate="1999-10-20">
-  <shipTo country="US">
-    <name>Alice Smith</name>
-    <street>123 Maple Street</street>
-    <city>Mill Valley</city>
-    <state>CA</state>
-    <zip>90952</zip>
-  </shipTo>
-  <billTo country="US">
-    <name>Robert Smith</name>
-    <street>8 Oak Avenue</street>
-    <city>Old Town</city>
-    <state>PA</state>
-    <zip>95819</zip>
-  </billTo>
-  <comment>Hurry, my lawn is going wild!</comment>
-  <items>
-    <item partNum="872-AA">
-      <productName>Lawnmower</productName>
-      <quantity>1</quantity>
-      <USPrice>148.95</USPrice>
-      <comment>Confirm this is electric</comment>
-    </item>
-    <item partNum="926-AA">
-      <productName>Baby Monitor</productName>
-      <quantity>1</quantity>
-      <USPrice>39.98</USPrice>
-      <shipDate>1999-05-21</shipDate>
-    </item>
-  </items>
-</purchaseOrder>
+<?xml version="1.0" encoding="UTF-8"?>
+<PurchaseOrder
+	orderDate="1999-10-20"
+	created="2002-05-30T09:30:10Z"
+	updated="2002-06-30T13:15:45Z"
+	stage="Active"
+	
+	xmlns="http://example.org/po"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://example.org/po ../../main/resources/purchaseorder.xsd"
+>
+	<shipToUS country="US">
+		<firstName>Alice</firstName>
+		<lastName>Smith</lastName>
+		<line1>234 Lancaster Av</line1>
+		<line2>Unit 159</line2>
+		<area>East</area>
+		<city>Smallville</city>
+		<state>Florida</state>
+		<zipCode>34543</zipCode>
+	</shipToUS>
+	<billToUK country="UK">
+		<firstName>Robert</firstName>
+		<lastName>Smith</lastName>
+		<line1>34 Thingy Street</line1>
+		<line2>Someplace</line2>
+		<area>West</area>
+		<city>Glastonbury</city>
+		<county>Somerset</county>
+		<postalCode>W1W8UU</postalCode>
+	</billToUK>
+	<comment>Hurry, my lawn is going wild!</comment>
+	<items>
+		<item partNum="872-AA">
+			<productName>Lawnmower</productName>
+			<quantity>1</quantity>
+			<USPrice>148.95</USPrice>
+			<comment>Confirm this is electric</comment>
+		</item>
+		<item partNum="926-AA">
+			<productName>Baby Monitor</productName>
+			<quantity>1</quantity>
+			<USPrice>39.98</USPrice>
+			<shipDate>1999-05-21</shipDate>
+		</item>
+	</items>
+	<credit amount="10.00" reason="Initial payment" />
+	<debit  amount="2.00" reason="Discount" />
+</PurchaseOrder>
