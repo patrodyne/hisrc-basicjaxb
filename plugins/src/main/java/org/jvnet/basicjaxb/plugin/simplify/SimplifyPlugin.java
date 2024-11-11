@@ -44,10 +44,10 @@ import com.sun.tools.xjc.outline.Outline;
 
 /**
  * <p>
- * For XML Schema <b><code>choice</code></b>, this plugin simplifies <em>complex</em> properties
+ * For XML Schema <b><code>choice</code></b> when <code>maxOccurs="unbounded"</code>, this plugin simplifies <em>complex</em> properties
  * (<code>fooOrBarOrBaz</code>) into several <em>simple</em> properties: <code>foo</code>,
  * <code>bar</code>, <code>baz</code>. For example, <code>fooOrBarOrBaz</code> generated from
- * repeatable choices.
+ * <em>repeatable</em> (i.e. {@code maxOccurs > 1}) choices.
  * </p>
  *
  *
@@ -84,6 +84,11 @@ import com.sun.tools.xjc.outline.Outline;
  * The JAXB Simplify Plugin works with two kinds of properties: <b>elements</b>
  * and <b>references</b>.
  * </p>
+ * 
+ * <ul>
+ * <li>Use {@code simplify:as-element-property} or {@code simplify:as-reference-property} customization elements to specify, which properties you want to simplify. You can configure this elements directly in schema or in the bindings file.</li>
+ * <li>Optionally, if you have trouble placing these customizations on the property, you may place them inside {@code simplify:property} customization with {@code @name='myProperty'} attribute on the class.</li>
+ * </ul>
  * 
  * 
  * <p><b>Type with Elements</b></p>
@@ -131,6 +136,12 @@ import com.sun.tools.xjc.outline.Outline;
  *     but you may need to retain reference properties if you have substitution groups.</li>
  * <li>In the case of a reference property, you have to customize one of the
  *     <code>xs:elements</code> and not the <code>xs:choice</code>.</li>
+ * <li>
+ *     A non-repeating choice model group is bound to a simple property. The SIMPLE
+ *     choice content property is derived from a choice model group per specification.
+ *     Setting 'choiceContentProperty' to "true" causes the elements to be mapped into
+ *     a single property (the List<Object>). Setting it to "false" causes the elements
+ *     to be wrapped into separate properties.</li>
  * </ul>
  * 
  */
@@ -140,7 +151,7 @@ public class SimplifyPlugin extends AbstractParameterizablePlugin
 	private static final String OPTION_NAME = "Xsimplify";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "simplifies 'choice' properties like fooOrBarOrBaz";
+	private static final String OPTION_DESC = "simplifies unbounded 'choice' properties like fooOrBarOrBaz";
 
 	@Override
 	public String getOptionName()
