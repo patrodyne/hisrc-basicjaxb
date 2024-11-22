@@ -11,7 +11,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 
 /**
- * <p>This JAXB class is used to CONSTRAINED the InheritancePlugin to
+ * <p>This JAXB class is used to direct the InheritancePlugin to
  * add an extension or interfaces to an <code>ObjectFactory</code> in
  * a given package.</p>
  * 

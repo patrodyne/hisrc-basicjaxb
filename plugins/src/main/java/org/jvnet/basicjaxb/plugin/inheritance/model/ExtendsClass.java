@@ -10,7 +10,7 @@ import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
- * This JAXB class is used to CONSTRAINED the InheritancePlugin to
+ * This JAXB class is used to direct the InheritancePlugin to
  * add an extension to any schema-derived class.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
