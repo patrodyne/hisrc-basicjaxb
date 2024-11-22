@@ -1,4 +1,4 @@
-package org.jvnet.basicjaxb.test.po;
+package org.example.beaninfo;
 
 import static org.apache.maven.artifact.Artifact.SCOPE_RUNTIME;
 
@@ -12,7 +12,7 @@ import org.jvnet.higherjaxb.mojo.testing.AbstractMojoTest;
 import org.jvnet.higherjaxb.mojo.testing.SLF4JLogger;
 
 @Order(1)
-public class RunClassNamePluginTest extends AbstractMojoTest
+public class RunBeanInfoPluginTest extends AbstractMojoTest
 {
 	@Test
 	public void testExecute() throws Exception
@@ -48,13 +48,6 @@ public class RunClassNamePluginTest extends AbstractMojoTest
 		mojo.setNoFileHeader(true);
 		mojo.setExtension(true);
 		mojo.setArgs(new ArrayList<>());
-		mojo.getArgs().add("-XbeanInfo");
-		mojo.getArgs().add("-XbeanInfo-searchPath=..infos");
-		mojo.getArgs().add("-XclassName");
-		mojo.getArgs().add("-XclassName-prefix=PO");
-		mojo.getArgs().add("-XclassName-suffix=Type");
-		mojo.getArgs().add("-XclassName-infix=/Type$//");
-		mojo.getArgs().add("-XfixedValue");
 		mojo.getArgs().add("-XhashCode");
 		mojo.getArgs().add("-Xequals");
 		mojo.getArgs().add("-XtoString");

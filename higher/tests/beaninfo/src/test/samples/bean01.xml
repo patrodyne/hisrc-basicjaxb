@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bi:bean name="PurchaseOrder"
+	xmlns:bi="http://jvnet.org/basicjaxb/xjc/beaninfo"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jvnet.org/basicjaxb/xjc/beaninfo ../../main/resources/beaninfo.xsd"
+>
+	<displayName>Purchase Order</displayName>
+	<description>A document issued by a buyer to a seller, indicating types, quantities, and prices for products.</description>
+</bi:bean>

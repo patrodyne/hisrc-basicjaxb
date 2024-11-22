@@ -8,9 +8,9 @@
 		<artifactId>hisrc-basicjaxb-higher-tests</artifactId>
 		<version>2.2.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>hisrc-basicjaxb-test-po</artifactId>
+	<artifactId>hisrc-basicjaxb-test-beaninfo</artifactId>
 	<packaging>jar</packaging>
-	<name>HiSrc BasicJAXB - Test [po]</name>
+	<name>HiSrc BasicJAXB - Test [beaninfo]</name>
 	<properties>
 		<root.basedir>${basedir}/../../..</root.basedir>
 	</properties>
@@ -18,6 +18,10 @@
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-swixml</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
@@ -32,27 +36,43 @@
 	</dependencies>
 	<build>
 		<defaultGoal>test</defaultGoal>
+
+		<!--
+		-->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>target/generated-sources/xjc</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
+
 		<plugins>
 			<!-- mvn hisrc-higherjaxb:help -Ddetail=true -->
 			<!-- mvn hisrc-higherjaxb:generate -->
 			<plugin>
 				<groupId>org.patrodyne.jvnet</groupId>
 				<artifactId>hisrc-higherjaxb-maven-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.patrodyne.jvnet</groupId>
+						<artifactId>hisrc-basicjaxb-swixml</artifactId>
+						<version>${project.version}</version>
+					</dependency>
+				</dependencies>
 				<configuration>
 					<extension>true</extension>
 					<verbose>true</verbose>
 					<debug>true</debug>
 					<args>
 						<arg>-no-header</arg>
-						<arg>-XfixedValue</arg>
 						<arg>-XhashCode</arg>
 						<arg>-Xequals</arg>
-						<arg>-XclassName</arg>
-						<arg>-XclassName-prefix=PO</arg>
-						<arg>-XclassName-suffix=Type</arg>
-						<arg>-XclassName-infix=/Type$//</arg>
-						<arg>-XbeanInfo</arg>
-						<arg>-XbeanInfo-searchPath=..infos</arg>
+						<arg>-XtoString</arg>
 					</args>
 					<plugins>
 						<plugin>

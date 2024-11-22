@@ -85,6 +85,8 @@ public class LocatorUnmarshaller<T>
 			Object object = getUnmarshaller().unmarshal(reader);
 			if ( object instanceof JAXBElement )
 				instance = ((JAXBElement<T>) object).getValue();
+			else
+				instance = (T) object;
 		}
 		return instance;
 	}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bi:property name="Comment" alignment="LEFT" maxWidth="30"
+	xmlns:bi="http://jvnet.org/basicjaxb/xjc/beaninfo"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jvnet.org/basicjaxb/xjc/beaninfo ../../main/resources/beaninfo.xsd"
+>
+	<displayName>Observation</displayName>
+	<description>A remark, or statement based on what one has noticed.</description>
+</bi:property>

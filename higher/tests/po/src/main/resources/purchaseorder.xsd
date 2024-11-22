@@ -1,66 +1,225 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:bi="http://jvnet.org/basicjaxb/xjc/beaninfo"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	jaxb:extensionBindingPrefixes="bi"
+	jaxb:version="3.0"
+>
 
-  <xsd:annotation>
-    <xsd:documentation xml:lang="en">
-     Purchase order schema for Example.com.
-     Copyright 2000 Example.com. All rights reserved.
-    </xsd:documentation>
-  </xsd:annotation>
+	<xs:annotation>
+		<xs:documentation xml:lang="en">
+		 Purchase order schema for Example.com.
+		 Copyright 2000 Example.com. All rights reserved.
+		</xs:documentation>
+	</xs:annotation>
 
-  <xsd:element name="purchaseOrder" type="PurchaseOrderType"/>
+	<!-- Stock Keeping Unit, a code for identifying products -->
+	<xs:simpleType name="SKU">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{3}-[A-Z]{2}" />
+			<xs:maxLength value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
 
-  <xsd:element name="comment" type="xsd:string"/>
+	<xs:element name="comment" type="xs:string">
+		<xs:annotation>
+			<xs:appinfo>
+				<bi:property alignment="LEFT" maxWidth="30">
+					<displayName>Observation</displayName>
+					<description>A remark, or statement based on what one has noticed.</description>
+				</bi:property>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+	
+	<xs:element name="purchaseOrder" type="PurchaseOrderType">
+		<xs:annotation>
+			<xs:appinfo>
+				<bi:bean name="PurchaseOrder">
+					<displayName>Purchase Order</displayName>
+					<description>A document issued by a buyer to a seller, indicating types, quantities, and prices for products.</description>
+				</bi:bean>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
 
-  <xsd:complexType name="PurchaseOrderType">
-    <xsd:sequence>
-      <xsd:element name="shipTo" type="USAddress"/>
-      <xsd:element name="billTo" type="USAddress"/>
-      <xsd:element ref="comment" minOccurs="0"/>
-      <xsd:element name="items"  type="Items"/>
-    </xsd:sequence>
-    <xsd:attribute name="orderDate" type="xsd:date"/>
-  </xsd:complexType>
+	<xs:complexType name="PurchaseOrderType">
+		<xs:sequence>
+			<xs:element name="shipTo" type="USAddress">
+				<xs:annotation>
+					<xs:appinfo>
+						<bi:property>
+							<displayName>Ship To Address</displayName>
+							<description>Location to deliver the shipment.</description>
+						</bi:property>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="billTo" type="USAddress">
+				<xs:annotation>
+					<xs:appinfo>
+						<bi:property>
+							<displayName>Bill To Address</displayName>
+							<description>Location to send the bill.</description>
+						</bi:property>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="comment" />
+			<xs:element name="items" type="Items" />
+		</xs:sequence>
+		<xs:attribute name="orderDate" type="xs:date">
+			<xs:annotation>
+				<xs:appinfo>
+					<bi:property maxWidth="10">
+						<displayName>Order Date</displayName>
+						<description>The date (YYYY-MM-DD) when the order is submitted.</description>
+					</bi:property>
+				</xs:appinfo>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
 
-  <xsd:complexType name="USAddress">
-    <xsd:sequence>
-      <xsd:element name="name"   type="xsd:string"/>
-      <xsd:element name="street" type="xsd:string"/>
-      <xsd:element name="city"   type="xsd:string"/>
-      <xsd:element name="state"  type="xsd:string"/>
-      <xsd:element name="zip"    type="xsd:decimal"/>
-    </xsd:sequence>
-    <xsd:attribute name="country" type="xsd:NMTOKEN" fixed="US"/>
-  </xsd:complexType>
+	<xs:complexType name="USAddress">
+		<xs:annotation>
+			<xs:appinfo>
+				<bi:bean>
+					<displayName>US Address</displayName>
+					<description>Location where letters, invoices, and packages can be mailed.</description>
+				</bi:bean>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<bi:property maxWidth="30">
+							<displayName>Full Name</displayName>
+							<description>First name and last name with an optional middle name or initial.</description>
+						</bi:property>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="street" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<bi:property maxWidth="30"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="city" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<bi:property maxWidth="30"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="state" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<bi:property maxWidth="30"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zip" type="xs:decimal">
+				<xs:annotation>
+					<xs:appinfo>
+						<bi:property maxWidth="5" alignment="RIGHT"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="country" type="xs:NMTOKEN" fixed="US">
+			<xs:annotation>
+				<xs:appinfo>
+					<bi:property maxWidth="2"/>
+				</xs:appinfo>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
 
-  <xsd:complexType name="Items">
-    <xsd:sequence>
-      <xsd:element name="item" minOccurs="0" maxOccurs="unbounded">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="productName" type="xsd:string"/>
-            <xsd:element name="quantity">
-              <xsd:simpleType>
-                <xsd:restriction base="xsd:positiveInteger">
-                  <xsd:maxExclusive value="100"/>
-                </xsd:restriction>
-              </xsd:simpleType>
-            </xsd:element>
-            <xsd:element name="USPrice"  type="xsd:decimal"/>
-            <xsd:element ref="comment"   minOccurs="0"/>
-            <xsd:element name="shipDate" type="xsd:date" minOccurs="0"/>
-          </xsd:sequence>
-          <xsd:attribute name="partNum" type="SKU" use="required"/>
-        </xsd:complexType>
-      </xsd:element>
-    </xsd:sequence>
-  </xsd:complexType>
+	<xs:complexType name="Items">
+		<xs:annotation>
+			<xs:appinfo>
+				<bi:bean>
+					<displayName>Items</displayName>
+					<description>List of items being purchased.</description>
+				</bi:bean>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<bi:bean>
+							<displayName>Line Item</displayName>
+							<description>Item being purchased: parts, supplies, fees, or charges.</description>
+						</bi:bean>
+					</xs:appinfo>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="productName" type="xs:string">
+							<xs:annotation>
+								<xs:appinfo>
+									<bi:property maxWidth="60">
+										<displayName>Product Name</displayName>
+										<description>Description of the part or service being ordered.</description>
+									</bi:property>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="quantity">
+							<xs:annotation>
+								<xs:appinfo>
+									<bi:property maxWidth="3" alignment="RIGHT">
+										<displayName>Quantity</displayName>
+										<description>The number of this item being ordered.</description>
+									</bi:property>
+								</xs:appinfo>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:positiveInteger">
+									<xs:maxExclusive value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="USPrice" type="xs:decimal">
+							<xs:annotation>
+								<xs:appinfo>
+									<bi:property maxWidth="10" alignment="RIGHT">
+										<displayName>US Price</displayName>
+										<description>Amount of US money for the sale of one item.</description>
+									</bi:property>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="shipDate" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:appinfo>
+									<bi:property maxWidth="10">
+										<displayName>Ship Date</displayName>
+										<description>The date (YYYY-MM-DD) when the item shipped.</description>
+									</bi:property>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="comment" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attribute name="partNum" type="SKU" use="required">
+						<xs:annotation>
+							<xs:appinfo>
+								<bi:property maxWidth="6">
+									<displayName>Stock Keeping Unit</displayName>
+									<description>A unique code assigned to each inventory item type.</description>
+								</bi:property>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
-  <!-- Stock Keeping Unit, a code for identifying products -->
-  <xsd:simpleType name="SKU">
-    <xsd:restriction base="xsd:string">
-      <xsd:pattern value="\d{3}-[A-Z]{2}"/>
-    </xsd:restriction>
-  </xsd:simpleType>
-
-</xsd:schema>
+</xs:schema>

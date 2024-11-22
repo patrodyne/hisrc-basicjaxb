@@ -14,6 +14,7 @@
 	<modules>
 		<module>auto-inheritance</module>
 		<module>basic</module>
+		<module>beaninfo</module>
 		<module>custom-any</module>
 		<module>custom-bio-01</module>
 		<module>custom-bio-02</module>

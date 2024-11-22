@@ -4,7 +4,7 @@ This is a Maven project to demonstrate the unmarshalling of XML files using an X
 
 It includes examples of XJC plugins to add custom `hashCode`, `equals`, `toString` and implementations to each generated JAXB class.
 
-Further, it includes examples of the XJC inheritance and simplify plugins.
+Further, it includes examples of the XJC `inheritance` and `simplify` plugins.
 
 ## Execution
 

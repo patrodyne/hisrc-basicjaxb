@@ -50,7 +50,6 @@ import com.sun.tools.xjc.outline.Outline;
  * <em>repeatable</em> (i.e. {@code maxOccurs > 1}) choices.
  * </p>
  *
- *
  * <p>
  * Optionally, add <code>-Xsimplify-usePluralForm=true</code> if you want collection property
  * names to be pluralized: <code>foo</code> becomes <code>foos</code>).
@@ -140,7 +139,7 @@ import com.sun.tools.xjc.outline.Outline;
  *     A non-repeating choice model group is bound to a simple property. The SIMPLE
  *     choice content property is derived from a choice model group per specification.
  *     Setting 'choiceContentProperty' to "true" causes the elements to be mapped into
- *     a single property (the List<Object>). Setting it to "false" causes the elements
+ *     a single property (the {@code List<Object>}). Setting it to "false" causes the elements
  *     to be wrapped into separate properties.</li>
  * </ul>
  * 

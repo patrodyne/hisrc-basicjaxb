@@ -1,4 +1,5 @@
 org.jvnet.basicjaxb.plugin.autoinheritance.AutoInheritancePlugin
+org.jvnet.basicjaxb.plugin.beaninfo.BeanInfoPlugin
 org.jvnet.basicjaxb.plugin.copyable.CopyablePlugin
 org.jvnet.basicjaxb.plugin.customizations.CustomizationsPlugin
 org.jvnet.basicjaxb.plugin.classname.ClassNamePlugin

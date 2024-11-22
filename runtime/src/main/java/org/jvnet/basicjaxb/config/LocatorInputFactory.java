@@ -151,10 +151,10 @@ public class LocatorInputFactory
 			{
 				try
 				{
-					URL url = new URL(locator);
+					URL url = new URI(locator).toURL();
 					inputStream = url.openStream();
 				}
-				catch (MalformedURLException ex)
+				catch (MalformedURLException | URISyntaxException ex)
 				{
 					File file = new File(locator);
 					inputStream = new FileInputStream(file);
