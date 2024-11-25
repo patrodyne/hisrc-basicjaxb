@@ -16,7 +16,20 @@ public class FieldDescriptor
 	private static final String FIELD_MAX_WIDTH = "column.maxWidth";
 	private static final String FIELD_MIN_WIDTH = "column.minWidth";
 	private static final String FIELD_PREFERRED_WIDTH = "column.preferredWidth";
-	private static final String FIELD_WIDTH = "column.width";
+	
+	private static final String FIELD_PATTERN = "facet.pattern";
+	private static final String FIELD_LENGTH = "facet.length";
+	private static final String FIELD_MAX_LENGTH = "facet.maxLength";
+	private static final String FIELD_MIN_LENGTH = "facet.minLength";
+	private static final String FIELD_MAX_EXCLUSIVE = "facet.maxExclusive";
+	private static final String FIELD_MIN_EXCLUSIVE = "facet.minExclusive";
+	private static final String FIELD_MAX_INCLUSIVE = "facet.maxInclusive";
+	private static final String FIELD_MIN_INCLUSIVE = "facet.minInclusive";
+	private static final String FIELD_TOTAL_DIGITS = "facet.totalDigits";
+	private static final String FIELD_FRACTION_DIGITS = "facet.fractionDigits";
+	
+	private static final int DEFAULT_MAX_WIDTH = 20;
+	private static final int DEFAULT_MIN_WIDTH =  5;
 	
 	/**
      * Constructs a FieldDescriptor for a property that follows
@@ -95,7 +108,10 @@ public class FieldDescriptor
 	public int getMaxWidth()
 	{
 		Integer v = (Integer) getValue(FIELD_MAX_WIDTH);
-		return (v != null) ? v : Integer.MAX_VALUE;
+		return (v != null) ? v
+			: (getMaxLength() != null) ? getMaxLength()
+			: (getTotalDigitsPlus() != null ) ? getTotalDigitsPlus()
+			: DEFAULT_MAX_WIDTH;
 	}
 	public void setMaxWidth(int maxWidth)
 	{
@@ -105,7 +121,9 @@ public class FieldDescriptor
 	public int getMinWidth()
 	{
 		Integer v = (Integer) getValue(FIELD_MIN_WIDTH);
-		return (v != null) ? v : 1;
+		return (v != null) ? v
+			: (getMinLength() != null) ? getMinLength()
+			: DEFAULT_MIN_WIDTH;
 	}
 	public void setMinWidth(int minWidth)
 	{
@@ -122,13 +140,112 @@ public class FieldDescriptor
 		setValue(FIELD_PREFERRED_WIDTH, preferredWidth);
 	}
 	
-	public int getWidth()
+	public String getPattern()
 	{
-		Integer v = (Integer) getValue(FIELD_WIDTH);
-		return (v != null) ? v : getMaxWidth();
+		return (String) getValue(FIELD_PATTERN);
 	}
-	public void setWidth(int width)
+	public void setPattern(String pattern)
 	{
-		setValue(FIELD_WIDTH, width);
+		setValue(FIELD_PATTERN, pattern);
+	}
+	
+	public Integer getLength()
+	{
+		return (Integer) getValue(FIELD_LENGTH);
+	}
+	public void setLength(Integer length)
+	{
+		setValue(FIELD_LENGTH, length);
+	}
+	
+	public Integer getMaxLength()
+	{
+		Integer v = (Integer) getValue(FIELD_MAX_LENGTH);
+		return (v != null) ? v : getLength();
+	}
+	public void setMaxLength(Integer maxLength)
+	{
+		setValue(FIELD_MAX_LENGTH, maxLength);
+	}
+	
+	public Integer getMinLength()
+	{
+		Integer v = (Integer) getValue(FIELD_MIN_LENGTH);
+		return (v != null) ? v : getLength();
+	}
+	public void setMinLength(Integer minLength)
+	{
+		setValue(FIELD_MIN_LENGTH, minLength);
+	}
+	
+	public Integer getMaxExclusive()
+	{
+		return (Integer) getValue(FIELD_MAX_EXCLUSIVE);
+	}
+	public void setMaxExclusive(Integer maxExclusive)
+	{
+		setValue(FIELD_MAX_EXCLUSIVE, maxExclusive);
+	}
+	
+	public Integer getMinExclusive()
+	{
+		return (Integer) getValue(FIELD_MIN_EXCLUSIVE);
+	}
+	public void setMinExclusive(Integer minExclusive)
+	{
+		setValue(FIELD_MIN_EXCLUSIVE, minExclusive);
+	}
+	
+	public Integer getMaxInclusive()
+	{
+		return (Integer) getValue(FIELD_MAX_INCLUSIVE);
+	}
+	public void setMaxInclusive(Integer maxInclusive)
+	{
+		setValue(FIELD_MAX_INCLUSIVE, maxInclusive);
+	}
+	
+	public Integer getMinInclusive()
+	{
+		return (Integer) getValue(FIELD_MIN_INCLUSIVE);
+	}
+	public void setMinInclusive(Integer minInclusive)
+	{
+		setValue(FIELD_MIN_INCLUSIVE, minInclusive);
+	}
+	
+	public Integer getTotalDigits()
+	{
+		return (Integer) getValue(FIELD_TOTAL_DIGITS);
+	}
+	public void setTotalDigits(Integer totalDigits)
+	{
+		setValue(FIELD_TOTAL_DIGITS, totalDigits);
+	}
+	
+	public Integer getFractionDigits()
+	{
+		return (Integer) getValue(FIELD_FRACTION_DIGITS);
+	}
+	public void setFractionDigits(Integer fractionDigits)
+	{
+		setValue(FIELD_FRACTION_DIGITS, fractionDigits);
+	}
+	
+	public Integer getTotalDigitsPlus()
+	{
+		Integer tdp = getTotalDigits();
+		if ( tdp != null )
+		{
+			Integer wd = tdp;
+			Integer fd = getFractionDigits();
+			if ( fd != null )
+				wd -= fd;
+			// Plus commas
+			tdp += (wd-1) / 3;
+			// Plus sign and dot.
+			tdp += 2;
+		}
+		return tdp;
 	}
 }

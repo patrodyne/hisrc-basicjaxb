@@ -173,7 +173,7 @@
 						<xs:element name="quantity">
 							<xs:annotation>
 								<xs:appinfo>
-									<bi:property maxWidth="3" alignment="RIGHT">
+									<bi:property alignment="RIGHT">
 										<displayName>Quantity</displayName>
 										<description>The number of this item being ordered.</description>
 									</bi:property>
@@ -181,6 +181,7 @@
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:positiveInteger">
+									<xs:totalDigits value="3"/>
 									<xs:maxExclusive value="100"/>
 								</xs:restriction>
 							</xs:simpleType>
@@ -206,11 +207,12 @@
 							</xs:annotation>
 						</xs:element>
 						<xs:element ref="comment" minOccurs="0"/>
+						<xs:element name="part" type="SKU" minOccurs="1"/>
 					</xs:sequence>
 					<xs:attribute name="partNum" type="SKU" use="required">
 						<xs:annotation>
 							<xs:appinfo>
-								<bi:property maxWidth="6">
+								<bi:property>
 									<displayName>Stock Keeping Unit</displayName>
 									<description>A unique code assigned to each inventory item type.</description>
 								</bi:property>

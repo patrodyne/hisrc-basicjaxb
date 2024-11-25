@@ -1,5 +1,17 @@
 package org.jvnet.basicjaxb.plugin.beaninfo;
 
+import static com.sun.codemodel.JExpr.lit;
+import static com.sun.xml.xsom.XSFacet.FACET_FRACTIONDIGITS;
+import static com.sun.xml.xsom.XSFacet.FACET_LENGTH;
+import static com.sun.xml.xsom.XSFacet.FACET_MAXEXCLUSIVE;
+import static com.sun.xml.xsom.XSFacet.FACET_MAXINCLUSIVE;
+import static com.sun.xml.xsom.XSFacet.FACET_MAXLENGTH;
+import static com.sun.xml.xsom.XSFacet.FACET_MINEXCLUSIVE;
+import static com.sun.xml.xsom.XSFacet.FACET_MININCLUSIVE;
+import static com.sun.xml.xsom.XSFacet.FACET_MINLENGTH;
+import static com.sun.xml.xsom.XSFacet.FACET_PATTERN;
+import static com.sun.xml.xsom.XSFacet.FACET_TOTALDIGITS;
+import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.util.CustomizationUtils.unmarshall;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
@@ -12,7 +24,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.xml.namespace.QName;
 
@@ -43,6 +57,7 @@ import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
+import com.sun.xml.xsom.XSFacet;
 
 /**
  * An XJC plugin to generate BeanInfo classes from XML Schema annotations.
@@ -230,11 +245,11 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			if ( bd.getDescription() != null )
 				bdmBody.add(bdVar.invoke("setShortDescription").arg(bd.getDescription()));
 			if ( bd.isExpert() != null )
-				bdmBody.add(bdVar.invoke("setExpert").arg(JExpr.lit(bd.isExpert())));
+				bdmBody.add(bdVar.invoke("setExpert").arg(lit(bd.isExpert())));
 			if ( bd.isHidden() != null )
-				bdmBody.add(bdVar.invoke("setHidden").arg(JExpr.lit(bd.isHidden())));
+				bdmBody.add(bdVar.invoke("setHidden").arg(lit(bd.isHidden())));
 			if ( bd.isPreferred() != null )
-				bdmBody.add(bdVar.invoke("setPreferred").arg(JExpr.lit(bd.isPreferred())));
+				bdmBody.add(bdVar.invoke("setPreferred").arg(lit(bd.isPreferred())));
 			
 			bdmBody._return(bdVar);
 			
@@ -247,10 +262,19 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 
 	/* Generate getPropertyDescriptors list */
 	private void generatePropertyDescriptors(BeanInfoCustomization bic)
-	{	
-		final List<Property> properties = new ArrayList<>();
+	{
+//		final List<FieldInfo> fieldInfos = new ArrayList<>();
+		
+		final Map<String, FieldInfo> fieldInfoMap = new TreeMap<>();
+		
 		for ( Entry<CPropertyInfo, CPluginCustomization> entry : bic.getPropertyCustomizationMap().entrySet())
 		{
+			CPropertyInfo propertyInfo = entry.getKey();
+			String propertyInfoName = propertyInfo.getName(false);
+			
+			FieldInfo fieldInfo = new FieldInfo(propertyInfoName);
+			fieldInfo.setFacets(bic.getPropertyFacetMap().get(propertyInfo));
+			
 			CPluginCustomization propertyCustomization = entry.getValue();
 			if (propertyCustomization != null)
 			{
@@ -260,8 +284,8 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 				if ( property != null )
 				{
 					if ( property.getName() == null )
-						property.setName(entry.getKey().getName(false));
-					properties.add(property);
+						property.setName(propertyInfoName);
+					fieldInfo.setProperty(property);
 
 					trace("{}, generatePropertyDescriptors; Class={}, Property={}",
 						toLocation(propertyCustomization.locator),
@@ -269,14 +293,58 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 						property.getName());
 				}
 			}
+			
+			if ( fieldInfo.hasProperties() )
+				fieldInfoMap.put(propertyInfoName, fieldInfo);
 		}
 		
-		if ( !properties.isEmpty() )
-			generatePropertyDescriptors(bic, properties);
+		for ( Entry<CPropertyInfo, List<XSFacet>> entry: bic.getPropertyFacetMap().entrySet() )
+		{
+			CPropertyInfo propertyInfo = entry.getKey();
+			String propertyInfoName = propertyInfo.getName(false);
+			if ( !fieldInfoMap.containsKey(propertyInfoName) )
+			{
+				FieldInfo fieldInfo = new FieldInfo(propertyInfoName);
+				fieldInfo.setFacets(bic.getPropertyFacetMap().get(propertyInfo));
+				fieldInfoMap.put(propertyInfoName, fieldInfo);
+			}
+		}
+		
+		if ( !fieldInfoMap.isEmpty() )
+		{
+			// Order by index or alphabetically.
+			TreeMap<Integer, FieldInfo> fiTreeMap = new TreeMap<>();
+			List<FieldInfo> fiList = new ArrayList<>();
+			
+			// Index by given index
+			for ( FieldInfo fieldInfo : fieldInfoMap.values() )
+			{
+				Integer fiIndex = bic.getPropertyIndexMap().get(fieldInfo.getFieldName());
+				if ( fiIndex != null )
+					fiTreeMap.put(fiIndex, fieldInfo);
+				else
+					fiList.add(fieldInfo);
+			}
+			
+			// Index alphabetically
+			if ( !fiList.isEmpty() )
+			{
+				Integer lastIndex = fiTreeMap.lastEntry().getKey();
+				for ( int index=0; index < fiList.size(); ++index )
+					fiTreeMap.put((lastIndex + index), fiList.get(index));
+			}
+			
+			// Re-index
+			fiList = new ArrayList<>(fiTreeMap.values());
+			for ( int index = 0; index < fiList.size(); ++index )
+				fiList.get(index).setFieldIndex(index);
+			
+			generatePropertyDescriptors(bic, fiList);
+		}
 	}
 
 	/* Generate getPropertyDescriptors accessor with custom settings. */
-	private void generatePropertyDescriptors(BeanInfoCustomization bic, List<Property> properties)
+	private void generatePropertyDescriptors(BeanInfoCustomization bic, List<FieldInfo> fieldInfos)
 	{
 		JCodeModel codeModel = bic.getCodeModel();
 		JType pdType = codeModel.ref(PropertyDescriptor[].class);
@@ -298,57 +366,34 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 		pdmTryBlock._catch(codeModel.ref(IntrospectionException.class));
 		JBlock pdmTryBlockBody = pdmTryBlock.body();
 		
-		for ( Property property : properties )
+		for ( FieldInfo fieldInfo : fieldInfos )
 		{
+			// Create a block and initialize a FieldDescriptor variable.
 			JBlock pdmBlock = pdmTryBlockBody.block();
-			
 			JInvocation fdExp = JExpr._new(codeModel.ref(FieldDescriptor.class))
-				.arg(property.getName())
+				.arg(fieldInfo.getFieldName())
 				.arg(bic.getImplClass().dotclass());
 			JVar fdVar = pdmBlock.decl(JMod.NONE, codeModel.ref(FieldDescriptor.class), "fd", fdExp);
 			
-			// FeatureDescriptor settings, set by construction (above)
-			// if ( property.getName() != null )
-			//     pdmBlock.add(fdVar.invoke("setName").arg(property.getName()));
+			// FieldDescriptor settings (Index)
+			if ( fieldInfo.getFieldIndex() != null )
+			{
+				Integer index = fieldInfo.getFieldIndex();
+				Property fip = fieldInfo.getProperty();
+				if ( (fip != null) && (fip.getIndex() != null) )
+					index = fip.getIndex();
+				if ( index != null )
+					pdmBlock.add(fdVar.invoke("setIndex").arg(lit(index)));
+			}
+			
+			// FieldDescriptor settings (Property)
+			if ( fieldInfo.getProperty() != null )
+				generatePropertySetters(fieldInfo, pdmBlock, fdVar);
 
-			// FeatureDescriptor settings
-			if ( property.getDisplayName() != null )
-				pdmBlock.add(fdVar.invoke("setDisplayName").arg(property.getDisplayName()));
-			if ( property.getDescription() != null )
-				pdmBlock.add(fdVar.invoke("setShortDescription").arg(property.getDescription()));
-			if ( property.isExpert() != null )
-				pdmBlock.add(fdVar.invoke("setExpert").arg(JExpr.lit(property.isExpert())));
-			if ( property.isHidden() != null )
-				pdmBlock.add(fdVar.invoke("setHidden").arg(JExpr.lit(property.isHidden())));
-			if ( property.isPreferred() != null )
-				pdmBlock.add(fdVar.invoke("setPreferred").arg(JExpr.lit(property.isPreferred())));
+			// FieldDescriptor settings (Facet)
+			generateFacetSetters(fieldInfo, pdmBlock, fdVar);
 			
-			// PropertyDescriptor settings
-			if ( property.isBound() != null )
-				pdmBlock.add(fdVar.invoke("setBound").arg(JExpr.lit(property.isBound())));
-			if ( property.isConstrained() != null )
-				pdmBlock.add(fdVar.invoke("setConstrained").arg(JExpr.lit(property.isConstrained())));
-			if ( property.getEditorClass() != null )
-				pdmBlock.add(fdVar.invoke("setPropertyEditorClass").arg(JExpr.lit(property.getEditorClass())));
-			
-			// FieldDescriptor settings
-			if ( property.getAlignment() != null )
-				pdmBlock.add(fdVar.invoke("setAlignment").arg(JExpr.lit(property.getAlignment().name())));
-			if ( property.isEditable() != null )
-				pdmBlock.add(fdVar.invoke("setEditable").arg(JExpr.lit(property.isEditable())));
-			if ( property.getIndex() != null )
-				pdmBlock.add(fdVar.invoke("setIndex").arg(JExpr.lit(property.getIndex())));
-			if ( property.getMaxWidth() != null )
-				pdmBlock.add(fdVar.invoke("setMaxWidth").arg(JExpr.lit(property.getMaxWidth())));
-			if ( property.getMinWidth() != null )
-				pdmBlock.add(fdVar.invoke("setMinWidth").arg(JExpr.lit(property.getMinWidth())));
-			if ( property.getPreferredWidth() != null )
-				pdmBlock.add(fdVar.invoke("setPreferredWidth").arg(JExpr.lit(property.getPreferredWidth())));
-			if ( property.getRendererClass() != null )
-				pdmBlock.add(fdVar.invoke("setRendererClass").arg(JExpr.lit(property.getRendererClass())));
-			if ( property.isResizable() != null )
-				pdmBlock.add(fdVar.invoke("setResizable").arg(JExpr.lit(property.isResizable())));
-			
+			// Add FieldDescriptor to the list.
 			pdmBlock.add(fdListVar.invoke("add").arg(fdVar));
 		}
 		
@@ -357,5 +402,94 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 		JArray fdArrayExp = JExpr.newArray(fdClass, fdListSize);
 		JInvocation fdListToArray = fdListVar.invoke("toArray").arg(fdArrayExp);
 		pdmBody._return(fdListToArray);
+	}
+
+	/* FieldDescriptor Property */
+	private void generatePropertySetters(FieldInfo fieldInfo, JBlock pdmBlock, JVar fdVar)
+	{
+		Property fiProperty = fieldInfo.getProperty();
+		
+		// FeatureDescriptor settings,
+		// Name is set by construction (above)
+		// if ( property.getName() != null )
+		//     pdmBlock.add(fdVar.invoke("setName").arg(property.getName()));
+	
+		// FeatureDescriptor settings
+		if ( fiProperty.getDisplayName() != null )
+			pdmBlock.add(fdVar.invoke("setDisplayName").arg(fiProperty.getDisplayName()));
+		if ( fiProperty.getDescription() != null )
+			pdmBlock.add(fdVar.invoke("setShortDescription").arg(fiProperty.getDescription()));
+		if ( fiProperty.isExpert() != null )
+			pdmBlock.add(fdVar.invoke("setExpert").arg(lit(fiProperty.isExpert())));
+		if ( fiProperty.isHidden() != null )
+			pdmBlock.add(fdVar.invoke("setHidden").arg(lit(fiProperty.isHidden())));
+		if ( fiProperty.isPreferred() != null )
+			pdmBlock.add(fdVar.invoke("setPreferred").arg(lit(fiProperty.isPreferred())));
+		
+		// PropertyDescriptor settings
+		if ( fiProperty.isBound() != null )
+			pdmBlock.add(fdVar.invoke("setBound").arg(lit(fiProperty.isBound())));
+		if ( fiProperty.isConstrained() != null )
+			pdmBlock.add(fdVar.invoke("setConstrained").arg(lit(fiProperty.isConstrained())));
+		if ( fiProperty.getEditorClass() != null )
+			pdmBlock.add(fdVar.invoke("setPropertyEditorClass").arg(lit(fiProperty.getEditorClass())));
+		
+		// FieldDescriptor settings (Property)
+		if ( fiProperty.getAlignment() != null )
+			pdmBlock.add(fdVar.invoke("setAlignment").arg(lit(fiProperty.getAlignment().name())));
+		if ( fiProperty.isEditable() != null )
+			pdmBlock.add(fdVar.invoke("setEditable").arg(lit(fiProperty.isEditable())));
+		if ( fiProperty.getMaxWidth() != null )
+			pdmBlock.add(fdVar.invoke("setMaxWidth").arg(lit(fiProperty.getMaxWidth())));
+		if ( fiProperty.getMinWidth() != null )
+			pdmBlock.add(fdVar.invoke("setMinWidth").arg(lit(fiProperty.getMinWidth())));
+		if ( fiProperty.getPreferredWidth() != null )
+			pdmBlock.add(fdVar.invoke("setPreferredWidth").arg(lit(fiProperty.getPreferredWidth())));
+		if ( fiProperty.getRendererClass() != null )
+			pdmBlock.add(fdVar.invoke("setRendererClass").arg(lit(fiProperty.getRendererClass())));
+		if ( fiProperty.isResizable() != null )
+			pdmBlock.add(fdVar.invoke("setResizable").arg(lit(fiProperty.isResizable())));
+	}
+
+	/* FieldDescriptor Facets */
+	private void generateFacetSetters(FieldInfo fieldInfo, JBlock pdmBlock, JVar fdVar)
+	{
+		for ( XSFacet facet : fieldInfo.getFacets() )
+		{	
+			String strValue = facet.getValue().toString();
+			switch ( facet.getName() )
+			{
+				case FACET_PATTERN:
+					pdmBlock.add(fdVar.invoke("setPattern").arg(strValue));
+					break;
+				case FACET_LENGTH:
+					pdmBlock.add(fdVar.invoke("setLength").arg(lit(parseInt(strValue))));
+					break;
+				case FACET_MAXLENGTH:
+					pdmBlock.add(fdVar.invoke("setMaxLength").arg(lit(parseInt(strValue))));
+					break;
+				case FACET_MINLENGTH:
+					pdmBlock.add(fdVar.invoke("setMinLength").arg(lit(parseInt(strValue))));
+					break;
+				case FACET_MAXEXCLUSIVE:
+					pdmBlock.add(fdVar.invoke("setMaxExclusive").arg(lit(parseInt(strValue))));
+					break;
+				case FACET_MINEXCLUSIVE:
+					pdmBlock.add(fdVar.invoke("setMinExclusive").arg(lit(parseInt(strValue))));
+					break;
+				case FACET_MAXINCLUSIVE:
+					pdmBlock.add(fdVar.invoke("setMaxInclusive").arg(lit(parseInt(strValue))));
+					break;
+				case FACET_MININCLUSIVE:
+					pdmBlock.add(fdVar.invoke("setMinInclusive").arg(lit(parseInt(strValue))));
+					break;
+				case FACET_TOTALDIGITS:
+					pdmBlock.add(fdVar.invoke("setTotalDigits").arg(lit(parseInt(strValue))));
+					break;
+				case FACET_FRACTIONDIGITS:
+					pdmBlock.add(fdVar.invoke("setFractionDigits").arg(lit(parseInt(strValue))));
+					break;
+			}
+		}
 	}
 }
