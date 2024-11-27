@@ -31,13 +31,19 @@ import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
+import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIDeclaration;
+import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIXPluginCustomization;
+import com.sun.tools.xjc.reader.xmlschema.bindinfo.BindInfo;
+import com.sun.xml.xsom.XSAnnotation;
 import com.sun.xml.xsom.XSAttributeUse;
 import com.sun.xml.xsom.XSComplexType;
+import com.sun.xml.xsom.XSComponent;
 import com.sun.xml.xsom.XSElementDecl;
 import com.sun.xml.xsom.XSFacet;
 import com.sun.xml.xsom.XSParticle;
 import com.sun.xml.xsom.XSSimpleType;
 import com.sun.xml.xsom.XSTerm;
+import com.sun.xml.xsom.XSType;
 
 /**
  * This class collects all bean and property {@link CPluginCustomization} instances in the 
@@ -108,6 +114,18 @@ public class BeanInfoCustomization
 	{
 		this.propertyFacetMap = propertyFacetMap;
 	}
+	
+//	private List<CPropertyInfo> propertyPlainList;
+//	public List<CPropertyInfo> getPropertyPlainList()
+//	{
+//		if ( propertyPlainList == null )
+//			setPropertyPlainList(new ArrayList<>());
+//		return propertyPlainList;
+//	}
+//	public void setPropertyPlainList(List<CPropertyInfo> propertyPlainList)
+//	{
+//		this.propertyPlainList = propertyPlainList;
+//	}
 
 	private CPluginCustomization beanCustomization;
 	public CPluginCustomization getBeanCustomization()
@@ -205,6 +223,24 @@ public class BeanInfoCustomization
 			bc = getElementCustomizationMap().get(getTargetElementName());
 		if ( bc == null )
 			bc = getClassCustomizationMap().get(getTargetClass());
+		if ( bc == null )
+		{
+			XSComponent source = getTargetClass().getSchemaComponent();
+			XSAnnotation sa = source.getAnnotation();
+			if ( (sa != null) && sa.getAnnotation() instanceof BindInfo )
+			{
+				BindInfo bi = (BindInfo) sa.getAnnotation();
+				for ( BIDeclaration decl : bi.getDecls() )
+				{
+					if ( decl instanceof BIXPluginCustomization )
+					{
+						BIXPluginCustomization bpc = (BIXPluginCustomization) decl;
+						bc = new CPluginCustomization(bpc.element, bpc.getLocation());
+						bc.markAsAcknowledged();
+					}
+				}
+			}
+		}
 		
 		if ( bc != null )
 			setBeanCustomization(bc);
@@ -251,14 +287,21 @@ public class BeanInfoCustomization
 		}
 	}
 	
-	/* Gather simple type facets for the current property info. */
-	private void gatherPropertyFacets(CPropertyInfo propertyInfo)
+	/**
+	 * Get the property type as an attribute use (XSSimpleType)
+	 * or element declaration (XSType).
+	 * 
+	 * @param propertyInfo The {@link CPropertyInfo} to examine.
+	 * 
+	 * @return The properties type as {@link XSType} or {@link XSSimpleType}
+	 */
+	public XSType getType(CPropertyInfo propertyInfo)
 	{
-		XSSimpleType pst = null;
+		XSType type = null;
 		if ( propertyInfo.getSchemaComponent() instanceof XSAttributeUse)
 		{
 			XSAttributeUse source = (XSAttributeUse) propertyInfo.getSchemaComponent();
-			pst = source.getDecl().getType();
+			type = source.getDecl().getType();
 		}
 		else if ( propertyInfo.getSchemaComponent() instanceof XSParticle )
 		{
@@ -266,10 +309,34 @@ public class BeanInfoCustomization
 			if ( source.getTerm() instanceof XSElementDecl )
 			{
 				XSElementDecl ed = (XSElementDecl) source.getTerm();
-				if ( ed.getType() instanceof XSSimpleType )
-					pst = (XSSimpleType) ed.getType();
+				type = ed.getType();
 			}
 		}
+		return type;
+	}
+	
+	/* Gather simple type facets for the current property info. */
+	private void gatherPropertyFacets(CPropertyInfo propertyInfo)
+	{
+		XSSimpleType pst = null;
+//		if ( propertyInfo.getSchemaComponent() instanceof XSAttributeUse)
+//		{
+//			XSAttributeUse source = (XSAttributeUse) propertyInfo.getSchemaComponent();
+//			pst = source.getDecl().getType();
+//		}
+//		else if ( propertyInfo.getSchemaComponent() instanceof XSParticle )
+//		{
+//			XSParticle source = (XSParticle) propertyInfo.getSchemaComponent();
+//			if ( source.getTerm() instanceof XSElementDecl )
+//			{
+//				XSElementDecl ed = (XSElementDecl) source.getTerm();
+//				if ( ed.getType() instanceof XSSimpleType )
+//					pst = (XSSimpleType) ed.getType();
+//			}
+//		}
+		XSType pt = getType(propertyInfo);
+		if ( pt instanceof XSSimpleType )
+			pst = (XSSimpleType) pt;
 		
 		if ( pst != null )
 		{

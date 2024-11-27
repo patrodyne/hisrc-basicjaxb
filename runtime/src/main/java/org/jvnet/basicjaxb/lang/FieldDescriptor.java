@@ -28,8 +28,8 @@ public class FieldDescriptor
 	private static final String FIELD_TOTAL_DIGITS = "facet.totalDigits";
 	private static final String FIELD_FRACTION_DIGITS = "facet.fractionDigits";
 	
-	private static final int DEFAULT_MAX_WIDTH = 20;
-	private static final int DEFAULT_MIN_WIDTH =  5;
+	public static final int DEFAULT_MAX_WIDTH = 254;
+	public static final int DEFAULT_MIN_WIDTH =  20;
 	
 	/**
      * Constructs a FieldDescriptor for a property that follows

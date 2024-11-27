@@ -13,6 +13,7 @@ import static com.sun.xml.xsom.XSFacet.FACET_PATTERN;
 import static com.sun.xml.xsom.XSFacet.FACET_TOTALDIGITS;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.lang.FieldDescriptor.DEFAULT_MIN_WIDTH;
 import static org.jvnet.basicjaxb.util.CustomizationUtils.unmarshall;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
@@ -23,6 +24,7 @@ import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -58,6 +60,7 @@ import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 import com.sun.xml.xsom.XSFacet;
+import com.sun.xml.xsom.XSType;
 
 /**
  * An XJC plugin to generate BeanInfo classes from XML Schema annotations.
@@ -177,7 +180,7 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 		{
 			generateBeanInfo(bic);
 			generateBeanDescriptor(bic);
-			generatePropertyDescriptors(bic);
+			generateFieldDescriptors(bic);
 		}
 	}
 
@@ -231,7 +234,7 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			
 			JDocComment bdmDoc = bdm.javadoc();
 			bdmDoc.append("Get a {@code BeanDescriptor} providing overall information about the bean,");
-			bdmDoc.append("\nsuch as its displayName, its customizer, etc.");
+			bdmDoc.append("\nsuch as its displayName, its description, etc.");
 			bdmDoc.addReturn().append("A {@code BeanDescriptor} providing overall information about the bean.");
 			
 			final JBlock bdmBody = bdm.body();
@@ -261,18 +264,18 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 	}
 
 	/* Generate getPropertyDescriptors list */
-	private void generatePropertyDescriptors(BeanInfoCustomization bic)
+	private void generateFieldDescriptors(BeanInfoCustomization bic)
 	{
-//		final List<FieldInfo> fieldInfos = new ArrayList<>();
-		
 		final Map<String, FieldInfo> fieldInfoMap = new TreeMap<>();
 		
+		// Properties with Customizations
 		for ( Entry<CPropertyInfo, CPluginCustomization> entry : bic.getPropertyCustomizationMap().entrySet())
 		{
 			CPropertyInfo propertyInfo = entry.getKey();
 			String propertyInfoName = propertyInfo.getName(false);
 			
 			FieldInfo fieldInfo = new FieldInfo(propertyInfoName);
+			fieldInfo.setFieldType(bic.getType(propertyInfo));
 			fieldInfo.setFacets(bic.getPropertyFacetMap().get(propertyInfo));
 			
 			CPluginCustomization propertyCustomization = entry.getValue();
@@ -287,17 +290,18 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 						property.setName(propertyInfoName);
 					fieldInfo.setProperty(property);
 
-					trace("{}, generatePropertyDescriptors; Class={}, Property={}",
+					trace("{}, generateFieldDescriptors; Class={}, Property={}",
 						toLocation(propertyCustomization.locator),
 						bic.getBeanInfoClass().name(),
 						property.getName());
 				}
 			}
 			
-			if ( fieldInfo.hasProperties() )
+			if ( fieldInfo.getProperty() != null )
 				fieldInfoMap.put(propertyInfoName, fieldInfo);
 		}
 		
+		// Properties with Facets
 		for ( Entry<CPropertyInfo, List<XSFacet>> entry: bic.getPropertyFacetMap().entrySet() )
 		{
 			CPropertyInfo propertyInfo = entry.getKey();
@@ -305,7 +309,24 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			if ( !fieldInfoMap.containsKey(propertyInfoName) )
 			{
 				FieldInfo fieldInfo = new FieldInfo(propertyInfoName);
+				fieldInfo.setFieldType(bic.getType(propertyInfo));
 				fieldInfo.setFacets(bic.getPropertyFacetMap().get(propertyInfo));
+				fieldInfoMap.put(propertyInfoName, fieldInfo);
+			}
+		}
+		
+		// Properties without Customizations and without Facets
+		for ( CPropertyInfo propertyInfo : bic.getTargetProperties() )
+		{
+			if
+			(
+				!bic.getPropertyCustomizationMap().containsKey(propertyInfo) &&
+				!bic.getPropertyFacetMap().containsKey(propertyInfo)
+			)
+			{
+				String propertyInfoName = propertyInfo.getName(false);
+				FieldInfo fieldInfo = new FieldInfo(propertyInfoName);
+				fieldInfo.setFieldType(bic.getType(propertyInfo));
 				fieldInfoMap.put(propertyInfoName, fieldInfo);
 			}
 		}
@@ -316,7 +337,7 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			TreeMap<Integer, FieldInfo> fiTreeMap = new TreeMap<>();
 			List<FieldInfo> fiList = new ArrayList<>();
 			
-			// Index by given index
+			// Index by given index or cache until later
 			for ( FieldInfo fieldInfo : fieldInfoMap.values() )
 			{
 				Integer fiIndex = bic.getPropertyIndexMap().get(fieldInfo.getFieldName());
@@ -326,7 +347,7 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 					fiList.add(fieldInfo);
 			}
 			
-			// Index alphabetically
+			// Index cached FieldInfo(s) alphabetically
 			if ( !fiList.isEmpty() )
 			{
 				Integer lastIndex = fiTreeMap.lastEntry().getKey();
@@ -334,7 +355,7 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 					fiTreeMap.put((lastIndex + index), fiList.get(index));
 			}
 			
-			// Re-index
+			// Re-index, in sequence without gaps.
 			fiList = new ArrayList<>(fiTreeMap.values());
 			for ( int index = 0; index < fiList.size(); ++index )
 				fiList.get(index).setFieldIndex(index);
@@ -387,8 +408,7 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			}
 			
 			// FieldDescriptor settings (Property)
-			if ( fieldInfo.getProperty() != null )
-				generatePropertySetters(fieldInfo, pdmBlock, fdVar);
+			generatePropertySetters(fieldInfo, pdmBlock, fdVar);
 
 			// FieldDescriptor settings (Facet)
 			generateFacetSetters(fieldInfo, pdmBlock, fdVar);
@@ -403,52 +423,191 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 		JInvocation fdListToArray = fdListVar.invoke("toArray").arg(fdArrayExp);
 		pdmBody._return(fdListToArray);
 	}
+	
+	private Map<QName, String> alignmentMap;
+	public Map<QName, String> getAlignmentMap()
+	{
+		if ( alignmentMap == null )
+		{
+			alignmentMap = new HashMap<>();
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","anySimpleType"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","anyURI"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","base64Binary"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","boolean"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","byte"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","date"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","dateTime"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","decimal"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","double"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","duration"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","ENTITY"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","float"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","gDay"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","gMonth"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","gMonthDay"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","gYear"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","gYearMonth"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","hexBinary"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","ID"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","int"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","integer"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","language"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","long"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","Name"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","NCName"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","negativeInteger"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","NMTOKEN"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","nonNegativeInteger"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","nonPositiveInteger"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","normalizedString"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","positiveInteger"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","QName"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","short"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","string"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","time"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","token"), "LEFT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedByte"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedInt"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedLong"), "RIGHT");
+			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedShort"), "RIGHT");
+		}
+		return alignmentMap;
+	}
+	public void setAlignmentMap(Map<QName, String> alignmentMap)
+	{
+		this.alignmentMap = alignmentMap;
+	}
+
+	
+	private Map<QName, Integer> minWidthMap;
+	public Map<QName, Integer> getMinWidthMap()
+	{
+		if ( minWidthMap == null )
+		{
+			minWidthMap = new HashMap<>();
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","anySimpleType"), 50);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","anyURI"), 30);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","base64Binary"), 50);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","boolean"), 5);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","byte"), 4);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","date"), 10);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","dateTime"), 30);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","decimal"), 15);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","double"), 15);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","duration"), 8);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","ENTITY"), 20);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","float"), 15);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","gDay"), 2);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","gMonth"), 2);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","gMonthDay"), 5);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","gYear"), 4);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","gYearMonth"), 7);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","hexBinary"), 50);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","ID"), 20);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","int"), 10);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","integer"), 10);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","language"), 5);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","long"), 20);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","Name"), 20);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","NCName"), 20);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","negativeInteger"), 10);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","NMTOKEN"), 20);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","nonNegativeInteger"), 10);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","nonPositiveInteger"), 10);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","normalizedString"), 20);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","positiveInteger"), 10);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","QName"), 30);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","short"), 10);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","string"), 20);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","time"), 9);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","token"), 20);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedByte"), 4);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedInt"), 10);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedLong"), 20);
+			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedShort"), 10);
+		}
+		return minWidthMap;
+	}
+	public void setMinWidthMap(Map<QName, Integer> minWidthMap)
+	{
+		this.minWidthMap = minWidthMap;
+	}
 
 	/* FieldDescriptor Property */
 	private void generatePropertySetters(FieldInfo fieldInfo, JBlock pdmBlock, JVar fdVar)
 	{
+		boolean isHidden = false;
+		Integer minWidth = null;
+		String alignment = null;
+		
+		XSType fiType = fieldInfo.getFieldType();
+		if ( fiType != null )
+		{
+			if ( fiType.isSimpleType() )
+			{
+				QName typeName = fieldInfo.getFieldTypeName();
+				minWidth = getMinWidthMap().get(typeName);
+				alignment = getAlignmentMap().get(typeName);
+			}
+			else
+				isHidden = true;
+			if ( minWidth == null )
+				minWidth = DEFAULT_MIN_WIDTH;
+		}
+		
 		Property fiProperty = fieldInfo.getProperty();
+		if ( fiProperty == null )
+			fiProperty = new Property();
 		
-		// FeatureDescriptor settings,
-		// Name is set by construction (above)
-		// if ( property.getName() != null )
-		//     pdmBlock.add(fdVar.invoke("setName").arg(property.getName()));
-	
-		// FeatureDescriptor settings
-		if ( fiProperty.getDisplayName() != null )
-			pdmBlock.add(fdVar.invoke("setDisplayName").arg(fiProperty.getDisplayName()));
-		if ( fiProperty.getDescription() != null )
-			pdmBlock.add(fdVar.invoke("setShortDescription").arg(fiProperty.getDescription()));
-		if ( fiProperty.isExpert() != null )
-			pdmBlock.add(fdVar.invoke("setExpert").arg(lit(fiProperty.isExpert())));
-		if ( fiProperty.isHidden() != null )
-			pdmBlock.add(fdVar.invoke("setHidden").arg(lit(fiProperty.isHidden())));
-		if ( fiProperty.isPreferred() != null )
-			pdmBlock.add(fdVar.invoke("setPreferred").arg(lit(fiProperty.isPreferred())));
+		if ( fiProperty != null )
+		{
+			// FeatureDescriptor settings,
+			// Name is set by construction (above)
+			// if ( property.getName() != null )
+			//     pdmBlock.add(fdVar.invoke("setName").arg(property.getName()));
 		
-		// PropertyDescriptor settings
-		if ( fiProperty.isBound() != null )
-			pdmBlock.add(fdVar.invoke("setBound").arg(lit(fiProperty.isBound())));
-		if ( fiProperty.isConstrained() != null )
-			pdmBlock.add(fdVar.invoke("setConstrained").arg(lit(fiProperty.isConstrained())));
-		if ( fiProperty.getEditorClass() != null )
-			pdmBlock.add(fdVar.invoke("setPropertyEditorClass").arg(lit(fiProperty.getEditorClass())));
-		
-		// FieldDescriptor settings (Property)
-		if ( fiProperty.getAlignment() != null )
-			pdmBlock.add(fdVar.invoke("setAlignment").arg(lit(fiProperty.getAlignment().name())));
-		if ( fiProperty.isEditable() != null )
-			pdmBlock.add(fdVar.invoke("setEditable").arg(lit(fiProperty.isEditable())));
-		if ( fiProperty.getMaxWidth() != null )
-			pdmBlock.add(fdVar.invoke("setMaxWidth").arg(lit(fiProperty.getMaxWidth())));
-		if ( fiProperty.getMinWidth() != null )
-			pdmBlock.add(fdVar.invoke("setMinWidth").arg(lit(fiProperty.getMinWidth())));
-		if ( fiProperty.getPreferredWidth() != null )
-			pdmBlock.add(fdVar.invoke("setPreferredWidth").arg(lit(fiProperty.getPreferredWidth())));
-		if ( fiProperty.getRendererClass() != null )
-			pdmBlock.add(fdVar.invoke("setRendererClass").arg(lit(fiProperty.getRendererClass())));
-		if ( fiProperty.isResizable() != null )
-			pdmBlock.add(fdVar.invoke("setResizable").arg(lit(fiProperty.isResizable())));
+			// FeatureDescriptor settings
+			if ( fiProperty.getDisplayName() != null )
+				pdmBlock.add(fdVar.invoke("setDisplayName").arg(fiProperty.getDisplayName()));
+			if ( fiProperty.getDescription() != null )
+				pdmBlock.add(fdVar.invoke("setShortDescription").arg(fiProperty.getDescription()));
+			if ( fiProperty.isExpert() != null )
+				pdmBlock.add(fdVar.invoke("setExpert").arg(lit(fiProperty.isExpert())));
+			if ( fiProperty.isHidden() != null )
+				pdmBlock.add(fdVar.invoke("setHidden").arg(lit(fiProperty.isHidden())));
+			else if ( isHidden )
+				pdmBlock.add(fdVar.invoke("setHidden").arg(lit(isHidden)));
+			if ( fiProperty.isPreferred() != null )
+				pdmBlock.add(fdVar.invoke("setPreferred").arg(lit(fiProperty.isPreferred())));
+			
+			// PropertyDescriptor settings
+			if ( fiProperty.isBound() != null )
+				pdmBlock.add(fdVar.invoke("setBound").arg(lit(fiProperty.isBound())));
+			if ( fiProperty.isConstrained() != null )
+				pdmBlock.add(fdVar.invoke("setConstrained").arg(lit(fiProperty.isConstrained())));
+			if ( fiProperty.getEditorClass() != null )
+				pdmBlock.add(fdVar.invoke("setPropertyEditorClass").arg(lit(fiProperty.getEditorClass())));
+			
+			// FieldDescriptor settings (Property)
+			if ( fiProperty.getAlignment() != null )
+				pdmBlock.add(fdVar.invoke("setAlignment").arg(lit(fiProperty.getAlignment().name())));
+			else if ( alignment != null )
+				pdmBlock.add(fdVar.invoke("setAlignment").arg(lit(alignment)));
+			if ( fiProperty.isEditable() != null )
+				pdmBlock.add(fdVar.invoke("setEditable").arg(lit(fiProperty.isEditable())));
+			if ( fiProperty.getMaxWidth() != null )
+				pdmBlock.add(fdVar.invoke("setMaxWidth").arg(lit(fiProperty.getMaxWidth())));
+			if ( fiProperty.getMinWidth() != null )
+				pdmBlock.add(fdVar.invoke("setMinWidth").arg(lit(fiProperty.getMinWidth())));
+			else
+				pdmBlock.add(fdVar.invoke("setMinWidth").arg(lit(minWidth)));
+			if ( fiProperty.getPreferredWidth() != null )
+				pdmBlock.add(fdVar.invoke("setPreferredWidth").arg(lit(fiProperty.getPreferredWidth())));
+			if ( fiProperty.getRendererClass() != null )
+				pdmBlock.add(fdVar.invoke("setRendererClass").arg(lit(fiProperty.getRendererClass())));
+			if ( fiProperty.isResizable() != null )
+				pdmBlock.add(fdVar.invoke("setResizable").arg(lit(fiProperty.isResizable())));
+		}
 	}
 
 	/* FieldDescriptor Facets */

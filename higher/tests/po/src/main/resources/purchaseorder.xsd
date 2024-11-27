@@ -25,7 +25,7 @@
 	<xs:element name="comment" type="xs:string">
 		<xs:annotation>
 			<xs:appinfo>
-				<bi:property alignment="LEFT" maxWidth="30">
+				<bi:property alignment="LEFT" minWidth="30">
 					<displayName>Observation</displayName>
 					<description>A remark, or statement based on what one has noticed.</description>
 				</bi:property>
@@ -72,7 +72,7 @@
 		<xs:attribute name="orderDate" type="xs:date">
 			<xs:annotation>
 				<xs:appinfo>
-					<bi:property maxWidth="10">
+					<bi:property minWidth="10">
 						<displayName>Order Date</displayName>
 						<description>The date (YYYY-MM-DD) when the order is submitted.</description>
 					</bi:property>
@@ -94,7 +94,7 @@
 			<xs:element name="name" type="xs:string">
 				<xs:annotation>
 					<xs:appinfo>
-						<bi:property maxWidth="30">
+						<bi:property minWidth="30">
 							<displayName>Full Name</displayName>
 							<description>First name and last name with an optional middle name or initial.</description>
 						</bi:property>
@@ -104,28 +104,28 @@
 			<xs:element name="street" type="xs:string">
 				<xs:annotation>
 					<xs:appinfo>
-						<bi:property maxWidth="30"/>
+						<bi:property minWidth="30"/>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="city" type="xs:string">
 				<xs:annotation>
 					<xs:appinfo>
-						<bi:property maxWidth="30"/>
+						<bi:property minWidth="30"/>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="state" type="xs:string">
 				<xs:annotation>
 					<xs:appinfo>
-						<bi:property maxWidth="30"/>
+						<bi:property minWidth="30"/>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="zip" type="xs:decimal">
 				<xs:annotation>
 					<xs:appinfo>
-						<bi:property maxWidth="5" alignment="RIGHT"/>
+						<bi:property minWidth="5" alignment="RIGHT"/>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -133,7 +133,7 @@
 		<xs:attribute name="country" type="xs:NMTOKEN" fixed="US">
 			<xs:annotation>
 				<xs:appinfo>
-					<bi:property maxWidth="2"/>
+					<bi:property minWidth="2"/>
 				</xs:appinfo>
 			</xs:annotation>
 		</xs:attribute>
@@ -163,7 +163,7 @@
 						<xs:element name="productName" type="xs:string">
 							<xs:annotation>
 								<xs:appinfo>
-									<bi:property maxWidth="60">
+									<bi:property minWidth="60">
 										<displayName>Product Name</displayName>
 										<description>Description of the part or service being ordered.</description>
 									</bi:property>
@@ -189,7 +189,7 @@
 						<xs:element name="USPrice" type="xs:decimal">
 							<xs:annotation>
 								<xs:appinfo>
-									<bi:property maxWidth="10" alignment="RIGHT">
+									<bi:property minWidth="10" alignment="RIGHT">
 										<displayName>US Price</displayName>
 										<description>Amount of US money for the sale of one item.</description>
 									</bi:property>
@@ -199,7 +199,7 @@
 						<xs:element name="shipDate" type="xs:date" minOccurs="0">
 							<xs:annotation>
 								<xs:appinfo>
-									<bi:property maxWidth="10">
+									<bi:property minWidth="10">
 										<displayName>Ship Date</displayName>
 										<description>The date (YYYY-MM-DD) when the item shipped.</description>
 									</bi:property>
