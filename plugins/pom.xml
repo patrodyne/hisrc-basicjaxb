@@ -40,6 +40,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
+			<artifactId>hisrc-basicjaxb-swixml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-tools</artifactId>
 		</dependency>
 		<dependency>

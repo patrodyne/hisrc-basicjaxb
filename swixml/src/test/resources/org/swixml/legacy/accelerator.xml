@@ -60,8 +60,8 @@
 						<table
 							id="table"
 							font="Monospaced-PLAIN-*"
-							autoCreateColumnsFromModel="false"
-							autoResizeMode="0"
+							autoCreateColumnsFromModel="true"
+							autoResizeMode="AUTO_RESIZE_OFF"
 							background="*-10-100"
 						>
 							<tableheader

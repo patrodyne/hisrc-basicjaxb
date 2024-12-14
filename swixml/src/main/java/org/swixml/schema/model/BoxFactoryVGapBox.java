@@ -20,13 +20,13 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
  * 
  * <pre>{@code
  * <complexType name="BoxFactoryVGapBox">
- *	 <complexContent>
- *	   <extension base="{http://www.swixml.org/2007/Swixml}Box">
- *		 <sequence>
- *		 </sequence>
- *		 <attribute name="gap" type="{http://www.w3.org/2001/XMLSchema}string" />
- *	   </extension>
- *	 </complexContent>
+ *   <complexContent>
+ *     <extension base="{http://www.swixml.org/2007/swixml}Box">
+ *       <sequence>
+ *       </sequence>
+ *       <attribute name="gap" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *     </extension>
+ *   </complexContent>
  * </complexType>
  * }</pre>
  * 
@@ -35,89 +35,89 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BoxFactoryVGapBox")
 public class BoxFactoryVGapBox
-	extends Box
-	implements Serializable
+    extends Box
+    implements Serializable
 {
 
-	private static final long serialVersionUID = 20240701L;
-	@XmlAttribute(name = "gap")
-	protected String gap;
+    private static final long serialVersionUID = 20240701L;
+    @XmlAttribute(name = "gap")
+    protected String gap;
 
-	/**
-	 * Gets the value of the gap property.
-	 * 
-	 * @return
-	 *	   possible object is
-	 *	   {@link String }
-	 *	   
-	 */
-	public String getGap() {
-		return gap;
-	}
+    /**
+     * Gets the value of the gap property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getGap() {
+        return gap;
+    }
 
-	/**
-	 * Sets the value of the gap property.
-	 * 
-	 * @param value
-	 *	   allowed object is
-	 *	   {@link String }
-	 *	   
-	 */
-	public void setGap(String value) {
-		this.gap = value;
-	}
+    /**
+     * Sets the value of the gap property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setGap(String value) {
+        this.gap = value;
+    }
 
-	@Override
-	public int hashCode(ObjectLocator locator, HashCodeStrategy strategy) {
-		int currentHashCode = super.hashCode(locator, strategy);
-		{
-			boolean theFieldIsSet = (this.gap!= null);
-			String theField;
-			theField = this.getGap();
-			ObjectLocator theFieldLocator = LocatorUtils.property(locator, "gap", theField);
-			currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
-		}
-		return currentHashCode;
-	}
+    @Override
+    public int hashCode(ObjectLocator locator, HashCodeStrategy strategy) {
+        int currentHashCode = super.hashCode(locator, strategy);
+        {
+            boolean theFieldIsSet = (this.gap!= null);
+            String theField;
+            theField = this.getGap();
+            ObjectLocator theFieldLocator = LocatorUtils.property(locator, "gap", theField);
+            currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+        }
+        return currentHashCode;
+    }
 
-	@Override
-	public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
-		if ((object == null)||(this.getClass()!= object.getClass())) {
-			return false;
-		}
-		if (this == object) {
-			return true;
-		}
-		if (!super.equals(thisLocator, thatLocator, object, strategy)) {
-			return false;
-		}
-		final BoxFactoryVGapBox that = ((BoxFactoryVGapBox) object);
-		{
-			boolean lhsFieldIsSet = (this.gap!= null);
-			boolean rhsFieldIsSet = (that.gap!= null);
-			String lhsField;
-			lhsField = this.getGap();
-			String rhsField;
-			rhsField = that.getGap();
-			ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "gap", lhsField);
-			ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "gap", rhsField);
-			if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
-				return false;
-			}
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
+        if ((object == null)||(this.getClass()!= object.getClass())) {
+            return false;
+        }
+        if (this == object) {
+            return true;
+        }
+        if (!super.equals(thisLocator, thatLocator, object, strategy)) {
+            return false;
+        }
+        final BoxFactoryVGapBox that = ((BoxFactoryVGapBox) object);
+        {
+            boolean lhsFieldIsSet = (this.gap!= null);
+            boolean rhsFieldIsSet = (that.gap!= null);
+            String lhsField;
+            lhsField = this.getGap();
+            String rhsField;
+            rhsField = that.getGap();
+            ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "gap", lhsField);
+            ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "gap", rhsField);
+            if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	@Override
-	public StringBuilder appendFields(ObjectLocator locator, StringBuilder buffer, ToStringStrategy strategy) {
-		super.appendFields(locator, buffer, strategy);
-		{
-			boolean theFieldIsSet = (this.gap!= null);
-			String theField;
-			theField = this.getGap();
-			strategy.appendField(locator, this, "gap", buffer, theField, theFieldIsSet);
-		}
-		return buffer;
-	}
+    @Override
+    public StringBuilder appendFields(ObjectLocator locator, StringBuilder buffer, ToStringStrategy strategy) {
+        super.appendFields(locator, buffer, strategy);
+        {
+            boolean theFieldIsSet = (this.gap!= null);
+            String theField;
+            theField = this.getGap();
+            strategy.appendField(locator, this, "gap", buffer, theField, theFieldIsSet);
+        }
+        return buffer;
+    }
 
 }

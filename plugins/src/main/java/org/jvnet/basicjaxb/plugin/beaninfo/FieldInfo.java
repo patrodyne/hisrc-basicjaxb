@@ -7,15 +7,24 @@ import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.plugin.beaninfo.model.Property;
 
+import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.xml.xsom.XSFacet;
 import com.sun.xml.xsom.XSSimpleType;
 import com.sun.xml.xsom.XSType;
 
+/**
+ * Field information including name, display name, index, type, type name,
+ * {@link Property} and {@link XSFacet}s.
+ */
 public class FieldInfo
 {
 	private String fieldName;
 	public String getFieldName() { return fieldName; }
 	public void setFieldName(String fieldName) { this.fieldName = fieldName; }
+	
+	private String fieldDisplayName;
+	public String getFieldDisplayName() { return fieldDisplayName; }
+	public void setFieldDisplayName(String fieldDisplayName) { this.fieldDisplayName = fieldDisplayName; }
 	
 	private Integer fieldIndex;
 	public Integer getFieldIndex() { return fieldIndex; }
@@ -74,8 +83,14 @@ public class FieldInfo
 		return (getProperty() != null) || !getFacets().isEmpty();
 	}
 	
-	public FieldInfo(String fieldName)
+	/**
+	 * Construct with a {@link CPropertyInfo}.
+	 * 
+	 * @param pi XJC model of a property to be generated.
+	 */
+	public FieldInfo(CPropertyInfo pi)
 	{
-		setFieldName(fieldName);
+		setFieldName(pi.getName(false));
+		setFieldDisplayName(pi.getName(true));
 	}
 }

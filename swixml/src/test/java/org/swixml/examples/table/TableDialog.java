@@ -65,10 +65,12 @@ public class TableDialog extends JDialog
 	 */
 	public TableDialog()
 	{
+		// Data1: Prepare SimpleBean test data.
 		getMyData1().add(new SimpleBean("Bartolomeo", 41));
 		getMyData1().add(new SimpleBean("Francesco", 38));
 		getMyData1().add(new SimpleBean("Vincenzo", 39));
 		
+		// Data2: Prepare SimpleBean2 test data.
 		for ( int i = 0; i < 20; ++i )
 			getMyData2().add(new SimpleBean2());
 	}

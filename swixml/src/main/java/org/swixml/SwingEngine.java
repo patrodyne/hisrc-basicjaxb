@@ -238,7 +238,32 @@ public class SwingEngine<T extends Container> implements LogAware
 	/**
 	 * Localizer, setup by parameters found in the xml descriptor.
 	 */
-	protected ClassLoader cl = this.getClass().getClassLoader();
+	protected ClassLoader cl;
+	/**
+	 * @return <code>ClassLoader</code>- the Classloader used for all <i>
+	 *         getResourse..()</i> and <i>loadClass()</i> calls.
+	 */
+	public ClassLoader getClassLoader()
+	{
+		if ( cl == null )
+			setClassLoader(this.getClass().getClassLoader());
+		return cl;
+	}
+	/**
+	 * Sets a classloader to be used for all <i>getResourse..()</i> and <i>
+	 * loadClass()</i> calls. If no class loader is set, the SwingEngine's
+	 * loader is used.
+	 *
+	 * @param cl <code>ClassLoader</code>
+	 * @see ClassLoader#loadClass
+	 * @see ClassLoader#getResource
+	 */
+	public void setClassLoader(ClassLoader cl)
+	{
+		this.cl = cl;
+		this.localizer.setClassLoader(cl);
+	}
+
 
 	// Expression Processor
 	private ELProcessor elProcessor = null;
@@ -350,7 +375,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	{
 		Reader reader = null;
 		T obj = null;
-		try ( InputStream in = cl.getResourceAsStream(resource) )
+		try ( InputStream in = getClassLoader().getResourceAsStream(resource) )
 		{
 			if ( in != null )
 			{
@@ -548,7 +573,7 @@ public class SwingEngine<T extends Container> implements LogAware
 		throws Exception
 	{
 		Reader reader = null;
-		try ( InputStream in = cl.getResourceAsStream(resource) )
+		try ( InputStream in = getClassLoader().getResourceAsStream(resource) )
 		{
 			if ( in != null )
 			{
@@ -768,32 +793,6 @@ public class SwingEngine<T extends Container> implements LogAware
 	{
 		return taglib;
 	}
-
-	/**
-	 * Sets a classloader to be used for all <i>getResourse..()</i> and <i>
-	 * loadClass()</i> calls. If no class loader is set, the SwingEngine's
-	 * loader is used.
-	 *
-	 * @param cl <code>ClassLoader</code>
-	 * @see ClassLoader#loadClass
-	 * @see ClassLoader#getResource
-	 */
-	public void setClassLoader(ClassLoader cl)
-	{
-		this.cl = cl;
-		this.localizer.setClassLoader(cl);
-	}
-
-	/**
-	 * @return <code>ClassLoader</code>- the Classloader used for all <i>
-	 *         getResourse..()</i> and <i>loadClass()</i> calls.
-	 */
-	public ClassLoader getClassLoader()
-	{
-		return cl;
-	}
-	
-	
 
 	/**
 	 * Recursively Sets an ActionListener

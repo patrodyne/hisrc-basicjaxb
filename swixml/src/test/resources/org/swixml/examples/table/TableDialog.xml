@@ -55,15 +55,13 @@
 					cellSelectionEnabled="true"
 					bindList="${window.myData1}"
 					bindClass="${window.myDataClass}"
-					autoResizeMode="0"
-					font="Monospaced-PLAIN"
+					autoResizeMode="AUTO_RESIZE_OFF"
 					rowHeight="${el.fieldHeight(10)}"
 					background="#FFFF80"
 				>
 					<tableheader
 						id="tableHeader1"
 						opaque="false"
-						font="*-BOLD"
 						background="${color:rgb('#FFFF00').brighter()}"
 					/>
 					<tablecolumn
@@ -98,7 +96,7 @@
 					rowSelectionAllowed="true"
 					selectionBackground="RED"
 					bindList="${window.myData2}"
-					autoResizeMode="0"
+					autoResizeMode="AUTO_RESIZE_OFF"
 					font="${el.font('Monospaced','PLAIN')}"
 					rowHeight="${el.fieldHeight(10)}"
 					background="${color:hsb(240/360,0.2,1.0)}"

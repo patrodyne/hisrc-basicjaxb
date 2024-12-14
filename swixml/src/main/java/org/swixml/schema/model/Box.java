@@ -19,12 +19,12 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
  * 
  * <pre>{@code
  * <complexType name="Box">
- *	 <complexContent>
- *	   <extension base="{http://www.swixml.org/2007/Swixml}JComponent">
- *		 <sequence>
- *		 </sequence>
- *	   </extension>
- *	 </complexContent>
+ *   <complexContent>
+ *     <extension base="{http://www.swixml.org/2007/swixml}JComponent">
+ *       <sequence>
+ *       </sequence>
+ *     </extension>
+ *   </complexContent>
  * </complexType>
  * }</pre>
  * 
@@ -33,40 +33,40 @@ import org.jvnet.basicjaxb.locator.ObjectLocator;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Box")
 @XmlSeeAlso({
-	BoxFactoryHGapBox.class,
-	BoxFactoryVGapBox.class
+    BoxFactoryHGapBox.class,
+    BoxFactoryVGapBox.class
 })
 public class Box
-	extends JComponent
-	implements Serializable
+    extends JComponent
+    implements Serializable
 {
 
-	private static final long serialVersionUID = 20240701L;
+    private static final long serialVersionUID = 20240701L;
 
-	@Override
-	public int hashCode(ObjectLocator locator, HashCodeStrategy strategy) {
-		int currentHashCode = super.hashCode(locator, strategy);
-		return currentHashCode;
-	}
+    @Override
+    public int hashCode(ObjectLocator locator, HashCodeStrategy strategy) {
+        int currentHashCode = super.hashCode(locator, strategy);
+        return currentHashCode;
+    }
 
-	@Override
-	public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
-		if ((object == null)||(this.getClass()!= object.getClass())) {
-			return false;
-		}
-		if (this == object) {
-			return true;
-		}
-		if (!super.equals(thisLocator, thatLocator, object, strategy)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(ObjectLocator thisLocator, ObjectLocator thatLocator, Object object, EqualsStrategy strategy) {
+        if ((object == null)||(this.getClass()!= object.getClass())) {
+            return false;
+        }
+        if (this == object) {
+            return true;
+        }
+        if (!super.equals(thisLocator, thatLocator, object, strategy)) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public StringBuilder appendFields(ObjectLocator locator, StringBuilder buffer, ToStringStrategy strategy) {
-		super.appendFields(locator, buffer, strategy);
-		return buffer;
-	}
+    @Override
+    public StringBuilder appendFields(ObjectLocator locator, StringBuilder buffer, ToStringStrategy strategy) {
+        super.appendFields(locator, buffer, strategy);
+        return buffer;
+    }
 
 }

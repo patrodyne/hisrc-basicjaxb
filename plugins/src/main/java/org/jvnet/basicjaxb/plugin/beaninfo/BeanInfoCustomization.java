@@ -312,6 +312,8 @@ public class BeanInfoCustomization
 				type = ed.getType();
 			}
 		}
+		else if ( propertyInfo.getSchemaComponent() instanceof XSSimpleType )
+			type = (XSSimpleType) propertyInfo.getSchemaComponent();
 		return type;
 	}
 	

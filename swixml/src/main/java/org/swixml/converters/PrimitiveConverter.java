@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
@@ -71,6 +72,7 @@ public class PrimitiveConverter	implements Converter<Object>,
 		addConstantProvider(JFrame.class);
 		addConstantProvider(TitledBorder.class);
 		addConstantProvider(JComponent.class);
+		addConstantProvider(JTable.class);
 		//
 		// See also: PrimitiveConverter.convConstants(String)
 		//
@@ -156,8 +158,8 @@ public class PrimitiveConverter	implements Converter<Object>,
 		}
 		catch (Exception ex)
 		{
-			// intent. empty
-			logger.debug("Cannot convert attribute [{}] as [{}]", attr.getLocalName(), type, ex);
+			// Will convert as non-primitive
+			logger.trace("Cannot convert attribute [{}] as primative [{}], will convert as non-primitive", attr.getLocalName(), type);
 		}
 		
 		// Try to convert a reference to a constant value.

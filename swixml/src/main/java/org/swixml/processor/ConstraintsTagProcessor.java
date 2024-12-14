@@ -1,6 +1,7 @@
 package org.swixml.processor;
 
 import static org.swixml.Parser.ATTR_CONSTRAINTS;
+import static org.swixml.Parser.ELVAR_DOM_ATTR_CONSTRAINTS;
 import static org.swixml.Parser.TAG_CONSTRAINTS;
 import static org.swixml.Parser.TAG_GRIDBAGCONSTRAINTS;
 import static org.swixml.dom.DOMUtil.getChildByTagName;
@@ -40,6 +41,7 @@ public class ConstraintsTagProcessor implements TagProcessor
 		if ( constraintsAttr != null && layoutMgr != null )
 		{
 			// ATTR_CONSTRAINTS won't be used in getSwing(child)
+			p.setVariable(ELVAR_DOM_ATTR_CONSTRAINTS, constraintsAttr.getValue());
 			child.removeAttribute(ATTR_CONSTRAINTS); 
 			
 			// ATTR_CONSTRAINTS may be converted to a layout specific object.

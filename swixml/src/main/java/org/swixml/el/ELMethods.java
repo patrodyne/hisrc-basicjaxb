@@ -7,12 +7,15 @@ import static java.lang.String.format;
 import static javax.swing.UIManager.getDefaults;
 import static javax.swing.UIManager.getLookAndFeelDefaults;
 import static org.jvnet.basicjaxb.lang.StringUtils.isBlank;
+import static org.swixml.Parser.ATTR_CONSTRAINTS;
+import static org.swixml.Parser.ELVAR_DOM_ATTR_CONSTRAINTS;
 import static org.swixml.Parser.ELVAR_DOM_ATTRIBUTE;
 import static org.swixml.Parser.ELVAR_DOM_ELEMENT;
 import static org.swixml.SwingEngine.DEFAULT_COLOR_KEY;
 import static org.swixml.SwingEngine.DEFAULT_FONT_KEY;
 import static org.swixml.converters.AbstractConverter.PRECENT_FORMAT;
 import static org.swixml.converters.DimensionConverter.isZero;
+import static org.swixml.jsr295.BindingUtils.isELPattern;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -583,13 +586,6 @@ public class ELMethods<T extends Container>
 		return toIntExact(round(scale * currentSize().getHeight()));
 	}
 	
-	public Dimension scaleSize(String pw, String ph)
-	{
-		double dw = parsePercent(pw);
-		double dh = parsePercent(ph);
-		return scaleSize(dw, dh);
-	}
-	
 	private double parsePercent(String pct)
 	{
 		try
@@ -607,6 +603,13 @@ public class ELMethods<T extends Container>
 		return scaleSize(ps, ps);
 	}
 	
+	public Dimension scaleSize(String pw, String ph)
+	{
+		double dw = parsePercent(pw);
+		double dh = parsePercent(ph);
+		return scaleSize(dw, dh);
+	}
+
 	public Dimension scaleSize(double widthScale, double heightScale)
 	{
 		return scaleSize(currentSize(), widthScale, heightScale);
@@ -679,10 +682,13 @@ public class ELMethods<T extends Container>
 							size = getSizeMap().get(element);
 						else
 						{
-							size = DimensionConverter.convert(sizeSpec);
-							if ( !isZero(size) )
-								if ( element != domElement )
-									getSizeMap().put(element, size);
+							if ( !isELPattern(sizeSpec) )
+							{
+								size = DimensionConverter.convert(sizeSpec);
+								if ( !isZero(size) )
+									if ( element != domElement )
+										getSizeMap().put(element, size);
+							}
 						}
 						
 						if ( !isZero(size) )
@@ -776,5 +782,14 @@ public class ELMethods<T extends Container>
 	public Rectangle centerBounds(String pw, String ph)
 	{
 		return centerBounds(currentSize(), pw, ph);
+	}
+	
+	public String titledBorder(String titleAttr)
+	{
+		Element domElement = resolveVariable(ELVAR_DOM_ELEMENT, Element.class);
+		String title = domElement.getAttribute(titleAttr);
+		if ( title.isBlank() && ATTR_CONSTRAINTS.equals(titleAttr) )
+			title = resolveVariable(ELVAR_DOM_ATTR_CONSTRAINTS, String.class);
+		return "TitledBorder(" + title + ")";
 	}
 }

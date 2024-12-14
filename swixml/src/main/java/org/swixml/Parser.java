@@ -146,7 +146,6 @@ public class Parser implements LogAware
 	 * Allows to provides swixml tags with a dynamic update class
 	 */
 	@SchemaAware
-	@Deprecated
 	public static final String ATTR_INITCLASS = "initclass";
 	
 	/**
@@ -221,6 +220,7 @@ public class Parser implements LogAware
 	 */
 	public static final String ELVAR_DOM_ELEMENT = "domElement";
 	public static final String ELVAR_DOM_ATTRIBUTE = "domAttribute";
+	public static final String ELVAR_DOM_ATTR_CONSTRAINTS = "domAttrConstraints";
 	
 	/**
 	 * the calling swingEngine
@@ -353,25 +353,25 @@ public class Parser implements LogAware
 		//
 		// set Locale
 		//
-		Attr locale = element.getAttributeNode(Parser.ATTR_LOCALE);
+		Attr locale = element.getAttributeNode(ATTR_LOCALE);
 		if ( locale != null && locale.getValue() != null )
 		{
 			getSwingEngine().setLocale(LocaleConverter.conv(new Attribute(locale)));
-			element.removeAttribute(Parser.ATTR_LOCALE);
+			element.removeAttribute(ATTR_LOCALE);
 		}
 		//
 		// set ResourceBundle
 		//
-		Attr bundle = element.getAttributeNode(Parser.ATTR_BUNDLE);
+		Attr bundle = element.getAttributeNode(ATTR_BUNDLE);
 		if ( bundle != null && bundle.getValue() != null )
 		{
 			getSwingEngine().getLocalizer().setResourceBundle(bundle.getValue());
-			element.removeAttribute(Parser.ATTR_BUNDLE);
+			element.removeAttribute(ATTR_BUNDLE);
 		}
 		//
 		// Set Look and Feel based on ATTR_PLAF
 		//
-		Attr plaf = element.getAttributeNode(Parser.ATTR_PLAF);
+		Attr plaf = element.getAttributeNode(ATTR_PLAF);
 		if ( plaf != null && plaf.getValue() != null && 0 < plaf.getValue().length() )
 		{
 			try
@@ -380,7 +380,7 @@ public class Parser implements LogAware
 				// Set Theme before LAF!
 				if ( MetalLookAndFeel.class.getName().equals(plafClassName) )
 				{
-					Attr plafTheme = element.getAttributeNode(Parser.ATTR_PLAF_THEME);
+					Attr plafTheme = element.getAttributeNode(ATTR_PLAF_THEME);
 					if ( plafTheme != null && plafTheme.getValue() != null && 0 < plafTheme.getValue().length() )
 					{
 						try
@@ -412,7 +412,7 @@ public class Parser implements LogAware
 							if ( SwingEngine.DEBUG_MODE )
 								logger.error("processCustomAttributes", ex);
 						}
-						element.removeAttribute(Parser.ATTR_PLAF_THEME);
+						element.removeAttribute(ATTR_PLAF_THEME);
 					}
 				}
 				
@@ -427,7 +427,7 @@ public class Parser implements LogAware
 				if ( SwingEngine.DEBUG_MODE )
 					logger.error("processCustomAttributes", e);
 			}
-			element.removeAttribute(Parser.ATTR_PLAF);
+			element.removeAttribute(ATTR_PLAF);
 		}
 		return element;
 	}
@@ -480,8 +480,8 @@ public class Parser implements LogAware
 		factory.setSwingEngine(getSwingEngine());
 		
 		// look for <id> attribute value
-		final String id = element.getAttributeNode(Parser.ATTR_ID) != null
-			? element.getAttribute(Parser.ATTR_ID).trim()
+		final String id = element.getAttributeNode(ATTR_ID) != null
+			? element.getAttribute(ATTR_ID).trim()
 			: null;
 		// either there is no id or the id is not user so far
 		boolean unique = !getSwingEngine().getIdMap().containsKey(id);
@@ -495,10 +495,10 @@ public class Parser implements LogAware
 		//
 		// XInclude
 		//
-		if ( element.getAttributeNode(Parser.ATTR_INCLUDE) != null )
+		if ( element.getAttributeNode(ATTR_INCLUDE) != null )
 		{
-			StringTokenizer st = new StringTokenizer(element.getAttribute(Parser.ATTR_INCLUDE), "#");
-			element.removeAttribute(Parser.ATTR_INCLUDE);
+			StringTokenizer st = new StringTokenizer(element.getAttribute(ATTR_INCLUDE), "#");
+			element.removeAttribute(ATTR_INCLUDE);
 			// Document doc = new
 			// org.jdom.input.SAXBuilder().build(this.engine.getClassLoader().getResourceAsStream(st.nextToken()));
 			final String token = st.nextToken();
@@ -511,19 +511,19 @@ public class Parser implements LogAware
 		//
 		// clone attribute if <em>refid</em> attribute is available
 		//
-		if ( element.getAttributeNode(Parser.ATTR_REFID) != null )
+		if ( element.getAttributeNode(ATTR_REFID) != null )
 		{
 			element = (Element) element.cloneNode(true);
 			cloneAttributes(element);
-			element.removeAttribute(Parser.ATTR_REFID);
+			element.removeAttribute(ATTR_REFID);
 		}
-		else if ( element.getAttributeNode(Parser.ATTR_USE) != null )
+		else if ( element.getAttributeNode(ATTR_USE) != null )
 		{
-			logger.warn(String.format("Attribute [%s] for element [%s] is deprecated!", Parser.ATTR_USE,
+			logger.warn(String.format("Attribute [%s] for element [%s] is deprecated!", ATTR_USE,
 				element.getLocalName()));
 			element = (Element) element.cloneNode(true);
 			cloneAttributes(element);
-			element.removeAttribute(Parser.ATTR_USE);
+			element.removeAttribute(ATTR_USE);
 		}
 		
 		//
@@ -635,7 +635,7 @@ public class Parser implements LogAware
 	protected void processTag(final String id, Object tag, Factory factory, Element element, NamedNodeMap attributes)
 		throws Exception
 	{
-		List<Attribute> remainingAttrs = new java.util.ArrayList<Attribute>(attributes.getLength() + 2);
+		List<Attribute> remainingAttrs = new ArrayList<Attribute>(attributes.getLength() + 2);
 		
 		/////////////////////////////////////////////////////////////////
 		// 1st attempt to apply attributes (call setters on the objects)
@@ -652,6 +652,7 @@ public class Parser implements LogAware
 			//
 			remainingAttrs.add(new Attribute(actionAttr));
 		}
+		
 		////////////////////////////////////////////////////
 		// put Tag's Text content into Text Attribute
 		////////////////////////////////////////////////////
@@ -661,7 +662,12 @@ public class Parser implements LogAware
 			if ( text != null && !text.isBlank() )
 				remainingAttrs.add(new Attribute(ATTR_TEXT, text));
 		}
+		
+		////////////////////////////////////////////////////
+		// Apply tag's attributes
+		////////////////////////////////////////////////////
 		remainingAttrs = applyAttributes(tag, factory, Attribute.asList(remainingAttrs, attributes));
+		
 		////////////////////////////////////////////////////
 		// process child tags
 		////////////////////////////////////////////////////
@@ -701,26 +707,50 @@ public class Parser implements LogAware
 		}
 	}
 	
-	protected Object fromFactory(Factory factory, Element element, NamedNodeMap attributes)
-		throws Exception, InstantiationException, IllegalAccessException, InvocationTargetException
+	/**
+	 * Instantiate an instance of the registered tag element's class using the given factory.
+	 * 
+	 * <p>Optionally, an initial parameter class can be used as a constructor argument:</p>
+	 * 
+	 * <ol>
+	 * <li>Attempt invoke a {@code initClass.getInstance()} method to get tag constructor argument.</li>
+	 * <li>Attempt to construct {@code initClass} with a String parameter.</li>
+	 * <li>Attempt to instantiate {@code initClass} with default constructor.</li>
+	 * </ol>
+	 * 
+	 * <p>If an initial parameter is provided, then initialize a new tag object whose type is determined by
+	 * the factory's backing class template; otherwise, create a new instance of a template class.</p>
+	 * 
+	 * @param tagFactory A factory to produce registered tags from a backing template.
+	 * @param element The tag element to resolve.
+	 * @param attributes The tag's attributes (obsolete/redundant?)
+	 * 
+	 * @return An instance of the registered tag's class.
+	 * 
+	 * @throws Exception When an initial parameter cannot be resolved.
+	 */
+	protected Object fromFactory(Factory tagFactory, Element element, NamedNodeMap attributes)
+		throws Exception
 	{
 		Object obj;
 		Object initParameter = null;
-		if ( element.getAttributeNode(Parser.ATTR_INITCLASS) != null )
+		if ( element.getAttributeNode(ATTR_INITCLASS) != null )
 		{
-			StringTokenizer st = new StringTokenizer(element.getAttribute(Parser.ATTR_INITCLASS), "( )");
-			element.removeAttribute(Parser.ATTR_INITCLASS);
-			// try {
+			StringTokenizer st = new StringTokenizer(element.getAttribute(ATTR_INITCLASS), "( )");
+			element.removeAttribute(ATTR_INITCLASS);
+			
 			try
 			{
 				if ( st.hasMoreTokens() )
 				{
 					// load update type
-					Class<?> initClass = Class.forName(st.nextToken()); 
+					Class<?> initClass = Class.forName(st.nextToken());
+					
+					// 1) Attempt invoke a getInstance() method.
 					try
 					{ 
 						// look for a getInstance() method
-						Method factoryMethod = initClass.getMethod(Parser.GETINSTANCE);
+						Method factoryMethod = initClass.getMethod(GETINSTANCE);
 						if ( Modifier.isStatic(factoryMethod.getModifiers()) )
 						{
 							initParameter = factoryMethod.invoke(null);
@@ -731,40 +761,30 @@ public class Parser implements LogAware
 						// really nothing to do here
 					}
 					
+					// 2) Attempt to construct with a String parameter.
 					if ( initParameter == null && st.hasMoreTokens() )
-					{ // now try to instantiate with String taking ctor
+					{
 						try
 						{
+							// now try to construct with a String parameter.
 							Constructor<?> ctor = initClass.getConstructor(new Class[] { String.class });
 							String pattern = st.nextToken();
 							initParameter = ctor.newInstance(new Object[] { pattern });
 						}
-						catch (NoSuchMethodException e)
-						{ // intentionally empty
-						}
-						catch (SecurityException e)
-						{ // intentionally empty
-						}
-						catch (InstantiationException e)
-						{ // intentionally empty
-						}
-						catch (IllegalAccessException e)
-						{ // intentionally empty
-						}
-						catch (IllegalArgumentException e)
-						{ // intentionally empty
-						}
-						catch (InvocationTargetException e)
-						{ // intentionally empty
+						catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+						{
+							// intentionally empty
 						}
 					}
 					
+					// 3) Attempt to instantiate with default constructor.
 					if ( initParameter == null )
 					{
-						// now try to instantiate with default ctor
+						// now try to instantiate with default constructor
 						initParameter = initClass.getDeclaredConstructor().newInstance();
 					}
 					
+					// 4) TODO: Obsolete?
 					if ( Action.class.isInstance(initParameter) )
 					{
 						for ( int i = 0, n = attributes.getLength(); i < n; i++ )
@@ -772,44 +792,22 @@ public class Parser implements LogAware
 							Attr attrib = (Attr) attributes.item(i);
 							String attribName = attrib.getLocalName();
 							if ( attribName != null && attribName.startsWith(ATTR_MACOS_PREFIX) )
-							{
 								mac_map.put(attribName, (Action) initParameter);
-							}
 						}
 					}
 				}
 			}
-			catch (ClassNotFoundException e)
+			catch (ClassNotFoundException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException ex)
 			{
-				logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
-			}
-			catch (SecurityException e)
-			{
-				logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
-			}
-			catch (IllegalAccessException e)
-			{
-				logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
-			}
-			catch (IllegalArgumentException e)
-			{
-				logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
-			}
-			catch (InvocationTargetException e)
-			{
-				logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
-			}
-			catch (InstantiationException e)
-			{
-				logger.error(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
+				logger.error(ATTR_INITCLASS + " not instantiated : " + ex.getLocalizedMessage(), ex);
 			}
 			catch (RuntimeException re)
 			{
 				throw re;
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				throw new Exception(Parser.ATTR_INITCLASS + " not instantiated : " + e.getLocalizedMessage(), e);
+				throw new Exception(ATTR_INITCLASS + " not instantiated : " + ex.getLocalizedMessage(), ex);
 			}
 		}
 		
@@ -817,9 +815,9 @@ public class Parser implements LogAware
 		// whose type is determined by the factory's backing class template;
 		// otherwise, create a new instance of a template class.
 		if ( initParameter != null )
-			obj = factory.newInstance(getSwingEngine(), initParameter);
+			obj = tagFactory.newInstance(getSwingEngine(), initParameter);
 		else
-			obj = factory.create(getSwingEngine(), element);
+			obj = tagFactory.create(getSwingEngine(), element);
 		return obj;
 	}
 
@@ -876,7 +874,7 @@ public class Parser implements LogAware
 //		for ( int i = 0; i < attributes.size(); i++ )
 //		{
 //			Attribute attr = (Attribute) attributes.get(i);
-//			if ( Parser.ATTR_ACTION.equalsIgnoreCase(attr.getLocalName()) )
+//			if ( ATTR_ACTION.equalsIgnoreCase(attr.getLocalName()) )
 //			{
 //				attributes.remove(i);
 //				attributes.add(0, attr);
@@ -893,14 +891,16 @@ public class Parser implements LogAware
 
 		// Create an ApplyAttribute to store loop-wide results.
 		ApplyAttribute aa = new ApplyAttribute();
+		
+		// Apply attributes
 		for ( Attribute attr : attributes )
 		{
 			// Set up the EL context for this attribute.
 			Attr domAttribute = attr.getDomAttribute();
 			if ( domAttribute != null )
 			{
-				setVariable(getElContext(), ELVAR_DOM_ATTRIBUTE, domAttribute);
-				setVariable(getElContext(), ELVAR_DOM_ELEMENT, domAttribute.getOwnerElement());
+				setVariable(ELVAR_DOM_ATTRIBUTE, domAttribute);
+				setVariable(ELVAR_DOM_ELEMENT, domAttribute.getOwnerElement());
 			}
 			else
 				logger.debug("Missing DOM attr: " + attr.getLocalName() +" = " + attr.getValue());
@@ -909,9 +909,13 @@ public class Parser implements LogAware
 			applyAttribute(getElContext(), tag, factory, attr, aa);
 			
 			// Unset the EL context for this attribute.
-			unsetVariable(getElContext(), ELVAR_DOM_ELEMENT);
-			unsetVariable(getElContext(), ELVAR_DOM_ATTRIBUTE);
+			unsetVariable(ELVAR_DOM_ELEMENT);
+			unsetVariable(ELVAR_DOM_ATTRIBUTE);
 		}
+		
+		// Some custom attributes may have been cached, clear them.
+		// Ref: org.swixml.processor.ConstraintsTagProcessor.processComponent(Parser, Object, Element, LayoutManager)
+		unsetVariable(ELVAR_DOM_ATTR_CONSTRAINTS);
 
 		if ( aa.attr_id != null && aa.attr_name == null )
 		{
@@ -931,8 +935,9 @@ public class Parser implements LogAware
 	
 	private void prioritize(List<Attribute> attributes)
 	{
-		Attribute attr_plaf = null, attr_size = null;
-		Attribute attr_font = null, attr_type = null;
+		Attribute attr_plaf = null, attr_font = null;
+		Attribute attr_size = null, attr_type = null;
+		Attribute attr_bindWith = null, attr_bindList = null, attr_bindClass = null;
 		for ( Attribute attr : attributes )
 		{
 			if ( "plaf".equalsIgnoreCase(attr.getLocalName()) )
@@ -943,11 +948,18 @@ public class Parser implements LogAware
 				attr_size = attr;
 			else if ( "type".equalsIgnoreCase(attr.getLocalName()) )
 				attr_type = attr;
-			if ( (attr_font != null) && (attr_size != null) )
-				break;
+			else if ( "bindWith".equalsIgnoreCase(attr.getLocalName()) )
+				attr_bindWith = attr;
+			else if ( "bindList".equalsIgnoreCase(attr.getLocalName()) )
+				attr_bindList = attr;
+			else if ( "bindClass".equalsIgnoreCase(attr.getLocalName()) )
+				attr_bindClass = attr;
 		}
 		// Order invocations by reverse priority
 		// to achieve forward priority!
+		prioritize(attributes, attr_bindClass);
+		prioritize(attributes, attr_bindList);
+		prioritize(attributes, attr_bindWith);
 		prioritize(attributes, attr_type);
 		prioritize(attributes, attr_size);
 		prioritize(attributes, attr_font);
@@ -973,7 +985,7 @@ public class Parser implements LogAware
 		Action action = null;
 	}
 	
-	@SuppressWarnings("unchecked")
+	/* applyAttribute: May be an EL parameter */
 	private void applyAttribute(ELContext elContext, Object tag, Factory factory, Attribute attr, ApplyAttribute aa)
 		throws Exception
 	{
@@ -1005,6 +1017,12 @@ public class Parser implements LogAware
 		if ( "name".equals(attr.getLocalName()) )
 			aa.attr_name = attr;
 		
+		// Resolve the parameter type, if possible.
+		Class<?>[] paraTypes = factory.getPropertyType(tag, attr.getLocalName());
+		Class<?> paraType = null;
+		if ( (paraTypes != null) && (paraTypes.length > 0) )
+			paraType = paraTypes[0];
+		
 		// The attribute property's parameter value.
 		Object para = null;
 		
@@ -1027,13 +1045,17 @@ public class Parser implements LogAware
 					return;
 				}
 				
-				if ( null != para )
+				if ( para != null )
 				{
 					BeanProperty<Object, Object> bp = BeanProperty.create(attr.getLocalName());
 					if ( bp.isWriteable(tag) )
 					{
 						// factory.setSimpleProperty(obj, attr.getLocalName(), para);
-						bp.setValue(tag, para);
+						// bp.setValue(tag, para);
+						if ( paraType.isAssignableFrom(para.getClass()) )
+							factory.setProperty(tag, attr, para, paraType);
+						else
+							applyAttribute(tag, factory, attr, aa, para, paraType);
 					}
 					else
 						logger.warn("property " + attr.getLocalName() + " is not writable!");
@@ -1045,7 +1067,7 @@ public class Parser implements LogAware
 			}
 			catch (PropertyResolutionException ex)
 			{
-				logger.warn("EL variable " + attr.getValue() + " doesn't exist!", ex);
+				logger.warn("EL variable " + attr.getValue() + " cannot be resolved!", ex);
 				return;
 			}
 		}
@@ -1053,13 +1075,16 @@ public class Parser implements LogAware
 		////////////////////////
 		// Not an EL parameter
 		////////////////////////
-		
-		Class<?>[] paraTypes = factory.getPropertyType(tag, attr.getLocalName());
-		if ( null != paraTypes )
+		applyAttribute(tag, factory, attr, aa, para, paraType);
+	}
+	
+	/* applyAttribute: Not an EL parameter */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void applyAttribute(Object tag, Factory factory, Attribute attr, ApplyAttribute aa, Object para, Class<?> paraType)
+		throws Exception
+	{
+		if ( paraType != null )
 		{
-			@SuppressWarnings("rawtypes")
-			Class paraType = paraTypes[0];
-			
 			/////////////////////////
 			// A setter method has successfully been identified.
 			// Is there a SwingEngine data type converter.
@@ -1070,8 +1095,13 @@ public class Parser implements LogAware
 				// call setter with a newly instanced parameter
 				try
 				{
-					if ( null == para )
-						para = converter.convert(paraType, attr, getSwingEngine());
+					if ( para == null )
+						para = converter.convert((Class) paraType, attr, getSwingEngine());
+					else if ( para instanceof String )
+					{
+						attr.setValue((String) para);
+						para = converter.convert((Class) paraType, attr, getSwingEngine());
+					}
 					
 					if ( para instanceof Action )
 						aa.action = (Action) para;
@@ -1195,7 +1225,6 @@ public class Parser implements LogAware
 					Converter<?> converter = CVTLIB.getConverter(field.getType());
 					if ( converter != null )
 					{
-						@SuppressWarnings("rawtypes")
 						Class fieldType = field.getType();
 						//
 						// Localize Strings
@@ -1220,6 +1249,16 @@ public class Parser implements LogAware
 		}
 	}
 	
+	public void setVariable(String name, Object value)
+	{
+		setVariable(getElContext(), name, value);
+	}
+
+	public void unsetVariable(String name)
+	{
+		unsetVariable(getElContext(), name);
+	}
+	
 	private void setVariable(ELContext elContext, String name, Object value)
 	{
 		if ( value != null )
@@ -1242,15 +1281,15 @@ public class Parser implements LogAware
 	private void cloneAttributes(Element target)
 	{
 		Element source = null;
-		if ( target.getAttributeNode(Parser.ATTR_REFID) != null )
+		if ( target.getAttributeNode(ATTR_REFID) != null )
 		{
-			source = find(jdoc.getDocumentElement(), target.getAttribute(Parser.ATTR_REFID).trim());
+			source = find(jdoc.getDocumentElement(), target.getAttribute(ATTR_REFID).trim());
 		}
-		else if ( target.getAttributeNode(Parser.ATTR_USE) != null )
+		else if ( target.getAttributeNode(ATTR_USE) != null )
 		{
-			logger.warn(String.format("Attribute [%s] for Element [%s] is deprecated!", Parser.ATTR_USE,
+			logger.warn(String.format("Attribute [%s] for Element [%s] is deprecated!", ATTR_USE,
 				target.getLocalName()));
-			source = find(jdoc.getDocumentElement(), target.getAttribute(Parser.ATTR_USE).trim());
+			source = find(jdoc.getDocumentElement(), target.getAttribute(ATTR_USE).trim());
 		}
 		if ( source != null )
 		{
@@ -1263,7 +1302,7 @@ public class Parser implements LogAware
 				// copy but don't overwrite an attr.
 				// also, don't copy the id attr.
 				//
-				if ( !Parser.ATTR_ID.equals(name) && target.getAttributeNode(name) == null )
+				if ( !ATTR_ID.equals(name) && target.getAttributeNode(name) == null )
 				{
 					target.setAttribute(attr.getName(), attr.getValue());
 				}
@@ -1271,7 +1310,7 @@ public class Parser implements LogAware
 		}
 		else
 		{
-			logger.warn(String.format("source element [%s] not found!", target.getAttribute(Parser.ATTR_REFID)));
+			logger.warn(String.format("source element [%s] not found!", target.getAttribute(ATTR_REFID)));
 		}
 	}
 
@@ -1301,13 +1340,9 @@ public class Parser implements LogAware
 			catch (NoSuchMethodException e)
 			{
 				if ( constrains == null )
-				{
 					parent.add(component);
-				}
 				else
-				{
 					parent.add(component, constrains);
-				}
 			}
 			catch (Exception e)
 			{
@@ -1325,13 +1360,9 @@ public class Parser implements LogAware
 			//
 			RootPaneContainer rpc = (RootPaneContainer) parent;
 			if ( component instanceof LayoutManager )
-			{
 				rpc.getContentPane().setLayout((LayoutManager) component);
-			}
 			else
-			{
 				rpc.getContentPane().add(component, constrains);
-			}
 		}
 		else if ( parent instanceof JScrollPane )
 		{
@@ -1353,13 +1384,9 @@ public class Parser implements LogAware
 				// Horizontal SplitPane
 				//
 				if ( splitPane.getTopComponent() == null )
-				{
 					splitPane.setTopComponent(component);
-				}
 				else
-				{
 					splitPane.setBottomComponent(component);
-				}
 			}
 			else
 			{
@@ -1367,13 +1394,9 @@ public class Parser implements LogAware
 				// Vertical SplitPane
 				//
 				if ( splitPane.getLeftComponent() == null )
-				{
 					splitPane.setLeftComponent(component);
-				}
 				else
-				{
 					splitPane.setRightComponent(component);
-				}
 			}
 		}
 		else if ( parent instanceof JMenuBar && component instanceof JMenu )
@@ -1413,13 +1436,9 @@ public class Parser implements LogAware
 			// add component into container
 			//
 			if ( constrains == null )
-			{
 				parent.add(component);
-			}
 			else
-			{
 				parent.add(component, constrains);
-			}
 		}
 		return component;
 	}
@@ -1445,7 +1464,7 @@ public class Parser implements LogAware
 	 */
 	private static Element find(Element element, String id)
 	{
-		return DOMUtil.findByAttribute(element, Parser.ATTR_ID, id);
+		return DOMUtil.findByAttribute(element, ATTR_ID, id);
 	}
 
 	/**

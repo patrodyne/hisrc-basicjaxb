@@ -1,8 +1,8 @@
 package org.swixml.jsr.widgets;
 
 import static java.lang.Math.max;
-import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE;
+import static org.jvnet.basicjaxb.lang.FieldDescriptor.alignByType;
 import static org.jvnet.basicjaxb.lang.StringUtils.isBlank;
 import static org.swixml.SwingEngine.ENGINE_PROPERTY;
 import static org.swixml.el.ELMethods.AVERAGE_LETTER;
@@ -14,7 +14,6 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyDescriptor;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -33,16 +32,21 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Converter;
+import org.jvnet.basicjaxb.lang.Alignment;
+import org.jvnet.basicjaxb.lang.FieldDescriptor;
 import org.swixml.SwingEngine;
 import org.swixml.el.ELMethods;
 import org.swixml.jsr295.BindingUtils;
+import org.swixml.renderers.AlignableTableCellHeaderRenderer;
+import org.swixml.renderers.AlignableTableCellRenderer;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.metadata.BeanDescriptor;
 import jakarta.validation.metadata.ConstraintDescriptor;
@@ -134,6 +138,18 @@ public class JTableBind
 		putClientProperty(BINDING_GROUP_PROPERTY, bindingGroup);
 	}
 	
+	private FieldDescriptor[] fieldDescriptors;
+	public FieldDescriptor[] getFieldDescriptors()
+	{
+		if ( fieldDescriptors == null )
+			setFieldDescriptors(BindingUtils.getFieldDescriptors(getBindClass()));
+		return fieldDescriptors;
+	}
+	public void setFieldDescriptors(FieldDescriptor[] fieldDescriptors)
+	{
+		this.fieldDescriptors = fieldDescriptors;
+	}
+
 	private Action action;
 	public Action getAction()
 	{
@@ -170,14 +186,29 @@ public class JTableBind
 	{
 		if ( getBindClass() != null && getBindList() != null )
 		{
-			PropertyDescriptor[] pp = PropertyUtils.getPropertyDescriptors(getBindClass());
-			PropertyDescriptor p = pp[col];
-			Object r = p.getValue(BindingUtils.TABLE_COLUMN_RENDERER);
-			if ( r instanceof TableCellRenderer )
-				return (TableCellRenderer) r;
+			FieldDescriptor[] fds = getFieldDescriptors();
+			FieldDescriptor fd = fds[col];
+			TableCellRenderer tcr = fd.getRenderer();
+			if ( tcr != null )
+				return tcr;
 		}
 		return super.getCellRenderer(row, col);
 	}
+	
+//	private static PropertyDescriptor[] getPropertyDescriptors(Class<?> beanClass)
+//	{
+//		PropertyDescriptor[] pdArray = null;
+//		try
+//		{
+//			BeanInfo beanInfo = getBeanInfo(beanClass, Object.class);
+//			pdArray = beanInfo.getPropertyDescriptors();
+//		}
+//		catch (IntrospectionException ie)
+//		{
+//			pdArray = new PropertyDescriptor[0];
+//		}
+//		return pdArray;
+//	}
 	
 	private SwingEngine<?> getSwingEngine()
 	{
@@ -191,6 +222,14 @@ public class JTableBind
 		return repeat * sw;
 	}
 	
+	/**
+	 * Create default columns from the model, or from the
+	 * bind class when configured.
+	 * 
+	 * <p>When a bind class is configured, column properties are derived
+	 * from multiple sources: SWIXML table column(s), validation metadata
+	 * and BeanInfo property descriptor(s).</p>
+	 */
 	@Override
 	public void createDefaultColumnsFromModel()
 	{
@@ -199,7 +238,7 @@ public class JTableBind
 		TableModel tm = getModel();
 		if ( (tm != null) && (getBindClass() != null) )
 		{
-			// Cache any current columns
+			// Cache any current columns from the SWIXML configuration.
 			Map<String, TableColumnBind> tcMap = new HashMap<>();
 			TableColumnModel cm = getColumnModel();
 			Enumeration<TableColumn> cme = cm.getColumns();
@@ -212,103 +251,194 @@ public class JTableBind
 					tcMap.put(tcb.getBindWith(), tcb);
 				}
 			}
-			// Remove any current columns
+			
+			// Remove any current columns before re-creating.
 			while (cm.getColumnCount() > 0)
 				cm.removeColumn(cm.getColumn(0));
 			
-			// Create a map of the validation property descriptors by property name.
+			// Create a map of the validation descriptors by property name.
+			// These descriptors may provide additional property constraints.
 			BeanDescriptor vbd = getSwingEngine().getBeanValidator()
 				.getConstraintsForClass(getBindClass());
-			Set<jakarta.validation.metadata.PropertyDescriptor> vcpSet = vbd.getConstrainedProperties();
+			Set<jakarta.validation.metadata.PropertyDescriptor> vcpSet =
+				vbd.getConstrainedProperties();
 			Map<String, jakarta.validation.metadata.PropertyDescriptor> vpdMap = new HashMap<>();
 			for ( jakarta.validation.metadata.PropertyDescriptor vcp : vcpSet )
 				vpdMap.put(vcp.getPropertyName(), vcp);
 
 			// Create new columns from properties of the bind class.
-			PropertyDescriptor[] bpds = getPropertyDescriptors(getBindClass());
-			for ( int index=0; index < bpds.length; ++index )
+			//
+			// Introspect on a bind class and learn all about its properties.
+			// If the Introspector finds an associated BeanInfo class for the
+			// bind class, then it will merge addition metadata from it.
+			// A FieldDescriptor extends PropertyDescriptor and accumulates
+			// display field level metadata.
+			FieldDescriptor[] bfdArray = getFieldDescriptors();
+			
+			// Add a TableColumnBind for each non-hidden property of the bind class.
+			for ( int index=0; index < bfdArray.length; ++index )
 			{
-				// Get the Bean and the Validation property descriptors.
-				PropertyDescriptor bpd = bpds[index];
-				String bpdName = bpd.getName();
-				jakarta.validation.metadata.PropertyDescriptor vpd = vpdMap.get(bpdName);
-				
-				// Assign column default values
-				String bindWith = bpd.getName();
-				Class<?> type = bpd.getReadMethod().getReturnType();
-				String headerValue = bpd.getDisplayName();
-				String identifier = bindWith + "@" + getBindClass().getName();
+				FieldDescriptor bfd = bfdArray[index];
+				Class<?> type = bfd.getPropertyType();
 
-				// Assign default values then validation inferred values.
-				int maxWidth = 20;
-				int minWidth = 1;
-				for ( ConstraintDescriptor<?> vcd : vpd.getConstraintDescriptors() )
+				// Hidden: Use BeanInfo inferred values or 'by type'.
+				boolean hidden = false;
+				if ( bfd.isHidden() == false )
+					hidden = FieldDescriptor.hideByType(type);
+				if ( !hidden )
 				{
-					if ( vcd.getAnnotation() instanceof Size )
-					{
-						Size size = (Size) vcd.getAnnotation();
-						minWidth = max(size.min(), 1);
-						maxWidth = max(size.max(), 0);
-					}
-				}
-				
-				// Evaluate size (char) into Swing units (pixels).
-				int minWidthField = fieldWidth(minWidth);
-				int maxWidthField = fieldWidth(maxWidth);
-
-				// Reuse or create table column and assign values.
-				TableColumnBind tc1 = null;
-				if ( tcMap.containsKey(bindWith) )
-					tc1 = tcMap.get(bindWith);
-				TableColumnBind tc2 = new TableColumnBind();
-				{
-					tc2.setModelIndex(index);
-					tc2.setBindWith(bindWith);
+					//
+					// Get the Bean and the Validation property descriptors.
+					//
 					
-					tc2.setType(type.getName());
-					tc2.setEditable(true);
-					tc2.setResizable(true);
+					// Set the model index for this column. The model index is the
+					// index of the column in the model that will be displayed by the
+					// <code>TableColumn</code>. As the <code>TableColumn</code>
+					// is moved around in the view the model index remains constant.
+					Integer modelIndex = bfd.getIndex();
+					
+					// The programmatic name of this feature. For more,
+					// see paragraph 8.3 of the Java Beans specification.
+					String bpdName = bfd.getName();
 
-					tc2.setWidth(maxWidthField);
-					tc2.setPreferredWidth(maxWidthField);
-					tc2.setMinWidth(minWidthField);
-					tc2.setMaxWidth(maxWidthField);
+					// Assign column default values
+					String bindWith = bpdName;
+					String headerValue = bfd.getDisplayName();
+					String identifier = bindWith + "@" + getBindClass().getName();
 
-					tc2.setIdentifier(identifier);
+					// Alignment: Use BeanInfo inferred values.
+					Alignment alignment = Alignment.LEFT;
+					if ( bfd.getAlignment() != null )
+						alignment = Alignment.valueOf(bfd.getAlignment().toUpperCase());
+					else
+						alignment = alignByType(type);
+					TableCellRenderer headerRenderer =
+						new AlignableTableCellHeaderRenderer(alignment.getConstant());
+					TableCellRenderer cellRenderer =
+						new AlignableTableCellRenderer(alignment.getConstant());
+					
+					// Editable: Use BeanInfo inferred values.
+					boolean editable = true;
+					if ( bfd.isEditable() != null )
+						editable = bfd.isEditable();
+					
+					// Resizable: Use BeanInfo inferred values.
+					boolean resizable = true;
+					if ( bfd.isResizable() != null )
+						resizable = bfd.isResizable();
+					
+					// Assign default values
 
-					tc2.setHeaderRenderer(null);
-					tc2.setHeaderValue(headerValue);
+					// Max/Min Width: Use BeanInfo inferred values.
+					int maxWidth = bfd.getMaxWidth();
+					int minWidth = bfd.getMinWidth();
 
-					tc2.setCellRenderer(null);
-					tc2.setCellEditor(null);
-
-					// Some table column values are reconfigurable here.
-					if ( tc1 != null )
+					// Use validation inferred values.
+					jakarta.validation.metadata.PropertyDescriptor vpd = vpdMap.get(bpdName);
+					if ( vpd != null )
 					{
-						if ( !isBlank(tc1.getType()) )
-							tc2.setType(tc1.getType());
-						tc2.setEditable(tc1.isEditable());
-						tc2.setResizable(tc1.getResizable());
-
-						if ( tc1.getMinWidth() > DEFAULT_TABLECOLUMN_MINWIDTH )
-							tc2.setMinWidth(tc1.getMinWidth());
-						if ( tc1.getMaxWidth() < DEFAULT_TABLECOLUMN_MAXWIDTH )
-							tc2.setMaxWidth(tc1.getMaxWidth());
-						
-						// 'preferredWidth' and 'width' are constrained
-						// by 'minWidth' and 'maxWidth'!
-						if ( tc1.getPreferredWidth() > DEFAULT_TABLECOLUMN_PREFWIDTH )
-							tc2.setPreferredWidth(tc1.getPreferredWidth());
-						if ( tc1.getWidth() > DEFAULT_TABLECOLUMN_PREFWIDTH )
-							tc2.setWidth(tc1.getWidth());
-						
-						if ( !isBlank((String) tc1.getHeaderValue()) )
-							tc2.setIdentifier(tc1.getHeaderValue());
+						int minMaxLen = 0;
+						for ( ConstraintDescriptor<?> vcd : vpd.getConstraintDescriptors() )
+						{
+							if ( vcd.getAnnotation() instanceof Size )
+							{
+								Size size = (Size) vcd.getAnnotation();
+								minWidth = max(size.min(), 1);
+								maxWidth = max(size.max(), 0);
+							}
+							else if ( vcd.getAnnotation() instanceof Min )
+							{
+								Min min = (Min) vcd.getAnnotation();
+								Long minValue = min.value();
+								if ( minValue >= 0 )
+								{
+									int minLen = minValue.toString().length();
+									if ( minLen > minMaxLen )
+										minMaxLen = minLen;
+								}
+							}
+							else if ( vcd.getAnnotation() instanceof Max )
+							{
+								Max max = (Max) vcd.getAnnotation();
+								Long maxValue = max.value();
+								if ( maxValue >= 0 )
+								{
+									int maxLen = maxValue.toString().length();
+									if ( maxLen > minMaxLen )
+										minMaxLen = maxLen;
+								}
+							}
+						}
+						// Rough guess based on min and max length
+						if ( minMaxLen > 0 )
+							minWidth = minMaxLen+1;
 					}
-				}
 
-				// Add the new table column to the model.
-				cm.addColumn(tc2);
+					// Use default values
+
+					// Evaluate size (char) into Swing units (pixels).
+					int minWidthField = fieldWidth(minWidth);
+					int maxWidthField = fieldWidth(maxWidth);
+
+					// Reuse or create table column and assign values.
+					TableColumnBind tc1 = null;
+					if ( tcMap.containsKey(bindWith) )
+						tc1 = tcMap.get(bindWith);
+					TableColumnBind tc2 = new TableColumnBind();
+					{
+						tc2.setModelIndex(modelIndex);
+						tc2.setBindWith(bindWith);
+
+						tc2.setAlignment(alignment.getConstant());
+						tc2.setEditable(editable);
+						tc2.setResizable(resizable);
+						tc2.setType(type.getName());
+
+						tc2.setWidth(minWidthField);
+						tc2.setPreferredWidth(minWidthField);
+						tc2.setMinWidth(minWidthField);
+						tc2.setMaxWidth(maxWidthField);
+
+						tc2.setIdentifier(identifier);
+
+						tc2.setHeaderRenderer(headerRenderer);
+						tc2.setHeaderValue(headerValue);
+
+						tc2.setCellRenderer(cellRenderer);
+						tc2.setCellEditor(null);
+
+						//
+						// Some table column values are reconfigured here.
+						// These derived default values are overridden by
+						// the SWIXML table column values, when present.
+						//
+						if ( tc1 != null )
+						{
+							if ( !isBlank(tc1.getType()) )
+								tc2.setType(tc1.getType());
+							tc2.setEditable(tc1.isEditable());
+							tc2.setResizable(tc1.getResizable());
+
+							if ( tc1.getMinWidth() > DEFAULT_TABLECOLUMN_MINWIDTH )
+								tc2.setMinWidth(tc1.getMinWidth());
+							if ( tc1.getMaxWidth() < DEFAULT_TABLECOLUMN_MAXWIDTH )
+								tc2.setMaxWidth(tc1.getMaxWidth());
+
+							// 'preferredWidth' and 'width' are constrained
+							// by 'minWidth' and 'maxWidth'!
+							if ( tc1.getPreferredWidth() > DEFAULT_TABLECOLUMN_PREFWIDTH )
+								tc2.setPreferredWidth(tc1.getPreferredWidth());
+							if ( tc1.getWidth() > DEFAULT_TABLECOLUMN_PREFWIDTH )
+								tc2.setWidth(tc1.getWidth());
+
+							if ( !isBlank((String) tc1.getHeaderValue()) )
+								tc2.setIdentifier(tc1.getHeaderValue());
+						}
+					}
+
+					// Appends the column to the end of the TableColumnModel array.
+					cm.addColumn(tc2);
+				}
 			}
 		}
 		else
@@ -342,7 +472,7 @@ public class JTableBind
 			{
 				// super.setAutoCreateColumnsFromModel(true);
 				itb = initTableBindingFromBeanInfo(getBindingGroup(), READ_WRITE, this,
-					getBindList(), getBindClass(), isAllPropertiesBound());
+					getBindList(), getFieldDescriptors(), isAllPropertiesBound());
 			}
 			else
 			{
@@ -378,7 +508,7 @@ public class JTableBind
 				onRowOrColSelection(e);
 			}
 		});
-		// ISSUE-6
+		// https://github.com/bsorrentino/swixml2/issues/6
 		super.addMouseListener(new MouseAdapter()
 		{
 			@Override
@@ -434,7 +564,7 @@ public class JTableBind
 
 	private void onRowOrColSelection(ListSelectionEvent e)
 	{
-		// ISSUE-5
+		// https://github.com/bsorrentino/swixml2/issues/5
 		if ( e.getValueIsAdjusting() )
 			return;
 		if ( getSelectedRow() == -1 )

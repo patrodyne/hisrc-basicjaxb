@@ -27,7 +27,7 @@
 -->
  
 <!-- 
-Usage: xmlns:script="http://www.swixml.org/2007/Swixml/script"
+Usage: xmlns:script="http://www.swixml.org/2007/swixml/script"
 
 <script><![CDATA[
 

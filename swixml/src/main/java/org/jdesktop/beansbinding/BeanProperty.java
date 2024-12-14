@@ -818,17 +818,16 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V>
 	{
 		assert object != null;
 		PropertyDescriptor[] pds = getBeanInfo(object).getPropertyDescriptors();
+		
 		if ( pds == null )
-		{
 			return null;
-		}
+		
 		for ( PropertyDescriptor pd : pds )
 		{
 			if ( !(pd instanceof IndexedPropertyDescriptor) && pd.getName().equals(string) )
-			{
 				return pd;
-			}
 		}
+		
 		return null;
 	}
 

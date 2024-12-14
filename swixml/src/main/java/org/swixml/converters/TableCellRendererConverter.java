@@ -1,8 +1,7 @@
 package org.swixml.converters;
 
-import static javax.swing.SwingConstants.CENTER;
-import static javax.swing.SwingConstants.LEFT;
-import static javax.swing.SwingConstants.RIGHT;
+import static org.jvnet.basicjaxb.lang.Alignment.CENTER;
+import static org.jvnet.basicjaxb.lang.FieldDescriptor.alignByType;
 import static org.jvnet.basicjaxb.lang.StringUtils.isBlank;
 import static org.swixml.Parser.ELVAR_DOM_ELEMENT;
 
@@ -12,6 +11,7 @@ import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
+import org.jvnet.basicjaxb.lang.Alignment;
 import org.swixml.SwingEngine;
 import org.swixml.dom.Attribute;
 import org.swixml.jsr.widgets.TableColumnBind;
@@ -24,8 +24,6 @@ public class TableCellRendererConverter
 {
 	/** converter's return type */
 	public static final Class<TableCellRenderer> TEMPLATE = TableCellRenderer.class;
-	
-	private static final int DEFAULT_HORIZONTAL_ALIGNMENT = LEFT;
 	
 	private static final Pattern TABLE_CELL_RENDERER_PATTERN = Pattern.compile("(\\w+)(?:[(]([\\w, -\\\\*]+)*[)])?");
 
@@ -58,6 +56,7 @@ public class TableCellRendererConverter
 					{
 						//
 						// The first parameter might be a pre-defined constant's name
+						// to be converted.
 						//
 						Attribute tokenAttr = new Attribute("horizontalAlignment", paramArray[0]);
 						Object ha = PrimitiveConverter.conv(Object.class, tokenAttr, engine);
@@ -67,7 +66,7 @@ public class TableCellRendererConverter
 
 				// Resolve alignment by field type.
 				if ( tableCellRenderer == null )
-					tableCellRenderer = new AlignableTableCellRenderer(alignmentByType(engine));
+					tableCellRenderer = new AlignableTableCellRenderer(alignmentByType(engine).getConstant());
 			}
 			else if ( AlignableTableCellHeaderRenderer.class.getSimpleName().equals(tableCellRendereType) )
 			{
@@ -81,6 +80,7 @@ public class TableCellRendererConverter
 					{
 						//
 						// The first parameter might be a pre-defined constant's name
+						// to be converted.
 						//
 						Attribute tokenAttr = new Attribute("horizontalAlignment", paramArray[0]);
 						Object ha = PrimitiveConverter.conv(Object.class, tokenAttr, engine);
@@ -90,22 +90,22 @@ public class TableCellRendererConverter
 
 				// Header defaults to CENTER alignment.
 				if ( tableCellRenderer == null )
-					tableCellRenderer = new AlignableTableCellHeaderRenderer(CENTER);
+					tableCellRenderer = new AlignableTableCellHeaderRenderer(CENTER.getConstant());
 			}
 		}
 		
 		if ( tableCellRenderer == null )
 		{
 			if ( "headerRenderer".equals(attr.getLocalName()) )
-				tableCellRenderer = new AlignableTableCellHeaderRenderer(CENTER);
+				tableCellRenderer = new AlignableTableCellHeaderRenderer(CENTER.getConstant());
 			else
-				tableCellRenderer = new AlignableTableCellRenderer(alignmentByType(engine));
+				tableCellRenderer = new AlignableTableCellRenderer(alignmentByType(engine).getConstant());
 		}
 			
 		return tableCellRenderer;
 	}
 
-	protected int alignmentByType(SwingEngine<?> engine)
+	protected Alignment alignmentByType(SwingEngine<?> engine)
 	{
 		String fieldTypeName = null;
 		
@@ -124,12 +124,6 @@ public class TableCellRendererConverter
 			fieldTypeName = elm.getAttribute("type");
 		}
 		
-		int alignment = DEFAULT_HORIZONTAL_ALIGNMENT;
-		if ( String.class.getName().equals(fieldTypeName) )
-			alignment = LEFT;
-		else
-			alignment = RIGHT;
-		
-		return alignment;
+		return alignByType(fieldTypeName);
 	}
 }

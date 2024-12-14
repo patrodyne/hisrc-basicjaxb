@@ -17,6 +17,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
 
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -138,9 +139,15 @@ public class JTreeBind
 		init();
 	}
 
-	public JTreeBind(TreeModel newModel)
+	public JTreeBind(TreeNode treeNode)
 	{
-		super(newModel);
+		super(treeNode);
+		init();
+	}
+
+	public JTreeBind(TreeModel treeModel)
+	{
+		super(treeModel);
 		init();
 	}
 

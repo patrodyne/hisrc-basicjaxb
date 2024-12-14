@@ -1,6 +1,7 @@
 package org.swixml.jsr295;
 
-import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
+import static java.beans.Introspector.getBeanInfo;
+import static org.apache.commons.beanutils.MethodUtils.toNonPrimitiveClass;
 import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ;
 import static org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE;
 import static org.jdesktop.beansbinding.BeanProperty.create;
@@ -13,13 +14,14 @@ import static org.swixml.SwingEngine.ENGINE_PROPERTY;
 import static org.swixml.SwingEngine.isDesignTime;
 
 import java.awt.Container;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,11 +29,9 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JTable;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -45,6 +45,7 @@ import org.jdesktop.swingbinding.ColumnBinding;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.JListBinding;
 import org.jdesktop.swingbinding.JTableBinding;
+import org.jvnet.basicjaxb.lang.FieldDescriptor;
 import org.swixml.SwingEngine;
 import org.swixml.jsr.widgets.TableColumnBind;
 
@@ -55,14 +56,11 @@ import org.swixml.jsr.widgets.TableColumnBind;
  */
 public class BindingUtils
 {
-	public static final String TABLE_COLUMN_EDITABLE = "column.editable";
-	public static final String TABLE_COLUMN_IS_BOUND = "bind";
-	public static final String TABLE_COLUMN_INDEX = "column.index";
-	public static final String TABLE_COLUMN_RENDERER = "column.renderer";
-	private static final String EL_REGEX = "[$][{](.*)[}]";
-	private static final Pattern EL_PATTERN = Pattern.compile(EL_REGEX);
 	private static final String BOUND_SUFFIX = ".bound";
 
+	private static final String EL_REGEX = "[$][{](.*)[}]";
+	private static final Pattern EL_PATTERN = Pattern.compile(EL_REGEX);
+	
 	private BindingUtils()
 	{
 	}
@@ -160,35 +158,7 @@ public class BindingUtils
 			map.put(pd.getName(), pd);
 		return map;
 	}
-
-	public static void setTableColumnRenderer(PropertyDescriptor pd, TableCellRenderer renderer)
-	{
-		if ( pd == null )
-			throw new IllegalArgumentException("parameter pd is null!");
-		pd.setValue(BindingUtils.TABLE_COLUMN_RENDERER, renderer);
-	}
-
-	public static void setTableColumnIndex(PropertyDescriptor pd, int index)
-	{
-		if ( pd == null )
-			throw new IllegalArgumentException("parameter pd is null!");
-		pd.setValue(BindingUtils.TABLE_COLUMN_INDEX, index);
-	}
-
-	public static void setTableColumnIsBound(PropertyDescriptor pd, boolean bind)
-	{
-		if ( pd == null )
-			throw new IllegalArgumentException("parameter pd is null!");
-		pd.setValue(BindingUtils.TABLE_COLUMN_IS_BOUND, bind);
-	}
-
-	public static void setTableColumnEditable(PropertyDescriptor pd, boolean editable)
-	{
-		if ( pd == null )
-			throw new IllegalArgumentException("parameter pd is null!");
-		pd.setValue(BindingUtils.TABLE_COLUMN_EDITABLE, editable);
-	}
-
+	
 	/**
 	 * Parse binding for owner using {@code UpdateStrategy.READ_WRITE} without a
 	 * {@link BindingGroup} or a {@link Validator}.
@@ -418,17 +388,6 @@ public class BindingUtils
 	}
 
 	/**
-	 *
-	 * @param p
-	 * @return
-	 */
-	private static int getColumnIndex(PropertyDescriptor p)
-	{
-		final Object i = p.getValue(TABLE_COLUMN_INDEX);
-		return (i instanceof Integer) ? (Integer) i : Integer.MAX_VALUE;
-	}
-
-	/**
 	 * Initialize table binding from {@link TableColumnBind}
 	 * 
 	 * @param <E> The generic bean type.
@@ -543,7 +502,7 @@ public class BindingUtils
 	 * @param strategy The update strategy for an {@link AutoBinding}.
 	 * @param table A {@link JTable} instance.
 	 * @param beanList A list of beans (table rows).
-	 * @param beanClass The bean's class.
+	 * @param fdArray The {@link FieldDescriptor} array.
 	 * @param isAllPropertiesBound Should all properties be bound?
 	 * 
 	 * @return A {@link JTableBinding} instance.
@@ -551,7 +510,7 @@ public class BindingUtils
 	@SuppressWarnings("unchecked")
 	public static <E> JTableBinding<E,List<E>,JTable> initTableBindingFromBeanInfo(
 		BindingGroup bindingGroup,	UpdateStrategy strategy, JTable table, List<?> beanList,
-		Class<E> beanClass,	boolean isAllPropertiesBound)
+		FieldDescriptor[] fdArray,	boolean isAllPropertiesBound)
 	{
 		if ( null == table )
 			throw new IllegalArgumentException("table argument is null!");
@@ -559,66 +518,41 @@ public class BindingUtils
 		if ( null == beanList )
 			throw new IllegalArgumentException("beanList argument is null!");
 		
-		if ( null == beanClass )
-			throw new IllegalArgumentException("beanClass argument is null!");
-		
 		if ( isDesignTime() )
 			return null;
 		
 		if ( boundCheckAndSet(table) )
 			return null;
-		
-		PropertyDescriptor[] pp = getPropertyDescriptors(beanClass);
-		
+
 		JTableBinding<?, ?, JTable> binding =
 			createJTableBinding(strategy, beanList, table);
-		
-		if ( null == pp )
+					
+		for ( FieldDescriptor fd : fdArray )
 		{
-			logger.warn("getPropertyDescriptors has returned null!");
-			return null;
-		}
-		
-		// Sort property descriptors into column index order.
-		Arrays.sort(pp, new Comparator<PropertyDescriptor>()
-		{
-			@Override
-			public int compare(PropertyDescriptor p1, PropertyDescriptor p2)
-			{
-				final int i1 = getColumnIndex(p1);
-				final int i2 = getColumnIndex(p2);
-				return (i1 - i2);
-			}
-		});
-		
-		for ( PropertyDescriptor p : pp )
-		{
-			Boolean isBinded = (Boolean) p.getValue(TABLE_COLUMN_IS_BOUND);
-			if ( null == isBinded && isAllPropertiesBound == false )
-				continue;
+			boolean isBound = fd.isBound();
+			// skip property when it is not bound
+			if ( !isBound && isAllPropertiesBound == false )
+				continue; 
 			
-			if ( (null != isBinded && Boolean.FALSE.equals(isBinded)) )
-				continue; // skip property
-			
-			final String name = p.getName();
-			
+			final String name = fd.getName();
+			// skip the class property
 			if ( "class".equals(name) )
 				continue;
 			
 			Property<?, ?> bp = BeanProperty.create(name);
 			ColumnBinding<?, ?, ?> cb = binding.addColumnBinding(bp);
 			
-			final String displayName = p.getDisplayName();
-			cb.setColumnName((null == displayName) ? name : displayName);
+			final String displayName = fd.getDisplayName();
+			cb.setColumnName((displayName == null) ? name : displayName);
 			
-			final Class<?> type = p.getPropertyType();
+			final Class<?> type = fd.getPropertyType();
 			if ( type.isPrimitive() )
-				cb.setColumnClass(MethodUtils.toNonPrimitiveClass(type));
+				cb.setColumnClass(toNonPrimitiveClass(type));
 			else
 				cb.setColumnClass(type);
 			
-			Boolean isEditable = (Boolean) p.getValue(TABLE_COLUMN_EDITABLE);
-			cb.setEditable((null != isEditable && Boolean.TRUE.equals(isEditable)));
+			Boolean isEditable = fd.isEditable();
+			cb.setEditable((isEditable != null) && isEditable);
 		}
 		
 		if ( null != bindingGroup )
@@ -627,6 +561,102 @@ public class BindingUtils
 			binding.bind();
 		
 		return (JTableBinding<E, List<E>, JTable>) binding;
+	}
+	
+	/**
+	 * Re-index and sort an array of introspected {@link FieldDescriptor}s.
+	 * 
+	 * @param bfdArray1 An array of BeanInfo introspected field descriptors.
+	 * 
+	 * @return An index-ordered array of {@link FieldDescriptor}s.
+	 */
+	private static FieldDescriptor[] reindex(FieldDescriptor[] bfdArray1)
+	{
+		// Order FieldDescriptor(s) by existing column index, if any;
+		// otherwise, define the index alphabetically by display name.
+		TreeMap<Integer, FieldDescriptor> bfdMap1 = new TreeMap<>();
+		TreeMap<String, FieldDescriptor> bfdMap2 = new TreeMap<>();
+		for ( FieldDescriptor bfd : bfdArray1 )
+		{
+			if ( bfd.getIndex() != null  )
+				bfdMap1.put(bfd.getIndex(), bfd);
+			else
+				bfdMap2.put(bfd.getDisplayName(), bfd);
+		}
+		
+		// Index cached FieldDescriptor(s) alphabetically by display name.
+		if ( !bfdMap2.isEmpty() )
+		{
+			Integer index = bfdMap1.isEmpty() ? 0 : bfdMap1.lastKey();
+			for ( FieldDescriptor bfd2 : bfdMap2.values() )
+				bfdMap1.put(++index, bfd2);
+		}
+		
+		// Re-index, in sequence without gaps, zero-based.
+		// Note: The bfdMap1's value iterator returns the values in
+		//       ascending order of the corresponding keys.
+		FieldDescriptor[] bdfArray2 = new FieldDescriptor[bfdMap1.size()];
+		int index = 0;
+		for ( FieldDescriptor bfd1 : bfdMap1.values() )
+		{
+			bfd1.setIndex(index);
+			bdfArray2[index++] = bfd1;
+		}
+		return bdfArray2;
+	}
+	
+	/**
+	 * Promote an array of {@link PropertyDescriptor} to an array of
+	 * {@link FieldDescriptor}.
+	 * 
+	 * @param <E> The generic type of the bean class.
+	 * @param pdArray The array of property descriptors to promote.
+	 * @param beanClass The bean class owning the field.
+	 * 
+	 * @return An index-ordered array of field descriptors.
+	 * 
+	 * @throws IntrospectionException When the bean class cannot be introspected.
+	 */
+	public static <E> FieldDescriptor[] toFieldDescriptors(PropertyDescriptor[] pdArray, Class<E> beanClass)
+		throws IntrospectionException
+	{
+		FieldDescriptor[] fdArray = new FieldDescriptor[pdArray.length];
+		for ( int index=0; index < pdArray.length; ++index )
+		{
+			PropertyDescriptor pd = pdArray[index];
+			if ( pd instanceof FieldDescriptor )
+				fdArray[index] = FieldDescriptor.promote(pd);
+			else
+				fdArray[index] = new FieldDescriptor(pd);
+		}
+		// Re-index and sort an array of introspected {@link FieldDescriptor}s.
+		return reindex(fdArray);
+	}
+	
+	/**
+	 * Introspect on a Java bean and learn all about its properties, exposed
+     * methods, below a given "stop" point. If the Introspector finds an associated
+	 * BeanInfo class for the bean, then it will merge addition metadata from it.
+	 * 
+	 * @param beanClass The bean class to be introspected.
+	 * 
+	 * @return An array of {@link FieldDescriptor} ordered by index.
+	 */
+	public static FieldDescriptor[] getFieldDescriptors(Class<?> beanClass)
+	{
+		FieldDescriptor[] fdArray = null;
+		try
+		{
+			BeanInfo beanInfo = getBeanInfo(beanClass, Object.class);
+			PropertyDescriptor[] pdArray = beanInfo.getPropertyDescriptors();
+			fdArray = toFieldDescriptors(pdArray, beanClass);
+		}
+		catch (IntrospectionException ie)
+		{
+			fdArray = new FieldDescriptor[0];
+			logger.error("getFieldDescriptors: ", ie);
+		}
+		return fdArray;
 	}
 
 	/**

@@ -13,7 +13,10 @@ import static com.sun.xml.xsom.XSFacet.FACET_PATTERN;
 import static com.sun.xml.xsom.XSFacet.FACET_TOTALDIGITS;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
+import static org.jvnet.basicjaxb.lang.FieldDescriptor.DEFAULT_ALIGNMENT;
 import static org.jvnet.basicjaxb.lang.FieldDescriptor.DEFAULT_MIN_WIDTH;
+import static org.jvnet.basicjaxb.lang.FieldDescriptor.alignByType;
+import static org.jvnet.basicjaxb.lang.FieldDescriptor.widthByType;
 import static org.jvnet.basicjaxb.util.CustomizationUtils.unmarshall;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
@@ -24,7 +27,6 @@ import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,7 +34,9 @@ import java.util.TreeMap;
 
 import javax.xml.namespace.QName;
 
+import org.jvnet.basicjaxb.lang.Alignment;
 import org.jvnet.basicjaxb.lang.FieldDescriptor;
+import org.jvnet.basicjaxb.lang.Width;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
 import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.beaninfo.model.Bean;
@@ -272,9 +276,8 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 		for ( Entry<CPropertyInfo, CPluginCustomization> entry : bic.getPropertyCustomizationMap().entrySet())
 		{
 			CPropertyInfo propertyInfo = entry.getKey();
-			String propertyInfoName = propertyInfo.getName(false);
-			
-			FieldInfo fieldInfo = new FieldInfo(propertyInfoName);
+
+			FieldInfo fieldInfo = new FieldInfo(propertyInfo);
 			fieldInfo.setFieldType(bic.getType(propertyInfo));
 			fieldInfo.setFacets(bic.getPropertyFacetMap().get(propertyInfo));
 			
@@ -287,7 +290,9 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 				if ( property != null )
 				{
 					if ( property.getName() == null )
-						property.setName(propertyInfoName);
+						property.setName(fieldInfo.getFieldName());
+					if ( property.getDisplayName() == null )
+						property.setDisplayName(fieldInfo.getFieldDisplayName());
 					fieldInfo.setProperty(property);
 
 					trace("{}, generateFieldDescriptors; Class={}, Property={}",
@@ -298,7 +303,7 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			}
 			
 			if ( fieldInfo.getProperty() != null )
-				fieldInfoMap.put(propertyInfoName, fieldInfo);
+				fieldInfoMap.put(fieldInfo.getFieldDisplayName(), fieldInfo);
 		}
 		
 		// Properties with Facets
@@ -306,9 +311,10 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 		{
 			CPropertyInfo propertyInfo = entry.getKey();
 			String propertyInfoName = propertyInfo.getName(false);
+			
 			if ( !fieldInfoMap.containsKey(propertyInfoName) )
 			{
-				FieldInfo fieldInfo = new FieldInfo(propertyInfoName);
+				FieldInfo fieldInfo = new FieldInfo(propertyInfo);
 				fieldInfo.setFieldType(bic.getType(propertyInfo));
 				fieldInfo.setFacets(bic.getPropertyFacetMap().get(propertyInfo));
 				fieldInfoMap.put(propertyInfoName, fieldInfo);
@@ -324,39 +330,40 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 				!bic.getPropertyFacetMap().containsKey(propertyInfo)
 			)
 			{
-				String propertyInfoName = propertyInfo.getName(false);
-				FieldInfo fieldInfo = new FieldInfo(propertyInfoName);
+				FieldInfo fieldInfo = new FieldInfo(propertyInfo);
 				fieldInfo.setFieldType(bic.getType(propertyInfo));
-				fieldInfoMap.put(propertyInfoName, fieldInfo);
+				fieldInfoMap.put(fieldInfo.getFieldDisplayName(), fieldInfo);
 			}
 		}
 		
 		if ( !fieldInfoMap.isEmpty() )
 		{
 			// Order by index or alphabetically.
-			TreeMap<Integer, FieldInfo> fiTreeMap = new TreeMap<>();
-			List<FieldInfo> fiList = new ArrayList<>();
+			TreeMap<Integer, FieldInfo> fiTreeMap1 = new TreeMap<>();
+			TreeMap<String, FieldInfo> fiTreeMap2 = new TreeMap<>();
 			
 			// Index by given index or cache until later
 			for ( FieldInfo fieldInfo : fieldInfoMap.values() )
 			{
 				Integer fiIndex = bic.getPropertyIndexMap().get(fieldInfo.getFieldName());
 				if ( fiIndex != null )
-					fiTreeMap.put(fiIndex, fieldInfo);
+					fiTreeMap1.put(fiIndex, fieldInfo);
 				else
-					fiList.add(fieldInfo);
+					fiTreeMap2.put(fieldInfo.getFieldDisplayName(), fieldInfo);
 			}
 			
-			// Index cached FieldInfo(s) alphabetically
-			if ( !fiList.isEmpty() )
+			// Index cached FieldInfo(s) alphabetically by display name.
+			if ( !fiTreeMap2.isEmpty() )
 			{
-				Integer lastIndex = fiTreeMap.lastEntry().getKey();
-				for ( int index=0; index < fiList.size(); ++index )
-					fiTreeMap.put((lastIndex + index), fiList.get(index));
+				Integer index = fiTreeMap1.isEmpty() ? 0 : fiTreeMap1.lastKey();
+				for ( FieldInfo fi2 : fiTreeMap2.values() )
+					fiTreeMap1.put(++index, fi2);
 			}
 			
-			// Re-index, in sequence without gaps.
-			fiList = new ArrayList<>(fiTreeMap.values());
+			// Re-index, in sequence without gaps, zero-based.
+			// Note: The fiTreeMap1's value iterator returns the values in
+			//       ascending order of the corresponding keys.
+			List<FieldInfo> fiList = new ArrayList<>(fiTreeMap1.values());
 			for ( int index = 0; index < fiList.size(); ++index )
 				fiList.get(index).setFieldIndex(index);
 			
@@ -424,113 +431,28 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 		pdmBody._return(fdListToArray);
 	}
 	
-	private Map<QName, String> alignmentMap;
-	public Map<QName, String> getAlignmentMap()
+	private Map<QName, Alignment> alignmentMap;
+	public Map<QName, Alignment> getAlignmentMap()
 	{
 		if ( alignmentMap == null )
-		{
-			alignmentMap = new HashMap<>();
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","anySimpleType"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","anyURI"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","base64Binary"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","boolean"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","byte"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","date"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","dateTime"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","decimal"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","double"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","duration"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","ENTITY"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","float"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","gDay"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","gMonth"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","gMonthDay"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","gYear"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","gYearMonth"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","hexBinary"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","ID"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","int"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","integer"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","language"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","long"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","Name"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","NCName"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","negativeInteger"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","NMTOKEN"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","nonNegativeInteger"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","nonPositiveInteger"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","normalizedString"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","positiveInteger"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","QName"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","short"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","string"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","time"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","token"), "LEFT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedByte"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedInt"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedLong"), "RIGHT");
-			alignmentMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedShort"), "RIGHT");
-		}
+			setAlignmentMap(FieldDescriptor.ALIGN_BY_QNAME_MAP);
 		return alignmentMap;
 	}
-	public void setAlignmentMap(Map<QName, String> alignmentMap)
+	public void setAlignmentMap(Map<QName, Alignment> alignmentMap)
 	{
 		this.alignmentMap = alignmentMap;
 	}
 
-	
-	private Map<QName, Integer> minWidthMap;
-	public Map<QName, Integer> getMinWidthMap()
+	private Map<QName, Width> widthMap;
+	public Map<QName, Width> getWidthMap()
 	{
-		if ( minWidthMap == null )
-		{
-			minWidthMap = new HashMap<>();
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","anySimpleType"), 50);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","anyURI"), 30);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","base64Binary"), 50);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","boolean"), 5);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","byte"), 4);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","date"), 10);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","dateTime"), 30);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","decimal"), 15);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","double"), 15);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","duration"), 8);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","ENTITY"), 20);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","float"), 15);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","gDay"), 2);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","gMonth"), 2);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","gMonthDay"), 5);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","gYear"), 4);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","gYearMonth"), 7);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","hexBinary"), 50);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","ID"), 20);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","int"), 10);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","integer"), 10);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","language"), 5);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","long"), 20);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","Name"), 20);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","NCName"), 20);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","negativeInteger"), 10);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","NMTOKEN"), 20);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","nonNegativeInteger"), 10);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","nonPositiveInteger"), 10);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","normalizedString"), 20);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","positiveInteger"), 10);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","QName"), 30);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","short"), 10);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","string"), 20);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","time"), 9);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","token"), 20);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedByte"), 4);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedInt"), 10);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedLong"), 20);
-			minWidthMap.put(new QName("http://www.w3.org/2001/XMLSchema","unsignedShort"), 10);
-		}
-		return minWidthMap;
+		if ( widthMap == null )
+			setWidthMap(FieldDescriptor.WIDTH_BY_QNAME_MAP);
+		return widthMap;
 	}
-	public void setMinWidthMap(Map<QName, Integer> minWidthMap)
+	public void setWidthMap(Map<QName, Width> widthMap)
 	{
-		this.minWidthMap = minWidthMap;
+		this.widthMap = widthMap;
 	}
 
 	/* FieldDescriptor Property */
@@ -538,7 +460,7 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 	{
 		boolean isHidden = false;
 		Integer minWidth = null;
-		String alignment = null;
+		String alignmentName = null;
 		
 		XSType fiType = fieldInfo.getFieldType();
 		if ( fiType != null )
@@ -546,13 +468,16 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			if ( fiType.isSimpleType() )
 			{
 				QName typeName = fieldInfo.getFieldTypeName();
-				minWidth = getMinWidthMap().get(typeName);
-				alignment = getAlignmentMap().get(typeName);
+				minWidth = widthByType(typeName).getMin();
+				alignmentName = alignByType(typeName).name();
 			}
 			else
 				isHidden = true;
+			
 			if ( minWidth == null )
 				minWidth = DEFAULT_MIN_WIDTH;
+			if ( alignmentName == null )
+				alignmentName = DEFAULT_ALIGNMENT.name();
 		}
 		
 		Property fiProperty = fieldInfo.getProperty();
@@ -591,8 +516,8 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			// FieldDescriptor settings (Property)
 			if ( fiProperty.getAlignment() != null )
 				pdmBlock.add(fdVar.invoke("setAlignment").arg(lit(fiProperty.getAlignment().name())));
-			else if ( alignment != null )
-				pdmBlock.add(fdVar.invoke("setAlignment").arg(lit(alignment)));
+			else if ( alignmentName != null )
+				pdmBlock.add(fdVar.invoke("setAlignment").arg(lit(alignmentName)));
 			if ( fiProperty.isEditable() != null )
 				pdmBlock.add(fdVar.invoke("setEditable").arg(lit(fiProperty.isEditable())));
 			if ( fiProperty.getMaxWidth() != null )

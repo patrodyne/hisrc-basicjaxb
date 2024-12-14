@@ -80,7 +80,7 @@ abstract public class SchemaGeneratorBase
 	/**
 	 * Generate the Swixml XML Schema.
 	 *
-	 * @param uri The target name space, e.g. http://www.swixml.org/2007/SwixmlTags
+	 * @param uri The target name space, e.g. http://www.swixml.org/2007/swixmlTags
 	 * 
 	 * @throws ParserConfigurationException When the document cannot be built.
 	 */
@@ -262,7 +262,7 @@ abstract public class SchemaGeneratorBase
 	protected void execute(String[] args)
 		throws ParserConfigurationException, URISyntaxException, IOException, TransformerException
 	{
-		Document doc = generate(new URI("http://www.swixml.org/2007/Swixml"));
+		Document doc = generate(new URI("http://www.swixml.org/2007/swixml"));
 		if ( args != null && args.length > 0 )
 		{
 			File file = new File(args[0]);

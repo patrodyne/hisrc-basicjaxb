@@ -51,7 +51,7 @@
 						/>
 						<box.hglue />
 					</hbox>
-					<hbox>
+					<hbox preferredSize="${el.scaleSize('100%','35%')}">
 						<scrollpane>
 							<list
 								bindWith="comboList"
@@ -62,7 +62,7 @@
 						</scrollpane>
 						<box.glue />
 					</hbox>
-
+					
 					<hbox gap="10">
 						<button id="btn1" text="Show Client Attributes 1" X="Client1" Y="Attribute1" action="show" />
 						<button action="test">Test Button</button>
@@ -72,7 +72,7 @@
 				</vbox>
 			</panel>
 
-			<panel name="table-tree" layout="BorderLayout">
+			<panel name="table-tree1" layout="BorderLayout">
 			
 				<splitpane
 					constraints="CENTER"
@@ -83,9 +83,9 @@
 				
 					<scrollpane>
 						<tree
-							id="myTree"
+							id="myTree1"
 							model="${window.myTreeModel}"
-							cellRenderer="${window.cellRenderer}"
+							cellRenderer="${window.cellRenderer1}"
 							action="selectNode"
 							background="*-10-100"
 						/>
@@ -96,12 +96,12 @@
 						verticalScrollBarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
 					>
 						<table
-							id="testTable"
+							id="testTable1"
 							action="selectRow"
 							dblClickAction="activateRow"
 							cellSelectionEnabled="true"
 							bindList="${window.myData}"
-							autoResizeMode="0"
+							autoResizeMode="AUTO_RESIZE_OFF"
 							font="Monospaced"
 							rowHeight="${el.fieldHeight(10)}"
 							background="*-10-100"
@@ -141,6 +141,49 @@
 								resizable="true"
 								editable="true"
 							/>
+						</table>
+					</scrollpane>
+
+				</splitpane>
+				
+			</panel>
+
+			<panel name="table-tree2" layout="BorderLayout">
+			
+				<splitpane
+					constraints="CENTER"
+					orientation="HORIZONTAL_SPLIT"
+					oneTouchExpandable="true"
+					resizeWeight="0.30"
+				>
+				
+					<scrollpane>
+						<tree
+							id="myTree2"
+							model="${window.myTreeModel}"
+							cellRenderer="${window.cellRenderer2}"
+							action="selectNode"
+							background="*-10-100"
+						/>
+					</scrollpane>
+
+					<scrollpane
+						horizontalScrollBarPolicy="HORIZONTAL_SCROLLBAR_AS_NEEDED"
+						verticalScrollBarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
+					>
+						<table
+							id="testTable2"
+							action="selectRow"
+							dblClickAction="activateRow"
+							cellSelectionEnabled="true"
+							bindList="${window.myData}"
+							bindClass="${window.myDataClass}"
+							autoCreateColumnsFromModel="true"
+							autoResizeMode="AUTO_RESIZE_OFF"
+							font="Monospaced"
+							rowHeight="${el.fieldHeight(10)}"
+							background="*-10-100"
+						>
 						</table>
 					</scrollpane>
 

@@ -1,5 +1,6 @@
 package org.swixml.jsr.widgets;
 
+import javax.swing.SwingConstants;
 import javax.swing.table.TableColumn;
 
 public class TableColumnBind
@@ -19,6 +20,16 @@ public class TableColumnBind
 		super.setIdentifier(bindWith);
 	}
 	
+	private int alignment = SwingConstants.LEFT;
+	protected int getAlignment()
+	{
+		return alignment;
+	}
+	protected void setAlignment(int alignment)
+	{
+		this.alignment = alignment;
+	}
+
 	boolean editable = false;
 	public final boolean isEditable()
 	{

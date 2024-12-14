@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<frame
+	xmlns="http://www.swixml.org/2007/swixml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
+
+	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(45,1.50)"
+	size="${el.pageSize(80,20)}"
+	preferredSize="${el.size()}"
+	minimumSize="${el.size()}"
+	resizable="true" 
+	alwaysOnTop="false" 
+	title="SWIXML2 TreeCard example"
+	layout="GridLayout(1,2)"
+	defaultCloseOperation="EXIT_ON_CLOSE"
+>
+	<scrollpane>
+		<tree
+			id="mainTree"
+			initclass="org.swixml.examples.treecard.MainTreeNodeFactory"
+			cellRenderer="${window.mainTreeCellRenderer}"
+			action="selectMainTreeNode"
+			toolTipText="this is a tooltip"
+			background="*-20-100"
+		/>
+	</scrollpane>
+	
+	<panel id="cardLayoutPanel" layout="CardLayout" background="*-10-100" >
+	
+		<panel constraints="Devices"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="DEVICES" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="MODULE 1" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1:Status"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="STATUS" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1:Status:Device"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="STATUS: DEVICE" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1:Status:Network"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="STATUS: NETWORK" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1:Status:Chassis"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="STATUS: CHASSIS" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1:Status:Resources"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="STATUS: RESOURCES" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1:Project Editor"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="PROJECT EDITOR" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1:Project Manager"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="PROJECT MANAGER" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1:Administration"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="ADMINISTRATION" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1:Administration:Device"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="ADMIN: DEVICE" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1:Administration:Network"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="ADMIN: NETWORK" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1:Administration:Users"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="ADMIN: USERS" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+		<panel constraints="Devices:Module 1:Logging"
+			layout="BorderLayout" border="${el.titledBorder('constraints')}" opaque="false">
+			<label text="LOGGING" font="*-BOLD-100%" horizontalAlignment="CENTER"/>
+		</panel>
+		
+	</panel>
+
+</frame>

@@ -198,12 +198,10 @@ public final class BeanAdapterFactory
 		ArrayList<FeatureDescriptor> list = new ArrayList<FeatureDescriptor>(info.getPropertyDescriptors().length);
 		for ( PropertyDescriptor pd : info.getPropertyDescriptors() )
 		{
-			// PENDING: The following properties come from EL, are they
-			// needed?
+			// PENDING: The following properties come from EL, are they needed?
 			if ( pd.getPropertyType() != null )
-			{
 				pd.setValue(TYPE, pd.getPropertyType());
-			}
+			
 			pd.setValue(RESOLVABLE_AT_DESIGN_TIME, TRUE);
 			list.add(pd);
 		}

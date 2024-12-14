@@ -11,6 +11,7 @@ import static org.swixml.SwingEngine.DEFAULT_FONT_KEY;
 
 import java.awt.Font;
 
+import javax.swing.UIDefaults;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.metal.DefaultMetalTheme;
@@ -21,6 +22,8 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	private static final Object[] FONT_DIALOG_PLAIN = { "Dialog", PLAIN, 12 };
 	private static final Object[] FONT_DIALOG_BOLD1 = { "Dialog", BOLD,  12 };
 	private static final Object[] FONT_DIALOG_BOLD2 = { "Dialog", BOLD,  10 };
+	private static final Object[] FONT_MONOSPACED_PLAIN = { "Monospaced", PLAIN, 12 };
+	private static final Object[] FONT_MONOSPACED_BOLD  = { "Monospaced", BOLD,  12 };
 
 	// Public Fonts: name, style, size
 	private static final Object[] FONT_CONTROL_TEXT = FONT_DIALOG_PLAIN;
@@ -29,6 +32,8 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	private static final Object[] FONT_MENU_TEXT	= FONT_DIALOG_PLAIN;
 	private static final Object[] FONT_WINDOW_TEXT	= FONT_DIALOG_BOLD1;
 	private static final Object[] FONT_SUB_TEXT		= FONT_DIALOG_BOLD2;
+	private static final Object[] FONT_TABLE_TEXT			= FONT_MONOSPACED_PLAIN;
+	private static final Object[] FONT_TABLE_HEADER_TEXT 	= FONT_MONOSPACED_BOLD;
 
 	private static class FontSpec
 	{
@@ -313,6 +318,25 @@ public class MatteMetalTheme extends DefaultMetalTheme
 		// widen the integer to a float during multiplication
 		// then round to integer.
 		return round( points * getScale() );
+	}
+	
+    /**
+     * Add this theme's custom entries to the defaults table.
+     *
+     * @param table the defaults table, non-null
+     * @throws NullPointerException if {@code table} is {@code null}
+     */
+    @Override
+	public void addCustomEntriesToTable(UIDefaults table)
+	{
+    	FontUIResource tableFont = new FontUIResource(toScaledFont(FONT_TABLE_TEXT));
+    	FontUIResource tableHedaderFont = new FontUIResource(toScaledFont(FONT_TABLE_HEADER_TEXT));
+    	Object[] defaults = new Object[]
+    	{
+    	 	"Table.font", tableFont,
+    	 	"TableHeader.font", tableHedaderFont
+    	};
+    	table.putDefaults(defaults);
 	}
 	
 	public MatteMetalTheme(String hue, String scale)

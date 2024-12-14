@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class BindingExamplesFrame extends JFrame
 	
 	public JButton btn1, btn2;
 	
-	public JTableBind testTable;
+	public JTableBind testTable1, testTable2;
 	public JTextAreaBind ta;
 	public JLabelBind statusbar;
 	
@@ -120,7 +121,7 @@ public class BindingExamplesFrame extends JFrame
 		this.comboItem = comboItem;
 	}
 
-	// Bound by scrollpane/list to set cellRenderer.
+	// Bound by scrollpane/list to set cellRenderer1.
 	private CustomListCellRenderer listRenderer;
 	public final CustomListCellRenderer getListRenderer()
 	{
@@ -129,34 +130,63 @@ public class BindingExamplesFrame extends JFrame
 		return listRenderer;
 	}
 	
-	/* myTree bound by model="${window.cellRenderer}" */
-	private TreeCellRenderer cellRenderer = null;
-	public TreeCellRenderer getCellRenderer()
+	/* myTree1 bound by model="${window.cellRenderer}" */
+	private TreeCellRenderer cellRenderer1 = null;
+	public TreeCellRenderer getCellRenderer1()
 	{
-		if ( cellRenderer == null )
+		if ( cellRenderer1 == null )
 		{
-			cellRenderer = new DefaultTreeCellRenderer()
+			cellRenderer1 = new DefaultTreeCellRenderer()
 			{
 			    private static final long serialVersionUID = 20240701L;
 
 				@Override
 				public Color getBackgroundNonSelectionColor()
 			    {
-			        return getMyTree().getBackground();
+			        return getMyTree1().getBackground();
 			    }
 			};
 		}
-		return cellRenderer;
+		return cellRenderer1;
 	}
-	public void setCellRenderer(TreeCellRenderer cellRenderer)
+	public void setCellRenderer1(TreeCellRenderer cellRenderer)
 	{
-		this.cellRenderer = cellRenderer;
+		this.cellRenderer1 = cellRenderer;
 	}
 	
-	/* automatically bound by id="myTree" */
-	private JTree myTree;
-	public JTree getMyTree() { return myTree; }
-	public void setMyTree(JTree myTree) { this.myTree = myTree; }
+	/* myTree2 bound by model="${window.cellRenderer}" */
+	private TreeCellRenderer cellRenderer2 = null;
+	public TreeCellRenderer getCellRenderer2()
+	{
+		if ( cellRenderer2 == null )
+		{
+			cellRenderer2 = new DefaultTreeCellRenderer()
+			{
+			    private static final long serialVersionUID = 20240701L;
+
+				@Override
+				public Color getBackgroundNonSelectionColor()
+			    {
+			        return getMyTree2().getBackground();
+			    }
+			};
+		}
+		return cellRenderer2;
+	}
+	public void setCellRenderer2(TreeCellRenderer cellRenderer)
+	{
+		this.cellRenderer2 = cellRenderer;
+	}
+	
+	/* automatically bound by id="myTree1" */
+	private JTree myTree1;
+	public JTree getMyTree1() { return myTree1; }
+	public void setMyTree1(JTree myTree) { this.myTree1 = myTree; }
+	
+	/* automatically bound by id="myTree2" */
+	private JTree myTree2;
+	public JTree getMyTree2() { return myTree2; }
+	public void setMyTree2(JTree myTree) { this.myTree2 = myTree; }
 	
 	// Bound by scrollpane-1/myTree in "table-myTree" panel
 	private TestTreeModel myTreeModel;
@@ -229,17 +259,26 @@ public class BindingExamplesFrame extends JFrame
 	}
 
 	@Action
-	public void selectRow(ActionEvent e)
+	public void selectRow(ActionEvent ae)
 	{
-		ListSelectionEvent ev = (ListSelectionEvent) e.getSource();
+		ListSelectionEvent ev = (ListSelectionEvent) ae.getSource();
 		out.printf("OUT: selectRow firstIndex=%d lastIndex=%d valueIsAdjusting=%b\n",
 			ev.getFirstIndex(), ev.getLastIndex(), ev.getValueIsAdjusting());
 	}
 
 	@Action
-	public void activateRow(ActionEvent e)
+	public void activateRow(ActionEvent ae)
 	{
-		out.printf("OUT: activate row [%d]\n", testTable.getSelectedRow());
+		if ( ae.getSource() instanceof MouseEvent )
+		{
+			MouseEvent me = (MouseEvent) ae.getSource();
+			if ( me.getSource() instanceof JTableBind )
+			{
+				JTableBind jtb = (JTableBind) me.getSource();
+				out.printf("OUT: activate row [%d] on [%s]\n",
+					jtb.getSelectedRow(), jtb.getName());
+			}
+		}
 	}
 
 	@Action()

@@ -139,6 +139,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.patrodyne.jvnet</groupId>
+				<artifactId>hisrc-basicjaxb-swixml</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.patrodyne.jvnet</groupId>
 				<artifactId>hisrc-basicjaxb-testing</artifactId>
 				<version>${project.version}</version>
 			</dependency>

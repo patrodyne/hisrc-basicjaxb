@@ -24,6 +24,9 @@ public class Product
 	public BigDecimal getPrice() { return price; }
 	public void setPrice(BigDecimal value) { this.price = value; }
 	
+	public static String[] NAMES = { "PartNum", "Picture", "Description", "Price"};
+	public static Class<?>[] TYPES = { String.class, String.class, BigDecimal.class, String.class };
+	
 	public Object get(int index)
 	{
 		Object value = null;
@@ -36,6 +39,7 @@ public class Product
 		}
 		return value;
 	}
+	
 	public void set(int index, Object value)
 	{
 		switch ( index )

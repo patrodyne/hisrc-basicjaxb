@@ -5,9 +5,22 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
 
-import org.swixml.jsr295.BindingUtils;
+import org.jvnet.basicjaxb.lang.FieldDescriptor;
 
 /**
+ * Extends {@link SimpleBeanInfo} and implements the {@link BeanInfo} interface
+ * to provide explicit information about the methods, properties, events, and
+ * other features of {@link SimpleBean}.
+ * 
+ * <p>
+ * When developing a bean {@code MyPojo}, you can provide the bean features
+ * required for an application by implementing a {@code BeanInfo} class using
+ * the standard naming convention {@code MyPojoBeanInfo}. They will be obtained
+ * through the automatic analysis by using the low-level reflection of the bean
+ * methods and applying standard design patterns. You have an opportunity to
+ * provide additional bean information through various descriptor classes.
+ * </p>
+ * 
  * @author sorrentino
  */
 public class SimpleBeanBeanInfo extends SimpleBeanInfo
@@ -22,17 +35,19 @@ public class SimpleBeanBeanInfo extends SimpleBeanInfo
 	{
 		try
 		{
-			PropertyDescriptor[] properties = new PropertyDescriptor[]
+			FieldDescriptor[] properties = new FieldDescriptor[]
 			{
-			 	new PropertyDescriptor("age", org.swixml.examples.SimpleBean.class, "getAge", "setAge"),
-			 	new PropertyDescriptor("name", org.swixml.examples.SimpleBean.class, "getName", "setName"),
-			 	new PropertyDescriptor("field3", org.swixml.examples.SimpleBean.class, "getField3", "setField3"),
-			 	new PropertyDescriptor("field4", org.swixml.examples.SimpleBean.class, "getField4", "setField4")
-			 };
+			 	new FieldDescriptor("age", org.swixml.examples.SimpleBean.class, "getAge", "setAge"),
+			 	new FieldDescriptor("name", org.swixml.examples.SimpleBean.class, "getName", "setName"),
+			 	new FieldDescriptor("field3", org.swixml.examples.SimpleBean.class, "getField3", "setField3"),
+			 	new FieldDescriptor("field4", org.swixml.examples.SimpleBean.class, "getField4", "setField4")
+			};
 			// SWIXML2 extension
-			BindingUtils.setTableColumnIndex(properties[PROPERTY_age], 2);
-			BindingUtils.setTableColumnIndex(properties[PROPERTY_name], 1);
-			BindingUtils.setTableColumnEditable(properties[PROPERTY_name], true);
+			properties[PROPERTY_age].setIndex(2);
+			properties[PROPERTY_name].setIndex(1);
+			properties[PROPERTY_name].setEditable(true);
+			properties[PROPERTY_name].setDisplayName("Name");
+			properties[PROPERTY_age].setDisplayName("Age");
 			properties[PROPERTY_field3].setDisplayName("3rd field");
 			properties[PROPERTY_field4].setDisplayName("4th field");
 			return properties;
@@ -41,7 +56,7 @@ public class SimpleBeanBeanInfo extends SimpleBeanInfo
 		{
 			e.printStackTrace();
 		}
-		return null;
+		return new PropertyDescriptor[0];
 	}
 
 	@Override

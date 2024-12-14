@@ -1,11 +1,11 @@
 package org.swixml.converters;
 
-import static java.lang.Character.toUpperCase;
 import static java.lang.Integer.parseInt;
 
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.StringTokenizer;
+
 import org.swixml.Localizer;
 import org.swixml.SwingEngine;
 
@@ -157,25 +157,6 @@ public final class Util
 		String[] b = new String[i];
 		System.arraycopy(a, 0, b, 0, i);
 		return b;
-	}
-
-	/**
-	 * Return a capitalized version of the specified property name.
-	 *
-	 * @param s <code>String</code> The property name
-	 * 
-	 * @return <code>String</code> given String with 1st letter capitalized
-	 */
-	public static String capitalize(final String s)
-	{
-		String cs = null;
-		if ( s != null && 0 < s.length() )
-		{
-			final char[] chars = s.toCharArray();
-			chars[0] = toUpperCase(chars[0]);
-			cs = new String(chars);
-		}
-		return cs;
 	}
 
 	/**
