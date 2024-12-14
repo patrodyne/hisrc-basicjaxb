@@ -154,7 +154,7 @@ public class LocatorInputFactory
 					URL url = new URI(locator).toURL();
 					inputStream = url.openStream();
 				}
-				catch (MalformedURLException | URISyntaxException ex)
+				catch (MalformedURLException | URISyntaxException | IllegalArgumentException ex)
 				{
 					File file = new File(locator);
 					inputStream = new FileInputStream(file);
