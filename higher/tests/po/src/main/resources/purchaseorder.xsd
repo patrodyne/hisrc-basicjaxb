@@ -5,6 +5,9 @@
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	jaxb:extensionBindingPrefixes="bi"
 	jaxb:version="3.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=
+		"http://jvnet.org/basicjaxb/xjc/beaninfo ../../../../../../src/test/resources/org/jvnet/basicjaxb/xjc/beaninfo.xsd"
 >
 
 	<xs:annotation>

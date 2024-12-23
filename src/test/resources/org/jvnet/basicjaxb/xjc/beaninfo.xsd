@@ -3,8 +3,6 @@
 	targetNamespace="http://jvnet.org/basicjaxb/xjc/beaninfo"
 	xmlns:tns="http://jvnet.org/basicjaxb/xjc/beaninfo"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
-	jaxb:version="3.0"
 >
 
 	<xs:element name="bean">
