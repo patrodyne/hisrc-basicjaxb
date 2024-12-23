@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	targetNamespace="http://example.org/PurchaseOrder"
+	xmlns:tns="http://example.org/PurchaseOrder"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:bi="http://jvnet.org/basicjaxb/xjc/beaninfo"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	jaxb:version="3.0"
+	jaxb:extensionBindingPrefixes="bi"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=
+		"http://jvnet.org/basicjaxb/xjc/beaninfo ../../../../../../src/test/resources/org/jvnet/basicjaxb/xjc/beaninfo.xsd"
+>
+
+	<!-- Global annotation. -->
+	<xs:annotation>
+		<xs:documentation xml:lang="en">
+			Purchase order schema for Example.org.
+			Copyright 2000 Example.org. All rights reserved.
+		</xs:documentation>
+	</xs:annotation>
+
+	<!-- Top element(s) for element references. -->
+	<xs:element name="Comment" type="xs:string">
+		<xs:annotation>
+			<xs:appinfo>
+				<bi:property alignment="LEFT" minWidth="30">
+					<displayName>Observation</displayName>
+					<description>A remark, or statement based on what one has noticed.</description>
+				</bi:property>
+			</xs:appinfo>
+		</xs:annotation>
+	</xs:element>
+
+	<!-- Top element(s) with anonymous complex type become XmlRootElement(s). -->
+	<xs:element name="PurchaseOrder">
+		<xs:annotation>
+			<xs:appinfo>
+				<bi:bean>
+					<displayName>Purchase Order</displayName>
+					<description>A document issued by a buyer to a seller, indicating types, quantities, and prices for products.</description>
+				</bi:bean>
+			</xs:appinfo>
+		</xs:annotation>
+        <xs:complexType>
+			<xs:sequence>
+				<xs:element name="shipTo" type="tns:USAddress" />
+				<xs:element name="billTo" type="tns:USAddress" />
+				<xs:element ref="tns:Comment" minOccurs="0" />
+				<xs:element name="items" type="tns:Items" />
+				<xs:element name="payments">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="payment" maxOccurs="unbounded" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:decimal">
+											<xs:attribute name="paymentDate" type="xs:date" />
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="credits" type="tns:Credit" maxOccurs="unbounded" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="orderDate" type="xs:date" />
+			<xs:attribute name="complete" type="xs:boolean"></xs:attribute>
+		</xs:complexType>
+    </xs:element>
+
+	<xs:complexType name="USAddress">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="street" type="xs:string" />
+			<xs:element name="city" type="xs:string" />
+			<xs:element name="state" type="xs:string" />
+			<xs:element name="zip" type="xs:decimal" />
+		</xs:sequence>
+		<xs:attribute name="country" type="xs:NMTOKEN" fixed="US" />
+	</xs:complexType>
+
+	<xs:complexType name="Items">
+		<xs:sequence>
+			<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="productName" type="xs:string" />
+						<xs:element name="quantity">
+							<xs:simpleType>
+								<xs:restriction base="xs:positiveInteger">
+									<xs:maxExclusive value="100" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="USPrice" type="xs:decimal">
+							<xs:annotation>
+								<xs:appinfo>
+									<bi:property>
+										<readMethodName>getUSPrice</readMethodName>
+										<writeMethodName>setUSPrice</writeMethodName>
+									</bi:property>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="tns:Comment" minOccurs="0" />
+						<xs:element name="shipDate" type="xs:date" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="partNum" type="tns:SKU" use="required" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Stock Keeping Unit, a code for identifying products -->
+	<xs:simpleType name="SKU">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{3}-[A-Z]{2}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Credit">
+		<xs:attribute name="amount" type="xs:double"/>
+		<xs:attribute name="reason" type="xs:string"/>
+	</xs:complexType>
+
+</xs:schema>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4: -->

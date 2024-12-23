@@ -5,20 +5,37 @@ import static org.jvnet.basicjaxb.plugin.swing.Customizations.IGNORED_ELEMENT_NA
 import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
+import java.beans.IntrospectionException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.jvnet.basicjaxb.config.LocatorUnmarshaller;
 import org.jvnet.basicjaxb.lang.ValueUtils;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
 import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
 import org.jvnet.basicjaxb.plugin.CustomizedIgnoring;
 import org.jvnet.basicjaxb.plugin.Ignoring;
+import org.jvnet.basicjaxb.plugin.beaninfo.BeanInfoCustomization;
+import org.jvnet.basicjaxb.plugin.beaninfo.BeanInfoCustomizationFactory;
+import org.jvnet.basicjaxb.plugin.beaninfo.FieldInfo;
+import org.swixml.SwingEngine;
+import org.swixml.schema.model.JPanel;
+import org.swixml.schema.model.JTableBind;
+import org.swixml.schema.model.JTreeBind;
+import org.swixml.schema.model.ObjectFactory;
+import org.swixml.schema.model.Window;
+import org.swixml.schema.model.XScrollPane;
+import org.swixml.schema.model.XSplitPane;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
@@ -45,19 +62,25 @@ import com.sun.xml.xsom.XSTerm;
 import com.sun.xml.xsom.XSType;
 import com.sun.xml.xsom.XmlString;
 
+import jakarta.xml.bind.JAXBException;
+
 /**
+ * An XJC plugin to generate SwiXML files for a Swing GUI
  */
 public class SwingPlugin extends AbstractParameterizablePlugin
 {
-	/** Name of Option to enable this plugin. */
+	/* Name of Option to enable this plugin. */
 	private static final String OPTION_NAME = "Xswing";
 	
-	/** Description of Option to enable this plugin. */
+	/* Description of Option to enable this plugin. */
 	private static final String OPTION_DESC = "generate SwiXML files to render a Swing GUI";
 
-	/** Represents the arguments of a method without parameters. */
+	/* Represents the arguments of a method without parameters. */
 	private static final JType[] NO_ARGS = new JType[0];
-
+	
+	/* Represents the SWIXML schema model. */
+	private static final ObjectFactory OF = new ObjectFactory();
+	
 	/** Creates a new <code>SwingPlugin</code> instance. */
 	public SwingPlugin()
 	{
@@ -103,33 +126,60 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		);
 	}
 	
-	// Plugin Processing
+	private String source;
+	public String getSource()
+	{
+		if ( source == null )
+			setSource("classpath:/DefaultWindow.xml");
+		return source;
+	}
+	public void setSource(String source) { this.source = source; }
+
+	private String target;
+	public String getTarget() { return target; }
+	public void setTarget(String target) { this.target = target; }
 	
+	private File targetDir;
+	public File getTargetDir() { return targetDir; }
+	public void setTargetDir(File targetDir) { this.targetDir = targetDir; }
+	
+	// Plugin Processing
+
+	@Override
+	protected void init(Options options) throws Exception
+	{
+		super.init(options);
+		setTargetDir(options.targetDir);
+	}
+
 	@Override
 	protected void beforePostProcessModel(Model model)
 	{
 
-		if ( isInfoEnabled() )
+		if ( isDebugEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
+			sb.append("\n  Source....: " + getSource());
+			sb.append("\n  Target....: " + getTarget());
+			sb.append("\n  TargetDir.: " + getTargetDir());
 			sb.append("\n  Verbose...: " + isVerbose());
 			sb.append("\n  Debug.....: " + isDebug());
-			info(sb.toString());
+			debug(sb.toString());
 		}
 	}
 	
 	@Override
 	protected void afterPostProcessModel(Model model, ErrorHandler errorHandler)
 	{
-		if ( isInfoEnabled() )
+		if ( isDebugEnabled() )
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_FINISH);
 			sb.append("\nResults");
 			sb.append("\n  HadError.: " + hadError(errorHandler));
-			info(sb.toString());
+			debug(sb.toString());
 		}
 	}
 
@@ -197,8 +247,11 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  Verbose.: " + isVerbose());
-			sb.append("\n  Debug...: " + isDebug());
+			sb.append("\n  Source....: " + getSource());
+			sb.append("\n  Target....: " + getTarget());
+			sb.append("\n  TargetDir.: " + getTargetDir());
+			sb.append("\n  Verbose...: " + isVerbose());
+			sb.append("\n  Debug.....: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -262,93 +315,217 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 	@Override
 	public boolean run(Outline outline) throws Exception
 	{
-		// Filter ignored class outlines
-		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
-			processClassOutline(outline, classOutline);
+		try
+		{
+			// Set the JAXB context path.
+			setContextPath(Window.class.getPackageName());
+			// Create an unmarshaller to parse the source SWIXML configuration.
+			LocatorUnmarshaller<Window> windowUnmarshaller =
+				new LocatorUnmarshaller<>(getUnmarshaller());
+			// Unmarshal the source SWIXML configuration.
+			Window window = windowUnmarshaller.unmarshal(getSource(), Window.class);
+			
+			// Process the XJC Outline and Swing (Model) Window instances.
+			processWindow(outline, window);
+			
+			// Marshal the enriched SWIXML configuration to the target location.
+			File targetFile = new File(getTargetDir().getPath(), getTarget());
+			targetFile.getParentFile().mkdirs();
+			getMarshaller().marshal(window, targetFile);
+		}
+		catch (IOException | JAXBException ex)
+		{
+			error("Cannot run swing plugin: ", ex);
+		}
 		
 		return !hadError(outline.getErrorReceiver());
 	}
-
+	
 	/**
-	 * Process the XJC {@link Outline} instance. The goal is to add a fixed value to
-	 * initialize all non-ignored fields from the given {@link Outline} instance.
+	 * Process the XJC {@link Outline} instance for the given
+	 * {@link Window} instance. The goal is to configure the
+	 * {@link Window} to view/edit all non-ignored/hidden fields.
+	 * 
+	 * <p>The {@link Window} was marshaled from a XML file that can be
+	 * provided to a SWIXML {@link SwingEngine} to render a GUI.</p>
 	 * 
 	 * @param outline An outline from the XJC framework.
-	 * @param classOutline A class outline from the XJC framework.
-     * 
+	 * @param window The SWIXML {@code Window} to enrich.
+	 * 
+	 * @throws IntrospectionException cannot map class name to a class object.
+	 * @throws ClassNotFoundException no definition for the class with the specified name could be found.
 	 */
-	protected void processClassOutline(Outline outline, ClassOutline classOutline)
+	protected void processWindow(Outline outline, Window window)
+		throws IntrospectionException, ClassNotFoundException
+	{
+		XSplitPane splitPane = OF.createXSplitPane();
+		splitPane.setOrientation("HORIZONTAL_SPLIT");
+		splitPane.setOneTouchExpandable(true);
+		splitPane.setSize("${el.size()}");
+		splitPane.setDividerLocation("0.20");
+		window.getContent().add(OF.createSplitpane(splitPane));
+		
+		JTreeBind treeBind = OF.createJTreeBind();
+		treeBind.setId("mainTree");
+		treeBind.setModel("${window.mainTreeModel}");
+		treeBind.setCellRenderer("${window.mainTreeCellRenderer}");
+		treeBind.setAction("selectNode");
+		treeBind.setBackground("*-20-100");
+		
+		XScrollPane treePane = OF.createXScrollPane();
+		treePane.getContent().add(OF.createTree(treeBind));
+		
+		JPanel cardLayoutPanel = OF.createJPanel();
+		cardLayoutPanel.setId("mainPanel");
+		cardLayoutPanel.setLayout("CardLayout");
+
+		splitPane.getContent().add(OF.createScrollpane(treePane));
+		splitPane.getContent().add(OF.createPanel(cardLayoutPanel));
+		
+		BeanInfoCustomizationFactory bicf = new BeanInfoCustomizationFactory(outline);
+
+		// Filter ignored class outlines
+		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
+			processClassOutline(bicf, classOutline, cardLayoutPanel);
+	}
+	
+	/**
+	 * Process the XJC {@link Outline} instance for the given
+	 * {@link Window} instance. The goal is to configure the
+	 * {@link Window} to view/edit all non-ignored/hidden fields
+	 * for the given {@link ClassOutline} instance.
+	 * 
+	 * @param bicf A factory to create {@link BeanInfoCustomization} instances.
+	 * @param classOutline A class outline from the XJC framework.
+	 * @param cardLayoutPanel The card layout panel to contain the card tables.
+	 */
+	protected void processClassOutline(BeanInfoCustomizationFactory bicf, ClassOutline classOutline, JPanel cardLayoutPanel)
 	{
 		// Filter an array of {@link FieldOutline} to omit ignored or constant fields.
 		FieldOutline[] declaredFilteredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
-		
-		// check all Fields in Class
-		for (FieldOutline fieldOutline : declaredFilteredFields)
+		if ( declaredFilteredFields.length > 0 )
 		{
-			// Handle primitive types via boxed representation (treat boolean as java.lang.Boolean)
-			JType fieldRawType = fieldOutline.getRawType();
-			boolean fieldIsPrimitive = fieldRawType.isPrimitive();
-			JType fieldType = (fieldIsPrimitive) ? fieldRawType.boxify() : fieldRawType;
+			// Collect all bean and property CPluginCustomization instances in this
+			// plugin's Customizations namespace.
+			BeanInfoCustomization bic = bicf.createBeanInfoCustomization(classOutline);
 			
-			// Get the field type's full name.
-			String typeFullName = fieldType.fullName();
-
-			// Represent the XML schema element's or attribute's fixed value.
-			XmlString fixedValue = null;
-			
-			// Do nothing if Field is not created from an or XSAttributeUse an XSParticle
-			// Set the fixedValue ONLY when this plugin needs to provide the initialization.
-			CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
-			QName schemaType = fieldInfo.getSchemaType();
-			if ( fieldInfo.getSchemaComponent() instanceof XSAttributeUse )
+			// Prepare a declared field name set
+			Set<String> declaredFieldNameSet = new HashSet<>();
+			for ( FieldOutline dff : declaredFilteredFields )
 			{
-				// An XSAttributeUse provides isRequired, defaultValue and fixedValue for an XSAttributeDecl.
-				XSAttributeUse attribute = (XSAttributeUse) fieldInfo.getSchemaComponent();
-				if (attribute.getFixedValue() != null)
-				{
-					// Get the fixed value from the XSD attribute as a String.
-					fixedValue = attribute.getFixedValue();
-					if ( schemaType == null )
-					{
-						if ( fieldInfo instanceof CAttributePropertyInfo)
-						{
-							CAttributePropertyInfo attrInfo = (CAttributePropertyInfo) fieldInfo;
-							CNonElement target = attrInfo.getTarget();
-							schemaType = target.getTypeName();
-						}
-					}
-				}
+				CPropertyInfo pi = dff.getPropertyInfo();
+				declaredFieldNameSet.add(pi.getName(false));
 			}
-			else if ( fieldInfo.getSchemaComponent() instanceof XSParticle )
+			
+			// Count visible fields
+			int fieldCount = 0;
+			for (FieldInfo fieldInfo : bic.getFieldInfoList() )
 			{
-				// An XSParticle provides min/max occurs cardinality for an XSTerm.
-				XSParticle particle = (XSParticle) fieldInfo.getSchemaComponent();
+				String fiFieldName = fieldInfo.getFieldName();
+				if ( !declaredFieldNameSet.contains(fiFieldName) )
+					fieldInfo.setFieldHidden(true);
+				if ( !fieldInfo.isFieldHidden() )
+					++fieldCount;
+			}
+			
+			// Are there any visible fields?
+			if ( fieldCount > 0 )
+			{
+				// Format the EL for the current bindings.
+				String bindClass = format("${window.%sClass}", bic.getClassPrivateName());
+				String bindList = format("${window.%s}", bic.getClassListName());
 				
-				// Fixed values only necessary for fields derived from an xsd:element
-				XSTerm term = particle.getTerm();
-				if (term.isElementDecl())
+				// Create table for current bind class.
+				JTableBind table = OF.createJTableBind();
+//				table.setBindClass(bic.getClassFullName());
+				table.setBindClass(bindClass);
+				table.setBindList(bindList);
+				table.setAutoCreateColumnsFromModel(true);
+				table.setAutoResizeMode("AUTO_RESIZE_OFF");
+				table.setFont("Monospaced");
+				table.setBackground("*-10-100");
+				
+				// Add the table to a new scroll pane.
+				XScrollPane scrollPane = OF.createXScrollPane();
+				scrollPane.setConstraints(bic.getClassFullName());
+				scrollPane.getContent().add(OF.createTable(table));
+				
+				// Add the scroll pane to the card layout panel.
+				cardLayoutPanel.getContent().add(OF.createScrollpane(scrollPane));
+			}
+		}
+		
+		boolean noop = false;
+		if ( noop )
+		{
+			// Check all Fields in Class
+			for (FieldOutline fieldOutline : declaredFilteredFields)
+			{
+				// Handle primitive types via boxed representation (treat boolean as java.lang.Boolean)
+				JType fieldRawType = fieldOutline.getRawType();
+				boolean fieldIsPrimitive = fieldRawType.isPrimitive();
+				JType fieldType = (fieldIsPrimitive) ? fieldRawType.boxify() : fieldRawType;
+				
+				// Get the field type's full name.
+				String typeFullName = fieldType.fullName();
+
+				// Represent the XML schema element's or attribute's fixed value.
+				XmlString fixedValue = null;
+				
+				// Do nothing if Field is not created from an or XSAttributeUse an XSParticle
+				// Set the fixedValue ONLY when this plugin needs to provide the initialization.
+				CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
+				QName schemaType = fieldInfo.getSchemaType();
+				if ( fieldInfo.getSchemaComponent() instanceof XSAttributeUse )
 				{
-					// Do nothing if no fixed value.
-					// Continue loop to next FieldOutline instance.
-					XSElementDecl element = term.asElementDecl();
-					if (element.getFixedValue() != null)
+					// An XSAttributeUse provides isRequired, defaultValue and fixedValue for an XSAttributeDecl.
+					XSAttributeUse attribute = (XSAttributeUse) fieldInfo.getSchemaComponent();
+					if (attribute.getFixedValue() != null)
 					{
-						// Get the fixed value from the XSD element as a String.
-						fixedValue = element.getFixedValue();
+						// Get the fixed value from the XSD attribute as a String.
+						fixedValue = attribute.getFixedValue();
 						if ( schemaType == null )
 						{
-							XSType elementType = element.getType();
-							if ( (elementType != null) && (elementType.getName() != null) )
-								schemaType = new QName(elementType.getTargetNamespace(), elementType.getName());
+							if ( fieldInfo instanceof CAttributePropertyInfo)
+							{
+								CAttributePropertyInfo attrInfo = (CAttributePropertyInfo) fieldInfo;
+								CNonElement nonElement = attrInfo.getTarget();
+								schemaType = nonElement.getTypeName();
+							}
 						}
 					}
 				}
-			}
-			
-			// Provide initialization for the fixed value, when non-null.
-			if ( fixedValue != null )
-				processSwing(outline, classOutline, fieldOutline, fieldType, fieldIsPrimitive, typeFullName, fixedValue, schemaType);
-		} // for FieldOutline
+				else if ( fieldInfo.getSchemaComponent() instanceof XSParticle )
+				{
+					// An XSParticle provides min/max occurs cardinality for an XSTerm.
+					XSParticle particle = (XSParticle) fieldInfo.getSchemaComponent();
+					
+					// Fixed values only necessary for fields derived from an xsd:element
+					XSTerm term = particle.getTerm();
+					if (term.isElementDecl())
+					{
+						// Do nothing if no fixed value.
+						// Continue loop to next FieldOutline instance.
+						XSElementDecl element = term.asElementDecl();
+						if (element.getFixedValue() != null)
+						{
+							// Get the fixed value from the XSD element as a String.
+							fixedValue = element.getFixedValue();
+							if ( schemaType == null )
+							{
+								XSType elementType = element.getType();
+								if ( (elementType != null) && (elementType.getName() != null) )
+									schemaType = new QName(elementType.getTargetNamespace(), elementType.getName());
+							}
+						}
+					}
+				}
+				
+				// Provide initialization for the fixed value, when non-null.
+				if ( fixedValue != null )
+					processSwing(bicf.getOutline(), classOutline, fieldOutline, fieldType, fieldIsPrimitive, typeFullName, fixedValue, schemaType);
+			} // for FieldOutline
+		}
 	}
 
 	private void processSwing(Outline outline, ClassOutline classOutline,
@@ -362,7 +539,7 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
 		
 		// Get the field variable for the given fieldInfo private name
-		// from the map of fields for theClass. .
+		// from the map of fields for theClass.
 		Map<String, JFieldVar> fields = theClass.fields();
 		JFieldVar fieldVar = fields.get(fieldInfo.getName(false));
 		

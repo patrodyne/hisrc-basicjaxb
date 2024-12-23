@@ -46,7 +46,7 @@ public abstract class AbstractSwixmlTest extends AbstractSamplesTest
 		throws Exception
 	{
 		// Unmarshal with a filter to add a namespace.
-		XMLFilter readFilter = new XmlNamespaceFilter("http://www.swixml.org/2007/Swixml", true);
+		XMLFilter readFilter = new XmlNamespaceFilter("http://www.swixml.org/2007/swixml", true);
 		SAXSource saxSource = createSaxSource(sample, readFilter);
 		Object sampleObject = getUnmarshaller().unmarshal(saxSource);
 		getLogger().debug("Sample Object: {}", sampleObject);

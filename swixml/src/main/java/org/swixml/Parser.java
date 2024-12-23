@@ -1018,8 +1018,13 @@ public class Parser implements LogAware
 			aa.attr_name = attr;
 		
 		// Resolve the parameter type, if possible.
-		Class<?>[] paraTypes = factory.getPropertyType(tag, attr.getLocalName());
+		Class<?>[] paraTypes = factory.getPropertyType(tag, attr);
 		Class<?> paraType = null;
+		//
+		// Warn: Some components like JSplitPane overload some methods like
+		// 'setDividerLocation(int val)' and 'setDividerLocation(double val)'.
+		// In this case, the first paraType is used.
+		//
 		if ( (paraTypes != null) && (paraTypes.length > 0) )
 			paraType = paraTypes[0];
 		

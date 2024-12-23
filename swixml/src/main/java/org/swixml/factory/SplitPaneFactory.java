@@ -26,15 +26,37 @@ public class SplitPaneFactory extends BeanFactory
 	public void setProperty(Object bean, Attribute attr, Object value, Class<?> type)
 		throws Exception
 	{
-		final String name = attr.getLocalName();
-		if ( "dividerlocation".equalsIgnoreCase(name) )
+		Class<?> propType = getPropertyType(attr);
+		if ( propType == Double.TYPE )
+			super.setProperty(bean, attr, attr.getDoubleValue(), Double.TYPE);
+		else if ( propType == Integer.TYPE )
+			super.setProperty(bean, attr, attr.getIntValue(), Integer.TYPE);
+		else
+			super.setProperty(bean, attr, value, type);
+	}
+	
+	@Override
+	public Class<?>[] getPropertyType(Object bean, Attribute attr)
+	{
+		Class<?>[] propTypes = null;
+		Class<?> propType = getPropertyType(attr);
+		if ( propType != null )
+			propTypes = new Class<?>[] { propType };
+		else
+			propTypes = super.getPropertyType(bean, attr);
+		return propTypes;
+	}
+	
+	private Class<?> getPropertyType(Attribute attr)
+	{
+		Class<?> propType = null;
+		if ( "dividerlocation".equalsIgnoreCase(attr.getLocalName()) )
 		{
 			if ( attr.getValue().contains(".") )
-				super.setProperty(bean, attr, attr.getDoubleValue(), Double.TYPE);
+				propType = Double.TYPE;
 			else
-				super.setProperty(bean, attr, attr.getIntValue(), Integer.TYPE);
-			return;
+				propType = Integer.TYPE;
 		}
-		super.setProperty(bean, attr, value, type);
+		return propType;
 	}
 }

@@ -79,11 +79,11 @@ public interface Factory
 	 * Get an array of classes representing the property's parameter types.
 	 * 
 	 * @param bean Object representing a tag found in the SWIXML descriptor document.
-	 * @param name The {@link Attribute}'s local name.
+	 * @param attr The {@link Attribute}'s local name, value, etc.
 	 * 
 	 * @return An array of classes representing the property's parameter types.
 	 */
-	Class<?>[] getPropertyType(Object bean, String name);
+	Class<?>[] getPropertyType(Object bean, Attribute attr);
 
 	/**
 	 * Set a property value on a bean using the XML attribute value.

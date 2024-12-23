@@ -62,7 +62,7 @@ public class ScriptFactory
 	}
 
 	@Override
-	public Class<?>[] getPropertyType(Object bean, String name)
+	public Class<?>[] getPropertyType(Object bean, Attribute attr)
 	{
 		return null;
 	}

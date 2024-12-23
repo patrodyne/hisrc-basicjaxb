@@ -12,12 +12,12 @@
 		* Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512".
 	-->
 	<jaxb:globalBindings localScoping="toplevel" fixedAttributeAsConstantProperty="false">
-		<jaxb:serializable uid="20230501" />
+		<jaxb:serializable uid="20241001" />
 	</jaxb:globalBindings>
 
-	<jaxb:bindings schemaLocation="po.xsd" node="/xs:schema">
+	<jaxb:bindings schemaLocation="PurchaseOrder.xsd" node="/xs:schema">
 		<jaxb:schemaBindings>
-			<jaxb:package name="org.jvnet.basicjaxb.tests.po"/>
+			<jaxb:package name="org.example.PurchaseOrder.model"/>
 		</jaxb:schemaBindings>
 	</jaxb:bindings>
 

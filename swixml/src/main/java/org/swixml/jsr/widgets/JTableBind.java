@@ -219,7 +219,8 @@ public class JTableBind
 	{
 		ELMethods<?> elm = getSwingEngine().getELMethods();
 		int sw = elm.getFontMetrics(getFont()).stringWidth(AVERAGE_LETTER);
-		return repeat * sw;
+		// PAD = 4
+		return repeat * sw + 4;
 	}
 	
 	/**
@@ -282,8 +283,8 @@ public class JTableBind
 				Class<?> type = bfd.getPropertyType();
 
 				// Hidden: Use BeanInfo inferred values or 'by type'.
-				boolean hidden = false;
-				if ( bfd.isHidden() == false )
+				boolean hidden = bfd.isHidden();
+				if ( !hidden )
 					hidden = FieldDescriptor.hideByType(type);
 				if ( !hidden )
 				{
@@ -309,7 +310,7 @@ public class JTableBind
 					// Alignment: Use BeanInfo inferred values.
 					Alignment alignment = Alignment.LEFT;
 					if ( bfd.getAlignment() != null )
-						alignment = Alignment.valueOf(bfd.getAlignment().toUpperCase());
+						alignment = bfd.getAlignment();
 					else
 						alignment = alignByType(type);
 					TableCellRenderer headerRenderer =

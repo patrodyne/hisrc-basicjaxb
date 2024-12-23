@@ -105,30 +105,41 @@ public final class DimensionConverter extends AbstractConverter<Dimension>
 				if ( g2 != null )
 					parms = g2.split(",");
 				
-				if ( parms.length > 0 )
+				if ( "pageSize".equals(dimType) )
 				{
-					if ( "pageSize".equals(dimType) )
+					if ( parms.length > 1 )
 					{
 						int sw = Integer.parseInt(parms[0]);
 						int sh = Integer.parseInt(parms[1]);
 						size = engine.getELMethods().pageSize(sw, sh);
 					}
-					else if ( "size".equals(dimType) )
+				}
+				else if ( "size".equals(dimType) )
+				{
+					if ( parms.length == 0 )
+					{
+						// circular logic
+						// size = engine.getELMethods().size();
+					}
+					else if ( parms.length > 1 )
 					{
 						int sw = Integer.parseInt(parms[0]);
 						int sh = Integer.parseInt(parms[1]);
 						size = engine.getELMethods().size(sw, sh);
 					}
-					else if ( "scaleSize".equals(dimType) )
+				}
+				else if ( "scaleSize".equals(dimType) )
+				{
+					if ( g2.contains("%") )
 					{
-						if ( g2.contains("%") )
-						{
-							if ( parms.length == 1 )
-								size = engine.getELMethods().scaleSize(parms[0]);
-							else
-								size = engine.getELMethods().scaleSize(parms[0], parms[1]);
-						}
-						else
+						if ( parms.length == 1 )
+							size = engine.getELMethods().scaleSize(parms[0]);
+						else if ( parms.length > 1 )
+							size = engine.getELMethods().scaleSize(parms[0], parms[1]);
+					}
+					else
+					{
+						if ( parms.length > 1 )
 						{
 							double sw = Double.valueOf(parms[0]);
 							double sh = Double.valueOf(parms[1]);

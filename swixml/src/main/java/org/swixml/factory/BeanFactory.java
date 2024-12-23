@@ -193,8 +193,9 @@ public class BeanFactory implements Factory
 	}
 
 	@Override
-	public Class<?>[] getPropertyType(Object bean, String name)
+	public Class<?>[] getPropertyType(Object bean, Attribute attr)
 	{
+		String name = attr.getLocalName();
 		java.util.List<Method> methods = getNameMap().get(name.toLowerCase());
 		if ( null == methods || methods.isEmpty() )
 		{

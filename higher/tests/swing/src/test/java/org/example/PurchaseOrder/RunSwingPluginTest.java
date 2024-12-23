@@ -1,4 +1,4 @@
-package org.jvnet.basicjaxb.test.swing;
+package org.example.PurchaseOrder;
 
 import static org.apache.maven.artifact.Artifact.SCOPE_RUNTIME;
 
@@ -48,7 +48,14 @@ public class RunSwingPluginTest extends AbstractMojoTest
 		mojo.setNoFileHeader(true);
 		mojo.setExtension(true);
 		mojo.setArgs(new ArrayList<>());
+		
+		mojo.getArgs().add("-XbeanInfo");
+		mojo.getArgs().add("-XbeanInfo-searchPath=..infos");
+		
 		mojo.getArgs().add("-Xswing");
+		mojo.getArgs().add("-Xswing-source=file:src/main/resources/PurchaseOrderWindow.xml");
+		mojo.getArgs().add("-Xswing-target=org/example/PurchaseOrder/swing/PurchaseOrderWindow.xml");
+		
 //		mojo.getArgs().add("-XhashCode");
 //		mojo.getArgs().add("-Xequals");
 //		mojo.getArgs().add("-XtoString");

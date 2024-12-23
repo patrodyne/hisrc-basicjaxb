@@ -16,7 +16,13 @@
 >
 	<panel name="explorer" layout="BorderLayout">
 	
-		<splitpane constraints="CENTER" resizeWeight="0.15" oneTouchExpandable="true">
+		<splitpane
+			constraints="CENTER"
+			size="${el.size()}"
+			dividerLocation="0.30"
+			resizeWeight="0.15"
+			oneTouchExpandable="true"
+		>
 		
 			<tree
 				id="tree"
