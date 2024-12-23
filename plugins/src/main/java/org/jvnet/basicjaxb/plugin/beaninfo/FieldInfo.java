@@ -1,14 +1,24 @@
 package org.jvnet.basicjaxb.plugin.beaninfo;
 
+import static org.jvnet.basicjaxb.lang.FieldDescriptor.DEFAULT_ALIGNMENT;
+import static org.jvnet.basicjaxb.lang.FieldDescriptor.DEFAULT_MIN_WIDTH;
+import static org.jvnet.basicjaxb.lang.FieldDescriptor.alignByType;
+import static org.jvnet.basicjaxb.lang.FieldDescriptor.widthByType;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.jvnet.basicjaxb.lang.Access;
+import org.jvnet.basicjaxb.lang.Alignment;
 import org.jvnet.basicjaxb.plugin.beaninfo.model.Property;
 
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.xml.xsom.XSAttributeUse;
+import com.sun.xml.xsom.XSElementDecl;
 import com.sun.xml.xsom.XSFacet;
+import com.sun.xml.xsom.XSParticle;
 import com.sun.xml.xsom.XSSimpleType;
 import com.sun.xml.xsom.XSType;
 
@@ -56,6 +66,45 @@ public class FieldInfo
 	{
 		this.fieldTypeName = fieldTypeName;
 	}
+	
+	private boolean fieldHidden = false;
+	public boolean isFieldHidden() { return fieldHidden; }
+	public void setFieldHidden(boolean fieldHidden) { this.fieldHidden = fieldHidden; }
+	
+	private Integer fieldMinWidth;
+	public Integer getFieldMinWidth()
+	{
+		if ( fieldMinWidth == null )
+			setFieldMinWidth(DEFAULT_MIN_WIDTH);
+		return fieldMinWidth;
+	}
+	public void setFieldMinWidth(Integer fieldMinWidth)
+	{
+		this.fieldMinWidth = fieldMinWidth;
+	}
+
+	private Access fieldAccess;
+	public Access getFieldAccess()
+	{
+		return fieldAccess;
+	}
+	public void setFieldAccess(Access fieldAccess)
+	{
+		this.fieldAccess = fieldAccess;
+	}
+
+	private Alignment fieldAlignment;
+	public Alignment getFieldAlignment()
+	{
+		if ( fieldAlignment == null )
+			setFieldAlignment(DEFAULT_ALIGNMENT);
+
+		return fieldAlignment;
+	}
+	public void setFieldAlignment(Alignment fieldAlignment)
+	{
+		this.fieldAlignment = fieldAlignment;
+	}
 
 	private Property property;
 	public Property getProperty() { return property; }
@@ -84,6 +133,36 @@ public class FieldInfo
 	}
 	
 	/**
+	 * Get the property type as an attribute use (XSSimpleType)
+	 * or element declaration (XSType).
+	 * 
+	 * @param propertyInfo The {@link CPropertyInfo} to examine.
+	 * 
+	 * @return The properties type as {@link XSType} or {@link XSSimpleType}
+	 */
+	public static XSType getType(CPropertyInfo propertyInfo)
+	{
+		XSType type = null;
+		if ( propertyInfo.getSchemaComponent() instanceof XSAttributeUse)
+		{
+			XSAttributeUse source = (XSAttributeUse) propertyInfo.getSchemaComponent();
+			type = source.getDecl().getType();
+		}
+		else if ( propertyInfo.getSchemaComponent() instanceof XSParticle )
+		{
+			XSParticle source = (XSParticle) propertyInfo.getSchemaComponent();
+			if ( source.getTerm() instanceof XSElementDecl )
+			{
+				XSElementDecl ed = (XSElementDecl) source.getTerm();
+				type = ed.getType();
+			}
+		}
+		else if ( propertyInfo.getSchemaComponent() instanceof XSSimpleType )
+			type = (XSSimpleType) propertyInfo.getSchemaComponent();
+		return type;
+	}
+	
+	/**
 	 * Construct with a {@link CPropertyInfo}.
 	 * 
 	 * @param pi XJC model of a property to be generated.
@@ -92,5 +171,23 @@ public class FieldInfo
 	{
 		setFieldName(pi.getName(false));
 		setFieldDisplayName(pi.getName(true));
+		setFieldType(getType(pi));
+		
+		if ( getFieldType() != null )
+		{
+			if ( getFieldType().isSimpleType() )
+			{
+				QName typeName = getFieldTypeName();
+				setFieldMinWidth(widthByType(typeName).getMin());
+				setFieldAlignment(alignByType(typeName));
+			}
+			else
+				setFieldHidden(true);
+		}
+		
+		if ( pi.isCollection() )
+			setFieldAccess(Access.READ_ONLY);
+		else
+			setFieldAccess(Access.READ_WRITE);
 	}
 }

@@ -35,9 +35,12 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
  *         <element name="description" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         <element name="rendererClass" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         <element name="editorClass" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         <element name="readMethodName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         <element name="writeMethodName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       </sequence>
  *       <attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       <attribute name="index" type="{http://www.w3.org/2001/XMLSchema}int" />
+ *       <attribute name="access" type="{http://jvnet.org/basicjaxb/xjc/beaninfo}accessType" />
  *       <attribute name="alignment" type="{http://jvnet.org/basicjaxb/xjc/beaninfo}alignmentType" />
  *       <attribute name="editable" type="{http://www.w3.org/2001/XMLSchema}boolean" />
  *       <attribute name="resizable" type="{http://www.w3.org/2001/XMLSchema}boolean" />
@@ -61,7 +64,9 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
     "displayName",
     "description",
     "rendererClass",
-    "editorClass"
+    "editorClass",
+    "readMethodName",
+    "writeMethodName"
 })
 @XmlRootElement(name = "property")
 public class Property implements Serializable, Equals, HashCode, ToString
@@ -72,10 +77,14 @@ public class Property implements Serializable, Equals, HashCode, ToString
     protected String description;
     protected String rendererClass;
     protected String editorClass;
+    protected String readMethodName;
+    protected String writeMethodName;
     @XmlAttribute(name = "name")
     protected String name;
     @XmlAttribute(name = "index")
     protected Integer index;
+    @XmlAttribute(name = "access")
+    protected AccessType access;
     @XmlAttribute(name = "alignment")
     protected AlignmentType alignment;
     @XmlAttribute(name = "editable")
@@ -196,6 +205,54 @@ public class Property implements Serializable, Equals, HashCode, ToString
     }
 
     /**
+     * Gets the value of the readMethodName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getReadMethodName() {
+        return readMethodName;
+    }
+
+    /**
+     * Sets the value of the readMethodName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setReadMethodName(String value) {
+        this.readMethodName = value;
+    }
+
+    /**
+     * Gets the value of the writeMethodName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getWriteMethodName() {
+        return writeMethodName;
+    }
+
+    /**
+     * Sets the value of the writeMethodName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setWriteMethodName(String value) {
+        this.writeMethodName = value;
+    }
+
+    /**
      * Gets the value of the name property.
      * 
      * @return
@@ -241,6 +298,30 @@ public class Property implements Serializable, Equals, HashCode, ToString
      */
     public void setIndex(Integer value) {
         this.index = value;
+    }
+
+    /**
+     * Gets the value of the access property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link AccessType }
+     *     
+     */
+    public AccessType getAccess() {
+        return access;
+    }
+
+    /**
+     * Sets the value of the access property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AccessType }
+     *     
+     */
+    public void setAccess(AccessType value) {
+        this.access = value;
     }
 
     /**
@@ -549,6 +630,20 @@ public class Property implements Serializable, Equals, HashCode, ToString
             currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
         }
         {
+            boolean theFieldIsSet = (this.readMethodName!= null);
+            String theField;
+            theField = this.getReadMethodName();
+            ObjectLocator theFieldLocator = LocatorUtils.property(locator, "readMethodName", theField);
+            currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+        }
+        {
+            boolean theFieldIsSet = (this.writeMethodName!= null);
+            String theField;
+            theField = this.getWriteMethodName();
+            ObjectLocator theFieldLocator = LocatorUtils.property(locator, "writeMethodName", theField);
+            currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+        }
+        {
             boolean theFieldIsSet = (this.name!= null);
             String theField;
             theField = this.getName();
@@ -560,6 +655,13 @@ public class Property implements Serializable, Equals, HashCode, ToString
             Integer theField;
             theField = this.getIndex();
             ObjectLocator theFieldLocator = LocatorUtils.property(locator, "index", theField);
+            currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+        }
+        {
+            boolean theFieldIsSet = (this.access!= null);
+            AccessType theField;
+            theField = this.getAccess();
+            ObjectLocator theFieldLocator = LocatorUtils.property(locator, "access", theField);
             currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
         }
         {
@@ -716,6 +818,32 @@ public class Property implements Serializable, Equals, HashCode, ToString
             }
         }
         {
+            boolean lhsFieldIsSet = (this.readMethodName!= null);
+            boolean rhsFieldIsSet = (that.readMethodName!= null);
+            String lhsField;
+            lhsField = this.getReadMethodName();
+            String rhsField;
+            rhsField = that.getReadMethodName();
+            ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "readMethodName", lhsField);
+            ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "readMethodName", rhsField);
+            if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+                return false;
+            }
+        }
+        {
+            boolean lhsFieldIsSet = (this.writeMethodName!= null);
+            boolean rhsFieldIsSet = (that.writeMethodName!= null);
+            String lhsField;
+            lhsField = this.getWriteMethodName();
+            String rhsField;
+            rhsField = that.getWriteMethodName();
+            ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "writeMethodName", lhsField);
+            ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "writeMethodName", rhsField);
+            if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+                return false;
+            }
+        }
+        {
             boolean lhsFieldIsSet = (this.name!= null);
             boolean rhsFieldIsSet = (that.name!= null);
             String lhsField;
@@ -737,6 +865,19 @@ public class Property implements Serializable, Equals, HashCode, ToString
             rhsField = that.getIndex();
             ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "index", lhsField);
             ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "index", rhsField);
+            if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+                return false;
+            }
+        }
+        {
+            boolean lhsFieldIsSet = (this.access!= null);
+            boolean rhsFieldIsSet = (that.access!= null);
+            AccessType lhsField;
+            lhsField = this.getAccess();
+            AccessType rhsField;
+            rhsField = that.getAccess();
+            ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "access", lhsField);
+            ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "access", rhsField);
             if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
                 return false;
             }
@@ -934,6 +1075,18 @@ public class Property implements Serializable, Equals, HashCode, ToString
             strategy.appendField(locator, this, "editorClass", buffer, theField, theFieldIsSet);
         }
         {
+            boolean theFieldIsSet = (this.readMethodName!= null);
+            String theField;
+            theField = this.getReadMethodName();
+            strategy.appendField(locator, this, "readMethodName", buffer, theField, theFieldIsSet);
+        }
+        {
+            boolean theFieldIsSet = (this.writeMethodName!= null);
+            String theField;
+            theField = this.getWriteMethodName();
+            strategy.appendField(locator, this, "writeMethodName", buffer, theField, theFieldIsSet);
+        }
+        {
             boolean theFieldIsSet = (this.name!= null);
             String theField;
             theField = this.getName();
@@ -944,6 +1097,12 @@ public class Property implements Serializable, Equals, HashCode, ToString
             Integer theField;
             theField = this.getIndex();
             strategy.appendField(locator, this, "index", buffer, theField, theFieldIsSet);
+        }
+        {
+            boolean theFieldIsSet = (this.access!= null);
+            AccessType theField;
+            theField = this.getAccess();
+            strategy.appendField(locator, this, "access", buffer, theField, theFieldIsSet);
         }
         {
             boolean theFieldIsSet = (this.alignment!= null);

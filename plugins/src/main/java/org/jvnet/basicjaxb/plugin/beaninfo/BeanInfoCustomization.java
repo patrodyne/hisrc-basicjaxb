@@ -10,18 +10,24 @@ import static com.sun.xml.xsom.XSFacet.FACET_MININCLUSIVE;
 import static com.sun.xml.xsom.XSFacet.FACET_MINLENGTH;
 import static com.sun.xml.xsom.XSFacet.FACET_PATTERN;
 import static com.sun.xml.xsom.XSFacet.FACET_TOTALDIGITS;
+import static java.beans.Introspector.decapitalize;
 import static org.jvnet.basicjaxb.plugin.beaninfo.Customizations.BEAN_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.beaninfo.Customizations.PROPERTY_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.util.CustomizationUtils.findCustomization;
+import static org.jvnet.basicjaxb.util.CustomizationUtils.unmarshall;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.plugin.beaninfo.model.Bean;
+import org.jvnet.basicjaxb.plugin.beaninfo.model.Property;
+import org.jvnet.basicjaxb.util.OutlineUtils;
 
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
@@ -35,7 +41,6 @@ import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIDeclaration;
 import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIXPluginCustomization;
 import com.sun.tools.xjc.reader.xmlschema.bindinfo.BindInfo;
 import com.sun.xml.xsom.XSAnnotation;
-import com.sun.xml.xsom.XSAttributeUse;
 import com.sun.xml.xsom.XSComplexType;
 import com.sun.xml.xsom.XSComponent;
 import com.sun.xml.xsom.XSElementDecl;
@@ -103,6 +108,28 @@ public class BeanInfoCustomization
 		this.propertyCustomizationMap = propertyCustomizationMap;
 	}
 	
+	/* Set property customization by reference, if any. */
+	private void setPropertyCustomizationByElement(CPropertyInfo propertyInfo)
+	{
+		if ( !getPropertyCustomizationMap().containsKey(propertyInfo) )
+		{
+			// Look for a matching element reference for the current property info.
+			if ( propertyInfo.getSchemaComponent() instanceof XSParticle)
+			{
+				XSParticle source = (XSParticle) propertyInfo.getSchemaComponent();
+				XSTerm term = source.getTerm();
+				if ( term.isElementDecl() )
+				{
+					XSElementDecl ed = term.asElementDecl();
+					QName refName = new QName(ed.getTargetNamespace(), ed.getName());
+					CPluginCustomization pcRef = getElementCustomizationMap().get(refName);
+					if ( pcRef != null )
+						getPropertyCustomizationMap().put(propertyInfo, pcRef);
+				}
+			}	
+		}
+	}
+
 	private Map<CPropertyInfo, List<XSFacet>> propertyFacetMap;
 	public Map<CPropertyInfo, List<XSFacet>> getPropertyFacetMap()
 	{
@@ -114,18 +141,6 @@ public class BeanInfoCustomization
 	{
 		this.propertyFacetMap = propertyFacetMap;
 	}
-	
-//	private List<CPropertyInfo> propertyPlainList;
-//	public List<CPropertyInfo> getPropertyPlainList()
-//	{
-//		if ( propertyPlainList == null )
-//			setPropertyPlainList(new ArrayList<>());
-//		return propertyPlainList;
-//	}
-//	public void setPropertyPlainList(List<CPropertyInfo> propertyPlainList)
-//	{
-//		this.propertyPlainList = propertyPlainList;
-//	}
 
 	private CPluginCustomization beanCustomization;
 	public CPluginCustomization getBeanCustomization()
@@ -141,6 +156,18 @@ public class BeanInfoCustomization
 	public JDefinedClass getBeanInfoClass() { return beanInfoClass; }
 	public void setBeanInfoClass(JDefinedClass beanInfoClass) { this.beanInfoClass = beanInfoClass; }
 	
+	List<FieldInfo> fieldInfoList;
+	public List<FieldInfo> getFieldInfoList()
+	{
+		if ( fieldInfoList == null )
+			setFieldInfoList(new ArrayList<>());
+		return fieldInfoList;
+	}
+	public void setFieldInfoList(List<FieldInfo> fieldInfoList)
+	{
+		this.fieldInfoList = fieldInfoList;
+	}
+
 	private Bean bean;
 	public Bean getBean() { return bean; }
 	public void setBean(Bean bean) { this.bean = bean; }
@@ -175,16 +202,29 @@ public class BeanInfoCustomization
 	{
 		if ( targetElementName == null )
 		{
-			if ( getTargetClass().getSchemaComponent() instanceof XSComplexType )
+			if ( getTargetClass().getElementName() != null )
+				setTargetElementName(getTargetClass().getElementName());
+			else if ( getTargetClass().getTypeName() != null )
+				setTargetElementName(getTargetClass().getTypeName());
+			else
 			{
-				XSComplexType source = (XSComplexType) getTargetClass().getSchemaComponent();
-				if ( (source.getName() != null) )
-					targetElementName = new QName(source.getTargetNamespace(), source.getName());
-				else
-					targetElementName = null;
+				XSComponent sc = getTargetClass().getSchemaComponent();
+				if ( sc instanceof XSComplexType )
+		        {
+		        	XSComplexType source = (XSComplexType) sc;
+		            if ( source.getScope() instanceof XSElementDecl )
+		            {
+		                XSElementDecl ed = (XSElementDecl) source.getScope();
+		                setTargetElementName(new QName(source.getTargetNamespace(), ed.getName()));
+		            }
+		        }
 			}
 		}
 		return targetElementName;
+	}
+	public void setTargetElementName(QName targetElementName)
+	{
+		this.targetElementName = targetElementName;
 	}
 	
 	public List<CPropertyInfo> getTargetProperties()
@@ -192,17 +232,44 @@ public class BeanInfoCustomization
 		return getTargetClass().getProperties();
 	}
 	
+	public Class<?> getPackagedClass() throws ClassNotFoundException
+	{
+		
+		return OutlineUtils.getPackagedClass(getClassOutline());
+	}
+	
+	public String getClassFullName()
+	{
+		return getTargetClass().fullName();
+	}
+	
+	public String getClassPublicName()
+	{
+		return getTargetClass().shortName;
+	}
+	
+	public String getClassPrivateName()
+	{
+		return decapitalize(getClassPublicName());
+	}
+	
+	public String getClassListName()
+	{
+		return getClassPrivateName()+"List";
+	}
+
 	public boolean hasCustomizations()
 	{
 		return
 			(getBeanCustomization() != null) ||
-			!getPropertyCustomizationMap().isEmpty()|| 
-			!getPropertyFacetMap().isEmpty();
+			!getPropertyCustomizationMap().isEmpty() || 
+			!getPropertyFacetMap().isEmpty() ||
+			!getFieldInfoList().isEmpty();
 	}
 	
 	/**
 	 * Construct with the given {@link ClassOutline} instances. Create
-	 * with a {@link BeanInfoCustomizationFactory} instance.
+	 * using the {@link BeanInfoCustomizationFactory} instance.
 	 * 
 	 * @param co Outline that provides per-{@link CClassInfo} information.
 	 * @param ecm Map of customizations by element qualified name.
@@ -244,7 +311,10 @@ public class BeanInfoCustomization
 		
 		if ( bc != null )
 			setBeanCustomization(bc);
-		
+
+		// Gather (unmarshal) the Bean, if any
+		gatherBean();
+
 		// Loop over all property infos for the current class outline.
 		// Note: The CClassInfo's 'ordered' property is TRUE by default and
 		//       its 'getProperties()' method returns a 'List' (i.e. ordered)
@@ -258,85 +328,127 @@ public class BeanInfoCustomization
 			if ( pc != null )
 				getPropertyCustomizationMap().put(propertyInfo, pc);
 			else
-				setCustomizationByElement(propertyInfo);
+				setPropertyCustomizationByElement(propertyInfo);
+			
+			// Gather list of FieldInfo (contains Property).
+			gatherFieldInfoList();
 			
 			// Gather simple type facets for the current property info.
 			gatherPropertyFacets(propertyInfo);
 		}
 	}
 	
-	/* Set property customization by reference, if any. */
-	private void setCustomizationByElement(CPropertyInfo propertyInfo)
+	// Gather (unmarshal) the appinfo bean, if any
+	private void gatherBean()
 	{
-		if ( !getPropertyCustomizationMap().containsKey(propertyInfo) )
-		{
-			// Look for a matching element reference for the current property info.
-			if ( propertyInfo.getSchemaComponent() instanceof XSParticle)
-			{
-				XSParticle source = (XSParticle) propertyInfo.getSchemaComponent();
-				XSTerm term = source.getTerm();
-				if ( term.isElementDecl() )
-				{
-					XSElementDecl ed = term.asElementDecl();
-					QName refName = new QName(ed.getTargetNamespace(), ed.getName());
-					CPluginCustomization pcRef = getElementCustomizationMap().get(refName);
-					if ( pcRef != null )
-						getPropertyCustomizationMap().put(propertyInfo, pcRef);
-				}
-			}	
-		}
+		if ( getBeanCustomization() != null )
+			setBean((Bean) unmarshall(Customizations.getContext(), getBeanCustomization()));
 	}
 	
-	/**
-	 * Get the property type as an attribute use (XSSimpleType)
-	 * or element declaration (XSType).
-	 * 
-	 * @param propertyInfo The {@link CPropertyInfo} to examine.
-	 * 
-	 * @return The properties type as {@link XSType} or {@link XSSimpleType}
-	 */
-	public XSType getType(CPropertyInfo propertyInfo)
+	/* Gather list of FieldInfo. */
+	private void gatherFieldInfoList()
 	{
-		XSType type = null;
-		if ( propertyInfo.getSchemaComponent() instanceof XSAttributeUse)
+		final Map<String, FieldInfo> fieldInfoMap = new TreeMap<>();
+		
+		// Properties with Customizations
+		for ( Entry<CPropertyInfo, CPluginCustomization> entry : getPropertyCustomizationMap().entrySet())
 		{
-			XSAttributeUse source = (XSAttributeUse) propertyInfo.getSchemaComponent();
-			type = source.getDecl().getType();
-		}
-		else if ( propertyInfo.getSchemaComponent() instanceof XSParticle )
-		{
-			XSParticle source = (XSParticle) propertyInfo.getSchemaComponent();
-			if ( source.getTerm() instanceof XSElementDecl )
+			CPropertyInfo propertyInfo = entry.getKey();
+
+			FieldInfo fieldInfo = new FieldInfo(propertyInfo);
+
+			CPluginCustomization propertyCustomization = entry.getValue();
+			if (propertyCustomization != null)
 			{
-				XSElementDecl ed = (XSElementDecl) source.getTerm();
-				type = ed.getType();
+				final Property property =
+					(Property) unmarshall(Customizations.getContext(), propertyCustomization);
+				
+				if ( property != null )
+				{
+					if ( property.getName() == null )
+						property.setName(fieldInfo.getFieldName());
+					if ( property.getDisplayName() == null )
+						property.setDisplayName(fieldInfo.getFieldDisplayName());
+					fieldInfo.setProperty(property);
+				}
+			}
+			
+			if ( fieldInfo.getProperty() != null )
+				fieldInfoMap.put(fieldInfo.getFieldDisplayName(), fieldInfo);
+		}
+		
+		// Properties with Facets
+		for ( Entry<CPropertyInfo, List<XSFacet>> entry: getPropertyFacetMap().entrySet() )
+		{
+			CPropertyInfo propertyInfo = entry.getKey();
+			String propertyInfoName = propertyInfo.getName(false);
+			
+			FieldInfo fieldInfo = fieldInfoMap.get(propertyInfoName);
+			if ( fieldInfo == null )
+				fieldInfo = new FieldInfo(propertyInfo);
+			
+			fieldInfo.setFacets(entry.getValue());
+			fieldInfoMap.put(propertyInfoName, fieldInfo);
+		}
+		
+		// Properties without Customizations and without Facets
+		// Thus, every property gets a fieldInfo for indexing, etc.
+		for ( CPropertyInfo propertyInfo : getTargetProperties() )
+		{
+			if
+			(
+				!getPropertyCustomizationMap().containsKey(propertyInfo) &&
+				!getPropertyFacetMap().containsKey(propertyInfo)
+			)
+			{
+				String propertyInfoName = propertyInfo.getName(false);
+				FieldInfo fieldInfo = fieldInfoMap.get(propertyInfoName);
+				if ( fieldInfo == null )
+					fieldInfo = new FieldInfo(propertyInfo);
+
+				fieldInfoMap.put(fieldInfo.getFieldDisplayName(), fieldInfo);
 			}
 		}
-		else if ( propertyInfo.getSchemaComponent() instanceof XSSimpleType )
-			type = (XSSimpleType) propertyInfo.getSchemaComponent();
-		return type;
+		
+		if ( !fieldInfoMap.isEmpty() )
+		{
+			// Order by index or alphabetically.
+			TreeMap<Integer, FieldInfo> fiTreeMap1 = new TreeMap<>();
+			TreeMap<String, FieldInfo> fiTreeMap2 = new TreeMap<>();
+			
+			// Index by given index or cache until later
+			for ( FieldInfo fieldInfo : fieldInfoMap.values() )
+			{
+				Integer fiIndex = getPropertyIndexMap().get(fieldInfo.getFieldName());
+				if ( fiIndex != null )
+					fiTreeMap1.put(fiIndex, fieldInfo);
+				else
+					fiTreeMap2.put(fieldInfo.getFieldDisplayName(), fieldInfo);
+			}
+			
+			// Index cached FieldInfo(s) alphabetically by display name.
+			if ( !fiTreeMap2.isEmpty() )
+			{
+				Integer index = fiTreeMap1.isEmpty() ? 0 : fiTreeMap1.lastKey();
+				for ( FieldInfo fi2 : fiTreeMap2.values() )
+					fiTreeMap1.put(++index, fi2);
+			}
+			
+			// Re-index, in sequence without gaps, zero-based.
+			// Note: The fiTreeMap1's value iterator returns the values in
+			//       ascending order of the corresponding keys.
+			List<FieldInfo> fiList = new ArrayList<>(fiTreeMap1.values());
+			for ( int index = 0; index < fiList.size(); ++index )
+				fiList.get(index).setFieldIndex(index);
+			setFieldInfoList(fiList);
+		}
 	}
 	
 	/* Gather simple type facets for the current property info. */
 	private void gatherPropertyFacets(CPropertyInfo propertyInfo)
 	{
 		XSSimpleType pst = null;
-//		if ( propertyInfo.getSchemaComponent() instanceof XSAttributeUse)
-//		{
-//			XSAttributeUse source = (XSAttributeUse) propertyInfo.getSchemaComponent();
-//			pst = source.getDecl().getType();
-//		}
-//		else if ( propertyInfo.getSchemaComponent() instanceof XSParticle )
-//		{
-//			XSParticle source = (XSParticle) propertyInfo.getSchemaComponent();
-//			if ( source.getTerm() instanceof XSElementDecl )
-//			{
-//				XSElementDecl ed = (XSElementDecl) source.getTerm();
-//				if ( ed.getType() instanceof XSSimpleType )
-//					pst = (XSSimpleType) ed.getType();
-//			}
-//		}
-		XSType pt = getType(propertyInfo);
+		XSType pt = FieldInfo.getType(propertyInfo);
 		if ( pt instanceof XSSimpleType )
 			pst = (XSSimpleType) pt;
 		
@@ -375,8 +487,11 @@ public class BeanInfoCustomization
 			if ( (facet = pst.getFacet(FACET_FRACTIONDIGITS)) != null )
 				facetList.add(facet);
 
-			// Put a facet list into the map, can be empty.
-			getPropertyFacetMap().put(propertyInfo, facetList);
+			if ( !facetList.isEmpty() )
+			{
+				// Put a non-empty facet list into the map.
+				getPropertyFacetMap().put(propertyInfo, facetList);
+			}
 		}
 	}
 }

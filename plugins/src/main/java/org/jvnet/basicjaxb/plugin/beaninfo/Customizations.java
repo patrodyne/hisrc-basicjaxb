@@ -43,31 +43,4 @@ public class Customizations
 	{
 		return context;
 	}
-	
-//	public static void _bean(CClassInfo classInfo, String displayName)
-//	{
-//		final Bean bean = new Bean();
-//		bean.setDisplayName(displayName);
-//		
-//		final Locator locator = getLocator(classInfo);
-//		final CPluginCustomization customization =
-//			CustomizationUtils.marshal(getContext(), BEAN_ELEMENT_NAME, bean, locator);
-//		classInfo.getCustomizations().add(customization);
-//		customization.markAsAcknowledged();
-//	}
-//
-//	public static void _property(CClassInfo classInfo, String... displayNames)
-//	{
-//		for (String displayName : displayNames)
-//		{
-//			final Property property = new Property();
-//			property.setDisplayName(displayName);
-//			
-//			final Locator locator = getLocator(classInfo);
-//			final CPluginCustomization customization =
-//				marshal(getContext(), PROPERTY_ELEMENT_NAME, property, locator);
-//			classInfo.getCustomizations().add(customization);
-//			customization.markAsAcknowledged();
-//		}
-//	}
 }
