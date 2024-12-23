@@ -1,6 +1,9 @@
 package org.jvnet.basicjaxb.lang;
 
 import static java.lang.Character.toUpperCase;
+import static org.jvnet.basicjaxb.lang.Access.READ_ONLY;
+import static org.jvnet.basicjaxb.lang.Access.READ_WRITE;
+import static org.jvnet.basicjaxb.lang.Access.WRITE_ONLY;
 import static org.jvnet.basicjaxb.lang.Alignment.LEFT;
 import static org.jvnet.basicjaxb.lang.Alignment.RIGHT;
 
@@ -24,14 +27,20 @@ import javax.xml.namespace.QName;
 
 /**
  * A {@code FieldDescriptor} extends {@link PropertyDescriptor} and describes
- * one property that a Java Bean exports via a pair of accessor methods.
+ * one property that a Java Bean exports via a pair of accessor methods. In
+ * this context a <em>field</em> refers to a GUI display component.
  * 
- * <p>This class adds properties to configure the display of GUI fields.</p>
+ * <p>This class adds properties to configure the display of GUI <em>field(s)</em>.</p>
  */
 public class FieldDescriptor
 	extends PropertyDescriptor
 {
+    public static final String GET_PREFIX = "get";
+    public static final String SET_PREFIX = "set";
+    public static final String IS_PREFIX = "is";
+    
 	private static final String FIELD_INDEX = "column.index";
+	private static final String FIELD_ACCESS = "column.access";
 	private static final String FIELD_ALIGNMENT = "column.alignment";
 	private static final String FIELD_EDITABLE = "column.editable";
 	private static final String FIELD_RESIZEABLE = "column.resizable";
@@ -55,6 +64,7 @@ public class FieldDescriptor
 	private static final String FIELD_TOTAL_DIGITS = "facet.totalDigits";
 	private static final String FIELD_FRACTION_DIGITS = "facet.fractionDigits";
 	
+	public static final Access DEFAULT_ACCESS = Access.READ_WRITE;
 	public static final Alignment DEFAULT_ALIGNMENT = Alignment.LEFT;
 	
 	public static final int DEFAULT_MAX_WIDTH = 254;
@@ -377,25 +387,66 @@ public class FieldDescriptor
 		return pd.getName().equals(pd.getDisplayName()) ;
 	}
 	
+	private static String readerName(String name)
+	{
+		return readerName(name, READ_WRITE);
+	}
+	
+	private static String writerName(String name)
+	{
+		return writerName(name, READ_WRITE);
+	}
+
+	private static String readerName(String name, Access access)
+	{
+		// Note: java.beans.PropertyDescriptor.getReadMethod() handles GET_PREFIX.
+		return WRITE_ONLY.equals(access) ? null : IS_PREFIX + capitalize(name);
+	}
+	
+	private static String writerName(String name, Access access)
+	{
+		return READ_ONLY.equals(access) ? null : SET_PREFIX + capitalize(name);
+	}
+	
 	/**
      * Constructs a FieldDescriptor for a property that follows
      * the standard Java convention by having getFoo and setFoo
-     * accessor methods.
+     * accessor methods. A <em>field</em> is a display component.
      *
-     * @param propertyName The programmatic name of the property.
+     * @param name The programmatic name of the property.
      * @param beanClass The Class object for the target bean.
      *          
      * @throws IntrospectionException if an exception occurs during introspection.
      */
-	public FieldDescriptor(String propertyName, Class<?> beanClass)
+	public FieldDescriptor(String name, Class<?> beanClass)
 		throws IntrospectionException
 	{
-		super(propertyName, beanClass);
+        this(name, beanClass, readerName(name), writerName(name));
+        setAccess(Access.READ_WRITE);
+	}
+	
+	/**
+     * Constructs a FieldDescriptor for a property that follows
+     * the standard Java convention by having getFoo and setFoo
+     * accessor methods. A <em>field</em> is a display component.
+     *
+     * @param name The programmatic name of the property.
+     * @param beanClass The Class object for the target bean.
+     * @param access The property access type.
+     *          
+     * @throws IntrospectionException if an exception occurs during introspection.
+     */
+	public FieldDescriptor(String name, Class<?> beanClass, Access access)
+		throws IntrospectionException
+	{
+        this(name, beanClass, readerName(name, access), writerName(name, access));
+        setAccess(access);
 	}
 	
     /**
      * This constructor takes the name of a simple property, and method
-     * names for reading and writing the property.
+     * names for reading and writing the property. A <em>field</em> is a
+     * display component.
      *
      * @param propertyName The programmatic name of the property.
      * @param beanClass The Class object for the target bean.
@@ -408,10 +459,17 @@ public class FieldDescriptor
     	String readMethodName, String writeMethodName) throws IntrospectionException
     {
     	super(propertyName, beanClass, readMethodName, writeMethodName);
+    	if ( (readMethodName != null) && (writeMethodName != null) )
+    		setAccess(READ_WRITE);
+    	else if ( (readMethodName != null) && (writeMethodName == null) )
+    		setAccess(READ_ONLY);
+    	else if ( (readMethodName == null) && (writeMethodName != null) )
+    		setAccess(WRITE_ONLY);
     }
 	
     /**
      * Constructs a FieldDescriptor for a existing {@link PropertyDescriptor}.
+     * A <em>field</em> is a display component.
      *
      * @param pd A description of one property for a Java bean.
      * 
@@ -507,11 +565,20 @@ public class FieldDescriptor
 		setValue(FIELD_INDEX, index);
 	}
 	
-	public String getAlignment()
+	public Access getAccess()
 	{
-		return (String) getValue(FIELD_ALIGNMENT);
+		return (Access) getValue(FIELD_ACCESS);
 	}
-	public void setAlignment(String alignment)
+	public void setAccess(Access access)
+	{
+		setValue(FIELD_ACCESS, access);
+	}
+	
+	public Alignment getAlignment()
+	{
+		return (Alignment) getValue(FIELD_ALIGNMENT);
+	}
+	public void setAlignment(Alignment alignment)
 	{
 		setValue(FIELD_ALIGNMENT, alignment);
 	}
