@@ -41,6 +41,7 @@ import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIDeclaration;
 import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIXPluginCustomization;
 import com.sun.tools.xjc.reader.xmlschema.bindinfo.BindInfo;
 import com.sun.xml.xsom.XSAnnotation;
+import com.sun.xml.xsom.XSAttributeUse;
 import com.sun.xml.xsom.XSComplexType;
 import com.sun.xml.xsom.XSComponent;
 import com.sun.xml.xsom.XSElementDecl;
@@ -315,10 +316,22 @@ public class BeanInfoCustomization
 		// Gather (unmarshal) the Bean, if any
 		gatherBean();
 
-		// Loop over all property infos for the current class outline.
 		// Note: The CClassInfo's 'ordered' property is TRUE by default and
 		//       its 'getProperties()' method returns a 'List' (i.e. ordered)
 		List<CPropertyInfo> piList = getTargetClass().getProperties();
+		
+		// Re-order attributes before other 'source' types.
+		List<CPropertyInfo> auList = new ArrayList<>();
+		for ( CPropertyInfo propertyInfo : piList )
+		{
+			if ( propertyInfo.getSchemaComponent() instanceof XSAttributeUse )
+				auList.add(propertyInfo);
+		}
+		for ( CPropertyInfo propertyInfo : auList)
+			piList.remove(propertyInfo);
+		piList.addAll(0, auList);
+		
+		// Loop over all property infos for the current class outline.
 		for ( int index=0; index < piList.size(); ++index )
 		{
 			CPropertyInfo propertyInfo = piList.get(index);
@@ -423,15 +436,31 @@ public class BeanInfoCustomization
 				if ( fiIndex != null )
 					fiTreeMap1.put(fiIndex, fieldInfo);
 				else
+				{
 					fiTreeMap2.put(fieldInfo.getFieldDisplayName(), fieldInfo);
+				}
 			}
 			
 			// Index cached FieldInfo(s) alphabetically by display name.
+			// Prioritize attributes.
 			if ( !fiTreeMap2.isEmpty() )
 			{
+				// Convert to list of FieldInfo(s).
+				List<FieldInfo> fiList = new ArrayList<>(fiTreeMap2.values());
+				// Re-order attributes before other 'source' types.
+				List<FieldInfo> auList = new ArrayList<>();
+				for ( FieldInfo fieldInfo : fiList )
+				{
+					if ( FieldSource.ATTRIBUTE.equals(fieldInfo.getFieldSource()) )
+						auList.add(fieldInfo);
+				}
+				for ( FieldInfo fieldInfo : auList)
+					fiList.remove(fieldInfo);
+				fiList.addAll(0, auList);
+				
 				Integer index = fiTreeMap1.isEmpty() ? 0 : fiTreeMap1.lastKey();
-				for ( FieldInfo fi2 : fiTreeMap2.values() )
-					fiTreeMap1.put(++index, fi2);
+				for ( FieldInfo fieldInfo : fiList )
+					fiTreeMap1.put(++index, fieldInfo);
 			}
 			
 			// Re-index, in sequence without gaps, zero-based.

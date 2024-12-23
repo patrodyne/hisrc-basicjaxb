@@ -4,6 +4,9 @@ import static org.jvnet.basicjaxb.lang.FieldDescriptor.DEFAULT_ALIGNMENT;
 import static org.jvnet.basicjaxb.lang.FieldDescriptor.DEFAULT_MIN_WIDTH;
 import static org.jvnet.basicjaxb.lang.FieldDescriptor.alignByType;
 import static org.jvnet.basicjaxb.lang.FieldDescriptor.widthByType;
+import static org.jvnet.basicjaxb.plugin.beaninfo.FieldSource.ATTRIBUTE;
+import static org.jvnet.basicjaxb.plugin.beaninfo.FieldSource.PARTICLE;
+import static org.jvnet.basicjaxb.plugin.beaninfo.FieldSource.SIMPLE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +85,16 @@ public class FieldInfo
 	{
 		this.fieldMinWidth = fieldMinWidth;
 	}
+	
+	private FieldSource fieldSource;
+	public FieldSource getFieldSource()
+	{
+		return fieldSource;
+	}
+	public void setFieldSource(FieldSource fieldSource)
+	{
+		this.fieldSource = fieldSource;
+	}
 
 	private Access fieldAccess;
 	public Access getFieldAccess()
@@ -132,6 +145,18 @@ public class FieldInfo
 		return (getProperty() != null) || !getFacets().isEmpty();
 	}
 	
+	public static FieldSource getSource(CPropertyInfo propertyInfo)
+	{
+		FieldSource fieldSource = null;
+		if ( propertyInfo.getSchemaComponent() instanceof XSAttributeUse)
+			fieldSource = ATTRIBUTE;
+		else if ( propertyInfo.getSchemaComponent() instanceof XSParticle )
+			fieldSource = PARTICLE;
+		else if ( propertyInfo.getSchemaComponent() instanceof XSSimpleType )
+			fieldSource = SIMPLE;
+		return fieldSource;
+	}
+	
 	/**
 	 * Get the property type as an attribute use (XSSimpleType)
 	 * or element declaration (XSType).
@@ -171,6 +196,7 @@ public class FieldInfo
 	{
 		setFieldName(pi.getName(false));
 		setFieldDisplayName(pi.getName(true));
+		setFieldSource(getSource(pi));
 		setFieldType(getType(pi));
 		
 		if ( getFieldType() != null )
