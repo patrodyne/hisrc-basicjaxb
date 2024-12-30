@@ -46,10 +46,10 @@ public class PropertyStateEvent extends EventObject
 	 *            object, or {@code UNREADABLE} if the {@code Property} is not
 	 *            currently readable for the source object
 	 * @param writeableChanged whether or not the {@code Property's}
-	 *            writeability has changed for the source object
+	 *            writability has changed for the source object
 	 * @param isWriteable whether or not the {@code Property} is now writable
 	 *            for the source object
-	 * @throws IllegalArgumentException if neither the value or the writeability
+	 * @throws IllegalArgumentException if neither the value or the writability
 	 *             has changed
 	 * @throws IllegalArgumentException if {@code valueChanged} is {@code true}
 	 *             and both {@code oldValue} and {@code newValue} are
@@ -199,10 +199,10 @@ public class PropertyStateEvent extends EventObject
 	}
 
 	/**
-	 * Returns whether or not the {@code Property's} writeability has changed
+	 * Returns whether or not the {@code Property's} writability has changed
 	 * for the source object.
 	 *
-	 * @return whether or not the {@code Property's} writeability has changed
+	 * @return whether or not the {@code Property's} writability has changed
 	 *         for the source object.
 	 */
 	public final boolean getWriteableChanged()
@@ -219,13 +219,13 @@ public class PropertyStateEvent extends EventObject
 	 *
 	 * @return whether or not the {@code Property} is currently writable for
 	 *         the source object.
-	 * @throws UnsupportedOperationException if the writeability hasn't changed
+	 * @throws UnsupportedOperationException if the writability hasn't changed
 	 */
 	public final boolean isWriteable()
 	{
 		if ( !writeableChanged )
 		{
-			throw new UnsupportedOperationException("writeability hasn't changed");
+			throw new UnsupportedOperationException("writability hasn't changed");
 		}
 		return isWriteable;
 	}

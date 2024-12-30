@@ -536,7 +536,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V>
 	 * {@inheritDoc}
 	 * <p>
 	 * See the class level documentation for the definition of
-	 * <a href="#WRITEABILITY">writeability</a>.
+	 * <a href="#WRITABILITY">writability</a>.
 	 *
 	 * @throws UnsupportedOperationException {@inheritDoc}
 	 * @throws PropertyResolutionException if an exception occurs while
@@ -604,7 +604,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V>
 	 * {@inheritDoc}
 	 * <p>
 	 * See the class level documentation for the definition of
-	 * <a href="#WRITEABILITY">writeability</a>.
+	 * <a href="#WRITABILITY">writability</a>.
 	 *
 	 * @throws UnsupportedOperationException {@inheritDoc}
 	 * @throws PropertyResolutionException if an exception occurs while
@@ -680,7 +680,7 @@ public final class BeanProperty<S, V> extends PropertyHelper<S, V>
 	 * {@inheritDoc}
 	 * 
 	 * <p>See the class level documentation for the definition of
-	 * <a href="#WRITEABILITY">writability</a>.</p>
+	 * <a href="#WRITABILITY">writability</a>.</p>
 	 *
 	 * @throws PropertyResolutionException if an exception occurs while
 	 *                                     resolving the path
