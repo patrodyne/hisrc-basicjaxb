@@ -31,7 +31,7 @@ import javax.xml.namespace.QName;
 import org.jvnet.basicjaxb.lang.Access;
 import org.jvnet.basicjaxb.lang.Alignment;
 import org.jvnet.basicjaxb.lang.FieldDescriptor;
-import org.jvnet.basicjaxb.lang.LoggingBeanInfo;
+import org.jvnet.basicjaxb.lang.DataBeanInfo;
 import org.jvnet.basicjaxb.lang.Width;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
 import org.jvnet.basicjaxb.plugin.AbstractPlugin;
@@ -214,7 +214,7 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			beanInfoName = bic.getImplClass().fullName() + "BeanInfo";
 		
 		JDefinedClass beanInfoClass = bic.getCodeModel()._class(beanInfoName);
-		beanInfoClass._extends(LoggingBeanInfo.class);
+		beanInfoClass._extends(DataBeanInfo.class);
 		JDocComment biDoc = beanInfoClass.javadoc();
 		biDoc.append("A {@code BeanInfo} class to provide explicit information about the methods,");
 		biDoc.append("\nproperties, events, and other features of {@code " + bic.getImplClass().name() + "}.");
@@ -422,6 +422,8 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 		
 		if ( fiProperty.isEditable() != null )
 			pdmBlock.add(fdVar.invoke("setEditable").arg(lit(fiProperty.isEditable())));
+		else // TODO: FieldInfo
+			pdmBlock.add(fdVar.invoke("setEditable").arg(lit(true))); 
 		if ( fiProperty.getMaxWidth() != null )
 			pdmBlock.add(fdVar.invoke("setMaxWidth").arg(lit(fiProperty.getMaxWidth())));
 		if ( fiProperty.getMinWidth() != null )
