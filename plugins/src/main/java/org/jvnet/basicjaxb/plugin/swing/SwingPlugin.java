@@ -31,6 +31,7 @@ import org.jvnet.basicjaxb.plugin.beaninfo.FieldInfo;
 import org.swixml.SwingEngine;
 import org.swixml.schema.model.JPanel;
 import org.swixml.schema.model.JTableBind;
+import org.swixml.schema.model.JTextAreaBind;
 import org.swixml.schema.model.JTreeBind;
 import org.swixml.schema.model.ObjectFactory;
 import org.swixml.schema.model.Window;
@@ -358,12 +359,13 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 	protected void processWindow(Outline outline, Window window)
 		throws IntrospectionException, ClassNotFoundException
 	{
-		XSplitPane splitPane = OF.createXSplitPane();
-		splitPane.setOrientation("HORIZONTAL_SPLIT");
-		splitPane.setOneTouchExpandable(true);
-		splitPane.setSize("${el.size()}");
-		splitPane.setDividerLocation("0.20");
-		window.getContent().add(OF.createSplitpane(splitPane));
+		XSplitPane mainSplitPane = OF.createXSplitPane();
+		mainSplitPane.setName("Main: [Tree|Work]");
+		mainSplitPane.setOrientation("HORIZONTAL_SPLIT");
+		mainSplitPane.setOneTouchExpandable(true);
+		mainSplitPane.setSize("${el.size()}");
+		mainSplitPane.setDividerLocation("0.20");
+		window.getContent().add(OF.createSplitpane(mainSplitPane));
 		
 		JTreeBind treeBind = OF.createJTreeBind();
 		treeBind.setId("mainTree");
@@ -378,9 +380,30 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		JPanel cardLayoutPanel = OF.createJPanel();
 		cardLayoutPanel.setId("mainPanel");
 		cardLayoutPanel.setLayout("CardLayout");
+		
+		XSplitPane siftSplitPane = OF.createXSplitPane();
+		siftSplitPane.setName("Sift: [Query|Result]");
+		siftSplitPane.setOrientation("HORIZONTAL_SPLIT");
+		siftSplitPane.setOneTouchExpandable(true);
+		
+		JTextAreaBind queryTextArea = OF.createJTextAreaBind();
+		queryTextArea.setBackground("*-10-100");
+		JTextAreaBind resultTextArea = OF.createJTextAreaBind();
+		resultTextArea.setBackground("*-10-100");
+		
+		siftSplitPane.getContent().add(OF.createTextarea(queryTextArea));
+		siftSplitPane.getContent().add(OF.createTextarea(resultTextArea));
+		
+		XSplitPane workSplitPane = OF.createXSplitPane();
+		workSplitPane.setName("Work: [Query|Result]/Cards");
+		workSplitPane.setOrientation("VERTICAL_SPLIT");
+		workSplitPane.setOneTouchExpandable(true);
+		
+		workSplitPane.getContent().add(OF.createSplitpane(siftSplitPane));
+		workSplitPane.getContent().add(OF.createPanel(cardLayoutPanel));
 
-		splitPane.getContent().add(OF.createScrollpane(treePane));
-		splitPane.getContent().add(OF.createPanel(cardLayoutPanel));
+		mainSplitPane.getContent().add(OF.createScrollpane(treePane));
+		mainSplitPane.getContent().add(OF.createSplitpane(workSplitPane));
 		
 		BeanInfoCustomizationFactory bicf = new BeanInfoCustomizationFactory(outline);
 

@@ -1,12 +1,12 @@
 package org.example.PurchaseOrder.swing;
 
-import static java.lang.System.out;
 import static org.jdesktop.observablecollections.ObservableCollections.observableList;
 
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +17,8 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreeNode;
 
 import org.example.PurchaseOrder.model.Credit;
 import org.example.PurchaseOrder.model.Item;
@@ -165,6 +163,54 @@ public class PurchaseOrderWindow extends JFrame
 	{
 		this.mainTreeCellRenderer = mainTreeCellRenderer;
 	}
+
+	/* bindWith="query" */
+	private StringBuilder query = new StringBuilder();
+	public final String getQuery()
+	{
+		if ( query == null )
+			setQuery(new StringBuilder());
+		return query.toString();
+	}
+	public void setQuery(StringBuilder query)
+	{
+		this.query = ( query != null ) ? query : new StringBuilder();
+	}
+	public final void setQuery(String query)
+	{
+		setQuery(new StringBuilder(query));
+		// force the widget update
+		firePropertyChange("query", null, null); 
+	}
+	private void appendQuery(String value)
+	{
+		this.query.append(value).append('\n');
+		// force the widget update
+		firePropertyChange("query", null, null); 
+	}
+
+	/* bindWith="result" */
+	private StringBuilder result = new StringBuilder();
+	public final String getResult()
+	{
+		return result.toString();
+	}
+	public void setResult(StringBuilder result)
+	{
+		this.result = ( result != null ) ? result : new StringBuilder();
+	}
+	public final void setResult(String result)
+	{
+		setResult(new StringBuilder(result));
+		// force the widget update
+		firePropertyChange("result", null, null); 
+	}
+	private void appendResult(String value)
+	{
+		this.result.append(value).append('\n');
+		// force the widget update
+		firePropertyChange("result", null, null); 
+	}
 	
 	@Action
 	public void selectNode(ActionEvent ae)
@@ -176,6 +222,32 @@ public class PurchaseOrderWindow extends JFrame
 			NodeInfo nodeInfo = (NodeInfo) treeNode.getUserObject();
 			CardLayout cardLayout = (CardLayout) getMainPanel().getLayout();
 			cardLayout.show(getMainPanel(), nodeInfo.getCardName());
+		}
+	}
+	
+	@Action
+	public void select(ActionEvent ae)
+	{
+		switch ( ae.getActionCommand() )
+		{
+			case "colSelection":
+				break;
+			case "rowSelection":
+				@SuppressWarnings("unchecked")
+				List<Object> rows = (List<Object>) ae.getSource();
+				setResult((StringBuilder) null);
+				for ( Object row : rows )
+				{
+					try
+					{
+						appendResult(getContext().marshalToString(row));
+					}
+					catch (JAXBException | IOException e)
+					{
+						appendResult(row.toString());
+					}
+				}
+				break;
 		}
 	}
 	
