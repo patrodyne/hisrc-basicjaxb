@@ -468,7 +468,7 @@ public class FieldDescriptor
     }
 	
     /**
-     * Constructs a FieldDescriptor for a existing {@link PropertyDescriptor}.
+     * Constructs a FieldDescriptor from an existing {@link PropertyDescriptor}.
      * A <em>field</em> is a display component.
      *
      * @param pd A description of one property for a Java bean.
