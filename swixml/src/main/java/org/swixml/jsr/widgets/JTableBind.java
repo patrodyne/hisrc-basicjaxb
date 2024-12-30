@@ -14,6 +14,10 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +26,7 @@ import java.util.Set;
 
 import javax.swing.Action;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -38,10 +43,10 @@ import org.jdesktop.beansbinding.Binding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Converter;
 import org.jvnet.basicjaxb.lang.Alignment;
+import org.jvnet.basicjaxb.lang.DataBeanInfo;
 import org.jvnet.basicjaxb.lang.FieldDescriptor;
 import org.swixml.SwingEngine;
 import org.swixml.el.ELMethods;
-import org.swixml.jsr295.BindingUtils;
 import org.swixml.renderers.AlignableTableCellHeaderRenderer;
 import org.swixml.renderers.AlignableTableCellRenderer;
 
@@ -138,16 +143,40 @@ public class JTableBind
 		putClientProperty(BINDING_GROUP_PROPERTY, bindingGroup);
 	}
 	
-	private FieldDescriptor[] fieldDescriptors;
+	private DataBeanInfo dataBeanInfo;
+	public DataBeanInfo getDataBeanInfo()
+	{
+		if ( dataBeanInfo == null )
+		{
+			try
+			{
+				BeanInfo beanInfo = Introspector.getBeanInfo(getBindClass());
+				if ( beanInfo instanceof DataBeanInfo )
+					setDataBeanInfo((DataBeanInfo) beanInfo);
+				else
+					setDataBeanInfo(new DataBeanInfo(beanInfo));
+			}
+			catch (IntrospectionException e)
+			{
+				setDataBeanInfo(new DataBeanInfo());
+			}
+		}
+		return dataBeanInfo;
+	}
+	public void setDataBeanInfo(DataBeanInfo dataBeanInfo)
+	{
+		this.dataBeanInfo = dataBeanInfo;
+	}
+
+	/**
+	 * Get the array of {@link FieldDescriptor}(s) using
+	 * Java Beans {@link Introspector}.
+	 * 
+	 * @return An array of {@link FieldDescriptor}(s).
+	 */
 	public FieldDescriptor[] getFieldDescriptors()
 	{
-		if ( fieldDescriptors == null )
-			setFieldDescriptors(BindingUtils.getFieldDescriptors(getBindClass()));
-		return fieldDescriptors;
-	}
-	public void setFieldDescriptors(FieldDescriptor[] fieldDescriptors)
-	{
-		this.fieldDescriptors = fieldDescriptors;
+		return getDataBeanInfo().getFieldDescriptors();
 	}
 
 	private Action action;
@@ -501,79 +530,120 @@ public class JTableBind
 
 	private void init()
 	{
+		// Row selection
 		super.getSelectionModel().addListSelectionListener(new ListSelectionListener()
 		{
 			@Override
-			public void valueChanged(ListSelectionEvent e)
+			public void valueChanged(ListSelectionEvent se)
 			{
-				onRowOrColSelection(e);
+				onRowSelection(se);
 			}
 		});
+		
+		// Column selection
+		super.getColumnModel().addColumnModelListener(new TableColumnModelListener()
+		{
+
+			@Override
+			public void columnSelectionChanged(ListSelectionEvent se)
+			{
+				onColumnSelection(se);
+			}
+			
+			@Override
+			public void columnAdded(TableColumnModelEvent me)
+			{
+			}
+
+			@Override
+			public void columnRemoved(TableColumnModelEvent me)
+			{
+			}
+
+			@Override
+			public void columnMoved(TableColumnModelEvent me)
+			{
+			}
+
+			@Override
+			public void columnMarginChanged(ChangeEvent ce)
+			{
+			}
+		});
+
 		// https://github.com/bsorrentino/swixml2/issues/6
 		super.addMouseListener(new MouseAdapter()
 		{
 			@Override
-			public void mouseClicked(MouseEvent e)
+			public void mouseClicked(MouseEvent me)
 			{
-				if ( e.getClickCount() == 2 )
+				if ( me.getClickCount() == 2 )
 				{
-					Action a = getDblClickAction();
-					if ( a != null && a.isEnabled() )
+					Action dcAction = getDblClickAction();
+					if ( dcAction != null && dcAction.isEnabled() )
 					{
-						ActionEvent ev = new ActionEvent(e, 0, null);
-						a.actionPerformed(ev);
+						ActionEvent ev = new ActionEvent(me, 0, "dblClick");
+						dcAction.actionPerformed(ev);
 					}
 				}
 			}
 		});
-		super.getColumnModel().addColumnModelListener(new TableColumnModelListener()
-		{
-			@Override
-			public void columnAdded(TableColumnModelEvent e)
-			{
-			}
-
-			@Override
-			public void columnRemoved(TableColumnModelEvent e)
-			{
-			}
-
-			@Override
-			public void columnMoved(TableColumnModelEvent e)
-			{
-			}
-
-			@Override
-			public void columnMarginChanged(ChangeEvent e)
-			{
-			}
-
-			@Override
-			public void columnSelectionChanged(ListSelectionEvent e)
-			{
-				onRowOrColSelection(e);
-			}
-		});
 		
-		/*
-		 * super.getModel().addTableModelListener( new TableModelListener() {
-		 * 
-		 * public void tableChanged(TableModelEvent e) { throw new
-		 * UnsupportedOperationException("Not supported yet."); } });
-		 */
+//		super.getModel().addTableModelListener(new TableModelListener()
+//		{
+//			public void tableChanged(TableModelEvent e)
+//			{
+//				throw new UnsupportedOperationException("Not supported yet.");
+//			}
+//		});
 	}
 
-	private void onRowOrColSelection(ListSelectionEvent e)
+	private void onRowSelection(ListSelectionEvent se)
 	{
-		// https://github.com/bsorrentino/swixml2/issues/5
-		if ( e.getValueIsAdjusting() )
-			return;
-		if ( getSelectedRow() == -1 )
-			return;
-		Action a = getAction();
-		if ( null == a )
-			return;
-		ActionEvent ev = new ActionEvent(e, 0, null);
-		a.actionPerformed(ev);
+		if ( !se.getValueIsAdjusting() )
+		{
+			ListSelectionModel sm = (ListSelectionModel) se.getSource();
+			if ( !sm.isSelectionEmpty() )
+			{
+				int minIndex = sm.getMinSelectionIndex();
+				int maxIndex = sm.getMaxSelectionIndex();
+				List<Object> rows = new ArrayList<>();
+				for ( int index=minIndex; index <= maxIndex; ++index)
+				{
+					if ( sm.isSelectedIndex(index) )
+						rows.add(getBindList().get(index));
+				}
+				if ( !rows.isEmpty() )
+				{
+					ActionEvent ae = new ActionEvent(rows, 0, "rowSelection");
+					getAction().actionPerformed(ae);
+				}	
+			}
+		}
+	}
+
+	private void onColumnSelection(ListSelectionEvent se)
+	{
+		if ( !se.getValueIsAdjusting() )
+		{
+			ListSelectionModel sm = (ListSelectionModel) se.getSource();
+			if ( !sm.isSelectionEmpty() )
+			{
+				int minIndex = sm.getMinSelectionIndex();
+				int maxIndex = sm.getMaxSelectionIndex();
+				List<TableColumn> cols = new ArrayList<>();
+				for ( int index=minIndex; index <= maxIndex; ++index)
+				{
+					if ( sm.isSelectedIndex(index) )
+						cols.add(getColumnModel().getColumn(index));
+				}
+				if ( !cols.isEmpty() )
+				{
+					ActionEvent ae = new ActionEvent(cols, 0, "colSelection");
+					getAction().actionPerformed(ae);
+				}	
+			}
+
+		}
 	}
 }
