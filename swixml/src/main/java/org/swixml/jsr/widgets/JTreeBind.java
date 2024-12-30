@@ -1,5 +1,6 @@
 package org.swixml.jsr.widgets;
 
+import static java.lang.String.format;
 import static org.swixml.SwingEngine.ENGINE_PROPERTY;
 import static org.swixml.jsr295.BindingUtils.boundCheckAndSet;
 
@@ -172,8 +173,7 @@ public class JTreeBind
 			{
 				int selRow = getRowForLocation(e.getX(), e.getY());
 				// TreePath selPath = getPathForLocation(e.getX(), e.getY());
-				logger.debug(String.format("mousePressed selRow=[%d] clickCount=[%d]",
-					selRow, e.getClickCount()));
+				logger.trace(format("mousePressed selRow=[%d] clickCount=[%d]", selRow, e.getClickCount()));
 				if ( selRow != -1 )
 				{
 					if ( e.getClickCount() == 2 )
