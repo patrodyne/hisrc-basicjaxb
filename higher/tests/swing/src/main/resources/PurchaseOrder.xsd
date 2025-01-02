@@ -33,7 +33,7 @@
 	</xs:element>
 
 	<!-- Top element(s) with anonymous complex type become XmlRootElement(s). -->
-	<xs:element name="PurchaseOrder">
+	<xs:element name="PurchaseOrder" type="tns:PurchaseOrder">
 		<xs:annotation>
 			<xs:appinfo>
 				<bi:bean>
@@ -42,7 +42,8 @@
 				</bi:bean>
 			</xs:appinfo>
 		</xs:annotation>
-        <xs:complexType>
+	</xs:element>
+        <xs:complexType name="PurchaseOrder">
 			<xs:sequence>
 				<xs:element name="shipTo" type="tns:USAddress" />
 				<xs:element name="billTo" type="tns:USAddress" />
@@ -68,8 +69,7 @@
 			<xs:attribute name="orderDate" type="xs:date" />
 			<xs:attribute name="complete" type="xs:boolean"></xs:attribute>
 		</xs:complexType>
-    </xs:element>
-
+	
 	<xs:complexType name="USAddress">
 		<xs:sequence>
 			<xs:element name="name" type="xs:string" />

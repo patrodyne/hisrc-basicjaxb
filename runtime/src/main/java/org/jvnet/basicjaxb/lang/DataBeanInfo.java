@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * An extension of {@link SimpleBeanInfo} with additional properties for
- * {@link DataDescriptor} and an arrary of {@link FieldDescriptor}.
+ * {@link DataDescriptor} and an array of {@link FieldDescriptor}.
  * 
  * <p>
  * This is a logging support class to make it easier for people to provide
@@ -118,6 +118,16 @@ public class DataBeanInfo extends SimpleBeanInfo
 		this.fieldDescriptors = fieldDescriptors;
 	}
 	
+	private Object data;
+	public Object getData()
+	{
+		return data;
+	}
+	public void setData(Object data)
+	{
+		this.data = data;
+	}
+
 	/*
 	 * Promote a {@link BeanDescriptor} to a {@link DataDescriptor}.
 	 * 

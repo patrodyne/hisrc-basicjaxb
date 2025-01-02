@@ -32,6 +32,7 @@ import org.jvnet.basicjaxb.lang.Access;
 import org.jvnet.basicjaxb.lang.Alignment;
 import org.jvnet.basicjaxb.lang.FieldDescriptor;
 import org.jvnet.basicjaxb.lang.DataBeanInfo;
+import org.jvnet.basicjaxb.lang.DataDescriptor;
 import org.jvnet.basicjaxb.lang.Width;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
 import org.jvnet.basicjaxb.plugin.AbstractPlugin;
@@ -241,8 +242,8 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			bdmDoc.addReturn().append("A {@code BeanDescriptor} providing overall information about the bean.");
 			
 			final JBlock bdmBody = bdm.body();
-			final JInvocation bdExp = JExpr._new(bic.getCodeModel().ref(BeanDescriptor.class)).arg(bic.getImplClass().dotclass());
-			final JVar bdVar = bdmBody.decl(JMod.NONE, bic.getCodeModel().ref(BeanDescriptor.class), "bd", bdExp);
+			final JInvocation bdExp = JExpr._new(bic.getCodeModel().ref(DataDescriptor.class)).arg(bic.getImplClass().dotclass());
+			final JVar bdVar = bdmBody.decl(JMod.NONE, bic.getCodeModel().ref(DataDescriptor.class), "dd", bdExp);
 			
 			if ( bd.getName() != null )
 				bdmBody.add(bdVar.invoke("setName").arg(bd.getName()));

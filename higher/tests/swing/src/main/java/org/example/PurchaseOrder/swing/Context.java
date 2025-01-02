@@ -19,6 +19,7 @@ import org.xml.sax.SAXException;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBIntrospector;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 
@@ -59,6 +60,18 @@ import jakarta.xml.bind.Unmarshaller;
 	{
 		this.jaxbContext = jaxbContext;
 	}
+	
+	private JAXBIntrospector jaxbIntrospector;
+	public JAXBIntrospector getJaxbIntrospector() throws JAXBException
+	{
+		if ( jaxbIntrospector == null )
+			setJaxbIntrospector(getJaxbContext().createJAXBIntrospector());
+		return jaxbIntrospector;
+	}
+	public void setJaxbIntrospector(JAXBIntrospector jaxbIntrospector)
+	{
+		this.jaxbIntrospector = jaxbIntrospector;
+	}
 
 	private Unmarshaller unmarshaller = null;
 	protected Unmarshaller getUnmarshaller() throws JAXBException
@@ -86,7 +99,13 @@ import jakarta.xml.bind.Unmarshaller;
 	{
 		this.marshaller = marshaller;
 	}
-
+	
+	protected Object unmarshal(String xmlFileName) throws JAXBException
+	{
+		File xmlFile = new File(xmlFileName);
+		return getUnmarshaller().unmarshal(xmlFile);
+	}
+	
 	@SuppressWarnings("unchecked")
 	protected <T> T unmarshal(String xmlFileName, Class<T> clazz) throws JAXBException
 	{

@@ -1,6 +1,7 @@
 package org.jvnet.basicjaxb.lang;
 
 import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
+import static org.jvnet.basicjaxb.lang.StringUtils.capitalize;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -366,15 +367,6 @@ public class ContextUtils
 		else
 			throw new JAXBException("Please create marshaller and unmarshaller!");	
 	}
-	
-	public static <T> JAXBElement<T> createJAXBElement(JAXBContext context, T value)
-		throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
-	{
-		
-		JAXBContext objectFactory = null;
-		context.createJAXBIntrospector();
-		return createJAXBElement(objectFactory , value);
-	}
 
 	/**
 	 * Create a JAXBElement to wrap the given value object. Looks for
@@ -440,6 +432,49 @@ public class ContextUtils
 			}
 		}
 		return jaxbElement;
+	}
+	
+	/**
+	 * Find am {@code ObjectFactory} method to create a
+	 * {@code JAXBElement} for the given type name.
+	 * 
+	 * @param objectFactoryClass The {@code ObjectFactory} class to reflect on.
+	 * @param typeName The name of the {@code JAXBElement}'s type.
+	 * 
+	 * @return An method to create a {@code JAXBElement} for the given type name.
+	 */
+	public static Method findJAXBElementMethod(Class<?> objectFactoryClass, String typeName)
+	{
+		Method jaxbElementMethod = null;
+		String methodName = "create" + capitalize(typeName);
+		for ( Method method : objectFactoryClass.getDeclaredMethods() )
+		{
+			if ( method.getName().equals(methodName) )
+			{
+				if ( method.getParameterCount() == 1 )
+				{
+					Class<?> returnType = method.getReturnType();
+					if ( JAXBElement.class.isAssignableFrom(returnType) )
+					{
+						jaxbElementMethod = method;
+						break;
+					}
+				}
+			}
+		}
+		return jaxbElementMethod;
+	}
+	
+	/**
+	 * Find an {@code ObjectFactory} class for the given JAXB class reference.
+	 * 
+	 * @param jaxbClass The JAXB class reference.
+	 * 
+	 * @return An {@code ObjectFactory} class for the given JAXB class reference.
+	 */
+	public static Class<?> findObjectFactoryClass(Class<?> jaxbClass)
+	{
+		return getClass(jaxbClass.getPackageName(), "ObjectFactory");
 	}
 	
 	private static Class<?> getClass(String packageName, String typeName)

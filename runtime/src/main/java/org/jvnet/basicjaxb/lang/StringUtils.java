@@ -203,4 +203,17 @@ public class StringUtils
 		}
 		return result;
 	}
+	
+	public static String capitalize(String text)
+	{
+		String capitalize = text;
+		if ( !isBlank(text) )
+		{
+			if ( text.length() == 1 )
+				capitalize = text.toUpperCase();
+			else
+				capitalize = text.substring(0,1).toUpperCase() + text.substring(1);
+		}
+		return capitalize;
+	}
 }

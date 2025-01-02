@@ -615,7 +615,8 @@ public class JTableBind
 				}
 				if ( !rows.isEmpty() )
 				{
-					ActionEvent ae = new ActionEvent(rows, 0, "rowSelection");
+					getDataBeanInfo().setData(rows);
+					ActionEvent ae = new ActionEvent(getDataBeanInfo(), 0, "rowSelection");
 					getAction().actionPerformed(ae);
 				}	
 			}
@@ -639,7 +640,8 @@ public class JTableBind
 				}
 				if ( !cols.isEmpty() )
 				{
-					ActionEvent ae = new ActionEvent(cols, 0, "colSelection");
+					getDataBeanInfo().setData(cols);
+					ActionEvent ae = new ActionEvent(getDataBeanInfo(), 0, "colSelection");
 					getAction().actionPerformed(ae);
 				}	
 			}

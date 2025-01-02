@@ -6,7 +6,10 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.beans.BeanDescriptor;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +30,12 @@ import org.example.PurchaseOrder.model.PurchaseOrder;
 import org.example.PurchaseOrder.model.USAddress;
 import org.example.PurchaseOrder.swing.MainTreeModel.NodeInfo;
 import org.jdesktop.application.Action;
+import org.jvnet.basicjaxb.lang.DataBeanInfo;
+import org.jvnet.basicjaxb.lang.DataDescriptor;
 
+import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBIntrospector;
 
 /**
  * The top level {@link Window} for the {@link PurchaseOrderTool}.
@@ -233,16 +240,27 @@ public class PurchaseOrderWindow extends JFrame
 			case "colSelection":
 				break;
 			case "rowSelection":
+				DataBeanInfo dbi = (DataBeanInfo) ae.getSource();
+				DataDescriptor dd = dbi.getDataDescriptor();
+				Method jewm = dd.getJAXBElementWrapperMethod();
 				@SuppressWarnings("unchecked")
-				List<Object> rows = (List<Object>) ae.getSource();
+				List<Object> rows = (List<Object>) dbi.getData();
 				setResult((StringBuilder) null);
 				for ( Object row : rows )
 				{
 					try
 					{
-						appendResult(getContext().marshalToString(row));
+						if ( dd.isXmlRootElement() )
+							appendResult(getContext().marshalToString(row));
+						else if ( jewm != null )
+						{
+							JAXBElement<?> jeRow = (JAXBElement<?>) jewm.invoke(dd.getObjectFactory(), row);
+							appendResult(getContext().marshalToString(jeRow));
+						}
+						else
+							appendResult(row.toString());
 					}
-					catch (JAXBException | IOException e)
+					catch (JAXBException | IOException | ReflectiveOperationException ex)
 					{
 						appendResult(row.toString());
 					}
@@ -254,7 +272,8 @@ public class PurchaseOrderWindow extends JFrame
 	public void initialize()
 		throws JAXBException
 	{
-		PurchaseOrder po01 = getContext().unmarshal(SAMPLE01_PO_FILE, PurchaseOrder.class);
+		Object obj = getContext().unmarshal(SAMPLE01_PO_FILE);
+		PurchaseOrder po01 = (PurchaseOrder) JAXBIntrospector.getValue(obj);
 		
 		// PurchaseOrder list
 		getPurchaseOrderList().add(po01);

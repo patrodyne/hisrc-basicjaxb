@@ -1,9 +1,14 @@
 package org.jvnet.basicjaxb.lang;
 
 import static java.lang.Character.toUpperCase;
+import static org.jvnet.basicjaxb.lang.ContextUtils.findJAXBElementMethod;
+import static org.jvnet.basicjaxb.lang.ContextUtils.findObjectFactoryClass;
 
 import java.beans.BeanDescriptor;
 import java.beans.IntrospectionException;
+import java.lang.reflect.Method;
+
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * A {@code DataDescriptor} extends {@link BeanDescriptor} and provides global
@@ -15,7 +20,10 @@ import java.beans.IntrospectionException;
 public class DataDescriptor
 	extends BeanDescriptor
 {
-
+	private static final String DATA_OBJECT_FACTORY = "data.objectFactory";
+	private static final String DATA_OBJECT_FACTORY_CLASS = "data.objectFactoryClass";
+	private static final String DATA_JAXB_ELEMENT_WRAPPER_METHOD = "data.jaxbElementWrapperMethod";
+	
     /**
      * Create a {@code DataDescriptor} for a bean that has a customizer.
      *
@@ -65,7 +73,109 @@ public class DataDescriptor
 		//
 		// DataDescriptor
 		//
-		
+		// See getObjectFactoryClass()
+		// See getRootElementMethod()
+		// See isRootElement()
+	}
+	
+	public Class<?> getObjectFactoryClass()
+	{
+		if ( getValue(DATA_OBJECT_FACTORY_CLASS) == null )
+			setObjectFactoryClass(findObjectFactoryClass(getBeanClass()));
+		return (Class<?>) getValue(DATA_OBJECT_FACTORY_CLASS);
+	}
+	public void setObjectFactoryClass(Class<?> objectFactoryClass)
+	{
+		setValue(DATA_OBJECT_FACTORY_CLASS, objectFactoryClass);
+	}
+	
+	public Object getObjectFactory() throws ReflectiveOperationException
+	{
+		if ( getValue(DATA_OBJECT_FACTORY) == null )
+			setObjectFactory(getObjectFactoryClass().getDeclaredConstructor().newInstance());
+		return getValue(DATA_OBJECT_FACTORY);
+	}
+	public void setObjectFactory(Object objectFactory)
+	{
+		setValue(DATA_OBJECT_FACTORY, objectFactory);
+	}
+	
+	/**
+	 * Get the method from the {@code ObjectFactory} to create a {@code JAXBElement}
+	 * wrapper for an instance of this descriptor's bean class.
+	 * 
+	 * @return The method to create a {@code JAXBElement} for this bean's type, or null.
+	 */
+	public Method getJAXBElementWrapperMethod()
+	{
+		Object value = getValue(DATA_JAXB_ELEMENT_WRAPPER_METHOD);
+		if ( value == null )
+		{
+			String typeName = getBeanClass().getSimpleName();
+			Method jaxbElementMethod = findJAXBElementMethod(getObjectFactoryClass(), typeName);
+			if ( jaxbElementMethod != null )
+				value = jaxbElementMethod;
+			else
+				value = "NO_METHOD";
+			setValue(DATA_JAXB_ELEMENT_WRAPPER_METHOD, value);
+		}
+		if ( "NO_METHOD".equals(value) )
+			return null;
+		else
+			return (Method) value;
+	}
+	public void setJAXBElementWrapperMethod(Method jaxbElementWrapperMethod)
+	{
+		setValue(DATA_JAXB_ELEMENT_WRAPPER_METHOD, jaxbElementWrapperMethod);
+	}
+	
+	/**
+	 * Is this bean a top level XML root element.
+	 * 
+	 * <p>
+	 * XJC generates an {@code @XmlRootElement} Java annotation when an
+	 * XML schema contains a top level element with an anonymous complex
+	 * type; otherwise, top level elements with a named complex type
+	 * cause XJC to generate a {@code createXXX} method in the 
+	 * {@code ObjectFactory} to wrap a bean object in a {@code JAXBElement}
+	 * wrapper.
+	 * </p>
+	 * 
+	 * <p>
+	 * Any instance in the JAXB context with a {@code @XmlRootElement} can be
+	 * marshaled directly, without the need for a {@code JAXBElement} wrapper.
+	 * Otherwise, an instance with a corresponding {@code JAXBElement}
+	 * wrapper can be wrapped and the marshaled.
+	 * </p>
+	 * 
+	 * @return True, if this bean a top level XML root element.
+	 */
+	public boolean isXmlRootElement()
+	{
+		return getBeanClass().isAnnotationPresent(XmlRootElement.class);
+	}
+	
+	/**
+	 * This descriptor's bean is managed using a {@code JAXBElement}
+	 * wrapper.
+	 * 
+	 * @return True, when this descriptor's bean is managed using a
+	 *         {@code JAXBElement} wrapper; otherwise, false.
+	 */
+	public boolean isXmlWrappedElement()
+	{
+		return getJAXBElementWrapperMethod() != null;
+	}
+	
+	/**
+	 * This descriptor's bean is a JAXB root or wrapped element.
+	 * 
+	 * @return True, when this descriptor's bean is a JAXB root
+	 *         or wrapped element.
+	 */
+	public boolean isElement()
+	{
+		return isXmlRootElement() || isXmlWrappedElement();
 	}
 	
 	/**

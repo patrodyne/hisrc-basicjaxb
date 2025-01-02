@@ -385,19 +385,32 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		siftSplitPane.setName("Sift: [Query|Result]");
 		siftSplitPane.setOrientation("HORIZONTAL_SPLIT");
 		siftSplitPane.setOneTouchExpandable(true);
+		siftSplitPane.setSize("${el.size()}");
+		siftSplitPane.setDividerLocation("0.50");
 		
 		JTextAreaBind queryTextArea = OF.createJTextAreaBind();
+		queryTextArea.setBindWith("query");
 		queryTextArea.setBackground("*-10-100");
-		JTextAreaBind resultTextArea = OF.createJTextAreaBind();
-		resultTextArea.setBackground("*-10-100");
 		
-		siftSplitPane.getContent().add(OF.createTextarea(queryTextArea));
-		siftSplitPane.getContent().add(OF.createTextarea(resultTextArea));
+		XScrollPane queryScrollPane = OF.createXScrollPane();
+		queryScrollPane.getContent().add(OF.createTextarea(queryTextArea));
+		
+		JTextAreaBind resultTextArea = OF.createJTextAreaBind();
+		resultTextArea.setBindWith("result");
+		resultTextArea.setBackground("*-10-100");
+
+		XScrollPane resultScrollPane = OF.createXScrollPane();
+		resultScrollPane.getContent().add(OF.createTextarea(resultTextArea));
+
+		siftSplitPane.getContent().add(OF.createScrollpane(queryScrollPane));
+		siftSplitPane.getContent().add(OF.createScrollpane(resultScrollPane));
 		
 		XSplitPane workSplitPane = OF.createXSplitPane();
 		workSplitPane.setName("Work: [Query|Result]/Cards");
 		workSplitPane.setOrientation("VERTICAL_SPLIT");
 		workSplitPane.setOneTouchExpandable(true);
+		workSplitPane.setSize("${el.scaleSize(0.80)}");
+		workSplitPane.setDividerLocation("0.50");
 		
 		workSplitPane.getContent().add(OF.createSplitpane(siftSplitPane));
 		workSplitPane.getContent().add(OF.createPanel(cardLayoutPanel));
@@ -460,9 +473,9 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 				
 				// Create table for current bind class.
 				JTableBind table = OF.createJTableBind();
-//				table.setBindClass(bic.getClassFullName());
 				table.setBindClass(bindClass);
 				table.setBindList(bindList);
+				table.setAction("select");
 				table.setAutoCreateColumnsFromModel(true);
 				table.setAutoResizeMode("AUTO_RESIZE_OFF");
 				table.setFont("Monospaced");
