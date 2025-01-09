@@ -43,7 +43,7 @@
 				<xs:sequence>
 					<xs:element name="County" type="xs:string" />
 					<xs:element name="Postcode" type="xs:string" />
-					<xs:element name="CountryName" type="xs:string" fixed="United Kingdom"/>
+					<xs:element name="CountryName" type="xs:string" fixed="United Kingdom" minOccurs="0"/>
 				</xs:sequence>
 				<xs:attribute name="CountryCode" type="xs:string" fixed="UK" />
 			</xs:extension>
@@ -59,7 +59,7 @@
 				<xs:sequence>
 					<xs:element name="State" type="xs:string" />
 					<xs:element name="Zipcode" type="xs:string" />
-					<xs:element name="CountryName" type="xs:string" fixed="United States"/>
+					<xs:element name="CountryName" type="xs:string" fixed="United States" minOccurs="0"/>
 				</xs:sequence>
 				<xs:attribute name="CountryCode" type="xs:string" fixed="US" />
 			</xs:extension>

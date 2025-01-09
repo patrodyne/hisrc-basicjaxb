@@ -4,11 +4,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://example.org/contact ../../main/resources/contact.xsd"
 >
-	<ContactEMail>
+	<ContactEMail EMailId2="LisaWalsh@Home">
+		<EMailId1>LisaWalsh@Home</EMailId1>
 		<EMailType>Home</EMailType>
 		<EMailAddress>LisaWalsh@example.org</EMailAddress>
 	</ContactEMail>
-	<ContactEMail>
+	<ContactEMail EMailId2="LisaWalsh@Work">
+		<EMailId1>LisaWalsh@Home</EMailId1>
 		<EMailType>Work</EMailType>
 		<EMailAddress>LisaWalsh@example.com</EMailAddress>
 	</ContactEMail>
