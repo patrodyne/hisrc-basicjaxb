@@ -7,6 +7,8 @@ import static org.jvnet.basicjaxb.lang.ContextUtils.findObjectFactoryClass;
 import java.beans.BeanDescriptor;
 import java.beans.IntrospectionException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
@@ -78,6 +80,7 @@ public class DataDescriptor
 		// See isRootElement()
 	}
 	
+	// Derived from getBeanClass()
 	public Class<?> getObjectFactoryClass()
 	{
 		if ( getValue(DATA_OBJECT_FACTORY_CLASS) == null )
@@ -89,6 +92,7 @@ public class DataDescriptor
 		setValue(DATA_OBJECT_FACTORY_CLASS, objectFactoryClass);
 	}
 	
+	// Derived from getObjectFactoryClass()
 	public Object getObjectFactory() throws ReflectiveOperationException
 	{
 		if ( getValue(DATA_OBJECT_FACTORY) == null )
@@ -226,5 +230,54 @@ public class DataDescriptor
 		}
 		return cs;
 	}
+	
+	public static class Constraint
+	{
+		private String name;
+		public String getName() { return name; }
+		public void setName(String name) { this.name = name; }
+		
+		private String owner;
+		public String getOwner() { return owner; }
+		public void setOwner(String owner) { this.owner = owner; }
+
+		private Source source = new Source();
+		public Source getSource() { return source; }
+		public void setSource(Source source) { this.source = source; }
+
+		private Target target = null;
+		public Target getTarget() { return target; }
+		public void setTarget(Target target) { this.target = target; }
+
+		public static class Source
+		{
+			private String name;
+			public String getName() { return name; }
+			public void setName(String name) { this.name = name; }
+			
+			private List<String> fields = new ArrayList<>();
+			public List<String> getFields() { return fields; }
+			public void setFields(List<String> fields) { this.fields = fields; }
+			
+			private boolean unique = false;
+			public boolean isUnique() { return unique; }
+			public void setUnique(boolean unique) { this.unique = unique; }
+		}
+		
+		public static class Target
+		{
+			private String name;
+			public String getName() { return name; }
+			public void setName(String name) { this.name = name; }
+			
+			private List<String> fields = new ArrayList<>();
+			public List<String> getFields() { return fields; }
+			public void setFields(List<String> fields) { this.fields = fields; }
+		}
+	}
+	
+	private List<Constraint> constraints = new ArrayList<>();
+	public List<Constraint> getConstraints() { return constraints; }
+	public void setConstraints(List<Constraint> constraints) { this.constraints = constraints; }
 	
 }

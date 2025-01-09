@@ -40,6 +40,16 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Constraint }
+     * 
+     * @return
+     *     the new instance of {@link Constraint }
+     */
+    public Constraint createConstraint() {
+        return new Constraint();
+    }
+
+    /**
      * Create an instance of {@link Property }
      * 
      * @return
@@ -47,6 +57,26 @@ public class ObjectFactory {
      */
     public Property createProperty() {
         return new Property();
+    }
+
+    /**
+     * Create an instance of {@link Source }
+     * 
+     * @return
+     *     the new instance of {@link Source }
+     */
+    public Source createSource() {
+        return new Source();
+    }
+
+    /**
+     * Create an instance of {@link Target }
+     * 
+     * @return
+     *     the new instance of {@link Target }
+     */
+    public Target createTarget() {
+        return new Target();
     }
 
 }

@@ -11,6 +11,9 @@ import static com.sun.xml.xsom.XSFacet.FACET_MININCLUSIVE;
 import static com.sun.xml.xsom.XSFacet.FACET_MINLENGTH;
 import static com.sun.xml.xsom.XSFacet.FACET_PATTERN;
 import static com.sun.xml.xsom.XSFacet.FACET_TOTALDIGITS;
+import static com.sun.xml.xsom.XSIdentityConstraint.KEY;
+import static com.sun.xml.xsom.XSIdentityConstraint.KEYREF;
+import static com.sun.xml.xsom.XSIdentityConstraint.UNIQUE;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.lang.Access.READ_WRITE;
@@ -30,15 +33,20 @@ import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.lang.Access;
 import org.jvnet.basicjaxb.lang.Alignment;
-import org.jvnet.basicjaxb.lang.FieldDescriptor;
 import org.jvnet.basicjaxb.lang.DataBeanInfo;
 import org.jvnet.basicjaxb.lang.DataDescriptor;
+import org.jvnet.basicjaxb.lang.FieldDescriptor;
 import org.jvnet.basicjaxb.lang.Width;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
 import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.beaninfo.model.Bean;
+import org.jvnet.basicjaxb.plugin.beaninfo.model.Constraint;
 import org.jvnet.basicjaxb.plugin.beaninfo.model.Property;
+import org.jvnet.basicjaxb.plugin.beaninfo.model.Source;
+import org.jvnet.basicjaxb.plugin.beaninfo.model.Target;
+import org.jvnet.basicjaxb.plugin.util.Selector;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
 import com.sun.codemodel.JArray;
@@ -51,6 +59,7 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JDocComment;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JFieldRef;
+import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
@@ -61,6 +70,8 @@ import com.sun.codemodel.JVar;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
 import com.sun.xml.xsom.XSFacet;
+import com.sun.xml.xsom.XSIdentityConstraint;
+import com.sun.xml.xsom.XSXPath;
 
 /**
  * An XJC plugin to generate BeanInfo classes from XML Schema annotations.
@@ -165,8 +176,9 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 	@Override
 	public boolean run(Outline outline) throws Exception
 	{
-		final BeanInfoCustomizationFactory bicf = new BeanInfoCustomizationFactory(outline);
-		
+		// A factory to create BeanInfoCustomization instances.
+		BeanInfoCustomizationFactory bicf = new BeanInfoCustomizationFactory(outline);
+		// Process all XJC class outlines.
 		for (final ClassOutline classOutline : outline.getClasses())
 			processClassOutline(bicf, classOutline);
 		
@@ -228,10 +240,56 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 	/* Generate BeanDescriptor accessor with custom settings. */
 	private void generateBeanDescriptor(BeanInfoCustomization bic)
 	{
-		if (bic.getBeanCustomization() != null)
+		Bean bean = bic.getBean();
+		
+		if ( !bic.getSelectorList().isEmpty() )
 		{
-			Bean bd = bic.getBean();
+			if ( bean == null )
+			{
+				bean = new Bean();
+				bean.setName(bic.getClassPublicName());
+			}
 			
+			// Gather Constrain(s), if any
+			for ( Selector selector : bic.getSelectorList() )
+			{
+				XSIdentityConstraint ic = selector.getIdentityConstraint();
+				Map<JDefinedClass, List<JFieldVar>> sfm = selector.getSelectedFieldMap();
+				List<List<String>> sfp = selector.getSelectedFieldPaths();
+				List<List<String>> sp = selector.getSelectedPaths();
+				
+				Constraint constraint = new Constraint();
+				constraint.setName(ic.getName());
+				constraint.setOwner(ic.getParent().getName());
+				// Source
+				Source source = new Source();
+				source.setName(ic.getSelector().getXPath().value);
+				switch ( ic.getCategory() )
+				{
+					case KEY: source.setUnique(true); break;
+					case KEYREF: source.setUnique(false); break;
+					case UNIQUE: source.setUnique(true); break;
+				}
+				for ( XSXPath field : ic.getFields() )
+					source.getFields().add(field.getXPath().value);
+				constraint.setSource(source);
+				// Target
+				if ( (ic.getCategory() == KEYREF) && (ic.getReferencedKey() != null) )
+				{
+					XSIdentityConstraint icRef = ic.getReferencedKey();
+					Target target = new Target();
+					target.setName(icRef.getName());
+					for ( XSXPath field : icRef.getFields() )
+						target.getFields().add(field.getXPath().value);
+					constraint.setTarget(target);
+				}
+				// Add constraint
+				bean.getConstraint().add(constraint);
+			}
+		}
+		
+		if ( bean != null )
+		{
 			JType bdType = bic.getCodeModel().ref(BeanDescriptor.class);
 			final JMethod bdm = bic.getBeanInfoClass().method(JMod.PUBLIC, bdType, "getBeanDescriptor");
 			bdm.annotate(bic.getCodeModel().ref(Override.class));
@@ -242,28 +300,57 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			bdmDoc.addReturn().append("A {@code BeanDescriptor} providing overall information about the bean.");
 			
 			final JBlock bdmBody = bdm.body();
-			final JInvocation bdExp = JExpr._new(bic.getCodeModel().ref(DataDescriptor.class)).arg(bic.getImplClass().dotclass());
-			final JVar bdVar = bdmBody.decl(JMod.NONE, bic.getCodeModel().ref(DataDescriptor.class), "dd", bdExp);
+			JClass ddRef = bic.getCodeModel().ref(DataDescriptor.class);
+			final JInvocation bdExp = JExpr._new(ddRef).arg(bic.getImplClass().dotclass());
+			final JVar ddVar = bdmBody.decl(JMod.NONE, ddRef, "dd", bdExp);
 			
-			if ( bd.getName() != null )
-				bdmBody.add(bdVar.invoke("setName").arg(bd.getName()));
-			if ( bd.getDisplayName() != null )
-				bdmBody.add(bdVar.invoke("setDisplayName").arg(bd.getDisplayName()));
-			if ( bd.getDescription() != null )
-				bdmBody.add(bdVar.invoke("setShortDescription").arg(bd.getDescription()));
-			if ( bd.isExpert() != null )
-				bdmBody.add(bdVar.invoke("setExpert").arg(lit(bd.isExpert())));
-			if ( bd.isHidden() != null )
-				bdmBody.add(bdVar.invoke("setHidden").arg(lit(bd.isHidden())));
-			if ( bd.isPreferred() != null )
-				bdmBody.add(bdVar.invoke("setPreferred").arg(lit(bd.isPreferred())));
+			if ( bean.getName() != null )
+				bdmBody.add(ddVar.invoke("setName").arg(bean.getName()));
+			if ( bean.getDisplayName() != null )
+				bdmBody.add(ddVar.invoke("setDisplayName").arg(bean.getDisplayName()));
+			if ( bean.getDescription() != null )
+				bdmBody.add(ddVar.invoke("setShortDescription").arg(bean.getDescription()));
+			if ( bean.isExpert() != null )
+				bdmBody.add(ddVar.invoke("setExpert").arg(lit(bean.isExpert())));
+			if ( bean.isHidden() != null )
+				bdmBody.add(ddVar.invoke("setHidden").arg(lit(bean.isHidden())));
+			if ( bean.isPreferred() != null )
+				bdmBody.add(ddVar.invoke("setPreferred").arg(lit(bean.isPreferred())));
 			
-			bdmBody._return(bdVar);
+			JClass ddcRef = bic.getCodeModel().ref(DataDescriptor.Constraint.class);
+			for ( Constraint bcon : bean.getConstraint() )
+			{
+				JBlock bdmBlock = bdmBody.block();
+				
+				JVar ddcVar = bdmBlock.decl(JMod.NONE, ddcRef, "ddc", JExpr._new(ddcRef));
+				bdmBlock.add(ddcVar.invoke("setName").arg(lit(bcon.getName())));
+				bdmBlock.add(ddcVar.invoke("setOwner").arg(lit(bcon.getOwner())));
+				
+				bdmBlock.add(ddcVar.invoke("getSource").invoke("setName").arg(lit(bcon.getSource().getName())));
+				bdmBlock.add(ddcVar.invoke("getSource").invoke("setUnique").arg(lit(bcon.getSource().isUnique())));
+				for ( String field : bcon.getSource().getFields() )
+					bdmBlock.add(ddcVar.invoke("getSource").invoke("getFields").invoke("add").arg(lit(field)));
+				
+				if ( bcon.getTarget() != null )
+				{
+					bdmBlock.add(ddcVar.invoke("getTarget").invoke("setName").arg(lit(bcon.getTarget().getName())));
+					for ( String field : bcon.getTarget().getFields() )
+						bdmBlock.add(ddcVar.invoke("getTarget").invoke("getFields").invoke("add").arg(lit(field)));
+				}
+				
+				bdmBlock.add(ddVar.invoke("getConstraints").invoke("add").arg(ddcVar));
+			}
+			
+			bdmBody._return(ddVar);
+			
+			Locator locator = null;
+			if ( bic.getBeanCustomization() != null )
+				locator = bic.getBeanCustomization().locator;
 			
 			trace("{}, generateBeanDescriptor; Class={}, Bean={}",
-				toLocation(bic.getBeanCustomization().locator),
+				toLocation(locator),
 				bic.getBeanInfoClass().name(),
-				bd);
+				bean);
 		}
 	}
 

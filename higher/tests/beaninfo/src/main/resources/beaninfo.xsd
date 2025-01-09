@@ -12,6 +12,27 @@
 			<xs:sequence>
 				<xs:element name="displayName" type="xs:string" minOccurs="0" />
 				<xs:element name="description" type="xs:string" minOccurs="0" />
+				<xs:element name="constraint" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="source" minOccurs="1">
+								<xs:complexType>
+									<xs:attribute name="name" type="xs:string" use="required"/>
+									<xs:attribute name="fields" type="tns:fieldsType" use="required"/>
+									<xs:attribute name="unique" type="xs:boolean" use="required"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="target" minOccurs="0">
+								<xs:complexType>
+									<xs:attribute name="name" type="xs:string" use="required"/>
+									<xs:attribute name="fields" type="tns:fieldsType" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string"/>
+						<xs:attribute name="owner" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string"/>
 			<xs:attribute name="expert" type="xs:boolean" />
@@ -67,6 +88,10 @@
             <xs:enumeration value="READ_WRITE" />
         </xs:restriction>
     </xs:simpleType>
+
+	<xs:simpleType name='fieldsType'>
+		<xs:list itemType='xs:string' />
+	</xs:simpleType>
 
 </xs:schema>
 <!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4: -->

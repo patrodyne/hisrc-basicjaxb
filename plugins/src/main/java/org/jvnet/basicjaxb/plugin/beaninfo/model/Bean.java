@@ -2,6 +2,8 @@
 package org.jvnet.basicjaxb.plugin.beaninfo.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -33,6 +35,39 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
  *       <sequence>
  *         <element name="displayName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         <element name="description" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         <element name="constraint" maxOccurs="unbounded" minOccurs="0">
+ *           <complexType>
+ *             <complexContent>
+ *               <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *                 <sequence>
+ *                   <element name="source">
+ *                     <complexType>
+ *                       <complexContent>
+ *                         <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *                           <attribute name="name" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *                           <attribute name="fields" use="required" type="{http://jvnet.org/basicjaxb/xjc/beaninfo}fieldsType" />
+ *                           <attribute name="unique" use="required" type="{http://www.w3.org/2001/XMLSchema}boolean" />
+ *                         </restriction>
+ *                       </complexContent>
+ *                     </complexType>
+ *                   </element>
+ *                   <element name="target" minOccurs="0">
+ *                     <complexType>
+ *                       <complexContent>
+ *                         <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *                           <attribute name="name" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *                           <attribute name="fields" use="required" type="{http://jvnet.org/basicjaxb/xjc/beaninfo}fieldsType" />
+ *                         </restriction>
+ *                       </complexContent>
+ *                     </complexType>
+ *                   </element>
+ *                 </sequence>
+ *                 <attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *                 <attribute name="owner" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *               </restriction>
+ *             </complexContent>
+ *           </complexType>
+ *         </element>
  *       </sequence>
  *       <attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       <attribute name="expert" type="{http://www.w3.org/2001/XMLSchema}boolean" />
@@ -48,7 +83,8 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "displayName",
-    "description"
+    "description",
+    "constraint"
 })
 @XmlRootElement(name = "bean")
 public class Bean implements Serializable, Equals, HashCode, ToString
@@ -57,6 +93,7 @@ public class Bean implements Serializable, Equals, HashCode, ToString
     private static final long serialVersionUID = 20241001L;
     protected String displayName;
     protected String description;
+    protected List<Constraint> constraint;
     @XmlAttribute(name = "name")
     protected String name;
     @XmlAttribute(name = "expert")
@@ -112,6 +149,38 @@ public class Bean implements Serializable, Equals, HashCode, ToString
      */
     public void setDescription(String value) {
         this.description = value;
+    }
+
+    /**
+     * Gets the value of the constraint property.
+     * 
+     * <p>This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the constraint property.</p>
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * </p>
+     * <pre>
+     * getConstraint().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Constraint }
+     * </p>
+     * 
+     * 
+     * @return
+     *     The value of the constraint property.
+     */
+    public List<Constraint> getConstraint() {
+        if (constraint == null) {
+            constraint = new ArrayList<>();
+        }
+        return this.constraint;
     }
 
     /**
@@ -238,6 +307,13 @@ public class Bean implements Serializable, Equals, HashCode, ToString
             currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
         }
         {
+            boolean theFieldIsSet = ((this.constraint!= null)&&(!this.constraint.isEmpty()));
+            List<Constraint> theField;
+            theField = (((this.constraint!= null)&&(!this.constraint.isEmpty()))?this.getConstraint():null);
+            ObjectLocator theFieldLocator = LocatorUtils.property(locator, "constraint", theField);
+            currentHashCode = strategy.hashCode(theFieldLocator, currentHashCode, theField, theFieldIsSet);
+        }
+        {
             boolean theFieldIsSet = (this.name!= null);
             String theField;
             theField = this.getName();
@@ -311,6 +387,19 @@ public class Bean implements Serializable, Equals, HashCode, ToString
             rhsField = that.getDescription();
             ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "description", lhsField);
             ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "description", rhsField);
+            if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
+                return false;
+            }
+        }
+        {
+            boolean lhsFieldIsSet = ((this.constraint!= null)&&(!this.constraint.isEmpty()));
+            boolean rhsFieldIsSet = ((that.constraint!= null)&&(!that.constraint.isEmpty()));
+            List<Constraint> lhsField;
+            lhsField = (((this.constraint!= null)&&(!this.constraint.isEmpty()))?this.getConstraint():null);
+            List<Constraint> rhsField;
+            rhsField = (((that.constraint!= null)&&(!that.constraint.isEmpty()))?that.getConstraint():null);
+            ObjectLocator lhsFieldLocator = LocatorUtils.property(thisLocator, "constraint", lhsField);
+            ObjectLocator rhsFieldLocator = LocatorUtils.property(thatLocator, "constraint", rhsField);
             if (!strategy.equals(lhsFieldLocator, rhsFieldLocator, lhsField, rhsField, lhsFieldIsSet, rhsFieldIsSet)) {
                 return false;
             }
@@ -403,6 +492,12 @@ public class Bean implements Serializable, Equals, HashCode, ToString
             String theField;
             theField = this.getDescription();
             strategy.appendField(locator, this, "description", buffer, theField, theFieldIsSet);
+        }
+        {
+            boolean theFieldIsSet = ((this.constraint!= null)&&(!this.constraint.isEmpty()));
+            List<Constraint> theField;
+            theField = (((this.constraint!= null)&&(!this.constraint.isEmpty()))?this.getConstraint():null);
+            strategy.appendField(locator, this, "constraint", buffer, theField, theFieldIsSet);
         }
         {
             boolean theFieldIsSet = (this.name!= null);

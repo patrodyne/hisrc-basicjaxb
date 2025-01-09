@@ -12,6 +12,7 @@ import static com.sun.xml.xsom.XSFacet.FACET_PATTERN;
 import static com.sun.xml.xsom.XSFacet.FACET_TOTALDIGITS;
 import static java.beans.Introspector.decapitalize;
 import static org.jvnet.basicjaxb.plugin.beaninfo.Customizations.BEAN_ELEMENT_NAME;
+import static org.jvnet.basicjaxb.plugin.beaninfo.Customizations.NAMESPACE_URI;
 import static org.jvnet.basicjaxb.plugin.beaninfo.Customizations.PROPERTY_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.util.CustomizationUtils.findCustomization;
 import static org.jvnet.basicjaxb.util.CustomizationUtils.unmarshall;
@@ -27,6 +28,7 @@ import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.plugin.beaninfo.model.Bean;
 import org.jvnet.basicjaxb.plugin.beaninfo.model.Property;
+import org.jvnet.basicjaxb.plugin.util.Selector;
 import org.jvnet.basicjaxb.util.OutlineUtils;
 
 import com.sun.codemodel.JCodeModel;
@@ -83,6 +85,18 @@ public class BeanInfoCustomization
 	public void setClassCustomizationMap(Map<CClassInfo, CPluginCustomization> classCustomizationMap)
 	{
 		this.classCustomizationMap = classCustomizationMap;
+	}
+	
+	private List<Selector> selectorList;
+	public List<Selector> getSelectorList()
+	{
+		if ( selectorList == null )
+			setSelectorList(new ArrayList<Selector>());
+		return selectorList;
+	}
+	public void setSelectorList(List<Selector> selectorList)
+	{
+		this.selectorList = selectorList;
 	}
 
 	private Map<String, Integer> propertyIndexMap;
@@ -261,11 +275,13 @@ public class BeanInfoCustomization
 
 	public boolean hasCustomizations()
 	{
-		return
-			(getBeanCustomization() != null) ||
-			!getPropertyCustomizationMap().isEmpty() || 
-			!getPropertyFacetMap().isEmpty() ||
-			!getFieldInfoList().isEmpty();
+		boolean bc = ( getBeanCustomization() != null);
+		boolean pcm = !getPropertyCustomizationMap().isEmpty();
+		boolean pfm = !getPropertyFacetMap().isEmpty();
+		boolean sl = !getSelectorList().isEmpty();
+		boolean fil = !getFieldInfoList().isEmpty();
+						
+		return bc || pcm || pfm || sl || fil;
 	}
 	
 	/**
@@ -278,11 +294,13 @@ public class BeanInfoCustomization
 	 */
 	public BeanInfoCustomization(ClassOutline co,
 		Map<QName, CPluginCustomization> ecm,
-		Map<CClassInfo, CPluginCustomization> ccm)
+		Map<CClassInfo, CPluginCustomization> ccm,
+		List<Selector> selectorList)
 	{
 		setClassOutline(co);
 		setElementCustomizationMap(ecm);
 		setClassCustomizationMap(ccm);
+		setSelectorList(selectorList);
 		
 		// Find the first {@link CPluginCustomization} for the given class outline and bean element name;
 		// otherwise, get the customization for the current target class.
@@ -355,7 +373,10 @@ public class BeanInfoCustomization
 	private void gatherBean()
 	{
 		if ( getBeanCustomization() != null )
-			setBean((Bean) unmarshall(Customizations.getContext(), getBeanCustomization()));
+		{
+			if ( NAMESPACE_URI.equals(getBeanCustomization().element.getNamespaceURI()))
+				setBean((Bean) unmarshall(Customizations.getContext(), getBeanCustomization()));
+		}
 	}
 	
 	/* Gather list of FieldInfo. */
