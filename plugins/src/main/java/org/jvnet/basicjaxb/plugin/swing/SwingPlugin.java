@@ -46,6 +46,7 @@ import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
+import com.sun.codemodel.JPackage;
 import com.sun.codemodel.JType;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
@@ -127,18 +128,22 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		);
 	}
 	
-	private String source;
-	public String getSource()
-	{
-		if ( source == null )
-			setSource("classpath:/DefaultWindow.xml");
-		return source;
-	}
-	public void setSource(String source) { this.source = source; }
+	private String beanInfoPackage;
+	public String getBeanInfoPackage() { return beanInfoPackage; }
+	public void setBeanInfoPackage(String beanInfoPackage) { this.beanInfoPackage = beanInfoPackage; }
 
-	private String target;
-	public String getTarget() { return target; }
-	public void setTarget(String target) { this.target = target; }
+	private String sourceWindow;
+	public String getSourceWindow()
+	{
+		if ( sourceWindow == null )
+			setSourceWindow("classpath:/SchemasWindow.xml");
+		return sourceWindow;
+	}
+	public void setSourceWindow(String sourceWindow) { this.sourceWindow = sourceWindow; }
+
+	private String targetPackage;
+	public String getTargetPackage() { return targetPackage; }
+	public void setTargetPackage(String targetPackage) { this.targetPackage = targetPackage; }
 	
 	private File targetDir;
 	public File getTargetDir() { return targetDir; }
@@ -162,11 +167,12 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  Source....: " + getSource());
-			sb.append("\n  Target....: " + getTarget());
-			sb.append("\n  TargetDir.: " + getTargetDir());
-			sb.append("\n  Verbose...: " + isVerbose());
-			sb.append("\n  Debug.....: " + isDebug());
+			sb.append("\n  BeanInfoPackage.: " + getBeanInfoPackage());
+			sb.append("\n  SourceWindow....: " + getSourceWindow());
+			sb.append("\n  TargetPackage...: " + getTargetPackage());
+			sb.append("\n  TargetDir.......: " + getTargetDir());
+			sb.append("\n  Verbose.........: " + isVerbose());
+			sb.append("\n  Debug...........: " + isDebug());
 			debug(sb.toString());
 		}
 	}
@@ -248,11 +254,12 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  Source....: " + getSource());
-			sb.append("\n  Target....: " + getTarget());
-			sb.append("\n  TargetDir.: " + getTargetDir());
-			sb.append("\n  Verbose...: " + isVerbose());
-			sb.append("\n  Debug.....: " + isDebug());
+			sb.append("\n  BeanInfoPackage.: " + getBeanInfoPackage());
+			sb.append("\n  SourceWindow....: " + getSourceWindow());
+			sb.append("\n  TargetPackage...: " + getTargetPackage());
+			sb.append("\n  TargetDir.......: " + getTargetDir());
+			sb.append("\n  Verbose.........: " + isVerbose());
+			sb.append("\n  Debug...........: " + isDebug());
 			info(sb.toString());
 		}
 	}
@@ -318,21 +325,7 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 	{
 		try
 		{
-			// Set the JAXB context path.
-			setContextPath(Window.class.getPackageName());
-			// Create an unmarshaller to parse the source SWIXML configuration.
-			LocatorUnmarshaller<Window> windowUnmarshaller =
-				new LocatorUnmarshaller<>(getUnmarshaller());
-			// Unmarshal the source SWIXML configuration.
-			Window window = windowUnmarshaller.unmarshal(getSource(), Window.class);
-			
-			// Process the XJC Outline and Swing (Model) Window instances.
-			processWindow(outline, window);
-			
-			// Marshal the enriched SWIXML configuration to the target location.
-			File targetFile = new File(getTargetDir().getPath(), getTarget());
-			targetFile.getParentFile().mkdirs();
-			getMarshaller().marshal(window, targetFile);
+			processWindow(outline);
 		}
 		catch (IOException | JAXBException ex)
 		{
@@ -341,9 +334,63 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		
 		return !hadError(outline.getErrorReceiver());
 	}
-	
+
 	/**
 	 * Process the XJC {@link Outline} instance for the given
+	 * {@link Window} instance. The goal is to configure the
+	 * {@link Window} to view/edit all non-ignored/hidden fields.
+	 * 
+	 * <p>The {@link Window} is marshaled from a XML file that can be
+	 * provided to a SWIXML {@link SwingEngine} to render a GUI.</p>
+	 * 
+	 * @param outline An outline from the XJC framework.
+	 * 
+	 * @throws IntrospectionException cannot map class name to a class object.
+	 * @throws ClassNotFoundException no definition for the class with the specified name could be found.
+	 */
+	private void processWindow(Outline outline)
+		throws JAXBException, IOException, IntrospectionException, ClassNotFoundException
+	{
+		// Set the JAXB context path.
+		setContextPath(Window.class.getPackageName());
+		// Create an unmarshaller to parse the sourceWindow SWIXML configuration.
+		LocatorUnmarshaller<Window> windowUnmarshaller =
+			new LocatorUnmarshaller<>(getUnmarshaller());
+		// Unmarshal the sourceWindow SWIXML configuration.
+		Window window = windowUnmarshaller.unmarshal(getSourceWindow(), Window.class);
+		
+		// Process the XJC Outline and Swing (Model) Window instances.
+		enrichWindow(outline, window);
+		
+		// Marshal the enriched SWIXML configuration to the targetPackage location.
+		File targetFile = new File(getTargetDir().getPath(), getTargetPackage());
+		targetFile.getParentFile().mkdirs();
+		getMarshaller().marshal(window, targetFile);
+	}
+	
+	/**
+	 * Derive an absolute target package name for the given source package and 
+	 * possibly relative target package name.
+	 * 
+	 * @param targetDir The XJC target directory.
+	 * @param targetPackageName A possibly relative target package name.
+	 * 
+	 * @return An absolute target package name
+	 */
+	private String targetPackage(File targetDir, String targetPackageName)
+	{
+		while ( targetPackageName.startsWith("..") )
+		{
+			if ( targetDir.getParentFile() != null )
+				targetDir = targetDir.getParentFile();
+			targetPackageName = targetPackageName.substring(1);
+		}
+		// Use a relative or an absolute target path.
+		return targetPackageName.startsWith(".") ? targetDir.getPath() + targetPackageName : targetPackageName;
+	}
+	
+	/**
+	 * Enrich the XJC {@link Outline} instance for the given
 	 * {@link Window} instance. The goal is to configure the
 	 * {@link Window} to view/edit all non-ignored/hidden fields.
 	 * 
@@ -356,7 +403,7 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 	 * @throws IntrospectionException cannot map class name to a class object.
 	 * @throws ClassNotFoundException no definition for the class with the specified name could be found.
 	 */
-	protected void processWindow(Outline outline, Window window)
+	protected void enrichWindow(Outline outline, Window window)
 		throws IntrospectionException, ClassNotFoundException
 	{
 		XSplitPane mainSplitPane = OF.createXSplitPane();

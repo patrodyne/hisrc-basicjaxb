@@ -1,4 +1,4 @@
-package org.example.PurchaseOrder.swing;
+package org.jvnet.basicjaxb.xml;
 
 import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
@@ -10,7 +10,6 @@ import java.io.StringWriter;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.example.PurchaseOrder.model.ObjectFactory;
 import org.jvnet.basicjaxb.config.LocatorProperties;
 import org.patrodyne.jvnet.basicjaxb.validation.SchemaOutputDomResolver;
 import org.slf4j.Logger;
@@ -26,9 +25,9 @@ import jakarta.xml.bind.Unmarshaller;
 /**
  * JAXB context for {@link org.example.PurchaseOrder.model.ObjectFactory}
  */
- public class Context
+public class XmlContext
 {
-	private static Logger logger = LoggerFactory.getLogger(Context.class);
+	private static Logger logger = LoggerFactory.getLogger(XmlContext.class);
 	public static Logger getLogger() { return logger; }
 	
 	// Configuration
@@ -47,13 +46,28 @@ import jakarta.xml.bind.Unmarshaller;
 		}
 	}
 	
-	// JAXB Context
+	public XmlContext(Class<?> objectFactoryClass)
+	{
+		setObjectFactoryClass(objectFactoryClass);
+	}
 	
+	// JAXB XmlContext
+	
+	private Class<?> objectFactoryClass;
+	public Class<?> getObjectFactoryClass()
+	{
+		return objectFactoryClass;
+	}
+	public void setObjectFactoryClass(Class<?> objectFactoryClass)
+	{
+		this.objectFactoryClass = objectFactoryClass;
+	}
+
 	private JAXBContext jaxbContext;
 	public JAXBContext getJaxbContext() throws JAXBException
 	{
 		if ( jaxbContext == null )
-			setJaxbContext(JAXBContext.newInstance(ObjectFactory.class));
+			setJaxbContext(JAXBContext.newInstance(getObjectFactoryClass()));
 		return jaxbContext;
 	}
 	public void setJaxbContext(JAXBContext jaxbContext)
@@ -74,13 +88,13 @@ import jakarta.xml.bind.Unmarshaller;
 	}
 
 	private Unmarshaller unmarshaller = null;
-	protected Unmarshaller getUnmarshaller() throws JAXBException
+	public Unmarshaller getUnmarshaller() throws JAXBException
 	{
 		if ( unmarshaller == null )
 			setUnmarshaller(getJaxbContext().createUnmarshaller());
 		return unmarshaller;
 	}
-	protected void setUnmarshaller(Unmarshaller unmarshaller)
+	public void setUnmarshaller(Unmarshaller unmarshaller)
 	{
 		this.unmarshaller = unmarshaller;
 	}
@@ -100,20 +114,20 @@ import jakarta.xml.bind.Unmarshaller;
 		this.marshaller = marshaller;
 	}
 	
-	protected Object unmarshal(String xmlFileName) throws JAXBException
+	public Object unmarshal(String xmlFileName) throws JAXBException
 	{
 		File xmlFile = new File(xmlFileName);
 		return getUnmarshaller().unmarshal(xmlFile);
 	}
 	
 	@SuppressWarnings("unchecked")
-	protected <T> T unmarshal(String xmlFileName, Class<T> clazz) throws JAXBException
+	public <T> T unmarshal(String xmlFileName, Class<T> clazz) throws JAXBException
 	{
 		File xmlFile = new File(xmlFileName);
 		return (T) getUnmarshaller().unmarshal(xmlFile);
 	}
 	
-    protected String marshalToString(Object instance) throws JAXBException, IOException
+	public String marshalToString(Object instance) throws JAXBException, IOException
     {
         String xml = null;
         if ( instance != null)
@@ -127,7 +141,7 @@ import jakarta.xml.bind.Unmarshaller;
         return xml;
     }
 
-	protected void generateXmlSchemaValidatorFromDom() throws JAXBException, IOException, SAXException
+	public void generateXmlSchemaValidatorFromDom() throws JAXBException, IOException, SAXException
 	{
 		if ( (getMarshaller() != null) && (getUnmarshaller() != null) )
 		{

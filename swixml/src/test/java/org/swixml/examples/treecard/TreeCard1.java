@@ -266,8 +266,8 @@ public class TreeCard1 extends JFrame
 		JTree mainTree = new JTree(MainTreeNodeFactory.getInstance());
 		
 		// Set a custom TreeCellRenderer on the main tree to
-		// get the user object (as a NodeInfo) from given value
-		// object (as a DefaultMutableTreeNode). Use the NodeInfo
+		// get the user object (as a CardNodeInfo) from given value
+		// object (as a DefaultMutableTreeNode). Use the CardNodeInfo
 		// instance to render a custom icon, if any.
 		mainTree.setCellRenderer(new MainTreeCellRenderer(mainTree));
 		
@@ -282,7 +282,7 @@ public class TreeCard1 extends JFrame
 		getContentPane().add(getCardLayoutPanel());
 		
 		// Set a custom TreeSelectionListener on the main tree to show
-		// the card whose name matches the ID of the NodeInfo user object.
+		// the card whose name matches the ID of the CardNodeInfo user object.
 		//
 		// The card layout stores the constraint as a key-value pair that can be used
 		// for random access to a particular card, by calling the show method. The key-value
@@ -296,9 +296,9 @@ public class TreeCard1 extends JFrame
 				TreePath tsePath = (TreePath) tse.getPath();
 				// Get the last component of the selected path.
 				DefaultMutableTreeNode tseLastPathComp = (DefaultMutableTreeNode) tsePath.getLastPathComponent();
-				// Get the NodeInfo user object from the selected component.
+				// Get the CardNodeInfo user object from the selected component.
 				NodeInfo nodeInfo = getNodeInfo(tseLastPathComp);
-				// When present, show the card that matches the NodeInfo instance ID.
+				// When present, show the card that matches the CardNodeInfo instance ID.
 				if ( nodeInfo != null )
 					getCardLayout().show(getCardLayoutPanel(), nodeInfo.getID());
 			}
@@ -341,8 +341,8 @@ public class TreeCard1 extends JFrame
 	 */
 	private void addNodePanel(DefaultMutableTreeNode dmtn)
 	{
-		// In this project, the user object is a custom object (NodeInfo)
-		// that provides the desired node values. The NodeInfo is assigned
+		// In this project, the user object is a custom object (CardNodeInfo)
+		// that provides the desired node values. The CardNodeInfo is assigned
 		// to the tree node by construction.
 		NodeInfo node = getNodeInfo(dmtn);
 		

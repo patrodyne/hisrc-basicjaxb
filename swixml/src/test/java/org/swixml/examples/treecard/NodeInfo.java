@@ -17,7 +17,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * <p>The {@code ID} field is used as the title of the card and as the name of the component
  * to be added to the {@link CardLayout} container.</p>
  * 
- * <p>The {@code nodeName} field is the displayable name assigned to each {@link NodeInfo}
+ * <p>The {@code nodeName} field is the displayable name assigned to each {@link CardNodeInfo}
  * and is used to generate the ID field.</p>
  * 
  * <p>The {@code nodePanel} field is the "card" {@link JPanel} to be added to a
@@ -81,11 +81,11 @@ public class NodeInfo
 	}
 	
 	/**
-	 * Get the NodeInfo user object for the given DefaultMutableTreeNode instance.
+	 * Get the CardNodeInfo user object for the given DefaultMutableTreeNode instance.
 	 * 
 	 * @param dmtn The DefaultMutableTreeNode instance to examine.
 	 * 
-	 * @return The the NodeInfo user object for the given DefaultMutableTreeNode instance.
+	 * @return The the CardNodeInfo user object for the given DefaultMutableTreeNode instance.
 	 */
 	public static NodeInfo getNodeInfo(DefaultMutableTreeNode dmtn)
 	{

@@ -59,9 +59,9 @@ public class TreeCard2Frame extends JFrame
 		TreePath tsePath = (TreePath) tse.getPath();
 		// Get the last component of the selected path.
 		DefaultMutableTreeNode tseLastPathComp = (DefaultMutableTreeNode) tsePath.getLastPathComponent();
-		// Get the NodeInfo user object from the selected component.
+		// Get the CardNodeInfo user object from the selected component.
 		NodeInfo nodeInfo = NodeInfo.getNodeInfo(tseLastPathComp);
-		// When present, show the card that matches the NodeInfo instance ID.
+		// When present, show the card that matches the CardNodeInfo instance ID.
 		CardLayout cardLayout = (CardLayout) getCardLayoutPanel().getLayout();
 		if ( nodeInfo != null )
 			cardLayout.show(getCardLayoutPanel(), nodeInfo.getID());

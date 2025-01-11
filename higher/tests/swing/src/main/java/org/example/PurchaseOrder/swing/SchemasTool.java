@@ -11,7 +11,7 @@ import org.swixml.jsr296.SwingApplication;
 
 import jakarta.el.ELException;
 
-public class PurchaseOrderTool
+public class SchemasTool
 	extends SwingApplication<PurchaseOrderWindow>
 {
 	public static final PurchaseOrderWindow WINDOW = new PurchaseOrderWindow();
@@ -92,6 +92,6 @@ public class PurchaseOrderTool
 	
 	public static void main(String args[])
 	{
-		SwingApplication.launch(PurchaseOrderTool.class, args);
+		SwingApplication.launch(SchemasTool.class, args);
 	}
 }

@@ -59,7 +59,6 @@ import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JDocComment;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JFieldRef;
-import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
@@ -109,9 +108,9 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 	}
 	
 	// The package name that will be used for finding BeanInfo classes.
-	private String searchPath;
-	public String getSearchPath() { return searchPath; }
-	public void setSearchPath(String searchPath) { this.searchPath = searchPath; }
+	private String targetPackage;
+	public String getTargetPackage() { return targetPackage; }
+	public void setTargetPackage(String targetPackage) { this.targetPackage = targetPackage; }
 
 	// Plugin Processing
 
@@ -123,9 +122,9 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  searchPath.: " + getSearchPath());
-			sb.append("\n  Verbose....: " + isVerbose());
-			sb.append("\n  Debug......: " + isDebug());
+			sb.append("\n  targetPackage.: " + getTargetPackage());
+			sb.append("\n  Verbose.......: " + isVerbose());
+			sb.append("\n  Debug.........: " + isDebug());
 			info(sb.toString());
 		}
 		 
@@ -133,8 +132,8 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 		// Applications can configure the Introspector , as it is below,
 		// to find the generated BeanInfo(s). This plugin does not use
 		// this path for introspection, only for generation.
-		if ( getSearchPath() != null )
-			Introspector.setBeanInfoSearchPath(new String[] { getSearchPath() });
+		if ( getTargetPackage() != null )
+			Introspector.setBeanInfoSearchPath(new String[] { getTargetPackage() });
 	}
 	
 	@Override
@@ -205,21 +204,14 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 		throws JClassAlreadyExistsException
 	{
 		String beanInfoName = null;
-		if ( getSearchPath() != null )
+		if ( getTargetPackage() != null )
 		{
 			// SearchPath may be prefixed with dots. A single dot represents
 			// that the path is relative to the current package. Additional
 			// dots represent parent packages.
 			JPackage pp = bic.getImplClass().getPackage();
-			String sp = getSearchPath();
-			while ( sp.startsWith("..") )
-			{
-				if ( pp.parent() != null )
-					pp = pp.parent();
-				sp = sp.substring(1);
-			}
-			// Use a relative or an absolute search path.
-			String pkgName = sp.startsWith(".") ? pp.name() + sp : sp;
+			String sp = getTargetPackage();
+			String pkgName = targetPackage(pp, sp);
 			// Generate the BeanInfo name.
 			beanInfoName = pkgName + "." + bic.getImplClass().name() + "BeanInfo";
 		}
@@ -235,6 +227,27 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 		debug("{}, generateBeanInfo; Class={}",
 			toLocation(bic.getTargetClass().getLocator()),
 			bic.getBeanInfoClass().name());
+	}
+
+	/**
+	 * Derive an absolute target package name for the given source package and 
+	 * possibly relative target package name.
+	 * 
+	 * @param sourcePackage A source package.
+	 * @param targetPackageName A possibly relative target package name.
+	 * 
+	 * @return An absolute target package name
+	 */
+	private String targetPackage(JPackage sourcePackage, String targetPackageName)
+	{
+		while ( targetPackageName.startsWith("..") )
+		{
+			if ( sourcePackage.parent() != null )
+				sourcePackage = sourcePackage.parent();
+			targetPackageName = targetPackageName.substring(1);
+		}
+		// Use a relative or an absolute target path.
+		return targetPackageName.startsWith(".") ? sourcePackage.name() + targetPackageName : targetPackageName;
 	}
 	
 	/* Generate BeanDescriptor accessor with custom settings. */
@@ -254,9 +267,6 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			for ( Selector selector : bic.getSelectorList() )
 			{
 				XSIdentityConstraint ic = selector.getIdentityConstraint();
-				Map<JDefinedClass, List<JFieldVar>> sfm = selector.getSelectedFieldMap();
-				List<List<String>> sfp = selector.getSelectedFieldPaths();
-				List<List<String>> sp = selector.getSelectedPaths();
 				
 				Constraint constraint = new Constraint();
 				constraint.setName(ic.getName());

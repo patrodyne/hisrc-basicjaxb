@@ -26,7 +26,7 @@ public class MainTreeConfig
 		ImageIcon statusIcon = readImageIcon("/org/swixml/icons/status-clean.png");
 		ImageIcon networkIcon = readImageIcon("/org/swixml/icons/network-high.png");
 		
-		// Configure NodeInfo instances to define the business model.
+		// Configure CardNodeInfo instances to define the business model.
 		NodeInfo n0 = new NodeInfo("Devices", null);
 		NodeInfo n1 = new NodeInfo("Module 1", n0);
 		NodeInfo n2 = new NodeInfo("Status", n1, statusIcon);
@@ -42,8 +42,8 @@ public class MainTreeConfig
 		NodeInfo n12 = new NodeInfo("Users", n9);
 		NodeInfo n13 = new NodeInfo("Logging", n1);
 		
-		// Use the NodeInfo instances to configure the tree. Each
-		// NodeInfo instance becomes the user-object of a tree node.
+		// Use the CardNodeInfo instances to configure the tree. Each
+		// CardNodeInfo instance becomes the user-object of a tree node.
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode(n0);
 		DefaultMutableTreeNode branch1 = new DefaultMutableTreeNode(n1);
 		top.add(branch1);

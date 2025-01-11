@@ -6,9 +6,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
-import java.beans.BeanDescriptor;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,20 +23,22 @@ import javax.swing.tree.TreeModel;
 
 import org.example.PurchaseOrder.model.Credit;
 import org.example.PurchaseOrder.model.Item;
+import org.example.PurchaseOrder.model.ObjectFactory;
 import org.example.PurchaseOrder.model.Payment;
 import org.example.PurchaseOrder.model.PurchaseOrder;
 import org.example.PurchaseOrder.model.USAddress;
-import org.example.PurchaseOrder.swing.MainTreeModel.NodeInfo;
 import org.jdesktop.application.Action;
 import org.jvnet.basicjaxb.lang.DataBeanInfo;
 import org.jvnet.basicjaxb.lang.DataDescriptor;
+import org.jvnet.basicjaxb.xml.XmlContext;
+import org.swixml.jsr.widgets.CardNodeInfo;
 
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.JAXBIntrospector;
 
 /**
- * The top level {@link Window} for the {@link PurchaseOrderTool}.
+ * The top level {@link Window} for the {@link SchemasTool}.
  * 
  * <p>
  * This {@link Window} can be a {@link JFrame} or a {@link JDialog}.
@@ -50,16 +50,16 @@ public class PurchaseOrderWindow extends JFrame
 	
 	public static final String SAMPLE01_PO_FILE = "src/test/samples/PurchaseOrder01.xml";
 	
-	private Context context;
-	public Context getContext()
+	private XmlContext xmlContext;
+	public XmlContext getXmlContext()
 	{
-		if ( context == null )
-			setContext(new Context());
-		return context;
+		if ( xmlContext == null )
+			setXmlContext(new XmlContext(ObjectFactory.class));
+		return xmlContext;
 	}
-	public void setContext(Context context)
+	public void setXmlContext(XmlContext xmlContext)
 	{
-		this.context = context;
+		this.xmlContext = xmlContext;
 	}
 	
 	public Class<?> getPurchaseOrderClass()
@@ -140,7 +140,7 @@ public class PurchaseOrderWindow extends JFrame
 	public TreeModel getMainTreeModel()
 	{
 		if ( mainTreeModel == null )
-			setMainTreeModel(new MainTreeModel());
+			setMainTreeModel(new SchemasTreeModel());
 		return mainTreeModel;
 	}
 	public void setMainTreeModel(TreeModel mainTreeModel)
@@ -224,9 +224,9 @@ public class PurchaseOrderWindow extends JFrame
 	{
 		TreeSelectionEvent ev = (TreeSelectionEvent) ae.getSource();
 		DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) ev.getPath().getLastPathComponent();
-		if ( treeNode.getUserObject() instanceof NodeInfo )
+		if ( treeNode.getUserObject() instanceof CardNodeInfo )
 		{
-			NodeInfo nodeInfo = (NodeInfo) treeNode.getUserObject();
+			CardNodeInfo nodeInfo = (CardNodeInfo) treeNode.getUserObject();
 			CardLayout cardLayout = (CardLayout) getMainPanel().getLayout();
 			cardLayout.show(getMainPanel(), nodeInfo.getCardName());
 		}
@@ -251,11 +251,11 @@ public class PurchaseOrderWindow extends JFrame
 					try
 					{
 						if ( dd.isXmlRootElement() )
-							appendResult(getContext().marshalToString(row));
+							appendResult(getXmlContext().marshalToString(row));
 						else if ( jewm != null )
 						{
 							JAXBElement<?> jeRow = (JAXBElement<?>) jewm.invoke(dd.getObjectFactory(), row);
-							appendResult(getContext().marshalToString(jeRow));
+							appendResult(getXmlContext().marshalToString(jeRow));
 						}
 						else
 							appendResult(row.toString());
@@ -272,7 +272,7 @@ public class PurchaseOrderWindow extends JFrame
 	public void initialize()
 		throws JAXBException
 	{
-		Object obj = getContext().unmarshal(SAMPLE01_PO_FILE);
+		Object obj = getXmlContext().unmarshal(SAMPLE01_PO_FILE);
 		PurchaseOrder po01 = (PurchaseOrder) JAXBIntrospector.getValue(obj);
 		
 		// PurchaseOrder list

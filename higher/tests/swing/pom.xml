@@ -69,10 +69,11 @@
 					<args>
 						<arg>-no-header</arg>
 						<arg>-XbeanInfo</arg>
-						<arg>-XbeanInfo-searchPath=..infos</arg>
+						<arg>-XbeanInfo-targetPackage=..infos</arg>
 						<arg>-Xswing</arg>
-						<arg>-Xswing-source=file:src/main/resources/PurchaseOrderWindow.xml</arg>
-						<arg>-Xswing-target=org/example/PurchaseOrder/swing/PurchaseOrderWindow.xml</arg>
+						<arg>-Xswing-beanInfoPackage=..infos</arg>
+						<arg>-Xswing-sourceWindow=file:src/main/resources/PurchaseOrderWindow.xml</arg>
+						<arg>-Xswing-targetPackage=..swing</arg>
 						<arg>-XhashCode</arg>
 						<arg>-Xequals</arg>
 						<arg>-XtoString</arg>

@@ -50,11 +50,12 @@ public class RunSwingPluginTest extends AbstractMojoTest
 		mojo.setArgs(new ArrayList<>());
 		
 		mojo.getArgs().add("-XbeanInfo");
-		mojo.getArgs().add("-XbeanInfo-searchPath=..infos");
+		mojo.getArgs().add("-XbeanInfo-targetPackage=..infos");
 		
 		mojo.getArgs().add("-Xswing");
-		mojo.getArgs().add("-Xswing-source=file:src/main/resources/PurchaseOrderWindow.xml");
-		mojo.getArgs().add("-Xswing-target=org/example/PurchaseOrder/swing/PurchaseOrderWindow.xml");
+		mojo.getArgs().add("-Xswing-beanInfoPackage=..infos");
+		mojo.getArgs().add("-Xswing-sourceWindow=file:src/main/resources/PurchaseOrderWindow.xml");
+		mojo.getArgs().add("-Xswing-targetPackage=..swing");
 		
 //		mojo.getArgs().add("-XhashCode");
 //		mojo.getArgs().add("-Xequals");

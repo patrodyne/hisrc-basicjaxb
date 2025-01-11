@@ -52,7 +52,7 @@
 						<arg>-XclassName-suffix=Type</arg>
 						<arg>-XclassName-infix=/Type$//</arg>
 						<arg>-XbeanInfo</arg>
-						<arg>-XbeanInfo-searchPath=..infos</arg>
+						<arg>-XbeanInfo-targetPackage=..infos</arg>
 					</args>
 					<plugins>
 						<plugin>

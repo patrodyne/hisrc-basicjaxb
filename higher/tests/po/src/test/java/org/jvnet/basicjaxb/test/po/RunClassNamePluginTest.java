@@ -49,7 +49,7 @@ public class RunClassNamePluginTest extends AbstractMojoTest
 		mojo.setExtension(true);
 		mojo.setArgs(new ArrayList<>());
 		mojo.getArgs().add("-XbeanInfo");
-		mojo.getArgs().add("-XbeanInfo-searchPath=..infos");
+		mojo.getArgs().add("-XbeanInfo-targetPackage=..infos");
 		mojo.getArgs().add("-XclassName");
 		mojo.getArgs().add("-XclassName-prefix=PO");
 		mojo.getArgs().add("-XclassName-suffix=Type");

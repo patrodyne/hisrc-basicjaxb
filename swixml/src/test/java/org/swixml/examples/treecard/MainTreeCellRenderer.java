@@ -44,7 +44,7 @@ public class MainTreeCellRenderer extends DefaultTreeCellRenderer
 			Object userObject = ((DefaultMutableTreeNode) value).getUserObject();
 			if ( userObject instanceof NodeInfo )
 			{
-				// The user object is our NodeInfo from construction.
+				// The user object is our CardNodeInfo from construction.
 				NodeInfo node = (NodeInfo) userObject;
 				if ( node.getNodeIcon() != null )
 					lbl.setIcon(node.getNodeIcon());
