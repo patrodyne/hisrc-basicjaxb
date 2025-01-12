@@ -3,27 +3,21 @@ package org.jvnet.basicjaxb.plugin.swing;
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.swing.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
-import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.beans.IntrospectionException;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.config.LocatorUnmarshaller;
-import org.jvnet.basicjaxb.lang.ValueUtils;
 import org.jvnet.basicjaxb.plugin.AbstractParameterizablePlugin;
 import org.jvnet.basicjaxb.plugin.AbstractPlugin;
 import org.jvnet.basicjaxb.plugin.Customizations;
@@ -44,29 +38,14 @@ import org.swixml.schema.model.XSplitPane;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
-import com.sun.codemodel.JClass;
-import com.sun.codemodel.JCodeModel;
-// Post process Model to convert any fixed property element names to 'constant' names
-import com.sun.codemodel.JDefinedClass;
-import com.sun.codemodel.JFieldVar;
-import com.sun.codemodel.JMethod;
-import com.sun.codemodel.JPackage;
 import com.sun.codemodel.JType;
 import com.sun.tools.xjc.Options;
-import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CClassInfo;
-import com.sun.tools.xjc.model.CNonElement;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
-import com.sun.xml.xsom.XSAttributeUse;
-import com.sun.xml.xsom.XSElementDecl;
-import com.sun.xml.xsom.XSParticle;
-import com.sun.xml.xsom.XSTerm;
-import com.sun.xml.xsom.XSType;
-import com.sun.xml.xsom.XmlString;
 
 import jakarta.xml.bind.JAXBException;
 
@@ -329,7 +308,9 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 	{
 		try
 		{
-			processWindow(outline);
+			BeanInfoCustomizationFactory bicf = new BeanInfoCustomizationFactory(outline);
+			generateTreeModel(bicf);
+			generateWindow(bicf);
 		}
 		catch (IOException | JAXBException ex)
 		{
@@ -339,6 +320,11 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		return !hadError(outline.getErrorReceiver());
 	}
 
+	private void generateTreeModel(BeanInfoCustomizationFactory bicf)
+	{
+		
+	}
+	
 	/**
 	 * Process the XJC {@link Outline} instance for the given
 	 * {@link Window} instance. The goal is to configure the
@@ -347,14 +333,14 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 	 * <p>The {@link Window} is marshaled from a XML file that can be
 	 * provided to a SWIXML {@link SwingEngine} to render a GUI.</p>
 	 * 
-	 * @param outline An outline from the XJC framework.
+	 * @param bicf A factory to create {@link BeanInfoCustomization} instances.
 	 * 
 	 * @throws IntrospectionException When cannot map class name to a class object.
 	 * @throws ClassNotFoundException When no definition for the class with the specified name could be found.
 	 * @throws URISyntaxException When a string could not be parsed as a
- * URI reference.
+	 * URI reference.
 	 */
-	private void processWindow(Outline outline)
+	private void generateWindow(BeanInfoCustomizationFactory bicf)
 		throws JAXBException, IOException, IntrospectionException, ClassNotFoundException, URISyntaxException
 	{
 		// Set the JAXB context path.
@@ -366,10 +352,10 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		Window window = windowUnmarshaller.unmarshal(getSourceWindow(), Window.class);
 		
 		// Process the XJC Outline and Swing (Model) Window instances.
-		enrichWindow(outline, window);
+		enrichWindow(bicf, window);
 		
 		// Marshal the enriched SWIXML configuration to the target location.
-		File targetFile = targetTargetFile(getTargetDir(), getTargetPackage(), getSourceWindow());
+		File targetFile = targetFile(getTargetDir(), getTargetPackage(), getSourceWindow());
 		getMarshaller().marshal(window, targetFile);
 	}
 	
@@ -386,7 +372,7 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 	 * @throws IOException An I/O exception of some sort has occurred.
 	 * @throws URISyntaxException A string could not be parsed as a URI reference.
 	 */
-	private File targetTargetFile(File targetDir, String targetPackage, String sourceWindow)
+	private File targetFile(File targetDir, String targetPackage, String sourceWindow)
 		throws IOException, URISyntaxException
 	{
 		URL sourceWindowURL = new URI(sourceWindow).toURL();
@@ -409,13 +395,13 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 	 * <p>The {@link Window} was marshaled from a XML file that can be
 	 * provided to a SWIXML {@link SwingEngine} to render a GUI.</p>
 	 * 
-	 * @param outline An outline from the XJC framework.
+	 * @param bicf A factory to create {@link BeanInfoCustomization} instances.
 	 * @param window The SWIXML {@code Window} to enrich.
 	 * 
 	 * @throws IntrospectionException cannot map class name to a class object.
 	 * @throws ClassNotFoundException no definition for the class with the specified name could be found.
 	 */
-	protected void enrichWindow(Outline outline, Window window)
+	protected void enrichWindow(BeanInfoCustomizationFactory bicf, Window window)
 		throws IntrospectionException, ClassNotFoundException
 	{
 		XSplitPane mainSplitPane = OF.createXSplitPane();
@@ -427,9 +413,9 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		window.getContent().add(OF.createSplitpane(mainSplitPane));
 		
 		JTreeBind treeBind = OF.createJTreeBind();
-		treeBind.setId("mainTree");
-		treeBind.setModel("${window.mainTreeModel}");
-		treeBind.setCellRenderer("${window.mainTreeCellRenderer}");
+		treeBind.setId("schemasTree");
+		treeBind.setModel("${window.schemasTreeModel}");
+		treeBind.setCellRenderer("${window.schemasTreeCellRenderer}");
 		treeBind.setAction("selectNode");
 		treeBind.setBackground("*-20-100");
 		
@@ -477,24 +463,22 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		mainSplitPane.getContent().add(OF.createScrollpane(treePane));
 		mainSplitPane.getContent().add(OF.createSplitpane(workSplitPane));
 		
-		BeanInfoCustomizationFactory bicf = new BeanInfoCustomizationFactory(outline);
-
 		// Filter ignored class outlines
-		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
-			processClassOutline(bicf, classOutline, cardLayoutPanel);
+		for (final ClassOutline classOutline : filter(bicf.getOutline(), getIgnoring()))
+			processCardClassOutline(bicf, classOutline, cardLayoutPanel);
 	}
 	
 	/**
-	 * Process the XJC {@link Outline} instance for the given
-	 * {@link Window} instance. The goal is to configure the
-	 * {@link Window} to view/edit all non-ignored/hidden fields
+	 * Process the XJC {@link ClassOutline} instance for the given
+	 * {@link JPanel} instance. The goal is to configure the
+	 * {@link JPanel} to view/edit all non-ignored/hidden fields
 	 * for the given {@link ClassOutline} instance.
 	 * 
 	 * @param bicf A factory to create {@link BeanInfoCustomization} instances.
 	 * @param classOutline A class outline from the XJC framework.
 	 * @param cardLayoutPanel The card layout panel to contain the card tables.
 	 */
-	protected void processClassOutline(BeanInfoCustomizationFactory bicf, ClassOutline classOutline, JPanel cardLayoutPanel)
+	protected void processCardClassOutline(BeanInfoCustomizationFactory bicf, ClassOutline classOutline, JPanel cardLayoutPanel)
 	{
 		// Filter an array of {@link FieldOutline} to omit ignored or constant fields.
 		FieldOutline[] declaredFilteredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
@@ -550,137 +534,137 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 			}
 		}
 		
-		boolean noop = false;
-		if ( noop )
-		{
-			// Check all Fields in Class
-			for (FieldOutline fieldOutline : declaredFilteredFields)
-			{
-				// Handle primitive types via boxed representation (treat boolean as java.lang.Boolean)
-				JType fieldRawType = fieldOutline.getRawType();
-				boolean fieldIsPrimitive = fieldRawType.isPrimitive();
-				JType fieldType = (fieldIsPrimitive) ? fieldRawType.boxify() : fieldRawType;
-				
-				// Get the field type's full name.
-				String typeFullName = fieldType.fullName();
-
-				// Represent the XML schema element's or attribute's fixed value.
-				XmlString fixedValue = null;
-				
-				// Do nothing if Field is not created from an or XSAttributeUse an XSParticle
-				// Set the fixedValue ONLY when this plugin needs to provide the initialization.
-				CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
-				QName schemaType = fieldInfo.getSchemaType();
-				if ( fieldInfo.getSchemaComponent() instanceof XSAttributeUse )
-				{
-					// An XSAttributeUse provides isRequired, defaultValue and fixedValue for an XSAttributeDecl.
-					XSAttributeUse attribute = (XSAttributeUse) fieldInfo.getSchemaComponent();
-					if (attribute.getFixedValue() != null)
-					{
-						// Get the fixed value from the XSD attribute as a String.
-						fixedValue = attribute.getFixedValue();
-						if ( schemaType == null )
-						{
-							if ( fieldInfo instanceof CAttributePropertyInfo)
-							{
-								CAttributePropertyInfo attrInfo = (CAttributePropertyInfo) fieldInfo;
-								CNonElement nonElement = attrInfo.getTarget();
-								schemaType = nonElement.getTypeName();
-							}
-						}
-					}
-				}
-				else if ( fieldInfo.getSchemaComponent() instanceof XSParticle )
-				{
-					// An XSParticle provides min/max occurs cardinality for an XSTerm.
-					XSParticle particle = (XSParticle) fieldInfo.getSchemaComponent();
-					
-					// Fixed values only necessary for fields derived from an xsd:element
-					XSTerm term = particle.getTerm();
-					if (term.isElementDecl())
-					{
-						// Do nothing if no fixed value.
-						// Continue loop to next FieldOutline instance.
-						XSElementDecl element = term.asElementDecl();
-						if (element.getFixedValue() != null)
-						{
-							// Get the fixed value from the XSD element as a String.
-							fixedValue = element.getFixedValue();
-							if ( schemaType == null )
-							{
-								XSType elementType = element.getType();
-								if ( (elementType != null) && (elementType.getName() != null) )
-									schemaType = new QName(elementType.getTargetNamespace(), elementType.getName());
-							}
-						}
-					}
-				}
-				
-				// Provide initialization for the fixed value, when non-null.
-				if ( fixedValue != null )
-					processSwing(bicf.getOutline(), classOutline, fieldOutline, fieldType, fieldIsPrimitive, typeFullName, fixedValue, schemaType);
-			} // for FieldOutline
-		}
+//		boolean noop = false;
+//		if ( noop )
+//		{
+//			// Check all Fields in Class
+//			for (FieldOutline fieldOutline : declaredFilteredFields)
+//			{
+//				// Handle primitive types via boxed representation (treat boolean as java.lang.Boolean)
+//				JType fieldRawType = fieldOutline.getRawType();
+//				boolean fieldIsPrimitive = fieldRawType.isPrimitive();
+//				JType fieldType = (fieldIsPrimitive) ? fieldRawType.boxify() : fieldRawType;
+//				
+//				// Get the field type's full name.
+//				String typeFullName = fieldType.fullName();
+//
+//				// Represent the XML schema element's or attribute's fixed value.
+//				XmlString fixedValue = null;
+//				
+//				// Do nothing if Field is not created from an or XSAttributeUse an XSParticle
+//				// Set the fixedValue ONLY when this plugin needs to provide the initialization.
+//				CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
+//				QName schemaType = fieldInfo.getSchemaType();
+//				if ( fieldInfo.getSchemaComponent() instanceof XSAttributeUse )
+//				{
+//					// An XSAttributeUse provides isRequired, defaultValue and fixedValue for an XSAttributeDecl.
+//					XSAttributeUse attribute = (XSAttributeUse) fieldInfo.getSchemaComponent();
+//					if (attribute.getFixedValue() != null)
+//					{
+//						// Get the fixed value from the XSD attribute as a String.
+//						fixedValue = attribute.getFixedValue();
+//						if ( schemaType == null )
+//						{
+//							if ( fieldInfo instanceof CAttributePropertyInfo)
+//							{
+//								CAttributePropertyInfo attrInfo = (CAttributePropertyInfo) fieldInfo;
+//								CNonElement nonElement = attrInfo.getTarget();
+//								schemaType = nonElement.getTypeName();
+//							}
+//						}
+//					}
+//				}
+//				else if ( fieldInfo.getSchemaComponent() instanceof XSParticle )
+//				{
+//					// An XSParticle provides min/max occurs cardinality for an XSTerm.
+//					XSParticle particle = (XSParticle) fieldInfo.getSchemaComponent();
+//					
+//					// Fixed values only necessary for fields derived from an xsd:element
+//					XSTerm term = particle.getTerm();
+//					if (term.isElementDecl())
+//					{
+//						// Do nothing if no fixed value.
+//						// Continue loop to next FieldOutline instance.
+//						XSElementDecl element = term.asElementDecl();
+//						if (element.getFixedValue() != null)
+//						{
+//							// Get the fixed value from the XSD element as a String.
+//							fixedValue = element.getFixedValue();
+//							if ( schemaType == null )
+//							{
+//								XSType elementType = element.getType();
+//								if ( (elementType != null) && (elementType.getName() != null) )
+//									schemaType = new QName(elementType.getTargetNamespace(), elementType.getName());
+//							}
+//						}
+//					}
+//				}
+//				
+//				// Provide initialization for the fixed value, when non-null.
+//				if ( fixedValue != null )
+//					processSwing(bicf.getOutline(), classOutline, fieldOutline, fieldType, fieldIsPrimitive, typeFullName, fixedValue, schemaType);
+//			} // for FieldOutline
+//		}
 	}
 
-	private void processSwing(Outline outline, ClassOutline classOutline,
-		FieldOutline fieldOutline, JType fieldType, boolean fieldIsPrimitive,
-		String typeFullName, XmlString fixedValue, QName schemaType)
-	{
-		// Get handle to implementation class containing the field
-		JDefinedClass theClass = classOutline.implClass;
-		
-		// Get the property info from the outline.
-		CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
-		
-		// Get the field variable for the given fieldInfo private name
-		// from the map of fields for theClass.
-		Map<String, JFieldVar> fields = theClass.fields();
-		JFieldVar fieldVar = fields.get(fieldInfo.getName(false));
-		
-		// Get the BOUND for the given fieldInfo public name
-		// from the list of methods for theClass.
-		String publicName = fieldInfo.getName(true);
-		
-		// Collect the property methods bound to the field variable.
-		List<JMethod> propMethods = collectPropertyMethods(theClass, publicName, fieldOutline);
-		
-		// Get handle to JCodeModel owning this class.
-		JCodeModel theCodeModel = theClass.owner();
-		
-		// Get reference to ValueUtils to invoke its static methods.
-		JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
-		
-		String fieldLoc = toLocation(fieldInfo.getLocator());
-		String fieldName = fieldInfo.displayName();
-	}
+//	private void processSwing(Outline outline, ClassOutline classOutline,
+//		FieldOutline fieldOutline, JType fieldType, boolean fieldIsPrimitive,
+//		String typeFullName, XmlString fixedValue, QName schemaType)
+//	{
+//		// Get handle to implementation class containing the field
+//		JDefinedClass theClass = classOutline.implClass;
+//		
+//		// Get the property info from the outline.
+//		CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
+//		
+//		// Get the field variable for the given fieldInfo private name
+//		// from the map of fields for theClass.
+//		Map<String, JFieldVar> fields = theClass.fields();
+//		JFieldVar fieldVar = fields.get(fieldInfo.getName(false));
+//		
+//		// Get the BOUND for the given fieldInfo public name
+//		// from the list of methods for theClass.
+//		String publicName = fieldInfo.getName(true);
+//		
+//		// Collect the property methods bound to the field variable.
+//		List<JMethod> propMethods = collectPropertyMethods(theClass, publicName, fieldOutline);
+//		
+//		// Get handle to JCodeModel owning this class.
+//		JCodeModel theCodeModel = theClass.owner();
+//		
+//		// Get reference to ValueUtils to invoke its static methods.
+//		JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
+//		
+//		String fieldLoc = toLocation(fieldInfo.getLocator());
+//		String fieldName = fieldInfo.displayName();
+//	}
 
-	private List<JMethod> collectPropertyMethods(JDefinedClass theClass, String publicName, FieldOutline fieldOutline)
-	{
-		List<JMethod> propMethods = new ArrayList<>();
-		
-		JMethod accessor = theClass.getMethod("get" + publicName, NO_ARGS);
-		if ( accessor == null )
-			accessor = theClass.getMethod("is" + publicName, NO_ARGS);
-		if ( accessor != null )
-			propMethods.add(accessor);
-		
-		String mutatorName = "set" + publicName;
-		JType mutatorType = fieldOutline.getRawType();
-        JMethod boxifiedMutator = theClass.getMethod(mutatorName, new JType[] { mutatorType.boxify() });
-        JMethod unboxifiedMutator = theClass.getMethod(mutatorName, new JType[] { mutatorType.unboxify() });
-        JMethod mutator = boxifiedMutator != null ? boxifiedMutator : unboxifiedMutator;
-		if ( mutator != null )
-			propMethods.add(mutator);        
-
-		JMethod detector = theClass.getMethod("isSet" + publicName, NO_ARGS);
-		if ( detector != null )
-			propMethods.add(detector);
-		
-		JMethod reverter = theClass.getMethod("unset" + publicName, NO_ARGS);
-		if ( reverter != null )
-			propMethods.add(reverter);
-		
-		return propMethods;
-	}
+//	private List<JMethod> collectPropertyMethods(JDefinedClass theClass, String publicName, FieldOutline fieldOutline)
+//	{
+//		List<JMethod> propMethods = new ArrayList<>();
+//		
+//		JMethod accessor = theClass.getMethod("get" + publicName, NO_ARGS);
+//		if ( accessor == null )
+//			accessor = theClass.getMethod("is" + publicName, NO_ARGS);
+//		if ( accessor != null )
+//			propMethods.add(accessor);
+//		
+//		String mutatorName = "set" + publicName;
+//		JType mutatorType = fieldOutline.getRawType();
+//        JMethod boxifiedMutator = theClass.getMethod(mutatorName, new JType[] { mutatorType.boxify() });
+//        JMethod unboxifiedMutator = theClass.getMethod(mutatorName, new JType[] { mutatorType.unboxify() });
+//        JMethod mutator = boxifiedMutator != null ? boxifiedMutator : unboxifiedMutator;
+//		if ( mutator != null )
+//			propMethods.add(mutator);        
+//
+//		JMethod detector = theClass.getMethod("isSet" + publicName, NO_ARGS);
+//		if ( detector != null )
+//			propMethods.add(detector);
+//		
+//		JMethod reverter = theClass.getMethod("unset" + publicName, NO_ARGS);
+//		if ( reverter != null )
+//			propMethods.add(reverter);
+//		
+//		return propMethods;
+//	}
 }

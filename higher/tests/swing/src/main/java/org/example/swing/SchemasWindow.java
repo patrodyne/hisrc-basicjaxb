@@ -128,47 +128,47 @@ public class SchemasWindow extends JFrame
 	}
 
 	// Bound by id in SchemasWindow.xml
-	private JTree mainTree;
-	public JTree getMainTree() { return mainTree; }
-	public void setMainTree(JTree mainTree) { this.mainTree = mainTree; }
+	private JTree schemasTree;
+	public JTree getSchemasTree() { return schemasTree; }
+	public void setSchemasTree(JTree schemasTree) { this.schemasTree = schemasTree; }
 	
 	private JPanel mainPanel;
 	public JPanel getMainPanel() { return mainPanel; }
 	public void setMainPanel(JPanel mainPanel) { this.mainPanel = mainPanel; }
 
-	private TreeModel mainTreeModel;
-	public TreeModel getMainTreeModel()
+	private TreeModel schemasTreeModel;
+	public TreeModel getSchemasTreeModel()
 	{
-		if ( mainTreeModel == null )
-			setMainTreeModel(new SchemasTreeModel());
-		return mainTreeModel;
+		if ( schemasTreeModel == null )
+			setSchemasTreeModel(new SchemasTreeModel());
+		return schemasTreeModel;
 	}
-	public void setMainTreeModel(TreeModel mainTreeModel)
+	public void setSchemasTreeModel(TreeModel schemasTreeModel)
 	{
-		this.mainTreeModel = mainTreeModel;
+		this.schemasTreeModel = schemasTreeModel;
 	}
 	
-	private TreeCellRenderer mainTreeCellRenderer = null;
-	public TreeCellRenderer getMainTreeCellRenderer()
+	private TreeCellRenderer schemasTreeCellRenderer = null;
+	public TreeCellRenderer getSchemasTreeCellRenderer()
 	{
-		if ( mainTreeCellRenderer == null )
+		if ( schemasTreeCellRenderer == null )
 		{
-			mainTreeCellRenderer = new DefaultTreeCellRenderer()
+			schemasTreeCellRenderer = new DefaultTreeCellRenderer()
 			{
 			    private static final long serialVersionUID = 20241201L;
 
 				@Override
 				public Color getBackgroundNonSelectionColor()
 			    {
-			        return getMainTree().getBackground();
+			        return getSchemasTree().getBackground();
 			    }
 			};
 		}
-		return mainTreeCellRenderer;
+		return schemasTreeCellRenderer;
 	}
-	public void setMainTreeCellRenderer(TreeCellRenderer mainTreeCellRenderer)
+	public void setSchemasTreeCellRenderer(TreeCellRenderer schemasTreeCellRenderer)
 	{
-		this.mainTreeCellRenderer = mainTreeCellRenderer;
+		this.schemasTreeCellRenderer = schemasTreeCellRenderer;
 	}
 
 	/* bindWith="query" */
