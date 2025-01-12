@@ -1,4 +1,4 @@
-package org.example.PurchaseOrder.swing;
+package org.example.swing;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -12,9 +12,9 @@ import org.swixml.jsr296.SwingApplication;
 import jakarta.el.ELException;
 
 public class SchemasTool
-	extends SwingApplication<PurchaseOrderWindow>
+	extends SwingApplication<SchemasWindow>
 {
-	public static final PurchaseOrderWindow WINDOW = new PurchaseOrderWindow();
+	public static final SchemasWindow WINDOW = new SchemasWindow();
 	
 	@Override
 	protected void initialize(String[] args)

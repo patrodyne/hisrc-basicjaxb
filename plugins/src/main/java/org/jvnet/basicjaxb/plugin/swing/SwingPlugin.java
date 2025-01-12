@@ -8,6 +8,10 @@ import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 import java.beans.IntrospectionException;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -345,11 +349,13 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 	 * 
 	 * @param outline An outline from the XJC framework.
 	 * 
-	 * @throws IntrospectionException cannot map class name to a class object.
-	 * @throws ClassNotFoundException no definition for the class with the specified name could be found.
+	 * @throws IntrospectionException When cannot map class name to a class object.
+	 * @throws ClassNotFoundException When no definition for the class with the specified name could be found.
+	 * @throws URISyntaxException When a string could not be parsed as a
+ * URI reference.
 	 */
 	private void processWindow(Outline outline)
-		throws JAXBException, IOException, IntrospectionException, ClassNotFoundException
+		throws JAXBException, IOException, IntrospectionException, ClassNotFoundException, URISyntaxException
 	{
 		// Set the JAXB context path.
 		setContextPath(Window.class.getPackageName());
@@ -362,31 +368,37 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		// Process the XJC Outline and Swing (Model) Window instances.
 		enrichWindow(outline, window);
 		
-		// Marshal the enriched SWIXML configuration to the targetPackage location.
-		File targetFile = new File(getTargetDir().getPath(), getTargetPackage());
-		targetFile.getParentFile().mkdirs();
+		// Marshal the enriched SWIXML configuration to the target location.
+		File targetFile = targetTargetFile(getTargetDir(), getTargetPackage(), getSourceWindow());
 		getMarshaller().marshal(window, targetFile);
 	}
 	
 	/**
-	 * Derive an absolute target package name for the given source package and 
-	 * possibly relative target package name.
+	 * Derive an absolute target file for the given target directory, 
+	 * target path and source window file location.
 	 * 
 	 * @param targetDir The XJC target directory.
-	 * @param targetPackageName A possibly relative target package name.
+	 * @param targetPackage A possibly relative target package name.
+	 * @param sourceWindow The source window file location. 
 	 * 
-	 * @return An absolute target package name
+	 * @return An absolute target file.
+	 * 
+	 * @throws IOException An I/O exception of some sort has occurred.
+	 * @throws URISyntaxException A string could not be parsed as a URI reference.
 	 */
-	private String targetPackage(File targetDir, String targetPackageName)
+	private File targetTargetFile(File targetDir, String targetPackage, String sourceWindow)
+		throws IOException, URISyntaxException
 	{
-		while ( targetPackageName.startsWith("..") )
-		{
-			if ( targetDir.getParentFile() != null )
-				targetDir = targetDir.getParentFile();
-			targetPackageName = targetPackageName.substring(1);
-		}
-		// Use a relative or an absolute target path.
-		return targetPackageName.startsWith(".") ? targetDir.getPath() + targetPackageName : targetPackageName;
+		URL sourceWindowURL = new URI(sourceWindow).toURL();
+		File sourceWindowFile = new File(sourceWindowURL.getFile());
+		String targetDirPath = targetDir.getPath();
+		String targetPathName = targetPackage.replace('.', '/');
+		String sourceWindowFileName = sourceWindowFile.getName();
+		String targeFullPath =
+			targetDirPath + "/" + targetPathName + "/" + sourceWindowFileName;
+		File targetFile = new File(targeFullPath);
+		targetFile.getParentFile().mkdirs();
+		return targetFile;
 	}
 	
 	/**

@@ -72,8 +72,8 @@
 						<arg>-XbeanInfo-targetPackage=..infos</arg>
 						<arg>-Xswing</arg>
 						<arg>-Xswing-beanInfoPackage=..infos</arg>
-						<arg>-Xswing-sourceWindow=file:src/main/resources/PurchaseOrderWindow.xml</arg>
-						<arg>-Xswing-targetPackage=..swing</arg>
+						<arg>-Xswing-sourceWindow=file:src/main/resources/SchemasWindow.xml</arg>
+						<arg>-Xswing-targetPackage=org.example.swing</arg>
 						<arg>-XhashCode</arg>
 						<arg>-Xequals</arg>
 						<arg>-XtoString</arg>

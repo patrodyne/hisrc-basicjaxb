@@ -1,4 +1,4 @@
-package org.example.PurchaseOrder.swing;
+package org.example.swing;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;

@@ -1,4 +1,4 @@
-package org.example.PurchaseOrder.swing;
+package org.example.swing;
 
 import static org.jdesktop.observablecollections.ObservableCollections.observableList;
 
@@ -44,7 +44,7 @@ import jakarta.xml.bind.JAXBIntrospector;
  * This {@link Window} can be a {@link JFrame} or a {@link JDialog}.
  * </p>
  */
-public class PurchaseOrderWindow extends JFrame
+public class SchemasWindow extends JFrame
 {
 	private static final long serialVersionUID = 20241001L;
 	
@@ -127,7 +127,7 @@ public class PurchaseOrderWindow extends JFrame
 		return itemList;
 	}
 
-	// Bound by id in PurchaseOrderWindow.xml
+	// Bound by id in SchemasWindow.xml
 	private JTree mainTree;
 	public JTree getMainTree() { return mainTree; }
 	public void setMainTree(JTree mainTree) { this.mainTree = mainTree; }
@@ -189,6 +189,7 @@ public class PurchaseOrderWindow extends JFrame
 		// force the widget update
 		firePropertyChange("query", null, null); 
 	}
+	@SuppressWarnings("unused")
 	private void appendQuery(String value)
 	{
 		this.query.append(value).append('\n');
@@ -298,7 +299,7 @@ public class PurchaseOrderWindow extends JFrame
 	/**
 	 * Default constructor
 	 */
-	public PurchaseOrderWindow()
+	public SchemasWindow()
 	{
 		super();
 	}

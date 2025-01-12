@@ -211,7 +211,7 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 			// dots represent parent packages.
 			JPackage pp = bic.getImplClass().getPackage();
 			String sp = getTargetPackage();
-			String pkgName = targetPackage(pp, sp);
+			String pkgName = targetPackageName(pp, sp);
 			// Generate the BeanInfo name.
 			beanInfoName = pkgName + "." + bic.getImplClass().name() + "BeanInfo";
 		}
@@ -238,7 +238,7 @@ public class BeanInfoPlugin extends AbstractParameterizablePlugin
 	 * 
 	 * @return An absolute target package name
 	 */
-	private String targetPackage(JPackage sourcePackage, String targetPackageName)
+	private String targetPackageName(JPackage sourcePackage, String targetPackageName)
 	{
 		while ( targetPackageName.startsWith("..") )
 		{
