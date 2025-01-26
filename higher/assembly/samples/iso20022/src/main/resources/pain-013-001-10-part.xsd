@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Partial schema from https://www.iso20022.org/iso-20022-message-definitions -->
+<xs:schema
+	xmlns="urn:iso:std:iso:20022:tech:xsd:pain.013.001.10"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified"
+	targetNamespace="urn:iso:std:iso:20022:tech:xsd:pain.013.001.10"
+>
+	<xs:element name="Document" type="Document"/>
+	<xs:complexType name="Document">
+		<xs:sequence>
+			<xs:element name="CdtrPmtActvtnReq" type="CreditorPaymentActivationRequestV10"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CreditorPaymentActivationRequestV10">
+		<xs:sequence>
+			<xs:element name="MsgId" type="Max35Text"/>
+			<xs:element name="CreDt" type="xs:dateTime"/>
+			<xs:element name="Dbtr" type="Max70Text"/>
+			<xs:element name="Amt" type="ActiveCurrencyAndAmount"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Max35Text">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="35"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Max70Text">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="70"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ActiveCurrencyAndAmount_SimpleType">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="5"/>
+			<xs:totalDigits value="18"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ActiveCurrencyAndAmount">
+		<xs:simpleContent>
+			<xs:extension base="ActiveCurrencyAndAmount_SimpleType">
+				<xs:attribute name="Ccy" type="ActiveCurrencyCode" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="ActiveCurrencyCode">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z]{3,3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

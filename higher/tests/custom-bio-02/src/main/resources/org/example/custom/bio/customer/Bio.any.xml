@@ -1,8 +1,14 @@
-<cus:customizations xmlns:cus="http://jvnet.org/basicjaxb/xjc/customizations">
-	<anx:annotate xmlns:anx="http://jvnet.org/basicjaxb/xjc/annox" target="field">
+<cus:customizations
+	xmlns:anx="http://jvnet.org/basicjaxb/xjc/annox"
+	xmlns:cus="http://jvnet.org/basicjaxb/xjc/customizations"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jvnet.org/basicjaxb/xjc/annox ../../../../../../../../../../../src/test/resources/org/jvnet/basicjaxb/annox/xjc/annox.xsd
+						http://jvnet.org/basicjaxb/xjc/customizations ../../../../../../../../../../../src/test/resources/org/jvnet/basicjaxb/xjc/customizations.xsd"
+>
+	<anx:annotate target="field">
 		@jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter(org.example.custom.bio.BioXmlAdapter.class)
 	</anx:annotate>
-	<anx:annotate xmlns:anx="http://jvnet.org/basicjaxb/xjc/annox" target="field">
+	<anx:annotate target="field">
 		@jakarta.xml.bind.annotation.XmlAnyElement(lax = false, value = org.example.custom.bio.BioDomHandler.class)
 	</anx:annotate>
 </cus:customizations>

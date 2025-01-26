@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	BasicJAXB XML Annotations for JAXB: 'SomeClass.ann.xml' instances.
+
+	When you provide this XML binding resource in the same package as
+	its associated 'SomeClass.java' file, then AnnoxAnnotationReader
+	from the 'org.jvnet.basicjaxb_annox.xml.bind' package can be
+	used to apply the JAXB annotations (using this schema) to 'SomeClass'
+	in place of the '@Xml*' inline counterparts. This provides a way
+	to customize your JAXB classes without modifying the source code
+	directly.
+-->
+<xs:schema version="1.0"
+	attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://jvnet.org/basicjaxb/xjc/annox"
+	targetNamespace="http://jvnet.org/basicjaxb/xjc/annox"
+>
+	
+	<!-- HiSrc BasicJAXB Annox -->
+
+	<xs:element name="package">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="tns:class" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="class">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="field" type= "tns:fieldType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="constructor" type="tns:constructorType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="method" type="tns:methodType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="fieldType">
+		<xs:sequence>
+			<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="constructorType">
+		<xs:sequence>
+			<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="parameter" type="tns:parameterType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="arguments" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="methodType">
+		<xs:sequence>
+			<xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="parameter" type="tns:parameterType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="arguments" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="parameterType">
+		<xs:sequence>
+			<xs:any processContents="skip" namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="index" type="xs:int" use="required"/>
+	</xs:complexType>
+	
+	<!-- HiSrc HyperJAXB Annox -->
+	
+	<xs:element name="annotate">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="target" type="tns:annotationTarget" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+
+    <xs:simpleType name="annotationTarget">
+        <xs:restriction base="xs:string">
+			<xs:enumeration value="class" />
+			<xs:enumeration value="element" />
+			<xs:enumeration value="enum" />
+			<xs:enumeration value="enum-constant" />
+			<xs:enumeration value="enum-fromValue-method" />
+			<xs:enumeration value="enum-value-method" />
+			<xs:enumeration value="objectFactory" />
+			<xs:enumeration value="package" />
+			<xs:enumeration value="field" />
+			<xs:enumeration value="getter" />
+			<xs:enumeration value="setter" />
+			<xs:enumeration value="setter-parameter" />
+        </xs:restriction>
+    </xs:simpleType>
+	
+	<xs:element name="annotateClass" type="tns:annotateEponym" />
+	<xs:element name="annotateElement" type="tns:annotateEponym" />
+	<xs:element name="annotateEnum" type="tns:annotateEponym" />
+	<xs:element name="annotateEnumConstant" type="tns:annotateEponym" />
+	<xs:element name="annotateEnumFromValueMethod" type="tns:annotateEponym" />
+	<xs:element name="annotateEnumValueMethod" type="tns:annotateEponym" />
+	<xs:element name="annotateObjectFactory" type="tns:annotateEponym" />
+	<xs:element name="annotatePackage" type="tns:annotateEponym" />
+	<xs:element name="annotatePropertyField" type="tns:annotateEponym" />
+	<xs:element name="annotatePropertyGetter" type="tns:annotateEponym" />
+	<xs:element name="annotatePropertySetter" type="tns:annotateEponym" />
+	<xs:element name="annotatePropertySetterParameter" type="tns:annotateEponym" />
+	
+	<xs:complexType name="annotateEponym">
+		<xs:simpleContent>
+			<xs:extension base="xs:string" />
+		</xs:simpleContent>
+	</xs:complexType>
+	
+</xs:schema>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4 noexpandtab:-->

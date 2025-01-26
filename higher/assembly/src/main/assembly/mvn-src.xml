@@ -12,7 +12,10 @@
 			</includes>
 		</fileSet>
 		<fileSet>
-			<directory>src</directory>
+			<includes>
+				<include>doc/**</include>
+				<include>src/**</include>
+			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>bin</directory>

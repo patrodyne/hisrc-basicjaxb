@@ -23,7 +23,7 @@ import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 
 /**
- * JAXB context for {@link org.example.PurchaseOrder.model.ObjectFactory}
+ * JAXB context for {@code org.example.PurchaseOrder.model.ObjectFactory}
  */
 public class XmlContext
 {

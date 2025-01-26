@@ -52,8 +52,6 @@ public class DataDescriptor
      * A <em>field</em> is a display component.
      *
      * @param bd A description of a Java bean.
-     * 
-     * @throws IntrospectionException if an exception occurs during introspection.
      */
 	public DataDescriptor(BeanDescriptor bd)
 	{

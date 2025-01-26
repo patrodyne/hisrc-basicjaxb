@@ -36,7 +36,7 @@ import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.Outline;
 
 /**
- * Read and add customizations from files.
+ * Read customizations from resource files and add to XJC model.
  * 
  * <ul>
  *   <li><code>-Xcustomization</code></li>
@@ -64,7 +64,7 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 	private static final String OPTION_NAME = "Xcustomizations";
 	
 	/** Description of Option to enable this plugin. */
-	private static final String OPTION_DESC = "read and add customizations from files";
+	private static final String OPTION_DESC = "Read customizations from resources and add to XJC Model";
 
 	/** Define the prefix for DOM locator attributes. */
 	private static final String LOCATOR_PREFIX = "loc";
@@ -231,8 +231,8 @@ public class CustomizationsPlugin extends AbstractParameterizablePlugin
 				
 				// Check the DOM element for 'customizations'
 				final Element element = document.getDocumentElement();
-				String elNamespaceURI = element.getNamespaceURI();
-				String elLocalName = element.getLocalName();
+				final String elNamespaceURI = element.getNamespaceURI();
+				final String elLocalName = element.getLocalName();
 				final QName elName = new QName(elNamespaceURI, elLocalName);
 				if (Customizations.CUSTOMIZATIONS_ELEMENT_NAME.equals(elName))
 				{

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxb:bindings version="3.0"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:annox="http://jvnet.org/basicjaxb/xjc/annox"
+	jaxb:extensionBindingPrefixes="annox"
+>
+
+	<jaxb:globalBindings>
+		<jaxb:serializable uid="1"/>
+	</jaxb:globalBindings>
+
+	<jaxb:bindings schemaLocation="pain-013-001-10-part.xsd">
+
+		<jaxb:schemaBindings>
+			<jaxb:package name="iso.std20022.tech.pain_013_001_10"/>
+		</jaxb:schemaBindings>
+
+		<jaxb:bindings node="xs:complexType[@name='Document']">
+			<jaxb:bindings node="xs:sequence">
+				<jaxb:bindings node="xs:element[@name='CdtrPmtActvtnReq']">
+					<jaxb:property name="creditorPaymentActivationRequest"/>
+					<!--<annox:annotate target="field">@com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty(namespace = "urn:iso:std:iso:20022:tech:xsd:pain.013.001.10")</annox:annotate>-->
+					<annox:annotate target="field">@com.fasterxml.jackson.annotation.JsonProperty(required = true)</annox:annotate>
+				</jaxb:bindings>
+			</jaxb:bindings>
+		</jaxb:bindings>
+
+		<jaxb:bindings node="xs:complexType[@name='CreditorPaymentActivationRequestV10']">
+			<jaxb:class name="CreditorPaymentActivationRequest"/>
+			<jaxb:bindings node="xs:sequence">
+				<jaxb:bindings node="xs:element[@name='MsgId']">
+					<jaxb:property name="messageIdentification"/>
+					<annox:annotate target="field">@com.fasterxml.jackson.annotation.JsonProperty(required = true)</annox:annotate>
+				</jaxb:bindings>
+				<jaxb:bindings node="xs:element[@name='CreDt']">
+					<jaxb:property name="creationDate"/>
+					<annox:annotate target="field">@com.fasterxml.jackson.annotation.JsonProperty(required = true)</annox:annotate>
+				</jaxb:bindings>
+				<jaxb:bindings node="xs:element[@name='Dbtr']">
+					<jaxb:property name="debtor"/>
+					<annox:annotate target="field">@com.fasterxml.jackson.annotation.JsonProperty(required = true)</annox:annotate>
+				</jaxb:bindings>
+				<jaxb:bindings node="xs:element[@name='Amt']">
+					<jaxb:property name="instructedAmount"/>
+				</jaxb:bindings>
+			</jaxb:bindings>
+		</jaxb:bindings>
+
+	</jaxb:bindings>
+
+</jaxb:bindings>
