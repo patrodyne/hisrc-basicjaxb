@@ -108,7 +108,7 @@ The JUnit test class, [Iso20022Test.java][20], scans for the sample files and in
 
 ##### Demonstration
 
-A Java standard engine application with a `main(...)` method is at [`iso.std20022.tech.Main`][10]. This application is executed using [pain01.xml][24]:
+A Java standard engine application with a `main(...)` method is at [`iso.std20022.tech.Main`][10]. This application is executed using [pain01.xml][25]:
 
 ~~~
 mvn -Pexec compile exec:java -Dexec.args="src/test/samples/pain01.xml"
