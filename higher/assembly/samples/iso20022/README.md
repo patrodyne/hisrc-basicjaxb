@@ -60,8 +60,7 @@ This XML uses two namespaces `cus` and `anx` conforming to their schemas [custom
 
 > **Note:** The XML may also use `anx:annotate` as the root when only a single annotation is required. The `anx` (a.k.a. `annox`) namespace originates in the [HiSrc BasicJAXB Annox][41] project which implements the Glassfish JAXB-RI `RuntimeAnnotationReader` to enhance the `JAXBContext` to get JAXB annotations from XML resources instead of Java in-line annotations. This solution does not require the `JAXBContext` enhancement.
 
-The XJC [CustomizationsPlugin][40] parses the [annox.xsd][7] using the `hisrc-basicjaxb-annox-parser` dependency provided by the `hisrc-hyperjaxb-annox-plugin`.
-After parsing the annotations, it creates `CPluginCustomization` instances and adds them to `CClassInfo` from the `com.sun.tools.xjc.model` package.
+The XJC [CustomizationsPlugin][40] parses the [annox.xsd][7] using the `hisrc-basicjaxb-annox-parser` dependency provided by the `hisrc-hyperjaxb-annox-plugin`. After parsing the annotations, it creates `CPluginCustomization` instances and adds them to `CClassInfo` from the `com.sun.tools.xjc.model` package.
 
 Finally, the [HiSrc HyperJAXB Plugin][42] is used to process the additional `CPluginCustomization` instances and add the desired JAXB annotations in the generated Java sources.
 
