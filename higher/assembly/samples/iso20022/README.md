@@ -37,7 +37,7 @@ Configure the [hisrc-higherjaxb-maven-plugin][38] to execute XJC with these argu
 ...
 ~~~
 
-The XJC [CustomizationsPlugin][40] to read [ActiveCurrencyAndAmount.value.xml][11]:
+Use the XJC [CustomizationsPlugin][40] to read [ActiveCurrencyAndAmount.value.xml][11]:
 
 ~~~
 <cus:customizations
@@ -104,7 +104,7 @@ As an option, a more advanced implementation of Java's built-in `Object` methods
 
 ##### Testing
 
-The JUnit test class, [Iso20022Test.java][20], scans for the sample files and invokes the method `checkSample(File sample)` to provide each file to the tester. For this project, a `JAXBContext` is created and each file in the [samples][11] path is *unmarshaled* to a `Document` object. When successful, each object is *marshaled* for logging and your [review][2].
+The JUnit test class, [Iso20022Test.java][20], scans for the sample files and invokes the method `checkSample(File sample)` to provide each file to the tester. For this project, a `JAXBContext` is created and each file in the [samples][24] path is *unmarshaled* to a `Document` object. When successful, each object is *marshaled* for logging and your [review][2].
 
 ##### Demonstration
 
@@ -133,7 +133,8 @@ mvn -Pexec compile exec:java -Dexec.args="src/test/samples/pain01.xml"
 [21]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/iso20022/src/test/resources/jvmsystem.arguments
 [22]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/iso20022/src/test/resources/jvmsystem.properties
 [23]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/iso20022/src/test/resources/simplelogger.properties
-[24]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/iso20022/src/test/samples/pain01.xml
+[24]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/iso20022/src/test/samples/
+[25]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/iso20022/src/test/samples/pain01.xml
 [30]: https://jakarta.ee/specifications/xml-binding/
 [31]: https://jakarta.ee/specifications/xml-binding/4.0/
 [32]: https://github.com/jakartaee/jaxb-api/tree/4.0.0-RELEASE
