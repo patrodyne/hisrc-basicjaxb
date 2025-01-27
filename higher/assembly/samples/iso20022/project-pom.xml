@@ -115,12 +115,12 @@
 							<debug>true</debug>
 							<noFileHeader>true</noFileHeader>
 							<args>
-								<arg>-Xannotate</arg>
-								<arg>-Xannotate-defaultFieldTarget=getter</arg>
 								<arg>-Xcustomizations</arg>
 								<arg>-Xcustomizations-directory=\${source.dir}/main/resources</arg>
 								<arg>-Xcustomizations-verbose=true</arg>
 								<arg>-Xcustomizations-debug=true</arg>
+								<arg>-Xannotate</arg>
+								<arg>-Xannotate-defaultFieldTarget=getter</arg>
 								<arg>-XJsr303Annotations</arg>
 								<arg>-XJsr303Annotations:validationAnnotations=jakarta</arg>
 								<arg>-XhashCode</arg>
