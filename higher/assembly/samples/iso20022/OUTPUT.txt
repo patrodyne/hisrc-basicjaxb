@@ -1,0 +1,120 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------< org.patrodyne.jvnet:hisrc-basicjaxb-sample-iso20022 >---------
+[INFO] Building HiSrc BasicJAXB - Sample [iso20022] 2.2.1
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hisrc-basicjaxb-sample-iso20022 ---
+[INFO] 
+[INFO] --- hisrc-higherjaxb:2.2.1:generate (default) @ hisrc-basicjaxb-sample-iso20022 ---
+[INFO] Sources are not up-to-date, XJC will be executed.
+[INFO] XJC> Xcustomizations: : Start
+Parameters
+  Directory.: hisrc-basicjaxb-sample-iso20022-2.2.1/src/main/resources
+  Verbose...: true
+  Debug.....: true
+[INFO] XJC> Xcustomizations: : Finish
+Results
+  HadError.: false
+[INFO] XJC> Xannotate: : Start
+Parameters
+  DefaultFieldTarget.: getter
+  AnnotationParser...: org.jvnet.basicjaxb_annox.parser.XAnnotationParser@50ec4bfc
+  Annotator..........: org.jvnet.hyperjaxb_annox.plugin.annotate.Annotator@8b13d91
+  Verbose............: true
+  Debug..............: true
+[INFO] XJC> Xannotate: : Finish
+Results
+  HadError.: false
+[INFO] XJC> XhashCode: : Start
+Parameters
+  HashCodeStrategyClass.: org.jvnet.basicjaxb.lang.JAXBHashCodeStrategy
+  Verbose...............: true
+  Debug.................: true
+[INFO] XJC> XhashCode: : Finish
+Results
+  HadError.: false
+[INFO] XJC> Xequals: : Start
+Parameters
+  EqualsStrategyClass.: org.jvnet.basicjaxb.lang.JAXBEqualsStrategy
+  Verbose.............: true
+  Debug...............: true
+[INFO] XJC> Xequals: : Finish
+Results
+  HadError.: false
+[INFO] XJC> XtoString: : Start
+Parameters
+  ToStringStrategyClass.: org.jvnet.basicjaxb.lang.JAXBToStringStrategy
+  Verbose...............: true
+  Debug.................: true
+[INFO] XJC> XtoString: : Finish
+Results
+  HadError.: false
+[INFO] Episode file [hisrc-basicjaxb-sample-iso20022-2.2.1/target/generated-sources/xjc/META-INF/sun-jaxb.episode] was augmented with if-exists="true" attributes.
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hisrc-basicjaxb-sample-iso20022 ---
+[INFO] Copying 3 resources from src/main/resources to target/classes
+[INFO] Copying 1 resource from target/generated-sources/xjc to target/classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ hisrc-basicjaxb-sample-iso20022 ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 7 source files with javac [debug release 11] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hisrc-basicjaxb-sample-iso20022 ---
+[INFO] Copying 3 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ hisrc-basicjaxb-sample-iso20022 ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 1 source file with javac [debug release 11] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ hisrc-basicjaxb-sample-iso20022 ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running iso.std20022.tech.Iso20022Test
+11:09:02:052 INFO Schema Validation of XML is ON.
+11:09:02:055 DEBUG Testing samples, start
+11:09:02:057 DEBUG Sample directory [hisrc-basicjaxb-sample-iso20022-2.2.1/src/test/samples].
+11:09:02:070 DEBUG Testing sample, start [pain01.xml].
+11:09:02:091 DEBUG Root:
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.013.001.10">
+    <CdtrPmtActvtnReq>
+        <MsgId>3e84bbb9-bb98-4cac-a43a-7ca6371bfd68</MsgId>
+        <CreDt>2025-01-26T15:28:11.620-05:00</CreDt>
+        <Dbtr>Enron</Dbtr>
+        <Amt Ccy="USD">63400000000.49</Amt>
+    </CdtrPmtActvtnReq>
+</Document>
+
+11:09:02:093 INFO Testing sample, SUCCESS [pain01.xml].
+11:09:02:093 DEBUG Testing samples, finish
+11:09:02:119 INFO Schema Validation of XML is ON.
+11:09:02:141 DEBUG Document:
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.013.001.10">
+    <CdtrPmtActvtnReq>
+        <MsgId>a6280ba2-b259-4476-bbf9-097fa11a22db</MsgId>
+        <CreDt>2025-01-27T11:09:01.769-05:00</CreDt>
+        <Dbtr>Enron</Dbtr>
+        <Amt Ccy="USD">63400000000.49</Amt>
+    </CdtrPmtActvtnReq>
+</Document>
+
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.433 s -- in iso.std20022.tech.Iso20022Test
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.032 s
+[INFO] Finished at: 2025-01-27T11:09:02-05:00
+[INFO] ------------------------------------------------------------------------
