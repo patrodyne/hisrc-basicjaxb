@@ -85,6 +85,13 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="removeAnnotation">
+		<xs:complexType>
+			<xs:attribute name="class" type="xs:string" use="required"/>
+			<xs:attribute name="target" type="tns:annotationTarget" use="required" />
+		</xs:complexType>
+	</xs:element>
+
     <xs:simpleType name="annotationTarget">
         <xs:restriction base="xs:string">
 			<xs:enumeration value="class" />

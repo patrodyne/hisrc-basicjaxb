@@ -5,10 +5,11 @@
 	xsi:schemaLocation="http://jvnet.org/basicjaxb/xjc/annox ../../../../../../../doc/annox.xsd
 						http://jvnet.org/basicjaxb/xjc/customizations ../../../../../../../doc/customizations.xsd"
 >
-	<anx:annotate xmlns:anx="http://jvnet.org/basicjaxb/xjc/annox" target="field">
+	<anx:annotate target="field">
 		@jakarta.validation.constraints.Pattern(regexp = "[-+]?[0-9]{1,16}[.][0-9]{2}")
 	</anx:annotate>
-	<anx:annotate xmlns:anx="http://jvnet.org/basicjaxb/xjc/annox" target="field">
+	<anx:annotatePropertyField>
 		@com.fasterxml.jackson.annotation.JsonProperty(required = true)
-	</anx:annotate>
+	</anx:annotatePropertyField>
+	<anx:removeAnnotation class="jakarta.validation.constraints.Digits" target="field"/>
 </cus:customizations>

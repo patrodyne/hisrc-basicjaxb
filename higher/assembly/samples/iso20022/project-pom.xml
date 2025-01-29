@@ -123,6 +123,7 @@
 								<arg>-Xannotate-defaultFieldTarget=getter</arg>
 								<arg>-XJsr303Annotations</arg>
 								<arg>-XJsr303Annotations:validationAnnotations=jakarta</arg>
+								<arg>-XremoveAnnotation</arg>
 								<arg>-XhashCode</arg>
 								<arg>-Xequals</arg>
 								<arg>-XtoString</arg>
