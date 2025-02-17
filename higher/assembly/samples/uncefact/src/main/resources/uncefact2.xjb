@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings jaxb:version="3.0"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jaxb ../../../doc/bindingschema_3_0.xsd"
+>
+	<!-- Top Level Scoping -->
+
+	<jaxb:bindings schemaLocation="uncefact/CII_D23B_0/100/CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_data_standard_QualifiedDataType_100.xsd" node="/xs:schema">
+		<jaxb:bindings node="//xs:complexType[@name='DateOnlyFormattedDateTimeType']/xs:sequence/xs:element[@name='DateTimeString']/xs:complexType">
+			<jaxb:class name="DateOnlyFormattedDateTimeDateTimeStringType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='FormattedDateTimeType']/xs:sequence/xs:element[@name='DateTimeString']/xs:complexType">
+			<jaxb:class name="FormattedDateTimeDateTimeStringType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='TimeOnlyFormattedDateTimeType']/xs:sequence/xs:element[@name='DateTimeString']/xs:complexType">
+			<jaxb:class name="TimeOnlyFormattedDateTimeDateTimeStringType"/>
+		</jaxb:bindings>
+	</jaxb:bindings>
+
+	<jaxb:bindings schemaLocation="uncefact/CII_D23B_0/100/CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_data_standard_UnqualifiedDataType_100.xsd" node="/xs:schema">
+		<jaxb:bindings node="//xs:complexType[@name='DateTimeType']/xs:choice/xs:element[@name='DateTimeString']/xs:complexType">
+			<jaxb:class name="DateTimeDateTimeStringType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='DateType']/xs:choice/xs:element[@name='DateString']/xs:complexType">
+			<jaxb:class name="DateDateStringType"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='IndicatorType']/xs:choice/xs:element[@name='IndicatorString']/xs:complexType">
+			<jaxb:class name="IndicatorIndicatorStringType"/>
+		</jaxb:bindings>
+	</jaxb:bindings>
+
+</jaxb:bindings>

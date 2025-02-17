@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings jaxb:version="3.0"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	xmlns:annox="http://jvnet.org/basicjaxb/xjc/annox"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jaxb ../../../doc/bindingschema_3_0.xsd
+						http://jvnet.org/basicjaxb/xjc/annox ../../../doc/annox.xsd"
+>
+	<!--  Global Bindings -->
+	<jaxb:globalBindings
+		localScoping="toplevel"
+		typesafeEnumMaxMembers="1800"
+		typesafeEnumMemberName="generateName"
+		underscoreBinding="asCharInWord"
+	>
+		<!--
+			Configure all classes to implement Serializable
+			Note: Use 'xjc' instead of 'jaxb' to fix this issue,
+				  https://github.com/jakartaee/jaxb-api/issues/239
+		-->
+		<xjc:serializable uid="20250201" />
+		
+	</jaxb:globalBindings>
+	
+	<jaxb:bindings schemaLocation="uncefact.xsd" node="/xs:schema">
+	</jaxb:bindings>
+
+	<jaxb:bindings schemaLocation="uncefact/CII_D23B_0/100/CrossIndustryInvoice_100pD23B.xsd" node="/xs:schema">
+
+		<jaxb:bindings node="xs:complexType[@name='CrossIndustryInvoiceType']">
+
+			<!-- Annotate CrossIndustryInvoiceType with XmlRootElement -->
+			<annox:annotate>@jakarta.xml.bind.annotation.XmlRootElement(name="CrossIndustryInvoice")</annox:annotate>
+
+			<!-- Annotate namespace(s) with custom prefixes -->
+			<annox:annotatePackage>
+				@jakarta.xml.bind.annotation.XmlSchema(
+					elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED,
+					namespace = "urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100",
+					xmlns =
+					{
+						@jakarta.xml.bind.annotation.XmlNs(prefix = "rsm", namespaceURI = "urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100"),
+						@jakarta.xml.bind.annotation.XmlNs(prefix = "ram", namespaceURI = "urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:100"),
+						@jakarta.xml.bind.annotation.XmlNs(prefix = "qdt", namespaceURI = "urn:un:unece:uncefact:data:standard:QualifiedDataType:100"),
+						@jakarta.xml.bind.annotation.XmlNs(prefix = "udt", namespaceURI = "urn:un:unece:uncefact:data:standard:UnqualifiedDataType:100")
+					}
+				)
+			</annox:annotatePackage>
+		</jaxb:bindings>
+		
+	</jaxb:bindings>
+
+</jaxb:bindings>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+DTD for JAXB XML/Java binding-schema 1.0ea2
+See http://xml.coverpages.org/jaxb0530spec.pdf
+See https://github.com/eclipse-ee4j/jaxb-ri/blob/master/jaxb-ri/xjc/src/main/schemas/com/sun/tools/xjc/reader/dtd/bindinfo/bindingfile.xsd
+!-->
+
+<!-- Definitions !-->
+
+<!ENTITY % top-level-decl "element | interface | enumeration | conversion" >
+<!ENTITY % xjc-decl "xjc:serializable | xjc:superClass" >
+<!ENTITY % boolean "( true | false )" >
+<!ENTITY % collection "( list | set | vector )" >
+<!ENTITY % whitespace "( preserve | replace | collapse )" >
+
+<!-- Declarations !-->
+
+<!ELEMENT xml-java-binding-schema ( options?, ( %top-level-decl; )*, ( %xjc-decl; )* ) >
+<!ATTLIST xml-java-binding-schema
+          version CDATA #FIXED "1.0ea2"
+          xmlns:xjc CDATA #FIXED "http://java.sun.com/xml/ns/jaxb/xjc" >
+
+<!ELEMENT options EMPTY >
+<!ATTLIST options
+          package NMTOKEN #IMPLIED >
+
+<!ELEMENT element ( ( attribute | constructor )*, content? ) >
+<!ATTLIST element
+          name ID #REQUIRED
+          type ( value | class ) #REQUIRED
+          class NMTOKEN #IMPLIED
+          root %boolean; #IMPLIED
+          convert NMTOKEN #IMPLIED >
+
+<!-- Constraints: element
+    @convert requires @type="class"
+    @class, @root require @type="class"
+    @class must be a simple Java class name without package prefix
+    <element name={elt} type="class" [convert={cnv}]
+    <element name={elt} type="class" [class={class}] [root={root}]>
+!-->
+
+<!ELEMENT attribute EMPTY >
+<!ATTLIST attribute
+          name NMTOKEN #REQUIRED
+          convert NMTOKEN #IMPLIED
+          property NMTOKEN #IMPLIED
+          collection %collection; #IMPLIED >
+
+<!ELEMENT content ( ( element-ref | choice | sequence )*, rest? ) >
+<!ATTLIST content
+          property NMTOKEN #IMPLIED
+          collection %collection; #IMPLIED
+          supertype NMTOKEN #IMPLIED >
+
+<!ELEMENT element-ref EMPTY >
+<!ATTLIST element-ref
+          name NMTOKEN #REQUIRED
+          property NMTOKEN #IMPLIED
+          collection %collection; #IMPLIED >
+
+<!ELEMENT choice EMPTY >
+<!ATTLIST choice
+          property NMTOKEN #REQUIRED
+          collection %collection; #IMPLIED
+          supertype NMTOKEN #IMPLIED >
+
+<!ELEMENT sequence EMPTY >
+<!ATTLIST sequence
+          property NMTOKEN #IMPLIED
+          collection %collection; #IMPLIED
+          supertype NMTOKEN #IMPLIED >
+
+<!ELEMENT rest EMPTY >
+<!ATTLIST rest
+          property NMTOKEN #REQUIRED
+          collection %collection; #IMPLIED
+          supertype NMTOKEN #IMPLIED >
+
+<!ELEMENT constructor EMPTY >
+<!ATTLIST constructor
+          properties NMTOKENS #REQUIRED >
+
+<!ELEMENT interface EMPTY >
+<!ATTLIST interface
+          name NMTOKEN #REQUIRED
+          members NMTOKENS #REQUIRED >
+
+<!ELEMENT enumeration EMPTY >
+<!ATTLIST enumeration
+          name CDATA #REQUIRED
+          members NMTOKENS #REQUIRED >
+
+<!ELEMENT conversion EMPTY>
+<!ATTLIST conversion
+          name NMTOKEN #REQUIRED
+          type NMTOKEN #IMPLIED
+          parse NMTOKEN #IMPLIED
+          print NMTOKEN #IMPLIED 
+          whitespace %whitespace; "preserve" >
+
+<!-- Constraints: conversion
+    @parse = "new", to invoke a constructor that takes a string, or
+    @parse = "ClassName.staticParseMethod"
+    @print = "instancePrintMethod" or
+    @print = "ClassName.staticPrintMethod"
+    In both cases, ClassName may have a package prefix
+!-->
+
+<!-- XJC Declarations -->
+
+<!ELEMENT xjc:serializable EMPTY>
+<!ATTLIST xjc:serializable
+          uid CDATA #REQUIRED >
+
+<!ELEMENT xjc:superClass EMPTY>
+<!ATTLIST xjc:superClass
+          name NMTOKEN #REQUIRED >
+          

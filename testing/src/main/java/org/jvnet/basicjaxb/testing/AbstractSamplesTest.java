@@ -74,6 +74,9 @@ public abstract class AbstractSamplesTest
 	
 	/**
 	 * Get the JAXB context path or configure a path by override.
+	 *
+	 * <p>The context path is a list of fully qualified JAXB types separated
+	 * by a colon.</p>
 	 * 
 	 * @return The JAXB context path.
 	 */

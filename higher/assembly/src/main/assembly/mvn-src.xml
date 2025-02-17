@@ -28,6 +28,7 @@
 		<fileSet>
 			<directory>bin</directory>
 			<includes>
+				<include>*.ant</include>
 				<include>*.cmd</include>
 				<include>*.java</include>
 			</includes>

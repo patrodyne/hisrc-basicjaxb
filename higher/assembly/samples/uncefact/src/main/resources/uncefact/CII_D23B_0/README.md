@@ -1,0 +1,82 @@
+# UNECE: CII_D23B_0.zip
+
+**References:**
+
++ `https://unece.org/trade/uncefact`
++ `https://unece.org/trade/uncefact/mainstandards`
++ `https://unece.org/sites/default/files/2024-09/CII_D23B_0.zip`
++ `https://unece.org/fileadmin/DAM/cefact/GuidanceMaterials/ExecutiveGuides/eInvoicing-ExecGuide_Eng.pdf`
++ `https://unece.org/fileadmin/DAM/uncefact/RSM/RSM_CII_CCBDA_CrossIndustryInvoice_v1.0.pdf`
+
+~~~
+tree CII_D23B_0/XSD
+CII_D23B_0/XSD
+└── uncefact
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_EDIFICAS-EU_AccountingAccountType_D11A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_EDIFICAS-EU_AccountingAmountType_D11A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_ISO_ISO3AlphaCurrencyCode_2012-08-31.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_ActionCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_AddressType_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_AdjustmentReasonDescriptionCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_AllowanceChargeIdentificationCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_AllowanceChargeReasonCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_AutomaticDataCaptureMethodCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_CargoOperationalCategoryCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_CargoTypeCode_1996Rev2Final.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_CommodityIdentificationCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_CommunicationMeansTypeCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_ContactFunctionCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_DangerousGoodsPackingCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_DangerousGoodsRegulationCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_DateOnlyFormatCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_DeliveryTermsCode_2020.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_DeliveryTermsFunctionCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_DimensionTypeCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_DocumentNameCode_Accounting_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_DocumentNameCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_DocumentStatusCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_DutyorTaxorFeeCategoryCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_DutyTaxFeeTypeCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_EventTimeReferenceCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_EventTimeReferenceCodePaymentTermsEvent_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_FreightChargeQuantityUnitBasisCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_FreightChargeTariffCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_GoodsTypeCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_GoodsTypeExtensionCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_LocationFunctionCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_MeasurementUnitCommonCodeLinear_4.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_MeasurementUnitCommonCodeVolume_4.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_MeasurementUnitCommonCodeWeight_4.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_MessageFunctionCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_PackageTypeCode_2006.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_PackagingMarkingCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_PartyRoleCode_ChargePaying_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_PartyRoleCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_PaymentGuaranteeMeansCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_PaymentMeansChannelCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_PaymentMeansCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_PaymentTermsTypeCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_PriceTypeCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_ReferenceTypeCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_SealConditionCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_SealingPartyRoleCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_StatusCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_StatusDescriptionCode_AccountingDebitCredit_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_TimeOnlyFormatCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_TimePointFormatCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_TransportEquipmentCategoryCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_TransportEquipmentFullnessCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_TransportMeansTypeCode_2007.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_TransportModeCode_2.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_TransportMovementStageCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_UNECE_TransportPaymentArrangementCode_D23A.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_data_standard_QualifiedDataType_100.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_data_standard_ReusableAggregateBusinessInformationEntity_100.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_data_standard_UnqualifiedDataType_100.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_identifierlist_standard_ISO_ISOTwo-letterCountryCode_SecondEdition2006.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_identifierlist_standard_UNECE_FreightCostCode_4.xsd
+    ├── CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_identifierlist_standard_UNECE_PaymentTermsDescriptionIdentifier_D23A.xsd
+    └── CrossIndustryInvoice_100pD23B.xsd
+
+2 directories, 67 files
+~~~

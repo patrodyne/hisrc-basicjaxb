@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+	targetNamespace="urn:org:example:uncefact:data:standard:1"
+	xmlns:tns="urn:org:example:uncefact:data:standard:1"
+	xmlns:rsm="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+	<xs:import
+		namespace="urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100"
+		schemaLocation="uncefact/CII_D23B_0/100/CrossIndustryInvoice_100pD23B.xsd"
+	/>
+
+	<!-- Wrap element CrossIndustryInvoice in CrossIndustryInvoiceRoot -->
+	<xs:element name="CrossIndustryInvoiceRoot">
+		<xs:complexType>
+		<xs:sequence>
+				<xs:element name="CrossIndustryInvoice" type="rsm:CrossIndustryInvoiceType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<!--
+	Usage: ant -f CreateTypesafeEnumMember.ant
+-->
+<project name="replace-resource-path" default="main">
+
+	<target name="main">
+
+		<replace dir="${basedir}" summary="true">
+			<include name="src/main/resources/uncefact3.xjb"/>
+			<replacetoken><![CDATA[13DEC23/codelist/standard/]]></replacetoken>
+			<replacevalue><![CDATA[uncefact/CII_D23B_0/100/CrossIndustryInvoice_100pD23B_urn_un_unece_uncefact_codelist_standard_]]></replacevalue>
+		</replace>
+
+		<replace dir="${basedir}" summary="true">
+			<include name="src/main/resources/uncefact3.xjb"/>
+			<replacetoken><![CDATA[DeliveryTermsFunctionCode_D10A.xsd]]></replacetoken>
+			<replacevalue><![CDATA[DeliveryTermsFunctionCode_D23A.xsd]]></replacevalue>
+		</replace>
+
+	</target>
+
+</project>
+<!-- vi:set tabstop=4 hardtabs=4 shiftwidth=4: -->
