@@ -51,11 +51,11 @@ mvn -Ptest clean test
 mvn -Pexec compile exec:java
 ~~~
 
-Here's an example of the [OUTPUT.txt][3] from running unit test(s).
+Here's an example of the [OUTPUT.txt][3] from running the unit test(s).
 
 #### Xannotate
 
-The demo includes this binding file to add an `@XmlRootElement` annotation to the Java class generated for the `CrossIndustryInvoiceType` from the [CrossIndustryInvoice_100pD23B.xsd][21].
+The demo includes this binding file to add an `@XmlRootElement` annotation to the Java class generated for the `CrossIndustryInvoiceType` from the [CrossIndustryInvoice_100pD23B.xsd][21] in the [urn:un:unece:uncefact][60] namespace.
 
 **Binding file: [uncefact1.xjb][22]**
 ~~~
@@ -330,3 +330,4 @@ public void testMarshalSample() throws Exception
 [53]: https://en.wikipedia.org/wiki/Core_Component_Technical_Specification
 [54]: https://github.com/ConnectingEurope/eInvoicing-EN16931/tree/master/cii/examples
 [55]: https://projekte.kosit.org/xrechnung/xrechnung-testsuite/-/tree/74f90a88bafe0a91d5faefa92b106ec20e9a0409/src/test/business-cases
+[60]: https://raw.githubusercontent.com/patrodyne/hisrc-basicjaxb/582e01311e65095cf728b6218d345cfb527cd439/higher/assembly/samples/uncefact/src/main/resources/uncefact/CII_D23B_0/CII_100pD23B.svg
