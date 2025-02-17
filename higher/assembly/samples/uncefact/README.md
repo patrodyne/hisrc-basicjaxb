@@ -30,7 +30,7 @@ The [output][3] shows the test results.
 
 ### Solution
 
-You can use these dependencies to facilitate your migration from JAXB 2 to latest version. In fact, the provided [demo (zip)][1] uses these artifacts in its [`pom.xml`][4]
+You can use these dependencies to facilitate your migration from JAXB 2 to latest version and to configure the `Xannotate` and `XfluentAPI` options. In fact, the provided [demo (zip)][1] uses these artifacts and options in its [`pom.xml`][4]
 
 ~~~
 +- org.patrodyne.jvnet:hisrc-higherjaxb-maven-plugin:2.2.1
