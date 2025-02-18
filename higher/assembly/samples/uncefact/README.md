@@ -1,17 +1,6 @@
 # Sample: UN/CEFACT Cross Industry Invoice
 
-This is a Maven project to demonstrate how to use the **XJC** plugins `Xannotate` and `XfluentAPI` to generate **JAXB** classes. The `Xannotate` extension is used to add a Java annotation to one of the generated classes: `@XmlRootElement`. And, the `XfluentAPI` extension adds `useXXX` methods on each generated **JAXB** property for method chaining.
-
-This project generates **JAXB** classes for the [_UN/CEFACT_][50] schemas publicly available at [CII_D23B_0.zip][51] and [XMLSchemas-D23B.zip][52]. The first ZIP is used to generate the JAXB classes and the second zip is scraped to provide additional [CCTS][53] names and descriptions.
-
-Sample XML data from these GitHub repositories is gratefully included in this project to implement unit testing for the generated schema:
-
-+ [ConnectingEurope/eInvoicing-EN16931][54]
-+ [xrechnung-testsuite][55]
-
-Each of the sample data files provides an XML representation of a mock `CrossIndustryInvoice` instance. The generated **JAXB** class for this element is annotated with `@XmlRootElement` to support _unmarshalling_ and _marshaling_ in the unit tests and in the sample application.
-
-Further, it includes examples of **XJC** plugins to add custom `hashCode`, `equals`, `toString` and implementations to each generated JAXB class.
+This is a Maven project to demonstrate how to use the **XJC** plugins `Xannotate` and `XfluentAPI` to generate **JAXB** classes. The `Xannotate` extension is used to add a Java annotation (`@XmlRootElement`) to one of the generated classes: `CrossIndustryInvoice`. And, the `XfluentAPI` extension adds `useXXX` methods on each generated **JAXB** property to provide method chaining.
 
 #### Execution
 
@@ -52,6 +41,19 @@ mvn -Pexec compile exec:java
 ~~~
 
 Here's an example of the [OUTPUT.txt][3] from running the unit test(s).
+
+#### Schemas and Test Data
+
+This project generates **JAXB** classes for the [_UN/CEFACT_][50] schemas publicly available at [CII_D23B_0.zip][51] and [XMLSchemas-D23B.zip][52]. The first ZIP is used to generate the JAXB classes and the second zip is scraped to provide additional [CCTS][53] names and descriptions.
+
+Sample XML data from these GitHub repositories is gratefully included in this project to implement unit testing for the generated schema:
+
++ [ConnectingEurope/eInvoicing-EN16931][54]
++ [xrechnung-testsuite][55]
+
+Each of the sample data files provides an XML representation of a mock `CrossIndustryInvoice` instance. The generated **JAXB** class for this element is annotated with `@XmlRootElement` to support _unmarshalling_ and _marshaling_ in the unit tests and in the sample application.
+
+Further, it includes examples of **XJC** plugins to add custom `hashCode`, `equals`, `toString` and implementations to each generated JAXB class.
 
 #### Xannotate
 
@@ -298,30 +300,30 @@ public void testMarshalSample() throws Exception
 
 
 <!-- References -->
-
+https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/README.md
 [1]: https://github.com/patrodyne/hisrc-basicjaxb/releases/download/2.1.1/hisrc-basicjaxb-sample-uncefact-2.1.1-mvn-src.zip
-[2]: /README.md
-[3]: /OUTPUT.txt
-[4]: /project-pom.xml
-[5]: /bin/CreateToplevelXJBindings.sh
-[6]: /bin/CreateTypesafeEnumMember.ant
-[7]: /bin/run.cmd
-[8]: /bin/run.sh
-[9]: /bin/CreateTypesafeEnumMember.sh
-[10]: /doc/annox.xsd
-[11]: /doc/bindingschema_3_0.xsd
-[20]: /src/main/resources/uncefact/13DEC23
-[21]: /src/main/resources/uncefact/CII_D23B_0
-[22]: /src/main/resources/uncefact1.xjb
-[23]: /src/main/resources/uncefact2.xjb
-[24]: /src/main/resources/uncefact3.xjb
-[25]: /src/main/resources/uncefact.xsd
-[26]: /src/main/java/org/example/uncefact/Main.java
-[30]: /src/test/samples
-[31]: /src/test/resources/jvmsystem.arguments
-[32]: /src/test/resources/jvmsystem.properties
-[33]: /src/test/resources/simplelogger.properties
-[34]: /src/test/java/org/example/uncefact/InvoiceTest.java
+[2]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/README.md
+[3]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/OUTPUT.txt
+[4]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/project-pom.xml
+[5]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/bin/CreateToplevelXJBindings.sh
+[6]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/bin/CreateTypesafeEnumMember.ant
+[7]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/bin/run.cmd
+[8]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/bin/run.sh
+[9]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/bin/CreateTypesafeEnumMember.sh
+[10]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/doc/annox.xsd
+[11]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/doc/bindingschema_3_0.xsd
+[20]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/main/resources/uncefact/13DEC23
+[21]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/main/resources/uncefact/CII_D23B_0
+[22]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/main/resources/uncefact1.xjb
+[23]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/main/resources/uncefact2.xjb
+[24]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/main/resources/uncefact3.xjb
+[25]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/main/resources/uncefact.xsd
+[26]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/main/java/org/example/uncefact/Main.java
+[30]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/test/samples
+[31]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/test/resources/jvmsystem.arguments
+[32]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/test/resources/jvmsystem.properties
+[33]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/test/resources/simplelogger.properties
+[34]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/test/java/org/example/uncefact/InvoiceTest.java
 [40]: https://github.com/patrodyne/hisrc-basicjaxb#readme
 [41]: https://github.com/patrodyne/hisrc-higherjaxb#readme
 [50]: https://unece.org/trade/uncefact
