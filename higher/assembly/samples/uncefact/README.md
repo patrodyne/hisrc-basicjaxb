@@ -46,18 +46,18 @@ Here's an example of the [OUTPUT.txt][3] from running the unit test(s).
 
 This project generates **JAXB** classes for the [_UN/CEFACT_][50] schemas publicly available at [CII_D23B_0.zip][51] and [XMLSchemas-D23B.zip][52]. The first ZIP is used to generate the JAXB classes and the second zip is scraped to provide additional [CCTS][53] names and descriptions.
 
-Sample XML data from these GitHub repositories is gratefully included in this project to implement unit testing for the generated schema:
+Sample XML data is gratefully included from these GitHub repositories to implement unit testing for the generated schema:
 
 + [ConnectingEurope/eInvoicing-EN16931][54]
 + [xrechnung-testsuite][55]
 
 Each of the sample data files provides an XML representation of a mock `CrossIndustryInvoice` instance. The generated **JAXB** class for this element is annotated with `@XmlRootElement` to support _unmarshalling_ and _marshaling_ in the unit tests and in the sample application.
 
-Further, it includes examples of **XJC** plugins to add custom `hashCode`, `equals`, `toString` and implementations to each generated JAXB class.
+Further, this demo includes examples of **XJC** plugins to add custom `hashCode`, `equals`, `toString` and implementations to each generated JAXB class.
 
 #### Xannotate
 
-The demo includes this binding file to add an `@XmlRootElement` annotation to the Java class generated for the `CrossIndustryInvoiceType` from the [CrossIndustryInvoice_100pD23B.xsd][21] in the [urn:un:unece:uncefact][60] namespace.
+The demo includes the binding file shown below to add an `@XmlRootElement` annotation to the Java class generated for the `CrossIndustryInvoiceType` from the [CrossIndustryInvoice_100pD23B.xsd][27] in the [urn:un:unece:uncefact][60] namespace.
 
 **Binding file: [uncefact1.xjb][22]**
 ~~~
@@ -319,6 +319,7 @@ public void testMarshalSample() throws Exception
 [24]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/main/resources/uncefact3.xjb
 [25]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/main/resources/uncefact.xsd
 [26]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/main/java/org/example/uncefact/Main.java
+[27]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/main/resources/uncefact/CII_D23B_0/100/CrossIndustryInvoice_100pD23B.xsd
 [30]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/test/samples
 [31]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/test/resources/jvmsystem.arguments
 [32]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/src/test/resources/jvmsystem.properties
