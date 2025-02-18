@@ -300,7 +300,7 @@ public void testMarshalSample() throws Exception
 
 
 <!-- References -->
-https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/README.md
+
 [1]: https://github.com/patrodyne/hisrc-basicjaxb/releases/download/2.1.1/hisrc-basicjaxb-sample-uncefact-2.1.1-mvn-src.zip
 [2]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/README.md
 [3]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/higher/assembly/samples/uncefact/OUTPUT.txt
