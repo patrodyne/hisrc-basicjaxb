@@ -1,6 +1,19 @@
 package org.jvnet.basicjaxb.plugin.swing;
 
+import static com.sun.codemodel.JExpr._null;
+import static com.sun.codemodel.JExpr._super;
+import static com.sun.codemodel.JExpr.cast;
+import static com.sun.codemodel.JExpr.invoke;
+import static com.sun.codemodel.JExpr.lit;
+import static com.sun.codemodel.JMod.FINAL;
+import static com.sun.codemodel.JMod.PRIVATE;
+import static com.sun.codemodel.JMod.PUBLIC;
+import static com.sun.codemodel.JMod.STATIC;
+import static java.lang.Long.parseLong;
 import static java.lang.String.format;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
 import static org.jvnet.basicjaxb.plugin.swing.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 
@@ -10,11 +23,18 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
 import javax.xml.namespace.QName;
 
 import org.jvnet.basicjaxb.config.LocatorUnmarshaller;
@@ -27,6 +47,8 @@ import org.jvnet.basicjaxb.plugin.beaninfo.BeanInfoCustomization;
 import org.jvnet.basicjaxb.plugin.beaninfo.BeanInfoCustomizationFactory;
 import org.jvnet.basicjaxb.plugin.beaninfo.FieldInfo;
 import org.swixml.SwingEngine;
+import org.swixml.jsr.widgets.CardNodeInfo;
+import org.swixml.jsr.widgets.MutableTreeModel;
 import org.swixml.schema.model.JPanel;
 import org.swixml.schema.model.JTableBind;
 import org.swixml.schema.model.JTextAreaBind;
@@ -38,6 +60,14 @@ import org.swixml.schema.model.XSplitPane;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
+import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JCast;
+import com.sun.codemodel.JClass;
+import com.sun.codemodel.JClassAlreadyExistsException;
+import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JDefinedClass;
+import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JType;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.model.CClassInfo;
@@ -46,6 +76,8 @@ import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
+import com.sun.tools.xjc.outline.PackageOutline;
+import com.sun.xml.xsom.XSType;
 
 import jakarta.xml.bind.JAXBException;
 
@@ -111,9 +143,9 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		);
 	}
 	
-	private String beanInfoPackage;
-	public String getBeanInfoPackage() { return beanInfoPackage; }
-	public void setBeanInfoPackage(String beanInfoPackage) { this.beanInfoPackage = beanInfoPackage; }
+//	private String beanInfoPackage;
+//	public String getBeanInfoPackage() { return beanInfoPackage; }
+//	public void setBeanInfoPackage(String beanInfoPackage) { this.beanInfoPackage = beanInfoPackage; }
 
 	private String sourceWindow;
 	public String getSourceWindow()
@@ -131,6 +163,63 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 	private File targetDir;
 	public File getTargetDir() { return targetDir; }
 	public void setTargetDir(File targetDir) { this.targetDir = targetDir; }
+	
+	private Map<String, List<FieldInfo>> hiddenFieldInfoMap;
+	protected Map<String, List<FieldInfo>> getHiddenFieldInfoMap()
+	{
+		if ( hiddenFieldInfoMap == null )
+			setHiddenFieldInfoMap(new HashMap<>());
+		return hiddenFieldInfoMap;
+	}
+	protected void setHiddenFieldInfoMap(Map<String, List<FieldInfo>> hiddenFieldInfoMap)
+	{
+		this.hiddenFieldInfoMap = hiddenFieldInfoMap;
+	}
+	
+	private Map<String, List<FieldInfo>> visibleFieldInfoMap;
+	protected Map<String, List<FieldInfo>> getVisibleFieldInfoMap()
+	{
+		if ( visibleFieldInfoMap == null )
+			setVisibleFieldInfoMap(new HashMap<>());
+		return visibleFieldInfoMap;
+	}
+	protected void setVisibleFieldInfoMap(Map<String, List<FieldInfo>> visibleFieldInfoMap)
+	{
+		this.visibleFieldInfoMap = visibleFieldInfoMap;
+	}
+
+	private JExpression litSerialVersionUID;
+	protected JExpression getLitSerialVersionUID()
+	{
+		if ( litSerialVersionUID == null )
+		{
+			Calendar cal = Calendar.getInstance();
+			long sv = parseLong(format("%04d%02d%02d", cal.get(YEAR), cal.get(MONTH)+1, cal.get(DAY_OF_MONTH)));
+			setLitSerialVersionUID(lit(sv));
+		}
+		return litSerialVersionUID;
+	}
+	protected void setLitSerialVersionUID(JExpression litSerialVersionUID)
+	{
+		this.litSerialVersionUID = litSerialVersionUID;
+	}
+	
+	private Map<Class<?>,JClass> refClasses;
+	protected Map<Class<?>, JClass> getRefClasses()
+	{
+		if ( refClasses == null )
+			setRefClasses(new HashMap<>());
+		return refClasses;
+	}
+	protected void setRefClasses(Map<Class<?>, JClass> refClasses)
+	{
+		this.refClasses = refClasses;
+	}
+	
+	private void putRefClass(JCodeModel cm, Class<?> cls)
+	{
+		getRefClasses().put(cls, cm.ref(cls));
+	}
 	
 	// Plugin Processing
 
@@ -150,7 +239,7 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  BeanInfoPackage.: " + getBeanInfoPackage());
+//			sb.append("\n  BeanInfoPackage.: " + getBeanInfoPackage());
 			sb.append("\n  SourceWindow....: " + getSourceWindow());
 			sb.append("\n  TargetPackage...: " + getTargetPackage());
 			sb.append("\n  TargetDir.......: " + getTargetDir());
@@ -237,7 +326,7 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 			StringBuilder sb = new StringBuilder();
 			sb.append(LOGGING_START);
 			sb.append("\nParameters");
-			sb.append("\n  BeanInfoPackage.: " + getBeanInfoPackage());
+//			sb.append("\n  BeanInfoPackage.: " + getBeanInfoPackage());
 			sb.append("\n  SourceWindow....: " + getSourceWindow());
 			sb.append("\n  TargetPackage...: " + getTargetPackage());
 			sb.append("\n  TargetDir.......: " + getTargetDir());
@@ -309,8 +398,14 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		try
 		{
 			BeanInfoCustomizationFactory bicf = new BeanInfoCustomizationFactory(outline);
-			generateTreeModel(bicf);
+			
+			JCodeModel cm = outline.getCodeModel();
+			putRefClass(cm, MutableTreeNode.class);
+			putRefClass(cm, DefaultMutableTreeNode.class);
+			putRefClass(cm, CardNodeInfo.class);
+			
 			generateWindow(bicf);
+			generateTreeModel(bicf);
 		}
 		catch (IOException | JAXBException ex)
 		{
@@ -320,11 +415,6 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		return !hadError(outline.getErrorReceiver());
 	}
 
-	private void generateTreeModel(BeanInfoCustomizationFactory bicf)
-	{
-		
-	}
-	
 	/**
 	 * Process the XJC {@link Outline} instance for the given
 	 * {@link Window} instance. The goal is to configure the
@@ -337,10 +427,9 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 	 * 
 	 * @throws IntrospectionException When cannot map class name to a class object.
 	 * @throws ClassNotFoundException When no definition for the class with the specified name could be found.
-	 * @throws URISyntaxException When a string could not be parsed as a
-	 * URI reference.
+	 * @throws URISyntaxException When a string could not be parsed as a URI reference.
 	 */
-	private void generateWindow(BeanInfoCustomizationFactory bicf)
+	public void generateWindow(BeanInfoCustomizationFactory bicf)
 		throws JAXBException, IOException, IntrospectionException, ClassNotFoundException, URISyntaxException
 	{
 		// Set the JAXB context path.
@@ -372,7 +461,7 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 	 * @throws IOException An I/O exception of some sort has occurred.
 	 * @throws URISyntaxException A string could not be parsed as a URI reference.
 	 */
-	private File targetFile(File targetDir, String targetPackage, String sourceWindow)
+	protected File targetFile(File targetDir, String targetPackage, String sourceWindow)
 		throws IOException, URISyntaxException
 	{
 		URL sourceWindowURL = new URI(sourceWindow).toURL();
@@ -423,7 +512,7 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 		treePane.getContent().add(OF.createTree(treeBind));
 		
 		JPanel cardLayoutPanel = OF.createJPanel();
-		cardLayoutPanel.setId("mainPanel");
+		cardLayoutPanel.setId("cardPanel");
 		cardLayoutPanel.setLayout("CardLayout");
 		
 		XSplitPane siftSplitPane = OF.createXSplitPane();
@@ -468,6 +557,34 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 			processCardClassOutline(bicf, classOutline, cardLayoutPanel);
 	}
 	
+	private class ClassName
+	{
+		public String pkg, name, full, nameClass, fullClass;
+		public ClassName(ClassOutline classOutline)
+		{
+			JDefinedClass ic = classOutline.getImplClass();
+			this.pkg = ic.getPackage().name();
+			this.name = ic.name();
+			this.full = this.pkg + "." + this.name;
+			this.nameClass = this.name + ".class";
+			this.fullClass = this.full + ".class";
+		}
+		public ClassName(String fullName)
+		{
+			this.full = fullName;
+			int dot = fullName.lastIndexOf('.');
+			this.pkg = fullName.substring(0, dot);
+			this.name = fullName.substring(dot+1);
+			this.nameClass = this.name + ".class";
+			this.fullClass = this.full + ".class";
+		}
+	}
+//	private String fullClassName(ClassOutline classOutline)
+//	{
+//		JDefinedClass ic = classOutline.getImplClass();
+//		return ic.getPackage().name() + "." + ic.name();
+//	}
+	
 	/**
 	 * Process the XJC {@link ClassOutline} instance for the given
 	 * {@link JPanel} instance. The goal is to configure the
@@ -503,8 +620,29 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 				String fiFieldName = fieldInfo.getFieldName();
 				if ( !declaredFieldNameSet.contains(fiFieldName) )
 					fieldInfo.setFieldHidden(true);
+				
+				ClassName className = new ClassName(classOutline);
 				if ( !fieldInfo.isFieldHidden() )
+				{
 					++fieldCount;
+					List<FieldInfo> visibleFieldInfoList = getVisibleFieldInfoMap().get(className.full);
+					if ( visibleFieldInfoList == null )
+					{
+						visibleFieldInfoList = new ArrayList<>();
+						getVisibleFieldInfoMap().put(className.full, visibleFieldInfoList);
+					}
+					visibleFieldInfoList.add(fieldInfo);
+				}
+				else
+				{
+					List<FieldInfo> hiddenFieldInfoList = getHiddenFieldInfoMap().get(className.full);
+					if ( hiddenFieldInfoList == null )
+					{
+						hiddenFieldInfoList = new ArrayList<>();
+						getHiddenFieldInfoMap().put(className.full, hiddenFieldInfoList);
+					}
+					hiddenFieldInfoList.add(fieldInfo);
+				}
 			}
 			
 			// Are there any visible fields?
@@ -531,140 +669,124 @@ public class SwingPlugin extends AbstractParameterizablePlugin
 				
 				// Add the scroll pane to the card layout panel.
 				cardLayoutPanel.getContent().add(OF.createScrollpane(scrollPane));
+				
+//				CardNodeInfo cardNodeInfo = new CardNodeInfo(bic.getClassPublicName(), bic.getClassFullName());
+//				MutableTreeNode schemasTreeNode = new DefaultMutableTreeNode(cardNodeInfo);
+//				Map<String,MutableTreeNode> treeNodeMap = new TreeMap<>();
+//				treeNodeMap.put(cardNodeInfo.getCardName(), schemasTreeNode);
 			}
 		}
-		
-//		boolean noop = false;
-//		if ( noop )
-//		{
-//			// Check all Fields in Class
-//			for (FieldOutline fieldOutline : declaredFilteredFields)
-//			{
-//				// Handle primitive types via boxed representation (treat boolean as java.lang.Boolean)
-//				JType fieldRawType = fieldOutline.getRawType();
-//				boolean fieldIsPrimitive = fieldRawType.isPrimitive();
-//				JType fieldType = (fieldIsPrimitive) ? fieldRawType.boxify() : fieldRawType;
-//				
-//				// Get the field type's full name.
-//				String typeFullName = fieldType.fullName();
-//
-//				// Represent the XML schema element's or attribute's fixed value.
-//				XmlString fixedValue = null;
-//				
-//				// Do nothing if Field is not created from an or XSAttributeUse an XSParticle
-//				// Set the fixedValue ONLY when this plugin needs to provide the initialization.
-//				CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
-//				QName schemaType = fieldInfo.getSchemaType();
-//				if ( fieldInfo.getSchemaComponent() instanceof XSAttributeUse )
-//				{
-//					// An XSAttributeUse provides isRequired, defaultValue and fixedValue for an XSAttributeDecl.
-//					XSAttributeUse attribute = (XSAttributeUse) fieldInfo.getSchemaComponent();
-//					if (attribute.getFixedValue() != null)
-//					{
-//						// Get the fixed value from the XSD attribute as a String.
-//						fixedValue = attribute.getFixedValue();
-//						if ( schemaType == null )
-//						{
-//							if ( fieldInfo instanceof CAttributePropertyInfo)
-//							{
-//								CAttributePropertyInfo attrInfo = (CAttributePropertyInfo) fieldInfo;
-//								CNonElement nonElement = attrInfo.getTarget();
-//								schemaType = nonElement.getTypeName();
-//							}
-//						}
-//					}
-//				}
-//				else if ( fieldInfo.getSchemaComponent() instanceof XSParticle )
-//				{
-//					// An XSParticle provides min/max occurs cardinality for an XSTerm.
-//					XSParticle particle = (XSParticle) fieldInfo.getSchemaComponent();
-//					
-//					// Fixed values only necessary for fields derived from an xsd:element
-//					XSTerm term = particle.getTerm();
-//					if (term.isElementDecl())
-//					{
-//						// Do nothing if no fixed value.
-//						// Continue loop to next FieldOutline instance.
-//						XSElementDecl element = term.asElementDecl();
-//						if (element.getFixedValue() != null)
-//						{
-//							// Get the fixed value from the XSD element as a String.
-//							fixedValue = element.getFixedValue();
-//							if ( schemaType == null )
-//							{
-//								XSType elementType = element.getType();
-//								if ( (elementType != null) && (elementType.getName() != null) )
-//									schemaType = new QName(elementType.getTargetNamespace(), elementType.getName());
-//							}
-//						}
-//					}
-//				}
-//				
-//				// Provide initialization for the fixed value, when non-null.
-//				if ( fixedValue != null )
-//					processSwing(bicf.getOutline(), classOutline, fieldOutline, fieldType, fieldIsPrimitive, typeFullName, fixedValue, schemaType);
-//			} // for FieldOutline
-//		}
 	}
 
-//	private void processSwing(Outline outline, ClassOutline classOutline,
-//		FieldOutline fieldOutline, JType fieldType, boolean fieldIsPrimitive,
-//		String typeFullName, XmlString fixedValue, QName schemaType)
-//	{
-//		// Get handle to implementation class containing the field
-//		JDefinedClass theClass = classOutline.implClass;
-//		
-//		// Get the property info from the outline.
-//		CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
-//		
-//		// Get the field variable for the given fieldInfo private name
-//		// from the map of fields for theClass.
-//		Map<String, JFieldVar> fields = theClass.fields();
-//		JFieldVar fieldVar = fields.get(fieldInfo.getName(false));
-//		
-//		// Get the BOUND for the given fieldInfo public name
-//		// from the list of methods for theClass.
-//		String publicName = fieldInfo.getName(true);
-//		
-//		// Collect the property methods bound to the field variable.
-//		List<JMethod> propMethods = collectPropertyMethods(theClass, publicName, fieldOutline);
-//		
-//		// Get handle to JCodeModel owning this class.
-//		JCodeModel theCodeModel = theClass.owner();
-//		
-//		// Get reference to ValueUtils to invoke its static methods.
-//		JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
-//		
-//		String fieldLoc = toLocation(fieldInfo.getLocator());
-//		String fieldName = fieldInfo.displayName();
-//	}
+	public void generateTreeModel(BeanInfoCustomizationFactory bicf)
+		throws JClassAlreadyExistsException
+	{
+		JCodeModel cm = bicf.getOutline().getCodeModel();
+		
+		// Generate SchemasTreeModel class.
+		String stmClassName = getTargetPackage() + ".SchemasTreeModel";
+		JDefinedClass stmClass = cm._class(stmClassName);
+		stmClass._extends(MutableTreeModel.class);
+		stmClass.field(PRIVATE+STATIC+FINAL, long.class, "serialVersionUID", getLitSerialVersionUID());
+		
+		// Generate constructor
+		JMethod stmCon = stmClass.constructor(PUBLIC);
+		JBlock stmConBody = stmCon.body();
+		
+		// super("Schemas");
+		stmConBody.invoke("super").arg("Schemas");
+		
+		JClass mtnRef = getRefClasses().get(MutableTreeNode.class);
+		JCast superRootCast = cast(mtnRef, _super().invoke("getRoot"));
+		stmConBody.invoke("setRoot").arg(superRootCast);
+		
+		Iterable<? extends PackageOutline> apc = bicf.getOutline().getAllPackageContexts();
+		for ( PackageOutline pc : apc)
+		{
+			// Generate tree node for this package.
+			String pkgn = pc._package().getPackage().name();
+			stmConBody.invoke("push").arg(lit(pkgn));
+			stmConBody.add(invoke("getRoot").invoke("insert").arg(invoke("peek")).arg(lit(0)));
+			
+			// Generate tree nodes for the card's hidden fields.
+			for ( ClassOutline co : pc.getClasses() )
+				generateTreeModelPackage(stmConBody, new ClassName(co), cm);
+			
+			// Pop tree node for this package.
+			stmConBody.invoke("pop");
+		}
+	}
 
-//	private List<JMethod> collectPropertyMethods(JDefinedClass theClass, String publicName, FieldOutline fieldOutline)
-//	{
-//		List<JMethod> propMethods = new ArrayList<>();
-//		
-//		JMethod accessor = theClass.getMethod("get" + publicName, NO_ARGS);
-//		if ( accessor == null )
-//			accessor = theClass.getMethod("is" + publicName, NO_ARGS);
-//		if ( accessor != null )
-//			propMethods.add(accessor);
-//		
-//		String mutatorName = "set" + publicName;
-//		JType mutatorType = fieldOutline.getRawType();
-//        JMethod boxifiedMutator = theClass.getMethod(mutatorName, new JType[] { mutatorType.boxify() });
-//        JMethod unboxifiedMutator = theClass.getMethod(mutatorName, new JType[] { mutatorType.unboxify() });
-//        JMethod mutator = boxifiedMutator != null ? boxifiedMutator : unboxifiedMutator;
-//		if ( mutator != null )
-//			propMethods.add(mutator);        
-//
-//		JMethod detector = theClass.getMethod("isSet" + publicName, NO_ARGS);
-//		if ( detector != null )
-//			propMethods.add(detector);
-//		
-//		JMethod reverter = theClass.getMethod("unset" + publicName, NO_ARGS);
-//		if ( reverter != null )
-//			propMethods.add(reverter);
-//		
-//		return propMethods;
-//	}
+	private void generateTreeModelPackage(JBlock stmConBody, ClassName className, JCodeModel cm)
+	{
+		String fcn = className.full;
+		List<FieldInfo> hfiList = getHiddenFieldInfoMap().get(fcn);
+		List<FieldInfo> vfiList = getVisibleFieldInfoMap().get(fcn);
+		JExpression dotCardNodeClass = (vfiList != null) ? cm.directClass(fcn).dotclass() : _null();
+
+		// Generate tree node for this class name.
+		if ( hfiList == null )
+			stmConBody.invoke("peekAdd").arg(className.name).arg(dotCardNodeClass);
+		else
+		{
+			stmConBody.invoke("pushAdd").arg(className.name).arg(dotCardNodeClass);
+			
+			for ( FieldInfo hfi : hfiList )
+			{
+				String pcn = hfi.getParentClassName();
+				
+				String hftn = hfi.getFieldType().getName();
+				if ( hftn == null )
+					hftn = "ANON";
+				XSType hfift = hfi.getFieldType();
+				boolean isgl = hfift.isGlobal();
+				boolean isct = hfift.isComplexType();
+				boolean isst = hfift.isSimpleType();
+				String hfity = "gl="+ isgl + ", ct=" + isct + ", st=" + isst;
+				System.err.println("PARENT: (" + hfity + ") " + "[" + hftn + "] "  + hfi.getFieldName() + " of " + pcn);
+				
+				JClass fieldClass = hfi.getFieldRawType().boxify();
+				
+				List<String> frcnList = hfi.getFieldRefClassNameList();
+				for ( String frcn : frcnList )
+				{
+					List<FieldInfo> hfiRefList = getHiddenFieldInfoMap().get(frcn);
+					List<FieldInfo> vfiRefList = getVisibleFieldInfoMap().get(frcn);
+					JExpression dotFieldClass = (vfiRefList != null) ? cm.directClass(frcn).dotclass() : _null();
+					
+					boolean fip = fieldClass.isParameterized();
+					boolean fia = fieldClass.isArray();
+					
+					if ( hfiRefList == null )
+						stmConBody.invoke("peekAdd").arg(hfi.getFieldName()).arg(dotFieldClass);
+					else
+					{
+						stmConBody.invoke("pushAdd").arg(hfi.getFieldName()).arg(dotFieldClass);
+						for ( FieldInfo hfiRef : hfiRefList)
+						{
+							JClass hfiRefField = hfiRef.getFieldRawType().boxify();
+							if ( hfiRefField.isParameterized() )
+							{
+								for ( JClass hfiRefFieldTypeParm : hfiRefField.getTypeParameters() )
+								{
+									System.err.println("  REFERENCE PARM: " + hfiRefFieldTypeParm);
+									generateTreeModelPackage(stmConBody, new ClassName(hfiRefFieldTypeParm.fullName()), cm);
+								}
+							}
+							else
+							{
+								for ( String hfiRefClassName : hfiRef.getFieldRefClassNameList() )
+								{
+									System.err.println("  REFERENCE: " + hfiRefClassName);
+									generateTreeModelPackage(stmConBody, new ClassName(hfiRefClassName), cm);
+								}
+							}
+						}
+						stmConBody.invoke("pop");
+					}
+				}
+			}
+			stmConBody.invoke("pop");
+		}
+	}
 }
