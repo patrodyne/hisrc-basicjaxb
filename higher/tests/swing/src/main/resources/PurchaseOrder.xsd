@@ -62,12 +62,13 @@
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
+						<xs:attribute name="total" type="xs:decimal" />
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="credits" type="tns:Credit" maxOccurs="unbounded" minOccurs="0" />
 			</xs:sequence>
 			<xs:attribute name="orderDate" type="xs:date" />
-			<xs:attribute name="complete" type="xs:boolean"></xs:attribute>
+			<xs:attribute name="complete" type="xs:boolean" />
 		</xs:complexType>
 	
 	<xs:complexType name="USAddress">

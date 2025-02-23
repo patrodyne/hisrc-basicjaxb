@@ -32,7 +32,7 @@
 			<shipDate>1999-10-21</shipDate>
 		</item>
 	</items>
-	<payments>
+	<payments total="39.98">
 		<payment paymentDate="1999-10-21">5.00</payment>
 		<payment paymentDate="1999-10-22">10.00</payment>
 		<payment paymentDate="1999-10-23">24.98</payment>

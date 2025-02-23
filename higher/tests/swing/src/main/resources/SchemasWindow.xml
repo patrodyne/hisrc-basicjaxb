@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../swixml/src/main/resources/swixml.xsd"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
 	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(180,1.25)"
-	size="pageSize(120,30)"
+	size="pageSize(140,30)"
 	minimumSize="size()"
 	title="Schemas Tool"
 	defaultCloseOperation="EXIT_ON_CLOSE"

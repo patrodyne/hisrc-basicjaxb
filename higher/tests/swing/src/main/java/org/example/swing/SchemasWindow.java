@@ -4,6 +4,7 @@ import static org.jdesktop.observablecollections.ObservableCollections.observabl
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -25,6 +27,7 @@ import org.example.PurchaseOrder.model.Credit;
 import org.example.PurchaseOrder.model.Item;
 import org.example.PurchaseOrder.model.ObjectFactory;
 import org.example.PurchaseOrder.model.Payment;
+import org.example.PurchaseOrder.model.Payments;
 import org.example.PurchaseOrder.model.PurchaseOrder;
 import org.example.PurchaseOrder.model.USAddress;
 import org.jdesktop.application.Action;
@@ -101,6 +104,19 @@ public class SchemasWindow extends JFrame
 		return creditList;
 	}
 	
+	public Class<Payments> getPaymentsClass()
+	{
+		return Payments.class;
+	}
+	
+	private List<Payments> paymentsList;
+	public List<Payments> getPaymentsList()
+	{
+		if ( paymentsList == null )
+			paymentsList = observableList(new ArrayList<Payments>());
+		return paymentsList;
+	}
+	
 	public Class<Payment> getPaymentClass()
 	{
 		return Payment.class;
@@ -132,9 +148,9 @@ public class SchemasWindow extends JFrame
 	public JTree getSchemasTree() { return schemasTree; }
 	public void setSchemasTree(JTree schemasTree) { this.schemasTree = schemasTree; }
 	
-	private JPanel mainPanel;
-	public JPanel getMainPanel() { return mainPanel; }
-	public void setMainPanel(JPanel mainPanel) { this.mainPanel = mainPanel; }
+	private JPanel cardPanel;
+	public JPanel getCardPanel() { return cardPanel; }
+	public void setCardPanel(JPanel cardPanel) { this.cardPanel = cardPanel; }
 
 	private TreeModel schemasTreeModel;
 	public TreeModel getSchemasTreeModel()
@@ -228,9 +244,20 @@ public class SchemasWindow extends JFrame
 		if ( treeNode.getUserObject() instanceof CardNodeInfo )
 		{
 			CardNodeInfo nodeInfo = (CardNodeInfo) treeNode.getUserObject();
-			CardLayout cardLayout = (CardLayout) getMainPanel().getLayout();
-			cardLayout.show(getMainPanel(), nodeInfo.getCardName());
+			if ( nodeInfo.getCardName() != null )
+			{
+				CardLayout cardLayout = (CardLayout) getCardPanel().getLayout();
+				cardLayout.show(getCardPanel(), nodeInfo.getCardName());
+			}
+			else
+				hide(getCardPanel().getComponents());
 		}
+	}
+	
+	private void hide(Component[] comps)
+	{
+		for ( Component comp : comps )
+			comp.setVisible(false);
 	}
 	
 	@Action
@@ -286,6 +313,9 @@ public class SchemasWindow extends JFrame
 		// Credit list
 		for ( Credit credit : po01.getCredits() )
 			getCreditList().add(credit);
+		
+		// Payments list
+		getPaymentsList().add(po01.getPayments());
 		
 		// Payment list
 		for ( Payment payment : po01.getPayments().getPayment() )
