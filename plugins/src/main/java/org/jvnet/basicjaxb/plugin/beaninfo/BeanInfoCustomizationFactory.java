@@ -67,7 +67,7 @@ public class BeanInfoCustomizationFactory
 	{
 		this.classCustomizationMap = classCustomizationMap;
 	}
-	
+
 	private Map<ClassOutline, List<Selector>> selectorsMap;
 	public Map<ClassOutline, List<Selector>> getSelectorsMap()
 	{
@@ -128,6 +128,8 @@ public class BeanInfoCustomizationFactory
 						}
 					}
 				}
+				// findCustomization(pi, PROPERTY_ELEMENT_NAME))
+				// Handled in BeanInfoCustomization
 			}
 		}		
 	}

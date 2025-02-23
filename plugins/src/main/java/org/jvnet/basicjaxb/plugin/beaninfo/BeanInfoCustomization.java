@@ -18,6 +18,7 @@ import static org.jvnet.basicjaxb.util.CustomizationUtils.findCustomization;
 import static org.jvnet.basicjaxb.util.CustomizationUtils.unmarshall;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ import com.sun.tools.xjc.model.CPluginCustomization;
 import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.ClassOutline;
+import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
 import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIDeclaration;
 import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIXPluginCustomization;
@@ -295,11 +297,13 @@ public class BeanInfoCustomization
 	public BeanInfoCustomization(ClassOutline co,
 		Map<QName, CPluginCustomization> ecm,
 		Map<CClassInfo, CPluginCustomization> ccm,
+//		Map<CPropertyInfo, CPluginCustomization> pcm,
 		List<Selector> selectorList)
 	{
 		setClassOutline(co);
 		setElementCustomizationMap(ecm);
 		setClassCustomizationMap(ccm);
+//		setPropertyCustomizationMap(pcm);
 		setSelectorList(selectorList);
 		
 		// Find the first {@link CPluginCustomization} for the given class outline and bean element name;
@@ -348,7 +352,7 @@ public class BeanInfoCustomization
 		for ( CPropertyInfo propertyInfo : auList)
 			piList.remove(propertyInfo);
 		piList.addAll(0, auList);
-		
+
 		// Loop over all property infos for the current class outline.
 		for ( int index=0; index < piList.size(); ++index )
 		{
@@ -361,12 +365,12 @@ public class BeanInfoCustomization
 			else
 				setPropertyCustomizationByElement(propertyInfo);
 			
-			// Gather list of FieldInfo (contains Property).
-			gatherFieldInfoList();
-			
 			// Gather simple type facets for the current property info.
 			gatherPropertyFacets(propertyInfo);
 		}
+		
+		// Gather list of FieldInfo (contains Property).
+		gatherFieldInfoList();
 	}
 	
 	// Gather (unmarshal) the appinfo bean, if any
@@ -382,14 +386,14 @@ public class BeanInfoCustomization
 	/* Gather list of FieldInfo. */
 	private void gatherFieldInfoList()
 	{
-		final Map<String, FieldInfo> fieldInfoMap = new TreeMap<>();
+		final Map<String, FieldInfo> fieldInfoMap = new HashMap<>();
 		
 		// Properties with Customizations
 		for ( Entry<CPropertyInfo, CPluginCustomization> entry : getPropertyCustomizationMap().entrySet())
 		{
 			CPropertyInfo propertyInfo = entry.getKey();
-
-			FieldInfo fieldInfo = new FieldInfo(propertyInfo);
+			String propertyInfoName = propertyInfo.getName(false);
+			FieldInfo fieldInfo = new FieldInfo(getImplClass(), propertyInfo);
 
 			CPluginCustomization propertyCustomization = entry.getValue();
 			if (propertyCustomization != null)
@@ -408,7 +412,7 @@ public class BeanInfoCustomization
 			}
 			
 			if ( fieldInfo.getProperty() != null )
-				fieldInfoMap.put(fieldInfo.getFieldDisplayName(), fieldInfo);
+				fieldInfoMap.put(propertyInfoName, fieldInfo);
 		}
 		
 		// Properties with Facets
@@ -419,7 +423,7 @@ public class BeanInfoCustomization
 			
 			FieldInfo fieldInfo = fieldInfoMap.get(propertyInfoName);
 			if ( fieldInfo == null )
-				fieldInfo = new FieldInfo(propertyInfo);
+				fieldInfo = new FieldInfo(getImplClass(), propertyInfo);
 			
 			fieldInfo.setFacets(entry.getValue());
 			fieldInfoMap.put(propertyInfoName, fieldInfo);
@@ -438,10 +442,26 @@ public class BeanInfoCustomization
 				String propertyInfoName = propertyInfo.getName(false);
 				FieldInfo fieldInfo = fieldInfoMap.get(propertyInfoName);
 				if ( fieldInfo == null )
-					fieldInfo = new FieldInfo(propertyInfo);
+					fieldInfo = new FieldInfo(getImplClass(), propertyInfo);
 
-				fieldInfoMap.put(fieldInfo.getFieldDisplayName(), fieldInfo);
+				fieldInfoMap.put(propertyInfoName, fieldInfo);
 			}
+		}
+		
+		// Assign raw type for the field.
+		//
+	    // This type can represent the entire value of this field; or,
+	    // for fields that can carry multiple values, this is an array.
+	    // This type allows the client of the outline to generate code
+	    // to set/get values from a property.
+		//
+		for ( FieldOutline df : getClassOutline().getDeclaredFields() )
+		{
+			String propertyInfoName = df.getPropertyInfo().getName(false);
+			FieldInfo fieldInfo = fieldInfoMap.get(propertyInfoName);
+			if ( fieldInfo != null )
+				fieldInfo.setFieldRawType(df.getRawType());
+			System.err.println(propertyInfoName + " : " + fieldInfo.getFieldRawTypeName());
 		}
 		
 		if ( !fieldInfoMap.isEmpty() )
@@ -457,9 +477,7 @@ public class BeanInfoCustomization
 				if ( fiIndex != null )
 					fiTreeMap1.put(fiIndex, fieldInfo);
 				else
-				{
 					fiTreeMap2.put(fieldInfo.getFieldDisplayName(), fieldInfo);
-				}
 			}
 			
 			// Index cached FieldInfo(s) alphabetically by display name.

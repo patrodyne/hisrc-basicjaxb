@@ -9,6 +9,7 @@ import static org.jvnet.basicjaxb.plugin.beaninfo.FieldSource.PARTICLE;
 import static org.jvnet.basicjaxb.plugin.beaninfo.FieldSource.SIMPLE;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -17,7 +18,11 @@ import org.jvnet.basicjaxb.lang.Access;
 import org.jvnet.basicjaxb.lang.Alignment;
 import org.jvnet.basicjaxb.plugin.beaninfo.model.Property;
 
+import com.sun.codemodel.JClass;
+import com.sun.codemodel.JType;
+import com.sun.tools.xjc.model.CClassInfo;
 import com.sun.tools.xjc.model.CPropertyInfo;
+import com.sun.tools.xjc.model.CTypeInfo;
 import com.sun.xml.xsom.XSAttributeUse;
 import com.sun.xml.xsom.XSElementDecl;
 import com.sun.xml.xsom.XSFacet;
@@ -70,6 +75,25 @@ public class FieldInfo
 		this.fieldTypeName = fieldTypeName;
 	}
 	
+	private JType fieldRawType;
+	public JType getFieldRawType() { return fieldRawType; }
+	public void setFieldRawType(JType fieldRawType) { this.fieldRawType = fieldRawType; }
+	
+	private String fieldRawTypeName;
+	public String getFieldRawTypeName()
+	{
+		if ( fieldRawTypeName == null )
+		{
+			if ( getFieldRawType() != null )
+				setFieldRawTypeName(getFieldRawType().fullName());
+		}
+		return fieldRawTypeName;
+	}
+	public void setFieldRawTypeName(String fieldRawTypeName)
+	{
+		this.fieldRawTypeName = fieldRawTypeName;
+	}
+
 	private boolean fieldHidden = false;
 	public boolean isFieldHidden() { return fieldHidden; }
 	public void setFieldHidden(boolean fieldHidden) { this.fieldHidden = fieldHidden; }
@@ -140,6 +164,26 @@ public class FieldInfo
 		this.facets = facets;
 	}
 	
+	private JClass parentClass;
+	public JClass getParentClass() { return parentClass; }
+	public void setParentClass(JClass parentClass) { this.parentClass = parentClass; }
+
+	private String parentClassName;
+	public String getParentClassName() { return parentClassName; }
+	public void setParentClassName(String parentClassName) { this.parentClassName = parentClassName; }
+	
+	private List<String> fieldRefClassNameList;
+	public List<String> getFieldRefClassNameList()
+	{
+		if ( fieldRefClassNameList == null )
+			setFieldRefClassNameList(new ArrayList<>());
+		return fieldRefClassNameList;
+	}
+	public void setFieldRefClassNameList(List<String> fieldRefClassNameList)
+	{
+		this.fieldRefClassNameList = fieldRefClassNameList;
+	}
+	
 	public boolean hasProperties()
 	{
 		return (getProperty() != null) || !getFacets().isEmpty();
@@ -190,10 +234,12 @@ public class FieldInfo
 	/**
 	 * Construct with a {@link CPropertyInfo}.
 	 * 
+	 * @param parentClass 
 	 * @param pi XJC model of a property to be generated.
 	 */
-	public FieldInfo(CPropertyInfo pi)
+	public FieldInfo(JClass parentClass, CPropertyInfo pi)
 	{
+		setParentClass(parentClass);		
 		setFieldName(pi.getName(false));
 		setFieldDisplayName(pi.getName(true));
 		setFieldSource(getSource(pi));
@@ -215,5 +261,16 @@ public class FieldInfo
 			setFieldAccess(Access.READ_ONLY);
 		else
 			setFieldAccess(Access.READ_WRITE);
+		
+		// Parent class name
+		if ( pi.parent() instanceof CClassInfo )
+			setParentClassName(((CClassInfo) pi.parent()).fullName());
+		else
+			setParentClassName(getParentClass().fullName());
+		
+		// Field reference class name list
+		Collection<? extends CTypeInfo> refs = pi.ref();
+		for ( CTypeInfo ref : refs )
+			getFieldRefClassNameList().add(ref.getType().fullName());
 	}
 }
