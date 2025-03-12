@@ -36,8 +36,7 @@ public class CustomTags extends JFrame
 	// Make the class bootable
 	//
 	public static void main(String[] args)
-		throws Exception
 	{
-		new CustomTags();
+		SwingEngine.invokeLater(CustomTags.class);
 	}
 }

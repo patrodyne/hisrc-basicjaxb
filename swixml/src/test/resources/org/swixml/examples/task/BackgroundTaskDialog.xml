@@ -6,7 +6,7 @@
 
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
 	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(210,1.50)"
-	size="${el.pageSize(60,6)}"
+	size="${el.pageSize(60,10)}"
 	preferredSize="${el.size()}"
 	minimumSize="${el.size()}"
 	resizable="true" 
@@ -18,7 +18,7 @@
 >
 
 	<panel
-		border="TitledBorder(Get time from NIST)"
+		border="TitledBorder(Get time from WorldTimeAPI)"
 		layout="GridBagLayout(columnWeights(1,16))"
 	>
 		<button id="btnShowTime" text="Retrieve Time" action="retrieveTime">

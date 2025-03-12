@@ -1,6 +1,5 @@
 package org.swixml.legacy;
 
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.event.ActionEvent;
@@ -27,20 +26,12 @@ public class XInclude extends JFrame
 	
 	private SwingEngine<JFrame> swix = new SwingEngine<>(this);
 
-	private XInclude()
+	public XInclude() throws Exception
 	{
-		try
-		{
-			swix.getELProcessor().defineBean("el", swix.getELMethods());
-			swix.getELProcessor().defineBean("window", this);
-			swix.render("org/swixml/legacy/xinclude.xml");
-			setLocationRelativeTo(null);
-			setVisible(true);
-		}
-		catch (Exception ex)
-		{
-			showErrorDialog(ex);
-		}
+		swix.getELProcessor().defineBean("el", swix.getELMethods());
+		swix.getELProcessor().defineBean("window", this);
+		swix.render("org/swixml/legacy/xinclude.xml");
+		setLocationRelativeTo(null);
 	}
 
 	public Action cancelAction = new AbstractAction()
@@ -63,15 +54,8 @@ public class XInclude extends JFrame
 		}
 	};
 	
-	private static void showErrorDialog(Exception ex)
-	{
-		ex.printStackTrace();
-		String msg = ex.getClass().getSimpleName() + ": " + ex.getMessage() +"\n";
-		showMessageDialog(null, msg, "ERROR", ERROR_MESSAGE);
-	} 
-	
 	public static void main(String[] args)
 	{
-		new XInclude();
+		SwingEngine.invokeLater(XInclude.class);
 	}
 }

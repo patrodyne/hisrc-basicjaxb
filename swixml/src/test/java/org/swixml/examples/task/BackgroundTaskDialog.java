@@ -40,6 +40,11 @@ public class BackgroundTaskDialog extends JDialog
 	public JProgressBar getProgressBar() { return progressBar; }
 	public void setProgressBar(JProgressBar progressBar) { this.progressBar = progressBar; }
 
+	/**
+	 * An extension of {@link NetworkTimeRetrieverTask} to execute the
+	 * task in a background thread and asynchronously wait for a successful
+	 * result.
+	 */
 	public class NetworkTimeRetriever extends NetworkTimeRetrieverTask
 	{
 		public NetworkTimeRetriever(Application app)

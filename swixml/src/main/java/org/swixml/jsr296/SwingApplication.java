@@ -1,9 +1,7 @@
 package org.swixml.jsr296;
 
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.YES_OPTION;
 import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.Component;
 import java.awt.Window;
@@ -86,6 +84,7 @@ public abstract class SwingApplication<T extends Window>
 	 */
 	protected SwingEngine<T> createEngine(T container)
 	{
+		setUncaughtExceptionHandler(container);
 		final SwingEngine<T> engine = new SwingEngine<T>(container);
 		engine.setClassLoader(getClass().getClassLoader());
 		if ( getBooleanProperty(AUTO_INJECTFIELD) )
@@ -251,11 +250,5 @@ public abstract class SwingApplication<T extends Window>
 		public void willExit(EventObject e)
 		{
 		}
-	}
-	
-	public static void showErrorDialog(Exception ex)
-	{
-		String msg = ex.getClass().getSimpleName() + ": " + ex.getMessage();
-		showMessageDialog(null, msg, "ERROR", ERROR_MESSAGE);
 	}
 }

@@ -97,10 +97,11 @@
 					>
 						<table
 							id="testTable1"
-							action="selectRow"
+							action="selectInfo"
 							dblClickAction="activateRow"
 							cellSelectionEnabled="true"
 							bindList="${window.myData}"
+							autoCreateColumnsFromModel="false"
 							autoResizeMode="AUTO_RESIZE_OFF"
 							font="Monospaced"
 							rowHeight="${el.fieldHeight(10)}"
@@ -173,7 +174,7 @@
 					>
 						<table
 							id="testTable2"
-							action="selectRow"
+							action="selectInfo"
 							dblClickAction="activateRow"
 							cellSelectionEnabled="true"
 							bindList="${window.myData}"

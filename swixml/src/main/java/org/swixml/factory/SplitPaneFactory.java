@@ -28,9 +28,9 @@ public class SplitPaneFactory extends BeanFactory
 	{
 		Class<?> propType = getPropertyType(attr);
 		if ( propType == Double.TYPE )
-			super.setProperty(bean, attr, attr.getDoubleValue(), Double.TYPE);
+			super.setProperty(bean, attr, value, Double.TYPE);
 		else if ( propType == Integer.TYPE )
-			super.setProperty(bean, attr, attr.getIntValue(), Integer.TYPE);
+			super.setProperty(bean, attr, value, Integer.TYPE);
 		else
 			super.setProperty(bean, attr, value, type);
 	}

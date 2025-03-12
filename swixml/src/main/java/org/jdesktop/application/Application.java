@@ -1,5 +1,12 @@
 package org.jdesktop.application;
 
+import static java.lang.Thread.currentThread;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+import static org.jdesktop.application.PopupDialogUtility.toScrollableTextAreaWithCommonMenu;
+import static org.jdesktop.application.PopupDialogUtility.PaneSize.MEDIUM;
+
 import java.awt.ActiveEvent;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -14,7 +21,11 @@ import java.util.EventObject;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -47,42 +58,42 @@ import org.slf4j.LoggerFactory;
  * 
  * <pre>
  * public class MyApplication
- * 	extends
- * 	Application
+ *	extends
+ *	Application
  * {
- * 	JFrame mainFrame = null;
+ *	JFrame mainFrame = null;
  * 
- * 	&#064;Override
- * 	protected void startup()
- * 	{
- * 		mainFrame = new JFrame("Hello World");
- * 		mainFrame.add(new JLabel("Hello World"));
- * 		mainFrame.addWindowListener(new MainFrameListener());
- * 		mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
- * 		mainFrame.pack();
- * 		mainFrame.setVisible(true);
- * 	}
+ *	&#064;Override
+ *	protected void startup()
+ *	{
+ *		mainFrame = new JFrame("Hello World");
+ *		mainFrame.add(new JLabel("Hello World"));
+ *		mainFrame.addWindowListener(new MainFrameListener());
+ *		mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+ *		mainFrame.pack();
+ *		mainFrame.setVisible(true);
+ *	}
  * 
- * 	&#064;Override
- * 	protected void shutdown()
- * 	{
- * 		mainFrame.setVisible(false);
- * 	}
+ *	&#064;Override
+ *	protected void shutdown()
+ *	{
+ *		mainFrame.setVisible(false);
+ *	}
  * 
- * 	private class MainFrameListener
- * 		extends
- * 		WindowAdapter
- * 	{
- * 		public void windowClosing(WindowEvent e)
- * 		{
- * 			exit();
- * 		}
- * 	}
+ *	private class MainFrameListener
+ *		extends
+ *		WindowAdapter
+ *	{
+ *		public void windowClosing(WindowEvent e)
+ *		{
+ *			exit();
+ *		}
+ *	}
  * 
- * 	public static void main(String[] args)
- * 	{
- * 		Application.launch(MyApplication.class, args);
- * 	}
+ *	public static void main(String[] args)
+ *	{
+ *		Application.launch(MyApplication.class, args);
+ *	}
  * }
  * </pre>
  * <p>
@@ -219,7 +230,7 @@ public abstract class Application extends AbstractBean
 	 * <pre>
 	 * public static void main(String[] args)
 	 * {
-	 * 	Application.launch(MyApplication.class, args);
+	 *	Application.launch(MyApplication.class, args);
 	 * }
 	 * </pre>
 	 * 
@@ -238,23 +249,40 @@ public abstract class Application extends AbstractBean
 			@Override
 			public void run()
 			{
+				// Handle throwables from the Event Dispatcher Thread (EDT)
+				setUncaughtExceptionHandler(null);
 				try
 				{
 					application = create(applicationClass);
+					// Initialization calls setSwingEngine(createEngine(WINDOW))
+					// which invokes setUncaughtExceptionHandler(container).
 					application.initialize(args);
 					application.startup();
 					// raise an error on loading of Substance Look&Feel
 					// application.waitForReady();
 				}
-				catch (Exception e)
+				catch (Exception ex)
 				{
-					String msg = String.format("Application %s failed to launch", applicationClass);
-					logger.error(msg, e);
-					throw (new Error(msg, e));
+					// Handle launch exceptions.
+					showErrorDialog(ex);
 				}
 			}
 		};
 		SwingUtilities.invokeLater(doCreateAndShowGUI);
+	}
+	
+	/**
+	 * Set the handler invoked when this thread abruptly terminates
+     * due to an uncaught exception.
+     * 
+	 * @param window Determines the <code>Window</code> to display the dialog.
+	 */
+	public static void setUncaughtExceptionHandler(Window window)
+	{
+		if ( window != null )
+			currentThread().setUncaughtExceptionHandler((thread, ex) -> showErrorDialog(window, ex));
+		else
+			currentThread().setUncaughtExceptionHandler((thread, ex) -> showErrorDialog(ex));
 	}
 
 	/*
@@ -415,7 +443,7 @@ public abstract class Application extends AbstractBean
 	 * @see #startup
 	 * @see #shutdown
 	 */
-	protected void initialize(String[] args)
+	protected void initialize(String[] args) throws Exception
 	{
 	}
 
@@ -591,20 +619,20 @@ public abstract class Application extends AbstractBean
 	 * 
 	 * <pre>
 	 * class ConfirmExit
-	 * 	implements
-	 * 	Application.ExitListener
+	 *	implements
+	 *	Application.ExitListener
 	 * {
-	 * 	public boolean canExit(EventObject e)
-	 * 	{
-	 * 		Object source = (e != null) ? e.getSource() : null;
-	 * 		Component owner = (source instanceof Component) ? (Component) source : null;
-	 * 		int option = JOptionPane.showConfirmDialog(owner, "Really Exit?");
-	 * 		return option == JOptionPane.YES_OPTION;
-	 * 	}
+	 *	public boolean canExit(EventObject e)
+	 *	{
+	 *		Object source = (e != null) ? e.getSource() : null;
+	 *		Component owner = (source instanceof Component) ? (Component) source : null;
+	 *		int option = JOptionPane.showConfirmDialog(owner, "Really Exit?");
+	 *		return option == JOptionPane.YES_OPTION;
+	 *	}
 	 * 
-	 * 	public void willExit(EventObejct e)
-	 * 	{
-	 * 	}
+	 *	public void willExit(EventObejct e)
+	 *	{
+	 *	}
 	 * }
 	 * myApplication.addExitListener(new ConfirmExit());
 	 * </pre>
@@ -806,12 +834,12 @@ public abstract class Application extends AbstractBean
 	 * 
 	 * <pre>
 	 * public class PlaceholderApplication
-	 * 	extends
-	 * 	Application
+	 *	extends
+	 *	Application
 	 * {
-	 * 	public void startup()
-	 * 	{
-	 * 	}
+	 *	public void startup()
+	 *	{
+	 *	}
 	 * }
 	 * Application.launch(PlaceholderApplication.class);
 	 * </pre>
@@ -891,5 +919,84 @@ public abstract class Application extends AbstractBean
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * Show a dialog that displays a message with an Error icon.
+	 * 
+	 * @param ex The throwable to be displayed.
+	 */
+	public static void showErrorDialog(Throwable ex)
+	{
+		// Create a frame to be the parent of the dialog.
+		JFrame window=new JFrame();
+		window.setTitle(ex.getClass().getSimpleName());
+		window.add(new JLabel(ex.getMessage()));
+		window.pack();
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setLocationRelativeTo(null);
+		window.setAlwaysOnTop(true);
+		window.setVisible(true);
+		
+		// Show a dialog that displays a message in the new window.
+		showErrorDialog(window, ex);
+		
+		window.setVisible(false);
+		window.dispose();
+	}
+
+	/**
+	 * Show a dialog that displays a message with an Error icon.
+	 * 
+	 * @param window Determines the <code>Window</code> to display the dialog.
+	 * @param ex The throwable to be displayed.
+	 */
+	public static void showErrorDialog(Window window, Throwable ex)
+	{
+		// Build the dialog title.
+		String title = ex.getClass().getSimpleName();
+		
+		// Build a string containing the stack trace.
+		StringBuilder sb = new StringBuilder();
+		{
+			Throwable exCause = ex;
+			do
+			{
+				sb.append(exCause.toString());
+				for ( StackTraceElement ste : exCause.getStackTrace() )
+				{
+					sb.append("\n\tat ");
+					sb.append(ste);
+				}
+				exCause = exCause.getCause();
+				sb.append("\n");
+			} while ( exCause != null );
+		}
+		String trace = sb.toString();
+
+		// Log the exception, when in debug mode.
+		logger.debug(title + ": " + ex.getMessage(), ex);
+		
+		// Build a scroll pane to display the trace in a text area and
+		// add a standard popup menu to the text area.
+		JScrollPane jsp = toScrollableTextAreaWithCommonMenu(trace, MEDIUM);
+		
+		// JOptionPane
+		showMessageDialog(window, jsp, title, ERROR_MESSAGE);
+	}
+	
+	public static void showInformationDialog(Window window, String msg, String title)
+	{
+		optionPane(window, msg, title, INFORMATION_MESSAGE);
+	}
+	
+	public static void showWarningDialog(Window window, String msg, String title)
+	{
+		optionPane(window, msg, title, JOptionPane.WARNING_MESSAGE);
+	}
+	
+	private static void optionPane(Window window, String msg, String title, int msgType)
+	{
+		showMessageDialog(window, msg, title, msgType);
 	}
 }

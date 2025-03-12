@@ -13,8 +13,6 @@ import javax.swing.event.AncestorListener;
 import org.swixml.SwingEngine;
 import org.swixml.jsr296.SwingApplication;
 
-import jakarta.el.ELException;
-
 /**
  * An {@link SwingApplication} example using Jakarta EL to resolve an
  * EL function.
@@ -33,39 +31,38 @@ public class ScriptExample extends SwingApplication<ScriptDialog>
 {
 	private static final ScriptDialog WINDOW = new ScriptDialog();
 	
+	/**
+	 * Initializations that must occur <em>before</em> the GUI 
+	 * is constructed within the {@code startup} method.
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 */
 	@Override
-	protected void initialize(String[] args)
+	protected void initialize(String[] args) throws Exception
 	{
-		try
-		{
-			// Create the SwingEngine, ElContext, etc.
-			setSwingEngine(createEngine(WINDOW));
-			
-			// getELProcessor().defineBean("window", WINDOW);
-			
-			// Add EL functions from static method(s)
-			Method radioText = ScriptDialog.class.getMethod("radioText", new Class[] { Integer.class });
-			getELProcessor().defineFunction("sd", "radioText", radioText);
+		// Create the SwingEngine, ElContext, etc.
+		setSwingEngine(createEngine(WINDOW));
+		
+		// getELProcessor().defineBean("window", WINDOW);
+		
+		// Add EL functions from static method(s)
+		Method radioText = ScriptDialog.class.getMethod("radioText", new Class[] { Integer.class });
+		getELProcessor().defineFunction("sd", "radioText", radioText);
 
-			Method createEtchedBorder = BorderFactory.class.getMethod("createEtchedBorder", new Class[] { });
-			getELProcessor().defineFunction("bf", "createEtchedBorder", createEtchedBorder);
-			
-			// Import a class or a package into the EL evaluation environment.
-			// Package imports all the public, concrete classes in the package.
-			// The static member name, including the full class name, to be imported.
-			getELProcessor().getELManager().importStatic("javax.swing.BorderFactory.createEtchedBorder");
-			
-			// Process other initial conditions.
-			// getELProcessor().setVariable("var", "expression");
-			// getELProcessor().setValue("expression", value);
-			// getELProcessor().defineBean("name", bean);
-			// getELProcessor().defineFunction("prefix", "function", method);
-			// getELProcessor().defineFunction("prefix", "function", "className", "method");
-		}
-		catch ( NoSuchMethodException | SecurityException ex)
-		{
-			throw new ELException("Cannot initialize EL context.", ex);
-		}
+		Method createEtchedBorder = BorderFactory.class.getMethod("createEtchedBorder", new Class[] { });
+		getELProcessor().defineFunction("bf", "createEtchedBorder", createEtchedBorder);
+		
+		// Import a class or a package into the EL evaluation environment.
+		// Package imports all the public, concrete classes in the package.
+		// The static member name, including the full class name, to be imported.
+		getELProcessor().getELManager().importStatic("javax.swing.BorderFactory.createEtchedBorder");
+		
+		// Process other initial conditions.
+		// getELProcessor().setVariable("var", "expression");
+		// getELProcessor().setValue("expression", value);
+		// getELProcessor().defineBean("name", bean);
+		// getELProcessor().defineFunction("prefix", "function", method);
+		// getELProcessor().defineFunction("prefix", "function", "className", "method");
 	}
 	
 	@Override

@@ -3,6 +3,8 @@ package org.swixml.examples;
 import static java.lang.System.out;
 import static java.util.Arrays.asList;
 import static org.jdesktop.observablecollections.ObservableCollections.observableList;
+import static org.swixml.jsr.widgets.JTableBind.ACTION_SELECT_COL;
+import static org.swixml.jsr.widgets.JTableBind.ACTION_SELECT_ROW;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -23,6 +25,7 @@ import javax.swing.tree.TreeCellRenderer;
 
 import org.jdesktop.application.Action;
 import org.jdesktop.observablecollections.ObservableList;
+import org.jvnet.basicjaxb.lang.DataBeanInfo;
 import org.swixml.jsr.widgets.JLabelBind;
 import org.swixml.jsr.widgets.JTableBind;
 import org.swixml.jsr.widgets.JTextAreaBind;
@@ -259,11 +262,26 @@ public class BindingExamplesFrame extends JFrame
 	}
 
 	@Action
-	public void selectRow(ActionEvent ae)
+	public void selectInfo(ActionEvent ae)
 	{
-		ListSelectionEvent ev = (ListSelectionEvent) ae.getSource();
-		out.printf("OUT: selectRow firstIndex=%d lastIndex=%d valueIsAdjusting=%b\n",
-			ev.getFirstIndex(), ev.getLastIndex(), ev.getValueIsAdjusting());
+		if ( ACTION_SELECT_ROW.equals(ae.getActionCommand()) )
+		{
+			if ( ae.getSource() instanceof ListSelectionEvent )
+			{
+				ListSelectionEvent ev = (ListSelectionEvent) ae.getSource();
+				out.printf("OUT: selectInfo firstIndex=%d lastIndex=%d valueIsAdjusting=%b\n",
+					ev.getFirstIndex(), ev.getLastIndex(), ev.getValueIsAdjusting());
+			}
+			else if ( ae.getSource() instanceof DataBeanInfo )
+			{
+				DataBeanInfo dbi = (DataBeanInfo) ae.getSource();
+				out.printf("OUT: selectInfo dataBeanIfo=%s\n", dbi.toString());
+			}
+		}
+		else if ( ACTION_SELECT_COL.equals(ae.getActionCommand()) )
+		{
+			// Ignore
+		}
 	}
 
 	@Action

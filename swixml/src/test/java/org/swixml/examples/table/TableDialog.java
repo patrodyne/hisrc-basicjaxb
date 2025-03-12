@@ -3,6 +3,7 @@ package org.swixml.examples.table;
 import static java.lang.String.format;
 import static org.jdesktop.observablecollections.ObservableCollections.observableList;
 import static org.jvnet.basicjaxb.lang.ClassUtils.identifySimple;
+import static org.swixml.jsr.widgets.JTableBind.ACTION_SELECT_ROW;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -15,6 +16,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.JTableHeader;
 
 import org.jdesktop.application.Action;
+import org.jvnet.basicjaxb.lang.DataBeanInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.swixml.examples.SimpleBean;
@@ -81,14 +83,36 @@ public class TableDialog extends JDialog
 	@Action
 	public void selectRow(ActionEvent ae)
 	{
-		ListSelectionEvent se = (ListSelectionEvent) ae.getSource();
-		ListSelectionModel sm = (ListSelectionModel) se.getSource();
-		logger.debug(format("selectRow model=%s firstIndex=%d lastIndex=%d valueIsAdjusting=%b",
-			identifySimple(sm), se.getFirstIndex(), se.getLastIndex(), se.getValueIsAdjusting()));
-		logger.info("TH1A: [{}] [{}]", identifySimple(table1.getTableHeader()), table1.getTableHeader().getFont());
-		logger.info("TH1B: [{}] [{}]", identifySimple(tableHeader1), tableHeader1.getFont());
-		logger.info("TH2A: [{}] [{}]", identifySimple(table2.getTableHeader()), table2.getTableHeader().getFont());
-		logger.info("TH2B: [{}] [{}]", identifySimple(tableHeader2), tableHeader2.getFont());
+		if ( ACTION_SELECT_ROW.equals(ae.getActionCommand()) )
+		{
+			if ( ae.getSource() instanceof DataBeanInfo )
+			{
+				DataBeanInfo dbi = (DataBeanInfo) ae.getSource();
+				List<?> data = dbi.getData();
+				if ( (data != null) && logger.isDebugEnabled() )
+				{
+					logger.debug("data size: " + data.size());
+					for ( Object item : data )
+						logger.debug("\tdata item: " + item);
+				}
+				// BeanInfo del = dbi.getDelegateBeanInfo();
+				// BeanDescriptor bd = dbi.getBeanDescriptor();
+				// DataDescriptor dd = dbi.getDataDescriptor();
+				// FieldDescriptor[] fds = dbi.getFieldDescriptors();
+				// logger.debug(format("AC: %s", ae.getActionCommand()));
+			}
+			else if ( ae.getSource() instanceof ListSelectionEvent )
+			{
+				ListSelectionEvent se = (ListSelectionEvent) ae.getSource();
+				ListSelectionModel sm = (ListSelectionModel) se.getSource();
+				logger.debug(format("selectRow model=%s firstIndex=%d lastIndex=%d valueIsAdjusting=%b",
+					identifySimple(sm), se.getFirstIndex(), se.getLastIndex(), se.getValueIsAdjusting()));
+			}
+			logger.info("TH1A: [{}] [{}]", identifySimple(table1.getTableHeader()), table1.getTableHeader().getFont());
+			logger.info("TH1B: [{}] [{}]", identifySimple(tableHeader1), tableHeader1.getFont());
+			logger.info("TH2A: [{}] [{}]", identifySimple(table2.getTableHeader()), table2.getTableHeader().getFont());
+			logger.info("TH2B: [{}] [{}]", identifySimple(tableHeader2), tableHeader2.getFont());
+		}
 	}
 	
 	/**

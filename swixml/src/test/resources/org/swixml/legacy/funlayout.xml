@@ -42,7 +42,7 @@
 
 	</internalframe>
 
-	<internalframe title="Vertical Box" bounds="1.5%,40%,25%,56%" visible="true" resizable="true">
+	<internalframe title="Vertical Box" bounds="1.5%,40%,25%,52%" visible="true" resizable="true">
 
 	  <vbox border="TitledBorder(with filler)">
 		<button text="1"/>
@@ -62,7 +62,7 @@
 		<button constraints="CENTER">Center</button>
 	</internalframe>
 
-	<internalframe title="Horizontal Box" bounds="28%,40%,70%,38%" visible="true" resizable="true">
+	<internalframe title="Horizontal Box" bounds="28%,40%,70%,34%" visible="true" resizable="true">
 
 	  <hbox border="TitledBorder(with filler)">
 		<button text="1"/>
@@ -74,7 +74,7 @@
 
 	</internalframe>
 
-	<internalframe title="Flow Layout (right aligned)" bounds="28%,81%,70%,15%" layout="FlowLayout(RIGHT)" visible="true" resizable="true">
+	<internalframe title="Flow Layout (right aligned)" bounds="28%,77%,70%,15%" layout="FlowLayout(RIGHT)" visible="true" resizable="true">
 		<button>1</button>
 		<button>2</button>
 		<button>3</button>

@@ -1,5 +1,7 @@
 package org.swixml;
 
+import static java.lang.String.format;
+
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
@@ -41,11 +43,12 @@ public class XAction
 				method = client.getClass().getMethod(methodName);
 			}
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
 			// @TODO
-			// logger.log( Level.WARNING, "error on Action initialization", e);
-			logger.warn(String.format("error on Action initialization [%s]", e.getMessage()));
+			// logger.log( Level.WARNING, "error on Action initialization", ex);
+			// logger.warn(String.format("error on Action initialization [%s]", ex.getMessage()));
+			throw new RuntimeException(format("error on Action initialization [%s]", ex.getMessage()), ex);
 		}
 	}
 
@@ -64,9 +67,10 @@ public class XAction
 				delegate.actionPerformed(e);
 			}
 		}
-		catch (Exception e1)
+		catch (Exception ex)
 		{
-			logger.error("action performed error", e1);
+			//logger.error("action performed error", ex);
+			throw new RuntimeException("action performed error", ex);
 		}
 	}
 

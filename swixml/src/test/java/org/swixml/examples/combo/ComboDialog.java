@@ -3,6 +3,8 @@ package org.swixml.examples.combo;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static javax.swing.JOptionPane.showMessageDialog;
+import static org.jdesktop.application.PopupDialogUtility.toScrollableTextArea;
+import static org.jdesktop.application.PopupDialogUtility.PaneSize.SMALL;
 import static org.jdesktop.observablecollections.ObservableCollections.observableList;
 
 import java.awt.event.ActionEvent;
@@ -17,6 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JRootPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
@@ -185,7 +188,8 @@ public class ComboDialog extends JDialog
 		String msg = format("selectedItem=[%s]\ntext=[%s]\nnumber=[%s]",
 			cmbNumber.getSelectedItem(), cmbNumber.getEditor().getItem(), getNumber());
 		
-		showMessageDialog(this, msg);
+		JScrollPane jsp = toScrollableTextArea(msg, SMALL);
+		showMessageDialog(this, jsp);
 		
 		String selectItem = (String) cmbTemplate.getSelectedItem();
 		if ( isRemoveOnSubmit() )

@@ -34,6 +34,7 @@ import javax.swing.RootPaneContainer;
 import javax.swing.UIManager;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.MetalTheme;
+import javax.swing.text.JTextComponent;
 
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.ELProperty;
@@ -1043,32 +1044,35 @@ public class Parser implements LogAware
 					// Use EL to get the attribute property's parameter value.
 					ELProperty<Object, Object> elp = create(elContext, attr.getValue());
 					para = elp.getValue(getSwingEngine().getClient());
+					
+					if ( para != null )
+					{
+						// Replace EL value with the resolved value. Because, for example,
+						// SplitPaneFactory inspects the attribute value to guess parameter
+						// types.
+						attr.setValue(para.toString());
+						
+						BeanProperty<Object, Object> bp = BeanProperty.create(attr.getLocalName());
+						if ( bp.isWriteable(tag) )
+						{
+							if ( paraType.isAssignableFrom(para.getClass()) )
+								factory.setProperty(tag, attr, para, paraType);
+							else
+								applyAttribute(tag, factory, attr, aa, para, paraType);
+						}
+						else
+							logger.warn("property " + attr.getLocalName() + " is not writable!");
+						
+						return;
+					}
+					else
+						logger.warn("value of " + attr.getLocalName() + "=" + attr.getValue() + " is null! ignored!");
 				}
 				catch ( UnsupportedOperationException ex )
 				{
 					logger.warn("property " + attr.getValue() + " is not readable!");
 					return;
 				}
-				
-				if ( para != null )
-				{
-					BeanProperty<Object, Object> bp = BeanProperty.create(attr.getLocalName());
-					if ( bp.isWriteable(tag) )
-					{
-						// factory.setSimpleProperty(obj, attr.getLocalName(), para);
-						// bp.setValue(tag, para);
-						if ( paraType.isAssignableFrom(para.getClass()) )
-							factory.setProperty(tag, attr, para, paraType);
-						else
-							applyAttribute(tag, factory, attr, aa, para, paraType);
-					}
-					else
-						logger.warn("property " + attr.getLocalName() + " is not writable!");
-					
-					return;
-				}
-				else
-					logger.warn("value of " + attr.getLocalName() + "=" + attr.getValue() + " is null! ignored!");
 			}
 			catch (PropertyResolutionException ex)
 			{
@@ -1433,6 +1437,15 @@ public class Parser implements LogAware
 			catch (ClassCastException e)
 			{
 				parent.add(component);
+			}
+		}
+		else if ( parent instanceof JTextComponent )
+		{
+			JTextComponent tc = (JTextComponent) parent;
+			if ( component instanceof JPopupMenu )
+			{
+				JPopupMenu popupMenu = (JPopupMenu) component;
+				tc.setComponentPopupMenu(popupMenu);
 			}
 		}
 		else if ( parent instanceof Container )

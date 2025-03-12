@@ -17,7 +17,7 @@ public class Layout extends JFrame
 	private static final long serialVersionUID = 20240701L;
 	private static final String DESCRIPTOR = "org/swixml/legacy/funlayout.xml";
 
-	private Layout()
+	public Layout()
 		throws Exception
 	{
 		SwingEngine<JFrame> swix = new SwingEngine<>(this);
@@ -25,18 +25,10 @@ public class Layout extends JFrame
 		swix.getELProcessor().defineBean("window", this);
 		swix.render(DESCRIPTOR);
 		setLocationRelativeTo(null);
-		setVisible(true);
 	}
 
 	public static void main(String[] args)
 	{
-		try
-		{
-			new Layout();
-		}
-		catch (Exception e)
-		{
-			System.err.println(e.getMessage());
-		}
+		SwingEngine.invokeLater(Layout.class);
 	}
 }

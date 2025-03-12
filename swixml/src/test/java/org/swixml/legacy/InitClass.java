@@ -45,7 +45,7 @@ public class InitClass extends JFrame
 		}
 	};
 
-	private InitClass()
+	public InitClass()
 		throws Exception
 	{
 		SwingEngine<JFrame> swix = new SwingEngine<>(this);
@@ -53,18 +53,10 @@ public class InitClass extends JFrame
 		swix.getELProcessor().defineBean("window", this);
 		swix.render("org/swixml/legacy/initclass.xml");
 		setLocationRelativeTo(null);
-		setVisible(true);
 	}
 
 	public static void main(String[] args)
 	{
-		try
-		{
-			new InitClass();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		SwingEngine.invokeLater(InitClass.class);
 	}
 }

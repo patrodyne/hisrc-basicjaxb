@@ -1,5 +1,10 @@
 package org.swixml.examples.task;
 
+import static org.jdesktop.application.Application.showErrorDialog;
+import static org.jdesktop.application.Application.showInformationDialog;
+import static org.jdesktop.application.Application.showWarningDialog;
+import static org.swixml.examples.task.BackgroundTaskExample.WINDOW;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +18,8 @@ import org.jdesktop.application.Task;
  */
 public class ListFilesTask extends Task<Void, File>
 {
+	private static final String DIALOG_TITLE = ListFilesTask.class.getSimpleName();
+
 	private final File root;
 	private final int bufferSize;
 	private final List<File> buffer;
@@ -55,6 +62,19 @@ public class ListFilesTask extends Task<Void, File>
 		}
 	}
 
+    /**
+     * Computes a result in a background thread, or throws an exception if unable to do so.
+     *
+     * <p><b>Notes:</b></p>
+     * <ul>
+     * <li>Create a new instance for each run, stop and discard it when done. </li>
+     * <li>This method is executed in a background thread.</li>
+     * </ul>
+     *
+     * @return The result. Use @{link javax.swing.SwingWorker.get()} to access it.
+     * 
+     * @throws Exception if unable to compute a result.
+     */
 	@Override
 	public Void doInBackground()
 	{
@@ -65,6 +85,41 @@ public class ListFilesTask extends Task<Void, File>
 			publish(bufferFiles);
 		}
 		return null;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	protected void failed(Throwable cause)
+	{
+		showErrorDialog(WINDOW, cause);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	protected void succeeded(Void result)
+	{
+		showInformationDialog(WINDOW, "Succeeded", DIALOG_TITLE);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	protected void cancelled()
+	{
+		showWarningDialog(WINDOW, "Cancelled", DIALOG_TITLE);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	protected void interrupted(InterruptedException cause)
+	{
+		showWarningDialog(WINDOW, "Interrupted", DIALOG_TITLE);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	protected void finished()
+	{
+		showInformationDialog(WINDOW, "Finished", DIALOG_TITLE);
 	}
 	
 	private void sleep(long ms)

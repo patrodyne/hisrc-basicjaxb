@@ -6,35 +6,28 @@ import java.awt.event.WindowEvent;
 import org.jdesktop.application.Application;
 import org.swixml.jsr296.SwingApplication;
 
-import jakarta.el.ELException;
-
 public class BackgroundTaskExample extends SwingApplication<BackgroundTaskDialog>
 {
-	private static final BackgroundTaskDialog WINDOW = new BackgroundTaskDialog();
+	public static final BackgroundTaskDialog WINDOW = new BackgroundTaskDialog();
 
+	/**
+	 * Initializations that must occur <em>before</em> the GUI 
+	 * is constructed within the {@code startup} method.
+	 */
 	@Override
 	protected void initialize(String[] args)
 	{
-		// initializations that must occur before the GUI 
-		// is constructed by {@code startup}.
-		try
-		{
-			// Create the SwingEngine, ElContext, etc.
-			setSwingEngine(createEngine(WINDOW));
-			
-			getELProcessor().defineBean("el", getSwingEngine().getELMethods());
+		// Create the SwingEngine, ElContext, etc.
+		setSwingEngine(createEngine(WINDOW));
+		
+		getELProcessor().defineBean("el", getSwingEngine().getELMethods());
 
-			// Process other initial conditions.
-			// getELProcessor().setVariable("var", "expression");
-			// getELProcessor().setValue("expression", value);
-			// getELProcessor().defineBean("name", bean);
-			// getELProcessor().defineFunction("prefix", "function", method);
-			// getELProcessor().defineFunction("prefix", "function", "className", "method");
-		}
-		catch ( SecurityException ex)
-		{
-			throw new ELException("Cannot initialize EL context.", ex);
-		}
+		// Process other initial conditions.
+		// getELProcessor().setVariable("var", "expression");
+		// getELProcessor().setValue("expression", value);
+		// getELProcessor().defineBean("name", bean);
+		// getELProcessor().defineFunction("prefix", "function", method);
+		// getELProcessor().defineFunction("prefix", "function", "className", "method");
 	}
 
 	@Override
@@ -42,7 +35,9 @@ public class BackgroundTaskExample extends SwingApplication<BackgroundTaskDialog
 	{
 		try
 		{
-			BackgroundTaskDialog dialog = super.render(WINDOW);
+			// Use alternative SwiXML configuration.
+			String windowXml = WINDOW.getClass().getName().replace('.', '/').concat("Alt.xml");
+			BackgroundTaskDialog dialog = super.render(WINDOW, windowXml);
 			dialog.addWindowListener(new WindowListener());
 			// Center dialog on desktop.
 			dialog.setLocationRelativeTo(null);

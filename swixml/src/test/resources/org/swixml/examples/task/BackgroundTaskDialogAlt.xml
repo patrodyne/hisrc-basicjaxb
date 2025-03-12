@@ -21,7 +21,7 @@
 	
 		<hbox background="*-20-90" opaque="true">
 			<box.hglue/>
-			<label text="Get time from NIST"/>
+			<label text="Get time from WorldTimeAPI"/>
 			<box.hglue/>
 		</hbox>
 

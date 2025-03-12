@@ -1,6 +1,5 @@
 package org.swixml.legacy;
 
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.Color;
@@ -77,7 +76,7 @@ public class Localization extends JFrame
 	public void setTable(JTable table) { this.table = table; }
 
 	private List<Product> productList;
-	public List<Product> getProductList()
+	public List<Product> getProductList() throws IOException
 	{
 		if ( productList == null )
 		{
@@ -86,10 +85,6 @@ public class Localization extends JFrame
 			try ( InputStream is = resourceAsStream(Product.class, "org/swixml/legacy/product/Product.properties") )
 			{
 				products.load(new InputStreamReader(is));
-			}
-			catch (IOException ex)
-			{
-				showErrorDialog(ex);
 			}
 			for ( Entry<Object, Object> product : products.entrySet() )
 			{
@@ -105,6 +100,7 @@ public class Localization extends JFrame
 		this.productList = productList;
 	}
 	
+	/** Default construction */
 	public Localization()
 		throws Exception
 	{
@@ -115,7 +111,6 @@ public class Localization extends JFrame
 		getTable().setModel(new ProductTableModel(getProductList(), getTable()));
 		
 		setLocationRelativeTo(null);
-		setVisible(true);
 	}
 
 	public Action optionsAction = new AbstractAction()
@@ -189,23 +184,8 @@ public class Localization extends JFrame
 		return clazz.getClassLoader().getResourceAsStream(resource);
 	}
 	
-	private static void showErrorDialog(Exception ex)
-	{
-		ex.printStackTrace();
-		String msg = ex.getClass().getSimpleName() + ": " + ex.getMessage() +"\n";
-		showMessageDialog(null, msg, "ERROR", ERROR_MESSAGE);
-	}
-	
 	public static void main(String[] args)
 	{
-		try
-		{
-			setDefaultLookAndFeelDecorated(true);
-			new Localization();
-		}
-		catch (Exception ex)
-		{
-			showErrorDialog(ex);
-		}
+		SwingEngine.invokeLater(Localization.class, true);
 	}
 }

@@ -16,7 +16,7 @@
 	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(90,2.0)"
 >
 	<panel>
-		<vbox gap="20">
+		<vbox gap="10">
 		
 			<hbox gap="5" border="CompoundBorder(TitledBorder(Template List,LEFT,TOP,*-BOLD-*), EmptyBorder(5,5,10,5))" >
 				<label text="Template:" font="Serif-BOLD" />

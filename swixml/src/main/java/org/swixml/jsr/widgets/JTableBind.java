@@ -70,6 +70,9 @@ public class JTableBind
 	private static final int DEFAULT_TABLECOLUMN_MAXWIDTH = Integer.MAX_VALUE;
 	private static final int DEFAULT_TABLECOLUMN_PREFWIDTH = 75;
 	
+	public static final String ACTION_SELECT_ROW = "rowSelection";
+	public static final String ACTION_SELECT_COL = "colSelection";
+	
 	private Class<?> bindClass;
 	public Class<?> getBindClass()
 	{
@@ -150,11 +153,16 @@ public class JTableBind
 		{
 			try
 			{
-				BeanInfo beanInfo = Introspector.getBeanInfo(getBindClass());
-				if ( beanInfo instanceof DataBeanInfo )
-					setDataBeanInfo((DataBeanInfo) beanInfo);
+				if ( getBindClass() != null )
+				{
+					BeanInfo beanInfo = Introspector.getBeanInfo(getBindClass());
+					if ( beanInfo instanceof DataBeanInfo )
+						setDataBeanInfo((DataBeanInfo) beanInfo);
+					else
+						setDataBeanInfo(new DataBeanInfo(beanInfo));
+				}
 				else
-					setDataBeanInfo(new DataBeanInfo(beanInfo));
+					setDataBeanInfo(new DataBeanInfo());
 			}
 			catch (IntrospectionException e)
 			{
@@ -616,7 +624,7 @@ public class JTableBind
 				if ( !rows.isEmpty() )
 				{
 					getDataBeanInfo().setData(rows);
-					ActionEvent ae = new ActionEvent(getDataBeanInfo(), 0, "rowSelection");
+					ActionEvent ae = new ActionEvent(getDataBeanInfo(), 0, ACTION_SELECT_ROW);
 					getAction().actionPerformed(ae);
 				}	
 			}
@@ -641,7 +649,7 @@ public class JTableBind
 				if ( !cols.isEmpty() )
 				{
 					getDataBeanInfo().setData(cols);
-					ActionEvent ae = new ActionEvent(getDataBeanInfo(), 0, "colSelection");
+					ActionEvent ae = new ActionEvent(getDataBeanInfo(), 0, ACTION_SELECT_COL);
 					getAction().actionPerformed(ae);
 				}	
 			}

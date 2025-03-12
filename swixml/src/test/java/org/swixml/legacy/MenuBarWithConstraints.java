@@ -18,6 +18,17 @@ public class MenuBarWithConstraints extends JFrame
 {
 	private static final long serialVersionUID = 20240701L;
 	
+	/**
+	 * Default constructor
+	 */
+	public MenuBarWithConstraints() throws Exception
+	{
+		SwingEngine<JFrame> se = new SwingEngine<>(this);
+		se.getELProcessor().defineBean("el", se.getELMethods());
+		JFrame container = se.render("org/swixml/legacy/menu-bar.xml");
+		container.setLocationRelativeTo(null);
+	}
+	
 	public Action exitAction = new AbstractAction()
 	{
 		private static final long serialVersionUID = 20240701L;
@@ -29,16 +40,11 @@ public class MenuBarWithConstraints extends JFrame
 	};
 
 	/**
-	 * @param args
-	 * @throws Exception if something goes wrong
+	 * Start application
+	 * @param args Application arguments
 	 */
 	public static void main(String[] args)
-		throws Exception
 	{
-		SwingEngine<JFrame> se = new SwingEngine<>(new MenuBarWithConstraints());
-		se.getELProcessor().defineBean("el", se.getELMethods());
-		JFrame container = se.render("org/swixml/legacy/menu-bar.xml");
-		container.setLocationRelativeTo(null);
-		container.setVisible(true);
+		SwingEngine.invokeLater(MenuBarWithConstraints.class);
 	}
 }

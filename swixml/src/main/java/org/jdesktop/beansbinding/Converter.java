@@ -1,6 +1,10 @@
 package org.jdesktop.beansbinding;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.math.BigDecimal;
 
 /**
@@ -23,6 +27,31 @@ import java.math.BigDecimal;
  */
 public abstract class Converter<S, T>
 {
+	public final static Set<Class<?>> CONVERTER_SET = new HashSet<>();
+	public final static Map<Class<?>, Class<?>> PRIMITIVE_CLASS_MAP = new HashMap<>();
+	static
+	{
+		CONVERTER_SET.add(Byte.class);
+		CONVERTER_SET.add(Short.class);
+		CONVERTER_SET.add(Integer.class);
+		CONVERTER_SET.add(Long.class);
+		CONVERTER_SET.add(Float.class);
+		CONVERTER_SET.add(Double.class);
+		CONVERTER_SET.add(Boolean.class);
+		CONVERTER_SET.add(Character.class);
+		CONVERTER_SET.add(BigInteger.class);
+		CONVERTER_SET.add(BigDecimal.class);
+
+		PRIMITIVE_CLASS_MAP.put(boolean.class, Boolean.class);
+		PRIMITIVE_CLASS_MAP.put(byte.class, Byte.class);
+		PRIMITIVE_CLASS_MAP.put(short.class, Short.class);
+		PRIMITIVE_CLASS_MAP.put(char.class, Character.class);
+		PRIMITIVE_CLASS_MAP.put(int.class, Integer.class);
+		PRIMITIVE_CLASS_MAP.put(long.class, Long.class);
+		PRIMITIVE_CLASS_MAP.put(float.class, Float.class);
+		PRIMITIVE_CLASS_MAP.put(double.class, Double.class);
+	}
+	
 	/**
 	 * Converts a value from the source type to the target type. Can throw a
 	 * {@code RuntimeException} to indicate a problem with the conversion.
@@ -40,6 +69,48 @@ public abstract class Converter<S, T>
 	 * @return the value, converted to the source type
 	 */
 	public abstract S convertReverse(T value);
+	
+	/**
+	 * Convert a source object to the given target type;
+	 * otherwise, return the source.
+	 * 
+	 * @param source The source to be converted.
+	 * @param targetType The to type to convert to.
+	 * 
+	 * @return The converted or source object.
+	 */
+	public static Object convert(Object source, Class<?> targetType)
+	{
+		Object target = source;
+		if ( source != null )
+		{
+			Class<? extends Object> sourceType = source.getClass();
+			
+			if ( sourceType != targetType )
+			{
+				// Convert a primitive source to its wrapped value.
+				if ( PRIMITIVE_CLASS_MAP.containsKey(sourceType) )
+				{
+					sourceType = PRIMITIVE_CLASS_MAP.get(sourceType);
+					source = sourceType.cast(source);
+				}
+
+				// Convert a primitive target type to its wrapped type.
+				Class<?> wrappedType = targetType;
+				if ( PRIMITIVE_CLASS_MAP.containsKey(targetType) )
+					wrappedType = PRIMITIVE_CLASS_MAP.get(targetType);
+				
+				// Guard for known converters.
+				if ( CONVERTER_SET.contains(sourceType) && CONVERTER_SET.contains(wrappedType) )
+				{
+					Object targetObject = defaultConvert(source, String.class);
+					if ( targetObject instanceof String )
+						target = defaultConvert(targetObject, wrappedType);
+				}
+			}
+		}
+		return target;
+	}
 
 	static final Converter<Byte, String> BYTE_TO_STRING_CONVERTER = new Converter<>()
 	{

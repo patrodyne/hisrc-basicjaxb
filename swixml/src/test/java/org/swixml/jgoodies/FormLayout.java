@@ -19,7 +19,7 @@ public class FormLayout extends JFrame
 	
 	private static final String DESCRIPTOR = "org/swixml/jgoodies/formlayout.xml";
 
-	private FormLayout()
+	public FormLayout()
 		throws Exception
 	{
 		SwingEngine<JFrame> swix = new SwingEngine<JFrame>(this);
@@ -33,18 +33,10 @@ public class FormLayout extends JFrame
 		swix.render(FormLayout.DESCRIPTOR);
 		
 		setLocationRelativeTo(null);
-		setVisible(true);
 	}
 
 	public static void main(String[] args)
 	{
-		try
-		{
-			new FormLayout();
-		}
-		catch (Exception e)
-		{
-			System.err.println(e.getMessage());
-		}
+		SwingEngine.invokeLater(FormLayout.class);
 	}
 }

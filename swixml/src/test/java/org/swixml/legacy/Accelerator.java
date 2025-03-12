@@ -1,7 +1,7 @@
 package org.swixml.legacy;
 
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
+import static org.swixml.SwingEngine.showErrorDialog;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -54,13 +54,13 @@ public class Accelerator extends JDialog
 		{
 			treeCellRenderer = new DefaultTreeCellRenderer()
 			{
-			    private static final long serialVersionUID = 20240701L;
+				private static final long serialVersionUID = 20240701L;
 
 				@Override
 				public Color getBackgroundNonSelectionColor()
-			    {
-			        return getTree().getBackground();
-			    }
+				{
+					return getTree().getBackground();
+				}
 			};
 		}
 		return treeCellRenderer;
@@ -114,7 +114,6 @@ public class Accelerator extends JDialog
 		getTable().setModel(new ProductTableModel(getProductList(), getTable()));
 		
 		setLocationRelativeTo(null);
-		setVisible(true);
 	}
 
 	public Action cmdAction = new AbstractAction()
@@ -162,23 +161,9 @@ public class Accelerator extends JDialog
 	{
 		return clazz.getClassLoader().getResourceAsStream(resource);
 	}
-	
-	private static void showErrorDialog(Exception ex)
-	{
-		ex.printStackTrace();
-		String msg = ex.getClass().getSimpleName() + ": " + ex.getMessage() +"\n";
-		showMessageDialog(null, msg, "ERROR", ERROR_MESSAGE);
-	} 
 
 	public static void main(String[] args)
-	{
-		try
-		{
-			new Accelerator();
-		}
-		catch (Exception ex)
-		{
-			showErrorDialog(ex);
-		}
+	{	
+		SwingEngine.invokeLater(Accelerator.class);
 	}
 }

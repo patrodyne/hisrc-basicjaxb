@@ -27,7 +27,18 @@
 				columns="30"
 				document="${window.limitLengthDocument}"
 				background="*-10-100"
-			/>
+			>
+				<popupmenu>
+					<menuitem action="edit" accelerator="ctrl Z" text="Undo" />
+					<menuitem action="edit" accelerator="ctrl Y" text="Redo" />
+					<separator />
+					<menuitem action="edit" accelerator="ctrl X" text="Cut" />
+					<menuitem action="edit" accelerator="ctrl C" text="Copy" />
+					<menuitem action="edit" accelerator="ctrl V" text="Paste" />
+					<separator />
+					<menuitem action="edit" accelerator="ctrl A" text="Select All" />
+				</popupmenu>
+			</textfield>
 		</panel>
 
 		<hbox constraints="SOUTH">

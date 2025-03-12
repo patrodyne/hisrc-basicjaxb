@@ -40,7 +40,7 @@ public class HelloWorld extends JFrame
 	};
 
 	/** Renders UI at construction */
-	private HelloWorld()
+	public HelloWorld()
 		throws Exception
 	{
 		SwingEngine<JFrame> swix = new SwingEngine<>(this);
@@ -48,13 +48,11 @@ public class HelloWorld extends JFrame
 		swix.getELProcessor().defineBean("window", this);
 		swix.render("org/swixml/legacy/helloworld.xml");
 		setLocationRelativeTo(null);
-		setVisible(true);
 	}
 
 	/** Makes the class bootable */
 	public static void main(String[] args)
-		throws Exception
 	{
-		new HelloWorld();
+		SwingEngine.invokeLater(HelloWorld.class);
 	}
 }

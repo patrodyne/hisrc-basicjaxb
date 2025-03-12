@@ -16,47 +16,35 @@ public class NewTag extends JFrame
 	
 	SwingEngine<JFrame> swix = new SwingEngine<JFrame>(this);
 
-	private NewTag()
+	public NewTag() throws Exception
 	{
-		try
-		{
-			//
-			// Register a new new Converter,
-			// Generally, Converters should be registered before Tags
-			//
-			ConverterLibrary.getInstance().register(TimeZone.class, new TimeZoneConverter());
+		//
+		// Register a new new Converter,
+		// Generally, Converters should be registered before Tags
+		//
+		ConverterLibrary.getInstance().register(TimeZone.class, new TimeZoneConverter());
 
-			//
-			// Register the 'xpanel' Tag that uses a SwingEngine itself ...
-			//
-			swix.getTaglib().registerTag("xpanel", XPanel.class);
+		//
+		// Register the 'xpanel' Tag that uses a SwingEngine itself ...
+		//
+		swix.getTaglib().registerTag("xpanel", XPanel.class);
 
-			//
-			// Register the 'redlabel' Tag that uses a SwingEngine itself ...
-			//
-			swix.getTaglib().registerTag("redlabel", RedLabel.class);
-		}
-		catch (Exception e)
-		{
-			System.err.println(e.getMessage());
-		}
+		//
+		// Register the 'redlabel' Tag that uses a SwingEngine itself ...
+		//
+		swix.getTaglib().registerTag("redlabel", RedLabel.class);
 		
-		try
-		{
-			swix.getELProcessor().defineBean("el", swix.getELMethods());
-			swix.getELProcessor().defineBean("window", this);
-			swix.render("org/swixml/legacy/newtag.xml");
-			setLocationRelativeTo(null);
-			setVisible(true);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		//
+		// Render this application
+		// 
+		swix.getELProcessor().defineBean("el", swix.getELMethods());
+		swix.getELProcessor().defineBean("window", this);
+		swix.render("org/swixml/legacy/newtag.xml");
+		setLocationRelativeTo(null);
 	}
 
 	public static void main(String[] args)
 	{
-		new NewTag();
+		SwingEngine.invokeLater(NewTag.class);
 	}
 }

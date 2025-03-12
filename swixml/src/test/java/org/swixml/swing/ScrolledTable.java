@@ -1,8 +1,14 @@
 package org.swixml.swing;
 
-import javax.swing.*;
-import javax.swing.table.*;
-import java.awt.*;
+import java.awt.Container;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+
+import org.swixml.SwingEngine;
 
 public class ScrolledTable extends JFrame
 {
@@ -35,13 +41,12 @@ public class ScrolledTable extends JFrame
 //		jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 //		jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		container.add(scrollpane);
+		setSize(280, 180);
 		setLocationRelativeTo(null);
-		setSize(250, 120);
-		setVisible(true);
 	}
 
 	public static void main(String[] args)
 	{
-		new ScrolledTable();
+		SwingEngine.invokeLater(ScrolledTable.class);
 	}
 }

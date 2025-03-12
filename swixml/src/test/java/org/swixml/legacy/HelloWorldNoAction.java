@@ -38,7 +38,7 @@ public class HelloWorldNoAction extends JFrame
 	/**
 	 * Renders UI at construction
 	 */
-	private HelloWorldNoAction()
+	public HelloWorldNoAction()
 		throws Exception
 	{
 		SwingEngine<JFrame> swix = new SwingEngine<>(this);
@@ -53,8 +53,7 @@ public class HelloWorldNoAction extends JFrame
 	 * Makes the class bootable
 	 */
 	public static void main(String[] args)
-		throws Exception
 	{
-		new HelloWorldNoAction();
+		SwingEngine.invokeLater(HelloWorldNoAction.class);
 	}
 }

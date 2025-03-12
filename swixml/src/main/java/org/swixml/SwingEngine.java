@@ -1,6 +1,7 @@
 package org.swixml;
 
 import static java.lang.reflect.Modifier.isTransient;
+import static org.jdesktop.application.Application.setUncaughtExceptionHandler;
 import static org.swixml.dom.DOMUtil.getDocumentBuilder;
 
 import java.awt.Component;
@@ -33,6 +34,8 @@ import javax.swing.AbstractButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import org.jdesktop.application.Application;
@@ -241,7 +244,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	protected ClassLoader cl;
 	/**
 	 * @return <code>ClassLoader</code>- the Classloader used for all <i>
-	 *         getResourse..()</i> and <i>loadClass()</i> calls.
+	 *		   getResource..()</i> and <i>loadClass()</i> calls.
 	 */
 	public ClassLoader getClassLoader()
 	{
@@ -250,7 +253,7 @@ public class SwingEngine<T extends Container> implements LogAware
 		return cl;
 	}
 	/**
-	 * Sets a classloader to be used for all <i>getResourse..()</i> and <i>
+	 * Sets a classloader to be used for all <i>getResource..()</i> and <i>
 	 * loadClass()</i> calls. If no class loader is set, the SwingEngine's
 	 * loader is used.
 	 *
@@ -304,7 +307,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	 * Get {@link ELContext} information for expression parsing and evaluation.
 	 * 
 	 * @return The {@link ELContext} with {@link ELResolver}, {@link ImportHandler},
-	 *         {@link FunctionMapper}, and {@link VariableMapper}.
+	 *		   {@link FunctionMapper}, and {@link VariableMapper}.
 	 */
 	public ELContext getELContext()
 	{
@@ -476,7 +479,7 @@ public class SwingEngine<T extends Container> implements LogAware
 		// Issue 44
 		// mapMembers(result);
 		// if (Frame.class.isAssignableFrom(client.getClass()))
-		//     SwingEngine.setAppFrame((Frame) client);
+		//	   SwingEngine.setAppFrame((Frame) client);
 		return result;
 	}
 
@@ -494,12 +497,12 @@ public class SwingEngine<T extends Container> implements LogAware
 	 * SwingEngine) rendered UI, it is highly recommended to clear the idmap:</p>
 	 * 
 	 * <pre>
-	 *    <code>mySwingEngine.getIdMap().clear()</code>
+	 *	  <code>mySwingEngine.getIdMap().clear()</code>
 	 * </pre>
 	 *
 	 * @param url <code>URL</code> url pointing to an XML descriptor *
 	 * @param container <code>Container</code> target, the swing obj, are added
-	 *            to.
+	 *			  to.
 	 * @throws Exception
 	 */
 	public void insert(final URL url, final T container)
@@ -531,7 +534,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	 * used to insert in a previously (with this very SwingEngine) rendered UI, it is highly
 	 * recommended to clear the idmap:</p>
 	 * 
-	 *    <pre><code>mySwingEngine.getIdMap().clear()</code></pre>
+	 *	  <pre><code>mySwingEngine.getIdMap().clear()</code></pre>
 	 *
 	 * @param reader <code>Reader</code> xml-file path info
 	 * @param container <code>Container</code> target, the swing obj, are added to.
@@ -562,7 +565,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	 * If insert() is NOT used to insert in a previously (with this very SwingEngine)
 	 * rendered UI, it is highly recommended to clear the idmap:</p>
 	 * 
-	 *    <pre><code>mySwingEngine.getIdMap().clear()</code></pre>
+	 *	  <pre><code>mySwingEngine.getIdMap().clear()</code></pre>
 	 *
 	 * @param resource <code>String</code> xml-file path info
 	 * @param container <code>Container</code> target, the swing obj, are added to.
@@ -598,7 +601,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	 * If insert() is NOT used to insert in a previously (with this very SwingEngine)
 	 * rendered UI, it is highly recommended to clear the idmap:</p>
 	 * 
-	 *    <pre><code>mySwingEngine.getIdMap().clear()</code></pre>
+	 *	  <pre><code>mySwingEngine.getIdMap().clear()</code></pre>
 	 *
 	 * @param jdoc <code>Document</code> xml-doc path info
 	 * @param container <code>Container</code> target, the swing obj, are added to
@@ -746,7 +749,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	 *
 	 * @param id <code>String</code> assigned name
 	 * @return <code>Component</code>- the GUI component with the given name or
-	 *         null if not found.
+	 *		   null if not found.
 	 */
 	public Component find(final String id)
 	{
@@ -846,7 +849,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	 * @param c <code>Component</code> recursive start component.
 	 * 
 	 * @return <code>Iterator</code> to walk all components, not just the id
-	 *         components.
+	 *		   components.
 	 */
 	public Iterator<Component> getDescendants(final Component c)
 	{
@@ -959,7 +962,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	 * instance the tag.
 	 *
 	 * @param obj <code>Object</code> target object to be mapped with instanced
-	 *            tags
+	 *			  tags
 	 */
 	protected void mapMembers(Object obj)
 	{
@@ -1108,7 +1111,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	 * those object that were provided with an <em>id</em> attribute,
 	 * which hold an unique id</p>
 	 *
-	 * @param c          <code>Component</code> recursive start component.
+	 * @param c			 <code>Component</code> recursive start component.
 	 * @param collection <code>Collection</code> target collection.
 	 */
 	protected static void traverse(final Component c, Collection<Component> collection)
@@ -1199,5 +1202,91 @@ public class SwingEngine<T extends Container> implements LogAware
 				jf.setVisible(true);
 			}
 		}
+	}
+	
+	/**
+	 * Show a dialog that displays a message with an Error icon.
+	 * 
+	 * @param ex The throwable to be displayed.
+	 */
+	public static void showErrorDialog(Throwable ex)
+	{
+		Application.showErrorDialog(ex);
+	}
+	
+	/**
+	 * Show a dialog that displays a message with an Error icon.
+	 * 
+	 * @param window determines the <code>Window</code> to display the dialog.
+	 * @param ex The throwable to be displayed.
+	 */
+	public static void showErrorDialog(Window window, Throwable ex)
+	{
+		Application.showErrorDialog(window, ex);
+	}
+	
+	/**
+     * Causes a new instance of {@link Window} extension to be executed
+     * asynchronously on the AWT Event Dispatching Thread (EDT). The new
+     * instance will be visible after all pending AWT events have been
+     * processed.
+     * 
+     * <p>
+     * The default constructor of the extended {@link Window} application
+     * must create an instance of {@link SwingEngine} and use it to
+     * render the {@code SwiXML} file.
+     * </p>
+     * 
+     * <p>
+     * All {@link Exception}s are caught, logged and displayed in a
+     * {@link JOptionPane}.
+     * </p>
+	 * 
+	 * @param <W> The generic {@code Window} type.
+	 * @param windowClass The class to be instantiated and run.
+	 */
+	public static <W extends Window> void invokeLater(Class<W> windowClass)
+	{
+		SwingUtilities.invokeLater(() ->
+		{
+			setUncaughtExceptionHandler(null);
+			try
+			{
+				Window window = windowClass.getDeclaredConstructor().newInstance();
+				setUncaughtExceptionHandler(window);
+				window.setVisible(true);
+			}
+			catch (Exception ex)
+			{
+				showErrorDialog(ex);
+			}
+		});
+	}
+	
+	/**
+     * Causes a new instance of {@link JFrame} extension to be executed
+     * asynchronously on the AWT Event Dispatching Thread (EDT). The new
+     * instance will be visible after all pending AWT events have been
+     * processed.
+     * 
+     * <p>
+     * The default constructor of the extended {@link JFrame} application
+     * must create an instance of {@link SwingEngine} and use it to
+     * render the {@code SwiXML} file.
+     * </p>
+     * 
+     * <p>
+     * All {@link Exception}s are caught, logged and displayed in a
+     * {@link JOptionPane}.
+     * </p>
+	 * 
+	 * @param <F> The generic {@code JFrame} type.
+	 * @param windowClass The class to be instantiated and run.
+	 * @param decorated A hint decorate new <code>JFrame</code>s.
+	 */
+	public static <F extends JFrame> void invokeLater(Class<F> frameClass, boolean decorated)
+	{
+		JFrame.setDefaultLookAndFeelDecorated(decorated);
+		invokeLater(frameClass);
 	}
 }

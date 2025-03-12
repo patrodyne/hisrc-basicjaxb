@@ -3,6 +3,8 @@ package org.swixml.examples.dialog;
 import static java.lang.String.format;
 import static javax.swing.JOptionPane.showMessageDialog;
 import static org.jdesktop.application.Application.getInstance;
+import static org.jdesktop.application.PopupDialogUtility.toScrollableTextArea;
+import static org.jdesktop.application.PopupDialogUtility.PaneSize.SMALL;
 
 import org.jdesktop.application.Action;
 import org.swixml.jsr.widgets.JDialogBind;
@@ -79,10 +81,11 @@ public class LoginDialog extends JDialogBind
 	@Action(name = "enterAction", enabledProperty = DATA_VALID)
 	public void submit()
 	{
+		String msg = format("submit login=[%s] password=[%s]\n", getLogin(), getPassword());
 		showMessageDialog
 		(
 			getInstance(SwingApplication.class).getMainFrame(),
-			format("submit login=[%s] password=[%s]\n", getLogin(), getPassword())
+			toScrollableTextArea(msg, SMALL)
 		);
 	}
 }

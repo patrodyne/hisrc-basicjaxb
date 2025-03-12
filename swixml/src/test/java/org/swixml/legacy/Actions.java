@@ -1,6 +1,5 @@
 package org.swixml.legacy;
 
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.event.ActionEvent;
@@ -112,53 +111,47 @@ public class Actions extends JFrame implements ActionListener
 	/**
 	 * Constructs a new Actions object, registering action handlers for
 	 * center_panel components.
+	 * 
+	 * @throws Exception When {@link SwingEngine} cannot render the XML.
 	 */
-	private Actions()
+	public Actions() throws Exception
 	{
 		System.out.println(ComboModel.class.getName());
-		try
-		{
-			swix = new SwingEngine<>(this);
-			swix.getELProcessor().defineBean("el", swix.getELMethods());
-			swix.getELProcessor().defineBean("window", this);
-			swix.render("org/swixml/legacy/actions.xml");
-			setLocationRelativeTo(null);
-			
-			// at this point all AbstractActions are linked with the buttons
-			// in id="pnl_North".
-			swix.setActionListener(pnl_North, this);
+		swix = new SwingEngine<>(this);
+		swix.getELProcessor().defineBean("el", swix.getELMethods());
+		swix.getELProcessor().defineBean("window", this);
+		swix.render("org/swixml/legacy/actions.xml");
+		setLocationRelativeTo(null);
+		
+		// at this point all AbstractActions are linked with the buttons
+		// in id="pnl_North".
+		swix.setActionListener(pnl_North, this);
 
-			// ActionCommands however need to be linked manually, see below ...
-			// add this class as an action listener to all buttons inside the
-			// panel with the id = center_panel
+		// ActionCommands however need to be linked manually, see below ...
+		// add this class as an action listener to all buttons inside the
+		// panel with the id = center_panel
 
-			// add these classes as an action listener to MenuItem with the
-			// id =  mi_exit.
-			mi_exit.addActionListener(this);
-			// id = mi_save
-			mi_save.addActionListener(this);
-			// id = mi_help
-			mi_help.addActionListener(this);
-			// id = mi_about
-			mi_about.addActionListener(this);
+		// add these classes as an action listener to MenuItem with the
+		// id =  mi_exit.
+		mi_exit.addActionListener(this);
+		// id = mi_save
+		mi_save.addActionListener(this);
+		// id = mi_help
+		mi_help.addActionListener(this);
+		// id = mi_about
+		mi_about.addActionListener(this);
 
-			//
-			// Note: The mi_about MenuItem was not linked at all so far.
-			// Therefore, no action is performed when this menu item gets
-			// requested. 2024-10-17, mi_help and mi_about have been linked!
-			//
-			// The Toolbar button with the Actions="newAction" attribute is
-			// covered twice, during parsing the AbstactAction newAction is
-			// linked in and later, the setActionListener() adds this object's
-			// actionPerformed(). Therefore, when clicked, both actionPerformed()
-			// methods are getting called; but, command is null on one.
-			//
-			setVisible(true);
-		}
-		catch (Exception ex)
-		{
-			showErrorDialog(ex);
-		}
+		//
+		// Note: The mi_about MenuItem was not linked at all so far.
+		// Therefore, no action is performed when this menu item gets
+		// requested. 2024-10-17, mi_help and mi_about have been linked!
+		//
+		// The Toolbar button with the Actions="newAction" attribute is
+		// covered twice, during parsing the AbstactAction newAction is
+		// linked in and later, the setActionListener() adds this object's
+		// actionPerformed(). Therefore, when clicked, both actionPerformed()
+		// methods are getting called; but, command is null on one.
+		//
 	}
 	
 	//
@@ -205,26 +198,12 @@ public class Actions extends JFrame implements ActionListener
 		System.exit(0);
 	}
 	
-	private static void showErrorDialog(Exception ex)
-	{
-		ex.printStackTrace();
-		String msg = ex.getClass().getSimpleName() + ": " + ex.getMessage() +"\n";
-		showMessageDialog(null, msg, "ERROR", ERROR_MESSAGE);
-	} 
-	
 	//
 	// Make the class bootable
 	//
 	public static void main(String[] args)
 	{
-		try
-		{
-			SwingEngine.DEBUG_MODE = true;
-			frame = new Actions();
-		}
-		catch (Exception ex)
-		{
-			showErrorDialog(ex);
-		}
+		SwingEngine.DEBUG_MODE = true;
+		SwingEngine.invokeLater(Actions.class);
 	}
 }
