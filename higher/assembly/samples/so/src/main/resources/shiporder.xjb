@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings jaxb:version="3.0"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+	<jaxb:globalBindings localScoping="toplevel" >
+		<jaxb:serializable uid="20250401" />
+	</jaxb:globalBindings>
+
+	<jaxb:bindings schemaLocation="shiporder.xsd" node="/xs:schema">
+		<jaxb:bindings node="xs:element[@name='shiporder']">
+			<jaxb:class name="ShipOrder"/>
+			<jaxb:bindings node="xs:complexType">
+				<jaxb:bindings node="xs:sequence">
+					<jaxb:bindings node="xs:element[@name='orderperson']">
+						<jaxb:property name="OrderPerson"/>
+					</jaxb:bindings>
+					<jaxb:bindings node="xs:element[@name='shipto']/xs:complexType">
+						<jaxb:class name="ShipTo"/>
+					</jaxb:bindings>
+				</jaxb:bindings>
+				<jaxb:bindings node="xs:attribute[@name='orderid']">
+					<jaxb:property name="OrderId"/>
+				</jaxb:bindings>
+			</jaxb:bindings>
+		</jaxb:bindings>
+	</jaxb:bindings>
+
+</jaxb:bindings>
