@@ -1,4 +1,4 @@
-# Sample: Purchase Order
+# Sample: Ship Order - [StackOverflow #79576413](https://stackoverflow.com/questions/79576413/)
 
 This is a Maven project to demonstrate the unmarshalling of XML files using an XML Schema to generate the **JAXB** classes. When _local scoping_ is set to _toplevel_ as a _global binding_, this demo shows how to avoid Java class name duplication by configuring distinct names in the bindings file.
 
