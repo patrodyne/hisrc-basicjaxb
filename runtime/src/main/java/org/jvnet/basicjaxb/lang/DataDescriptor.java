@@ -5,7 +5,6 @@ import static org.jvnet.basicjaxb.lang.ContextUtils.findJAXBElementMethod;
 import static org.jvnet.basicjaxb.lang.ContextUtils.findObjectFactoryClass;
 
 import java.beans.BeanDescriptor;
-import java.beans.IntrospectionException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -229,6 +228,10 @@ public class DataDescriptor
 		return cs;
 	}
 	
+	/**
+	 * Represents the selector element specifying an XPath expression that selects
+	 * a set of elements for an identity constraint (unique, key, and keyref elements).
+	 */
 	public static class Constraint
 	{
 		private String name;

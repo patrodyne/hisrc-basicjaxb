@@ -40,6 +40,7 @@ import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.model.CPropertyVisitor;
 import com.sun.tools.xjc.model.CReferencePropertyInfo;
 import com.sun.tools.xjc.model.CTypeInfo;
+import com.sun.tools.xjc.model.CTypeRef;
 import com.sun.tools.xjc.model.CValuePropertyInfo;
 import com.sun.tools.xjc.model.Model;
 import com.sun.tools.xjc.outline.ClassOutline;
@@ -414,7 +415,10 @@ public class CustomizationUtils
 	{
 		final CPluginCustomization customization = findCustomization(fieldOutline, name);
 		if ( customization != null )
+		{
 			customization.markAsAcknowledged();
+			markClassRefAsAcknowledged(fieldOutline, name);
+		}
 		return customization != null;
 	}
 
@@ -430,7 +434,10 @@ public class CustomizationUtils
 	{
 		final CPluginCustomization customization = findCustomization(propertyInfo, name);
 		if ( customization != null )
+		{
 			customization.markAsAcknowledged();
+			markClassRefAsAcknowledged(propertyInfo, name);
+		}
 		return customization != null;
 	}
 
@@ -447,7 +454,10 @@ public class CustomizationUtils
 		final CCustomizations customizations = getCustomizations(fieldOutline);
 		final CPluginCustomization customization = customizations.find(name.getNamespaceURI(), name.getLocalPart());
 		if ( customization != null )
+		{
 			customization.markAsAcknowledged();
+			markClassRefAsAcknowledged(fieldOutline, name);
+		}
 		return customization;
 	}
 
@@ -456,7 +466,10 @@ public class CustomizationUtils
 		final CCustomizations customizations = getCustomizations(propertyInfo);
 		final CPluginCustomization customization = customizations.find(name.getNamespaceURI(), name.getLocalPart());
 		if ( customization != null )
+		{
 			customization.markAsAcknowledged();
+			markClassRefAsAcknowledged(propertyInfo, name);
+		}
 		return customization;
 	}
 
@@ -477,7 +490,7 @@ public class CustomizationUtils
 			customization.markAsAcknowledged();
 		return customization;
 	}
-	
+
 //	public static BIXPluginCustomization getCustomization(JavaItem item, QName name)
 //	{
 //		final BIXPluginCustomization[] customizations = getCustomizations(item, name);
@@ -612,11 +625,11 @@ public class CustomizationUtils
 					return Collections.emptyList();
 				};
 			});
-		
+
 		CCustomizations customizations = main;
 		for ( CCustomizations e : elementCustomizations )
 			main.addAll(e);
-		
+
 		return customizations;
 	}
 
@@ -819,5 +832,73 @@ public class CustomizationUtils
 	public static String getLocation(org.xml.sax.Locator locator)
 	{
 		return StringUtils.toLocation(locator);
+	}
+
+	public static void markClassRefAsAcknowledged(FieldOutline fieldOutline, QName name)
+	{
+		markClassRefAsAcknowledged(fieldOutline.getPropertyInfo(), name);
+	}
+
+	public static void markClassRefAsAcknowledged(CPropertyInfo propertyInfo, QName name)
+	{
+		propertyInfo.accept(new CPropertyVisitor<Void>()
+		{
+			@Override
+			public Void onElement(CElementPropertyInfo p)
+			{
+				for ( CTypeRef typeRef : p.getTypes() )
+					markClassRefAsAcknowledged(typeRef.getTarget(), name);
+				return null;
+			}
+
+			@Override
+			public Void onAttribute(CAttributePropertyInfo p)
+			{
+				markClassRefAsAcknowledged(p.getTarget(), name);
+				return null;
+			}
+
+			@Override
+			public Void onReference(CReferencePropertyInfo p)
+			{
+				for ( CTypeInfo typeInfo : p.ref() )
+					markClassRefAsAcknowledged(typeInfo, name);
+				return null;
+			}
+
+			@Override
+			public Void onValue(CValuePropertyInfo p)
+			{
+				markClassRefAsAcknowledged(p.getTarget(), name);
+				return null;
+			}
+		});
+	}
+
+	// Process a CPropertyVisitor for {@link CPropertyInfo}.
+	public static void markClassRefAsAcknowledged(CTypeInfo type, QName name)
+	{
+		if ( type instanceof CClassRef )
+		{
+			CClassRef classRef = (CClassRef) type;
+			CCustomizations customizations = classRef.getCustomizations();
+			for ( final CPluginCustomization cp : customizations )
+			{
+				final Element el = cp.element;
+				if ( name.getLocalPart().isBlank() )
+				{
+					// The annotate plugin, for example, has several eponymous
+					// local names; thus, this supports matching only on namespace.
+					if ( name.getNamespaceURI().equals(el.getNamespaceURI()) )
+						cp.markAsAcknowledged();
+				}
+				else
+				{
+					QName elName = new QName(el.getNamespaceURI(), el.getLocalName());
+					if ( elName.equals(name) )
+						cp.markAsAcknowledged();
+				}
+			}
+		}
 	}
 }

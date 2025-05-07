@@ -42,9 +42,9 @@
 					<debug>true</debug>
 					<args>
 						<arg>-Xwildcard</arg>
-						<arg>-Xcustomizations-directory=${source.dir}/main/resources</arg>
 						<arg>-Xwildcard-verbose=true</arg>
 						<arg>-Xwildcard-debug=true</arg>
+						<arg>-Xcustomizations-directory=${source.dir}/main/resources</arg>
 					</args>
 					<plugins>
 						<plugin>

@@ -10,6 +10,7 @@ import java.io.StringWriter;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.glassfish.jaxb.runtime.marshaller.NamespacePrefixMapper;
 import org.jvnet.basicjaxb.config.LocatorProperties;
 import org.patrodyne.jvnet.basicjaxb.validation.SchemaOutputDomResolver;
 import org.slf4j.Logger;
@@ -46,13 +47,38 @@ public class XmlContext
 		}
 	}
 	
+	/**
+	 * Construct with an object factory class.
+	 * 
+	 * @param objectFactoryClass The object factory class.
+	 */
 	public XmlContext(Class<?> objectFactoryClass)
 	{
 		setObjectFactoryClass(objectFactoryClass);
 	}
 	
-	// JAXB XmlContext
+	/**
+	 * Construct with an object factory class and
+	 * namespace prefix mapper.
+	 * 
+	 * @param objectFactoryClass The object factory class.
+	 * @param npm The namespace prefix mapper.
+	 */
+	public XmlContext(Class<?> objectFactoryClass, NamespacePrefixMapper npm)
+	{
+		this(objectFactoryClass);
+		try
+		{
+			getMarshaller().setProperty("org.glassfish.jaxb.namespacePrefixMapper", npm);
+		}
+		catch (JAXBException ex)
+		{
+			getLogger().warn("", ex);
+		}
+	}
 	
+	// JAXB XmlContext
+
 	private Class<?> objectFactoryClass;
 	public Class<?> getObjectFactoryClass()
 	{

@@ -1,11 +1,23 @@
 package org.jvnet.basicjaxb.testing;
 
+import static java.lang.System.currentTimeMillis;
+import static se.emirbuc.randomsentence.RandomSentences.generateRandomSentence;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import se.emirbuc.randomsentence.RandomSentences.Length;
 
 /**
  * Utility to generate bogus data for testing.
@@ -15,6 +27,43 @@ import java.util.Random;
 public class Bogus
 {
 	public static final Random RANDOM = new Random();
+	public static DatatypeFactory DATATYPE_FACTORY;
+	static
+	{
+		try
+		{
+			DATATYPE_FACTORY = DatatypeFactory.newInstance();
+		}
+		catch (DatatypeConfigurationException e)
+		{
+			DATATYPE_FACTORY = null;
+		}
+	}
+	
+	/**
+	 * Enumerate the random sentence length in words.
+	 * <ul>
+	 * <li>SHORT: Three word sentence, think 'title | name | short description'.</li>
+	 * <li>MEDIUM: Six word sentences.</li>
+	 * <li>LONG: Twelve word sentences, think 'description'.</li>
+	 * </ul>
+	 */
+	public enum SentenceLength
+	{
+		SHORT_SENTENCE(Length.SHORT), 
+		MEDIUM_SENTENCE(Length.MEDIUM), 
+		LONG_SENTENCE(Length.LONG);
+
+		private Length length;
+		public Length getLength() { return length; }
+		public void setLength(Length length) { this.length = length; }
+
+		private SentenceLength(Length length)
+		{
+			setLength(length);
+		}
+	}
+	
 	private static final String[] FIRST_NAMES = {
 	    "James", "Mary",
 	    "Robert", "Patricia",
@@ -188,6 +237,49 @@ public class Bogus
 		new Product("U1F437","🐷","pork")
 	};
 
+	public static XMLGregorianCalendar xmlGregorianCalendar(String beforeNow, String afterNow)
+	{
+		return xmlGregorianCalendar(beforeNow, afterNow, currentTimeMillis());
+	}
+
+	public static XMLGregorianCalendar xmlGregorianCalendar(String beforeNow, String afterNow, XMLGregorianCalendar xgc)
+	{
+		return xmlGregorianCalendar(beforeNow, afterNow, xgc.toGregorianCalendar().getTimeInMillis());
+	}
+
+	public static XMLGregorianCalendar xmlGregorianCalendar(String beforeNow, String afterNow, long refTimeMillis)
+	{
+		if ( beforeNow == null )
+			beforeNow = "P0Y";
+		if ( afterNow == null )
+			afterNow = "P0Y";
+		Duration beforeDur = DATATYPE_FACTORY.newDuration(beforeNow).negate();
+		Duration afterDur = DATATYPE_FACTORY.newDuration(afterNow);
+		Date beforeDate = new Date(refTimeMillis);
+		Date afterDate = new Date(refTimeMillis);
+		beforeDur.addTo(beforeDate);
+		afterDur.addTo(afterDate);
+		double ms = (afterDate.getTime() - beforeDate.getTime());
+		long rms = beforeDate.getTime() + (long) (ms * RANDOM.nextDouble());
+		GregorianCalendar rgc = new GregorianCalendar();
+		rgc.setTimeInMillis(rms);
+		return DATATYPE_FACTORY.newXMLGregorianCalendar(rgc);
+	}
+	
+	public static boolean logic()
+	{
+		return RANDOM.nextBoolean();
+	}
+	
+	public static boolean probability(int level, int bound)
+	{
+		return level > RANDOM.nextInt(bound);
+	}
+	
+	public static String sentence(SentenceLength sl)
+	{
+		return generateRandomSentence(sl.getLength());
+	}
 	
     public static <T extends Enum<?>> T randomEnum(Class<T> clazz)
     {
@@ -214,7 +306,7 @@ public class Bogus
 	public static String alpha()
 	{
 		int rindex = RANDOM.nextInt(26);
-		return"abcdefghijklmnopqrstuvwxyz".substring(rindex, rindex+1);
+		return "abcdefghijklmnopqrstuvwxyz".substring(rindex, rindex+1);
 	}
 
 	public static String alpha(int size)
@@ -292,22 +384,22 @@ public class Bogus
 		return name;
 	}
 
-	public static String countyCode2()
+	public static String countryCode2()
 	{
 		return "US";
 	}
 
-	public static String countyCode3()
+	public static String countryCode3()
 	{
 		return "USA";
 	}
 
-	public static String countyName()
+	public static String countryName()
 	{
 		return "United States of America";
 	}
 
-	public static String countyName(String code)
+	public static String countryName(String code)
 	{
 		return "United States of America";
 	}

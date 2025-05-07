@@ -36,6 +36,10 @@
 			<artifactId>jaxb-xjc</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>se.emirbuc.randomsentence</groupId>
+			<artifactId>random-sentence-generator</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>

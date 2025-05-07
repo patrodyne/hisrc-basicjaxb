@@ -7,7 +7,10 @@
 # Configure BEGIN
 export GRAPHVIZ_DOT="/usr/bin/dot"
 IMGTYPE="svg"
-DIAGRAM_NAME="XJCModel"
+
+ DIAGRAM_NAME="XJCModel"
+#DIAGRAM_NAME="XJCCodeModel"
+
 PLANTUML_HOME="/opt/java/plantuml"
 PLANTUML_TEMP="target/generated-docs/${DIAGRAM_NAME}Temp.puml"
 PLANTUML_FILE="target/generated-docs/${DIAGRAM_NAME}.puml"

@@ -293,6 +293,11 @@
 				<artifactId>javaparser</artifactId>
 				<version>1.0.11</version>
 			</dependency>
+			<dependency>
+				<groupId>se.emirbuc.randomsentence</groupId>
+				<artifactId>random-sentence-generator</artifactId>
+				<version>0.0.13</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>

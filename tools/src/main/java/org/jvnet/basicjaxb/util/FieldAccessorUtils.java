@@ -18,9 +18,9 @@ public class FieldAccessorUtils
 	/**
 	 * Returns the <code>getProperty(...)</code> method for the given field
 	 * outline or <code>null</code> if no such method exists.
-	 * 
+	 *
 	 * @param fieldOutline the field outline.
-	 * 
+	 *
 	 * @return The <code>getProperty(...)</code> method for the given field
 	 *         outline or <code>null</code> if no such method exists.
 	 */
@@ -44,9 +44,9 @@ public class FieldAccessorUtils
 	/**
 	 * Returns the <code>setProperty(...)</code> method for the given field
 	 * outline or <code>null</code> if no such method exists.
-	 * 
+	 *
 	 * @param fieldOutline field outline.
-	 * 
+	 *
 	 * @return The <code>setProperty(...)</code> method for the given field
 	 *         outline or <code>null</code> if no such method exists.
 	 */
@@ -63,7 +63,7 @@ public class FieldAccessorUtils
 	/**
 	 * Returns the <code>isSetProperty()</code> method for the given field
 	 * outline or <code>null</code> if no such method exists.
-	 * 
+	 *
 	 * @param fieldOutline field outline.
 	 * @return The <code>isSetProperty()</code> method for the given field
 	 *         outline or <code>null</code> if no such method exists.
@@ -79,7 +79,7 @@ public class FieldAccessorUtils
 	/**
 	 * Returns the field for the given field outline or <code>null</code> if no
 	 * such field exists.
-	 * 
+	 *
 	 * @param fieldOutline field outline.
 	 * @return The field for the given field outline or <code>null</code> if no
 	 *         such field exists.
@@ -88,5 +88,29 @@ public class FieldAccessorUtils
 	{
 		final JDefinedClass theClass = fieldOutline.parent().implClass;
 		return theClass.fields().get(fieldOutline.getPropertyInfo().getName(false));
+	}
+
+	/**
+	 * Match two field outlines by type and name.
+	 *
+	 * @param fo1 The first field outline.
+	 * @param fo2 The second field outline.
+	 *
+	 * @return True, when the fields match; otherwise, false.
+	 */
+	public static boolean matchByTypeAndName(FieldOutline fo1, FieldOutline fo2)
+	{
+		boolean fieldMatch = false;
+		final JType type1 = fo1.getRawType();
+		final JType type2 = fo1.getRawType();
+		if ( type1.fullName().equals(type2.fullName()) )
+		{
+			final String name1 = fo1.getPropertyInfo().getName(true);
+			final String name2 = fo2.getPropertyInfo().getName(true);
+			if ( name1.equals(name2) )
+				fieldMatch = true;
+		}
+		return fieldMatch;
+
 	}
 }

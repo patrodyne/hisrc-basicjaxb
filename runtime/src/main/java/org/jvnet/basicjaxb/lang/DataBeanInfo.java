@@ -5,6 +5,7 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
+import java.util.List;
 import java.util.TreeMap;
 
 import org.slf4j.Logger;
@@ -87,7 +88,7 @@ public class DataBeanInfo extends SimpleBeanInfo
 	private DataDescriptor dataDescriptor;
 	public DataDescriptor getDataDescriptor()
 	{
-		if ( dataDescriptor == null )
+		if ( (dataDescriptor == null) && (getBeanDescriptor() != null) )
 			setDataDescriptor(toDataDescriptor(getBeanDescriptor()));
 		return dataDescriptor;
 	}
@@ -118,12 +119,12 @@ public class DataBeanInfo extends SimpleBeanInfo
 		this.fieldDescriptors = fieldDescriptors;
 	}
 	
-	private Object data;
-	public Object getData()
+	private List<?> data;
+	public List<?> getData()
 	{
 		return data;
 	}
-	public void setData(Object data)
+	public void setData(List<?> data)
 	{
 		this.data = data;
 	}
@@ -161,17 +162,23 @@ public class DataBeanInfo extends SimpleBeanInfo
 	private <E> FieldDescriptor[] toFieldDescriptors(PropertyDescriptor[] pdArray)
 		throws IntrospectionException
 	{
-		FieldDescriptor[] fdArray = new FieldDescriptor[pdArray.length];
-		for ( int index=0; index < pdArray.length; ++index )
+		if ( pdArray != null )
 		{
-			PropertyDescriptor pd = pdArray[index];
-			if ( pd instanceof FieldDescriptor )
-				fdArray[index] = FieldDescriptor.promote(pd);
-			else
-				fdArray[index] = new FieldDescriptor(pd);
+			FieldDescriptor[] fdArray = new FieldDescriptor[pdArray.length];
+			for ( int index=0; index < pdArray.length; ++index )
+			{
+				PropertyDescriptor pd = pdArray[index];
+				if ( pd instanceof FieldDescriptor )
+					fdArray[index] = FieldDescriptor.promote(pd);
+				else
+					fdArray[index] = new FieldDescriptor(pd);
+			}
+			// Re-index and sort an array of introspected {@link FieldDescriptor}s.
+			return reindex(fdArray);
 		}
-		// Re-index and sort an array of introspected {@link FieldDescriptor}s.
-		return reindex(fdArray);
+		else
+			return new FieldDescriptor[0];
+
 	}
 	
 	/*

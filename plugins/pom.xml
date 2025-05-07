@@ -74,19 +74,36 @@
 				<executions>
 					<execution>
 						<?m2e ignore?>
-						<id>generate-plantuml-diagram</id>
+						<id>generate-plantuml-diagram-xjc-model</id>
 						<goals>
 							<goal>generate</goal>
 						</goals>
 						<phase>process-classes</phase>
 						<configuration>
-							<whitelistRegexp>com\.sun\.(tools\.xjc\.model\..*|xml\.xsom\.XS.*)</whitelistRegexp>
+							<whitelistRegexp>com\.sun\.(tools\.xjc\.(model|outline)\..*|xml\.xsom\.XS.*)</whitelistRegexp>
 							<fieldClassifierListToIgnore>STATIC</fieldClassifierListToIgnore>
 							<maxVisibilityFields>PUBLIC</maxVisibilityFields>
 							<hideFields>false</hideFields>
 							<removeMethods>true</removeMethods>
 							<useShortClassNamesInFieldsAndMethods>true</useShortClassNamesInFieldsAndMethods>
 							<outputFilename>XJCModelTemp.puml</outputFilename>
+						</configuration>
+					</execution>
+					<execution>
+						<?m2e ignore?>
+						<id>generate-plantuml-diagram-xjc-outline</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<phase>process-classes</phase>
+						<configuration>
+							<whitelistRegexp>com\.sun\.(tools\.xjc\.outline\..*|codemodel\..*)</whitelistRegexp>
+							<fieldClassifierListToIgnore>STATIC</fieldClassifierListToIgnore>
+							<maxVisibilityFields>PUBLIC</maxVisibilityFields>
+							<hideFields>false</hideFields>
+							<removeMethods>true</removeMethods>
+							<useShortClassNamesInFieldsAndMethods>true</useShortClassNamesInFieldsAndMethods>
+							<outputFilename>XJCCodeModelTemp.puml</outputFilename>
 						</configuration>
 					</execution>
 				</executions>
