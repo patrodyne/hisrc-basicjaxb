@@ -57,9 +57,10 @@ public class RunSwingPluginTest extends AbstractMojoTest
 		mojo.getArgs().add("-Xswing-sourceWindow=file:src/main/resources/SchemasWindow.xml");
 		mojo.getArgs().add("-Xswing-targetPackage=org.example.swing");
 		
-//		mojo.getArgs().add("-XhashCode");
-//		mojo.getArgs().add("-Xequals");
-//		mojo.getArgs().add("-XtoString");
+		mojo.getArgs().add("-XhashCode");
+		mojo.getArgs().add("-Xequals");
+		mojo.getArgs().add("-XtoString");
+		mojo.getArgs().add("-XfluentAPI");
 
 		mojo.setPlugins(new Dependency[] { basicjaxb });
 		

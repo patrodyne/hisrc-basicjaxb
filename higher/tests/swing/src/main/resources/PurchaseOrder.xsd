@@ -77,7 +77,7 @@
 			<xs:element name="street" type="xs:string" />
 			<xs:element name="city" type="xs:string" />
 			<xs:element name="state" type="xs:string" />
-			<xs:element name="zip" type="xs:decimal" />
+			<xs:element name="zip" type="xs:string" />
 		</xs:sequence>
 		<xs:attribute name="country" type="xs:NMTOKEN" fixed="US" />
 	</xs:complexType>
@@ -88,6 +88,16 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="productName" type="xs:string" />
+						<xs:element name="picture" type="xs:string">
+								<xs:annotation>
+									<xs:appinfo>
+										<bi:property alignment="CENTER" minWidth="5">
+											<displayName>Image</displayName>
+											<description>A UNICODE glyph to represent the product.</description>
+										</bi:property>
+									</xs:appinfo>
+								</xs:annotation>
+						</xs:element>
 						<xs:element name="quantity">
 							<xs:simpleType>
 								<xs:restriction base="xs:positiveInteger">

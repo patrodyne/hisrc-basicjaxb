@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<po:PurchaseOrder orderDate="2025-01-28-05:00" complete="true"
+	xmlns:po="http://example.org/PurchaseOrder"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://example.org/PurchaseOrder ../../main/resources/PurchaseOrder.xsd"
+>
+    <shipTo country="US">
+        <name>Donna D. Perez</name>
+        <street>106 Sixth Rd</street>
+        <city>Dayton</city>
+        <state>AL</state>
+        <zip>31465</zip>
+    </shipTo>
+    <billTo country="US">
+        <name>Donna D. Perez</name>
+        <street>106 Sixth Rd</street>
+        <city>Dayton</city>
+        <state>AL</state>
+        <zip>31465</zip>
+    </billTo>
+    <po:Comment>A hospital battled since any james.</po:Comment>
+    <items>
+        <item partNum="795-AN">
+            <productName>cooking</productName>
+            <picture>🍳</picture>
+            <quantity>2</quantity>
+            <USPrice>63.40</USPrice>
+            <po:Comment>One facilities balanced.</po:Comment>
+            <shipDate>2025-01-31-05:00</shipDate>
+        </item>
+        <item partNum="824-AQ">
+            <productName>fish cake with swirl design</productName>
+            <picture>🍥</picture>
+            <quantity>1</quantity>
+            <USPrice>52.93</USPrice>
+            <po:Comment>The motorcycle met.</po:Comment>
+            <shipDate>2025-02-26-05:00</shipDate>
+        </item>
+    </items>
+    <payments total="116.33">
+        <payment paymentDate="2025-01-31-05:00">116.33</payment>
+    </payments>
+    <credits amount="17.45" reason="One bonsai toured."/>
+</po:PurchaseOrder>

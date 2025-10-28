@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<po:PurchaseOrder orderDate="2024-09-01-04:00" complete="true"
+	xmlns:po="http://example.org/PurchaseOrder"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://example.org/PurchaseOrder ../../main/resources/PurchaseOrder.xsd"
+>
+    <shipTo country="US">
+        <name>Robert E. Adams</name>
+        <street>628 Eighth Rd</street>
+        <city>Milford</city>
+        <state>DE</state>
+        <zip>11657</zip>
+    </shipTo>
+    <billTo country="US">
+        <name>Robert E. Adams</name>
+        <street>628 Eighth Rd</street>
+        <city>Milford</city>
+        <state>DE</state>
+        <zip>11657</zip>
+    </billTo>
+    <po:Comment>One hair headed below some drill.</po:Comment>
+    <items>
+        <item partNum="859-AZ">
+            <productName>peach</productName>
+            <picture>🍑</picture>
+            <quantity>3</quantity>
+            <USPrice>70.97</USPrice>
+            <po:Comment>One angora delighted.</po:Comment>
+            <shipDate>2024-09-06-04:00</shipDate>
+        </item>
+        <item partNum="812-AE">
+            <productName>cookie</productName>
+            <picture>🍪</picture>
+            <quantity>1</quantity>
+            <USPrice>69.02</USPrice>
+            <po:Comment>One latex squealed.</po:Comment>
+            <shipDate>2024-09-27-04:00</shipDate>
+        </item>
+    </items>
+    <payments total="139.99">
+        <payment paymentDate="2024-09-20-04:00">139.99</payment>
+    </payments>
+    <credits amount="21.00" reason="A leg understood."/>
+</po:PurchaseOrder>

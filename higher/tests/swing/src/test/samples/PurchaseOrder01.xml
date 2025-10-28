@@ -1,42 +1,38 @@
-<po:PurchaseOrder orderDate="1999-05-20" complete="false"
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<po:PurchaseOrder orderDate="2024-06-22-04:00" complete="false"
 	xmlns:po="http://example.org/PurchaseOrder"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://example.org/PurchaseOrder ../../main/resources/PurchaseOrder.xsd"
 >
-	<shipTo country="US">
-		<name>Alice Smith</name>
-		<street>123 Maple Street</street>
-		<city>Mill Valley</city>
-		<state>CA</state>
-		<zip>90952</zip>
-	</shipTo>
-	<billTo country="US">
-		<name>Robert Smith</name>
-		<street>8 Oak Avenue</street>
-		<city>Old Town</city>
-		<state>PA</state>
-		<zip>95819</zip>
-	</billTo>
-	<po:Comment>Hurry, my lawn is going wild!</po:Comment>
-	<items>
-		<item partNum="872-AA">
-			<productName>Lawnmower</productName>
-			<quantity>1</quantity>
-			<USPrice>148.95</USPrice>
-			<po:Comment>Confirm this is electric</po:Comment>
-		</item>
-		<item partNum="926-AA">
-			<productName>Baby Monitor</productName>
-			<quantity>1</quantity>
-			<USPrice>39.98</USPrice>
-			<shipDate>1999-10-21</shipDate>
-		</item>
-	</items>
-	<payments total="39.98">
-		<payment paymentDate="1999-10-21">5.00</payment>
-		<payment paymentDate="1999-10-22">10.00</payment>
-		<payment paymentDate="1999-10-23">24.98</payment>
-	</payments>
-	<credits amount="5.00" reason="Promo: MAY99" />
-	<credits amount="10.00" reason="Promo: OCT99" />
+    <shipTo country="US">
+        <name>Patricia T. D'Orazio</name>
+        <street>674 Fifth Rd</street>
+        <city>Madison</city>
+        <state>KS</state>
+        <zip>63525</zip>
+    </shipTo>
+    <billTo country="US">
+        <name>Patricia T. D'Orazio</name>
+        <street>674 Fifth Rd</street>
+        <city>Madison</city>
+        <state>KS</state>
+        <zip>63525</zip>
+    </billTo>
+    <po:Comment>Some stepdaughter fryed above the crush.</po:Comment>
+    <items>
+        <item partNum="883-AX">
+            <productName>melon</productName>
+            <picture>🍈</picture>
+            <quantity>1</quantity>
+            <USPrice>21.80</USPrice>
+            <po:Comment>The net felt.</po:Comment>
+            <shipDate>2024-07-08-04:00</shipDate>
+        </item>
+    </items>
+    <payments total="21.80">
+        <payment paymentDate="2024-07-11-04:00">7.28</payment>
+        <payment paymentDate="2024-08-08-04:00">7.26</payment>
+        <payment paymentDate="2024-09-07-04:00">7.26</payment>
+    </payments>
+    <credits amount="1.09" reason="A day milked."/>
 </po:PurchaseOrder>
