@@ -1,19 +1,29 @@
 package org.swixml.converters;
 
-import javax.swing.ImageIcon;
-import org.swixml.Localizer;
+import static java.awt.Image.SCALE_SMOOTH;
+import static java.lang.Math.round;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.MetalTheme;
+
+import org.swixml.Localizer;
 import org.swixml.Parser;
 import org.swixml.SwingEngine;
 import org.swixml.dom.Attribute;
+import org.swixml.plaf.metal.MatteMetalTheme;
 
 /**
  * A Converter that turns a Strings in the form of a filename into an ImageIcon
  * objects.
- * 
+ *
  * @author <a href="mailto:wolf@paulus.com">Wolf Paulus</a>
  * @version $Revision: 1.1 $
- * 
+ *
  * @see java.awt.Dimension
  * @see org.swixml.ConverterLibrary
  * @see <a href="file:package-info.java">LICENSE: package-info</a>
@@ -24,15 +34,15 @@ public class ImageIconConverter extends AbstractConverter<ImageIcon>
 	public static final Class<ImageIcon> TEMPLATE = ImageIcon.class;
 
 	// current classloader
-	
+
 	/**
 	 * Converts a String into an ImageIcon through a Resource lookup
-	 * 
+	 *
 	 * @param value the localizer value
 	 * @param type <code>Class</code> not used
 	 * @param attr <code>Attribute</code> attribute provides the value to be converted
 	 * @param engine Provides <code>Localizer</code> allow the use of resource lookups
-	 * 
+	 *
 	 * @return <code>Object</code> - an <code>ImageIcon</code>
 	 */
 	@Override
@@ -43,12 +53,12 @@ public class ImageIconConverter extends AbstractConverter<ImageIcon>
 
 	/**
 	 * Converts a String into an ImageIcon through a Resource lookup
-	 * 
+	 *
 	 * @param type <code>Class</code> not used
 	 * @param attr <code>Attribute</code> attribute provides the value to be converted
 	 * @param engine Provides <code>Localizer</code> allow the use of resource lookups
 
-	 * 
+	 *
 	 * @return <code>Object</code> - an <code>ImageIcon</code>
 	 */
 	public static ImageIcon conv(final Class<?> type, final Attribute attr, SwingEngine<?> engine)
@@ -59,12 +69,12 @@ public class ImageIconConverter extends AbstractConverter<ImageIcon>
 	}
 
 	/**
-	 * 
+	 *
 	 * @param value the localizer value
 	 * @param type <code>Class</code> not used
 	 * @param attr <code>Attribute</code> attribute provides the value to be converted
 	 * @param engine Provides <code>Localizer</code> allow the use of resource lookups
-	 * 
+	 *
 	 * @return
 	 */
 	protected static ImageIcon conv(String value, final Class<?> type, final Attribute attr, SwingEngine<?> engine)
@@ -81,6 +91,27 @@ public class ImageIconConverter extends AbstractConverter<ImageIcon>
 			// attr.getValue() );
 			// icon = new ImageIcon( imgURL );
 			icon = new ImageIcon(localizer.getClassLoader().getResource(value));
+			// Scaling
+			LookAndFeel plaf = UIManager.getLookAndFeel();
+			if ( plaf.getClass().isAssignableFrom(MetalLookAndFeel.class))
+			{
+				MetalTheme metalTheme = MetalLookAndFeel.getCurrentTheme();
+				if ( metalTheme.getClass().isAssignableFrom(MatteMetalTheme.class))
+				{
+					MatteMetalTheme matteTheme = (MatteMetalTheme) metalTheme;
+					Float scale = matteTheme.getScale();
+					if ( !scale.equals(1.0f) )
+					{
+						Image oi = icon.getImage() ;
+						float ow = oi.getWidth(null);
+						float oh = oi.getHeight(null);
+						int nw = round(ow * scale) ;
+						int nh = round(oh * scale) ;
+						Image ni = oi.getScaledInstance(nw, nh, SCALE_SMOOTH ) ;
+						icon = new ImageIcon( ni );
+					}
+				}
+			}
 		}
 		catch (Exception e)
 		{
@@ -92,7 +123,7 @@ public class ImageIconConverter extends AbstractConverter<ImageIcon>
 	/**
 	 * A <code>Converters</code> conversTo method informs about the Class type
 	 * the converter is returning when its <code>convert</code> method is called
-	 * 
+	 *
 	 * @return <code>Class</code> - the Class the converter is returning when
 	 *         its convert method is called
 	 */

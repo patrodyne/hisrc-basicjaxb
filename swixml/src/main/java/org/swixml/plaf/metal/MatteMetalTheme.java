@@ -44,40 +44,40 @@ public class MatteMetalTheme extends DefaultMetalTheme
 		{
 			if ( (specs == null) || (specs.length < 3) )
 				specs = FONT_SYSTEM_TEXT;
-			
+
 			this.name = (String) specs[0];
 			this.style = (int) specs[1];
 			this.size = (int) specs[2];
 		}
 	}
-	
+
 	private static Font toFont(Object[] specs)
 	{
 		FontSpec fs = new FontSpec(specs);
 		return new Font(fs.name, fs.style, fs.size);
 	}
-	
+
 	private Font toScaledFont(Object[] specs)
 	{
 		FontSpec fs = new FontSpec(specs);
-		
+
 		if ( (getScale() != null) && getScale() > 0.0f )
-			fs.size = scalePoints(fs.size);
-		
+			fs.size = scaleSize(fs.size);
+
 		return new Font(fs.name, fs.style, fs.size);
 	}
-	
+
 	public static FontUIResource getDefaultFontUIResource()
 	{
 		return new FontUIResource(toFont(FONT_SYSTEM_TEXT));
 	}
-	
+
 	private void customScale()
 	{
 		getDefaults().put(DEFAULT_FONT_KEY, getSystemTextFont());
 		// See also toFont(int)
 	}
-	
+
 	// Public Colors: Hue [0 -> 360], Saturation [0, 100], Value [0, 100]
 	private static final float[] HSV_PRIMARY1	 = { 195f, 34.0f,  34.0f };
 	private static final float[] HSV_PRIMARY2	 = { 195f, 30.0f,  62.0f };
@@ -87,12 +87,12 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	private static final float[] HSV_SECONDARY3  = { 195f, 21.0f,  91.0f };
 	private static final float[] HSV_BLACK		 = { 195f,	0.0f,	0.0f };
 	private static final float[] HSV_WHITE		 = { 195f,	0.0f, 100.0f };
-	
+
 	public static ColorUIResource getDefaultColorUIResource()
 	{
 		return new ColorUIResource(hsb2rgb(HSV_PRIMARY1));
 	}
-	
+
 	private void customHue()
 	{
 		if ( getHue() >= 0f && getHue() <= 360f)
@@ -108,13 +108,13 @@ public class MatteMetalTheme extends DefaultMetalTheme
 			getDefaults().put(DEFAULT_COLOR_KEY, getPrimary1());
 		}
 	}
-	
+
 	@Override
 	public String getName()
 	{
 		return "Matte";
 	}
-	
+
 	private FontUIResource controlTextFont = null;
 	@Override
 	public FontUIResource getControlTextFont()
@@ -192,7 +192,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	{
 		this.subTextFont = subTextFont;
 	}
-	
+
 	private ColorUIResource primary1 = null;
 	@Override
 	public ColorUIResource getPrimary1()
@@ -205,7 +205,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	{
 		this.primary1 = primary1;
 	}
-	
+
 	private ColorUIResource primary2 = null;
 	@Override
 	public ColorUIResource getPrimary2()
@@ -218,7 +218,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	{
 		this.primary2 = primary2;
 	}
-	
+
 	private ColorUIResource primary3 = null;
 	@Override
 	public ColorUIResource getPrimary3()
@@ -231,7 +231,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	{
 		this.primary3 = primary3;
 	}
-	
+
 	private ColorUIResource secondary1 = null;
 	@Override
 	public ColorUIResource getSecondary1()
@@ -244,7 +244,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	{
 		this.secondary1 = secondary1;
 	}
-	
+
 	private ColorUIResource secondary2 = null;
 	@Override
 	public ColorUIResource getSecondary2()
@@ -257,7 +257,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	{
 		this.secondary2 = secondary2;
 	}
-	
+
 	private ColorUIResource secondary3 = null;
 	@Override
 	public ColorUIResource getSecondary3()
@@ -270,7 +270,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	{
 		this.secondary3 = secondary3;
 	}
-	
+
 	private ColorUIResource black = null;
 	@Override
 	public ColorUIResource getBlack()
@@ -296,7 +296,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
 	{
 		this.white = white;
 	}
-	
+
 	private static int hsb2rgb(float[] hsv)
 	{
 		float hue = (hsv[0]/360f);
@@ -304,22 +304,22 @@ public class MatteMetalTheme extends DefaultMetalTheme
 		float val = (hsv[2]/100.0f);
 		return HSBtoRGB( hue, sat, val );
 	}
-	
+
 	private Float hue;
 	public Float getHue() { return hue; }
 	public void setHue(Float hue) { this.hue = hue; }
-	
+
 	private Float scale;
 	public Float getScale() { return scale; }
 	public void setScale(Float scale) { this.scale = scale; }
 
-	private int scalePoints(int points)
+	private int scaleSize(int points)
 	{
 		// widen the integer to a float during multiplication
 		// then round to integer.
 		return round( points * getScale() );
 	}
-	
+
     /**
      * Add this theme's custom entries to the defaults table.
      *
@@ -338,7 +338,7 @@ public class MatteMetalTheme extends DefaultMetalTheme
     	};
     	table.putDefaults(defaults);
 	}
-	
+
 	public MatteMetalTheme(String hue, String scale)
 	{
 		this
@@ -347,21 +347,21 @@ public class MatteMetalTheme extends DefaultMetalTheme
 			scale != null ? valueOf(scale) : null
 		);
 	}
-	
+
 	public MatteMetalTheme(Float hue, Float scale)
 	{
 		this();
-		
+
 		setHue(hue);
 		setScale(scale);
-		
+
 		if ( getHue() != null )
 			customHue();
-		
+
 		if ( getScale() != null )
 			customScale();
 	}
-	
+
 	public MatteMetalTheme()
 	{
 		super();

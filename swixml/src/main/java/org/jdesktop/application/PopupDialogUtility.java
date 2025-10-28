@@ -10,18 +10,24 @@ import static java.awt.event.KeyEvent.VK_V;
 import static java.awt.event.KeyEvent.VK_X;
 import static java.awt.event.KeyEvent.VK_Y;
 import static java.awt.event.KeyEvent.VK_Z;
+import static javax.swing.JFileChooser.APPROVE_OPTION;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 import static javax.swing.KeyStroke.getKeyStroke;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -33,37 +39,37 @@ import javax.swing.undo.UndoManager;
 /**
  * Utility class to add a standard popup menu to any {@link JTextComponent}
  * and/or provide a scrollable text area.
- * 
+ *
  * Ref: https://stackoverflow.com/questions/9021269
  */
 public class PopupDialogUtility
 {
-	private static int WIDTH = 680;
-	private static int HEIGHT = 420;
-	
+	private static int WIDTH = 1280;
+	private static int HEIGHT = 720;
+
 	public enum PaneSize
 	{
 		SMALL, MEDIUM, LARGE;
 	}
-	
+
 	/**
 	 * Add the given message to a scrollable text area.
-	 * 
+	 *
 	 * @param msg The message to be displayed in a {@link JScrollPane}.
-	 * 
+	 *
 	 * @return A {@link JScrollPane} containing the {@link JTextArea}.
 	 */
 	public static JScrollPane toScrollableTextArea(String msg)
 	{
 		return toScrollableTextArea(msg, PaneSize.MEDIUM);
 	}
-	
+
 	/**
 	 * Add the given message to a scrollable text area.
-	 * 
+	 *
 	 * @param msg The message to be displayed in a {@link JScrollPane}.
 	 * @param size The relative size of the {@link JScrollPane}.
-	 * 
+	 *
 	 * @return A {@link JScrollPane} containing the {@link JTextArea}.
 	 */
 	public static JScrollPane toScrollableTextArea(String msg, PaneSize size)
@@ -77,14 +83,14 @@ public class PopupDialogUtility
 		}
 		return jsp;
 	}
-	
+
 	/**
 	 * Add the given message to a scrollable text area.
-	 * 
+	 *
 	 * @param msg The message to be displayed in a {@link JScrollPane}.
      * @param width the specified width.
      * @param height the specified height.
-	 * 
+	 *
 	 * @return A {@link JScrollPane} containing the {@link JTextArea}.
 	 */
 	public static JScrollPane toScrollableTextArea(String msg, int width, int height)
@@ -99,18 +105,23 @@ public class PopupDialogUtility
 			@Override
 			public Dimension getPreferredSize()
 			{
-				return new Dimension(width, height);
+				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				int screenWidth = (int) (screenSize.getWidth() * 0.75 );
+				int screenHeight = (int) (screenSize.getHeight() * 0.75 );
+				int paneWidth = ( width < screenWidth ) ? width : screenWidth;
+				int paneHeight = ( height < screenHeight ) ? height : screenHeight;
+				return new Dimension(paneWidth, paneHeight);
 			}
 		};
 		return jsp;
 	}
-	
+
 	/**
 	 * Create a scrollable text area with a common popup menu for the given message.
-	 * 
+	 *
 	 * @param msg The message to be displayed in a {@link JScrollPane}.
 	 * @param size The relative size of the {@link JScrollPane}.
-     * 
+     *
 	 * @return A scrollable text area with a common popup menu for the given message.
 	 */
 	public static JScrollPane toScrollableTextAreaWithCommonMenu(String msg, PaneSize size)
@@ -127,11 +138,11 @@ public class PopupDialogUtility
 
 	/**
 	 * Create a scrollable text area with a common popup menu for the given message.
-	 * 
+	 *
 	 * @param msg The message to be displayed in a {@link JScrollPane}.
      * @param width the specified width.
      * @param height the specified height.
-     * 
+     *
 	 * @return A scrollable text area with a common popup menu for the given message.
 	 */
 	public static JScrollPane toScrollableTextAreaWithCommomMenu(String msg, int width, int height)
@@ -139,16 +150,16 @@ public class PopupDialogUtility
 		// Build a scroll pane to display the trace in a text area.
 		JScrollPane jsp = toScrollableTextArea(msg, width, height);
 		JTextArea jta =	(JTextArea) jsp.getViewport().getView();
-		
+
 		// Add a common popup menu to the text area.
 		addCommonPopupMenuTo(jta);
-		
+
 		return jsp;
 	}
 
 	/**
 	 * Add a common popup menu to the given {@link JTextComponent}.
-	 * 
+	 *
 	 * @param textComponent The base class for {@link JTextField}, {@link JTextArea}, etc..
 	 */
 	public static void addCommonPopupMenuTo(JTextComponent textComponent)
@@ -156,7 +167,7 @@ public class PopupDialogUtility
 		JPopupMenu popup = new JPopupMenu();
 		UndoManager undoManager = new UndoManager();
 		textComponent.getDocument().addUndoableEditListener(undoManager);
-		
+
 		Action undoAction = new AbstractAction("Undo")
 		{
 			private static final long serialVersionUID = 20250301L;
@@ -211,15 +222,15 @@ public class PopupDialogUtility
 				performSelectAll(textComponent);
 			}
 		};
-		
+
 		textComponent.addKeyListener(new KeyListener()
 		{
 			@Override
 			public void keyTyped(KeyEvent ke) { }
-			
+
 			@Override
 			public void keyReleased(KeyEvent ke) { }
-			
+
 			@Override
 		    public void keyPressed(KeyEvent ke)
 			{
@@ -247,10 +258,10 @@ public class PopupDialogUtility
 		popup.add(accelerate(pasteAction, VK_V, CTRL_MASK));
 		popup.addSeparator();
 		popup.add(accelerate(selectAllAction, VK_A, CTRL_MASK));
-		
+
 		textComponent.setComponentPopupMenu(popup);
 	}
-	
+
 	private static JMenuItem accelerate(Action action, int keyCode, int modifiers)
 	{
 		JMenuItem menuItem = new JMenuItem(action);
@@ -298,5 +309,82 @@ public class PopupDialogUtility
 	private static void performSelectAll(JTextComponent textComponent)
 	{
 		textComponent.selectAll();
+	}
+
+
+	/**
+	 * Do common popup menu action: cut, copy, paste, etc.
+	 *
+	 * @param ae This event is generated by a {@code MenuItem} when an action occurs.
+	 * @param fc Provides a simple mechanism for the user to choose a file.
+	 *
+	 * @return The invoking {@code JTextComponent} instance; otherwise, null.
+	 */
+	public static JTextComponent doCommonPopupMenuAction(ActionEvent ae, JFileChooser fc)
+	{
+		JTextComponent tc = null;
+		if ( ae.getSource() instanceof JMenuItem )
+		{
+			JMenuItem mi = (JMenuItem) ae.getSource();
+			if ( mi.getParent() instanceof JPopupMenu )
+			{
+				JPopupMenu pm = (JPopupMenu) mi.getParent();
+				if ( pm.getInvoker() instanceof JTextComponent )
+					tc = (JTextComponent) pm.getInvoker();
+			}
+		}
+		switch ( ae.getActionCommand() )
+		{
+			case "Undo":
+				if ( tc.getDocument() instanceof UndoableDocument )
+				{
+					UndoableDocument ud = (UndoableDocument) tc.getDocument();
+					if ( ud.getUndoManager().canUndo() )
+						ud.getUndoManager().undo();
+				}
+				break;
+			case "Redo":
+				if ( tc.getDocument() instanceof UndoableDocument )
+				{
+					UndoableDocument rd = (UndoableDocument) tc.getDocument();
+					if ( rd.getUndoManager().canRedo() )
+						rd.getUndoManager().redo();
+				}
+				break;
+			case "Cut": tc.cut(); break;
+			case "Copy": tc.copy(); break;
+			case "Paste": tc.paste(); break;
+			case "Select All": tc.selectAll(); break;
+			case "Open":
+				if ( fc.showDialog(tc, "Open") == APPROVE_OPTION )
+				{
+					File selected = fc.getSelectedFile();
+					try
+					{
+						tc.setText(Files.readString(selected.toPath()));
+						tc.setCaretPosition(0);
+					}
+					catch (IOException ex)
+					{
+						throw new RuntimeException("Cannot open file: " + selected, ex);
+					}
+				}
+				break;
+			case "Save":
+				if ( fc.showDialog(tc, "Save") == APPROVE_OPTION )
+				{
+					File selected = fc.getSelectedFile();
+					try
+					{
+						Files.writeString(selected.toPath(), tc.getText());
+					}
+					catch (IOException ex)
+					{
+						throw new RuntimeException("Cannot save file: " + selected, ex);
+					}
+				}
+				break;
+		}
+		return tc;
 	}
 }

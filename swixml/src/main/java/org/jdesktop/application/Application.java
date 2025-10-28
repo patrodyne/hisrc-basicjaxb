@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The base class for Swing applications.
- * 
+ *
  * <p>
  * This class defines a simple life-cycle for Swing applications: {@code
  * initialize}, {@code startup}, {@code ready}, and {@code shutdown}. The
@@ -55,14 +55,14 @@ import org.slf4j.LoggerFactory;
  * All {@code Application} subclasses must override {@code startup} and they
  * should call {@link #exit} (which calls {@code shutdown}) to exit. Here's an
  * example of a complete "Hello World" Application:
- * 
+ *
  * <pre>
  * public class MyApplication
  *	extends
  *	Application
  * {
  *	JFrame mainFrame = null;
- * 
+ *
  *	&#064;Override
  *	protected void startup()
  *	{
@@ -73,13 +73,13 @@ import org.slf4j.LoggerFactory;
  *		mainFrame.pack();
  *		mainFrame.setVisible(true);
  *	}
- * 
+ *
  *	&#064;Override
  *	protected void shutdown()
  *	{
  *		mainFrame.setVisible(false);
  *	}
- * 
+ *
  *	private class MainFrameListener
  *		extends
  *		WindowAdapter
@@ -89,7 +89,7 @@ import org.slf4j.LoggerFactory;
  *			exit();
  *		}
  *	}
- * 
+ *
  *	public static void main(String[] args)
  *	{
  *		Application.launch(MyApplication.class, args);
@@ -104,17 +104,17 @@ import org.slf4j.LoggerFactory;
  * Simple single frame applications like the example can be defined more easily
  * with the {@link SingleFrameApplication SingleFrameApplication}
  * {@code Application} subclass.
- * 
+ *
  * <p>
  * All of the Application's methods are called (must be called) on the EDT.
- * 
+ *
  * <p>
  * All but the most trivial applications should define a ResourceBundle in the
  * resources subpackage with the same name as the application class (like {@code
  * resources/MyApplication.properties}). This ResourceBundle contains resources
  * shared by the entire application and should begin with the following the
  * standard Application resources:
- * 
+ *
  * <pre>
  * Application.name = A short name, typically just a few words
  * Application.id = Suitable for Application specific identifiers, like file names
@@ -135,12 +135,12 @@ import org.slf4j.LoggerFactory;
  * and feel</li>
  * <li>a LookAndFeel class name - use the specified class
  * </ul>
- * 
+ *
  * @see SingleFrameApplication
  * @see ApplicationContext
  * @see UIManager#setLookAndFeel
  * @see <a href="file:package-info.java">LICENSE: package-info</a>
- * 
+ *
  * @author Hans Muller (Hans.Muller@Sun.COM)
  */
 @ProxyActions({ "cut", "copy", "paste", "delete" })
@@ -226,17 +226,17 @@ public abstract class Application extends AbstractBean
 	 * application} property, and then calls the new {@code
 	 * Application's} {@code startup} method. The {@code launch} method is
 	 * typically called from the Application's {@code main}:
-	 * 
+	 *
 	 * <pre>
 	 * public static void main(String[] args)
 	 * {
 	 *	Application.launch(MyApplication.class, args);
 	 * }
 	 * </pre>
-	 * 
+	 *
 	 * The {@code applicationClass} constructor and {@code startup} methods run
 	 * on the event dispatching thread.
-	 * 
+	 *
 	 * @param applicationClass the {@code Application} class to launch
 	 * @param args {@code main} method arguments
 	 * @see #shutdown
@@ -270,11 +270,11 @@ public abstract class Application extends AbstractBean
 		};
 		SwingUtilities.invokeLater(doCreateAndShowGUI);
 	}
-	
+
 	/**
 	 * Set the handler invoked when this thread abruptly terminates
      * due to an uncaught exception.
-     * 
+     *
 	 * @param window Determines the <code>Window</code> to display the dialog.
 	 */
 	public static void setUncaughtExceptionHandler(Window window)
@@ -288,7 +288,7 @@ public abstract class Application extends AbstractBean
 	/*
 	 * Initializes the ApplicationContext applicationClass and application
 	 * properties.
-	 * 
+	 *
 	 * Note that, as of Java SE 5, referring to a class literal doesn't force
 	 * the class to be loaded. More info:
 	 * http://java.sun.com/javase/technologies/compatibility.jsp#literal It's
@@ -437,7 +437,7 @@ public abstract class Application extends AbstractBean
 	 * method runs on the event dispatching thread.
 	 * <p>
 	 * By default initialize() does nothing.
-	 * 
+	 *
 	 * @param args the main method's arguments.
 	 * @see #launch
 	 * @see #startup
@@ -453,7 +453,7 @@ public abstract class Application extends AbstractBean
 	 * <p>
 	 * This method is called by the static {@code launch} method, subclasses
 	 * must override it. It runs on the event dispatching thread.
-	 * 
+	 *
 	 * @see #launch
 	 * @see #initialize
 	 * @see #shutdown
@@ -468,7 +468,7 @@ public abstract class Application extends AbstractBean
 	 * It's usually important for an application to start up as quickly as
 	 * possible. Applications can override this method to do some additional
 	 * start up work, after the GUI is up and ready to use.
-	 * 
+	 *
 	 * @see #launch
 	 * @see #startup
 	 * @see #shutdown
@@ -482,7 +482,7 @@ public abstract class Application extends AbstractBean
 	 * this method to do any cleanup tasks that are necessary before exiting.
 	 * Obviously, you'll want to try and do as little as possible at this point.
 	 * This method runs on the event dispatching thread.
-	 * 
+	 *
 	 * @see #startup
 	 * @see #ready
 	 * @see #exit
@@ -597,7 +597,7 @@ public abstract class Application extends AbstractBean
 	 * Gracefully shutdown the application, calls {@code exit(null)} This
 	 * version of exit() is convenient if the decision to exit the application
 	 * wasn't triggered by an event.
-	 * 
+	 *
 	 * @see #exit(EventObject)
 	 */
 	public final void exit()
@@ -616,7 +616,7 @@ public abstract class Application extends AbstractBean
 	 * If the caller is responding to an GUI event, it's helpful to pass the
 	 * event along so that ExitListeners' canExit methods that want to popup a
 	 * dialog know on which screen to show the dialog. For example:
-	 * 
+	 *
 	 * <pre>
 	 * class ConfirmExit
 	 *	implements
@@ -629,20 +629,20 @@ public abstract class Application extends AbstractBean
 	 *		int option = JOptionPane.showConfirmDialog(owner, "Really Exit?");
 	 *		return option == JOptionPane.YES_OPTION;
 	 *	}
-	 * 
+	 *
 	 *	public void willExit(EventObejct e)
 	 *	{
 	 *	}
 	 * }
 	 * myApplication.addExitListener(new ConfirmExit());
 	 * </pre>
-	 * 
+	 *
 	 * The {@code eventObject} argument may be null, e.g. if the exit call was
 	 * triggered by non-GUI code, and {@code canExit}, {@code
 	 * willExit} methods must guard against the possibility that the
 	 * {@code eventObject} argument's {@code source} is not a {@code
 	 * Component}.
-	 * 
+	 *
 	 * @param event the EventObject that triggered this call or null
 	 * @see #addExitListener
 	 * @see #removeExitListener
@@ -686,7 +686,7 @@ public abstract class Application extends AbstractBean
 	/**
 	 * Called by {@link #exit exit} to terminate the application. Calls
 	 * {@code Runtime.getRuntime().exit(0)}, which halts the JVM.
-	 * 
+	 *
 	 * @see #exit
 	 */
 	protected void end()
@@ -708,11 +708,11 @@ public abstract class Application extends AbstractBean
 	 * {@code willExit}.
 	 * <p>
 	 * {@code ExitListeners} run on the event dispatching thread.
-	 * 
+	 *
 	 * @see #exit(EventObject)
 	 * @see #addExitListener
 	 * @see #removeExitListener
-	 * 
+	 *
 	 * @apiNote event the EventObject that triggered this call or null
 	 */
 	public interface ExitListener
@@ -726,7 +726,7 @@ public abstract class Application extends AbstractBean
 
 	/**
 	 * Add an {@code ExitListener} to the list.
-	 * 
+	 *
 	 * @param listener the {@code ExitListener}
 	 * @see #removeExitListener
 	 * @see #getExitListeners
@@ -738,7 +738,7 @@ public abstract class Application extends AbstractBean
 
 	/**
 	 * Remove an {@code ExitListener} from the list.
-	 * 
+	 *
 	 * @param listener the {@code ExitListener}
 	 * @see #addExitListener
 	 * @see #getExitListeners
@@ -750,7 +750,7 @@ public abstract class Application extends AbstractBean
 
 	/**
 	 * All of the {@code ExitListeners} added so far.
-	 * 
+	 *
 	 * @return all of the {@code ExitListeners} added so far.
 	 */
 	public ExitListener[] getExitListeners()
@@ -762,7 +762,7 @@ public abstract class Application extends AbstractBean
 	/**
 	 * The default {@code Action} for quitting an application, {@code quit} just
 	 * exits the application by calling {@code exit(e)}.
-	 * 
+	 *
 	 * @param e the triggering event
 	 * @see #exit(EventObject)
 	 */
@@ -774,7 +774,7 @@ public abstract class Application extends AbstractBean
 
 	/**
 	 * The ApplicationContext singleton for this Application.
-	 * 
+	 *
 	 * @return the Application's ApplicationContext singleton
 	 */
 	public final ApplicationContext getContext()
@@ -791,7 +791,7 @@ public abstract class Application extends AbstractBean
 	 * case, an instance of the specified class is constructed and configured as
 	 * it would be by the {@link #launch launch} method. However it's
 	 * {@code initialize} and {@code startup} methods are not run.
-	 * 
+	 *
 	 * @param applicationClass this Application's subclass
 	 * @return the launched Application singleton.
 	 * @see Application#launch
@@ -831,7 +831,7 @@ public abstract class Application extends AbstractBean
 	 * <i>placeholder</i> Application object provides access to an
 	 * {@code ApplicationContext} singleton and has the same semantics as
 	 * launching an Application defined like this:
-	 * 
+	 *
 	 * <pre>
 	 * public class PlaceholderApplication
 	 *	extends
@@ -843,7 +843,7 @@ public abstract class Application extends AbstractBean
 	 * }
 	 * Application.launch(PlaceholderApplication.class);
 	 * </pre>
-	 * 
+	 *
 	 * @return the Application singleton or a placeholder
 	 * @see Application#launch
 	 * @see Application#getInstance(Class)
@@ -920,10 +920,10 @@ public abstract class Application extends AbstractBean
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Show a dialog that displays a message with an Error icon.
-	 * 
+	 *
 	 * @param ex The throwable to be displayed.
 	 */
 	public static void showErrorDialog(Throwable ex)
@@ -937,17 +937,17 @@ public abstract class Application extends AbstractBean
 		window.setLocationRelativeTo(null);
 		window.setAlwaysOnTop(true);
 		window.setVisible(true);
-		
+
 		// Show a dialog that displays a message in the new window.
 		showErrorDialog(window, ex);
-		
+
 		window.setVisible(false);
 		window.dispose();
 	}
 
 	/**
 	 * Show a dialog that displays a message with an Error icon.
-	 * 
+	 *
 	 * @param window Determines the <code>Window</code> to display the dialog.
 	 * @param ex The throwable to be displayed.
 	 */
@@ -955,7 +955,7 @@ public abstract class Application extends AbstractBean
 	{
 		// Build the dialog title.
 		String title = ex.getClass().getSimpleName();
-		
+
 		// Build a string containing the stack trace.
 		StringBuilder sb = new StringBuilder();
 		{
@@ -976,25 +976,25 @@ public abstract class Application extends AbstractBean
 
 		// Log the exception, when in debug mode.
 		logger.debug(title + ": " + ex.getMessage(), ex);
-		
+
 		// Build a scroll pane to display the trace in a text area and
 		// add a standard popup menu to the text area.
 		JScrollPane jsp = toScrollableTextAreaWithCommonMenu(trace, MEDIUM);
-		
+
 		// JOptionPane
 		showMessageDialog(window, jsp, title, ERROR_MESSAGE);
 	}
-	
+
 	public static void showInformationDialog(Window window, String msg, String title)
 	{
 		optionPane(window, msg, title, INFORMATION_MESSAGE);
 	}
-	
+
 	public static void showWarningDialog(Window window, String msg, String title)
 	{
 		optionPane(window, msg, title, JOptionPane.WARNING_MESSAGE);
 	}
-	
+
 	private static void optionPane(Window window, String msg, String title, int msgType)
 	{
 		showMessageDialog(window, msg, title, msgType);

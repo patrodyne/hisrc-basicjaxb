@@ -38,14 +38,14 @@ public class Localization extends JFrame
 	private static final long serialVersionUID = 20240701L;
 
 	private static final String DESCRIPTOR = "org/swixml/legacy/localization.xml";
-	
+
 	private SwingEngine<JFrame> swix = new SwingEngine<JFrame>(this);
-	
+
 	/* automatically bound by id="tree" */
 	private JTree tree;
 	public JTree getTree() { return tree; }
 	public void setTree(JTree tree) { this.tree = tree; }
-	
+
 	/* tree bound by treeCellRenderer="${window.treeCellRenderer}" */
 	private TreeCellRenderer treeCellRenderer = null;
 	public TreeCellRenderer getTreeCellRenderer()
@@ -69,7 +69,7 @@ public class Localization extends JFrame
 	{
 		this.treeCellRenderer = treeCellRenderer;
 	}
-	
+
 	/* bound by id="table" */
 	private JTable table;
 	public JTable getTable() { return table; }
@@ -99,7 +99,7 @@ public class Localization extends JFrame
 	{
 		this.productList = productList;
 	}
-	
+
 	/** Default construction */
 	public Localization()
 		throws Exception
@@ -107,9 +107,9 @@ public class Localization extends JFrame
 		swix.getELProcessor().defineBean("el", swix.getELMethods());
 		swix.getELProcessor().defineBean("window", this);
 		swix.render(DESCRIPTOR);
-		
+
 		getTable().setModel(new ProductTableModel(getProductList(), getTable()));
-		
+
 		setLocationRelativeTo(null);
 	}
 
@@ -124,7 +124,7 @@ public class Localization extends JFrame
 			showMessageDialog(Localization.this, "Sorry, " + resource + " not implemented yet.");
 		}
 	};
-	
+
 	public Action cmdAction = new AbstractAction()
 	{
 		private static final long serialVersionUID = 20240701L;
@@ -135,7 +135,7 @@ public class Localization extends JFrame
 			showMessageDialog(Localization.this, "Sorry, '"+cmd+"' is not implemented yet.");
 		}
 	};
-	
+
 	public Action aboutAction = new AbstractAction()
 	{
 		private static final long serialVersionUID = 20240701L;
@@ -146,7 +146,7 @@ public class Localization extends JFrame
 			showMessageDialog(Localization.this, resource + ": This is the General OS Example.");
 		}
 	};
-	
+
 	public Action helpAction = new AbstractAction()
 	{
 		private static final long serialVersionUID = 20240701L;
@@ -178,14 +178,17 @@ public class Localization extends JFrame
 	{
 		System.exit(0);
 	}
-	
+
 	private InputStream resourceAsStream(Class<Product> clazz, String resource)
 	{
 		return clazz.getClassLoader().getResourceAsStream(resource);
 	}
-	
+
 	public static void main(String[] args)
 	{
+		// decorated=true: a hint to use L&F to decorate new JFrame top bar.
+		// decorated=false: a hint to use the OS to decorate new JFrame top bar.
+		// decorated=true: Needs a custom MetalTitlePane (i.e. MatteMetalTitlePane)
 		SwingEngine.invokeLater(Localization.class, true);
 	}
 }

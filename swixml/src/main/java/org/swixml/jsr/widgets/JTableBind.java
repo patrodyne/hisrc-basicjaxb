@@ -11,6 +11,7 @@ import static org.swixml.jsr295.BindingUtils.initTableBindingFromTableColumns;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -65,14 +66,14 @@ public class JTableBind
 	implements BindableListWidget
 {
 	private static final long serialVersionUID = 20240701L;
-	
+
 	private static final int DEFAULT_TABLECOLUMN_MINWIDTH = 15;
 	private static final int DEFAULT_TABLECOLUMN_MAXWIDTH = Integer.MAX_VALUE;
 	private static final int DEFAULT_TABLECOLUMN_PREFWIDTH = 75;
-	
+
 	public static final String ACTION_SELECT_ROW = "rowSelection";
 	public static final String ACTION_SELECT_COL = "colSelection";
-	
+
 	private Class<?> bindClass;
 	public Class<?> getBindClass()
 	{
@@ -115,7 +116,7 @@ public class JTableBind
 	public void setConverter(Converter<?, ?> converter)
 	{
 	}
-	
+
 	@Override
 	public Binding<?, ?, ?, ?> getBinding()
 	{
@@ -126,7 +127,7 @@ public class JTableBind
 	{
 		putClientProperty(BINDING_PROPERTY, binding);
 	}
-	
+
 	@Override
 	public BindingGroup getBindingGroup()
 	{
@@ -138,14 +139,14 @@ public class JTableBind
 			return bindingGroup;
 		}
 		else
-			return (BindingGroup) bindingGroup;
+			return bindingGroup;
 	}
 	@Override
 	public void setBindingGroup(BindingGroup bindingGroup)
 	{
 		putClientProperty(BINDING_GROUP_PROPERTY, bindingGroup);
 	}
-	
+
 	private DataBeanInfo dataBeanInfo;
 	public DataBeanInfo getDataBeanInfo()
 	{
@@ -179,7 +180,7 @@ public class JTableBind
 	/**
 	 * Get the array of {@link FieldDescriptor}(s) using
 	 * Java Beans {@link Introspector}.
-	 * 
+	 *
 	 * @return An array of {@link FieldDescriptor}(s).
 	 */
 	public FieldDescriptor[] getFieldDescriptors()
@@ -231,7 +232,7 @@ public class JTableBind
 		}
 		return super.getCellRenderer(row, col);
 	}
-	
+
 //	private static PropertyDescriptor[] getPropertyDescriptors(Class<?> beanClass)
 //	{
 //		PropertyDescriptor[] pdArray = null;
@@ -246,12 +247,12 @@ public class JTableBind
 //		}
 //		return pdArray;
 //	}
-	
+
 	private SwingEngine<?> getSwingEngine()
 	{
 		return (SwingEngine<?>) getClientProperty(ENGINE_PROPERTY);
 	}
-	
+
 	private int fieldWidth(int repeat)
 	{
 		ELMethods<?> elm = getSwingEngine().getELMethods();
@@ -259,11 +260,26 @@ public class JTableBind
 		// PAD = 4
 		return repeat * sw + 4;
 	}
-	
+
+	private void setRowHeight(Font font)
+	{
+		if ( (getSwingEngine() != null) && (font != null) )
+		{
+			ELMethods<?> elm = getSwingEngine().getELMethods();
+			setRowHeight(elm.rowHeight(font));
+		}
+	}
+
+	@Override
+	protected void initializeLocalVars()
+	{
+		super.initializeLocalVars();
+	}
+
 	/**
 	 * Create default columns from the model, or from the
 	 * bind class when configured.
-	 * 
+	 *
 	 * <p>When a bind class is configured, column properties are derived
 	 * from multiple sources: SWIXML table column(s), validation metadata
 	 * and BeanInfo property descriptor(s).</p>
@@ -271,6 +287,8 @@ public class JTableBind
 	@Override
 	public void createDefaultColumnsFromModel()
 	{
+		// Conditionally, set the row height for this font.
+		setRowHeight(getFont());
 		// If there a bind class then derive column properties
 		// from it; otherwise, fall back to the super method.
 		TableModel tm = getModel();
@@ -289,11 +307,11 @@ public class JTableBind
 					tcMap.put(tcb.getBindWith(), tcb);
 				}
 			}
-			
+
 			// Remove any current columns before re-creating.
 			while (cm.getColumnCount() > 0)
 				cm.removeColumn(cm.getColumn(0));
-			
+
 			// Create a map of the validation descriptors by property name.
 			// These descriptors may provide additional property constraints.
 			BeanDescriptor vbd = getSwingEngine().getBeanValidator()
@@ -312,7 +330,7 @@ public class JTableBind
 			// A FieldDescriptor extends PropertyDescriptor and accumulates
 			// display field level metadata.
 			FieldDescriptor[] bfdArray = getFieldDescriptors();
-			
+
 			// Add a TableColumnBind for each non-hidden property of the bind class.
 			for ( int index=0; index < bfdArray.length; ++index )
 			{
@@ -328,13 +346,13 @@ public class JTableBind
 					//
 					// Get the Bean and the Validation property descriptors.
 					//
-					
+
 					// Set the model index for this column. The model index is the
 					// index of the column in the model that will be displayed by the
 					// <code>TableColumn</code>. As the <code>TableColumn</code>
 					// is moved around in the view the model index remains constant.
 					Integer modelIndex = bfd.getIndex();
-					
+
 					// The programmatic name of this feature. For more,
 					// see paragraph 8.3 of the Java Beans specification.
 					String bpdName = bfd.getName();
@@ -354,17 +372,17 @@ public class JTableBind
 						new AlignableTableCellHeaderRenderer(alignment.getConstant());
 					TableCellRenderer cellRenderer =
 						new AlignableTableCellRenderer(alignment.getConstant());
-					
+
 					// Editable: Use BeanInfo inferred values.
 					boolean editable = true;
 					if ( bfd.isEditable() != null )
 						editable = bfd.isEditable();
-					
+
 					// Resizable: Use BeanInfo inferred values.
 					boolean resizable = true;
 					if ( bfd.isResizable() != null )
 						resizable = bfd.isResizable();
-					
+
 					// Assign default values
 
 					// Max/Min Width: Use BeanInfo inferred values.
@@ -482,11 +500,11 @@ public class JTableBind
 		else
 			super.createDefaultColumnsFromModel();
 	}
-	
+
 	/**
 	 * Create and add {@link AutoBinding} instance(s) to synchronize model
 	 * properties with this {@link JTable}.
-	 * 
+	 *
 	 * <p>Notifies this {@link Component} that it now has a parent component. It
 	 * makes the {@link Container} displayable by connecting it to a native
 	 * screen resource.</p>
@@ -502,7 +520,7 @@ public class JTableBind
 				setBindList(beanProperty.getValue(getSwingEngine().getClient()));
 			}
 		}
-		
+
 		if ( getBindList() != null )
 		{
 			Binding<?, ?, ?, ?> itb = null;
@@ -520,10 +538,10 @@ public class JTableBind
 			setBinding(itb);
 			getBindingGroup().bind();
 		}
-		
+
 		super.addNotify();
 	}
-	
+
 	public JTableBind()
 	{
 		super();
@@ -547,7 +565,7 @@ public class JTableBind
 				onRowSelection(se);
 			}
 		});
-		
+
 		// Column selection
 		super.getColumnModel().addColumnModelListener(new TableColumnModelListener()
 		{
@@ -557,7 +575,7 @@ public class JTableBind
 			{
 				onColumnSelection(se);
 			}
-			
+
 			@Override
 			public void columnAdded(TableColumnModelEvent me)
 			{
@@ -596,7 +614,7 @@ public class JTableBind
 				}
 			}
 		});
-		
+
 //		super.getModel().addTableModelListener(new TableModelListener()
 //		{
 //			public void tableChanged(TableModelEvent e)
@@ -626,7 +644,7 @@ public class JTableBind
 					getDataBeanInfo().setData(rows);
 					ActionEvent ae = new ActionEvent(getDataBeanInfo(), 0, ACTION_SELECT_ROW);
 					getAction().actionPerformed(ae);
-				}	
+				}
 			}
 		}
 	}
@@ -651,7 +669,7 @@ public class JTableBind
 					getDataBeanInfo().setData(cols);
 					ActionEvent ae = new ActionEvent(getDataBeanInfo(), 0, ACTION_SELECT_COL);
 					getAction().actionPerformed(ae);
-				}	
+				}
 			}
 
 		}

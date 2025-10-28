@@ -10,13 +10,13 @@
 	title="Slider Dialog"
 	defaultCloseOperation="DISPOSE_ON_CLOSE"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
-	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(150,2.00)"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(150,1.25)"
 >
 	<panel >
 		<vbox background="150-10-85" opaque="true">
 		    <panel
 		    	border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Slider))"
-				background="150-10-80" 
+				background="150-50-85" 
 		    >
 		    	<!--
 		    		The constraints attribute is ignored;
@@ -29,7 +29,7 @@
 					minimum="0"
 					maximum="255"
 					action="transparencyAction"
-					background="150-10-75" 
+					background="150-50-70" 
 					preferredSize="${el.scaleSize('100%','10%')}"
 				/>
 		    </panel>

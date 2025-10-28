@@ -68,9 +68,9 @@ import jakarta.validation.ValidatorFactory;
  *
  * @author <a href="mailto:wolf@paulus.com">Wolf Paulus</a>
  * @version $Revision: 1.5 $
- * 
+ *
  * @see <a href="file:package-info.java">LICENSE: package-info</a>
- * 
+ *
  * @apiNote A generic AWT container type.
  */
 public class SwingEngine<T extends Container> implements LogAware
@@ -79,35 +79,35 @@ public class SwingEngine<T extends Container> implements LogAware
 	public static final String DEFAULT_FONT_KEY = "Default.font";
 	// Represents the color to use as the default color.
 	public static final String DEFAULT_COLOR_KEY = "Default.color";
-	
+
 	public static interface Namespaces
 	{
 		final String main = "http://www.swixml.org/2007/Swixml";
 		final String script = "http://www.swixml.org/2007/Swixml/script";
 	}
-	
+
 	//
 	// Static Constants
 	//
 
 	public static final String ENGINE_PROPERTY = "org.swixml.swingengine";
-	
+
 	/**
 	 * Mac OSX locale variant to localize strings like quit etc.
 	 */
 	public static final String MAC_OSX_LOCALE_VARIANT = "mac";
-	
+
 	/**
 	 * XML Error
 	 */
 	@SuppressWarnings("unused")
 	private static final String XML_ERROR_MSG = "Invalid SwiXML Descriptor.";
-	
+
 	/**
 	 * IO Error Message.
 	 */
 	private static final String IO_ERROR_MSG = "Resource could not be found ";
-	
+
 	/**
 	 * Mapping Error Message.
 	 */
@@ -116,36 +116,36 @@ public class SwingEngine<T extends Container> implements LogAware
 	//
 	// Static Member Variables
 	//
-	
+
 	/**
 	 * Debug / Release Mode
 	 */
 	public static boolean DEBUG_MODE = true;
-	
+
 	/**
 	 * main frame
 	 */
 	// private static Frame appFrame;
-	
+
 	/**
 	 * static resource bundle
 	 */
 	private static String default_resource_bundle_name = null;
-	
+
 	/**
 	 * static locale
 	 */
 	private static Locale default_locale = Locale.getDefault();
-	
+
 	/**
 	 * static Mac OS X Support, set to true to support Mac UI specialties
 	 */
 	private static boolean MAC_OSX_SUPPORTED = false;
-	
+
 	//
 	// Static Initializer
 	//
-	
+
 	/** Display the Swing release version to system out. */
 	static
 	{
@@ -156,7 +156,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	{
 		return Boolean.getBoolean("org.swixml.designTime");
 	}
-	
+
 	/**
 	 * Factory returning initialized Validator instances based on the default
 	 * Jakarta Bean Validation provider and following the XML configuration.
@@ -166,12 +166,12 @@ public class SwingEngine<T extends Container> implements LogAware
 	//
 	// Member Variables
 	//
-	
+
 	/**
 	 * Swixml Parser.
 	 */
 	private Parser parser = new Parser(this);
-	
+
 	/**
 	 * Client object hosting the SwingEngine, alternative to extending the
 	 * SwingEngine Class. The object which instantiated this SwingEngine.
@@ -179,7 +179,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	private T client;
 	public T getClient() { return client; }
 	public void setClient(T client) { this.client = client; }
-	
+
 	private ELMethods<T> elMethods;
 	public ELMethods<T> getELMethods()
 	{
@@ -197,20 +197,20 @@ public class SwingEngine<T extends Container> implements LogAware
 	 * attribute.
 	 */
 	private Map<String, Object> idmap = new HashMap<String, Object>();
-	
+
 	/**
 	 * Flattened Swing object tree, contains all object, even the ones without
 	 * an id.
 	 */
 	private Collection<Component> components = null;
-	
+
 	/**
 	 * used for localization.
 	 */
 	private Localizer localizer = null;
 	public Localizer getLocalizer() { return localizer; }
 	public void setLocalizer(Localizer localizer) { this.localizer = localizer; }
-	
+
 	/**
 	 * used for bean validation.
 	 */
@@ -224,8 +224,8 @@ public class SwingEngine<T extends Container> implements LogAware
 	public void setBeanValidator(Validator beanValidator)
 	{
 		this.beanValidator = beanValidator;
-	}	
-	
+	}
+
 	//
 	// Private Constants
 	//
@@ -234,7 +234,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	 * Classloader to load resources
 	 */
 	private final TagLibrary taglib = SwingTagLibrary.getInstance(this);
-	
+
 	private final LayoutConverterLibrary layoutlib = LayoutConverterLibrary.getInstance();
 	public LayoutConverterLibrary getLayoutLibrary() { return layoutlib; }
 
@@ -272,7 +272,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	private ELProcessor elProcessor = null;
 	/**
 	 * Get an {@link ELProcessor} for using Jakarta Expression Language in a stand-alone environment.
-	 * 
+	 *
 	 * @return An API for using Jakarta Expression Language with {@link ExpressionFactory}.
 	 */
 	public ELProcessor getELProcessor()
@@ -283,29 +283,29 @@ public class SwingEngine<T extends Container> implements LogAware
 	}
 	/**
 	 * Set an {@link ELProcessor} for using Jakarta Expression Language in a stand-alone environment.
-	 * 
+	 *
 	 * @param elProcessor The API for using Jakarta Expression Language.
 	 */
 	public void setELProcessor(ELProcessor elProcessor)
 	{
 		this.elProcessor = elProcessor;
 	}
-	
+
 	/**
 	 * Get the {@link ELManager} maintains an instance of {@link ExpressionFactory}
 	 * and {@link StandardELContext}, for parsing and evaluating Jakarta Expression
 	 * Language expressions.
-	 * 
-	 * @return The {@link ELManager} to manage Jakarta EL parsing and evaluation environment. 
+	 *
+	 * @return The {@link ELManager} to manage Jakarta EL parsing and evaluation environment.
 	 */
 	public ELManager getELManager()
 	{
 		return getELProcessor().getELManager();
 	}
-	
+
 	/**
 	 * Get {@link ELContext} information for expression parsing and evaluation.
-	 * 
+	 *
 	 * @return The {@link ELContext} with {@link ELResolver}, {@link ImportHandler},
 	 *		   {@link FunctionMapper}, and {@link VariableMapper}.
 	 */
@@ -313,7 +313,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	{
 		return getELManager().getELContext();
 	}
-	
+
 	/**
 	 * Default constructor for a SwingEngine.
 	 */
@@ -325,11 +325,11 @@ public class SwingEngine<T extends Container> implements LogAware
 			setLocalizer(new LocalizerDefaultImpl());
 		getLocalizer().setResourceBundle(SwingEngine.default_resource_bundle_name);
 		setLocale(SwingEngine.default_locale);
-		
+
 		UIManager.getDefaults().put(DEFAULT_FONT_KEY, MatteMetalTheme.getDefaultFontUIResource());
 		UIManager.getDefaults().put(DEFAULT_COLOR_KEY, MatteMetalTheme.getDefaultColorUIResource());
 	}
-	
+
 	/**
 	 * Constructor to be used if the SwingEngine is not extend but used through
 	 * object composition.
@@ -341,7 +341,7 @@ public class SwingEngine<T extends Container> implements LogAware
 		this();
 		setClient(client);
 	}
-	
+
 	/**
 	 * Gets the parsing of the XML started.
 	 *
@@ -471,10 +471,10 @@ public class SwingEngine<T extends Container> implements LogAware
 			logger.error("error parsing XML document", e);
 			throw (e);
 		}
-		
+
 		// reset components collection
 		components = null;
-		
+
 		// initialize all client fields with UI components by their id
 		// Issue 44
 		// mapMembers(result);
@@ -486,16 +486,16 @@ public class SwingEngine<T extends Container> implements LogAware
 	/**
 	 * Inserts swing object rendered from an XML document into the given
 	 * container.
-	 * 
+	 *
 	 * <p>Differently to the render methods, insert does NOT consider the root
 	 * node of the XML document.</p>
-	 * 
+	 *
 	 * <p><b>NOTE:</b> <code>insert()</code> does NOT <code>clear()</code> the
 	 * idmap before rendering. Therefore, if this SwingEngine's parser was used
 	 * before, the idmap still contains (key/value) pairs (id, JComponent obj. references).
 	 * If insert() is NOT used to insert in a previously (with this very
 	 * SwingEngine) rendered UI, it is highly recommended to clear the idmap:</p>
-	 * 
+	 *
 	 * <pre>
 	 *	  <code>mySwingEngine.getIdMap().clear()</code>
 	 * </pre>
@@ -524,16 +524,16 @@ public class SwingEngine<T extends Container> implements LogAware
 	/**
 	 * Inserts swing objects rendered from an XML reader into the given
 	 * container.
-	 * 
+	 *
 	 * <p>Differently to the render methods, insert does NOT consider the
 	 * root node of the XML document.</p>
-	 * 
+	 *
 	 * <p><b>NOTE:</b> Insert() does NOT clear() the idmap before rendering.
 	 * Therefore, if this SwingEngine's parser was used before, the idmap still
 	 * contains (key/value) pairs (id, JComponent obj. references). If insert() is NOT
 	 * used to insert in a previously (with this very SwingEngine) rendered UI, it is highly
 	 * recommended to clear the idmap:</p>
-	 * 
+	 *
 	 *	  <pre><code>mySwingEngine.getIdMap().clear()</code></pre>
 	 *
 	 * @param reader <code>Reader</code> xml-file path info
@@ -555,21 +555,21 @@ public class SwingEngine<T extends Container> implements LogAware
 	/**
 	 * Inserts swing objects rendered from an XML reader into the given
 	 * container.
-	 * 
+	 *
 	 * <p>Differently to the render methods, insert does NOT consider the
 	 * root node of the XML document.</p>
-	 * 
+	 *
 	 * <p><b>NOTE:</b> The insert() method does NOT clear() the idmap before rendering.
 	 * Therefore, if this SwingEngine's parser was used before, the idmap still
 	 * contains (key/value) pairs (id, JComponent obj. references).
 	 * If insert() is NOT used to insert in a previously (with this very SwingEngine)
 	 * rendered UI, it is highly recommended to clear the idmap:</p>
-	 * 
+	 *
 	 *	  <pre><code>mySwingEngine.getIdMap().clear()</code></pre>
 	 *
 	 * @param resource <code>String</code> xml-file path info
 	 * @param container <code>Container</code> target, the swing obj, are added to.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void insert(final String resource, final T container)
@@ -591,21 +591,21 @@ public class SwingEngine<T extends Container> implements LogAware
 	/**
 	 * Inserts swing objects rendered from an XML document into the given
 	 * container.
-	 * 
+	 *
 	 * <p>Differently to the parse methods, insert does NOT consider the
 	 * root node of the XML document.</p>
-	 * 
+	 *
 	 * <p><b>NOTE:</b> The insert() method does NOT clear() the idmap before rendering.
 	 * Therefore, if this SwingEngine's parser was used before, the idmap still
 	 * contains (key/value) pairs (id, JComponent obj. references).
 	 * If insert() is NOT used to insert in a previously (with this very SwingEngine)
 	 * rendered UI, it is highly recommended to clear the idmap:</p>
-	 * 
+	 *
 	 *	  <pre><code>mySwingEngine.getIdMap().clear()</code></pre>
 	 *
 	 * @param jdoc <code>Document</code> xml-doc path info
 	 * @param container <code>Container</code> target, the swing obj, are added to
-	 * 
+	 *
 	 * @throws Exception <code>Exception</code> exception thrown by the parser
 	 */
 	public void insert(final Document jdoc, final T container)
@@ -656,7 +656,7 @@ public class SwingEngine<T extends Container> implements LogAware
 
 	/**
 	 * Use <code>Application.getInstance(SwingApplication.class).getMainFrame()</code>
-	 * 
+	 *
 	 * @return <code>Window</code> a parent for all dialogs.
 	 */
 	public static Frame getAppFrame()
@@ -705,7 +705,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	/**
 	 * Removes all un-displayable components from the id map and deletes the
 	 * components collection (for recreation at the next request).
-	 * 
+	 *
 	 * <p>A component is made un-displayable either when it is removed from a
 	 * displayable containment hierarchy or when its containment hierarchy is
 	 * made un-displayable. A containment hierarchy is made un-displayable when
@@ -717,7 +717,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	{
 		List<Object> zombies = new ArrayList<Object>();
 		Iterator<String> it = idmap.keySet().iterator();
-		
+
 		while (it != null && it.hasNext())
 		{
 			String key = it.next();
@@ -725,10 +725,10 @@ public class SwingEngine<T extends Container> implements LogAware
 			if ( obj instanceof Component && !((Component) obj).isDisplayable() )
 				zombies.add(key);
 		}
-		
+
 		for ( int i = 0; i < zombies.size(); i++ )
 			idmap.remove(zombies.get(i));
-		
+
 		components = null;
 		return zombies.size();
 	}
@@ -754,10 +754,10 @@ public class SwingEngine<T extends Container> implements LogAware
 	public Component find(final String id)
 	{
 		Object obj = idmap.get(id);
-		
+
 		if ( obj != null && !Component.class.isAssignableFrom(obj.getClass()) )
 			obj = null;
-		
+
 		return (Component) obj;
 	}
 
@@ -773,7 +773,7 @@ public class SwingEngine<T extends Container> implements LogAware
 			String tag = l.getLanguage() + "-" + l.getCountry() + "-" + MAC_OSX_LOCALE_VARIANT;
 			l = Locale.forLanguageTag(tag);
 		}
-		
+
 		this.localizer.setLocale(l);
 	}
 
@@ -789,7 +789,7 @@ public class SwingEngine<T extends Container> implements LogAware
 
 	/**
 	 * ConverterLibrary and TagLibrary need to be set up before rendering is called.
-	 * 
+	 *
 	 * @return <code>TagLibrary</code>- the TagLibrary to insert custom tags.
 	 */
 	public TagLibrary getTaglib()
@@ -799,13 +799,13 @@ public class SwingEngine<T extends Container> implements LogAware
 
 	/**
 	 * Recursively Sets an ActionListener
-	 * 
-	 * <p>Backtracking algorithm: if al was set for a child component, 
+	 *
+	 * <p>Backtracking algorithm: if al was set for a child component,
 	 * its not being set for its parent</p>
-	 * 
+	 *
 	 * @param c <code>Component</code> start component
 	 * @param al <code>ActionListener</code>
-	 * 
+	 *
 	 * @return <code>boolean</code> true, if ActionListener was set.
 	 */
 	public boolean setActionListener(final Component c, final ActionListener al)
@@ -819,7 +819,7 @@ public class SwingEngine<T extends Container> implements LogAware
 				for ( Component value : s )
 					b = b | setActionListener(value, al);
 			}
-			
+
 			if ( !b )
 			{
 				if ( JMenu.class.isAssignableFrom(c.getClass()) )
@@ -842,12 +842,12 @@ public class SwingEngine<T extends Container> implements LogAware
 	/**
 	 * Walks the whole tree to add all components into the
 	 * <code>components</code> collection.
-	 * 
+	 *
 	 * <p>Note: There is another collection available that only tracks those object
 	 * that were provided with an <em>id</em> attribute, which hold an unique id</p>
 	 *
 	 * @param c <code>Component</code> recursive start component.
-	 * 
+	 *
 	 * @return <code>Iterator</code> to walk all components, not just the id
 	 *		   components.
 	 */
@@ -886,7 +886,7 @@ public class SwingEngine<T extends Container> implements LogAware
 			throw new IllegalArgumentException("parameter fieldName is null!");
 		if ( getClient() == null )
 			throw new IllegalStateException("client obj is null!");
-		
+
 		boolean fullaccess = true;
 		Field field = null;
 		try
@@ -915,7 +915,7 @@ public class SwingEngine<T extends Container> implements LogAware
 			}
 			return;
 		}
-		
+
 		// field and object type need to be compatible and field must not be
 		// declared Transient
 		if ( field.getType().isAssignableFrom(widget.getClass()) && !isTransient(field.getModifiers()) )
@@ -985,7 +985,7 @@ public class SwingEngine<T extends Container> implements LogAware
 				fullaccess = false; // applet or otherwise restricted environment
 				flds = cls.getFields();
 			}
-			
+
 			//
 			// loops through class' declared fields and try to find a matching widget.
 			//
@@ -1029,7 +1029,7 @@ public class SwingEngine<T extends Container> implements LogAware
 						}
 					}
 				}
-				
+
 				//
 				// If an intended mapping didn't work out the objects member
 				// would remain un-initialized.
@@ -1050,13 +1050,13 @@ public class SwingEngine<T extends Container> implements LogAware
 						}
 					}
 					else
-					{ 
+					{
 						// SwingEngine.DEBUG_MODE)
 						System.err.println(flds[i].getType() + " : " + flds[i].getName() + SwingEngine.MAPPING_ERROR_MSG);
 					}
 				}
 			}
-			
+
 			// Since getDeclaredFields() only works on the class itself, not the
 			// super class,
 			// we need to make this recursive down to the object.class
@@ -1082,16 +1082,16 @@ public class SwingEngine<T extends Container> implements LogAware
 	 *
 	 * @param container <code>container</code> recursive start component.
 	 * @param predicate evaluate component. Return false avoid to navigate it
-	 * 
+	 *
 	 */
 	public static void traverse(final java.awt.Container container, final Predicate predicate)
 	{
 		if ( container == null )
 			return;
-		
+
 		if ( predicate == null )
 			return;
-		
+
 		for ( int i = 0; i < container.getComponentCount(); ++i )
 		{
 			final java.awt.Component c = container.getComponent(i);
@@ -1106,7 +1106,7 @@ public class SwingEngine<T extends Container> implements LogAware
 	/**
 	 * Walks the whole tree to add all components into the
 	 * <code>components</code> collection.
-	 * 
+	 *
 	 * <p>Note: There is another collection available that only tracks
 	 * those object that were provided with an <em>id</em> attribute,
 	 * which hold an unique id</p>
@@ -1157,7 +1157,7 @@ public class SwingEngine<T extends Container> implements LogAware
 
 	/**
 	 * Indicates if currently running on Mac OS X
-	 * 
+	 *
 	 * use Application.getInstance().isMacOSX();
 	 *
 	 * @return <code>boolean</code>- indicating if currently running on a MAC
@@ -1184,7 +1184,7 @@ public class SwingEngine<T extends Container> implements LogAware
 				System.exit(0);
 			}
 		};
-		
+
 		if ( getClient() != null )
 		{
 			Class<? extends Container> clientClass = getClient().getClass();
@@ -1203,20 +1203,20 @@ public class SwingEngine<T extends Container> implements LogAware
 			}
 		}
 	}
-	
+
 	/**
 	 * Show a dialog that displays a message with an Error icon.
-	 * 
+	 *
 	 * @param ex The throwable to be displayed.
 	 */
 	public static void showErrorDialog(Throwable ex)
 	{
 		Application.showErrorDialog(ex);
 	}
-	
+
 	/**
 	 * Show a dialog that displays a message with an Error icon.
-	 * 
+	 *
 	 * @param window determines the <code>Window</code> to display the dialog.
 	 * @param ex The throwable to be displayed.
 	 */
@@ -1224,24 +1224,24 @@ public class SwingEngine<T extends Container> implements LogAware
 	{
 		Application.showErrorDialog(window, ex);
 	}
-	
+
 	/**
      * Causes a new instance of {@link Window} extension to be executed
      * asynchronously on the AWT Event Dispatching Thread (EDT). The new
      * instance will be visible after all pending AWT events have been
      * processed.
-     * 
+     *
      * <p>
      * The default constructor of the extended {@link Window} application
      * must create an instance of {@link SwingEngine} and use it to
      * render the {@code SwiXML} file.
      * </p>
-     * 
+     *
      * <p>
      * All {@link Exception}s are caught, logged and displayed in a
      * {@link JOptionPane}.
      * </p>
-	 * 
+	 *
 	 * @param <W> The generic {@code Window} type.
 	 * @param windowClass The class to be instantiated and run.
 	 */
@@ -1262,26 +1262,26 @@ public class SwingEngine<T extends Container> implements LogAware
 			}
 		});
 	}
-	
+
 	/**
      * Causes a new instance of {@link JFrame} extension to be executed
      * asynchronously on the AWT Event Dispatching Thread (EDT). The new
      * instance will be visible after all pending AWT events have been
      * processed.
-     * 
+     *
      * <p>
      * The default constructor of the extended {@link JFrame} application
      * must create an instance of {@link SwingEngine} and use it to
      * render the {@code SwiXML} file.
      * </p>
-     * 
+     *
      * <p>
      * All {@link Exception}s are caught, logged and displayed in a
      * {@link JOptionPane}.
      * </p>
-	 * 
+	 *
 	 * @param <F> The generic {@code JFrame} type.
-	 * @param windowClass The class to be instantiated and run.
+	 * @param frameClass The class to be instantiated and run.
 	 * @param decorated A hint decorate new <code>JFrame</code>s.
 	 */
 	public static <F extends JFrame> void invokeLater(Class<F> frameClass, boolean decorated)

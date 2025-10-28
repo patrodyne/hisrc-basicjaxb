@@ -4,7 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../../main/resources/swixml.xsd"
 
-	size="${el.pageSize(60,8)}"
+	size="${el.pageSize(60,12)}"
 	preferredSize="${el.size()}"
 	resizable="false"
 	title="Login Dialog"
@@ -33,8 +33,8 @@
 		    <panel 
 		    	layout="GridbagLayout(columnWeights(1,10))"
 		    	border="CompoundBorder(EmptyBorder(10,1,10,10), TitledBorder(Security information,LEFT,TOP,*-BOLD-*))"
-		    	background="*-30-95"
-		    	preferredSize="scaleSize(90%)"
+		    	background="*-30-85"
+		    	preferredSize="scaleSize(80%,60%)"
 		    >
 		        <label text="Login">
 		        	<gridbagconstraints id="gbc1" gridx="0" gridy="0" ipadx="20" anchor="WEST"/>

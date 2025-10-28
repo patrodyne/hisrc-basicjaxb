@@ -17,6 +17,15 @@
 
 	<dependencies>
 
+		<!-- Java Swing Pluggable Look and Feel (plaf) -->
+		<!--
+		<dependency>
+			<groupId>com.formdev</groupId>
+			<artifactId>flatlaf</artifactId>
+			<version>3.6</version>
+		</dependency>
+		-->
+
 		<!-- Jakarata Expression Language -->
 		<dependency>
 			<groupId>org.glassfish</groupId>

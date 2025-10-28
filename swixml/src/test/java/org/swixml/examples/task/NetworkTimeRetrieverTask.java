@@ -5,30 +5,32 @@ import static org.jdesktop.application.Application.showInformationDialog;
 import static org.jdesktop.application.Application.showWarningDialog;
 import static org.swixml.examples.task.BackgroundTaskExample.WINDOW;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.net.URI;
-import java.net.URL;
+import java.net.URISyntaxException;
 
 import org.jdesktop.application.Application;
 import org.jdesktop.application.Task;
 
 /**
  * Retrieve the current datetime from <a href="http://worldtimeapi.org">WorldTimeAPI</a>.
- * 
+ *
  * <p>WorldTimeAPI is a simple web service which returns the current local time for a
  * given timezone as either plain-text or JSON.</p>
- * 
+ *
  * <p>{@code datetime: 2025-03-12T14:22:29.109268-04:00}</p>
  */
 public class NetworkTimeRetrieverTask extends Task<String, Void>
 {
 	private static final String DIALOG_TITLE = ListFilesTask.class.getSimpleName();
+	private static final String WORLD_TIME_API = "http://worldtimeapi.org/api/ip.txt";
 
 	/**
 	 * Construct with an {@link Application} instance.
-	 * 
+	 *
 	 * @param app The The jdesktop class for Swing applications.
 	 */
 	public NetworkTimeRetrieverTask(Application app)
@@ -46,16 +48,14 @@ public class NetworkTimeRetrieverTask extends Task<String, Void>
      * </ul>
      *
      * @return The result. Use @{link javax.swing.SwingWorker.get()} to access it.
-     * 
+     *
      * @throws Exception if unable to compute a result.
      */
 	@Override
-	protected String doInBackground()
-		throws Exception
+	protected String doInBackground() throws Exception
 	{
 		String line = null;
-		URL wtServer = new URI("http://worldtimeapi.org/api/ip.txt").toURL();
-		try ( InputStream is = wtServer.openStream() )
+		try ( InputStream is = new URI(WORLD_TIME_API).toURL().openStream() )
 		{
 			InputStreamReader isr = new InputStreamReader(is);
 			LineNumberReader lnr = new LineNumberReader(isr);
@@ -69,6 +69,10 @@ public class NetworkTimeRetrieverTask extends Task<String, Void>
 				}
 			}
 		}
+		catch (IOException | URISyntaxException ex)
+		{
+			throw new Exception("Cannot connect to '" + WORLD_TIME_API +"'", ex);
+		}
 		return line;
 	}
 
@@ -78,14 +82,14 @@ public class NetworkTimeRetrieverTask extends Task<String, Void>
 	{
 		showErrorDialog(WINDOW, cause);
 	}
-	
+
 	/** {@inheritDoc} */
 	@Override
 	protected void succeeded(String result)
 	{
 		showInformationDialog(WINDOW, "Succeeded", DIALOG_TITLE);
 	}
-	
+
 	/** {@inheritDoc} */
 	@Override
 	protected void cancelled()

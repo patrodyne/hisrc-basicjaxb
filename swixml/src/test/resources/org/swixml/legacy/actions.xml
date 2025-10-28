@@ -6,7 +6,7 @@
 
 	id="frame"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
-	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(360,1.50)"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(360,1.25)"
 	title="Swixml - Action Sample"
 	size="${el.pageSize(40,12)}"
 	preferredSize="${el.size()}"

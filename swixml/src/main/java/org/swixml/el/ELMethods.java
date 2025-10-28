@@ -8,8 +8,8 @@ import static javax.swing.UIManager.getDefaults;
 import static javax.swing.UIManager.getLookAndFeelDefaults;
 import static org.jvnet.basicjaxb.lang.StringUtils.isBlank;
 import static org.swixml.Parser.ATTR_CONSTRAINTS;
-import static org.swixml.Parser.ELVAR_DOM_ATTR_CONSTRAINTS;
 import static org.swixml.Parser.ELVAR_DOM_ATTRIBUTE;
+import static org.swixml.Parser.ELVAR_DOM_ATTR_CONSTRAINTS;
 import static org.swixml.Parser.ELVAR_DOM_ELEMENT;
 import static org.swixml.SwingEngine.DEFAULT_COLOR_KEY;
 import static org.swixml.SwingEngine.DEFAULT_FONT_KEY;
@@ -45,7 +45,7 @@ import jakarta.el.VariableMapper;
 
 /**
  * Expression Language methods.
- * 
+ *
  * <p>
  * Register an instance of this class in your {@link SwingApplication} implementation:
  * </p>
@@ -57,17 +57,18 @@ public class ELMethods<T extends Container>
 	public static final String WIDEST_LETTER = "W";
 	public static final String AVERAGE_LETTER = "e";
 	public static final String THINEST_LETTER = "l";
+	public static final int DEFAULT_ROWGAP = 1;
 
 	/**
 	 * Construct with a {@link SwingEngine}.
-	 * 
+	 *
 	 * @param engine A {@link SwingEngine} instance.
 	 */
 	public ELMethods(SwingEngine<T> engine)
 	{
 		setSwingEngine(engine);
 	}
-	
+
 	private SwingEngine<T> swingEngine;
 	public SwingEngine<T> getSwingEngine()
 	{
@@ -81,7 +82,7 @@ public class ELMethods<T extends Container>
 	public T getContainer() { return getSwingEngine().getClient(); }
 	public ELContext getELContext() { return getSwingEngine().getELContext(); }
 	public ELProcessor getELProcessor() { return getSwingEngine().getELProcessor(); }
-	
+
 	private Font defaultFont = null;
 	public Font getDefaultFont()
 	{
@@ -113,7 +114,7 @@ public class ELMethods<T extends Container>
 	{
 		this.defaultFont = defaultFont;
 	}
-	
+
 	private Color defaultColor = null;
 	public Color getDefaultColor()
 	{
@@ -129,22 +130,22 @@ public class ELMethods<T extends Container>
 	{
 		this.defaultColor = defaultColor;
 	}
-	
+
 	/**
 	 * Get the graphics context for the container.
-	 * 
+	 *
 	 * @return The graphics context for the container.
 	 */
 	private Graphics getGraphics()
 	{
 		return getContainer().getGraphics();
 	}
-	
+
 	/**
 	 * Get information about the rendering of a particular or current font.
-	 * 
+	 *
 	 * @param font The font to use for the metrics or null for the current font.
-	 * 
+	 *
 	 * @return The information about the rendering of a particular or current font.
 	 */
 	public FontMetrics getFontMetrics(Font font)
@@ -161,12 +162,12 @@ public class ELMethods<T extends Container>
 			metrics = getContainer().getFontMetrics(font);
 		return metrics;
 	}
-	
+
 	/**
 	 * Get information about the rendering of a particular or current font.
-	 * 
+	 *
 	 * @param fontSpec The font specification to use for the metrics or null for the current font.
-	 * 
+	 *
 	 * @return The information about the rendering of a particular or current font.
 	 */
 	private FontMetrics getFontMetrics(String fontSpec)
@@ -178,7 +179,7 @@ public class ELMethods<T extends Container>
 			font = currentFont();
 		return getFontMetrics(font);
 	}
-	
+
 	private Element parentElement(Element element)
 	{
 		if ( element.getParentNode() instanceof Element )
@@ -187,7 +188,7 @@ public class ELMethods<T extends Container>
 			element = null;
 		return element;
 	}
-	
+
 	private Map<Element, Font> fontMap;
 	public Map<Element, Font> getFontMap()
 	{
@@ -202,7 +203,7 @@ public class ELMethods<T extends Container>
 
 	/**
 	 * Determine the parent font from the fontMap cache.
-	 * 
+	 *
 	 * @return the parent or default font.
 	 */
 	public Font parentFont()
@@ -214,9 +215,9 @@ public class ELMethods<T extends Container>
 	/**
 	 * Determine the parent font from the fontMap cache
 	 * and the given DOM element.
-	 * 
+	 *
 	 * @param domElement A DOM element.
-	 * 
+	 *
 	 * @return the parent or default font.
 	 */
 	private Font parentFont(Element domElement)
@@ -234,16 +235,16 @@ public class ELMethods<T extends Container>
 				}
 				else
 					element = parentElement(element);
-				
+
 			};
 		}
 		return parentFont;
 	}
-	
+
 	/**
 	 * Determine the current font as either an EL variable reference or
 	 * the UI default font.
-	 * 
+	 *
 	 * @return the current or default font.
 	 */
 	public Font currentFont()
@@ -271,36 +272,36 @@ public class ELMethods<T extends Container>
 		}
 		return currentFont;
 	}
-	
+
 	/**
 	 * Encode a font name and font style and the current font size into
 	 * the {@link FontConverter} format and convert to a {@link Font}.
-	 * 
+	 *
 	 * @param name The font name ("Monospaced", "SansSerif", "Serif", "Dialog", etc).
 	 * @param style The font style ("PLAIN", "BOLD", "ITALIC", "BOLDITALIC")
-	 * 
+	 *
 	 * @return The {@link FontConverter} representation.
 	 */
 	public Font font(String name, String style)
 	{
 		return font(format("%s-%s-%s", name, style, "*"));
 	}
-	
+
 	/**
 	 * Encode a font name, font style and font size into
 	 * the {@link FontConverter} format and convert to a {@link Font}.
-	 * 
+	 *
 	 * @param name The font name ("Monospaced", "SansSerif", "Serif", "Dialog", etc).
 	 * @param style The font style ("PLAIN", "BOLD", "ITALIC", "BOLDITALIC")
 	 * @param size The font size (in points).
-	 * 
+	 *
 	 * @return The {@link FontConverter} representation.
 	 */
 	public Font font(String name, String style, int size)
 	{
 		return font(format("%s-%s-%02d", name, style, size));
 	}
-	
+
 	private Font font(String fontSpec)
 	{
 		Font font = FontConverter.convert(fontSpec, parentFont());
@@ -312,12 +313,12 @@ public class ELMethods<T extends Container>
 		}
 		return font;
 	}
-	
+
 	/**
-	 * Gets the standard height (pixels) of a line of text in this font. 
-	 * 
+	 * Gets the standard height (pixels) of a line of text in this font.
+	 *
 	 * @param fontSpec The font specification to use or null to use the current font.
-	 * 
+	 *
 	 * @return The standard height (pixels) of a line of text in this font.
 	 */
 	public int fontHeight(String fontSpec)
@@ -328,17 +329,17 @@ public class ELMethods<T extends Container>
 	{
 		return getFontMetrics(font).getHeight();
 	}
-	
+
 	/**
 	 * Gets the standard height of a line of text in the current font.
-	 * 
+	 *
 	 * @return The standard height (pixels) of a line of text in the current font.
 	 */
 	public int fontHeight()
 	{
 		return fontHeight((String) null);
 	}
-	
+
 	/**
 	 * The current font size in points;
 	 */
@@ -346,25 +347,25 @@ public class ELMethods<T extends Container>
 	{
 		return currentFont().getSize();
 	}
-	
+
 	/**
 	 * Calculate the current font size plus a gap, in points.
-	 * 
+	 *
 	 * @param gap The number of points to add to the point size.
-	 * 
+	 *
 	 * @return The current font size plus a gap, in points
 	 */
 	public Integer fieldHeight(int gap)
 	{
 		return fontSize()+gap;
 	}
-	
+
 	/**
-	 * Gets the standard width of a text field in the given or current font. 
-	 * 
+	 * Gets the standard width of a text field in the given or current font.
+	 *
 	 * @param fontSpec The font specification to use or null to use the current font.
 	 * @param text The text to provide the length.
-	 * 
+	 *
 	 * @return The standard length (pixels) of a text field in the given or current font.
 	 */
 	public int fieldWidth(String fontSpec, String text)
@@ -379,26 +380,26 @@ public class ELMethods<T extends Container>
 			text = AVERAGE_LETTER;
 		return getFontMetrics(font).stringWidth(text);
 	}
-	
+
 	/**
-	 * Gets the standard width (pixels) of a text field in the current font. 
-	 * 
+	 * Gets the standard width (pixels) of a text field in the current font.
+	 *
 	 * @param text The text to determine the length for.
-	 * 
+	 *
 	 * @return The standard width (pixels) of a text field in the current font.
 	 */
 	public int fieldWidth(String text)
 	{
 		return fieldWidth((String) null, text);
 	}
-	
+
 	/**
-	 * Gets the repeated width of a text field in the given or current font. 
-	 * 
+	 * Gets the repeated width of a text field in the given or current font.
+	 *
 	 * @param fontSpec The font to use or null to use the current font.
 	 * @param text The text to determine the length for.
 	 * @param repeat The number of times to repeat the single width.
-	 * 
+	 *
 	 * @return The repeated width (pixels) of a text field in the given or current font.
 	 */
 	public int fieldWidth(String fontSpec, String text, int repeat)
@@ -409,39 +410,39 @@ public class ELMethods<T extends Container>
 	{
 		return fieldWidth(font, text) * repeat;
 	}
-	
+
 	/**
 	 * Gets the repeated width of the text field for the current font.
-	 * 
+	 *
 	 * <p>If <code>text</code> is a single character then it will be used
 	 * to the text to determine the length for; otherwise, it will
 	 * be used as the font specification</p>
-	 * 
+	 *
 	 * @param text The text to determine the length for or font specification.
 	 * @param repeat The number of times to repeat the single width.
-	 * 
+	 *
 	 * @return The repeated width (pixels) of the text field for the current font.
 	 */
 	public int fieldWidth(String text, int repeat)
 	{
-		if ( (text != null) && (text.length() == 1) ) 
+		if ( (text != null) && (text.length() == 1) )
 			return fieldWidth((String) null, text, repeat);
 		else
 			return fieldWidth(text, AVERAGE_LETTER, repeat);
 	}
-	
+
 	/**
-	 * Gets the repeated width of an average letter for the current font. 
-	 * 
+	 * Gets the repeated width of an average letter for the current font.
+	 *
 	 * @param repeat The number of times to repeat the single width.
-	 * 
+	 *
 	 * @return The repeated width (pixels) of a average letter for the current font.
 	 */
 	public int fieldWidth(int repeat)
 	{
 		return fieldWidth(AVERAGE_LETTER, repeat);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <VT> VT resolveVariable(String varName, Class<VT> type)
 	{
@@ -456,7 +457,7 @@ public class ELMethods<T extends Container>
 		}
 		return value;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <BT> BT resolveBean(String beanName, Class<BT> type)
 	{
@@ -469,14 +470,14 @@ public class ELMethods<T extends Container>
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Set the 'bindWith' path to the given value then
 	 * return the 'bindWith path.
-	 * 
+	 *
 	 * @param path The 'bindWith' path.
 	 * @param value The 'bindWith' value.
-	 * 
+	 *
 	 * @return The given 'bindWith' path.
 	 */
 	public String bindWith(String path, String value)
@@ -491,14 +492,14 @@ public class ELMethods<T extends Container>
 		}
 		return bindWith;
 	}
-	
+
 	/**
 	 * Set the 'bindList' path to the given value then
 	 * return the 'bindList path.
-	 * 
+	 *
 	 * @param path The 'bindList' path.
 	 * @param value The 'bindList' value.
-	 * 
+	 *
 	 * @return The given 'bindList' path.
 	 */
 	public List<String> bindList(String path, List<String> value)
@@ -508,12 +509,12 @@ public class ELMethods<T extends Container>
 			getELProcessor().setValue(path, value);
 		return bindList;
 	}
-	
+
 	public Dimension size()
 	{
 		return currentSize();
 	}
-	
+
 	public Dimension size(int width, int height)
 	{
 		Dimension size = new Dimension(width, height);
@@ -528,20 +529,50 @@ public class ELMethods<T extends Container>
 		}
 		return size;
 	}
-	
+
+	public int rowHeight()
+	{
+		return rowHeight(currentFont());
+	}
+
+	public int rowHeight(int rowgap)
+	{
+		return rowHeight(currentFont(), rowgap);
+	}
+
+	public int rowHeight(String fontSpec)
+	{
+		return rowHeight(fontSpec, DEFAULT_ROWGAP);
+	}
+
+	public int rowHeight(Font font)
+	{
+		return rowHeight(font, DEFAULT_ROWGAP);
+	}
+
+	public int rowHeight(String fontSpec, int rowgap)
+	{
+		return fontHeight(fontSpec) + rowgap;
+	}
+
+	public int rowHeight(Font font, int rowgap)
+	{
+		return fontHeight(font) + rowgap;
+	}
+
 	public Dimension pageSize(String fontSpec, int cols, int rows, int rowgap, String text)
 	{
 		int width = fieldWidth(fontSpec, text, cols);
-		int height = rows * ( fontHeight(fontSpec) + rowgap);
+		int height = rows * rowHeight(fontSpec, rowgap);
 		return size(width, height);
 	}
 	private Dimension pageSize(Font font, int cols, int rows, int rowgap, String text)
 	{
 		int width = fieldWidth(font, text, cols);
-		int height = rows * ( fontHeight(font) + rowgap);
+		int height = rows * rowHeight(font, rowgap);
 		return size(width, height);
 	}
-	
+
 	public Dimension pageSize(String fontSpec, int cols, int rows, int rowgap)
 	{
 		return pageSize(fontSpec, cols, rows, rowgap, AVERAGE_LETTER);
@@ -550,42 +581,42 @@ public class ELMethods<T extends Container>
 	{
 		return pageSize(font, cols, rows, rowgap, AVERAGE_LETTER);
 	}
-	
+
 	public Dimension pageSize(String fontSpec, int cols, int rows)
 	{
-		return pageSize(fontSpec, cols, rows, 0);
+		return pageSize(fontSpec, cols, rows, DEFAULT_ROWGAP);
 	}
 	private Dimension pageSize(Font font, int cols, int rows)
 	{
-		return pageSize(font, cols, rows, 0);
+		return pageSize(font, cols, rows, DEFAULT_ROWGAP);
 	}
-	
+
 	public Dimension pageSize(int cols, int rows)
 	{
 		return pageSize(currentFont(), cols, rows);
 	}
-	
+
 	public int scaleSizeWidth(String pw)
 	{
 		return scaleSizeWidth(parsePercent(pw));
 	}
-	
+
 	public int scaleSizeWidth(double scale)
 	{
 		double sw = currentSize().getWidth();
 		return toIntExact(round(scale * sw));
 	}
-	
+
 	public int scaleSizeHeight(String ph)
 	{
 		return scaleSizeHeight(parsePercent(ph));
 	}
-	
+
 	public int scaleSizeHeight(double scale)
 	{
 		return toIntExact(round(scale * currentSize().getHeight()));
 	}
-	
+
 	private double parsePercent(String pct)
 	{
 		try
@@ -602,7 +633,7 @@ public class ELMethods<T extends Container>
 	{
 		return scaleSize(ps, ps);
 	}
-	
+
 	public Dimension scaleSize(String pw, String ph)
 	{
 		double dw = parsePercent(pw);
@@ -614,12 +645,12 @@ public class ELMethods<T extends Container>
 	{
 		return scaleSize(currentSize(), widthScale, heightScale);
 	}
-	
+
 	public Dimension scaleSize(double scale)
 	{
 		return scaleSize(scale, scale);
 	}
-	
+
 	public Dimension scaleSize(Window window, String pw, String ph)
 	{
 		try
@@ -633,19 +664,19 @@ public class ELMethods<T extends Container>
 			throw new IllegalArgumentException("Cannot parse size", pe);
 		}
 	}
-	
+
 	public Dimension scaleSize(Window window, double widthScale, double heightScale)
 	{
 		return scaleSize(window.getSize(), widthScale, heightScale);
 	}
-	
+
 	private Dimension scaleSize(Dimension size, double widthScale, double heightScale)
 	{
 		int width = (int) (widthScale * size.getWidth());
 		int height = (int) (heightScale * size.getHeight());
 		return size(width, height);
 	}
-	
+
 	private Map<Element, Dimension> sizeMap;
 	public Map<Element, Dimension> getSizeMap()
 	{
@@ -657,7 +688,7 @@ public class ELMethods<T extends Container>
 	{
 		this.sizeMap = sizeMap;
 	}
-	
+
 	public Dimension currentSize()
 	{
 		Dimension currentDimension = new Dimension();
@@ -677,7 +708,7 @@ public class ELMethods<T extends Container>
 					if ( !sizeSpec.isBlank() )
 					{
 						Dimension size = null;
-						
+
 						if ( getSizeMap().containsKey(element) )
 							size = getSizeMap().get(element);
 						else
@@ -690,7 +721,7 @@ public class ELMethods<T extends Container>
 										getSizeMap().put(element, size);
 							}
 						}
-						
+
 						if ( !isZero(size) )
 						{
 							currentDimension = size;
@@ -707,13 +738,13 @@ public class ELMethods<T extends Container>
 		}
 		return currentDimension;
 	}
-	
+
 	public int scale(int minValue, int maxValue, double scale)
 	{
 		Long value = round( scale * (maxValue - minValue) );
 		return minValue + toIntExact(value);
 	}
-	
+
 	public Rectangle scaleBounds(String px, String py, String pw, String ph)
 	{
 		try
@@ -729,25 +760,25 @@ public class ELMethods<T extends Container>
 			throw new IllegalArgumentException("Cannot parse bounds", pe);
 		}
 	}
-	
+
 	public Rectangle scaleBounds(double dx, double dy, double dw, double dh)
 	{
 		return scaleBounds(currentSize(), dx, dy, dw, dh);
 	}
-	
+
 	private Rectangle scaleBounds(Dimension size, double dx, double dy, double dw, double dh)
 	{
 		double sw = size.getWidth();
 		double sh = size.getHeight();
-		
+
 		int bx = toIntExact(round(dx * sw));
 		int by = toIntExact(round(dy * sh));
 		int bw = toIntExact(round(dw * sw));
 		int bh = toIntExact(round(dh * sh));
-		
+
 		return new Rectangle(bx, by, bw, bh);
 	}
-	
+
 	public Rectangle centerBounds(int bw, int bh)
 	{
 		// FIXME: Need component's center point
@@ -757,12 +788,12 @@ public class ELMethods<T extends Container>
 		int by = toIntExact(round(cp.y - (bh / 2.0)));
 		return new Rectangle(bx, by, bw, bh);
 	}
-	
+
 	public Rectangle centerBounds(double dw, double dh)
 	{
 		return centerBounds(toIntExact(round(dw)), toIntExact(round(dh)));
 	}
-	
+
 	public Rectangle centerBounds(Dimension size, String pw, String ph)
 	{
 		try
@@ -778,12 +809,12 @@ public class ELMethods<T extends Container>
 			throw new IllegalArgumentException("Cannot parse bounds", pe);
 		}
 	}
-	
+
 	public Rectangle centerBounds(String pw, String ph)
 	{
 		return centerBounds(currentSize(), pw, ph);
 	}
-	
+
 	public String titledBorder(String titleAttr)
 	{
 		Element domElement = resolveVariable(ELVAR_DOM_ELEMENT, Element.class);

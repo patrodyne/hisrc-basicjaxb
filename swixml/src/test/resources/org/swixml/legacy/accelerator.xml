@@ -4,15 +4,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 
-	name="mainframe"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
-	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(330,1.50)"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(330,1.25)"
+	name="mainframe"
 	size="${el.pageSize(120,30)}"
 	preferredSize="${el.size()}"
 	title="S W I X M L"
 	defaultCloseOperation="DISPOSE_ON_CLOSE"
 	alwaysOnTop="true"
 >
+	<!-- 
+	plaf="com.formdev.flatlaf.FlatLightLaf"
+	-->
 
 	<menubar name="menubar">
 	

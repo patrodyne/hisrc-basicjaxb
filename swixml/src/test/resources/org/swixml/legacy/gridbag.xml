@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.swixml.org/2007/swixml ../../../../../main/resources/swixml.xsd"
 	
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
-	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(45,1.00)"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(45,1.25)"
 	name="frame"
 	size="${el.pageSize(60,20)}"
 	preferredSize="${el.size()}"

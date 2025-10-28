@@ -6,7 +6,7 @@
 
 	name="mainframe"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
-	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(135,1.00)"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(135,1.25)"
 	size="${el.pageSize(120,30)}"
 	minimumSize="100%,100%"
 	title="Fun with SWIXML - Layouts"

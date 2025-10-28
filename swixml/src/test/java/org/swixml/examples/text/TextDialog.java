@@ -4,8 +4,11 @@ import static org.jdesktop.application.Application.getInstance;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 import javax.swing.undo.UndoManager;
 
@@ -16,11 +19,11 @@ import org.swixml.jsr.widgets.JTextFieldBind;
 public class TextDialog extends JDialogBind
 {
 	private static final long serialVersionUID = 20240701L;
-	
+
 	private class UndoableDocument extends PlainDocument
 	{
 		private static final long serialVersionUID = 20240701L;
-		
+
 		private UndoManager undoManager;
 		public UndoManager getUndoManager()
 		{
@@ -39,7 +42,7 @@ public class TextDialog extends JDialogBind
 			addUndoableEditListener(getUndoManager());
 		}
 	}
-	
+
 	/*
 	 * An extension of UndoableDocument to limit the text length
 	 * using the TextField columns property.
@@ -47,7 +50,7 @@ public class TextDialog extends JDialogBind
 	private class LimitLengthDocument extends UndoableDocument
 	{
 		private static final long serialVersionUID = 20240701L;
-		
+
 		private Integer limit = null;
 		public Integer getLimit()
 		{
@@ -78,7 +81,7 @@ public class TextDialog extends JDialogBind
 	 */
 	private JTextFieldBind limitedTextField;
 	public JTextFieldBind getLimitedTextField() { return limitedTextField; }
-	
+
 	/*
 	 * property referenced by "${window.limitLengthDocument}",
 	 * see TextDialog.xml
@@ -94,39 +97,52 @@ public class TextDialog extends JDialogBind
 	{
 		this.limitLengthDocument = limitLengthDocument;
 	}
-	
+
 	@Action
 	public void edit(ActionEvent ae)
 	{
+		// Sufficient for this application...
+		JTextComponent text = getLimitedTextField();
+		// ... but this discovers the text component dynamically!
+		if ( ae.getSource() instanceof JMenuItem )
+		{
+			JMenuItem mi = (JMenuItem) ae.getSource();
+			if ( mi.getParent() instanceof JPopupMenu )
+			{
+				JPopupMenu pm = (JPopupMenu) mi.getParent();
+				if ( pm.getInvoker() instanceof JTextComponent )
+					text = (JTextComponent) pm.getInvoker();
+			}
+		}
 		switch ( ae.getActionCommand() )
 		{
 			case "Undo":
 				System.err.println("edit: Undo");
-				UndoableDocument ud = (UndoableDocument) getLimitedTextField().getDocument();
+				UndoableDocument ud = (UndoableDocument) text.getDocument();
 				if ( ud.getUndoManager().canUndo() )
 					ud.getUndoManager().undo();
 				break;
 			case "Redo":
 				System.err.println("edit: Redo");
-				UndoableDocument rd = (UndoableDocument) getLimitedTextField().getDocument();
+				UndoableDocument rd = (UndoableDocument) text.getDocument();
 				if ( rd.getUndoManager().canRedo() )
 					rd.getUndoManager().redo();
 				break;
 			case "Cut":
 				System.err.println("edit: Cut");
-				getLimitedTextField().cut();
+				text.cut();
 				break;
 			case "Copy":
 				System.err.println("edit: Copy");
-				getLimitedTextField().copy();
+				text.copy();
 				break;
 			case "Paste":
 				System.err.println("edit: Paste");
-				getLimitedTextField().paste();
+				text.paste();
 				break;
 			case "Select All":
 				System.err.println("edit: Select All");
-				getLimitedTextField().selectAll();
+				text.selectAll();
 				break;
 		}
 	}

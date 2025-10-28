@@ -5,6 +5,7 @@ import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.xml.validation.Schema;
@@ -30,7 +31,7 @@ public class XmlContext
 {
 	private static Logger logger = LoggerFactory.getLogger(XmlContext.class);
 	public static Logger getLogger() { return logger; }
-	
+
 	// Configuration
 	static
 	{
@@ -46,21 +47,21 @@ public class XmlContext
 			getLogger().error("", ex);
 		}
 	}
-	
+
 	/**
 	 * Construct with an object factory class.
-	 * 
+	 *
 	 * @param objectFactoryClass The object factory class.
 	 */
 	public XmlContext(Class<?> objectFactoryClass)
 	{
 		setObjectFactoryClass(objectFactoryClass);
 	}
-	
+
 	/**
 	 * Construct with an object factory class and
 	 * namespace prefix mapper.
-	 * 
+	 *
 	 * @param objectFactoryClass The object factory class.
 	 * @param npm The namespace prefix mapper.
 	 */
@@ -76,7 +77,7 @@ public class XmlContext
 			getLogger().warn("", ex);
 		}
 	}
-	
+
 	// JAXB XmlContext
 
 	private Class<?> objectFactoryClass;
@@ -100,7 +101,7 @@ public class XmlContext
 	{
 		this.jaxbContext = jaxbContext;
 	}
-	
+
 	private JAXBIntrospector jaxbIntrospector;
 	public JAXBIntrospector getJaxbIntrospector() throws JAXBException
 	{
@@ -139,20 +140,20 @@ public class XmlContext
 	{
 		this.marshaller = marshaller;
 	}
-	
+
 	public Object unmarshal(String xmlFileName) throws JAXBException
 	{
 		File xmlFile = new File(xmlFileName);
 		return getUnmarshaller().unmarshal(xmlFile);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <T> T unmarshal(String xmlFileName, Class<T> clazz) throws JAXBException
 	{
 		File xmlFile = new File(xmlFileName);
 		return (T) getUnmarshaller().unmarshal(xmlFile);
 	}
-	
+
 	public String marshalToString(Object instance) throws JAXBException, IOException
     {
         String xml = null;
@@ -167,6 +168,16 @@ public class XmlContext
         return xml;
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> T unmarshalFromString(String xml) throws JAXBException
+    {
+        try ( StringReader reader = new StringReader(xml) )
+        {
+            Object instance = getUnmarshaller().unmarshal(reader);
+            return (T) instance;
+        }
+    }
+
 	public void generateXmlSchemaValidatorFromDom() throws JAXBException, IOException, SAXException
 	{
 		if ( (getMarshaller() != null) && (getUnmarshaller() != null) )
@@ -176,7 +187,7 @@ public class XmlContext
 			getJaxbContext().generateSchema(sodr);
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(W3C_XML_SCHEMA_NS_URI);
 			Schema schemaValidator = schemaFactory.newSchema(sodr.getDomSource());
-			
+
 			// Configure Marshaller / unmarshaller to use validator.
 			getMarshaller().setSchema(schemaValidator);
 			getUnmarshaller().setSchema(schemaValidator);

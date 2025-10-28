@@ -13,7 +13,7 @@
 	defaultCloseOperation="DISPOSE_ON_CLOSE" 
 	modal="false"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
-	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(330,2.0)"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(330,1.25)"
 >
 	<!-- 
 	plafTheme="org.swixml.plaf.basic.MatteBasicTheme(330,2.0)"
@@ -56,7 +56,6 @@
 					bindList="${window.myData1}"
 					bindClass="${window.myDataClass}"
 					autoResizeMode="AUTO_RESIZE_OFF"
-					rowHeight="${el.fieldHeight(10)}"
 					background="#FFFF80"
 				>
 					<tableheader
@@ -98,7 +97,7 @@
 					bindList="${window.myData2}"
 					autoResizeMode="AUTO_RESIZE_OFF"
 					font="${el.font('Monospaced','PLAIN')}"
-					rowHeight="${el.fieldHeight(10)}"
+					rowHeight="${el.rowHeight(4)}"
 					background="${color:hsb(240/360,0.2,1.0)}"
 				>
 					<tableheader

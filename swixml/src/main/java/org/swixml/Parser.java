@@ -58,12 +58,12 @@ import jakarta.el.ValueExpression;
 
 /**
  * Singleton Parser to render XML for Swing Documents
- * 
+ *
  * @author <a href="mailto:wolf@wolfpaulus.com">Wolf Paulus</a>
  * @author <a href="mailto:fm@authentidate.de">Frank Meissner</a>
- * 
+ *
  * @version $Revision: 1.5 $
- * 
+ *
  * @see org.swixml.SwingTagLibrary
  * @see org.swixml.ConverterLibrary
  * @see <a href="file:package-info.java">LICENSE: package-info</a>
@@ -72,7 +72,7 @@ public class Parser implements LogAware
 {
 	public static final String ATTR_TEXT = "text";
 	public static final String TAG_GRIDBAGCONSTRAINTS = "gridbagconstraints";
-	
+
 	//
 	// Custom TAGs
 	//
@@ -80,53 +80,53 @@ public class Parser implements LogAware
 	public static final String TAG_BUTTONGROUP = "buttongroup";
 	public static final String TAG_TABLECOLUMN = "tablecolumn";
 	public static final String TAG_TABLEHEADER = "tableheader";
-	
+
 	//
 	// Custom Attributes
 	//
-	
+
 	/**
 	 * Additional attribute to collect layout constrain information
 	 */
 	@SchemaAware
 	public static final String ATTR_CONSTRAINTS = TAG_CONSTRAINTS;
-	
+
 	/**
 	 * Additional attribute to collect information about the PLAF implementation
 	 */
 	@SchemaAware
 	public static final String ATTR_PLAF = "plaf";
-	
+
 	/**
 	 * Additional attribute to collect information about the PLAF theme implementation
 	 */
 	@SchemaAware
 	public static final String ATTR_PLAF_THEME = "plafTheme";
-	
+
 	/**
 	 * Additional attribute to collect layout constrain information
 	 */
 	@SchemaAware
 	public static final String ATTR_BUNDLE = "bundle";
-	
+
 	/**
 	 * Additional attribute to collect layout constrain information
 	 */
 	@SchemaAware
 	public static final String ATTR_LOCALE = "locale";
-	
+
 	/**
 	 * Allows to provides swixml tags with an unique id
 	 */
 	@SchemaAware
 	public static final String ATTR_ID = "id";
-	
+
 	/**
 	 * Allows to provides swixml tags with a reference to another tag
 	 */
 	@SchemaAware
 	public static final String ATTR_REFID = "refid";
-	
+
 	/**
 	 * Allows to provides swixml tags with a reference to another tag
 	 *
@@ -136,93 +136,93 @@ public class Parser implements LogAware
 	@SchemaAware
 	@Deprecated
 	public static final String ATTR_USE = "use";
-	
+
 	/**
 	 * Allows to provides swixml tags with an unique id
 	 */
 	@SchemaAware
 	public static final String ATTR_INCLUDE = "include";
-	
+
 	/**
 	 * Allows to provides swixml tags with a dynamic update class
 	 */
 	@SchemaAware
 	public static final String ATTR_INITCLASS = "initclass";
-	
+
 	/**
 	 * Allows to provides swixml tags with a dynamic update class
 	 */
 	public static final String ATTR_ACTION = "action";
-	
+
 	/**
 	 * Prefix for all MAC OS X related attributes
 	 */
 	public static final String ATTR_MACOS_PREFIX = "macos_";
-	
+
 	/**
 	 * Attribute name that flags an Action as the default Preferences handler on
 	 * a Mac
 	 */
 	public static final String ATTR_MACOS_PREF = ATTR_MACOS_PREFIX + "preferences";
-	
+
 	/**
 	 * Attribute name that flags an Action as the default Aboutbox handler on a
 	 * Mac
 	 */
 	public static final String ATTR_MACOS_ABOUT = ATTR_MACOS_PREFIX + "about";
-	
+
 	/**
 	 * Attribute name that flags an Action as the default Quit handler on a Mac
 	 */
 	public static final String ATTR_MACOS_QUIT = ATTR_MACOS_PREFIX + "quit";
-	
+
 	/**
 	 * Attribute name that flags an Action as the default Open Application
 	 * handler on a Mac
 	 */
 	public static final String ATTR_MACOS_OPENAPP = ATTR_MACOS_PREFIX + "openapp";
-	
+
 	/**
 	 * Attribute name that flags an Action as the default Open File handler on a
 	 * Mac
 	 */
 	public static final String ATTR_MACOS_OPENFILE = ATTR_MACOS_PREFIX + "openfile";
-	
+
 	/**
 	 * Attribute name that flags an Action as the default Print handler on a Mac
 	 */
 	public static final String ATTR_MACOS_PRINT = ATTR_MACOS_PREFIX + "print";
-	
+
 	/**
 	 * Attribute name that flags an Action as the default Re-Open Application
 	 * handler on a Mac
 	 */
 	public static final String ATTR_MACOS_REOPEN = ATTR_MACOS_PREFIX + "reopen";
-	
+
 	/**
 	 * Method name used with initclass - if this exit, the update class will no
 	 * be instanced but getInstance is called
 	 */
 	public static final String GETINSTANCE = "getInstance";
-	
+
 	/**
 	 * Localized Attributes
 	 */
 	public static final Vector<String> LOCALIZED_ATTRIBUTES = new Vector<String>();
-	
+
 	/**
 	 * set the bind target
 	 */
 	public static final String ATTR_BIND_WITH = "bindWith";
 	public static final String TAG_SCRIPT = "script";
-	
+
 	/**
 	 * Expression Language variable names
 	 */
 	public static final String ELVAR_DOM_ELEMENT = "domElement";
 	public static final String ELVAR_DOM_ATTRIBUTE = "domAttribute";
 	public static final String ELVAR_DOM_ATTR_CONSTRAINTS = "domAttrConstraints";
-	
+
 	/**
 	 * the calling swingEngine
 	 */
@@ -235,7 +235,7 @@ public class Parser implements LogAware
 	{
 		this.swingEngine = swingEngine;
 	}
-	
+
 	public ELContext getElContext()
 	{
 		return getSwingEngine().getELContext();
@@ -249,28 +249,28 @@ public class Parser implements LogAware
 	//
 	// Private Members
 	//
-	
+
 	/**
 	 * ConverterLib, to access COnverters, converting String in all kinds of
 	 * things
 	 */
 	private static final ConverterLibrary CVTLIB = ConverterLibrary.getInstance();
-	
+
 	/**
 	 * map to store id-id components, needed to support labelFor attributes
 	 */
 	private Map<JLabel, String> lbl_map = new HashMap<JLabel, String>(10);
-	
+
 	/**
 	 * map to store specific Mac OS actions mapping
 	 */
 	private Map<String, Action> mac_map = new HashMap<String, Action>();
-	
+
 	/**
 	 * Document, to be parsed
 	 */
 	private Document jdoc;
-	
+
 	/**
 	 * Static Initializer adds Attribute Names into the LOCALIZED_ATTRIBUTES
 	 * Vector Needs to be inserted all lower case.
@@ -307,7 +307,7 @@ public class Parser implements LogAware
 
 	/**
 	 * Converts XML into a javax.swing object tree.
-	 * 
+	 *
 	 * <pre>
 	 * Note: This parse method does not return a swing object but converts all <b>sub</b> nodes
 	 * of the xml documents root into seeing objects and adds those into the provided container.
@@ -325,10 +325,10 @@ public class Parser implements LogAware
 		this.jdoc = jdoc;
 		this.lbl_map.clear();
 		this.mac_map.clear();
-		
+
 		Element element = processCustomAttributes(jdoc.getDocumentElement());
 		Object result = getSwing(element, container);
-		
+
 		linkLabels();
 		supportMacOS();
 		this.lbl_map.clear();
@@ -387,13 +387,13 @@ public class Parser implements LogAware
 						try
 						{
 							StringTokenizer plafThemeTokens = new StringTokenizer(plafTheme.getValue(), "(,)");
-							String plafThemeClassName = plafThemeTokens.nextToken(); 
+							String plafThemeClassName = plafThemeTokens.nextToken();
 
 							Class<?> plafThemeClass = getClass().getClassLoader()
 								.loadClass(plafThemeClassName);
-							
+
 							Object[] plafThemeArgs = Util.sa(plafThemeTokens);
-							
+
 							Object theme = null;
 							if ( plafThemeArgs.length > 0 )
 							{
@@ -404,7 +404,7 @@ public class Parser implements LogAware
 							}
 							else
 								theme = plafThemeClass.getConstructor().newInstance();
-							
+
 							if ( theme instanceof MetalTheme )
 								MetalLookAndFeel.setCurrentTheme((MetalTheme) theme);
 						}
@@ -416,10 +416,10 @@ public class Parser implements LogAware
 						element.removeAttribute(ATTR_PLAF_THEME);
 					}
 				}
-				
+
 				// Load the LAF for the given class name.
 				UIManager.setLookAndFeel(plafClassName);
-				
+
 				// Reset the EL methods font cache.
 				getSwingEngine().getELMethods().getFontMap().clear();
 			}
@@ -468,10 +468,10 @@ public class Parser implements LogAware
 	 * @param element <code>org.jdom.Element</code> XML tag
 	 * @param tag <code>Object</code> if not null, only this elements children
 	 *            will be processed, not the element itself
-	 *            
+	 *
 	 * @return A <code>javax.swing</code> or <code>java.awt</code> object
 	 *         representing Swing/AWT implementation of the XML tag.
-	 *         
+	 *
 	 * @throws Exception - if parsing fails
 	 */
 	public Object getSwing(Element element, Object tag)
@@ -479,7 +479,7 @@ public class Parser implements LogAware
 	{
 		Factory factory = getSwingEngine().getTaglib().getFactory(element.getLocalName());
 		factory.setSwingEngine(getSwingEngine());
-		
+
 		// look for <id> attribute value
 		final String id = element.getAttributeNode(ATTR_ID) != null
 			? element.getAttribute(ATTR_ID).trim()
@@ -508,7 +508,7 @@ public class Parser implements LogAware
 			if ( xelem != null )
 				moveContent(xelem, element);
 		}
-		
+
 		//
 		// clone attribute if <em>refid</em> attribute is available
 		//
@@ -526,7 +526,7 @@ public class Parser implements LogAware
 			cloneAttributes(element);
 			element.removeAttribute(ATTR_USE);
 		}
-		
+
 		//
 		// let the factory instantiate a new object
 		//
@@ -536,7 +536,7 @@ public class Parser implements LogAware
 			tag = fromFactory(factory, element, attributes);
 			constructed = true;
 		}
-		
+
 		//
 		// put newly created object in the map if it has an <id> attribute
 		// (uniqueness is given att this point)
@@ -551,31 +551,31 @@ public class Parser implements LogAware
 		//
 		if ( tag instanceof JComponent )
 			((JComponent) tag).putClientProperty(ENGINE_PROPERTY, getSwingEngine());
-		
+
 		////////////////////////////////////////////////
 		// handle "layout" container and tag attributes.
 		////////////////////////////////////////////////
-		
+
 		// Process container
 		processContainer(tag, element, attributes);
-		
+
 		// Set up the EL processor for this tag.
 		getElProcessor().defineBean("this", tag);
 		// Process tag
 		processTag(id, tag, factory, element, attributes);
 		// Unset the EL processor for this tag.
 		getElProcessor().defineBean("this", null);
-		
+
 		return (constructed ? tag : null);
 	}
-	
+
 	protected void processContainer(Object tag, Element element, NamedNodeMap attributes)
 	{
 		if ( tag instanceof Container )
 		{
 			LayoutManager lm = null;
 			// element.getChild("layout");
-			Element layoutElement = DOMUtil.getChildByTagName(element, "layout"); 
+			Element layoutElement = DOMUtil.getChildByTagName(element, "layout");
 			if ( layoutElement != null )
 			{
 				element.removeChild(layoutElement);
@@ -609,7 +609,7 @@ public class Parser implements LogAware
 					if ( index > 0 )
 					{
 						// strip parameters
-						layoutType = layoutType.substring(0, index); 
+						layoutType = layoutType.substring(0, index);
 					}
 					LayoutConverter layoutConverter = LayoutConverterLibrary.getInstance()
 						.getLayoutConverterByID(layoutType);
@@ -632,12 +632,12 @@ public class Parser implements LogAware
 				setLayoutManager(tag, lm);
 		}
 	}
-	
+
 	protected void processTag(final String id, Object tag, Factory factory, Element element, NamedNodeMap attributes)
 		throws Exception
 	{
 		List<Attribute> remainingAttrs = new ArrayList<Attribute>(attributes.getLength() + 2);
-		
+
 		/////////////////////////////////////////////////////////////////
 		// 1st attempt to apply attributes (call setters on the objects)
 		// put an action attribute at the beginning of the attribute list
@@ -653,7 +653,7 @@ public class Parser implements LogAware
 			//
 			remainingAttrs.add(new Attribute(actionAttr));
 		}
-		
+
 		////////////////////////////////////////////////////
 		// put Tag's Text content into Text Attribute
 		////////////////////////////////////////////////////
@@ -663,12 +663,12 @@ public class Parser implements LogAware
 			if ( text != null && !text.isBlank() )
 				remainingAttrs.add(new Attribute(ATTR_TEXT, text));
 		}
-		
+
 		////////////////////////////////////////////////////
 		// Apply tag's attributes
 		////////////////////////////////////////////////////
 		remainingAttrs = applyAttributes(tag, factory, Attribute.asList(remainingAttrs, attributes));
-		
+
 		////////////////////////////////////////////////////
 		// process child tags
 		////////////////////////////////////////////////////
@@ -683,7 +683,7 @@ public class Parser implements LogAware
 				factory.process(this, tag, child, layoutMgr);
 			}
 		}
-		
+
 		////////////////////////////////////////////////////////////////
 		// 2nd attempt to apply attributes (call setters on the objects)
 		////////////////////////////////////////////////////////////////
@@ -707,27 +707,27 @@ public class Parser implements LogAware
 			}
 		}
 	}
-	
+
 	/**
 	 * Instantiate an instance of the registered tag element's class using the given factory.
-	 * 
+	 *
 	 * <p>Optionally, an initial parameter class can be used as a constructor argument:</p>
-	 * 
+	 *
 	 * <ol>
 	 * <li>Attempt invoke a {@code initClass.getInstance()} method to get tag constructor argument.</li>
 	 * <li>Attempt to construct {@code initClass} with a String parameter.</li>
 	 * <li>Attempt to instantiate {@code initClass} with default constructor.</li>
 	 * </ol>
-	 * 
+	 *
 	 * <p>If an initial parameter is provided, then initialize a new tag object whose type is determined by
 	 * the factory's backing class template; otherwise, create a new instance of a template class.</p>
-	 * 
+	 *
 	 * @param tagFactory A factory to produce registered tags from a backing template.
 	 * @param element The tag element to resolve.
 	 * @param attributes The tag's attributes (obsolete/redundant?)
-	 * 
+	 *
 	 * @return An instance of the registered tag's class.
-	 * 
+	 *
 	 * @throws Exception When an initial parameter cannot be resolved.
 	 */
 	protected Object fromFactory(Factory tagFactory, Element element, NamedNodeMap attributes)
@@ -739,17 +739,17 @@ public class Parser implements LogAware
 		{
 			StringTokenizer st = new StringTokenizer(element.getAttribute(ATTR_INITCLASS), "( )");
 			element.removeAttribute(ATTR_INITCLASS);
-			
+
 			try
 			{
 				if ( st.hasMoreTokens() )
 				{
 					// load update type
 					Class<?> initClass = Class.forName(st.nextToken());
-					
+
 					// 1) Attempt invoke a getInstance() method.
 					try
-					{ 
+					{
 						// look for a getInstance() method
 						Method factoryMethod = initClass.getMethod(GETINSTANCE);
 						if ( Modifier.isStatic(factoryMethod.getModifiers()) )
@@ -761,7 +761,7 @@ public class Parser implements LogAware
 					{
 						// really nothing to do here
 					}
-					
+
 					// 2) Attempt to construct with a String parameter.
 					if ( initParameter == null && st.hasMoreTokens() )
 					{
@@ -777,14 +777,14 @@ public class Parser implements LogAware
 							// intentionally empty
 						}
 					}
-					
+
 					// 3) Attempt to instantiate with default constructor.
 					if ( initParameter == null )
 					{
 						// now try to instantiate with default constructor
 						initParameter = initClass.getDeclaredConstructor().newInstance();
 					}
-					
+
 					// 4) TODO: Obsolete?
 					if ( Action.class.isInstance(initParameter) )
 					{
@@ -811,7 +811,7 @@ public class Parser implements LogAware
 				throw new Exception(ATTR_INITCLASS + " not instantiated : " + ex.getLocalizedMessage(), ex);
 			}
 		}
-		
+
 		// If initParameter is not null, then initialize a new object
 		// whose type is determined by the factory's backing class template;
 		// otherwise, create a new instance of a template class.
@@ -824,9 +824,9 @@ public class Parser implements LogAware
 
 	/**
 	 * Is the given attribute an EL variable.
-	 * 
+	 *
 	 * @param attr The given attribute.
-	 * 
+	 *
 	 * @return True when the given attribute is
 	 *         an EL variable.
 	 */
@@ -835,7 +835,7 @@ public class Parser implements LogAware
 		// Is binded variable, return no EL variable.
 		if ( ATTR_BIND_WITH.equalsIgnoreCase(attr.getLocalName()) )
 			return false;
-		
+
 		// Is EL variable?
 		return isELPattern(attr.getValue());
 	}
@@ -848,20 +848,20 @@ public class Parser implements LogAware
 	 *       <p>If a setter can be found and the converter exists to convert the parameter string into a type that fits the setter method, then the setter gets invoked.</p></li>
 	 *   <li>Otherwise, <code>createContainer()</code> looks for a public field with a matching name.</li>
 	 * </ol>
-	 * 
+	 *
 	 * <p><b>Example:</b></p>
 	 * <ol>
 	 * <li>Try to create a parameter obj using the ParameterFactory: <p><code>background="FFC9AA" = container.setBackground ( new Color(attr.value) )</code></p></li>
 	 * <li>Try to find a simple setter taking a primitive or String: <p><code>width="25" container.setWidth( new Integer( attr.  getIntValue() ) )</code></p></li>
 	 * <li>Try to find a public field: <code>container.BOTTOM_ALIGNMENT</code></li>
 	 * </ol>
-	 * 
+	 *
 	 * @param tag <code>Object</code> object representing a tag found in the SWIXML descriptor document
 	 * @param factory <code>Factory</code> factory to instantiate a new object
 	 * @param attributes <code>List</code> attribute list
-	 * 
+	 *
 	 * @return <code>List</code> - list of attributes that could not be applied.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	private List<Attribute> applyAttributes(Object tag, Factory factory, List<Attribute> attributes)
@@ -882,7 +882,7 @@ public class Parser implements LogAware
 //				break;
 //			}
 //		}
-		
+
 		//
 		// pass 2: process the attributes
 		//
@@ -892,7 +892,7 @@ public class Parser implements LogAware
 
 		// Create an ApplyAttribute to store loop-wide results.
 		ApplyAttribute aa = new ApplyAttribute();
-		
+
 		// Apply attributes
 		for ( Attribute attr : attributes )
 		{
@@ -905,15 +905,15 @@ public class Parser implements LogAware
 			}
 			else
 				logger.debug("Missing DOM attr: " + attr.getLocalName() +" = " + attr.getValue());
-			
+
 			// loop through all available attributes
 			applyAttribute(getElContext(), tag, factory, attr, aa);
-			
+
 			// Unset the EL context for this attribute.
 			unsetVariable(ELVAR_DOM_ELEMENT);
 			unsetVariable(ELVAR_DOM_ATTRIBUTE);
 		}
-		
+
 		// Some custom attributes may have been cached, clear them.
 		// Ref: org.swixml.processor.ConstraintsTagProcessor.processComponent(Parser, Object, Element, LayoutManager)
 		unsetVariable(ELVAR_DOM_ATTR_CONSTRAINTS);
@@ -922,18 +922,18 @@ public class Parser implements LogAware
 		{
 			// Originally created just the Attribute without the DOM Attr.
 			// Attribute nameAttribute = new Attribute("name", aa.attr_id.getValue());
-			
+
 			Document idDoc = aa.attr_id.getDomAttribute().getOwnerDocument();
 			Attr nameDomAttr = idDoc.createAttribute("name");
 			nameDomAttr.setValue(aa.attr_id.getValue());
 			Attribute nameAttribute = new Attribute(nameDomAttr);
-			
+
 			aa.notAppliedAttrList.add(nameAttribute);
 		}
-		
+
 		return aa.notAppliedAttrList;
 	}
-	
+
 	private void prioritize(List<Attribute> attributes)
 	{
 		Attribute attr_plaf = null, attr_font = null;
@@ -966,7 +966,7 @@ public class Parser implements LogAware
 		prioritize(attributes, attr_font);
 		prioritize(attributes, attr_plaf);
 	}
-	
+
 	private void prioritize(List<Attribute> attributes, Attribute attr)
 	{
 		if ( attr != null )
@@ -975,17 +975,17 @@ public class Parser implements LogAware
 			attributes.add(0, attr);
 		}
 	}
-	
+
 	private class ApplyAttribute
 	{
 		Attribute attr_id = null;
 		Attribute attr_name = null;
 		// remember not applied attributes
-		List<Attribute> notAppliedAttrList = new ArrayList<Attribute>(); 
+		List<Attribute> notAppliedAttrList = new ArrayList<Attribute>();
 		// used to insert an action into the macmap
 		Action action = null;
 	}
-	
+
 	/* applyAttribute: May be an EL parameter */
 	private void applyAttribute(ELContext elContext, Object tag, Factory factory, Attribute attr, ApplyAttribute aa)
 		throws Exception
@@ -996,28 +996,28 @@ public class Parser implements LogAware
 			aa.attr_id = attr;
 			return;
 		}
-		
+
 		if ( ATTR_REFID.equals(attr.getLocalName()) )
 			return;
-		
+
 		if ( ATTR_USE.equals(attr.getLocalName()) )
 			return;
-		
+
 		if ( aa.action != null && attr.getLocalName().startsWith(ATTR_MACOS_PREFIX) )
 		{
 			mac_map.put(attr.getLocalName(), aa.action);
 			return;
 		}
-		
+
 		if ( JLabel.class.isAssignableFrom(tag.getClass()) && attr.getLocalName().equalsIgnoreCase("LabelFor") )
 		{
 			lbl_map.put((JLabel) tag, attr.getValue());
 			return;
 		}
-		
+
 		if ( "name".equals(attr.getLocalName()) )
 			aa.attr_name = attr;
-		
+
 		// Resolve the parameter type, if possible.
 		Class<?>[] paraTypes = factory.getPropertyType(tag, attr);
 		Class<?> paraType = null;
@@ -1028,10 +1028,10 @@ public class Parser implements LogAware
 		//
 		if ( (paraTypes != null) && (paraTypes.length > 0) )
 			paraType = paraTypes[0];
-		
+
 		// The attribute property's parameter value.
 		Object para = null;
-		
+
 		/////////////////////////
 		// Check for an EL parameter
 		/////////////////////////
@@ -1044,14 +1044,14 @@ public class Parser implements LogAware
 					// Use EL to get the attribute property's parameter value.
 					ELProperty<Object, Object> elp = create(elContext, attr.getValue());
 					para = elp.getValue(getSwingEngine().getClient());
-					
+
 					if ( para != null )
 					{
 						// Replace EL value with the resolved value. Because, for example,
 						// SplitPaneFactory inspects the attribute value to guess parameter
 						// types.
 						attr.setValue(para.toString());
-						
+
 						BeanProperty<Object, Object> bp = BeanProperty.create(attr.getLocalName());
 						if ( bp.isWriteable(tag) )
 						{
@@ -1062,7 +1062,7 @@ public class Parser implements LogAware
 						}
 						else
 							logger.warn("property " + attr.getLocalName() + " is not writable!");
-						
+
 						return;
 					}
 					else
@@ -1080,13 +1080,13 @@ public class Parser implements LogAware
 				return;
 			}
 		}
-		
+
 		////////////////////////
 		// Not an EL parameter
 		////////////////////////
 		applyAttribute(tag, factory, attr, aa, para, paraType);
 	}
-	
+
 	/* applyAttribute: Not an EL parameter */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void applyAttribute(Object tag, Factory factory, Attribute attr, ApplyAttribute aa, Object para, Class<?> paraType)
@@ -1111,12 +1111,12 @@ public class Parser implements LogAware
 						attr.setValue((String) para);
 						para = converter.convert((Class) paraType, attr, getSwingEngine());
 					}
-					
+
 					if ( para instanceof Action )
 						aa.action = (Action) para;
-					
+
 					// ATTR SET
-					factory.setProperty(tag, attr, para, paraType); 
+					factory.setProperty(tag, attr, para, paraType);
 				}
 				catch (NoSuchFieldException e)
 				{
@@ -1170,7 +1170,7 @@ public class Parser implements LogAware
 				}
 				return;
 			}
-			
+
 			//////////////////////////////////////
 			// No SwingEngine data type converter.
 			//////////////////////////////////////
@@ -1185,7 +1185,7 @@ public class Parser implements LogAware
 					String s = attr.getValue();
 					if ( LOCALIZED_ATTRIBUTES.contains(attr.getLocalName().toLowerCase()) )
 						s = getSwingEngine().getLocalizer().getString(s);
-					
+
 					// ATTR SET
 					factory.setProperty(tag, attr, s, paraType);
 				}
@@ -1195,7 +1195,7 @@ public class Parser implements LogAware
 				}
 				return;
 			}
-			
+
 			//
 			// try this: call the setter with a primitive
 			//
@@ -1212,7 +1212,7 @@ public class Parser implements LogAware
 				}
 				return;
 			}
-			
+
 			//
 			// try again later
 			//
@@ -1223,7 +1223,7 @@ public class Parser implements LogAware
 			//////////////////////////////////////////
 			// No parameter types; search for a field.
 			//////////////////////////////////////////
-			
+
 			// Search for a public field in the obj.class that matches the
 			// attribute name
 			try
@@ -1241,7 +1241,7 @@ public class Parser implements LogAware
 						Object fieldValue = converter.convert(fieldType, attr, getSwingEngine());
 						if ( String.class.equals(converter.convertsTo()) )
 							fieldValue = getSwingEngine().getLocalizer().getString((String) fieldValue);
-						
+
 						// ATTR SET
 						field.set(tag, fieldValue);
 					}
@@ -1257,7 +1257,7 @@ public class Parser implements LogAware
 			}
 		}
 	}
-	
+
 	public void setVariable(String name, Object value)
 	{
 		setVariable(getElContext(), name, value);
@@ -1267,7 +1267,7 @@ public class Parser implements LogAware
 	{
 		unsetVariable(getElContext(), name);
 	}
-	
+
 	private void setVariable(ELContext elContext, String name, Object value)
 	{
 		if ( value != null )
@@ -1486,7 +1486,7 @@ public class Parser implements LogAware
 	}
 
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @param lm
 	 */

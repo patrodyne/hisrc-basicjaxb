@@ -461,7 +461,6 @@ public class BeanInfoCustomization
 			FieldInfo fieldInfo = fieldInfoMap.get(propertyInfoName);
 			if ( fieldInfo != null )
 				fieldInfo.setFieldRawType(df.getRawType());
-			System.err.println(propertyInfoName + " : " + fieldInfo.getFieldRawTypeName());
 		}
 		
 		if ( !fieldInfoMap.isEmpty() )

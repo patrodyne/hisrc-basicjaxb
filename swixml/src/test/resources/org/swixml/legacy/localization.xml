@@ -6,7 +6,7 @@
 
 	name="mainframe"
 	plaf="javax.swing.plaf.metal.MetalLookAndFeel"
-	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(165,1.50)"
+	plafTheme="org.swixml.plaf.metal.MatteMetalTheme(165,1.25)"
 	size="${el.pageSize(120,30)}"
 	preferredSize="${el.size()}"
 	title="S W I X M L"
@@ -79,6 +79,7 @@
 							autoCreateColumnsFromModel="false"
 							autoResizeMode="AUTO_RESIZE_OFF"
 							background="*-10-100"
+							rowHeight="${el.rowHeight()}"
 						>
 							<tableheader
 								opaque="false"
