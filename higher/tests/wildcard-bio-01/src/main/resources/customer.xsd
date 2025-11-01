@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema elementFormDefault="unqualified"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:wildcard="http://jvnet.org/basicjaxb/xjc/wildcard"
+	xmlns:wildcard="urn:jvnet.org:basicjaxb:xjc:wildcard"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	jaxb:version="3.0"
 	jaxb:extensionBindingPrefixes="wildcard"

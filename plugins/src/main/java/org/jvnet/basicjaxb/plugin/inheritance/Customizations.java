@@ -27,7 +27,7 @@ import jakarta.xml.bind.JAXBException;
 
 public class Customizations
 {
-	public static String NAMESPACE_URI = "http://jvnet.org/basicjaxb/xjc/inheritance";
+	public static String NAMESPACE_URI = "urn:jvnet.org:basicjaxb:xjc:inheritance";
 	public static QName OBJECT_FACTORY_ELEMENT_NAME = new QName(NAMESPACE_URI, "objectFactory");
 	public static QName EXTENDS_ELEMENT_NAME = new QName(NAMESPACE_URI, "extends");
 	public static QName IMPLEMENTS_ELEMENT_NAME = new QName(NAMESPACE_URI, "implements");

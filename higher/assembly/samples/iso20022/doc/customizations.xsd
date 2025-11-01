@@ -6,8 +6,8 @@
 -->
 <xs:schema version="1.0"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:tns="http://jvnet.org/basicjaxb/xjc/customizations"
-	targetNamespace="http://jvnet.org/basicjaxb/xjc/customizations"
+	xmlns:tns="urn:jvnet.org:basicjaxb:xjc:customizations"
+	targetNamespace="urn:jvnet.org:basicjaxb:xjc:customizations"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	jaxb:version="3.0"
 >

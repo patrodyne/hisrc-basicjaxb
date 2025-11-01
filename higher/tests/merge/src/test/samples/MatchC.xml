@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<match operation="none" orig-value="" xmlns="http://jvnet.org/basicjaxb/test/merge">
+<match operation="none" orig-value="" xmlns="urn:jvnet.org:basicjaxb:test:merge">
 	<ethernet-match operation="none">
 		<ethernet-type operation="none">
 			<type operation="replace" orig-value="2054">2048</type>

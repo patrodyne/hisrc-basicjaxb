@@ -51,8 +51,8 @@ import com.sun.tools.xjc.outline.Outline;
  *
  * <b>JavaFilename.xml</b>
  * <pre>
- * &lt;cus:customizations xmlns:cus="http://jvnet.org/basicjaxb/xjc/customizations"&gt;
- *   &lt;inh:implements xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"&gt;
+ * &lt;cus:customizations xmlns:cus="urn:jvnet.org:basicjaxb:xjc:customizations"&gt;
+ *   &lt;inh:implements xmlns:inh="urn:jvnet.org:basicjaxb:xjc:inheritance"&gt;
  *     java.lang.Cloneable
  *   &lt;/inh:implements&gt;
  * &lt;/cus:customizations&gt;

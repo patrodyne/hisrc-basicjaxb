@@ -4,7 +4,7 @@
 	xmlns="urn:test" targetNamespace="urn:test"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="https://jakarta.ee/xml/ns/jaxb https://jakarta.ee/xml/ns/jaxb/bindingschema_3_0.xsd"
-	xmlns:simplify="http://jvnet.org/basicjaxb/xjc/simplify"
+	xmlns:simplify="urn:jvnet.org:basicjaxb:xjc:simplify"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	jaxb:extensionBindingPrefixes="simplify"
 	jaxb:version="3.0"

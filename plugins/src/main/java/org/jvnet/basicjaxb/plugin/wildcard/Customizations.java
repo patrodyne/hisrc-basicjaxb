@@ -19,7 +19,7 @@ import jakarta.xml.bind.JAXBException;
 
 public class Customizations {
 
-	public static String NAMESPACE_URI = "http://jvnet.org/basicjaxb/xjc/wildcard";
+	public static String NAMESPACE_URI = "urn:jvnet.org:basicjaxb:xjc:wildcard";
 
 	public static QName HANDLER_ELEMENT_NAME = new QName(NAMESPACE_URI, "handler");
 	public static QName LAX_ELEMENT_NAME = new QName(NAMESPACE_URI, "lax");

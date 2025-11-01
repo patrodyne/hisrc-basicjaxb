@@ -14,7 +14,7 @@ import jakarta.xml.bind.JAXBException;
  */
 public class Customizations
 {
-	public static String NAMESPACE_URI = "http://jvnet.org/basicjaxb/xjc/beaninfo";
+	public static String NAMESPACE_URI = "urn:jvnet.org:basicjaxb:xjc:beaninfo";
 	public static QName BEAN_ELEMENT_NAME = new QName(NAMESPACE_URI, "bean");
 	public static QName PROPERTY_ELEMENT_NAME = new QName(NAMESPACE_URI, "property");
 	

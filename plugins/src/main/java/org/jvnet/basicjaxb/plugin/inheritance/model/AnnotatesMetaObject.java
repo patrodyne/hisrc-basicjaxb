@@ -35,7 +35,7 @@ import jakarta.xml.bind.annotation.XmlValue;
  *			 <element name="elements" maxOccurs="unbounded" minOccurs="0">
  *			   <complexType>
  *				 <simpleContent>
- *				   <extension base="<http://jvnet.org/basicjaxb/xjc/inheritance>stringList">
+ *				   <extension base="<urn:jvnet.org:basicjaxb:xjc:inheritance>stringList">
  *					 <attribute name="name" type="&#123;http://www.w3.org/2001/XMLSchema&#125;string" default="value" />
  *					 <attribute name="type" type="&#123;http://www.w3.org/2001/XMLSchema&#125;string" default="java.lang.String" />
  *				   </extension>
@@ -245,7 +245,7 @@ public class AnnotatesMetaObject
 	 * <pre>{@code
 	 * <complexType>
 	 *	 <simpleContent>
-	 *	   <extension base="<http://jvnet.org/basicjaxb/xjc/inheritance>stringList">
+	 *	   <extension base="<urn:jvnet.org:basicjaxb:xjc:inheritance>stringList">
 	 *		 <attribute name="name" type="&#123;http://www.w3.org/2001/XMLSchema&#125;string" default="value" />
 	 *		 <attribute name="type" type="&#123;http://www.w3.org/2001/XMLSchema&#125;string" default="java.lang.String" />
 	 *	   </extension>

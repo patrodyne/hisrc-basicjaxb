@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema
-	targetNamespace="http://jvnet.org/basicjaxb/xjc/beaninfo"
-	xmlns:tns="http://jvnet.org/basicjaxb/xjc/beaninfo"
+	targetNamespace="urn:jvnet.org:basicjaxb:xjc:beaninfo"
+	xmlns:tns="urn:jvnet.org:basicjaxb:xjc:beaninfo"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
 

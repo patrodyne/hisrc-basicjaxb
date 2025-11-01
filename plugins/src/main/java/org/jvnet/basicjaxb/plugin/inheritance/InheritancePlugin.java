@@ -56,7 +56,7 @@ import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIEnum;
  * 
  * <b>Inheritance</b>
  * <pre>
- * xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"
+ * xmlns:inh="urn:jvnet.org:basicjaxb:xjc:inheritance"
  * </pre>
  * 
  * {@link ObjectFactoryCustomization}

@@ -21,9 +21,9 @@ import jakarta.xml.bind.annotation.XmlType;
  *     <complexContent>
  *       <restriction base="&#123;http://www.w3.org/2001/XMLSchema&#125;anyType">
  *         <sequence>
- *           <element ref="&#123;http://jvnet.org/basicjaxb/xjc/inheritance&#125;annotates" maxOccurs="unbounded" minOccurs="0"/>
- *           <element ref="&#123;http://jvnet.org/basicjaxb/xjc/inheritance&#125;extends" minOccurs="0"/>
- *           <element ref="&#123;http://jvnet.org/basicjaxb/xjc/inheritance&#125;implements" maxOccurs="unbounded" minOccurs="0"/>
+ *           <element ref="&#123;urn:jvnet.org:basicjaxb:xjc:inheritance&#125;annotates" maxOccurs="unbounded" minOccurs="0"/>
+ *           <element ref="&#123;urn:jvnet.org:basicjaxb:xjc:inheritance&#125;extends" minOccurs="0"/>
+ *           <element ref="&#123;urn:jvnet.org:basicjaxb:xjc:inheritance&#125;implements" maxOccurs="unbounded" minOccurs="0"/>
  *         </sequence>
  *         <attribute name="packageName" type="&#123;http://www.w3.org/2001/XMLSchema&#125;string" />
  *       </restriction>

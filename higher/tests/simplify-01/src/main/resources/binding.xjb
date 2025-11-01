@@ -2,8 +2,8 @@
 <jaxb:bindings jaxb:version="3.0"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:simplify="http://jvnet.org/basicjaxb/xjc/simplify"
-	xmlns:inh="http://jvnet.org/basicjaxb/xjc/inheritance"
+	xmlns:simplify="urn:jvnet.org:basicjaxb:xjc:simplify"
+	xmlns:inh="urn:jvnet.org:basicjaxb:xjc:inheritance"
 	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
 	jaxb:extensionBindingPrefixes="xjc simplify inh"
 >

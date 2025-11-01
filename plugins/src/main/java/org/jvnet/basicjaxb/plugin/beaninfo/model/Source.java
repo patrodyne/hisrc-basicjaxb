@@ -32,7 +32,7 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
  *   <complexContent>
  *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       <attribute name="name" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       <attribute name="fields" use="required" type="{http://jvnet.org/basicjaxb/xjc/beaninfo}fieldsType" />
+ *       <attribute name="fields" use="required" type="{urn:jvnet.org:basicjaxb:xjc:beaninfo}fieldsType" />
  *       <attribute name="unique" use="required" type="{http://www.w3.org/2001/XMLSchema}boolean" />
  *     </restriction>
  *   </complexContent>

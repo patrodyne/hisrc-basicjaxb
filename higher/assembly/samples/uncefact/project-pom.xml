@@ -101,6 +101,7 @@
 							<debug>true</debug>
 							<noFileHeader>true</noFileHeader>
 							<packageLevelAnnotations>false</packageLevelAnnotations>
+							<strict>false</strict>
 							<args>
                                 <arg>-Xannotate</arg>
 								<arg>-XfluentAPI</arg>

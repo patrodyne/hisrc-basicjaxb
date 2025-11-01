@@ -4,8 +4,8 @@
 <!-- As such, this schema is fictitious and only serves to as a 'merge' test case. -->
 <xs:schema elementFormDefault="qualified"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns="http://jvnet.org/basicjaxb/test/merge"
-	targetNamespace="http://jvnet.org/basicjaxb/test/merge"
+	xmlns="urn:jvnet.org:basicjaxb:test:merge"
+	targetNamespace="urn:jvnet.org:basicjaxb:test:merge"
 >
   <xs:element name="match">
     <xs:complexType>

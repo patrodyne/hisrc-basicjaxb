@@ -6,8 +6,8 @@
 -->
 <xs:schema version="1.0"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:tns="http://jvnet.org/basicjaxb/xjc/inheritance"
-	targetNamespace="http://jvnet.org/basicjaxb/xjc/inheritance"
+	xmlns:tns="urn:jvnet.org:basicjaxb:xjc:inheritance"
+	targetNamespace="urn:jvnet.org:basicjaxb:xjc:inheritance"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	jaxb:version="3.0"
 >

@@ -40,8 +40,8 @@ import org.jvnet.basicjaxb.locator.util.LocatorUtils;
  *       </sequence>
  *       <attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       <attribute name="index" type="{http://www.w3.org/2001/XMLSchema}int" />
- *       <attribute name="access" type="{http://jvnet.org/basicjaxb/xjc/beaninfo}accessType" />
- *       <attribute name="alignment" type="{http://jvnet.org/basicjaxb/xjc/beaninfo}alignmentType" />
+ *       <attribute name="access" type="{urn:jvnet.org:basicjaxb:xjc:beaninfo}accessType" />
+ *       <attribute name="alignment" type="{urn:jvnet.org:basicjaxb:xjc:beaninfo}alignmentType" />
  *       <attribute name="editable" type="{http://www.w3.org/2001/XMLSchema}boolean" />
  *       <attribute name="resizable" type="{http://www.w3.org/2001/XMLSchema}boolean" />
  *       <attribute name="maxWidth" type="{http://www.w3.org/2001/XMLSchema}int" />

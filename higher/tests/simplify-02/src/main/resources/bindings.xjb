@@ -2,7 +2,7 @@
 <jaxb:bindings
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:simplify="http://jvnet.org/basicjaxb/xjc/simplify"
+	xmlns:simplify="urn:jvnet.org:basicjaxb:xjc:simplify"
 	jaxb:extensionBindingPrefixes="simplify"
 	jaxb:version="3.0"
 >

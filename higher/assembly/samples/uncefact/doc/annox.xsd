@@ -14,8 +14,8 @@
 	attributeFormDefault="unqualified"
 	elementFormDefault="qualified"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:tns="http://jvnet.org/basicjaxb/xjc/annox"
-	targetNamespace="http://jvnet.org/basicjaxb/xjc/annox"
+	xmlns:tns="urn:jvnet.org:basicjaxb:xjc:annox"
+	targetNamespace="urn:jvnet.org:basicjaxb:xjc:annox"
 >
 	
 	<!-- HiSrc BasicJAXB Annox -->

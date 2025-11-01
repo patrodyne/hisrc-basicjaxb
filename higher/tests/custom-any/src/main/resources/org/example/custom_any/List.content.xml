@@ -1,7 +1,7 @@
 <anx:annotate
-	xmlns:anx="http://jvnet.org/basicjaxb/xjc/annox"
+	xmlns:anx="urn:jvnet.org:basicjaxb:xjc:annox"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://jvnet.org/basicjaxb/xjc/annox ../../../../../../../../../src/test/resources/org/jvnet/basicjaxb/annox/xjc/annox.xsd"
+	xsi:schemaLocation="urn:jvnet.org:basicjaxb:xjc:annox ../../../../../../../../../src/test/resources/org/jvnet/basicjaxb/annox/xjc/annox.xsd"
 	target="field"
 >
 	@jakarta.xml.bind.annotation.XmlAnyElement(lax = false, value = org.jvnet.basicjaxb.dom.W3CTraceDomHandler.class)

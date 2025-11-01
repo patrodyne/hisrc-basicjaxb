@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<match xmlns="http://jvnet.org/basicjaxb/test/merge">
+<match xmlns="urn:jvnet.org:basicjaxb:test:merge">
 	<ethernet-match>
 		<ethernet-type>
 			<type>2054</type>

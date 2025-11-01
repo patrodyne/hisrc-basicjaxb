@@ -2,7 +2,7 @@
 <xs:schema elementFormDefault="unqualified"
 	targetNamespace="http://example.org/contact"
 	xmlns:tns="http://example.org/contact"
-	xmlns:vc="http://jvnet.org/basicjaxb/xjc/valueconstructor"
+	xmlns:vc="urn:jvnet.org:basicjaxb:xjc:valueconstructor"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
 	jaxb:extensionBindingPrefixes="vc"

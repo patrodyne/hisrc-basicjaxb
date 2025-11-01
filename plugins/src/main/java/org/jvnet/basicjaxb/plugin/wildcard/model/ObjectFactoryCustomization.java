@@ -19,7 +19,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *     <complexContent>
  *       <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *         <sequence>
- *           <element ref="{http://jvnet.org/basicjaxb/xjc/wildcard}handler" minOccurs="0"/>
+ *           <element ref="{urn:jvnet.org:basicjaxb:xjc:wildcard}handler" minOccurs="0"/>
  *         </sequence>
  *         <attribute name="packageName" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       </restriction>
