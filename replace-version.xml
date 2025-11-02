@@ -7,38 +7,38 @@
 
 		<replace dir="${basedir}" summary="true">
 			<include name="**/*pom.xml"/>
-			<replacetoken><![CDATA[version>2.2.1-SNAPSHOT</]]></replacetoken>
-			<replacevalue><![CDATA[version>2.2.2-SNAPSHOT</]]></replacevalue>
+			<replacetoken><![CDATA[version>2.2.2-SNAPSHOT</]]></replacetoken>
+			<replacevalue><![CDATA[version>3.0.0-SNAPSHOT</]]></replacevalue>
 		</replace>
 
 		<replace dir="${basedir}" summary="true">
 			<include name="LICENSE.md"/>
-			<replacetoken><![CDATA[Copyright &copy; 2022-2023, Rick O'Sullivan;]]></replacetoken>
-			<replacevalue><![CDATA[Copyright &copy; 2022-2024, Rick O'Sullivan;]]></replacevalue>
+			<replacetoken><![CDATA[Copyright &copy; 2022-2024, Rick O'Sullivan;]]></replacetoken>
+			<replacevalue><![CDATA[Copyright &copy; 2022-2025, Rick O'Sullivan;]]></replacevalue>
 		</replace>
 
 		<replace dir="${basedir}" summary="true">
 			<include name="**/CreateToplevelXJBindings.cmd"/>
-			<replacetoken><![CDATA["BASICJAXB_VERSION=2.2.0"]]></replacetoken>
-			<replacevalue><![CDATA["BASICJAXB_VERSION=2.2.1"]]></replacevalue>
+			<replacetoken><![CDATA["BASICJAXB_VERSION=2.2.2"]]></replacetoken>
+			<replacevalue><![CDATA["BASICJAXB_VERSION=3.0.0"]]></replacevalue>
 		</replace>
 
 		<replace dir="${basedir}" summary="true">
 			<include name="**/CreateToplevelXJBindings.sh"/>
-			<replacetoken><![CDATA[BASICJAXB_VERSION="2.2.0"]]></replacetoken>
-			<replacevalue><![CDATA[BASICJAXB_VERSION="2.2.1"]]></replacevalue>
+			<replacetoken><![CDATA[BASICJAXB_VERSION="2.2.2"]]></replacetoken>
+			<replacevalue><![CDATA[BASICJAXB_VERSION="3.0.0"]]></replacevalue>
 		</replace>
 
 		<replace dir="${basedir}" summary="true">
 			<include name="higher/assembly/pom.xml"/>
-			<replacetoken><![CDATA[version>2.2.0</]]></replacetoken>
-			<replacevalue><![CDATA[version>2.2.1</]]></replacevalue>
+			<replacetoken><![CDATA[version>2.2.2-SNAPSHOT</]]></replacetoken>
+			<replacevalue><![CDATA[version>3.0.0-SNAPSHOT</]]></replacevalue>
 		</replace>
 
 		<replace dir="${basedir}" summary="true">
 			<include name="higher/pom.xml"/>
-			<replacetoken><![CDATA[version>2.2.1-SNAPSHOT</]]></replacetoken>
-			<replacevalue><![CDATA[version>2.2.2-SNAPSHOT</]]></replacevalue>
+			<replacetoken><![CDATA[version>2.2.2-SNAPSHOT</]]></replacetoken>
+			<replacevalue><![CDATA[version>3.0.0-SNAPSHOT</]]></replacevalue>
 		</replace>
 
 	</target>

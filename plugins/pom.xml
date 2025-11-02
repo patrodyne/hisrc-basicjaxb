@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
 		<artifactId>hisrc-basicjaxb-project</artifactId>
-		<version>2.2.2-SNAPSHOT</version>
+		<version>3.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>hisrc-basicjaxb-plugins</artifactId>
 	<packaging>jar</packaging>

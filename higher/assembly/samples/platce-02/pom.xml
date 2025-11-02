@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.patrodyne.jvnet</groupId>
 		<artifactId>hisrc-basicjaxb-higher-assembly-samples</artifactId>
-		<version>2.2.2-SNAPSHOT</version>
+		<version>3.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>hisrc-basicjaxb-sample-platce-02</artifactId>

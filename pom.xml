@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.patrodyne.jvnet</groupId>
 	<artifactId>hisrc-basicjaxb-project</artifactId>
-	<version>2.2.2-SNAPSHOT</version>
+	<version>3.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>HiSrc BasicJAXB - Project</name>
 	<description>HiSrc BasicJAXB is a part of Patrodyne HiSrc repos which implement plugins and tools for JAXB reference implementation.</description>

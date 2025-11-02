@@ -1,7 +1,7 @@
 @echo off
 
 SET "M2_REPO=%HOME%/.m2/repository"
-SET "BASICJAXB_VERSION=2.2.2"
+SET "BASICJAXB_VERSION=3.0.0"
 SET "CP=%M2_REPO%/org/patrodyne/jvnet/hisrc-basicjaxb-tools/%BASICJAXB_VERSION%/hisrc-basicjaxb-tools-%BASICJAXB_VERSION%.jar"
 SET "EXEC=java -cp %CP% org.jvnet.basicjaxb.util.CreateToplevelXJBindings --nested"
 
