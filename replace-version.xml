@@ -13,8 +13,8 @@
 
 		<replace dir="${basedir}" summary="true">
 			<include name="LICENSE.md"/>
-			<replacetoken><![CDATA[Copyright &copy; 2022-2024, Rick O'Sullivan;]]></replacetoken>
-			<replacevalue><![CDATA[Copyright &copy; 2022-2025, Rick O'Sullivan;]]></replacevalue>
+			<replacetoken><![CDATA[Copyright &copy; 2022-2025, Rick O'Sullivan;]]></replacetoken>
+			<replacevalue><![CDATA[Copyright &copy; 2022-2026, Rick O'Sullivan;]]></replacevalue>
 		</replace>
 
 		<replace dir="${basedir}" summary="true">

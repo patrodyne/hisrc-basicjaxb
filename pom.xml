@@ -99,13 +99,13 @@
 		<ant.version>1.10.15</ant.version>
 		<commons-io.version>2.21.0</commons-io.version>
 		<guice.version>5.1.0</guice.version>
-		<jaxb-api.version>4.0.4</jaxb-api.version>
+		<jaxb-api.version>4.0.5</jaxb-api.version>
 		<jaxb-imp.version>4.0.5</jaxb-imp.version>
 		<jaxb-core.version>2.3.0.1</jaxb-core.version> <!-- cxf -->
 		<jaxws-api.version>4.0.1</jaxws-api.version>
 		<jts.version>1.13</jts.version>
-		<junit-jupiter.version>6.0.1</junit-jupiter.version>
-		<junit-platform.version>6.0.1</junit-platform.version>
+		<junit-jupiter.version>6.0.3</junit-jupiter.version>
+		<junit-platform.version>6.0.3</junit-platform.version>
 		<maven.compiler.release>17</maven.compiler.release>
 		<maven-api.version>3.9.6</maven-api.version>
 		<maven-min.version>3.9.0</maven-min.version>
@@ -187,6 +187,11 @@
 				<groupId>org.eclipse.angus</groupId>
 				<artifactId>angus-activation</artifactId>
 				<version>${activation-imp.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.threeten-jaxb</groupId>
+				<artifactId>threeten-jaxb-core</artifactId>
+				<version>2.2.0</version>
 			</dependency>
 			<!-- JUnit -->
 			<dependency>
