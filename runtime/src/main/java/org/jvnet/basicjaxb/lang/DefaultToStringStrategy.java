@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.lang;
 
+import static org.jvnet.basicjaxb.lang.XmlIdReflector.getXmlIdValue;
 import static org.jvnet.basicjaxb.locator.util.LocatorUtils.item;
 import static org.jvnet.basicjaxb.locator.util.LocatorUtils.property;
 
@@ -24,7 +25,7 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	{
 		return logger;
 	}
-	
+
 	@Override
 	public boolean isDebugEnabled()
 	{
@@ -180,7 +181,7 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	 * <p>
 	 * Append to the <code>toString</code> the class name.
 	 * </p>
-	 * 
+	 *
 	 * @param buffer the <code>StringBuilder</code> to populate
 	 * @param object the <code>Object</code> whose name to output
 	 */
@@ -203,7 +204,7 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	 * <p>
 	 * Append the {@link System#identityHashCode(java.lang.Object)}.
 	 * </p>
-	 * 
+	 *
 	 * @param buffer the <code>StringBuilder</code> to populate
 	 * @param object the <code>Object</code> whose id to output
 	 */
@@ -220,7 +221,7 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	 * <p>
 	 * Append to the <code>toString</code> the content start.
 	 * </p>
-	 * 
+	 *
 	 * @param buffer the <code>StringBuilder</code> to populate
 	 */
 	protected void appendContentStart(StringBuilder buffer)
@@ -232,7 +233,7 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	 * <p>
 	 * Append to the <code>toString</code> the content end.
 	 * </p>
-	 * 
+	 *
 	 * @param buffer the <code>StringBuilder</code> to populate
 	 */
 	protected void appendContentEnd(StringBuilder buffer)
@@ -259,11 +260,11 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	 * <p>
 	 * Append to the <code>toString</code> an indicator for <code>null</code>.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * The default indicator is <code>'&lt;null&gt;'</code>.
 	 * </p>
-	 * 
+	 *
 	 * @param buffer the <code>StringBuilder</code> to populate
 	 */
 	protected void appendNullText(StringBuilder buffer)
@@ -271,11 +272,16 @@ public class DefaultToStringStrategy implements ToStringStrategy
 		buffer.append(nullText);
 	}
 
+	protected void appendIdRefText(StringBuilder buffer, Object value)
+	{
+		buffer.append(getXmlIdValue(value));
+	}
+
 	/**
 	 * <p>
 	 * Append to the <code>toString</code> the field start.
 	 * </p>
-	 * 
+	 *
 	 * @param parentLocator locator of the parent object.
 	 * @param parent parent object.
 	 * @param fieldName name of the field.
@@ -294,7 +300,7 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	 * <p>
 	 * Append to the <code>toString</code> the field start.
 	 * </p>
-	 * 
+	 *
 	 * @param parentLocator locator of the parent object.
 	 * @param parent parent object.
 	 * @param fieldName name of the field.
@@ -315,7 +321,7 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	 * <p>
 	 * Append to the <code>toString</code> the field end.
 	 * </p>
-	 * 
+	 *
 	 * @param parentLocator locator of the parent object.
 	 * @param parent parent object.
 	 * @param fieldName name of the field.
@@ -330,7 +336,7 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	 * <p>
 	 * Append to the <code>toString</code> the field end.
 	 * </p>
-	 * 
+	 *
 	 * @param parentLocator locator of the parent object.
 	 * @param parent parent object.
 	 * @param fieldName name of the field.
@@ -354,7 +360,7 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	 * <p>
 	 * Append to the <code>toString</code> the field separator.
 	 * </p>
-	 * 
+	 *
 	 * @param buffer the <code>StringBuilder</code> to populate
 	 */
 	protected void appendFieldSeparator(StringBuilder buffer)
@@ -371,20 +377,20 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	 * <p>
 	 * Append to the <code>toString</code> a size summary.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * The size summary is used to summarize the contents of
 	 * <code>Collections</code>, <code>Maps</code> and arrays.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * The output consists of a prefix, the passed in size and a suffix.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * The default format is <code>'&lt;size=n&gt;'</code>.
 	 * </p>
-	 * 
+	 *
 	 * @param locator locator.
 	 * @param buffer the <code>StringBuilder</code> to populate.
 	 * @param size the size to append.
@@ -1036,7 +1042,7 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	 * <p>
 	 * Remove the last field separator from the buffer.
 	 * </p>
-	 * 
+	 *
 	 * @param buffer the <code>StringBuilder</code> to populate
 	 * @since 2.0
 	 */
@@ -1142,6 +1148,7 @@ public class DefaultToStringStrategy implements ToStringStrategy
 		return stringBuilder;
 	}
 
+
 	@Override
 	public StringBuilder appendField(ObjectLocator parentLocator, Object parent, String fieldName,
 		StringBuilder stringBuilder, Object value, boolean valueSet)
@@ -1150,6 +1157,21 @@ public class DefaultToStringStrategy implements ToStringStrategy
 		append(property(parentLocator, fieldName, value), stringBuilder, value);
 		appendFieldEnd(parentLocator, parent, fieldName, stringBuilder, valueSet);
 		return stringBuilder;
+	}
+
+	@Override
+	public StringBuilder appendIdRef(ObjectLocator parentLocator, Object parent, String fieldName, StringBuilder buffer,
+		Object value, boolean valueSet)
+	{
+		if (value != null)
+		{
+			appendClassName(buffer, value);
+			appendIdentityHashCode(buffer, value);
+			appendContentStart(buffer);
+			appendIdRefText(buffer, value);
+			appendContentEnd(buffer);
+		}
+		return buffer;
 	}
 
 	@Override

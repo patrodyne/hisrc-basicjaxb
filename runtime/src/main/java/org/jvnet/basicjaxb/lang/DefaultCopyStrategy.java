@@ -27,61 +27,61 @@ public class DefaultCopyStrategy implements CopyStrategy
 	{
 		return logger;
 	}
-	
+
 	@Override
 	public boolean isDebugEnabled()
 	{
 		return getLogger().isDebugEnabled();
 	}
-	
+
 	@Override
 	public boolean isTraceEnabled()
 	{
 		return getLogger().isTraceEnabled();
 	}
-	
+
 	/**
 	 * Subclasses can override this method to log the debug message, as desired.
-	 * 
+	 *
 	 * @param message The debug message of copied values.
 	 */
 	public void debug(String message)
 	{
 		getLogger().debug(message);
 	}
-	
+
 	/**
 	 * Subclasses can override this method to log the trace message, as desired.
-	 * 
+	 *
 	 * @param message The trace message of copied values.
 	 */
 	public void trace(String message)
 	{
 		getLogger().trace(message);
 	}
-	
+
 	/**
 	 * Observe an object and its locator.
-	 * 
+	 *
 	 * @param <T> The object type.
 	 * @param locator The object locator.
 	 * @param obj The object.
-	 * 
+	 *
 	 * @return The original object.
 	 */
 	protected <T> T observe(ObjectLocator locator, T obj)
 	{
 		return observe("COPY", locator, obj);
 	}
-	
+
 	/**
 	 * Observe an object and its locator.
-	 * 
+	 *
 	 * @param <T> The object type.
 	 * @param label A prefix for the observation message.
 	 * @param locator The object locator.
 	 * @param obj The object.
-	 * 
+	 *
 	 * @return The original object.
 	 */
 	protected <T> T observe(String label, ObjectLocator locator, T obj)
@@ -92,10 +92,10 @@ public class DefaultCopyStrategy implements CopyStrategy
 		{
 			if ( locator instanceof RootObjectLocator )
 				debug(buildMessage(label, locator, valueToString(obj)));
-		}			
+		}
 		return obj;
 	}
-	
+
 	protected String buildMessage(String label, ObjectLocator locator, String value)
 	{
 		String message;
@@ -105,7 +105,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 			message = label + ": " + "{} -> " + value;
 		return message;
 	}
-	
+
 	@Override
 	public Boolean shouldBeCopiedAndSet(ObjectLocator locator, boolean valueSet)
 	{
@@ -134,13 +134,13 @@ public class DefaultCopyStrategy implements CopyStrategy
 	{
 		return observe(locator, xgc.clone());
 	}
-	
+
 	protected Object copy(ObjectLocator locator, Object value)
 	{
 		if (value == null)
 			return observe(locator, null);
-		
-		// 'Switch' on non-array or type of array, to dispatch to 
+
+		// 'Switch' on non-array or type of array, to dispatch to
 		// the correct handler. This handles multidimensional arrays
 		// of the same depth
 		Class<?> lhsClass = value.getClass();
@@ -213,7 +213,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	{
 		if (array == null)
 			return observe(locator, null);
-		
+
 		final Object[] copy = new Object[array.length];
 		for (int index = 0; index < array.length; index++)
 		{
@@ -228,7 +228,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	{
 		if (array == null)
 			return observe(locator, null);
-		
+
 		final long[] copy = new long[array.length];
 		for (int index = 0; index < array.length; index++)
 		{
@@ -243,7 +243,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	{
 		if (array == null)
 			return observe(locator, null);
-		
+
 		final int[] copy = new int[array.length];
 		for (int index = 0; index < array.length; index++)
 		{
@@ -258,7 +258,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	{
 		if (array == null)
 			return observe(locator, null);
-		
+
 		final short[] copy = new short[array.length];
 		for (int index = 0; index < array.length; index++)
 		{
@@ -273,7 +273,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	{
 		if (array == null)
 			return observe(locator, null);
-		
+
 		final char[] copy = new char[array.length];
 		for (int index = 0; index < array.length; index++)
 		{
@@ -288,7 +288,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	{
 		if (array == null)
 			return observe(locator, null);
-		
+
 		final byte[] copy = new byte[array.length];
 		for (int index = 0; index < array.length; index++)
 		{
@@ -303,7 +303,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	{
 		if (array == null)
 			return observe(locator, null);
-		
+
 		final double[] copy = new double[array.length];
 		for (int index = 0; index < array.length; index++)
 		{
@@ -318,7 +318,7 @@ public class DefaultCopyStrategy implements CopyStrategy
 	{
 		if (array == null)
 			return observe(locator, null);
-		
+
 		final float[] copy = new float[array.length];
 		for (int index = 0; index < array.length; index++)
 		{
@@ -454,6 +454,12 @@ public class DefaultCopyStrategy implements CopyStrategy
 	public Object copy(ObjectLocator locator, Object value, boolean valueSet)
 	{
 		return copy(locator, value);
+	}
+
+	@Override
+	public Object copyIdRef(ObjectLocator locator, Object value, boolean valueSet)
+	{
+		return observe(locator, value);
 	}
 
 	@Override

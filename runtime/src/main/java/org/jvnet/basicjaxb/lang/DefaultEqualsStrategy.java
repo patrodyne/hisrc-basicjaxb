@@ -1,5 +1,6 @@
 package org.jvnet.basicjaxb.lang;
 
+import static org.jvnet.basicjaxb.lang.XmlIdReflector.getXmlIdValue;
 import static org.jvnet.basicjaxb.locator.util.LocatorUtils.item;
 import static org.jvnet.basicjaxb.locator.util.LocatorUtils.property;
 
@@ -41,7 +42,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 
 	/**
 	 * Subclasses can override this method to log the debug message, as desired.
-	 * 
+	 *
 	 * @param message The debug message of copied values.
 	 */
 	public void debug(String message)
@@ -52,7 +53,7 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	/**
 	 * Subclasses should override this method to log the trace message, as
 	 * desired.
-	 * 
+	 *
 	 * @param message The trace message of unequal values.
 	 */
 	public void trace(String message)
@@ -109,10 +110,10 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		Class<?> lhsClass = lhs.getClass();
 		if (!lhsClass.isArray())
 			return equalsInternal(lhsLocator, rhsLocator, lhs, rhs);
@@ -155,10 +156,10 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs instanceof Equals && rhs instanceof Equals)
 			return equalsInternal(lhsLocator, rhsLocator, (Equals) lhs, (Equals) rhs);
 		else if (lhs instanceof Enum<?> && rhs instanceof Enum<?>)
@@ -173,10 +174,10 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs instanceof Equals && rhs instanceof Equals)
 			return equalsInternal(lhsLocator, rhsLocator, (Equals) lhs, (Equals) rhs);
 		else
@@ -187,10 +188,10 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		return lhs.equals(lhsLocator, rhsLocator, rhs, this);
 	}
 
@@ -198,10 +199,10 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		// Ignore the prefix, it may vary between XML instances.
 		// Alternative to rhs.isEqualNode(lhs); (com.sun.org.apache.xerces.internal.dom.NodeImpl)
 		return DOMUtils.areEqualElements(rhs, lhs, true);
@@ -251,19 +252,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs.length != rhs.length)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
 				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
-		
+
 		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
@@ -271,19 +272,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs.length != rhs.length)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equalsInternal(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
 				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
-		
+
 		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
@@ -291,19 +292,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs.length != rhs.length)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equalsInternal(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
 				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
-		
+
 		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
@@ -311,19 +312,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs.length != rhs.length)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
 				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
-		
+
 		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
@@ -331,19 +332,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs.length != rhs.length)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
 				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
-		
+
 		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
@@ -351,19 +352,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs.length != rhs.length)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
 				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
-		
+
 		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
@@ -371,19 +372,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs.length != rhs.length)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
 				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
-		
+
 		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
@@ -391,19 +392,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs.length != rhs.length)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
 				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
-		
+
 		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
@@ -411,19 +412,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs.length != rhs.length)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
 				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
-		
+
 		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
@@ -431,19 +432,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs.length != rhs.length)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
 				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
-		
+
 		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
@@ -451,19 +452,19 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	{
 		if (lhs == rhs)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, true);
-		
+
 		if (lhs == null || rhs == null)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		if (lhs.length != rhs.length)
 			return observe(lhsLocator, rhsLocator, lhs, rhs, false);
-		
+
 		for (int i = 0; i < lhs.length; ++i)
 		{
 			if (!equals(item(lhsLocator, i, lhs[i]), item(rhsLocator, i, rhs[i]), lhs[i], rhs[i]))
 				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
 		}
-		
+
 		return observe(lhsLocator, rhsLocator, lhs, rhs, true);
 	}
 
@@ -527,6 +528,15 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	public boolean equals(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Object lhs, Object rhs, boolean lhsSet, boolean rhsSet)
 	{
 		return (lhsSet && rhsSet) ? equals(lhsLocator, rhsLocator, lhs, rhs) :
+			equals(property(lhsLocator, "isSet", lhsSet), property(rhsLocator, "isSet", rhsSet), lhsSet, rhsSet);
+	}
+
+	@Override
+	public boolean equalsIdRef(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Object lhs, Object rhs, boolean lhsSet, boolean rhsSet)
+	{
+		String lxid = getXmlIdValue(lhs);
+		String rxid = getXmlIdValue(rhs);
+		return (lhsSet && rhsSet) ? equals(lhsLocator, rhsLocator, lxid, rxid) :
 			equals(property(lhsLocator, "isSet", lhsSet), property(rhsLocator, "isSet", rhsSet), lhsSet, rhsSet);
 	}
 

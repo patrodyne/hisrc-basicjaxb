@@ -35,20 +35,20 @@ public class DefaultMergeStrategy implements MergeStrategy
 	{
 		return getLogger().isTraceEnabled();
 	}
-	
+
 	/**
 	 * Subclasses can override this method to log the debug message, as desired.
-	 * 
+	 *
 	 * @param message The debug message of copied values.
 	 */
 	public void debug(String message)
 	{
 		getLogger().debug(message);
 	}
-	
+
 	/**
 	 * Subclasses can override this method to log the trace message, as desired.
-	 * 
+	 *
 	 * @param message The trace message of copied values.
 	 */
 	public void trace(String message)
@@ -58,12 +58,12 @@ public class DefaultMergeStrategy implements MergeStrategy
 
 	/**
 	 * Observe an object and its locator.
-	 * 
+	 *
 	 * @param <T> The object's type.
 	 * @param side Label for "LHS" or "RHS".
 	 * @param locator The object locator.
 	 * @param obj The result object.
-	 * 
+	 *
 	 * @return The result.
 	 */
 	protected <T> T observe(String side, ObjectLocator locator, T obj)
@@ -80,14 +80,14 @@ public class DefaultMergeStrategy implements MergeStrategy
 
 	/**
 	 * Observe objects and their locators.
-	 * 
+	 *
 	 * @param <T> The object's type.
 	 * @param lhsLocator The left hand side object locator.
 	 * @param rhsLocator The right hand side object locator.
 	 * @param lhs The left hand side object.
 	 * @param rhs The right hand side object.
 	 * @param obj The result object.
-	 * 
+	 *
 	 * @return The result object.
 	 */
 	protected <T> T observe(ObjectLocator lhsLocator, ObjectLocator rhsLocator, T lhs, T rhs, T obj)
@@ -114,7 +114,7 @@ public class DefaultMergeStrategy implements MergeStrategy
 		}
 		return obj;
 	}
-	
+
 	protected String buildMessage(String label, ObjectLocator locator, String value)
 	{
 		String message;
@@ -249,7 +249,7 @@ public class DefaultMergeStrategy implements MergeStrategy
 		else
 			return observe("RHS", rhsLocator, rhs);
 	}
-	
+
 	protected Object[] merge(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Object[] lhs, Object[] rhs)
 	{
 		return mergeArray(lhsLocator, rhsLocator, lhs, rhs);
@@ -392,6 +392,17 @@ public class DefaultMergeStrategy implements MergeStrategy
 			return observe("RHS", rhsLocator, rhs);
 		else
 			return merge(lhsLocator, rhsLocator, lhs, rhs);
+	}
+
+	@Override
+	public Object mergeIdRef(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Object lhs, Object rhs, boolean lhsSet, boolean rhsSet)
+	{
+		if (lhsSet && !rhsSet)
+			return observe("LHS", lhsLocator, lhs);
+		else if (!lhsSet && rhsSet)
+			return observe("RHS", rhsLocator, rhs);
+		else
+			return observe("RHS", rhsLocator, rhs);
 	}
 
 	@Override

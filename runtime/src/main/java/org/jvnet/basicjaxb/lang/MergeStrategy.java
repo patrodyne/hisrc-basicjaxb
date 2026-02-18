@@ -25,6 +25,8 @@ public interface MergeStrategy
 	public short merge(ObjectLocator leftLocator, ObjectLocator rightLocator, short left, short right, boolean leftSet, boolean rightSet);
 	public Object merge(ObjectLocator leftLocator, ObjectLocator rightLocator, Object left, Object right, boolean leftSet, boolean rightSet);
 
+	public Object mergeIdRef(ObjectLocator leftLocator, ObjectLocator rightLocator, Object left, Object right, boolean leftSet, boolean rightSet);
+
 	public boolean[] merge(ObjectLocator leftLocator, ObjectLocator rightLocator, boolean[] left, boolean[] right, boolean leftSet, boolean rightSet);
 	public byte[] merge(ObjectLocator leftLocator, ObjectLocator rightLocator, byte[] left, byte[] right, boolean leftSet, boolean rightSet);
 	public char[] merge(ObjectLocator leftLocator, ObjectLocator rightLocator, char[] left, char[] right, boolean leftSet, boolean rightSet);

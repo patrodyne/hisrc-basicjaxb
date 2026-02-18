@@ -13,7 +13,7 @@ public interface CopyStrategy
 	public boolean isTraceEnabled();
 
 	public Boolean shouldBeCopiedAndSet(ObjectLocator locator, boolean valueSet);
-	
+
 	public boolean copy(ObjectLocator locator, boolean value, boolean valueSet);
 	public byte copy(ObjectLocator locator, byte value, boolean valueSet);
 	public char copy(ObjectLocator locator, char value, boolean valueSet);
@@ -23,7 +23,9 @@ public interface CopyStrategy
 	public long copy(ObjectLocator locator, long value, boolean valueSet);
 	public short copy(ObjectLocator locator, short value, boolean valueSet);
 	public Object copy(ObjectLocator locator, Object value, boolean valueSet);
-	
+
+	public Object copyIdRef(ObjectLocator locator, Object value, boolean valueSet);
+
 	public boolean[] copy(ObjectLocator locator, boolean[] value, boolean valueSet);
 	public byte[] copy(ObjectLocator locator, byte[] value, boolean valueSet);
 	public char[] copy(ObjectLocator locator, char[] value, boolean valueSet);

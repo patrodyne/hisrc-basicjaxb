@@ -1,6 +1,8 @@
 package org.jvnet.basicjaxb.lang;
 
 import static java.lang.Integer.toHexString;
+import static java.lang.System.identityHashCode;
+import static org.jvnet.basicjaxb.lang.XmlIdReflector.getXmlIdValue;
 import static org.jvnet.basicjaxb.locator.util.LocatorUtils.item;
 
 import org.jvnet.basicjaxb.locator.ObjectLocator;
@@ -23,7 +25,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy
 	{
 		return logger;
 	}
-	
+
 	@Override
 	public boolean isDebugEnabled()
 	{
@@ -38,44 +40,44 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy
 
 	/**
 	 * Subclasses can override this method to log the debug message, as desired.
-	 * 
+	 *
 	 * @param message The debug message of copied values.
 	 */
 	public void debug(String message)
 	{
 		getLogger().debug(message);
 	}
-	
+
 	/**
 	 * Subclasses can override this method to log the trace message, as desired.
-	 * 
+	 *
 	 * @param message The trace message of copied values.
 	 */
 	public void trace(String message)
 	{
 		getLogger().trace(message);
 	}
-	
+
 	/**
 	 * Observe an int hash and its locator.
-	 * 
+	 *
 	 * @param locator The object locator.
 	 * @param hash The object.
-	 * 
+	 *
 	 * @return The original object.
 	 */
 	protected int observe(ObjectLocator locator, int hash)
 	{
 		return observe("HASH", locator, hash);
 	}
-	
+
 	/**
 	 * Observe an int hash and its locator.
-	 * 
+	 *
 	 * @param label A prefix for the observation message.
 	 * @param locator The object locator.
 	 * @param hash The hash integer.
-	 * 
+	 *
 	 * @return The original hash.
 	 */
 	protected int observe(String label, ObjectLocator locator, int hash)
@@ -86,7 +88,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy
 		{
 			if ( locator instanceof RootObjectLocator )
 				debug(buildMessage(label, locator, toHexString(hash)));
-		}			
+		}
 		return hash;
 	}
 
@@ -99,7 +101,7 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy
 			message = label + ": " + "{} -> " + value;
 		return message;
 	}
-	
+
 	private int iConstant;
 	public DefaultHashCodeStrategy()
 	{
@@ -421,6 +423,14 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy
 	public int hashCode(ObjectLocator locator, int hashCode, Object value, boolean valueSet)
 	{
 		return valueSet ? hashCode(locator, hashCode * iConstant, value) : observe(locator, hashCode * iConstant + 1);
+	}
+
+	@Override
+	public int hashIdRef(ObjectLocator locator, int hashCode, Object value, boolean valueSet)
+	{
+		String xidv = getXmlIdValue(value);
+		int xidhc = (xidv != null) ? xidv.hashCode() : identityHashCode(value);
+		return valueSet ? hashCode(locator, hashCode * iConstant, xidhc) : observe(locator, hashCode * iConstant + 1);
 	}
 
 	@Override
