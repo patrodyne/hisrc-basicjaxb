@@ -4,6 +4,11 @@ import static java.lang.System.currentTimeMillis;
 import static se.emirbuc.randomsentence.RandomSentences.generateRandomSentence;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -39,7 +44,7 @@ public class Bogus
 			DATATYPE_FACTORY = null;
 		}
 	}
-	
+
 	/**
 	 * Enumerate the random sentence length in words.
 	 * <ul>
@@ -50,8 +55,8 @@ public class Bogus
 	 */
 	public enum SentenceLength
 	{
-		SHORT_SENTENCE(Length.SHORT), 
-		MEDIUM_SENTENCE(Length.MEDIUM), 
+		SHORT_SENTENCE(Length.SHORT),
+		MEDIUM_SENTENCE(Length.MEDIUM),
 		LONG_SENTENCE(Length.LONG);
 
 		private Length length;
@@ -63,7 +68,7 @@ public class Bogus
 			setLength(length);
 		}
 	}
-	
+
 	private static final String[] FIRST_NAMES = {
 	    "James", "Mary",
 	    "Robert", "Patricia",
@@ -237,6 +242,54 @@ public class Bogus
 		new Product("U1F437","🐷","pork")
 	};
 
+	public static LocalDate xmlLocalDate(String beforeNow, String afterNow)
+	{
+		return xmlLocalDate(beforeNow, afterNow, Instant.now().getEpochSecond());
+	}
+
+	public static LocalDate xmlLocalDate(String beforeNow, String afterNow, LocalDate ld)
+	{
+		long refEpochSecond = ld.atStartOfDay(ZoneId.systemDefault()).toEpochSecond();
+		return xmlLocalDate(beforeNow, afterNow, refEpochSecond);
+	}
+
+	public static LocalDate xmlLocalDate(String beforeNow, String afterNow, long refEpochSecond)
+	{
+		return xmlOffsetDateTime(beforeNow, afterNow, refEpochSecond).toLocalDate();
+	}
+
+	public static OffsetDateTime xmlOffsetDateTime(String beforeNow, String afterNow)
+	{
+		return xmlOffsetDateTime(beforeNow, afterNow, Instant.now().getEpochSecond());
+	}
+
+	public static OffsetDateTime xmlOffsetDateTime(String beforeNow, String afterNow, OffsetDateTime odt)
+	{
+		return xmlOffsetDateTime(beforeNow, afterNow, odt.toEpochSecond());
+	}
+
+	public static OffsetDateTime xmlOffsetDateTime(String beforeNow, String afterNow, long refEpochSecond)
+	{
+		if ( beforeNow == null )
+			beforeNow = "P0Y";
+		if ( afterNow == null )
+			afterNow = "P0Y";
+
+		Period beforePeriod = Period.parse(beforeNow);
+		Period afterPeriod = Period.parse(afterNow);
+
+		Instant refInstant = Instant.ofEpochMilli(refEpochSecond);
+		Instant beforeInstant = refInstant.minus(beforePeriod);
+		Instant afterInstant = refInstant.plus(afterPeriod);
+
+		long beforeSeconds = beforeInstant.getEpochSecond();
+		long afterSeconds = afterInstant.getEpochSecond();
+		long randomSeconds = RANDOM.nextLong(beforeSeconds, afterSeconds);
+		Instant randomInstant = Instant.ofEpochSecond(randomSeconds);
+
+		return OffsetDateTime.ofInstant(randomInstant, ZoneId.systemDefault());
+	}
+
 	public static XMLGregorianCalendar xmlGregorianCalendar(String beforeNow, String afterNow)
 	{
 		return xmlGregorianCalendar(beforeNow, afterNow, currentTimeMillis());
@@ -265,34 +318,34 @@ public class Bogus
 		rgc.setTimeInMillis(rms);
 		return DATATYPE_FACTORY.newXMLGregorianCalendar(rgc);
 	}
-	
+
 	public static boolean logic()
 	{
 		return RANDOM.nextBoolean();
 	}
-	
+
 	public static boolean probability(int level, int bound)
 	{
 		return level > RANDOM.nextInt(bound);
 	}
-	
+
 	public static String sentence(SentenceLength sl)
 	{
 		return generateRandomSentence(sl.getLength());
 	}
-	
+
     public static <T extends Enum<?>> T randomEnum(Class<T> clazz)
     {
         int index = RANDOM.nextInt(clazz.getEnumConstants().length);
         return clazz.getEnumConstants()[index];
     }
-	
+
     public static <T> T randomItem(List<T> list)
     {
         int index = RANDOM.nextInt(list.size());
         return list.get(index);
     }
-	
+
 	public static String firstName()
 	{
 		return FIRST_NAMES[ RANDOM.nextInt(FIRST_NAMES.length) ];
@@ -316,7 +369,7 @@ public class Bogus
 			alphas.append(alpha());
 		return alphas.toString();
 	}
-	
+
 	public static int digit(int size)
 	{
 		int lo = 1;

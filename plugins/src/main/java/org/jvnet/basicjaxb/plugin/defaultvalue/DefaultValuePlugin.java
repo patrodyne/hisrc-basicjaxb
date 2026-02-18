@@ -10,6 +10,13 @@ import static org.jvnet.basicjaxb.xmlschema.XmlSchemaConstants.HEXBINARY;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.MonthDay;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.Year;
+import java.time.YearMonth;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -42,6 +49,7 @@ import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import com.sun.codemodel.JOp;
 import com.sun.codemodel.JType;
 import com.sun.tools.xjc.model.CAttributePropertyInfo;
 import com.sun.tools.xjc.model.CBuiltinLeafInfo;
@@ -64,7 +72,7 @@ import com.sun.xml.xsom.XmlString;
  * Modifies the JAXB code model to set default values to the schema "default" attribute.
  * Currently, the following field types can be initialized:
  * </p>
- * 
+ *
  * <ul>
  *   <li>Enumerations (see {@link Enum})</li>
  *   <li>{@link String}</li>
@@ -95,7 +103,7 @@ import com.sun.xml.xsom.XmlString;
  * <p>
  * Created: Mon Apr 24 22:04:25 2006
  * </p>
- * 
+ *
  * @author <a href="mailto:hari@dcis.net">Hari Selvarajan</a>
  * @author <a href="mailto:Juergen.Lukasczyk@web.de">Jürgen Lukasczyk</a>
  */
@@ -103,13 +111,13 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 {
 	/** Name of Option to enable this plugin. */
 	private static final String OPTION_NAME = "XdefaultValue";
-	
+
 	/** Description of Option to enable this plugin. */
 	private static final String OPTION_DESC = "enable rewriting of classes to set default values as specified in XML schema";
 
 	/** Represents the arguments of a method without parameters. */
 	private static final JType[] NO_ARGS = new JType[0];
-	
+
 	/** Creates a new <code>DefaultValuePlugin</code> instance. */
 	public DefaultValuePlugin()
 	{
@@ -154,7 +162,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			Customizations.GENERATED_ELEMENT_NAME
 		);
 	}
-	
+
 	private String mapClass = LinkedHashMap.class.getName();
 	public String getMapClass()
 	{
@@ -164,9 +172,9 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 	{
 		this.mapClass = mapClass;
 	}
-	
+
 	// Plugin Processing
-	
+
 	@Override
 	protected void beforeRun(Outline outline) throws Exception
 	{
@@ -181,7 +189,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			info(sb.toString());
 		}
 	}
-	
+
 	@Override
 	protected void afterRun(Outline outline) throws Exception
 	{
@@ -194,7 +202,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			info(sb.toString());
 		}
 	}
-	
+
 	/**
 	 * <p>
 	 * Run the plugin. We perform the following steps:
@@ -205,7 +213,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 	 *     <ul>
 	 *       <li>Are generated from XSD description</li>
 	 *       <li>The XSD description is of type <code>xsd:element</code>
-	 *           (code level default values are not necessary for fields 
+	 *           (code level default values are not necessary for fields
 	 *           generated from attributes)</li>
 	 *       <li>A default value is specified</li>
 	 *       <li>Map to one of the supported types</li>
@@ -217,16 +225,16 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 	 *       <li>Otherwise, the field qualifies to receive the initialization expression</li>
 	 *     </ul>
 	 *   </li>
-	 *   
+	 *
 	 * </ul>
-	 * 
+	 *
      * <p>
      * Note that this method is invoked only when a plugin is activated.
      * </p>
 	 *
      * @param outline
      *      This object allows access to various generated code.
-     * 
+     *
      * @return
      *      If the add-on executes successfully, return true.
      *      If it detects some errors but those are reported and
@@ -244,23 +252,23 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 		// Filter ignored class outlines
 		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
 			processClassOutline(outline, classOutline);
-		
+
 		return !hadError(outline.getErrorReceiver());
 	}
 
 	/**
 	 * Process the XJC {@link Outline} instance. The goal is to add a default value to
 	 * initialize all non-ignored fields from the given {@link Outline} instance.
-	 * 
+	 *
 	 * @param outline An outline from the XJC framework.
 	 * @param classOutline A class outline from the XJC framework.
-     * 
+     *
 	 */
 	protected void processClassOutline(Outline outline, ClassOutline classOutline)
 	{
 		// Filter out the ignored class outline's fields.
 		FieldOutline[] declaredFilteredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
-		
+
 		// check all Fields in Class
 		for (FieldOutline fieldOutline : declaredFilteredFields)
 		{
@@ -268,14 +276,14 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			JType fieldRawType = fieldOutline.getRawType();
 			boolean fieldIsPrimitive = fieldRawType.isPrimitive();
 			JType fieldType = (fieldIsPrimitive) ? fieldRawType.boxify() : fieldRawType;
-			
+
 			// Get the field type's full name.
 			String typeFullName = fieldType.fullName();
 			String typeErasedFullName = fieldType.erasure().fullName();
 
 			// Represent the XML schema element's or attribute's default value.
 			XmlString defaultValue = null;
-			
+
 			// Do nothing if Field is not created from an or XSAttributeUse an XSParticle
 			// Set the defaultValue ONLY when this plugin needs to provide the initialization.
 			CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
@@ -284,7 +292,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			{
 				// An XSAttributeUse provides isRequired, defaultValue and fixedValue for an XSAttributeDecl.
 				XSAttributeUse attribute = (XSAttributeUse) fieldInfo.getSchemaComponent();
-				
+
 				// Some attribute types need a default value from this plugin, however;
 				// other attributes are initialized in the getter by the XJC engine.
 				if
@@ -325,7 +333,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			{
 				// An XSParticle provides min/max occurs cardinality for an XSTerm.
 				XSParticle particle = (XSParticle) fieldInfo.getSchemaComponent();
-				
+
 				// Default values only necessary for fields derived from an xsd:element
 				XSTerm term = particle.getTerm();
 				if (term.isElementDecl())
@@ -346,7 +354,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 					}
 				}
 			}
-			
+
 			// Provide initialization for the default value, when non-null.
 			if ( defaultValue != null )
 				processDefaultValue(outline, classOutline, fieldInfo, fieldType, fieldIsPrimitive, typeFullName, defaultValue, schemaType);
@@ -354,19 +362,19 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 				processDefaultValue(outline, classOutline, fieldInfo, fieldType, fieldIsPrimitive, typeErasedFullName);
 		} // for FieldOutline
 	}
-	
+
 	private void processDefaultValue(Outline outline, ClassOutline classOutline,
 		CPropertyInfo fieldInfo, JType fieldType, boolean fieldIsPrimitive,
 		String typeErasedFullName)
 	{
 		// Get handle to JModel representing the field
 		JDefinedClass theClass = classOutline.implClass;
-		
+
 		// Get the field variable for the given fieldInfo private name
 		// from the map of fields for theClass. .
 		Map<String, JFieldVar> fields = theClass.fields();
 		JFieldVar var = fields.get(fieldInfo.getName(false));
-		
+
 		// Get the BOUND for the given fieldInfo public name
 		// from the list of methods for theClass.
 		String publicName = fieldInfo.getName(true);
@@ -377,10 +385,10 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			accessorName = "is" + publicName;
 			accessor = theClass.getMethod(accessorName, NO_ARGS);
 		}
-		
+
 		String fieldLoc = toLocation(fieldInfo.getLocator());
 		String fieldName = fieldInfo.displayName();
-		
+
 		// PROCESS: Create an appropriate default expression depending on type
 		if (Map.class.getName().equals(typeErasedFullName))
 		{
@@ -396,12 +404,12 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 	{
 		// Get handle to JModel representing the field
 		JDefinedClass theClass = classOutline.implClass;
-		
+
 		// Get the field variable for the given fieldInfo private name
 		// from the map of fields for theClass. .
 		Map<String, JFieldVar> fields = theClass.fields();
 		JFieldVar var = fields.get(fieldInfo.getName(false));
-		
+
 		// Get the BOUND for the given fieldInfo public name
 		// from the list of methods for theClass.
 		String publicName = fieldInfo.getName(true);
@@ -412,234 +420,308 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 			accessorName = "is" + publicName;
 			accessor = theClass.getMethod(accessorName, NO_ARGS);
 		}
-		
-		// Get handle to JCodeModel owning this class.
-		JCodeModel theCodeModel = theClass.owner();
-		
-		// Get reference to ValueUtils to invoke its static methods.
-		JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
-		
-		String fieldLoc = toLocation(fieldInfo.getLocator());
-		String fieldName = fieldInfo.displayName();
-		
-		// PROCESS: Create an appropriate default expression depending on type
-		if ((fieldType instanceof JDefinedClass) && (((JDefinedClass) fieldType).getClassType() == ClassType.ENUM))
+
+		// PROCESS: Use the given adapter or create an appropriate expression.
+		if ( fieldInfo.getAdapter() != null )
 		{
-			// Find Enumeration constant
-			JEnumConstant literalValue = findEnumConstant(fieldType, defaultValue.value, outline);
-			if (literalValue != null)
-			{
-				initializer(var, accessor, fieldIsPrimitive, literalValue);
-				debug("{}, processDefaultValue; {} = {} (Enum)", fieldLoc, fieldName, literalValue.getName());
-			}
+			JClass fieldAdapter = fieldInfo.getAdapter().getAdapterClass(outline);
+			JExpression adapterValue = JExpr._new(fieldAdapter).invoke("unmarshal").arg(defaultValue.value);
+			if ( typeFullName.startsWith(List.class.getName()+"<") )
+				initializerList1(var, accessor, fieldIsPrimitive, adapterValue);
+			else
+				initializer(var, accessor, fieldIsPrimitive, adapterValue);
 		}
-		else if (String.class.getName().equals(typeFullName))
-		{
-			JExpression literalValue = CBuiltinLeafInfo.STRING.createConstant( outline, defaultValue);
-//			JExpression literalValue = refValueUtils.staticInvoke("toString").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = \"{}\" (String)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (Boolean.class.getName().equals(typeFullName))
-		{
-			JExpression literalValue = CBuiltinLeafInfo.BOOLEAN.createConstant( outline, defaultValue);
-//			JExpression literalValue = refValueUtils.staticInvoke("toBoolean").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (Boolean)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (Byte.class.getName().equals(typeFullName))
-		{
-			JExpression literalValue = CBuiltinLeafInfo.BYTE.createConstant( outline, defaultValue);
-//			JExpression literalValue = refValueUtils.staticInvoke("toByte").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (Byte)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (Short.class.getName().equals(typeFullName))
-		{
-			JExpression literalValue = CBuiltinLeafInfo.SHORT.createConstant( outline, defaultValue);
-//			JExpression literalValue = refValueUtils.staticInvoke("toShort").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (Short)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (Integer.class.getName().equals(typeFullName))
-		{
-			JExpression literalValue = CBuiltinLeafInfo.INT.createConstant( outline, defaultValue);
-//			JExpression literalValue = refValueUtils.staticInvoke("toInteger").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (Integer)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (Long.class.getName().equals(typeFullName))
-		{
-			JExpression literalValue = CBuiltinLeafInfo.LONG.createConstant( outline, defaultValue);
-//			JExpression literalValue = refValueUtils.staticInvoke("toLong").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (Long)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (Float.class.getName().equals(typeFullName))
-		{
-			JExpression literalValue = CBuiltinLeafInfo.FLOAT.createConstant( outline, defaultValue);
-//			JExpression literalValue = refValueUtils.staticInvoke("toFloat").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (Float)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (Double.class.getName().equals(typeFullName))
-		{
-			JExpression literalValue = CBuiltinLeafInfo.DOUBLE.createConstant( outline, defaultValue);
-//			JExpression literalValue = refValueUtils.staticInvoke("toDouble").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (Double)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (BigDecimal.class.getName().equals(typeFullName))
-		{
-			JExpression literalValue = CBuiltinLeafInfo.BIG_DECIMAL.createConstant( outline, defaultValue);
-//			JExpression literalValue = refValueUtils.staticInvoke("toBigDecimal").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (BigDecimal)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (BigInteger.class.getName().equals(typeFullName))
-		{
-			JExpression literalValue = CBuiltinLeafInfo.BIG_INTEGER.createConstant( outline, defaultValue);
-//			JExpression literalValue = refValueUtils.staticInvoke("toBigInteger").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (BigInteger)", fieldLoc, fieldName, defaultValue);
-		}
-		else if
-		(
-			byte[].class.getCanonicalName().equals(typeFullName) && (schemaType == null) ||
-			byte[].class.getCanonicalName().equals(typeFullName) && BASE64BINARY.equals(schemaType) 
-		)
-		{
-			JExpression literalValue = CBuiltinLeafInfo.BASE64_BYTE_ARRAY.createConstant( outline, defaultValue);
-//			JExpression literalValue = refValueUtils.staticInvoke("parseBase64Binary").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (Base64Binary)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ( byte[].class.getCanonicalName().equals(typeFullName) && HEXBINARY.equals(schemaType) )
-		{
-			JExpression literalValue = CBuiltinLeafInfo.HEXBIN_BYTE_ARRAY.createConstant( outline, defaultValue);
-//			JExpression literalValue = refValueUtils.staticInvoke("parseHexBinary").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (HexBinary)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (XMLGregorianCalendar.class.getName().equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toXMLGregorianCalendar").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (XMLGregorianCalendar)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (Duration.class.getName().equals(typeFullName))
-		{
-//			JExpression literalValue = CBuiltinLeafInfo.DURATION.createConstant( outline, defaultValue);
-			JExpression literalValue = refValueUtils.staticInvoke("toDuration").arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (Duration)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (QName.class.getName().equals(typeFullName))
-		{
-			// ALT?: javax.xml.namespace.QName parseQName(String lexicalXSDQName, javax.xml.namespace.NamespaceContext nsc);
-			JFieldVar ofField = theClass.fields().get("OBJECT_FACTORY");
-			if (ofField == null)
-				ofField = installObjectFactory(theClass);
-			JClass refQNameUtils = theCodeModel.ref(QNameUtils.class);
-			JInvocation jaxbElement = JExpr.invoke(ofField, "create" + publicName).arg(JExpr._null());
-			JExpression literalValue = refQNameUtils.staticInvoke("toName").arg(jaxbElement).arg(defaultValue.value);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {} (QName)", fieldLoc, fieldName, defaultValue);
-		}
-		else if (Object.class.getName().equals(typeFullName) && ANYSIMPLETYPE.equals(schemaType))
-		{
-			// ALT?: jakarta.xml.bind.DatatypeConverter.parseAnySimpleType(String)
-			JFieldVar ofField = theClass.fields().get("OBJECT_FACTORY");
-			if (ofField == null)
-				ofField = installObjectFactory(theClass);
-			JClass refDOMUtils = theCodeModel.ref(DOMUtils.class);
-			JInvocation jaxbElement = JExpr.invoke(ofField, "create" + publicName).arg(defaultValue.value);
-			JExpression literalValue = refDOMUtils.staticInvoke("toNode").arg(jaxbElement);
-			initializer(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = \"{}\" (Object)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ((List.class.getName()+"<"+BigDecimal.class.getName()+">").equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toBigDecimalList").arg(defaultValue.value);
-			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {{}} (List<BigDecimal>)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ((List.class.getName()+"<"+BigInteger.class.getName()+">").equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toBigIntegerList").arg(defaultValue.value);
-			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {{}} (List<BigInteger>)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ((List.class.getName()+"<"+Boolean.class.getName()+">").equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toBooleanList").arg(defaultValue.value);
-			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {{}} (List<Boolean>)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ((List.class.getName()+"<"+Byte.class.getName()+">").equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toByteList").arg(defaultValue.value);
-			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {{}} (List<Byte>)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ((List.class.getName()+"<"+Double.class.getName()+">").equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toDoubleList").arg(defaultValue.value);
-			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {{}} (List<Double>)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ((List.class.getName()+"<"+Duration.class.getName()+">").equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toDurationList").arg(defaultValue.value);
-			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {{}} (List<Duration>)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ((List.class.getName()+"<"+Float.class.getName()+">").equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toFloatList").arg(defaultValue.value);
-			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {{}} (List<Float>)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ((List.class.getName()+"<"+Integer.class.getName()+">").equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toIntegerList").arg(defaultValue.value);
-			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {{}} (List<Integer>)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ((List.class.getName()+"<"+Long.class.getName()+">").equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toLongList").arg(defaultValue.value);
-			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {{}} (List<Long>)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ((List.class.getName()+"<"+Short.class.getName()+">").equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toShortList").arg(defaultValue.value);
-			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {{}} (List<Short>)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ((List.class.getName()+"<"+String.class.getName()+">").equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toStringList").arg(defaultValue.value);
-			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {{}} (List<String>)", fieldLoc, fieldName, defaultValue);
-		}
-		else if ((List.class.getName()+"<"+XMLGregorianCalendar.class.getName()+">").equals(typeFullName))
-		{
-			JExpression literalValue = refValueUtils.staticInvoke("toXMLGregorianCalendarList").arg(defaultValue.value);
-			initializerList(var, accessor, fieldIsPrimitive, literalValue);
-			debug("{}, processDefaultValue; {} = {{}} (List<XMLGregorianCalendar>)", fieldLoc, fieldName, defaultValue);
-		}
-		// Don't know how to create default for this type
 		else
 		{
-			warn("{}, processDefaultValue; Did not create default value for field {}. "
-				+ "Don't know how to create default value expression for fields of type {} with schema type {}. "
-				+ "Default value of \"{}\" specified in schema.", fieldLoc, fieldName, typeFullName, schemaType, defaultValue);
+			// Get handle to JCodeModel owning this class.
+			JCodeModel theCodeModel = theClass.owner();
+
+			// Get reference to ValueUtils to invoke its static methods.
+			JClass refValueUtils = theCodeModel.ref(ValueUtils.class);
+
+			String fieldLoc = toLocation(fieldInfo.getLocator());
+			String fieldName = fieldInfo.displayName();
+
+			// PROCESS: Create an appropriate default expression depending on type
+			if ((fieldType instanceof JDefinedClass) && (((JDefinedClass) fieldType).getClassType() == ClassType.ENUM))
+			{
+				// Find Enumeration constant
+				JEnumConstant literalValue = findEnumConstant(fieldType, defaultValue.value, outline);
+				if (literalValue != null)
+				{
+					initializer(var, accessor, fieldIsPrimitive, literalValue);
+					debug("{}, processDefaultValue; {} = {} (Enum)", fieldLoc, fieldName, literalValue.getName());
+				}
+			}
+			else if (String.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = CBuiltinLeafInfo.STRING.createConstant( outline, defaultValue);
+//				JExpression literalValue = refValueUtils.staticInvoke("toString").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = \"{}\" (String)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (Boolean.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = CBuiltinLeafInfo.BOOLEAN.createConstant( outline, defaultValue);
+//				JExpression literalValue = refValueUtils.staticInvoke("toBoolean").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (Boolean)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (Byte.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = CBuiltinLeafInfo.BYTE.createConstant( outline, defaultValue);
+//				JExpression literalValue = refValueUtils.staticInvoke("toByte").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (Byte)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (Short.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = CBuiltinLeafInfo.SHORT.createConstant( outline, defaultValue);
+//				JExpression literalValue = refValueUtils.staticInvoke("toShort").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (Short)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (Integer.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = CBuiltinLeafInfo.INT.createConstant( outline, defaultValue);
+//				JExpression literalValue = refValueUtils.staticInvoke("toInteger").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (Integer)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (Long.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = CBuiltinLeafInfo.LONG.createConstant( outline, defaultValue);
+//				JExpression literalValue = refValueUtils.staticInvoke("toLong").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (Long)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (Float.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = CBuiltinLeafInfo.FLOAT.createConstant( outline, defaultValue);
+//				JExpression literalValue = refValueUtils.staticInvoke("toFloat").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (Float)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (Double.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = CBuiltinLeafInfo.DOUBLE.createConstant( outline, defaultValue);
+//				JExpression literalValue = refValueUtils.staticInvoke("toDouble").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (Double)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (BigDecimal.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = CBuiltinLeafInfo.BIG_DECIMAL.createConstant( outline, defaultValue);
+//				JExpression literalValue = refValueUtils.staticInvoke("toBigDecimal").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (BigDecimal)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (BigInteger.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = CBuiltinLeafInfo.BIG_INTEGER.createConstant( outline, defaultValue);
+//				JExpression literalValue = refValueUtils.staticInvoke("toBigInteger").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (BigInteger)", fieldLoc, fieldName, defaultValue);
+			}
+			else if
+			(
+				byte[].class.getCanonicalName().equals(typeFullName) && (schemaType == null) ||
+				byte[].class.getCanonicalName().equals(typeFullName) && BASE64BINARY.equals(schemaType)
+			)
+			{
+				JExpression literalValue = CBuiltinLeafInfo.BASE64_BYTE_ARRAY.createConstant( outline, defaultValue);
+//				JExpression literalValue = refValueUtils.staticInvoke("parseBase64Binary").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (Base64Binary)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ( byte[].class.getCanonicalName().equals(typeFullName) && HEXBINARY.equals(schemaType) )
+			{
+				JExpression literalValue = CBuiltinLeafInfo.HEXBIN_BYTE_ARRAY.createConstant( outline, defaultValue);
+//				JExpression literalValue = refValueUtils.staticInvoke("parseHexBinary").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (HexBinary)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (LocalDate.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toLocalDate").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (LocalDate)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (OffsetTime.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toOffsetTime").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (OffsetTime)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (OffsetDateTime.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toOffsetDateTime").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (OffsetDateTime)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (java.time.Duration.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toTimeDuration").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (Duration)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (Month.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toMonth").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (Month)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (MonthDay.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toMonthDay").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (MonthDay)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (Year.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toYear").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (Year)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (YearMonth.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toYearMonth").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (YearMonth)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (XMLGregorianCalendar.class.getName().equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toXMLGregorianCalendar").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (XMLGregorianCalendar)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (Duration.class.getName().equals(typeFullName))
+			{
+//				JExpression literalValue = CBuiltinLeafInfo.DURATION.createConstant( outline, defaultValue);
+				JExpression literalValue = refValueUtils.staticInvoke("toDuration").arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (Duration)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (QName.class.getName().equals(typeFullName))
+			{
+				// ALT?: javax.xml.namespace.QName parseQName(String lexicalXSDQName, javax.xml.namespace.NamespaceContext nsc);
+				JFieldVar ofField = theClass.fields().get("OBJECT_FACTORY");
+				if (ofField == null)
+					ofField = installObjectFactory(theClass);
+				JClass refQNameUtils = theCodeModel.ref(QNameUtils.class);
+				JInvocation jaxbElement = JExpr.invoke(ofField, "create" + publicName).arg(JExpr._null());
+				JExpression literalValue = refQNameUtils.staticInvoke("toName").arg(jaxbElement).arg(defaultValue.value);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {} (QName)", fieldLoc, fieldName, defaultValue);
+			}
+			else if (Object.class.getName().equals(typeFullName) && ANYSIMPLETYPE.equals(schemaType))
+			{
+				// ALT?: jakarta.xml.bind.DatatypeConverter.parseAnySimpleType(String)
+				JFieldVar ofField = theClass.fields().get("OBJECT_FACTORY");
+				if (ofField == null)
+					ofField = installObjectFactory(theClass);
+				JClass refDOMUtils = theCodeModel.ref(DOMUtils.class);
+				JInvocation jaxbElement = JExpr.invoke(ofField, "create" + publicName).arg(defaultValue.value);
+				JExpression literalValue = refDOMUtils.staticInvoke("toNode").arg(jaxbElement);
+				initializer(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = \"{}\" (Object)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ((List.class.getName()+"<"+BigDecimal.class.getName()+">").equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toBigDecimalList").arg(defaultValue.value);
+				initializerList2(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {{}} (List<BigDecimal>)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ((List.class.getName()+"<"+BigInteger.class.getName()+">").equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toBigIntegerList").arg(defaultValue.value);
+				initializerList2(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {{}} (List<BigInteger>)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ((List.class.getName()+"<"+Boolean.class.getName()+">").equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toBooleanList").arg(defaultValue.value);
+				initializerList2(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {{}} (List<Boolean>)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ((List.class.getName()+"<"+Byte.class.getName()+">").equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toByteList").arg(defaultValue.value);
+				initializerList2(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {{}} (List<Byte>)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ((List.class.getName()+"<"+Double.class.getName()+">").equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toDoubleList").arg(defaultValue.value);
+				initializerList2(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {{}} (List<Double>)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ((List.class.getName()+"<"+Duration.class.getName()+">").equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toDurationList").arg(defaultValue.value);
+				initializerList2(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {{}} (List<Duration>)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ((List.class.getName()+"<"+Float.class.getName()+">").equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toFloatList").arg(defaultValue.value);
+				initializerList2(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {{}} (List<Float>)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ((List.class.getName()+"<"+Integer.class.getName()+">").equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toIntegerList").arg(defaultValue.value);
+				initializerList2(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {{}} (List<Integer>)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ((List.class.getName()+"<"+Long.class.getName()+">").equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toLongList").arg(defaultValue.value);
+				initializerList2(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {{}} (List<Long>)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ((List.class.getName()+"<"+Short.class.getName()+">").equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toShortList").arg(defaultValue.value);
+				initializerList2(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {{}} (List<Short>)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ((List.class.getName()+"<"+String.class.getName()+">").equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toStringList").arg(defaultValue.value);
+				initializerList2(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {{}} (List<String>)", fieldLoc, fieldName, defaultValue);
+			}
+			else if ((List.class.getName()+"<"+XMLGregorianCalendar.class.getName()+">").equals(typeFullName))
+			{
+				JExpression literalValue = refValueUtils.staticInvoke("toXMLGregorianCalendarList").arg(defaultValue.value);
+				initializerList2(var, accessor, fieldIsPrimitive, literalValue);
+				debug("{}, processDefaultValue; {} = {{}} (List<XMLGregorianCalendar>)", fieldLoc, fieldName, defaultValue);
+			}
+			// Don't know how to create default for this type
+			else
+			{
+				warn("{}, processDefaultValue; Did not create default value for field {}. "
+					+ "Don't know how to create default value expression for fields of type {} with schema type {}. "
+					+ "Default value of \"{}\" specified in schema.", fieldLoc, fieldName, typeFullName, schemaType, defaultValue);
+			}
 		}
 	}
 
-	private void initializerList(JFieldVar var, JMethod accessor, boolean fieldIsPrimitive, JExpression literalValue)
+	private void initializerList1(JFieldVar var, JMethod accessor, boolean fieldIsPrimitive, JExpression literalValue)
+	{
+		if ( (accessor != null) && !fieldIsPrimitive )
+		{
+			accessor.body().pos(0);
+			JExpression isVarNull = JOp.eq(var, JExpr._null());
+			JInvocation isVarEmpty = JExpr.invoke(var, "isEmpty");
+			JConditional ifVarIsNoE = accessor.body()._if(JOp.cor(isVarNull, isVarEmpty));
+			ifVarIsNoE._then().assign(var, literalValue);
+		}
+		else
+			var.init(literalValue);
+	}
+	private void initializerList2(JFieldVar var, JMethod accessor, boolean fieldIsPrimitive, JExpression literalValue)
 	{
 		if ( (accessor != null) && !fieldIsPrimitive )
 		{
@@ -662,7 +744,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 		else
 			var.init(literalValue);
 	}
-	
+
 	private void initializer(JFieldVar var, JMethod accessor, boolean fieldIsPrimitive, JExpression literalValue)
 	{
 		if ( (accessor != null) && !fieldIsPrimitive )
@@ -674,20 +756,20 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 		else
 			var.init(literalValue);
 	}
-	
+
 	/**
 	 * Retrieve the enum constant that correlates to the string value.
-	 * 
+	 *
 	 * @param enumType Type identifying an Enum in the code model
 	 * @param enumStringValue Lexical value of the constant to search
 	 * @param outline Outline of the code model
-	 * 
+	 *
 	 * @return The matching Constant from the enum type or NULL if not found
 	 */
 	private JEnumConstant findEnumConstant(JType enumType, String enumStringValue, Outline outline)
 	{
 		JEnumConstant ec = null;
-		
+
 		// Search all Enums generated
 		for (EnumOutline eo : outline.getEnums())
 		{
@@ -704,7 +786,7 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 						break;
 					}
 				} // for Constants
-				
+
 				if ( ec == null )
 				{
 					warn("{}, findEnumConstant; Could not find EnumConstant for value: \"{}\"",
@@ -713,18 +795,18 @@ public class DefaultValuePlugin extends AbstractParameterizablePlugin
 				}
 			}
 		}
-		
+
 		if ( ec == null )
 			warn("findEnumConstant; Could not find Enum class for type: " + enumType.fullName());
-		
+
 		return ec;
 	}
 
 	/**
 	 * On the defined class, install a field for the relative ObjectFactory.
-	 * 
+	 *
 	 * @param theClass The target class.
-	 * 
+	 *
 	 * @return A field representing the ObjectFactory instance.
 	 */
 	private JFieldVar installObjectFactory(JDefinedClass theClass)
