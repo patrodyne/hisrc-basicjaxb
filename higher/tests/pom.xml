@@ -55,6 +55,10 @@
 			<artifactId>jakarta.activation-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>io.github.threeten-jaxb</groupId>
+			<artifactId>threeten-jaxb-core</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-basicjaxb-testing</artifactId>
 			<scope>test</scope>

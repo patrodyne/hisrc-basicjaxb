@@ -26,14 +26,14 @@ public class DefaultValue4Test extends AbstractDefaultValueTest
 	{
 		return ObjectFactory.class.getPackageName();
 	}
-	
+
 	@Override
 	protected void checkSample(File sampleFile)
 		throws Exception
 	{
 		assertNotNull(sampleFile, "Sample must exist.");
 	}
-	
+
 	@BeforeEach
 	public void beforeAll() throws JAXBException
 	{
@@ -50,12 +50,12 @@ public class DefaultValue4Test extends AbstractDefaultValueTest
 
 		String doc4B = marshalToString(document4B);
 		getLogger().debug("doc4B: {}\n", doc4B);
-		
+
 		// document4A: All attributes and elements have set values, see document4.xml.
 		// document4B: All attributes and elements use the unset default values.
 		assertNotEquals(document4A, document4B, "document4A is set but document4B is unset");
 	}
-	
+
 	@Test
 	public void testDefaultValue4AC()
 	{
@@ -72,21 +72,21 @@ public class DefaultValue4Test extends AbstractDefaultValueTest
 		if (!document4C.isSetDvShortValues()) document4C.getDvShortValues();
 		if (!document4C.isSetDvStringValues()) document4C.getDvStringValues();
 		if (!document4C.isSetDvDateTimeValues()) document4C.getDvDateTimeValues();
-		
+
 		// document4C: All attributes are set from the default values.
 		document4C.getDaDecimalValues();
 		document4C.getDaIntegerValues();
 		document4C.getDaBooleanValues();
 		document4C.getDaByteValues();
 		document4C.getDaDoubleValues();
-		document4C.getDaDurationValues();
+		document4C.setDaDurationValues(document4C.getDaDurationValues());
 		document4C.getDaFloatValues();
 		document4C.getDaIntValues();
 		document4C.getDaLongValues();
 		document4C.getDaShortValues();
 		document4C.getDaStringValues();
-		document4C.getDaDateTimeValues();
-		
+		document4C.setDaDateTimeValues(document4C.getDaDateTimeValues());
+
 		assertEquals(document4A, document4C, "document4A is set from XML and document4C is set from defaults");
 	}
 }

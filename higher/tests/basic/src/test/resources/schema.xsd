@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	jaxb:extensionBindingPrefixes="xjc"
 	jaxb:version="3.0"
 >
 
@@ -11,6 +13,15 @@
 				fixedAttributeAsConstantProperty="false">
 				<!--xjc:noValidator />
 				<xjc:noValidatingUnmarshaller /-->
+				<xjc:javaType xmlType="xs:date" name="java.time.LocalDate" adapter="io.github.threetenjaxb.core.LocalDateXmlAdapter"/>
+				<xjc:javaType xmlType="xs:time" name="java.time.OffsetTime" adapter="io.github.threetenjaxb.core.LenientOffsetTimeXmlAdapter"/>
+				<xjc:javaType xmlType="xs:dateTime" name="java.time.OffsetDateTime" adapter="io.github.threetenjaxb.core.LenientOffsetDateTimeXmlAdapter"/>
+				<xjc:javaType xmlType="xs:duration" name="java.time.Duration" adapter="io.github.threetenjaxb.core.DurationXmlAdapter"/>
+				<xjc:javaType xmlType="xs:gDay" name="java.lang.Integer" adapter="org.jvnet.basicjaxb.xml.bind.adapter.GDayXmlAdapter"/>
+				<xjc:javaType xmlType="xs:gMonth" name="java.time.Month" adapter="io.github.threetenjaxb.core.MonthXmlAdapter"/>
+				<xjc:javaType xmlType="xs:gMonthDay" name="java.time.MonthDay" adapter="io.github.threetenjaxb.core.MonthDayXmlAdapter"/>
+				<xjc:javaType xmlType="xs:gYear" name="java.time.Year" adapter="io.github.threetenjaxb.core.YearAsTextXmlAdapter"/>
+				<xjc:javaType xmlType="xs:gYearMonth" name="java.time.YearMonth" adapter="io.github.threetenjaxb.core.YearMonthXmlAdapter"/>
 			</jaxb:globalBindings>
 			<jaxb:schemaBindings>
 				<jaxb:package name="org.jvnet.jaxbcommons.tests.one"/>

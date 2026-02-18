@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <jaxb:bindings jaxb:version="3.0"
 	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:inh="urn:jvnet.org:basicjaxb:xjc:inheritance"
 	extensionBindingPrefixes="inh"
@@ -15,6 +16,17 @@
 	-->
 	<jaxb:globalBindings localScoping="toplevel" generateIsSetMethod="true" generateElementClass="false" choiceContentProperty="false">
 		<jaxb:serializable uid="20230201" />
+
+		<xjc:javaType xmlType="xs:date" name="java.time.LocalDate" adapter="io.github.threetenjaxb.core.LocalDateXmlAdapter"/>
+		<xjc:javaType xmlType="xs:time" name="java.time.OffsetTime" adapter="io.github.threetenjaxb.core.LenientOffsetTimeXmlAdapter"/>
+		<xjc:javaType xmlType="xs:dateTime" name="java.time.OffsetDateTime" adapter="io.github.threetenjaxb.core.LenientOffsetDateTimeXmlAdapter"/>
+		<xjc:javaType xmlType="xs:duration" name="java.time.Period" adapter="io.github.threetenjaxb.core.PeriodXmlAdapter"/>
+
+		<xjc:javaType xmlType="xs:gDay" name="java.lang.Integer" adapter="org.jvnet.basicjaxb.xml.bind.adapter.GDayXmlAdapter"/>
+		<xjc:javaType xmlType="xs:gMonth" name="java.time.Month" adapter="org.jvnet.basicjaxb.xml.bind.adapter.GMonthXmlAdapter"/>
+		<xjc:javaType xmlType="xs:gMonthDay" name="java.time.MonthDay" adapter="org.jvnet.basicjaxb.xml.bind.adapter.GMonthDayXmlAdapter"/>
+		<xjc:javaType xmlType="xs:gYear" name="java.time.Year" adapter="org.jvnet.basicjaxb.xml.bind.adapter.GYearXmlAdapter"/>
+		<xjc:javaType xmlType="xs:gYearMonth" name="java.time.YearMonth" adapter="org.jvnet.basicjaxb.xml.bind.adapter.GYearMonthXmlAdapter"/>
 	</jaxb:globalBindings>
 
     <jaxb:bindings schemaLocation="document.xsd" node="/xs:schema">
@@ -28,12 +40,52 @@
 			</inh:annotates>
 		</inh:objectFactory>
 
-		<jaxb:bindings node="//xs:element[@name='document1']">
+		<jaxb:bindings node="xs:element[@name='document1']">
 			<jaxb:bindings node="//xs:element[@name='dv_DataMap']">
 				<jaxb:property>
 					<jaxb:baseType name="java.util.Map&lt;String,Object&gt;" />
 				</jaxb:property>
 			</jaxb:bindings>
+		</jaxb:bindings>
+		
+		<jaxb:bindings node="xs:element[@name='document4']">
+		
+			<jaxb:bindings node="//xs:element[@name='dv_durationValues']">
+				<jaxb:property>
+					<jaxb:baseType>
+						<xjc:javaType name="java.util.List&lt;java.time.Period&gt;"
+							adapter="org.jvnet.basicjaxb.xml.bind.adapter.DurationListXmlAdapter" />
+					</jaxb:baseType>
+				</jaxb:property>
+			</jaxb:bindings>
+			
+			<jaxb:bindings node="//xs:element[@name='dv_dateTimeValues']">
+				<jaxb:property>
+					<jaxb:baseType>
+						<xjc:javaType name="java.util.List&lt;java.time.OffsetDateTime&gt;"
+							adapter="org.jvnet.basicjaxb.xml.bind.adapter.DateTimeListXmlAdapter" />
+					</jaxb:baseType>
+				</jaxb:property>
+			</jaxb:bindings>
+		
+			<jaxb:bindings node="//xs:attribute[@name='da_durationValues']">
+				<jaxb:property>
+					<jaxb:baseType>
+						<xjc:javaType name="java.util.List&lt;java.time.Period&gt;"
+							adapter="org.jvnet.basicjaxb.xml.bind.adapter.DurationListXmlAdapter" />
+					</jaxb:baseType>
+				</jaxb:property>
+			</jaxb:bindings>
+			
+			<jaxb:bindings node="//xs:attribute[@name='da_dateTimeValues']">
+				<jaxb:property>
+					<jaxb:baseType>
+						<xjc:javaType name="java.util.List&lt;java.time.OffsetDateTime&gt;"
+							adapter="org.jvnet.basicjaxb.xml.bind.adapter.DateTimeListXmlAdapter" />
+					</jaxb:baseType>
+				</jaxb:property>
+			</jaxb:bindings>
+			
 		</jaxb:bindings>
 
     </jaxb:bindings>

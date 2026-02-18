@@ -9,8 +9,8 @@ import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.IdentityHashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,18 +47,18 @@ import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIEnum;
 
 /**
  * <p>This plugin enables <em>Schema Derived</em> (SD) classes to:</p>
- * 
+ *
  * <ul>
  *   <li>Be annotated</li>
  *   <li>Extend a non-SD class</li>
  *   <li>Implement non-SD interface(s)</li>
  * </ul>
- * 
+ *
  * <b>Inheritance</b>
  * <pre>
  * xmlns:inh="urn:jvnet.org:basicjaxb:xjc:inheritance"
  * </pre>
- * 
+ *
  * {@link ObjectFactoryCustomization}
  * <pre>
  * &lt;inh:objectFactory packageName="org.example.my_model"&gt;
@@ -66,26 +66,26 @@ import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIEnum;
  *   &lt;inh:annotates annotation="java.lang.SuppressWarnings"&gt;
  *      &lt;inh:elements &gt;rawtypes unchecked&lt;/inh:elements&gt;
  *   &lt;/inh:annotates&gt;
- * 
+ *
  *   &lt;inh:annotates annotation="java.lang.Deprecated"&gt;
  *      &lt;inh:element name="since" type="java.lang.String"&gt;8&lt;/inh:element&gt;
  *      &lt;inh:element name="forRemoval" type="java.lang.Boolean"&gt;true&lt;/inh:element&gt;
  *   &lt;/inh:annotates&gt;
- *   
+ *
  *   &lt;inh:annotates annotation="jakarta.xml.bind.annotation.XmlSeeAlso"&gt;
- *      &lt;inh:element type="java.lang.Class"&gt;javax.xml.datatype.XMLGregorianCalendar&lt;/inh:element&gt;
+ *      &lt;inh:element type="java.lang.Class"&gt;java.time.OffsetDateTime&lt;/inh:element&gt;
  *   &lt;/inh:annotates&gt;
- *   
+ *
  *   &lt;inh:annotates annotation="jakarta.xml.bind.annotation.XmlAccessorType"&gt;
  *      &lt;inh:element type="java.lang.Enum"&gt;jakarta.xml.bind.annotation.XmlAccessType.FIELD&lt;/inh:element&gt;
  *   &lt;/inh:annotates&gt;
- *   
+ *
  *   &lt;inh:extends&gt;org.example.my_base.ObjectFactory&lt;/inh:extends&gt;
- *   
+ *
  *   &lt;inh:implements&gt;org.example.my_base.MyInterface1&lt;/inh:implements&gt;
- *   
+ *
  *   &lt;inh:implements&gt;org.example.my_base.MyInterface2&lt;/inh:implements&gt;
- *   
+ *
  * &lt;/inh:objectFactory&gt;
  * </pre>
  *
@@ -100,7 +100,7 @@ import com.sun.tools.xjc.reader.xmlschema.bindinfo.BIEnum;
  * <pre>
  * &lt;inh:extends&gt;org.example.BaseClass&lt;/inh:extends&gt;
  * </pre>
- * 
+ *
  * {@link ImplementsInterface}
  * <pre>
  * &lt;inh:implements&gt;java.lang.Cloneable&lt;inh:implements&gt;
@@ -110,7 +110,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 {
 	/** Name of Option to enable this plugin. */
 	private static final String OPTION_NAME = "Xinheritance";
-	
+
 	/** Description of Option to enable this plugin. */
 	private static final String OPTION_DESC = "locally annotate, extend or implement schema-derived classes";
 
@@ -154,7 +154,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 	}
 
 	// Plugin Processing
-	
+
 	@Override
 	protected void beforeRun(Outline outline) throws Exception
 	{
@@ -168,7 +168,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 			info(sb.toString());
 		}
 	}
-	
+
 	@Override
 	protected void afterRun(Outline outline) throws Exception
 	{
@@ -181,19 +181,19 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 			info(sb.toString());
 		}
 	}
-	
+
 	/**
 	 * <p>
 	 * Run the plugin with and XJC {@link Outline}.
 	 * </p>
-	 * 
+	 *
      * <p>
      * <b>Note:</b> This method is invoked only when a plugin is activated.
      * </p>
 	 *
      * @param outline
      *      This object allows access to various generated code.
-     * 
+     *
      * @return
      *      If the add-on executes successfully, return true.
      *      If it detects some errors but those are reported and
@@ -210,28 +210,28 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 	{
 		final Map<String, JClass> knownClasses = new LinkedHashMap<String, JClass>();
 		final Map<JClass, CClassInfo> knownClassInfos = new IdentityHashMap<JClass, CClassInfo>();
-		
+
 		for (final ClassOutline classOutline : outline.getClasses())
 		{
 			knownClasses.put(classOutline.implClass.fullName(), classOutline.implClass);
 			knownClassInfos.put(classOutline.implClass, classOutline.target);
 		}
-		
+
 		for (final ClassOutline classOutline : outline.getClasses())
 			processClassOutline(classOutline, knownClasses, knownClassInfos);
-		
+
 		for (final EnumOutline enumOutline : outline.getEnums())
 			processEnumOutline(enumOutline, knownClasses);
-		
+
 		for (final CElementInfo elementInfo : outline.getModel().getAllElements())
 		{
 			final ElementOutline elementOutline = outline.getElement(elementInfo);
 			if (elementOutline != null)
 				processElementOutline(elementOutline, knownClasses);
 		}
-		
+
 		processPackageOutlines(outline, knownClasses);
-		
+
 		return !hadError(outline.getErrorReceiver());
 	}
 
@@ -261,14 +261,14 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 	private void processPackageOutlines(Outline outline, Map<String, JClass> knownClasses)
 	{
 		List<CPluginCustomization> customizations = findCustomizations(outline, Customizations.OBJECT_FACTORY_ELEMENT_NAME);
-		
+
 		for (CPluginCustomization customization : customizations)
 		{
 			final ObjectFactoryCustomization objectFactoryCustomization =
 				(ObjectFactoryCustomization) unmarshall(Customizations.getContext(), customization);
-			
+
 			final String packageName = objectFactoryCustomization.getPackageName();
-			
+
 			if (packageName != null)
 			{
 				for (PackageOutline packageOutline : outline.getAllPackageContexts())
@@ -293,7 +293,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 						ExtendsClass extendsClass = objectFactoryCustomization.getExtends();
 						if (extendsClass != null)
 							generateExtends(theObjectFactoryClass, extendsClass, knownClasses);
-						
+
 						// PackageOutline: Implements Interface(s)
 						List<ImplementsInterface> implementsInterfaces =
 							objectFactoryCustomization.getImplements();
@@ -346,9 +346,9 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 			{
 				final AnnotatesMetaObject annotatesMetaObject =
 					(AnnotatesMetaObject) unmarshall(Customizations.getContext(), annotatesMetaObjectCustomization);
-				
+
 				final JClass annotatedMetaObject = generateAnnotates(theClass, annotatesMetaObject, knownClasses);
-				
+
 				if (annotatedMetaObject != null)
 					annotatedMetaObjects.add(annotatedMetaObject);
 			}
@@ -364,7 +364,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 		{
 			final JClass targetClass = parseClass(annotation, theClass.owner(), knownClasses);
 			JAnnotationUse use = theClass.annotate(targetClass);
-			
+
 			// Element
 			for ( AnnotatesMetaObject.Element element : annotatesMetaObject.getElement() )
 			{
@@ -380,7 +380,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 				trace("{}, generateAnnotates; Class={}, Annotation={}, {}='{}'",
 					toLocation(theClass.metadata), theClass.name(), targetClass.name(), name, obj);
 			}
-			
+
 			// Elements
 			for ( AnnotatesMetaObject.Elements elements : annotatesMetaObject.getElements() )
 			{
@@ -412,7 +412,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 					}
 				}
 			}
-			
+
 			debug("{}, generateAnnotates; Class={}, Annotation={}",
 				toLocation(theClass.metadata), theClass.name(), targetClass.name());
 			return targetClass;
@@ -423,7 +423,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 
 	/**
 	 * Adds a member value pair to the given {@link JAnnotationUse}.
-	 * 
+	 *
 	 * @param use The {@link JAnnotationUse} to use.
 	 * @param name The simple name for this annotation.
 	 * @param value The object value to use.
@@ -454,10 +454,10 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 		else if ( value instanceof Class )
 			use.param(name, (Class) value);
 	}
-	
+
 	/**
 	 * Adds a member value pair to the given {@link JAnnotationArrayMember}.
-	 * 
+	 *
 	 * @param values The {@link JAnnotationArrayMember} to use.
 	 * @param value The object value to add.
 	 */
@@ -545,7 +545,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 		final CPluginCustomization extendsClassCustomization = findCustomization(classOutline,	Customizations.EXTENDS_ELEMENT_NAME);
 		JClass targetClass = generateExtends(theClass, extendsClassCustomization, knownClasses);
 		final CClassInfo classInfo = classOutline.target;
-		
+
 		if (targetClass != null && classInfo.getBaseClass() == null && classInfo.getRefBaseClass() == null)
 		{
 			final CClassInfo targetClassInfo = knownClassInfos.get(targetClass);
@@ -562,7 +562,7 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 			else if (targetClassInfo != null && classInfo.getBaseClass() == null)
 				classInfo.setBaseClass(targetClassInfo);
 		}
-		
+
 		return targetClass;
 	}
 
@@ -643,9 +643,9 @@ public class InheritancePlugin extends AbstractParameterizablePlugin
 			{
 				final ImplementsInterface implementsInterface =
 					(ImplementsInterface) unmarshall(Customizations.getContext(), implementsInterfaceCustomization);
-				
+
 				final JClass implementedInterface = generateImplements(theClass, implementsInterface, knownClasses);
-				
+
 				if (implementedInterface != null)
 					implementedInterfaces.add(implementedInterface);
 			}

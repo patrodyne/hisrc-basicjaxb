@@ -7,9 +7,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
-
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.example.PurchaseOrder.model.Credit;
 import org.example.PurchaseOrder.model.Item;
@@ -48,15 +47,15 @@ public class RunBogusDataTest
 	};
 	private static final XmlContext XC = new XmlContext(OF.getClass(), NPM);
 	private static final String ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	
+
 	@Test
 	public void testBogusPurchaseOrder() throws Exception
 	{
 		USAddress billTo = null;
 		String stateCode = null;
-		
+
 		PurchaseOrder po = OF.createPurchaseOrder()
-			.useOrderDate(Bogus.xmlGregorianCalendar("P1Y", "P0Y"))
+			.useOrderDate(Bogus.xmlLocalDate("P1Y", "P0Y"))
 			.useComplete(Bogus.logic())
 			.useBillTo(billTo = OF.createUSAddress()
 				.useName(Bogus.fullName())
@@ -73,7 +72,7 @@ public class RunBogusDataTest
 				.useZip(Bogus.zip(stateCode))
 				.useCountry(Bogus.countryCode2()))
 			.useComment(Bogus.sentence(MEDIUM_SENTENCE));
-		
+
 		// Items
 		List<CatalogProduct> catalog = Bogus.catalog();
 		BigDecimal totalPrice = BigDecimal.ZERO;
@@ -89,24 +88,24 @@ public class RunBogusDataTest
 				.useQuantity(Bogus.RANDOM.nextInt(3)+1)
 				.useUSPrice(product.price)
 				.useComment(Bogus.sentence(SHORT_SENTENCE))
-				.useShipDate(Bogus.xmlGregorianCalendar("P0Y", "P0Y1M", po.getOrderDate()))
+				.useShipDate(Bogus.xmlLocalDate("P0Y", "P0Y1M", po.getOrderDate()))
 				;
 			items.getItem().add(item);
 			totalPrice = totalPrice.add(item.getUSPrice());
 		}
 		po.setItems(items);
-		
+
 		// Payments
 		Payments payments = OF.createPayments()
 			.useTotal(totalPrice);
 		int paymentsCount = Bogus.RANDOM.nextInt(3);
 		BigDecimal divisor = new BigDecimal(paymentsCount+1);
 		BigDecimal paymentPrice = totalPrice.divide(divisor,2,RoundingMode.DOWN);
-		XMLGregorianCalendar previousDate = po.getOrderDate();
+		LocalDate previousDate = po.getOrderDate();
 		while ( paymentsCount-- >= 0 )
 		{
 			Payment payment = OF.createPayment()
-				.usePaymentDate(Bogus.xmlGregorianCalendar("P0Y", "P0Y1M", previousDate))
+				.usePaymentDate(Bogus.xmlLocalDate("P0Y", "P0Y1M", previousDate))
 				.useValue(paymentPrice);
 			previousDate = payment.getPaymentDate();
 			payments.getPayment().add(payment);
@@ -118,7 +117,7 @@ public class RunBogusDataTest
 			payment.setValue(payment.getValue().add(remainder));
 		}
 		po.setPayments(payments);
-		
+
 		// Credits
 		BigDecimal discount = new BigDecimal(5 * ( 1 + Bogus.RANDOM.nextInt(3)));
 		BigDecimal discountPct = discount.divide(discount, 2, RoundingMode.HALF_EVEN);
@@ -126,7 +125,7 @@ public class RunBogusDataTest
 			.useAmount(totalPrice.multiply(discountPct).doubleValue())
 			.useReason(Bogus.sentence(SHORT_SENTENCE));
 		po.useCredits(credit);
-		
+
 		String poXml = XC.marshalToString(OF.createPurchaseOrder(po));
 		logger.debug("PO XML:\n\n{}", poXml);
 	}

@@ -40,7 +40,7 @@
 				<inh:elements>all</inh:elements>
 			</inh:annotates>
 			<inh:annotates annotation="jakarta.xml.bind.annotation.XmlSeeAlso">
-				<inh:element type="java.lang.Class">javax.xml.datatype.XMLGregorianCalendar</inh:element>
+				<inh:element type="java.lang.Class">java.time.OffsetDateTime</inh:element>
 			</inh:annotates>
 			<inh:annotates annotation="jakarta.xml.bind.annotation.XmlAccessorType">
 				<inh:element type="java.lang.Enum">jakarta.xml.bind.annotation.XmlAccessType.FIELD</inh:element>
