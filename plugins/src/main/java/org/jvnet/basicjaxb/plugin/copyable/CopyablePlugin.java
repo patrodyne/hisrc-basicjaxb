@@ -9,6 +9,7 @@ import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
+import static org.jvnet.basicjaxb.xmlschema.XmlSchemaConstants.IDREF;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -61,14 +62,14 @@ import com.sun.tools.xjc.outline.Outline;
  * reason for dependency is to avoid generating the same cloning code all over
  * the place for each of the fields of each of the generated classes. The
  * copying algorithmic is held in copy strategies.
- * 
+ *
  * @author Alexey Valikov
  */
 public class CopyablePlugin extends AbstractParameterizablePlugin
 {
 	/** Name of Option to enable this plugin. */
 	private static final String OPTION_NAME = "Xcopyable";
-	
+
 	/** Description of Option to enable this plugin. */
 	private static final String OPTION_DESC = "generate reflection-free deep copying";
 
@@ -135,7 +136,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 	}
 
 	// Plugin Processing
-	
+
 	@Override
 	protected void beforeRun(Outline outline) throws Exception
 	{
@@ -150,7 +151,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 			info(sb.toString());
 		}
 	}
-	
+
 	@Override
 	protected void afterRun(Outline outline) throws Exception
 	{
@@ -163,7 +164,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 			info(sb.toString());
 		}
 	}
-	
+
     /**
      * Run the plug-in.
      *
@@ -176,10 +177,10 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
      * <p>
      * Note that this method is invoked only when a plugin is activated.
      * </p>
-     * 
+     *
      * @param outline
      *      This object allows access to various generated code.
-     *      
+     *
      * @return
      *      If the add-on executes successfully, return true.
      *      If it detects some errors but those are reported and
@@ -204,7 +205,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 	protected void processClassOutline(ClassOutline classOutline)
 	{
 		final JDefinedClass theClass = classOutline.implClass;
-		
+
 		if ( !classOutline.target.isAbstract() )
 			generateObject$createNewInstance(classOutline, theClass);
 
@@ -212,14 +213,14 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 		{
 			ClassUtils._implements(theClass, theClass.owner().ref(CopyTo.class));
 			generateObject$copyTo(classOutline, theClass);
-			
+
 			if ( !superClassImplements(classOutline, getIgnoring(), Cloneable.class, false) )
 			{
 				ClassUtils._implements(theClass, theClass.owner().ref(Cloneable.class));
 				generateObject$clone(classOutline, theClass);
 			}
 		}
-		
+
 		generateCopyTo$copyTo(classOutline, theClass);
 	}
 
@@ -243,20 +244,20 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 		{
 			final JVar target = copyTo$copyTo.param(Object.class, "target");
 			final JBlock body = copyTo$copyTo.body();
-			
+
 			final JVar copyStrategy = body.decl(JMod.FINAL, codeModel.ref(CopyStrategy.class), "strategy", createCopyStrategy(codeModel));
-			
+
 			final JInvocation thisRootLocator = JExpr._new(codeModel.ref(DefaultRootObjectLocator.class)).arg(JExpr._this());
 			final JVar thisLocator = body.decl(JMod.NONE, codeModel.ref(ObjectLocator.class), "thisLocator", JExpr._null());
 
 			JConditional ifDebugEnabled = body._if(copyStrategy.invoke("isDebugEnabled"));
 			ifDebugEnabled._then().assign(thisLocator, thisRootLocator);
-			
+
 			JInvocation invokeCopyTo = JExpr.invoke("copyTo")
 				.arg(thisLocator)
 				.arg(target)
 				.arg(copyStrategy);
-			
+
 			body._return(invokeCopyTo);
 			debug("{}, generateObject$copyTo; Class={}", toLocation(theClass.metadata), theClass.name());
 		}
@@ -274,7 +275,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 			final JVar copyStrategy = copyTo.param(CopyStrategy.class, "strategy");
 			final JBlock body = copyTo.body();
 			final JVar draftCopy;
-			
+
 			if (!classOutline.target.isAbstract())
 			{
 				JExpression express = JOp.cond(JOp.eq(target, JExpr._null()), JExpr.invoke("createNewInstance"), target);
@@ -287,7 +288,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 						.arg("Target argument must not be null for abstract copyable classes."));
 				draftCopy = target;
 			}
-			
+
 			Boolean superClassImplementsCopyTo = superClassImplements(classOutline, getIgnoring(), CopyTo.class);
 			if (superClassImplementsCopyTo == null)
 			{
@@ -299,9 +300,9 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 			else
 			{
 			}
-			
+
 			final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
-			
+
 			// Filter out constant fields
 			Map<FieldOutline, FieldAccessorEx> sourceFieldAccessorMap = new LinkedHashMap<>();
 			for (final FieldOutline fieldOutline : declaredFields)
@@ -310,7 +311,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 				if ( !sourceFieldAccessor.isConstant() )
 					sourceFieldAccessorMap.put(fieldOutline, sourceFieldAccessor);
 			}
-			
+
 			if ( (sourceFieldAccessorMap.size() > 0) || classOutline.target.declaresAttributeWildcard() )
 			{
 				final JBlock bl = body._if(draftCopy._instanceof(theClass))._then();
@@ -319,16 +320,16 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 				{
 					final FieldAccessorEx sourceFieldAccessor = sourceFieldAccessorMap.get(fieldOutline);
 					final FieldAccessorEx copyFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, copy);
-					
+
 					// This should already be filtered in sourceFieldAccessorMap!
 					if (sourceFieldAccessor.isConstant())
 						continue;
-					
+
 					final JBlock block = bl.block();
-					
+
 					final JExpression sourceIsSetEx = (sourceFieldAccessor.isAlwaysSet() || sourceFieldAccessor.hasSetValue() == null)
 						? JExpr.TRUE : sourceFieldAccessor.hasSetValue();
-					
+
 					final JVar sourceIsSet = block.decl(codeModel.ref(Boolean.class).unboxify(), "sourceFieldIsSet", sourceIsSetEx);
 
 					final JVar shouldBeCopied = block.decl
@@ -339,10 +340,10 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 							.arg(locator)
 							.arg(sourceIsSet)
 					);
-					
+
 					final JConditional ifShouldBeSetConditional =
 						block._if(JOp.eq(shouldBeCopied, codeModel.ref(Boolean.class).staticRef("TRUE")));
-					
+
 					final JBlock ifShouldBeSetBlock = ifShouldBeSetConditional._then();
 					final JConditional ifShouldNotBeSetConditional = ifShouldBeSetConditional._elseif
 					(
@@ -352,66 +353,69 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 							codeModel.ref(Boolean.class).staticRef("FALSE")
 						)
 					);
-					
+
 					final JBlock ifShouldBeUnsetBlock = ifShouldNotBeSetConditional._then();
 					final JType copyFieldType = sourceFieldAccessor.getType();
-					
+
 					final JVar sourceField = ifShouldBeSetBlock.decl(copyFieldType, fieldName("source"));
 					sourceFieldAccessor.toRawValue(ifShouldBeSetBlock, sourceField);
 
 					String fieldName = fieldName(fieldOutline);
-					
+
 					final JExpression sourceFieldLocatorEx = codeModel.ref(LocatorUtils.class).staticInvoke("property")
 						.arg(locator)
 						.arg(fieldName)
 						.arg(sourceField);
-					
+
 					final JVar sourceFieldLocator = ifShouldBeSetBlock.decl(locator.type(), "sourceFieldLocator", sourceFieldLocatorEx);
-					
-					final JExpression builtCopy = JExpr.invoke(copyStrategy, "copy")
+
+					final QName fieldSchemaType = fieldOutline.getPropertyInfo().getSchemaType();
+					final String copyPlan = IDREF.equals(fieldSchemaType) ? "copyIdRef" : "copy";
+
+					final JExpression builtCopy = JExpr.invoke(copyStrategy, copyPlan)
 						.arg(sourceFieldLocator)
 						.arg(sourceField)
 						.arg(sourceIsSet);
-					
+
 					final JVar copyField = ifShouldBeSetBlock.decl
 					(
 						copyFieldType,
 						fieldName("copy"),
 						copyFieldType.isPrimitive() ? builtCopy : JExpr.cast(copyFieldType, builtCopy)
 					);
-					
+
 					if (copyFieldType instanceof JClass && ((JClass) copyFieldType).isParameterized())
 						copyField.annotate(SuppressWarnings.class).param("value", "unchecked");
-					
+
 					copyFieldAccessor.fromRawValue
 					(
 						ifShouldBeSetBlock,
 						fieldName("unique"),
 						copyField
 					);
-					
+
 					copyFieldAccessor.unsetValues(ifShouldBeUnsetBlock);
 					trace("{}, generateCopyTo$copyTo; Class={}, Field={}",
 						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
-				
+
 				if ( classOutline.target.declaresAttributeWildcard() )
 				{
 					final AttributeWildcardArguments awa =
 						new AttributeWildcardArguments(classOutline);
-					
+
 					final JBlock block = bl.block();
 					final JVar srcField = awa.fieldVar(block, _this(), "src", "Field");
 					final JVar cpyField = awa.fieldVar(block, copy, "cpy", "Field");
 
 					final JExpression srcFieldLocatorValue = awa.fieldLocatorValue(locator, srcField);
 					final JVar srcFieldLocator = awa.fieldLocator(block, locator, srcFieldLocatorValue, "src");
-					
+
 					final JExpression bldCopy = JExpr.invoke(copyStrategy, "copy")
 						.arg(srcFieldLocator)
 						.arg(srcField)
 						.arg(HAS_SET_VALUE);
-					
+
 					final JType bldFieldType = awa.getExposedType();
 					final JVar bldField = block.decl
 					(
@@ -419,13 +423,13 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 						fieldName("bld"),
 						JExpr.cast(bldFieldType, bldCopy)
 					);
-					
+
 					if (bldFieldType instanceof JClass && ((JClass) bldFieldType).isParameterized())
 						bldField.annotate(SuppressWarnings.class).param("value", "unchecked");
-					
+
 					block.invoke(cpyField, "clear");
 					block.invoke(cpyField, "putAll").arg(bldField);
-					
+
 					trace("{}, generateCopyTo$copyTo; Class={}, Field={}",
 						toLocation(classOutline), theClass.name(), FIELD_NAME);
 
@@ -453,7 +457,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 		else
 			return existingMethod;
 	}
-	
+
 	private String fieldName(FieldOutline fieldOutline)
 	{
 		return fieldOutline.getPropertyInfo().getName(false);
@@ -463,7 +467,7 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 	{
 		return prefix + "Field";
 	}
-	
+
 	@SuppressWarnings("unused")
 	private String fieldName(String prefix, FieldOutline fieldOutline)
 	{

@@ -9,6 +9,7 @@ import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
+import static org.jvnet.basicjaxb.xmlschema.XmlSchemaConstants.IDREF;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -51,7 +52,7 @@ import com.sun.tools.xjc.outline.Outline;
 /**
  * <p>Interface to generate a hash code using {@link JAXBHashCodeStrategy} and preserve an
  * {@link ObjectLocator} path.</p>
- * 
+ *
  * <p>
  * With this plug-in you can generate a hash code to map an object into an integer
  * value, use strategies to customize hashing (how exactly should this object
@@ -60,7 +61,7 @@ import com.sun.tools.xjc.outline.Outline;
  * hashing code all over the place for each of the fields of each of the
  * generated classes. The hashing algorithm is held in hash strategies.
  * </p>
- * 
+ *
  * <p>
  * Objects that are equal (according to their <code>equals()</code>) must return
  * the same hash code. Different objects do not need to return different hash codes.
@@ -70,7 +71,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 {
 	/** Name of Option to enable this plugin. */
 	private static final String OPTION_NAME = "XhashCode";
-	
+
 	/** Description of Option to enable this plugin. */
 	private static final String OPTION_DESC = "generate reflection-free 'hashCode' methods";
 
@@ -138,7 +139,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 	}
 
 	// Plugin Processing
-	
+
 	@Override
 	protected void beforeRun(Outline outline) throws Exception
 	{
@@ -153,7 +154,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 			info(sb.toString());
 		}
 	}
-	
+
 	@Override
 	protected void afterRun(Outline outline) throws Exception
 	{
@@ -166,19 +167,19 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 			info(sb.toString());
 		}
 	}
-	
+
 	/**
 	 * <p>
 	 * Run the plugin with and XJC {@link Outline}.
 	 * </p>
-	 * 
+	 *
      * <p>
      * <b>Note:</b> This method is invoked only when a plugin is activated.
      * </p>
 	 *
      * @param outline
      *      This object allows access to various generated code.
-     * 
+     *
      * @return
      *      If the add-on executes successfully, return true.
      *      If it detects some errors but those are reported and
@@ -247,7 +248,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 			final JVar hashCodeStrategy = hashCode$hashCode.param(HashCodeStrategy.class, "strategy");
 			final JBlock body = hashCode$hashCode.body();
 			final JExpression currentHashCodeExpression;
-			
+
 			final Boolean superClassImplementsHashCode = superClassImplements(classOutline, ignoring, HashCode.class);
 			if (superClassImplementsHashCode == null)
 				currentHashCodeExpression = JExpr.lit(1);
@@ -255,7 +256,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 				currentHashCodeExpression = JExpr._super().invoke("hashCode").arg(locator).arg(hashCodeStrategy);
 			else
 				currentHashCodeExpression = JExpr._super().invoke("hashCode");
-			
+
 			final JVar currentHashCode = body.decl(codeModel.INT, "currentHashCode", currentHashCodeExpression);
 
 			final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
@@ -272,32 +273,35 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 					final JExpression theFieldIsSetEx = (fieldAccessor.isAlwaysSet() || fieldAccessor.hasSetValue() == null)
 						? JExpr.TRUE : fieldAccessor .hasSetValue();
 					final JVar theFieldIsSet = block.decl(codeModel.ref(Boolean.class).unboxify(), "theFieldIsSet", theFieldIsSetEx);
-					
+
 					final JVar theField = block.decl(fieldAccessor.getType(), fieldName("the"));
 					fieldAccessor.toRawValue(block, theField);
-					
+
 					final JExpression theFieldLocatorEx = codeModel.ref(LocatorUtils.class).staticInvoke("property")
 						.arg(locator)
 						.arg(fieldName)
 						.arg(theField);
-								
+
 					final JVar theFieldLocator = block.decl(locator.type(), "theFieldLocator", theFieldLocatorEx);
-					
+
+					final QName fieldSchemaType = fieldOutline.getPropertyInfo().getSchemaType();
+					final String hashPlan = IDREF.equals(fieldSchemaType) ? "hashIdRef" : "hashCode";
+
 					block.assign
 					(
 						currentHashCode,
-						hashCodeStrategy.invoke("hashCode")
+						hashCodeStrategy.invoke(hashPlan)
 							.arg(theFieldLocator)
 							.arg(currentHashCode)
 							.arg(theField)
 							.arg(theFieldIsSet)
 					);
 				}
-				
+
 				trace("{}, generateHashCode$hashCode; Class={}, Field={}",
 					toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 			}
-			
+
 			if ( classOutline.target.declaresAttributeWildcard() )
 			{
 				final AttributeWildcardArguments awa =
@@ -308,7 +312,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 
 				final JExpression theFieldLocatorValue = awa.fieldLocatorValue(locator, theField);
 				final JVar theFieldLocator = awa.fieldLocator(block, locator, theFieldLocatorValue, "the");
-								
+
 				block.assign
 				(
 					currentHashCode,
@@ -318,16 +322,16 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 						.arg(theField)
 						.arg(HAS_SET_VALUE)
 				);
-				
+
 				trace("{}, generateHashCode$hashCode; Class={}, Field={}",
 					toLocation(classOutline), theClass.name(), FIELD_NAME);
 			}
-			
+
 			body._return(currentHashCode);
 		}
 		return hashCode$hashCode;
 	}
-	
+
 	private String fieldName(FieldOutline fieldOutline)
 	{
 		return fieldOutline.getPropertyInfo().getName(false);
@@ -337,7 +341,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 	{
 		return prefix + "Field";
 	}
-	
+
 	@SuppressWarnings("unused")
 	private String fieldName(String prefix, FieldOutline fieldOutline)
 	{

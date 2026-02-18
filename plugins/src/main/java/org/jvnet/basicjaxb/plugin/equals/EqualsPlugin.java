@@ -8,6 +8,7 @@ import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.createStrategyInstanceExpression;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
+import static org.jvnet.basicjaxb.xmlschema.XmlSchemaConstants.IDREF;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -53,13 +54,13 @@ import com.sun.tools.xjc.outline.Outline;
 
 /**
  * The <b>EqualsPlugin</b> implements the {@link Equals} interface on JAXB
- * generated classes. 
+ * generated classes.
  */
 public class EqualsPlugin extends AbstractParameterizablePlugin
 {
 	/** Name of Option to enable this plugin. */
 	private static final String OPTION_NAME = "Xequals";
-	
+
 	/** Description of Option to enable this plugin. */
 	private static final String OPTION_DESC = "generate reflection-free 'equals' methods";
 
@@ -127,7 +128,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 	}
 
 	// Plugin Processing
-	
+
 	@Override
 	protected void beforeRun(Outline outline) throws Exception
 	{
@@ -142,7 +143,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 			info(sb.toString());
 		}
 	}
-	
+
 	@Override
 	protected void afterRun(Outline outline) throws Exception
 	{
@@ -155,19 +156,19 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 			info(sb.toString());
 		}
 	}
-	
+
 	/**
 	 * <p>
 	 * Run the plugin with and XJC {@link Outline}.
 	 * </p>
-	 * 
+	 *
      * <p>
      * <b>Note:</b> This method is invoked only when a plugin is activated.
      * </p>
 	 *
      * @param outline
      *      This object allows access to various generated code.
-     * 
+     *
      * @return
      *      If the add-on executes successfully, return true.
      *      If it detects some errors but those are reported and
@@ -191,13 +192,13 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 	protected void processClassOutline(ClassOutline classOutline)
 	{
 		final JDefinedClass theClass = classOutline.implClass;
-		
+
 		if ( !superClassImplements(classOutline, getIgnoring(), Equals.class, false) )
 		{
 			ClassUtils._implements(theClass, theClass.owner().ref(Equals.class));
 			generateObject$equals(classOutline, theClass);
 		}
-		
+
 		generateEquals$equals(classOutline, theClass);
 	}
 
@@ -258,10 +259,10 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 				body._if(JOp.not(JExpr._super().invoke("equals").arg(object)))
 					._then()._return(JExpr.FALSE);
 			}
-			
+
 			final JExpression _this = JExpr._this();
 			final FieldOutline[] declaredFields = OutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
-			
+
 			// Filter out constant fields
 			Map<FieldOutline, FieldAccessorEx> lhsFieldAccessorMap = new LinkedHashMap<>();
 			for (final FieldOutline fieldOutline : declaredFields)
@@ -270,52 +271,55 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 				if ( !lhsFieldAccessor.isConstant() )
 					lhsFieldAccessorMap.put(fieldOutline, lhsFieldAccessor);
 			}
-			
+
 			if ( (lhsFieldAccessorMap.size() > 0) || classOutline.target.declaresAttributeWildcard() )
 			{
 				final JVar _that = body.decl(JMod.FINAL, theClass, "that", JExpr.cast(theClass, object));
-				
+
 				for (final FieldOutline fieldOutline : lhsFieldAccessorMap.keySet())
 				{
 					final FieldAccessorEx lhsFieldAccessor = lhsFieldAccessorMap.get(fieldOutline);
 					final FieldAccessorEx rhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _that);
-					
+
 					if (lhsFieldAccessor.isConstant() || rhsFieldAccessor.isConstant())
 						continue;
-					
+
 					final JBlock block = body.block();
-					
+
 					final JExpression lhsFieldHasSetValueEx = (lhsFieldAccessor.isAlwaysSet() || lhsFieldAccessor.hasSetValue() == null)
 						? JExpr.TRUE : lhsFieldAccessor.hasSetValue();
 					final JExpression rhsFieldHasSetValueEx = (rhsFieldAccessor.isAlwaysSet() || rhsFieldAccessor.hasSetValue() == null)
 						? JExpr.TRUE : rhsFieldAccessor.hasSetValue();
-								
+
 					final JVar lhsFieldIsSet = block.decl(codeModel.ref(Boolean.class).unboxify(), "lhsFieldIsSet", lhsFieldHasSetValueEx);
 					final JVar rhsFieldIsSet = block.decl(codeModel.ref(Boolean.class).unboxify(), "rhsFieldIsSet", rhsFieldHasSetValueEx);
-					
+
 					final JVar lhsValue = block.decl(lhsFieldAccessor.getType(), fieldName("lhs"));
 					lhsFieldAccessor.toRawValue(block, lhsValue);
-					
+
 					final JVar rhsValue = block.decl(rhsFieldAccessor.getType(), fieldName("rhs"));
 					rhsFieldAccessor.toRawValue(block, rhsValue);
-					
+
 					String fieldName = fieldName(fieldOutline);
-					
+
 					final JExpression lhsFieldLocatorEx = codeModel.ref(LocatorUtils.class).staticInvoke("property")
 						.arg(lhsLocator)
 						.arg(fieldName)
 						.arg(lhsValue);
-					
+
 					final JExpression rhsFieldLocatorEx = codeModel.ref(LocatorUtils.class).staticInvoke("property")
 						.arg(rhsLocator)
 						.arg(fieldName)
 						.arg(rhsValue);
-					
+
 					final JVar lhsFieldLocator = block.decl(lhsLocator.type(), "lhsFieldLocator", lhsFieldLocatorEx);
 					final JVar rhsFieldLocator = block.decl(lhsLocator.type(), "rhsFieldLocator", rhsFieldLocatorEx);
-					
+
+					final QName fieldSchemaType = fieldOutline.getPropertyInfo().getSchemaType();
+					final String equalsPlan = IDREF.equals(fieldSchemaType) ? "equalsIdRef" : "equals";
+
 					block
-						._if(JOp.not(JExpr.invoke(equalsStrategy, "equals")
+						._if(JOp.not(JExpr.invoke(equalsStrategy, equalsPlan)
 							.arg(lhsFieldLocator)
 							.arg(rhsFieldLocator)
 							.arg(lhsValue)
@@ -323,26 +327,26 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 							.arg(lhsFieldIsSet)
 							.arg(rhsFieldIsSet)))
 						._then()._return(JExpr.FALSE);
-					
+
 					trace("{}, generateEquals$equals; Class={}, Field={}",
 						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
-				
+
 				if ( classOutline.target.declaresAttributeWildcard() )
 				{
 					final AttributeWildcardArguments awa =
 						new AttributeWildcardArguments(classOutline);
-					
+
 					final JBlock block = body.block();
 					final JVar lhsField = awa.fieldVar(block, _this, "lhs", "Field");
 					final JVar rhsField = awa.fieldVar(block, _that, "rhs", "Field");
 
 					final JExpression lhsFieldLocatorValue = awa.fieldLocatorValue(lhsLocator, lhsField);
 					final JVar lhsFieldLocator = awa.fieldLocator(block, lhsLocator, lhsFieldLocatorValue, "lhs");
-					
+
 					final JExpression rhsFieldLocatorValue = awa.fieldLocatorValue(rhsLocator, rhsField);
 					final JVar rhsFieldLocator = awa.fieldLocator(block, rhsLocator, rhsFieldLocatorValue, "rhs");
-					
+
 					block
 						._if(JOp.not(JExpr.invoke(equalsStrategy, "equals")
 							.arg(lhsFieldLocator)
@@ -352,7 +356,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 							.arg(HAS_SET_VALUE)
 							.arg(HAS_SET_VALUE)))
 						._then()._return(JExpr.FALSE);
-					
+
 					trace("{}, generateEquals$equals; Class={}, Field={}",
 						toLocation(classOutline), theClass.name(), FIELD_NAME);
 				}
@@ -362,7 +366,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 		}
 		return equals;
 	}
-	
+
 	private String fieldName(FieldOutline fieldOutline)
 	{
 		return fieldOutline.getPropertyInfo().getName(false);
@@ -372,7 +376,7 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 	{
 		return prefix + "Field";
 	}
-	
+
 	@SuppressWarnings("unused")
 	private String fieldName(String prefix, FieldOutline fieldOutline)
 	{

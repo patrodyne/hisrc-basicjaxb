@@ -8,6 +8,7 @@ import static org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments.HAS_SET
 import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
 import static org.jvnet.basicjaxb.plugin.util.StrategyClassUtils.superClassImplements;
 import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
+import static org.jvnet.basicjaxb.xmlschema.XmlSchemaConstants.IDREF;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -50,13 +51,13 @@ import com.sun.tools.xjc.outline.Outline;
 
 /**
  * The <b>ToStringPlugin</b> implements the {@link ToString} interface on JAXB
- * generated classes using {@link JAXBToStringStrategy}. 
+ * generated classes using {@link JAXBToStringStrategy}.
  */
 public class ToStringPlugin extends AbstractParameterizablePlugin
 {
 	/** Name of Option to enable this plugin. */
 	private static final String OPTION_NAME = "XtoString";
-	
+
 	/** Description of Option to enable this plugin. */
 	private static final String OPTION_DESC = "generate reflection-free 'toString' methods";
 
@@ -118,9 +119,9 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 	{
 		return Arrays.asList(IGNORED_ELEMENT_NAME, Customizations.IGNORED_ELEMENT_NAME, Customizations.GENERATED_ELEMENT_NAME);
 	}
-	
+
 	// Plugin Processing
-	
+
 	@Override
 	protected void beforeRun(Outline outline) throws Exception
 	{
@@ -135,7 +136,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 			info(sb.toString());
 		}
 	}
-	
+
 	@Override
 	protected void afterRun(Outline outline) throws Exception
 	{
@@ -148,19 +149,19 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 			info(sb.toString());
 		}
 	}
-	
+
 	/**
 	 * <p>
 	 * Run the plugin with and XJC {@link Outline}.
 	 * </p>
-	 * 
+	 *
      * <p>
      * <b>Note:</b> This method is invoked only when a plugin is activated.
      * </p>
 	 *
      * @param outline
      *      This object allows access to various generated code.
-     * 
+     *
      * @return
      *      If the add-on executes successfully, return true.
      *      If it detects some errors but those are reported and
@@ -176,7 +177,8 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 	public boolean run(Outline outline) throws Exception
 	{
 		// Filter ignored class outlines
-		for (final ClassOutline classOutline : filter(outline, getIgnoring()))
+		ClassOutline[] classOutlines = filter(outline, getIgnoring());
+		for (final ClassOutline classOutline : classOutlines)
 			processClassOutline(classOutline);
 
 		return !hadError(outline.getErrorReceiver());
@@ -185,14 +187,14 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 	protected void processClassOutline(ClassOutline classOutline)
 	{
 		final JDefinedClass theClass = classOutline.implClass;
-		
+
 		if ( !superClassImplements(classOutline, getIgnoring(), ToString.class, false) )
 		{
 			ClassUtils._implements(theClass, theClass.owner().ref(ToString.class));
 			generateObject$toString(classOutline, theClass);
 			generateToString$append(classOutline, theClass);
 		}
-		
+
 		generateToString$appendFields(classOutline, theClass);
 	}
 
@@ -245,7 +247,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 			final JVar toStringStrategy = toString$appendFields.param(ToStringStrategy.class, "strategy");
 			final JBlock body = toString$appendFields.body();
 			final Boolean superClassImplementsToString = StrategyClassUtils.superClassImplements(classOutline, ignoring, ToString.class);
-			
+
 			if (superClassImplementsToString == null)
 			{
 				// No superclass
@@ -258,9 +260,9 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 			{
 				// Superclass does not implement ToString
 			}
-			
+
 			final FieldOutline[] declaredFields = OutlineUtils.filter(classOutline.getDeclaredFields(), getIgnoring());
-			
+
 			if (declaredFields.length > 0)
 			{
 				for (final FieldOutline fieldOutline : declaredFields)
@@ -275,22 +277,25 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 
 					final JVar theField = block.decl(fieldAccessor.getType(), fieldName("the"));
 					fieldAccessor.toRawValue(block, theField);
-					
-					String fieldName = fieldName(fieldOutline);
-					
-					block.invoke(toStringStrategy, "appendField")
+
+					final String fieldName = fieldName(fieldOutline);
+					final QName fieldSchemaType = fieldOutline.getPropertyInfo().getSchemaType();
+
+					final String appendPlan = IDREF.equals(fieldSchemaType) ? "appendIdRef" : "appendField";
+
+					block.invoke(toStringStrategy, appendPlan)
 						.arg(locator)
 						.arg(JExpr._this())
 						.arg(JExpr.lit(fieldName))
 						.arg(buffer)
 						.arg(theField)
 						.arg(theFieldIsSet);
-					
+
 					trace("{}, generateToString$appendFields; Class={}, Field={}",
 						toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldName);
 				}
 			}
-			
+
 			if ( classOutline.target.declaresAttributeWildcard() )
 			{
 				final AttributeWildcardArguments awa =
@@ -301,7 +306,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 
 				final JExpression theFieldLocatorValue = awa.fieldLocatorValue(locator, theField);
 				final JVar theFieldLocator = awa.fieldLocator(block, locator, theFieldLocatorValue, "the");
-				
+
 				block.invoke(toStringStrategy, "appendField")
 					.arg(theFieldLocator)
 					.arg(JExpr._this())
@@ -309,16 +314,16 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 					.arg(buffer)
 					.arg(theField)
 					.arg(HAS_SET_VALUE);
-				
+
 				trace("{}, generateToString$appendFields; Class={}, Field={}",
 					toLocation(classOutline), theClass.name(), FIELD_NAME);
 			}
-			
+
 			body._return(buffer);
 		}
 		return toString$appendFields;
 	}
-	
+
 	private String fieldName(FieldOutline fieldOutline)
 	{
 		return fieldOutline.getPropertyInfo().getName(false);
@@ -328,7 +333,7 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 	{
 		return prefix + "Field";
 	}
-	
+
 	@SuppressWarnings("unused")
 	private String fieldName(String prefix, FieldOutline fieldOutline)
 	{
