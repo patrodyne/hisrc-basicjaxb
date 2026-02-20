@@ -100,7 +100,7 @@
 		<commons-io.version>2.21.0</commons-io.version>
 		<guice.version>5.1.0</guice.version>
 		<jaxb-api.version>4.0.5</jaxb-api.version>
-		<jaxb-imp.version>4.0.5</jaxb-imp.version>
+		<jaxb-imp.version>4.0.6</jaxb-imp.version>
 		<jaxb-core.version>2.3.0.1</jaxb-core.version> <!-- cxf -->
 		<jaxws-api.version>4.0.1</jaxws-api.version>
 		<jts.version>1.13</jts.version>
@@ -451,17 +451,6 @@
 									<version>.+[\.-](CR|RC)\d</version>
 								</ignoreVersion>
 							</ignoreVersions>
-							<rules>
-								<rule>
-									<groupId>org.glassfish.jaxb</groupId>
-									<ignoreVersions>
-										<ignoreVersion>
-											<type>exact</type>
-											<version>4.0.6</version>
-										</ignoreVersion>
-									</ignoreVersions>
-								</rule>
-							</rules>
 						</ruleSet>
 					</configuration>
 				</plugin>
