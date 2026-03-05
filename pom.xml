@@ -52,47 +52,35 @@
 		<system>GitHub Issues</system>
 		<url>https://github.com/patrodyne/hisrc-basicjaxb/issues</url>
 	</issueManagement>
-	<!-- OSS Repository Hosting <https://central.sonatype.org/publish/publish-guide/> -->
-	<distributionManagement>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
 	<properties>
 		<cxf-codegen-plugin.version>4.0.0</cxf-codegen-plugin.version>
-		<maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
-		<maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
-		<maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
-		<maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
-		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-		<maven-dependency-plugin.version>3.5.0</maven-dependency-plugin.version>
-		<maven-deploy-plugin.version>3.0.0</maven-deploy-plugin.version>
-		<maven-enforcer-plugin.version>3.2.1</maven-enforcer-plugin.version>
-		<maven-failsafe-plugin.version>3.1.2</maven-failsafe-plugin.version>
-		<maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
-		<maven-install-plugin.version>3.1.0</maven-install-plugin.version>
-		<maven-invoker-plugin.version>3.4.0</maven-invoker-plugin.version>
-		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-		<maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
-		<maven-jxr-plugin.version>3.3.2</maven-jxr-plugin.version>
-		<maven-project-info-reports-plugin.version>3.4.2</maven-project-info-reports-plugin.version>
-		<maven-release-plugin.version>3.0.0-M7</maven-release-plugin.version>
+		<maven-antrun-plugin.version>3.2.0</maven-antrun-plugin.version>
+		<maven-assembly-plugin.version>3.8.0</maven-assembly-plugin.version>
+		<maven-bundle-plugin.version>6.0.2</maven-bundle-plugin.version>
+		<maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
+		<maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+		<maven-dependency-plugin.version>3.10.0</maven-dependency-plugin.version>
+		<maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
+		<maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
+		<maven-failsafe-plugin.version>3.5.5</maven-failsafe-plugin.version>
+		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
+		<maven-install-plugin.version>3.1.4</maven-install-plugin.version>
+		<maven-invoker-plugin.version>3.9.1</maven-invoker-plugin.version>
+		<maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
+		<maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
+		<maven-jxr-plugin.version>3.6.0</maven-jxr-plugin.version>
+		<maven-project-info-reports-plugin.version>3.9.0</maven-project-info-reports-plugin.version>
+		<maven-release-plugin.version>3.3.1</maven-release-plugin.version>
 		<maven-replacer-plugin.version>1.4.1</maven-replacer-plugin.version>
-		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-		<maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
-		<maven-site-plugin.version>4.0.0-M12</maven-site-plugin.version>
-		<maven-source-plugin.version>3.3.0</maven-source-plugin.version>
-		<maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
-		<maven-surefire-report-plugin.version>3.2.5</maven-surefire-report-plugin.version>
-		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
+		<maven-resources-plugin.version>3.4.0</maven-resources-plugin.version>
+		<maven-shade-plugin.version>3.6.1</maven-shade-plugin.version>
+		<maven-site-plugin.version>4.0.0-M16</maven-site-plugin.version>
+		<maven-source-plugin.version>3.4.0</maven-source-plugin.version>
+		<maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
+		<maven-surefire-report-plugin.version>3.5.5</maven-surefire-report-plugin.version>
 		<plantuml-generator-maven-plugin.version>2.0.0</plantuml-generator-maven-plugin.version>
 		<exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
-		<versions-maven-plugin.version>2.14.2</versions-maven-plugin.version>
+		<versions-maven-plugin.version>2.21.0</versions-maven-plugin.version>
 
 		<activation-api.version>2.1.4</activation-api.version>
 		<activation-imp.version>2.0.3</activation-imp.version>
@@ -370,7 +358,7 @@
 				<plugin>
 					<artifactId>maven-deploy-plugin</artifactId>
 					<version>${maven-deploy-plugin.version}</version>
-					<!-- Disable in favor of nexus-staging-maven-plugin -->
+					<!-- Disable in favor of central-publishing-maven-plugin -->
 					<configuration>
 						<skip>true</skip>
 					</configuration>
@@ -464,12 +452,12 @@
 				<plugin>
 					<groupId>org.owasp</groupId>
 					<artifactId>dependency-check-maven</artifactId>
-					<version>8.0.2</version>
+					<version>12.2.0</version>
 				</plugin>
 				<plugin>
 					<groupId>com.ruleoftech</groupId>
 					<artifactId>markdown-page-generator-plugin</artifactId>
-					<version>2.4.0</version>
+					<version>2.4.2</version>
 					<executions>
 						<execution>
 							<?m2e execute onConfiguration,onIncremental?>
@@ -531,7 +519,7 @@
 				<configuration>
 					<tagNameFormat>@{project.version}</tagNameFormat>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<releaseProfiles>nexus-deploy</releaseProfiles>
+					<releaseProfiles>mcr-deploy</releaseProfiles>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -679,9 +667,9 @@
 			</modules>
 		</profile>
 		<profile>
-			<!-- https://help.sonatype.com/repomanager2/staging-releases/configuring-your-project-for-deployment -->
-			<!-- https://www.baeldung.com/maven-deploy-nexus -->
-			<id>nexus-deploy</id>
+			<!-- Maven Central Repository Deploy                            -->
+			<!-- https://central.sonatype.org/publish/publish-portal-maven/ -->
+			<id>mcr-deploy</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -698,27 +686,15 @@
 						</executions>
 					</plugin>
 					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>${nexus-staging-maven-plugin.version}</version>
+						<groupId>org.sonatype.central</groupId>
+						<artifactId>central-publishing-maven-plugin</artifactId>
+						<version>0.10.0</version>
 						<extensions>true</extensions>
-						<executions>
-							<execution>
-								<id>default-deploy</id>
-								<phase>deploy</phase>
-								<goals>
-									<goal>deploy</goal>
-								</goals>
-							</execution>
-						</executions>
-						<!-- Skip staging the components locally when connecting to the repository manager -->
-						<!-- We do not need staging for a simple deployment of -SNAPSHOT artifacts to Nexus -->
-						<!-- Auto close the staging repository and release -->
 						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<skipStaging>true</skipStaging>
-							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+							<!-- Matches the server ID in your settings.xml -->
+							<publishingServerId>central</publishingServerId>
+							<autoPublish>true</autoPublish>
+							<waitUntil>published</waitUntil>
 						</configuration>
 					</plugin>
 				</plugins>
