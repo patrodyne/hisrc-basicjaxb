@@ -61,23 +61,26 @@ original `maven-jaxb2-plugin` name.
 * [hisrc-basicjaxb-testing][44]
 * [hisrc-basicjaxb-tools][45]
 
-### Goals
-
-New goals for the next release are:
-
-* New explorations for copy and merge strategies.
-
-### Status
-
-#### In Progress
-
-* Review in progress.
-
-#### Completed
-
-* Review in progress.
 
 ### Fork History
+
+#### Version 3.0.0
+
+* Changed HiSrc namespace scheme from `http` to `urn`:
+    * `NEW: urn:jvnet.org:basicjaxb:xjc`
+    * `OLD: http://jvnet.org/basicjaxb/xjc`
+* Use `java.time` instead of `XMLGregorianCalendar` in unit tests.
+* Added `XmlAdapter` implementations for `java.time` types.
+* Added [SwiXml/Beans Bindings][62] framework.
+* Created `BeanInfo` plugin.
+* Created `Swing` plugin.
+* Created `ClassNamePlugin` plugin.
+* Refactored `sourceFieldAccessorMap` to use a `LinkedHashMap`.
+* Upgraded the project dependencies to the latest versions.
+* Upgraded the Maven plugin ecosystem to the latest versions.
+* Migrated distribution management from **OSSRH (Sonatype)** to a new **MCR-deploy** profile.
+* Refactored the `pom.xml` by removing legacy repository configurations and streamlining the `<scm>` and `<properties>` blocks.
+* Updated the `build-jxx.sh` script to reflect the new deployment path and ensure consistency across release goals.
 
 #### Version 2.2.1
 
@@ -224,3 +227,4 @@ New goals for the next release are:
   [46]: https://github.com/patrodyne/hisrc-basicjaxb/issues/11#issuecomment-1698145616
   [60]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/fixedvalue/FixedValuePlugin.java
   [61]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/util/AttributeWildcardArguments.java
+  [62]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/swixml/license.md#swixml-license
