@@ -71,10 +71,10 @@ original `maven-jaxb2-plugin` name.
     * `OLD: http://jvnet.org/basicjaxb/xjc`
 * Use `java.time` instead of `XMLGregorianCalendar` in unit tests.
 * Added `XmlAdapter` implementations for `java.time` types.
-* Added [SwiXml/Beans Bindings][62] framework.
-* Created `BeanInfo` plugin.
-* Created `Swing` plugin.
-* Created `ClassNamePlugin` plugin.
+* Added [SwiXml / Beans Bindings][62] framework.
+* Created [BeanInfoPlugin][63].
+* Created [SwingPlugin][64].
+* Created [ClassNamePlugin][65].
 * Refactored `sourceFieldAccessorMap` to use a `LinkedHashMap`.
 * Upgraded the project dependencies to the latest versions.
 * Upgraded the Maven plugin ecosystem to the latest versions.
@@ -228,3 +228,6 @@ original `maven-jaxb2-plugin` name.
   [60]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/fixedvalue/FixedValuePlugin.java
   [61]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/util/AttributeWildcardArguments.java
   [62]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/swixml/license.md#swixml-license
+  [63]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/beaninfo/BeanInfoPlugin.java
+  [64]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/swing/SwingPlugin.java
+  [65]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/classname/ClassNamePlugin.java
