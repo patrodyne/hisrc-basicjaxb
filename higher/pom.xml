@@ -16,8 +16,8 @@
 	<properties>
 		<cxf.version>4.0.4</cxf.version>
 		<cxf-xjc-plugin.version>4.0.1</cxf-xjc-plugin.version>
-		<hisrc-higherjaxb-maven-plugin.version>3.0.0-SNAPSHOT</hisrc-higherjaxb-maven-plugin.version>
-		<hisrc-hyperjaxb-annox-plugin.version>3.0.0-SNAPSHOT</hisrc-hyperjaxb-annox-plugin.version>
+		<hisrc-higherjaxb-maven-plugin.version>3.0.0</hisrc-higherjaxb-maven-plugin.version>
+		<hisrc-hyperjaxb-annox-plugin.version>3.0.0</hisrc-hyperjaxb-annox-plugin.version>
 		<root.basedir>${basedir}/..</root.basedir>
 	</properties>
 	<modules>
