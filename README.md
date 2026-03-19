@@ -35,6 +35,7 @@ original `maven-jaxb2-plugin` name.
 
 #### GitHub Releases, Demonstrations
 
+* [HiSrc BasicJAXB v3.0.0, Explorations][37]
 * [HiSrc BasicJAXB v2.2.1, Explorations][36]
 * [HiSrc BasicJAXB v2.2.0, Explorations][35]
 * [HiSrc BasicJAXB v2.1.1, Explorations][34]
@@ -218,6 +219,7 @@ original `maven-jaxb2-plugin` name.
   [34]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.1.1
   [35]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.2.0
   [36]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/2.2.1
+  [37]: https://github.com/patrodyne/hisrc-basicjaxb/releases/tag/3.0.0
   [40]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-ant/latest/index.html
   [41]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-plugins/latest/index.html
   [42]: https://javadoc.io/doc/org.patrodyne.jvnet/hisrc-basicjaxb-runtime/latest/index.html
