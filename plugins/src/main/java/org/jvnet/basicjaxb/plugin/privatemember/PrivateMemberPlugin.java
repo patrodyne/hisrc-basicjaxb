@@ -3,6 +3,7 @@ package org.jvnet.basicjaxb.plugin.privatemember;
 import static java.lang.String.format;
 import static org.jvnet.basicjaxb.plugin.Customizations.IGNORED_ELEMENT_NAME;
 import static org.jvnet.basicjaxb.plugin.util.OutlineUtils.filter;
+import static org.jvnet.basicjaxb.util.LocatorUtils.toLocation;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,6 +21,7 @@ import org.xml.sax.SAXException;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMod;
+import com.sun.tools.xjc.model.CPropertyInfo;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.FieldOutline;
 import com.sun.tools.xjc.outline.Outline;
@@ -193,15 +195,23 @@ public class PrivateMemberPlugin
 		for (FieldOutline fieldOutline : declaredFilteredFields)
 		{
 			// Get the code model field for the current property name.
-	        JFieldVar field = fields.get(fieldOutline.getPropertyInfo().getName(false));
+			CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
+			String fieldName = fieldInfo.getName(false);
+	        JFieldVar field = fields.get(fieldName);
 
 			// never do something with serialVersionUID if it exists.
 			if (!field.name().equals("serialVersionUID"))
 			{
 				// only try to change members that are not private
 				if (field.mods().getValue() != JMod.PRIVATE)
+				{
 					field.mods().setPrivate();
+					trace("{}, processClassOutline; Class={}, Field={}",
+						toLocation(fieldInfo.getLocator()), theClass.name(), fieldName);
+				}
 			}
 		}
+
+		debug("{}, processClassOutline; Class={}", toLocation(theClass.metadata), theClass.name());
 	}
 }
