@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings jaxb:version="3.0"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	xmlns:anx="urn:jvnet.org:basicjaxb:xjc:annox" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jaxb ../../../doc/bindingschema_3_0_A.xsd"
+>
+	<!--  Global Bindings -->
+	<jaxb:globalBindings localScoping="toplevel">
+		<xjc:serializable uid="20260301" />
+		<xjc:javaType xmlType="xs:date" name="java.time.LocalDate" adapter="io.github.threetenjaxb.core.LocalDateXmlAdapter"/>
+	</jaxb:globalBindings>
+	
+	<jaxb:bindings schemaLocation="datamap.xsd" node="/xs:schema">
+		<jaxb:bindings node="xs:element[@name='employee']">
+			<jaxb:bindings node="//xs:element[@name='dataMap']">
+				<anx:annotate target="field">
+					@jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter(org.example.datamap.DataMapXmlAdapter.class)
+				</anx:annotate>
+				<jaxb:property>
+					<jaxb:baseType name="java.util.Map&lt;String,Object&gt;" />
+				</jaxb:property>
+			</jaxb:bindings>
+		</jaxb:bindings>
+	</jaxb:bindings>
+
+</jaxb:bindings>

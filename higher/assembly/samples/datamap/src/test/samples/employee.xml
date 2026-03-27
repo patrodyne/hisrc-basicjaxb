@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<employee
+	xmlns="urn:example.org:datamap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:example.org:datamap ../../main/resources/datamap.xsd"
+>
+	<dataMap>
+		<entry>
+			<key>Name</key>
+			<value>Rosie the Riveter</value>
+		</entry>
+		<entry>
+			<key>Position</key>
+			<value>Welder</value>
+		</entry>
+	</dataMap>
+	<value>Exceptional</value>
+</employee>
