@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextileMaterialDetails
+	xmlns="urn:example.org:langmap"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=
+		"urn:example.org:langmap ../../main/resources/langmap.xsd
+		 http://www.w3.org/XML/1998/namespace ../../main/resources/xml.xsd"
+>
+
+	<textileMaterialDescription>
+		<entry xml:lang="en">Rayon</entry>
+		<entry xml:lang="de">Viskose</entry>
+	</textileMaterialDescription>
+	
+	<textileMaterialThreadCount>
+		<entry xml:lang="en">300</entry>
+	</textileMaterialThreadCount>
+	
+	<textileMaterialPercentage>90.0</textileMaterialPercentage>
+	
+</TextileMaterialDetails>

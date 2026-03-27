@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+	targetNamespace="urn:example.org:langmap"
+	xmlns:tns="urn:example.org:langmap"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:import
+		namespace="http://www.w3.org/XML/1998/namespace"
+		schemaLocation="../../../doc/xml.xsd">
+	</xs:import>
+
+	<xs:complexType name="langString">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute ref="xml:lang" use="required" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="entryLangString">
+		<xs:sequence>
+			<xs:element name="entry" type="tns:langString" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+					
+	<xs:element name="TextileMaterialDetails">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="textileMaterialDescription" type="tns:entryLangString" />
+				<xs:element name="textileMaterialThreadCount" type="tns:entryLangString" />
+				<xs:element name="textileMaterialPercentage" type="xs:float" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>
