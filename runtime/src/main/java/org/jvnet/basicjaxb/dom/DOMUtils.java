@@ -723,16 +723,6 @@ public class DOMUtils
 	}
 
 	/**
-	 * Build a {@link Node} instance into a string representation.
-	 *
-	 * @param tab The string for indentation.
-	 * @param node The {@link Node} instance to build into a string.
-	 *
-	 * @return A {@link Node} instance into a formatted XML string.
-	 */
-
-
-	/**
 	 * Log a {@link Node} instance into a string representation.
 	 *
 	 * @param logger A SLF4J logger.
