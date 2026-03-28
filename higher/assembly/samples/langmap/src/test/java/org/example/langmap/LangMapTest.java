@@ -77,17 +77,20 @@ public class LangMapTest extends AbstractSamplesTest
 	@Test
 	public void adapterTest() throws Exception
 	{
-		// Fluently create a LangMap instance.
-		LangString langString1 = OF.createLangString()
-			.useLang("en")
-			.useValue("Rayon");
+		// Fluently create a EntryLangMap instance.
+		EntryLangString entryLangString1 = OF.createEntryLangString()
+			.useEntry
+				(
+					OF.createLangString().useLang("en").useValue("Rayon"),
+					OF.createLangString().useLang("de").useValue("Viskose")
+				);
 
-		// LangStringXmlAdapter round trip
-		LangStringXmlAdapter adapter = new LangStringXmlAdapter();
-		Map<String, String> map = adapter.unmarshal(langString1);
-		LangString langString2 = adapter.marshal(map);
+		// LangMapXmlAdapter round trip
+		LangMapXmlAdapter adapter = new LangMapXmlAdapter();
+		Map<String, String> map = adapter.unmarshal(entryLangString1);
+		EntryLangString entryLangString2 = adapter.marshal(map);
 
 		// Assert round trip result
-		assertEquals(langString1, langString2, "Adapter round trip should be equal");
+		assertEquals(entryLangString1, entryLangString2, "Adapter round trip should be equal");
 	}
 }
