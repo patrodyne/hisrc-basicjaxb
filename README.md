@@ -17,6 +17,8 @@ original `maven-jaxb2-plugin` name.
 > GitHub personal account (i.e. 1 tab = 4 spaces) when viewing files in this
 > repository. [Here's how][8].
 
+> **See also:** [Code Style Guide][9].
+
 ### List of repositories in this family
 
 | Patrodyne                   | Highsource                  | Purpose                                                |
@@ -203,6 +205,7 @@ original `maven-jaxb2-plugin` name.
   [6]: https://github.com/patrodyne/hisrc-basicjaxb/blob/master/plugins/src/main/java/org/jvnet/basicjaxb/plugin/valueconstructor/ValueConstructorPlugin.java
   [7]: https://github.com/patrodyne/hisrc-basicjaxb/releases/download/2.1.1/hisrc-basicjaxb-sample-xjc-basic-2.1.1-mvn-src.zip
   [8]: https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-user-account-settings/managing-your-tab-size-rendering-preference
+  [9]: https://github.com/patrodyne/hisrc-hyperjaxb/blob/master/etc/CODE_STYLE_GUIDE.md
   [11]: https://github.com/patrodyne/hisrc-basicjaxb-annox#readme
   [12]: https://github.com/patrodyne/hisrc-basicjaxb#readme
   [13]: https://github.com/patrodyne/hisrc-higherjaxb#readme

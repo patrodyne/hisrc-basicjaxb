@@ -47,7 +47,7 @@ fi
 # 7) git status; git remote show origin
 # Note: Child modules are SKIPPED (normally) for some goals.
 # ./build-JXX.sh -DskipTests=true clean install
-# ./build-JXX.sh -DskipTests=true -Pmcr-deploy clean deploy
+# ./build-JXX.sh -DskipTests=true -Pmcr-deploy clean deploy		# inessential
 # ./build-JXX.sh -DskipTests=true -DdryRun=false release:clean
 # ./build-JXX.sh -DskipTests=true -DdryRun=false release:prepare
 # ./build-JXX.sh -DskipTests=true -DdryRun=false release:perform
