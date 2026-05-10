@@ -370,7 +370,8 @@ public class CopyablePlugin extends AbstractParameterizablePlugin
 					final JVar sourceFieldLocator = ifShouldBeSetBlock.decl(locator.type(), "sourceFieldLocator", sourceFieldLocatorEx);
 
 					final QName fieldSchemaType = fieldOutline.getPropertyInfo().getSchemaType();
-					final String copyPlan = IDREF.equals(fieldSchemaType) ? "copyIdRef" : "copy";
+					final String copyPlan = fieldOutline.getPropertyInfo().isCollection() ? "copy" :
+						IDREF.equals(fieldSchemaType) ? "copyIdRef" : "copy";
 
 					final JExpression builtCopy = JExpr.invoke(copyStrategy, copyPlan)
 						.arg(sourceFieldLocator)

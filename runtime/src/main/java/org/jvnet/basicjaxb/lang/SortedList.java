@@ -15,6 +15,8 @@ import java.util.Collections;
 public class SortedList<E extends Comparable<? super E>>
 	extends ArrayList<E>
 {
+	private static final long serialVersionUID = 20260501L;
+
 	/**
 	 * Constructs an empty list with an initial capacity of ten.
 	 */

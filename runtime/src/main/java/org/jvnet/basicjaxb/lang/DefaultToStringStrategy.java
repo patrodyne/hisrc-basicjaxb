@@ -1165,11 +1165,13 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	{
 		if (value != null)
 		{
+			appendFieldStart(parentLocator, parent, fieldName, buffer, valueSet);
 			appendClassName(buffer, value);
 			appendIdentityHashCode(buffer, value);
 			appendContentStart(buffer);
 			appendIdRefText(buffer, value);
 			appendContentEnd(buffer);
+			appendFieldEnd(parentLocator, parent, fieldName, buffer, valueSet);
 		}
 		return buffer;
 	}

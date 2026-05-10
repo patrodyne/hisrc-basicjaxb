@@ -316,7 +316,8 @@ public class EqualsPlugin extends AbstractParameterizablePlugin
 					final JVar rhsFieldLocator = block.decl(lhsLocator.type(), "rhsFieldLocator", rhsFieldLocatorEx);
 
 					final QName fieldSchemaType = fieldOutline.getPropertyInfo().getSchemaType();
-					final String equalsPlan = IDREF.equals(fieldSchemaType) ? "equalsIdRef" : "equals";
+					final String equalsPlan = fieldOutline.getPropertyInfo().isCollection() ? "equals" :
+						IDREF.equals(fieldSchemaType) ? "equalsIdRef" : "equals";
 
 					block
 						._if(JOp.not(JExpr.invoke(equalsStrategy, equalsPlan)

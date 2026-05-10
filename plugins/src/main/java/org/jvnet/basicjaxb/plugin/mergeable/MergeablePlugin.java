@@ -377,7 +377,8 @@ public class MergeablePlugin extends AbstractParameterizablePlugin
 					final FieldAccessorEx targetFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, target);
 
 					final QName fieldSchemaType = fieldOutline.getPropertyInfo().getSchemaType();
-					final String mergePlan = IDREF.equals(fieldSchemaType) ? "mergeIdRef" : "merge";
+					final String mergePlan = fieldOutline.getPropertyInfo().isCollection() ? "merge" :
+						IDREF.equals(fieldSchemaType) ? "mergeIdRef" : "merge";
 
 					final JExpression mergedValue = JExpr.cast
 					(
