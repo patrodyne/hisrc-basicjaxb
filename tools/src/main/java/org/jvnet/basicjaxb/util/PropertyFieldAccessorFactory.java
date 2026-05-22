@@ -36,14 +36,14 @@ public class PropertyFieldAccessorFactory implements FieldAccessorFactory
 	private static class PropertyFieldAccessor implements FieldAccessorEx
 	{
 		private static final JType[] ABSENT = new JType[0];
-		
+
 		private final FieldOutline fieldOutline;
 		@Override
 		public FieldOutline owner()
 		{
 			return fieldOutline;
 		}
-		
+
 		private final JExpression targetObject;
 		private final JDefinedClass theClass;
 		private final JMethod isSetter;
@@ -53,14 +53,14 @@ public class PropertyFieldAccessorFactory implements FieldAccessorFactory
 		private final JFieldVar constantField;
 		private final JFieldVar field;
 		private FieldAccessor fieldAccessor;
-		
+
 		private final JType type;
 		@Override
 		public JType getType()
 		{
 			return type;
 		}
-		
+
 		@SuppressWarnings("unused")
 		private final JType fieldType;
 
@@ -76,17 +76,17 @@ public class PropertyFieldAccessorFactory implements FieldAccessorFactory
 			final String setterName = "set" + publicName;
 			final JMethod getGetter = theClass.getMethod("get" + publicName, ABSENT);
 			final JMethod isGetter = theClass.getMethod("is" + publicName, ABSENT);
-			
+
 			final JFieldVar field = theClass.fields().get(privateName);
 			this.field = isPropertyField(field) ? field : null;
-			
+
 			this.getter = getGetter != null ? getGetter : (isGetter != null ? isGetter : null);
 			this.type = this.getter != null ? this.getter.type() : fieldOutline.getRawType();
 			this.fieldType = this.field != null ? this.field.type() : this.type;
 
 			final JFieldVar constantField = theClass.fields().get(publicName);
 			this.constantField = isConstantField(constantField) ? constantField : null;
-			
+
 			// fieldOutline.getRawType();
 			final JType rawType = fieldOutline.getRawType();
 			final JMethod boxifiedSetter = theClass.getMethod(setterName, new JType[] { rawType.boxify() });
@@ -94,6 +94,8 @@ public class PropertyFieldAccessorFactory implements FieldAccessorFactory
 			this.setter = boxifiedSetter != null ? boxifiedSetter : unboxifiedSetter;
 			this.isSetter = theClass.getMethod("isSet" + publicName, ABSENT);
 			this.unSetter = theClass.getMethod("unset" + publicName, ABSENT);
+
+
 		}
 
 		@Override
@@ -108,6 +110,14 @@ public class PropertyFieldAccessorFactory implements FieldAccessorFactory
 			return constantField != null;
 		}
 
+		private Boolean isXmlIDREF = null;
+		@Override
+		public boolean isXmlIDREF()
+		{
+			if (isXmlIDREF == null )
+				isXmlIDREF = FieldUtils.isXmlIDREF(field);
+			return isXmlIDREF;
+		}
 
 		@Override
 		public CPropertyInfo getPropertyInfo()
@@ -232,7 +242,7 @@ public class PropertyFieldAccessorFactory implements FieldAccessorFactory
 				}
 				else
 					throw new UnsupportedOperationException();
-				
+
 				if ( getter != null )
 				{
 					if ( isAlwaysSet() )

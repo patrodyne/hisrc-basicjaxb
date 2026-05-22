@@ -279,10 +279,9 @@ public class ToStringPlugin extends AbstractParameterizablePlugin
 					fieldAccessor.toRawValue(block, theField);
 
 					final String fieldName = fieldName(fieldOutline);
-					final QName fieldSchemaType = fieldOutline.getPropertyInfo().getSchemaType();
 
-					final String appendPlan = fieldOutline.getPropertyInfo().isCollection() ? "appendField" :
-						IDREF.equals(fieldSchemaType) ? "appendIdRef" : "appendField";
+					final QName fieldSchemaType = fieldOutline.getPropertyInfo().getSchemaType();
+					final String appendPlan = IDREF.equals(fieldSchemaType) ? "appendIdRef" : "appendField";
 
 					block.invoke(toStringStrategy, appendPlan)
 						.arg(locator)

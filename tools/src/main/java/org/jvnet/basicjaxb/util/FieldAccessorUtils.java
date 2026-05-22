@@ -17,6 +17,32 @@ public class FieldAccessorUtils
 
 	/**
 	 * Returns the <code>getProperty(...)</code> method for the given field
+	 * variable or <code>null</code> if no such method exists.
+	 *
+	 * @param jFieldVar the field variable.
+	 *
+	 * @return The <code>getProperty(...)</code> method for the given field
+	 *         outline or <code>null</code> if no such method exists.
+	 */
+	public static JMethod getter(JDefinedClass valueClass, JFieldVar jFieldVar)
+	{
+		JMethod getter = null;
+		String fieldName = jFieldVar.name();
+		String publicName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+		final JMethod getgetter = valueClass.getMethod("get" + publicName, NONE);
+		if ( getgetter != null )
+			getter = getgetter;
+		else
+		{
+			final JMethod isgetter = valueClass.getMethod("is" + publicName, NONE);
+			if ( isgetter != null )
+				getter = isgetter;
+		}
+		return getter;
+	}
+
+	/**
+	 * Returns the <code>getProperty(...)</code> method for the given field
 	 * outline or <code>null</code> if no such method exists.
 	 *
 	 * @param fieldOutline the field outline.

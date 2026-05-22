@@ -4,10 +4,14 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 import java.util.ListIterator;
+import java.util.Map;
 
 import org.jvnet.basicjaxb.plugin.codegenerator.Arguments;
+import org.jvnet.basicjaxb.util.FieldUtils;
+import org.jvnet.basicjaxb.util.FieldUtils.ValueArguments;
 
 import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JConditional;
 import com.sun.codemodel.JExpr;
@@ -27,13 +31,16 @@ public class EqualsArguments implements Arguments<EqualsArguments> {
 	private final JExpression rightHasSetValue;
 
 	public EqualsArguments(JCodeModel codeModel, JVar leftValue,
-			JExpression leftHasSetValue, JVar rightValue,
-			JExpression rightHasSetValue) {
+			JExpression leftHasSetValue, JVar rightValue, JExpression rightHasSetValue,
+			String idGetter, Boolean valueIsCollection, JType valueCollectionType) {
 		this.codeModel = requireNonNull(codeModel);
 		this.leftValue = requireNonNull(leftValue);
 		this.leftHasSetValue = requireNonNull(leftHasSetValue);
 		this.rightValue = requireNonNull(rightValue);
 		this.rightHasSetValue = requireNonNull(rightHasSetValue);
+		this.idGetterName = idGetter;
+		this.valueIsCollection = valueIsCollection;
+		this.valueCollectionType = valueCollectionType;
 	}
 
 	private JCodeModel getCodeModel() {
@@ -57,9 +64,18 @@ public class EqualsArguments implements Arguments<EqualsArguments> {
 	}
 
 	private EqualsArguments spawn(JVar leftValue, JExpression leftHasSetValue,
-			JVar rightValue, JExpression rightHasSetValue) {
-		return new EqualsArguments(getCodeModel(), leftValue, leftHasSetValue,
-				rightValue, rightHasSetValue);
+			JVar rightValue, JExpression rightHasSetValue)
+	{
+		ValueArguments valueArguments = FieldUtils.getValueArguments(getCodeModel(), leftValue);
+		return new EqualsArguments(
+			getCodeModel(),
+			leftValue,
+			leftHasSetValue,
+			rightValue,
+			rightHasSetValue,
+			valueArguments.idGetterName,
+			valueArguments.valueIsCollection,
+			valueArguments.valueCollectionType);
 	}
 
 	@Override
@@ -137,7 +153,8 @@ public class EqualsArguments implements Arguments<EqualsArguments> {
 					"unchecked");
 		}
 		return new EqualsArguments(getCodeModel(), castedLeftValue, JExpr.TRUE,
-				castedRightValue, JExpr.TRUE);
+				castedRightValue, JExpr.TRUE, idGetterName, valueIsCollection,
+				valueCollectionType);
 	}
 
 	@Override
@@ -170,5 +187,34 @@ public class EqualsArguments implements Arguments<EqualsArguments> {
 				._return(JExpr.FALSE);
 		return _while;
 
+	}
+
+	private final String idGetterName;
+	public String getIdGetterName()
+	{
+		return idGetterName;
+	}
+
+	private Boolean valueIsCollection = null;
+	public boolean valueIsCollection()
+	{
+		if ( valueIsCollection == null )
+		{
+			boolean isCollection = false;
+			if ( (leftValue() != null) && leftValue().type() instanceof JClass )
+			{
+				JClass jclass = (JClass) leftValue().type().erasure();
+				isCollection = getCodeModel().ref(Collection.class).isAssignableFrom(jclass) ||
+					getCodeModel().ref(Map.class).isAssignableFrom(jclass);
+			}
+			valueIsCollection = isCollection;
+		}
+		return valueIsCollection;
+	}
+
+	private JType valueCollectionType;
+	public JType valueCollectionType()
+	{
+		return valueCollectionType;
 	}
 }

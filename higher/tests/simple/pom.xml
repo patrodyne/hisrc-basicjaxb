@@ -17,11 +17,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.patrodyne.jvnet</groupId>
-			<artifactId>hisrc-basicjaxb-plugins</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.patrodyne.jvnet</groupId>
 			<artifactId>hisrc-higherjaxb-maven-plugin-testing</artifactId>
 			<scope>test</scope>
 		</dependency>
@@ -41,6 +36,7 @@
 					<debug>true</debug>
 					<args>
 						<arg>-no-header</arg>
+						<arg>-Xannotate</arg>
 						<arg>-Xinheritance</arg>
 						<arg>-XsimpleEquals</arg>
 						<arg>-XsimpleHashCode</arg>
@@ -53,6 +49,10 @@
 						<plugin>
 							<groupId>org.patrodyne.jvnet</groupId>
 							<artifactId>hisrc-basicjaxb-plugins</artifactId>
+						</plugin>
+						<plugin>
+							<groupId>org.patrodyne.jvnet</groupId>
+							<artifactId>hisrc-hyperjaxb-annox-plugin</artifactId>
 						</plugin>
 					</plugins>
 				</configuration>

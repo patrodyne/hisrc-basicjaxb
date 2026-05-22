@@ -6,10 +6,15 @@ import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
+import com.sun.codemodel.JFieldRef;
 import com.sun.codemodel.JOp;
+import com.sun.codemodel.JType;
 
 public class ToStringCodeGenerationImplementor extends AbstractCodeGenerationImplementor<ToStringArguments>
 {
+	private static final String VALUE_ITEM_NAME = "item";
+	private static final JFieldRef VALUE_ITEM = JExpr.ref(VALUE_ITEM_NAME);
+
 	public ToStringCodeGenerationImplementor(JCodeModel codeModel)
 	{
 		super(codeModel);
@@ -31,6 +36,29 @@ public class ToStringCodeGenerationImplementor extends AbstractCodeGenerationImp
 		}
 	}
 
+	private void ifHasSetValue_ForEachAppendToStringBuilder( ToStringArguments arguments, JBlock block,
+		JExpression valueToAppend, boolean isAlwaysSet, boolean checkForNullRequired)
+	{
+		JBlock subBlock = arguments.ifHasSetValue(block, isAlwaysSet, checkForNullRequired);
+		if ( arguments.getFieldSeparator() != null )
+			subBlock.add(arguments.stringBuilder().invoke("append").arg(JExpr.lit(arguments.getFieldSeparator())));
+		if ( arguments.getFieldName() != null )
+			subBlock.add(arguments.stringBuilder().invoke("append").arg(JExpr.lit(arguments.getFieldName()+"=")));
+
+		final JType vcType = arguments.valueCollectionType();
+		final JExpression value = arguments.value();
+
+		JBlock forEachBody = subBlock.forEach(vcType, VALUE_ITEM_NAME, value).body();
+		forEachBody.add(arguments.stringBuilder().invoke("append").arg(valueToAppend));
+		forEachBody.add(arguments.stringBuilder().invoke("append").arg(" "));
+
+		if (!isAlwaysSet && arguments.hasDefaultValue())
+		{
+			subBlock._if(arguments.hasSetValue().not())._then()
+				.add(arguments.stringBuilder().invoke("append").arg(JExpr.lit("(default)")));
+		}
+	}
+
 	private void ifHasSetValue_AppendCountToStringBuilder( ToStringArguments arguments, JBlock block,
 		JExpression valueToAppend, boolean isAlwaysSet, boolean checkForNullRequired)
 	{
@@ -39,7 +67,7 @@ public class ToStringCodeGenerationImplementor extends AbstractCodeGenerationImp
 			subBlock.add(arguments.stringBuilder().invoke("append").arg(JExpr.lit(arguments.getFieldSeparator())));
 		if ( arguments.getFieldName() != null )
 			subBlock.add(arguments.stringBuilder().invoke("append").arg(JExpr.lit(arguments.getFieldName()+"=")));
-		
+
 		if ( arguments.value().type().isArray() )
 		{
 			// Avoid dead code in JOp.cond(...)
@@ -125,9 +153,28 @@ public class ToStringCodeGenerationImplementor extends AbstractCodeGenerationImp
 	@Override
 	public void onObject(ToStringArguments arguments, JBlock block,	boolean isAlwaysSet)
 	{
-		if ( arguments.valueIsCollection() && !arguments.isShowChildItems() )
-			ifHasSetValue_AppendCountToStringBuilder(arguments, block, arguments.value(), isAlwaysSet, false);
+		JExpression value = arguments.value();
+		if ( arguments.valueIsCollection() )
+		{
+			if ( !arguments.isShowChildItems() )
+				ifHasSetValue_AppendCountToStringBuilder(arguments, block, value, isAlwaysSet, false);
+			else
+			{
+				if ( arguments.getIdGetterName() == null )
+					ifHasSetValue_AppendToStringBuilder(arguments, block, value, isAlwaysSet, false);
+				else
+				{
+					value = VALUE_ITEM.invoke(arguments.getIdGetterName());
+					ifHasSetValue_ForEachAppendToStringBuilder(arguments, block, value, isAlwaysSet, true);
+				}
+			}
+		}
 		else
-			ifHasSetValue_AppendToStringBuilder(arguments, block, arguments.value(), isAlwaysSet, false);
+		{
+			if ( arguments.getIdGetterName() != null )
+				value = arguments.value().invoke(arguments.getIdGetterName());
+			ifHasSetValue_AppendToStringBuilder(arguments, block, value, isAlwaysSet, false);
+		}
+
 	}
 }

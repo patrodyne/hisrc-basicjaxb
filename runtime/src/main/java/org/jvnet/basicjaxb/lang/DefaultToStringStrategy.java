@@ -277,6 +277,13 @@ public class DefaultToStringStrategy implements ToStringStrategy
 		buffer.append(getXmlIdValue(value));
 	}
 
+	protected void appendIdRefsText(StringBuilder buffer, Object value)
+	{
+		if ( buffer.substring(buffer.length()-1) != " " )
+			buffer.append(" ");
+		buffer.append(getXmlIdValue(value));
+	}
+
 	/**
 	 * <p>
 	 * Append to the <code>toString</code> the field start.
@@ -1165,13 +1172,27 @@ public class DefaultToStringStrategy implements ToStringStrategy
 	{
 		if (value != null)
 		{
-			appendFieldStart(parentLocator, parent, fieldName, buffer, valueSet);
-			appendClassName(buffer, value);
-			appendIdentityHashCode(buffer, value);
-			appendContentStart(buffer);
-			appendIdRefText(buffer, value);
-			appendContentEnd(buffer);
-			appendFieldEnd(parentLocator, parent, fieldName, buffer, valueSet);
+			if ( value instanceof Collection elements )
+			{
+				appendFieldStart(parentLocator, parent, fieldName, buffer, valueSet);
+				appendClassName(buffer, value);
+				appendIdentityHashCode(buffer, value);
+				appendContentStart(buffer);
+				for ( Object element : elements )
+					appendIdRefsText(buffer, element);
+				appendContentEnd(buffer);
+				appendFieldEnd(parentLocator, parent, fieldName, buffer, valueSet);
+			}
+			else
+			{
+				appendFieldStart(parentLocator, parent, fieldName, buffer, valueSet);
+				appendClassName(buffer, value);
+				appendIdentityHashCode(buffer, value);
+				appendContentStart(buffer);
+				appendIdRefText(buffer, value);
+				appendContentEnd(buffer);
+				appendFieldEnd(parentLocator, parent, fieldName, buffer, valueSet);
+			}
 		}
 		return buffer;
 	}

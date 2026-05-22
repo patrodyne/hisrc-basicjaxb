@@ -5,6 +5,7 @@ import static org.jvnet.basicjaxb.locator.util.LocatorUtils.item;
 import static org.jvnet.basicjaxb.locator.util.LocatorUtils.property;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.jvnet.basicjaxb.dom.DOMUtils;
 import org.jvnet.basicjaxb.locator.ObjectLocator;
@@ -534,10 +535,36 @@ public class DefaultEqualsStrategy implements EqualsStrategy
 	@Override
 	public boolean equalsIdRef(ObjectLocator lhsLocator, ObjectLocator rhsLocator, Object lhs, Object rhs, boolean lhsSet, boolean rhsSet)
 	{
-		String lxid = getXmlIdValue(lhs);
-		String rxid = getXmlIdValue(rhs);
-		return (lhsSet && rhsSet) ? equals(lhsLocator, rhsLocator, lxid, rxid) :
-			equals(property(lhsLocator, "isSet", lhsSet), property(rhsLocator, "isSet", rhsSet), lhsSet, rhsSet);
+		// TODO: In JVM v21, replace Collection with SequencedCollection
+		if ( lhs instanceof Collection lhsElements && rhs instanceof Collection rhsElements)
+		{
+			if ( lhsElements.size() == rhsElements.size() )
+			{
+				Iterator<?> rhsIterator = rhsElements.iterator();
+				boolean allEqual = true;
+				for ( Object lhsElement : lhsElements )
+				{
+					Object rhsElement = rhsIterator.next();
+					String lxid = getXmlIdValue(lhsElement);
+					String rxid = getXmlIdValue(rhsElement);
+					if ( !lxid.equals(rxid) )
+					{
+						allEqual = false;
+						break;
+					}
+				}
+				return observe(lhsLocator, rhsLocator, lhs, rhs, allEqual);
+			}
+			else
+				return observe(lhsLocator, rhsLocator, lhs, rhs, false);
+		}
+		else
+		{
+			String lxid = getXmlIdValue(lhs);
+			String rxid = getXmlIdValue(rhs);
+			return (lhsSet && rhsSet) ? equals(lhsLocator, rhsLocator, lxid, rxid) :
+				equals(property(lhsLocator, "isSet", lhsSet), property(rhsLocator, "isSet", rhsSet), lhsSet, rhsSet);
+		}
 	}
 
 	@Override

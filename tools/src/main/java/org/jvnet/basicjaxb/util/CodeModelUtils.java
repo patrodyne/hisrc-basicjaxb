@@ -21,7 +21,7 @@ import com.sun.tools.xjc.outline.ClassOutline;
 
 /**
  * Code Model Utilities.
- * 
+ *
  * @author valikov
  */
 public class CodeModelUtils
@@ -33,7 +33,7 @@ public class CodeModelUtils
 
 	/**
 	 * Returns a property file (created if necessary).
-	 * 
+	 *
 	 * @param thePackage package to create property file
 	 * @param name property file name.
 	 * @return Property file.
@@ -41,25 +41,25 @@ public class CodeModelUtils
 	public static JPropertyFile getOrCreatePropertyFile(JPackage thePackage, String name)
 	{
 		JPropertyFile propertyFile = null;
-		
+
 		for (Iterator<JResourceFile> iterator = thePackage.propertyFiles(); iterator.hasNext() && (null == propertyFile);)
 		{
-			final JResourceFile resourceFile = (JResourceFile) iterator.next();
+			final JResourceFile resourceFile = iterator.next();
 			if (resourceFile instanceof JPropertyFile && name.equals(resourceFile.name()))
 			{
 				propertyFile = (JPropertyFile) resourceFile;
 			}
 		}
-		
+
 		if (null == propertyFile)
 		{
 			propertyFile = new JPropertyFile(name);
 			thePackage.addResourceFile(propertyFile);
 		}
-		
+
 		return propertyFile;
 	}
-	
+
 	// public static boolean doesImplement(JDefinedClass theClass, JClass theInterface)
 	// {
 	//     theClass._i
@@ -197,36 +197,37 @@ public class CodeModelUtils
 		return classOutline.ref.owner();
 	}
 
-	public static JType ref(JCodeModel codeModel, String className)
+	public static Class<?> getClassForName(String className)
 	{
 		try
 		{
 			// try the context class loader first
-			return codeModel.ref(Thread.currentThread().getContextClassLoader().loadClass(className));
+			return Thread.currentThread().getContextClassLoader().loadClass(className);
 		}
 		catch (ClassNotFoundException e)
 		{
-			// fall through
-		}
-		
-		// then the default mechanism.
-		try
-		{
-			return codeModel.ref(Class.forName(className));
-		}
-		catch (ClassNotFoundException e1)
-		{
-			// fall through
-		}
-		
-		{
-			JDefinedClass _class = _getClass(codeModel, className);
-			if (_class != null)
+			// then the default mechanism.
+			try
 			{
-				return _class;
+				return Class.forName(className);
+			}
+			catch (ClassNotFoundException e1)
+			{
+				return null;
 			}
 		}
-		
+	}
+
+	public static JClass ref(JCodeModel codeModel, String className)
+	{
+		Class<?> clazz = getClassForName(className);
+		if ( clazz != null )
+			return codeModel.ref(clazz);
+
+		JDefinedClass _class = _getClass(codeModel, className);
+		if (_class != null)
+			return _class;
+
 		return codeModel.ref(className.replace('$', '.'));
 	}
 
@@ -289,7 +290,7 @@ public class CodeModelUtils
 
 	/**
 	 * Group a source method with its target method in the given owner class.
-	 * 
+	 *
 	 * @param ownerClass The class that owns the methods.
 	 * @param targetMethod The target method.
 	 * @param sourceMethod The source method to move.
@@ -306,10 +307,10 @@ public class CodeModelUtils
 			}
 		}
 	}
-	
+
 	/**
 	 * Group a source method with its target method in the given owner class.
-	 * 
+	 *
 	 * @param ownerClass The class that owns the methods.
 	 * @param index The target index.
 	 * @param sourceMethod The source method to move.

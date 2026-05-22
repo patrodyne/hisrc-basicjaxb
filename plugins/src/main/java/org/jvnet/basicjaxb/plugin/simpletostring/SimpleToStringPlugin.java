@@ -19,6 +19,8 @@ import javax.xml.namespace.QName;
 import org.jvnet.basicjaxb.plugin.codegenerator.AbstractCodeGeneratorPlugin;
 import org.jvnet.basicjaxb.plugin.codegenerator.CodeGenerator;
 import org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments;
+import org.jvnet.basicjaxb.util.FieldUtils;
+import org.jvnet.basicjaxb.util.FieldUtils.ValueArguments;
 import org.jvnet.basicjaxb.xjc.outline.FieldAccessorEx;
 
 import com.sun.codemodel.JBlock;
@@ -48,7 +50,7 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 
 	/** Name of Option to enable this plugin. */
 	private static final String OPTION_NAME = "XsimpleToString";
-	
+
 	/** Description of Option to enable this plugin. */
 	private static final String OPTION_DESC = "generate reflection-free runtime-free 'toString' method";
 
@@ -83,7 +85,7 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 	public void setFullClassName(boolean fullClassName) { this.fullClassName = fullClassName; }
 
 	// Plugin Processing
-	
+
 	@Override
 	protected void beforeRun(Outline outline) throws Exception
 	{
@@ -100,7 +102,7 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 			info(sb.toString());
 		}
 	}
-	
+
 	@Override
 	protected void afterRun(Outline outline) throws Exception
 	{
@@ -150,7 +152,7 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 				JMod.FINAL, codeModel.ref(StringBuilder.class), "stringBuilder",
 				JExpr._new(codeModel.ref(StringBuilder.class))
 			);
-			
+
 			if ( isFullClassName() )
 				body.add(stringBuilder.invoke("append").arg(JExpr._this().invoke("getClass").invoke("getName")));
 			else
@@ -184,26 +186,26 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 		{
 			final JBlock body = toStringFieldsMethod.body();
 			final JVar stringBuilder = toStringFieldsMethod.params().get(0);
-			
+
 			String fieldSeparator = null;
 			if ( sciToStringFields )
 			{
 				body.add(JExpr._super().invoke(toStringFieldsMethod.name()).arg(stringBuilder));
 				fieldSeparator = FIELD_SEPARATOR;
 			}
-			
+
 			final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
 			for (final FieldOutline fieldOutline : declaredFields)
 			{
 				final FieldAccessorEx fieldAccessor = getFieldAccessorFactory()
 					.createFieldAccessor(fieldOutline, JExpr._this());
-				
+
 				final CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
 				if ( !fieldAccessor.isConstant() )
 				{
 					final JBlock block = body.block();
 					final String propertyName = fieldInfo.getName(true);
-					
+
 					final JType exposedType = fieldAccessor.getType();
 					final JVar value = block.decl(exposedType, "the" + propertyName);
 					fieldAccessor.toRawValue(block, value);
@@ -212,7 +214,13 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 						? JExpr.TRUE : fieldAccessor.hasSetValue();
 					final String fieldName = isShowFieldNames() ? fieldInfo.getName(false) : null;
 					final CDefaultValue defaultValue = fieldInfo.defaultValue;
-					
+
+					// A field annotated with @XmlIDREF may create a cyclic redundancy
+					// with its target @XmlID field; thus, this field's object will be
+					// replaced with the target identifier to terminate the cycle here.
+					ValueArguments valueArguments =
+						FieldUtils.getValueArguments(codeModel, classOutline, fieldInfo, fieldAccessor, value);
+
 					final ToStringArguments arguments = new ToStringArguments
 					(
 						codeModel,
@@ -222,12 +230,15 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 						fieldSeparator,
 						fieldName,
 						isShowChildItems(),
-						(defaultValue != null)
+						(defaultValue != null),
+						valueArguments.idGetterName,
+						valueArguments.valueIsCollection,
+						valueArguments.valueCollectionType
 					);
 
 					final Collection<JType> possibleTypes =	getPossibleTypes(fieldOutline, Aspect.EXPOSED);
 					final boolean isAlwaysSet = fieldAccessor.isAlwaysSet();
-					
+
 					getCodeGenerator().generate
 					(
 						block,
@@ -236,10 +247,10 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 						isAlwaysSet,
 						arguments
 					);
-					
+
 					fieldSeparator = FIELD_SEPARATOR;
 				}
-				
+
 				trace("{}, generateToStringFieldsMethod; Class={}, Field={}",
 					toLocation(fieldOutline.getPropertyInfo().getLocator()), theClass.name(), fieldInfo.getName(false));
 			}
@@ -248,11 +259,13 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 			{
 				final AttributeWildcardArguments awa =
 					new AttributeWildcardArguments(classOutline);
-				
+
 				final JBlock block = body.block();
 				final JVar theValue = awa.fieldVar(block, _this(), "the");
 				final String fieldName = isShowFieldNames() ? FIELD_NAME : null;
-				
+
+				ValueArguments valueArguments = FieldUtils.getValueArguments(codeModel, theValue);
+
 				final ToStringArguments arguments = new ToStringArguments
 				(
 					codeModel,
@@ -262,9 +275,12 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 					fieldSeparator,
 					fieldName,
 					isShowChildItems(),
-					HAS_DEFAULT_VALUE
+					HAS_DEFAULT_VALUE,
+					valueArguments.idGetterName,
+					valueArguments.valueIsCollection,
+					valueArguments.valueCollectionType
 				);
-				
+
 				getCodeGenerator().generate
 				(
 					block,
@@ -273,12 +289,12 @@ public class SimpleToStringPlugin extends AbstractCodeGeneratorPlugin<ToStringAr
 					IS_ALWAYS_SET,
 					arguments
 				);
-				
+
 				trace("{}, generateToStringFieldsMethod; Class={}, Field={}",
 					toLocation(classOutline), theClass.name(), FIELD_NAME);
 			}
 		}
-		
+
 		return toStringFieldsMethod;
 	}
 }

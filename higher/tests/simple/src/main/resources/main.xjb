@@ -14,7 +14,7 @@
 		* Hint: Increase EnumMemberSizeCap above 256 with typesafeEnumMaxMembers="512".
 	-->
 	<jaxb:globalBindings localScoping="toplevel" optionalProperty="primitive" generateIsSetMethod="true"
-		fixedAttributeAsConstantProperty="true">
+		fixedAttributeAsConstantProperty="true" generateElementProperty="false">
 		<jaxb:serializable uid="20230201" />
 
 		<xjc:javaType xmlType="xs:date" name="java.time.LocalDate" adapter="io.github.threetenjaxb.core.LocalDateXmlAdapter"/>

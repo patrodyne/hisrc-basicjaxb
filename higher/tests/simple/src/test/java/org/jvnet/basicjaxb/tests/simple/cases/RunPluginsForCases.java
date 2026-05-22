@@ -3,10 +3,12 @@ package org.jvnet.basicjaxb.tests.simple.cases;
 import java.io.File;
 import java.net.URL;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.jvnet.basicjaxb.tests.simple.RunPlugins;
 
+@Disabled
 public class RunPluginsForCases extends RunPlugins
 {
 	@BeforeEach

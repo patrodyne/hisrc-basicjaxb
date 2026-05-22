@@ -285,8 +285,7 @@ public class HashCodePlugin extends AbstractParameterizablePlugin
 					final JVar theFieldLocator = block.decl(locator.type(), "theFieldLocator", theFieldLocatorEx);
 
 					final QName fieldSchemaType = fieldOutline.getPropertyInfo().getSchemaType();
-					final String hashPlan = fieldOutline.getPropertyInfo().isCollection() ? "hashCode" :
-						IDREF.equals(fieldSchemaType) ? "hashIdRef" : "hashCode";
+					final String hashPlan = IDREF.equals(fieldSchemaType) ? "hashIdRef" : "hashCode";
 
 					block.assign
 					(

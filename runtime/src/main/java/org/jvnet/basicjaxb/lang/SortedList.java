@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * A {@link List} implementation that maintains natural ordering.
+ * A {@code List} implementation that maintains natural ordering.
  *
  * <p>Extends {@link ArrayList} to meet JAXB's requirement for
  * {@code collectionType}.</p>

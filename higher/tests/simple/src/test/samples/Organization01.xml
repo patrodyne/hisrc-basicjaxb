@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Organization 
+	xmlns="urn:jvnet.org:basicjaxb:tests:simple:model" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:jvnet.org:basicjaxb:tests:simple:model ../../main/resources/organization.xsd"
+>
+
+	<id>ORG01</id>
+
+	<!-- 4 Departments -->
+	<departments>
+		<id>DE-ENG</id>
+		<name>Engineering</name>
+	</departments>
+	<departments>
+		<id>DE-FIN</id>
+		<name>Finance</name>
+	</departments>
+	<departments>
+		<id>DE-HR</id>
+		<name>Human Resources</name>
+	</departments>
+	<departments>
+		<id>DE-MKT</id>
+		<name>Marketing</name>
+	</departments>
+	
+	<!-- 2 Projects -->
+	<projects>
+		<id>PR-APO</id>
+		<projectName>Apollo</projectName>
+	</projects>
+	<projects>
+		<id>PR-ZEU</id>
+		<projectName>Zeus</projectName>
+	</projects>
+
+	<!-- 8 Employees -->
+	<employees>
+		<id>EM-BRO01</id>
+		<lastName>Brown</lastName>
+		<active>false</active>
+		<department>DE-MKT</department>
+	</employees>
+	<employees>
+		<id>EM-DAV01</id>
+		<lastName>Davis</lastName>
+		<active>true</active>
+		<department>DE-FIN</department>
+	</employees>
+	<employees>
+		<id>EM-GAR01</id>
+		<lastName>Garcia</lastName>
+		<active>true</active>
+		<department>DE-HR</department>
+	</employees>
+	<employees>
+		<id>EM-JOH01</id>
+		<lastName>Johnson</lastName>
+		<active>true</active>
+		<department>DE-ENG</department>
+		<projects>PR-APO</projects>
+	</employees>
+	<employees>
+		<id>EM-JON01</id>
+		<lastName>Jones</lastName>
+		<active>true</active>
+		<department>DE-HR</department>
+	</employees>
+	<employees>
+		<id>EM-MIL01</id>
+		<lastName>Miller</lastName>
+		<active>true</active>
+		<department>DE-FIN</department>
+		<projects>PR-ZEU</projects>
+	</employees>
+	<employees>
+		<id>EM-SMI01</id>
+		<lastName>Smith</lastName>
+		<active>true</active>
+		<department>DE-ENG</department>
+		<projects>PR-APO</projects>
+		<projects>PR-ZEU</projects>
+	</employees>
+	<employees>
+		<id>EM-WIL01</id>
+		<lastName>Williams</lastName>
+		<active>true</active>
+		<department>DE-MKT</department>
+		<projects>PR-ZEU</projects>
+	</employees>
+
+</Organization>

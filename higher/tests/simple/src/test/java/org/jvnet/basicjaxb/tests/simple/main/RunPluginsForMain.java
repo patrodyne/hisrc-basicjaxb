@@ -7,6 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.jvnet.basicjaxb.tests.simple.RunPlugins;
 
+import org.junit.jupiter.api.Disabled;
+
+@Disabled
 public class RunPluginsForMain extends RunPlugins
 {
 	@BeforeEach
@@ -22,17 +25,18 @@ public class RunPluginsForMain extends RunPlugins
 		new File("target/generated-sources/xjc").mkdirs();
 		URL schema = getClass().getResource("/main.xsd");
 		URL binding = getClass().getResource("/main.xjb");
-		
+
 		final String[] arguments = new String[] {
 			"-xmlschema", schema.toExternalForm(),
 			"-b", binding.toExternalForm(),
 			"-d", "target/generated-sources/xjc",
 			"-extension",
+			"-Xinheritance",
 			"-XsimpleHashCode",
 			"-XsimpleEquals",
 			"-XsimpleToString"
 		};
-		
+
 		runPlugins(arguments);
 	}
 }

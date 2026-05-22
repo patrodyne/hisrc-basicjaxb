@@ -7,6 +7,8 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import org.jvnet.basicjaxb.plugin.codegenerator.Arguments;
+import org.jvnet.basicjaxb.util.FieldUtils;
+import org.jvnet.basicjaxb.util.FieldUtils.ValueArguments;
 
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
@@ -20,7 +22,8 @@ import com.sun.codemodel.JVar;
 public class ToStringArguments implements Arguments<ToStringArguments>
 {
 	public ToStringArguments(JCodeModel codeModel, JVar stringBuilder, JVar value, JExpression hasSetValue,
-		String fieldSeparator, String fieldName, boolean showChildItems, boolean hasDefaultValue)
+		String fieldSeparator, String fieldName, boolean showChildItems, boolean hasDefaultValue,
+		String idGetter, Boolean valueIsCollection, JType valueCollectionType)
 	{
 		this.codeModel = requireNonNull(codeModel);
 		this.stringBuilder = requireNonNull(stringBuilder);
@@ -30,6 +33,9 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 		this.fieldName = fieldName;
 		this.showChildItems = showChildItems;
 		this.hasDefaultValue = hasDefaultValue;
+		this.idGetterName = idGetter;
+		this.valueIsCollection = valueIsCollection;
+		this.valueCollectionType = valueCollectionType;
 	}
 
 	private final JCodeModel codeModel;
@@ -43,23 +49,40 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 
 	private final JExpression hasSetValue;
 	public JExpression hasSetValue() { return hasSetValue; }
-	
+
 	private String fieldSeparator;
 	public String getFieldSeparator() { return fieldSeparator; }
 
 	private String fieldName;
 	public String getFieldName() { return fieldName; }
-	
+
 	private boolean showChildItems;
 	public boolean isShowChildItems() { return showChildItems; }
 
 	private boolean hasDefaultValue;
 	public boolean hasDefaultValue() { return hasDefaultValue; }
 
+	private final String idGetterName;
+	public String getIdGetterName()
+	{
+		return idGetterName;
+	}
+
 	private ToStringArguments spawn(JVar value, JExpression hasSetValue)
 	{
-		return new ToStringArguments(getCodeModel(), stringBuilder(), value, hasSetValue,
-			getFieldSeparator(), getFieldName(), isShowChildItems(), hasDefaultValue());
+		ValueArguments valueArguments = FieldUtils.getValueArguments(getCodeModel(), value);
+		return new ToStringArguments(
+			getCodeModel(),
+			stringBuilder(),
+			value,
+			hasSetValue,
+			getFieldSeparator(),
+			getFieldName(),
+			isShowChildItems(),
+			hasDefaultValue(),
+			valueArguments.idGetterName,
+			valueArguments.valueIsCollection,
+			valueArguments.valueCollectionType);
 	}
 
 	@Override
@@ -72,11 +95,11 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 			JMod.FINAL,	declarablePropertyType,	value().name() + propertyName,
 			value().invoke(propertyMethod)
 		);
-		
+
 		// We assume that primitive properties are always set
 		boolean isAlwaysSet = propertyType.isPrimitive();
 		final JExpression propertyHasSetValue = isAlwaysSet ? JExpr.TRUE : propertyValue.ne(JExpr._null());
-		
+
 		return spawn(propertyValue, propertyHasSetValue);
 	}
 
@@ -88,7 +111,7 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 			JMod.FINAL, getCodeModel().ref(ListIterator.class).narrow(elementType), value().name() + "ListIterator",
 			value().invoke("listIterator")
 		);
-		
+
 		return spawn(listIterator, JExpr.TRUE);
 	}
 
@@ -100,10 +123,10 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 			JMod.FINAL, elementType, value().name() + "Element",
 			value().invoke("next")
 		);
-		
+
 		final boolean isElementAlwaysSet = elementType.isPrimitive();
 		final JExpression elementHasSetValue = isElementAlwaysSet ? JExpr.TRUE : elementValue.ne(JExpr._null());
-		
+
 		return spawn(elementValue, elementHasSetValue);
 	}
 
@@ -121,10 +144,10 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 			JMod.FINAL, jaxbElementType, value().name() + suffix,
 			JExpr.cast(jaxbElementType,	value())
 		);
-		
+
 		if (suppressWarnings)
 			castedValue.annotate(SuppressWarnings.class).param("value", "unchecked");
-		
+
 		return spawn(castedValue, JExpr.TRUE);
 	}
 
@@ -143,17 +166,27 @@ public class ToStringArguments implements Arguments<ToStringArguments>
 		final JBlock subBlock = block._while(value().invoke("hasNext")).body();
 		return subBlock;
 	}
-	
+
+	private Boolean valueIsCollection = null;
 	public boolean valueIsCollection()
 	{
-		boolean isCollection = false;
-		if ( (value() != null) && value().type() instanceof JClass )
+		if ( valueIsCollection == null )
 		{
-			JClass jclass = (JClass) value().type().erasure();
-			isCollection = getCodeModel().ref(Collection.class).isAssignableFrom(jclass) ||
-				getCodeModel().ref(Map.class).isAssignableFrom(jclass);
+			boolean isCollection = false;
+			if ( (value() != null) && value().type() instanceof JClass )
+			{
+				JClass jclass = (JClass) value().type().erasure();
+				isCollection = getCodeModel().ref(Collection.class).isAssignableFrom(jclass) ||
+					getCodeModel().ref(Map.class).isAssignableFrom(jclass);
+			}
+			valueIsCollection = isCollection;
 		}
-		return isCollection;
+		return valueIsCollection;
 	}
 
+	private JType valueCollectionType;
+	public JType valueCollectionType()
+	{
+		return valueCollectionType;
+	}
 }

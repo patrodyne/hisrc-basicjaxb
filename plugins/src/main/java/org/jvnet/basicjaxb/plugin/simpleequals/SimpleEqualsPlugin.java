@@ -17,6 +17,8 @@ import javax.xml.namespace.QName;
 import org.jvnet.basicjaxb.plugin.codegenerator.AbstractCodeGeneratorPlugin;
 import org.jvnet.basicjaxb.plugin.codegenerator.CodeGenerator;
 import org.jvnet.basicjaxb.plugin.util.AttributeWildcardArguments;
+import org.jvnet.basicjaxb.util.FieldUtils;
+import org.jvnet.basicjaxb.util.FieldUtils.ValueArguments;
 import org.jvnet.basicjaxb.xjc.outline.FieldAccessorEx;
 
 import com.sun.codemodel.JBlock;
@@ -42,7 +44,7 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 {
 	/** Name of Option to enable this plugin. */
 	private static final String OPTION_NAME = "XsimpleEquals";
-	
+
 	/** Description of Option to enable this plugin. */
 	private static final String OPTION_DESC = "generate reflection-free runtime-free 'equals' methods";
 
@@ -65,7 +67,7 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 	}
 
 	// Plugin Processing
-	
+
 	@Override
 	protected void beforeRun(Outline outline) throws Exception
 	{
@@ -79,7 +81,7 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 			info(sb.toString());
 		}
 	}
-	
+
 	@Override
 	protected void afterRun(Outline outline) throws Exception
 	{
@@ -112,11 +114,11 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 			JExpression notTheSameType = JExpr._this().invoke("getClass").ne(object.invoke("getClass"));
 			body._if(JOp.cor(objectIsNull, notTheSameType))._then()._return(JExpr.FALSE);
 			body._if(JExpr._this().eq(object))._then()._return(JExpr.TRUE);
-			
+
 			final Boolean superClassNotIgnored = superClassNotIgnored(classOutline, getIgnoring());
 			if (superClassNotIgnored != null)
 				body._if(JOp.not(JExpr._super().invoke("equals").arg(object)))._then()._return(JExpr.FALSE);
-			
+
 			final JExpression _this = JExpr._this();
 			final FieldOutline[] declaredFields = filter(classOutline.getDeclaredFields(), getIgnoring());
 			if ( (declaredFields.length > 0) || classOutline.target.declaresAttributeWildcard() )
@@ -126,39 +128,48 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 				{
 					final FieldAccessorEx lhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _this);
 					final FieldAccessorEx rhsFieldAccessor = getFieldAccessorFactory().createFieldAccessor(fieldOutline, _that);
-					
+
 					final CPropertyInfo fieldInfo = fieldOutline.getPropertyInfo();
 					if ( !(lhsFieldAccessor.isConstant() || rhsFieldAccessor.isConstant()) )
 					{
 						final JBlock block = body.block();
 						final String propertyName = fieldInfo.getName(true);
-						
+
 						final JType lhsExposedType = lhsFieldAccessor.getType();
 						final JVar lhsValue = block.decl(lhsExposedType, "lhs" + propertyName);
 						lhsFieldAccessor.toRawValue(block, lhsValue);
-						
+
 						final JType rhsExposedType = rhsFieldAccessor.getType();
 						final JVar rhsValue = block.decl(rhsExposedType, "rhs" + propertyName);
 						rhsFieldAccessor.toRawValue(block, rhsValue);
-						
+
 						final JExpression lhsHasSetValue = (lhsFieldAccessor.isAlwaysSet() || lhsFieldAccessor.hasSetValue() == null)
 							? JExpr.TRUE : lhsFieldAccessor.hasSetValue();
-						
+
 						final JExpression rhsHasSetValue = (rhsFieldAccessor .isAlwaysSet() || rhsFieldAccessor.hasSetValue() == null)
 							? JExpr.TRUE : rhsFieldAccessor.hasSetValue();
-						
+
+						// A field annotated with @XmlIDREF may create a cyclic redundancy
+						// with its target @XmlID field; thus, this field's object will be
+						// replaced with the target identifier to terminate the cycle here.
+						ValueArguments valueArguments =
+							FieldUtils.getValueArguments(codeModel, classOutline, fieldInfo, lhsFieldAccessor, lhsValue);
+
 						final EqualsArguments arguments = new EqualsArguments
 						(
 							codeModel,
 							lhsValue,
 							lhsHasSetValue,
 							rhsValue,
-							rhsHasSetValue
+							rhsHasSetValue,
+							valueArguments.idGetterName,
+							valueArguments.valueIsCollection,
+							valueArguments.valueCollectionType
 						);
-						
+
 						final Collection<JType> possibleTypes = getPossibleTypes(fieldOutline, Aspect.EXPOSED);
 						final boolean isAlwaysSet = lhsFieldAccessor.isAlwaysSet();
-						
+
 						getCodeGenerator().generate
 						(
 							block,
@@ -181,16 +192,21 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 					final JBlock block = body.block();
 					final JVar lhsValue = awa.fieldVar(block, _this, "lhs");
 					final JVar rhsValue = awa.fieldVar(block, _that, "rhs");
-					
+
+					ValueArguments valueArguments = FieldUtils.getValueArguments(codeModel, lhsValue);
+
 					final EqualsArguments arguments = new EqualsArguments
 					(
 						codeModel,
 						lhsValue,
 						HAS_SET_VALUE,
 						rhsValue,
-						HAS_SET_VALUE
+						HAS_SET_VALUE,
+						valueArguments.idGetterName,
+						valueArguments.valueIsCollection,
+						valueArguments.valueCollectionType
 					);
-					
+
 					getCodeGenerator().generate
 					(
 						block,
@@ -199,12 +215,12 @@ public class SimpleEqualsPlugin extends AbstractCodeGeneratorPlugin<EqualsArgume
 						IS_ALWAYS_SET,
 						arguments
 					);
-					
+
 					trace("{}, generate; Class={}, Field={}",
 						toLocation(classOutline), theClass.name(), FIELD_NAME);
 				}
 			}
-			
+
 			body._return(JExpr.TRUE);
 		}
 		debug("{}, generate; Class={}", toLocation(theClass.metadata), theClass.name());

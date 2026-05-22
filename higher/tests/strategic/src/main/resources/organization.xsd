@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="urn:jvnet.org:basicjaxb:tests:strategic:model"
+	xmlns:tns="urn:jvnet.org:basicjaxb:tests:strategic:model"
+	xmlns:anx="urn:jvnet.org:basicjaxb:xjc:annox"
+	xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+	jaxb:extensionBindingPrefixes="anx"
+	jaxb:version="3.0"
+>
+	<xs:complexType name="Department">
+		<xs:sequence>
+			<xs:element name="id" type="xs:ID" minOccurs="1"/>
+			<xs:element name="name" type="xs:string"/>
+			<!-- 
+			<xs:element name="employeeRefs" type="xs:IDREFS" minOccurs="0">
+				<xs:annotation>
+	                <xs:appinfo>
+	                    <jaxb:property>
+                            <jaxb:baseType name="org.jvnet.basicjaxb.tests.strategic.model.Employee" />
+                        </jaxb:property>
+	                </xs:appinfo>
+            	</xs:annotation>
+            </xs:element>
+			 -->
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="Project">
+		<xs:sequence>
+			<xs:element name="id" type="xs:ID" minOccurs="1"/>
+			<xs:element name="projectName" type="xs:string"/>
+			<xs:element name="employees" type="xs:IDREF" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:class ref="org.jvnet.basicjaxb.tests.strategic.model.Employee"/>
+						<anx:annotate target="field">@jakarta.xml.bind.annotation.XmlIDREF</anx:annotate>
+						<!-- 
+							WARN: This generates @XmlElementRef on Employee#projects and 
+							@XmlElementDecl and @XmlIDREF in the ObjectFactory which then
+							adds a JAXBElement wrapper.
+	                    <jaxb:property>
+                            <jaxb:baseType name="org.jvnet.basicjaxb.tests.strategic.model.Employee" />
+                        </jaxb:property>
+						 -->
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Employee">
+		<xs:sequence>
+			<xs:element name="id" type="xs:ID" minOccurs="1"/>
+			<xs:element name="lastName" type="xs:string"/>
+			<xs:element name="active" type="xs:boolean"/>
+			<xs:element name="department" type="xs:IDREF" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:appinfo>
+						<!-- 
+						<jaxb:class ref="Department"/>
+						 -->
+	                    <jaxb:property>
+                            <jaxb:baseType name="org.jvnet.basicjaxb.tests.strategic.model.Department" />
+                        </jaxb:property>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="projects" type="xs:IDREF" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<jaxb:class ref="org.jvnet.basicjaxb.tests.strategic.model.Project"/>
+						<anx:annotate target="field">@jakarta.xml.bind.annotation.XmlIDREF</anx:annotate>
+						<!--
+							WARN: This generates @XmlElementRef on Employee#projects and 
+							@XmlElementDecl and @XmlIDREF in the ObjectFactory which then
+							adds a JAXBElement wrapper.
+		                    <jaxb:property>
+	                            <jaxb:baseType name="org.jvnet.basicjaxb.tests.strategic.model.Project" />
+	                        </jaxb:property>
+						 -->
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="Organization">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="xs:string" minOccurs="1"/>
+				<xs:element name="departments" type="tns:Department" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="projects" type="tns:Project" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="employees" type="tns:Employee" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

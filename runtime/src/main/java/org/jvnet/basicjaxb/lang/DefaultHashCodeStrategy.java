@@ -5,6 +5,8 @@ import static java.lang.System.identityHashCode;
 import static org.jvnet.basicjaxb.lang.XmlIdReflector.getXmlIdValue;
 import static org.jvnet.basicjaxb.locator.util.LocatorUtils.item;
 
+import java.util.Collection;
+
 import org.jvnet.basicjaxb.locator.ObjectLocator;
 import org.jvnet.basicjaxb.locator.RootObjectLocator;
 import org.slf4j.Logger;
@@ -428,9 +430,28 @@ public class DefaultHashCodeStrategy implements HashCodeStrategy
 	@Override
 	public int hashIdRef(ObjectLocator locator, int hashCode, Object value, boolean valueSet)
 	{
-		String xidv = getXmlIdValue(value);
-		int xidhc = (xidv != null) ? xidv.hashCode() : identityHashCode(value);
-		return valueSet ? hashCode(locator, hashCode * iConstant, xidhc) : observe(locator, hashCode * iConstant + 1);
+		if ( valueSet )
+		{
+			if ( value instanceof Collection elements )
+			{
+				int curhc = 0;
+				for ( Object element : elements )
+				{
+					String xidv = getXmlIdValue(element);
+					int xidhc = (xidv != null) ? xidv.hashCode() : identityHashCode(element);
+					curhc = curhc * iConstant + xidhc;
+				}
+				return hashCode(locator, hashCode * iConstant, curhc);
+			}
+			else
+			{
+				String xidv = getXmlIdValue(value);
+				int xidhc = (xidv != null) ? xidv.hashCode() : identityHashCode(value);
+				return hashCode(locator, hashCode * iConstant, xidhc);
+			}
+		}
+		else
+			return observe(locator, hashCode * iConstant + 1);
 	}
 
 	@Override
