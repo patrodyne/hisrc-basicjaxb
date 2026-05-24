@@ -5,6 +5,7 @@ import static org.jvnet.basicjaxb.locator.util.LocatorUtils.item;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Collection;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -459,7 +460,11 @@ public class DefaultCopyStrategy implements CopyStrategy
 	@Override
 	public Object copyIdRef(ObjectLocator locator, Object value, boolean valueSet)
 	{
-		return observe(locator, value);
+		// Shallow copy to avoid cyclic overflow.
+		if ( value instanceof Collection elements )
+			return observe(locator, value);
+		else
+			return observe(locator, value);
 	}
 
 	@Override

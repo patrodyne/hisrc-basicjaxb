@@ -53,6 +53,10 @@
 						<arg>-XhashCode-hashCodeStrategyClass=org.jvnet.basicjaxb.lang.JAXBHashCodeStrategy</arg>
 						<arg>-Xequals-equalsStrategyClass=org.jvnet.basicjaxb.lang.JAXBEqualsStrategy</arg>
 						<arg>-XtoString-toStringStrategyClass=org.jvnet.basicjaxb.lang.JAXBToStringStrategy</arg>
+						<arg>-Xcopyable</arg>
+						<arg>-Xcopyable-copyStrategyClass=org.jvnet.basicjaxb.lang.JAXBCopyStrategy</arg>
+						<arg>-Xmergeable</arg>
+						<arg>-Xmergeable-mergeStrategyClass=org.jvnet.basicjaxb.lang.JAXBMergeStrategy</arg>
 					</args>
 					<plugins>
 						<plugin>

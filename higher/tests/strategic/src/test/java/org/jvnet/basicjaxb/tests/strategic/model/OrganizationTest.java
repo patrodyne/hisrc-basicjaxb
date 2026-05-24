@@ -25,36 +25,44 @@ public class OrganizationTest extends AbstractSamplesTest
 	{
 		assertNotNull(sampleFile, "Sample must exist.");
 		Object sample = getUnmarshaller().unmarshal(sampleFile);
-		if ( sample instanceof Organization organization )
+		if ( sample instanceof Organization org0 )
 		{
-			assertEquals(2, organization.getProjects().size());
-			assertEquals(4, organization.getDepartments().size());
-			assertEquals(8, organization.getEmployees().size());
+			assertEquals(2, org0.getProjects().size());
+			assertEquals(4, org0.getDepartments().size());
+			assertEquals(8, org0.getEmployees().size());
 
-			for ( Project project : organization.getProjects() )
+			for ( Project project : org0.getProjects() )
 				assertEquals(0, project.getEmployees().size() );
 
-			for ( Employee employee : organization.getEmployees() )
+			for ( Employee employee : org0.getEmployees() )
 			{
 				getLogger().debug("Employee: {}", employee);
 				projectTieEmployees(employee);
 				getLogger().debug("Employee #: {}", employee.hashCode());
 			}
 
-			for ( Project project : organization.getProjects() )
+			for ( Project project : org0.getProjects() )
 				getLogger().debug("Project: {}", project);
 
-			String orgXml = marshalToString(organization);
-			getLogger().trace("Organization:\n{}", orgXml);
+			getLogger().trace("Organization 0:\n{}", marshalToString(org0));
 
 			Organization org1 = (Organization) getUnmarshaller().unmarshal(sampleFile);
 			Organization org2 = (Organization) getUnmarshaller().unmarshal(sampleFile);
 			assertEquals(org1.hashCode(), org2.hashCode());
 			assertTrue(org1.equals(org2));
+
+			Organization org3 = (Organization) org0.clone();
+			assertEquals(org0, org3, "Clone must equal original.");
+
+			getLogger().trace("Organization 3:\n{}", marshalToString(org3));
+
+			Organization org4 = new Organization();
+			org4.mergeFrom(org3, org1);
+
+			getLogger().trace("Organization 4:\n{}", marshalToString(org4));
 		}
 		else
 			fail("Sample must be an Organization");
-
 	}
 
 	public void projectTieEmployees(Employee employee)

@@ -34,14 +34,19 @@ public class RunPluginsForModel extends RunPlugins
 			"-b", binding.toExternalForm(),
 			"-d", "target/generated-sources/xjc",
 			"-Xannotate",
-			"-Xannotate",
-			"-XsimpleHashCode",
-			"-XsimpleEquals",
-			"-XsimpleToString",
-			"-XsimpleToString-showFieldNames=true",
-			"-XsimpleToString-showChildItems=true",
-			"-XsimpleToString-fullClassName=false"
+			"-Xinheritance",
+			"-XhashCode",
+			"-Xequals",
+			"-XtoString",
+			"-XhashCode-hashCodeStrategyClass=org.jvnet.basicjaxb.lang.JAXBHashCodeStrategy",
+			"-Xequals-equalsStrategyClass=org.jvnet.basicjaxb.lang.JAXBEqualsStrategy",
+			"-XtoString-toStringStrategyClass=org.jvnet.basicjaxb.lang.JAXBToStringStrategy",
+			"-Xcopyable",
+			"-Xcopyable-copyStrategyClass=org.jvnet.basicjaxb.lang.JAXBCopyStrategy",
+			"-Xmergeable",
+			"-Xmergeable-mergeStrategyClass=org.jvnet.basicjaxb.lang.JAXBMergeStrategy"
 		};
+
 		runPlugins(arguments);
 	}
 }
