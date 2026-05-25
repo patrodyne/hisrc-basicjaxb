@@ -20,23 +20,27 @@ public class XmlIdReflector
      */
     public static Method getXmlIdGetter(Class<?> clazz)
     {
-        for ( Field field : clazz.getDeclaredFields() )
+        while ( clazz != null )
         {
-            // 1. Check if the @XmlID annotation is present on this field
-            if ( field.isAnnotationPresent(XmlID.class) )
+            for ( Field field : clazz.getDeclaredFields() )
             {
-				// 2. Use PropertyDescriptor to get the getX() or isX() method
-				try
-				{
-					PropertyDescriptor pd = new PropertyDescriptor(field.getName(), clazz);
-					return pd.getReadMethod();
-				}
-				catch ( IntrospectionException ex )
-				{
-					// TODO: WARN
-					ex.printStackTrace();
-				}
+                // 1. Check if the @XmlID annotation is present on this field
+                if ( field.isAnnotationPresent(XmlID.class) )
+                {
+    				// 2. Use PropertyDescriptor to get the getX() or isX() method
+    				try
+    				{
+    					PropertyDescriptor pd = new PropertyDescriptor(field.getName(), clazz);
+    					return pd.getReadMethod();
+    				}
+    				catch ( IntrospectionException ex )
+    				{
+    					// TODO: WARN
+    					ex.printStackTrace();
+    				}
+                }
             }
+        	clazz = clazz.getSuperclass();
         }
         return null; // Return null if no field has @XmlID
     }
@@ -53,38 +57,42 @@ public class XmlIdReflector
     	if ( obj != null )
     	{
             Class<?> clazz = obj.getClass();
-            for (Field field : clazz.getDeclaredFields())
+            do
             {
-                // 1. Check if the @XmlID annotation is present on this field
-                if (field.isAnnotationPresent(XmlID.class))
+                for (Field field : clazz.getDeclaredFields())
                 {
-                    // 2. Make private fields accessible
-                    field.setAccessible(true);
-    				try
-    				{
-    	                // 3. Return the value of this field from the specific object instance
-    	                Object value = field.get(obj);
-    	                return value != null ? value.toString() : null;
-    				}
-    				catch (IllegalArgumentException | IllegalAccessException e1)
-    				{
-    					// 2. Or use PropertyDescriptor to get the getX() or isX() method
+                    // 1. Check if the @XmlID annotation is present on this field
+                    if (field.isAnnotationPresent(XmlID.class))
+                    {
+                        // 2. Make private fields accessible
+                        field.setAccessible(true);
         				try
         				{
-        					PropertyDescriptor pd = new PropertyDescriptor(field.getName(), clazz);
-        					Method getter = pd.getReadMethod();
         	                // 3. Return the value of this field from the specific object instance
-        					Object value = getter.invoke(obj);
+        	                Object value = field.get(obj);
         	                return value != null ? value.toString() : null;
         				}
-        				catch (IntrospectionException | IllegalAccessException | InvocationTargetException e2)
+        				catch (IllegalArgumentException | IllegalAccessException e1)
         				{
-        					// TODO: WARN
-        					e2.printStackTrace();
+        					// 2. Or use PropertyDescriptor to get the getX() or isX() method
+            				try
+            				{
+            					PropertyDescriptor pd = new PropertyDescriptor(field.getName(), clazz);
+            					Method getter = pd.getReadMethod();
+            	                // 3. Return the value of this field from the specific object instance
+            					Object value = getter.invoke(obj);
+            	                return value != null ? value.toString() : null;
+            				}
+            				catch (IntrospectionException | IllegalAccessException | InvocationTargetException e2)
+            				{
+            					// TODO: WARN
+            					e2.printStackTrace();
+            				}
         				}
-    				}
+                    }
                 }
-            }
+            	clazz = clazz.getSuperclass();
+            } while ( clazz != null );
     	}
         return null; // Return null if no field has @XmlID
     }
