@@ -85,24 +85,25 @@
 
 		<activation-api.version>2.1.4</activation-api.version>
 		<activation-imp.version>2.0.3</activation-imp.version>
-		<ant.version>1.10.15</ant.version>
-		<commons-io.version>2.21.0</commons-io.version>
+		<ant.version>1.10.17</ant.version>
+		<commons-io.version>2.22.0</commons-io.version>
 		<guice.version>5.1.0</guice.version>
 		<javaparser.version>1.0.11</javaparser.version>
 		<jaxb-api.version>4.0.5</jaxb-api.version>
-		<jaxb-imp.version>4.0.7</jaxb-imp.version>
+		<jaxb-imp.version>4.0.9</jaxb-imp.version>
 		<jaxb-core.version>2.3.0.1</jaxb-core.version> <!-- cxf -->
 		<jaxws-api.version>4.0.1</jaxws-api.version>
+		<joda-time.version>2.14.2</joda-time.version>
 		<jts.version>1.13</jts.version>
-		<junit-jupiter.version>6.0.3</junit-jupiter.version>
-		<junit-platform.version>6.0.3</junit-platform.version>
+		<junit-jupiter.version>6.1.0</junit-jupiter.version>
+		<junit-platform.version>6.1.0</junit-platform.version>
 		<maven.compiler.release>17</maven.compiler.release>
 		<maven-api.version>3.9.6</maven-api.version>
 		<maven-min.version>3.9.0</maven-min.version>
 		<maven-resolver.version>1.9.13</maven-resolver.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<slf4j.version>2.0.17</slf4j.version>
+		<slf4j.version>2.0.18</slf4j.version>
 		<threeten-jaxb.version>2.2.0</threeten-jaxb.version>
 		<xmlunit.version>1.6</xmlunit.version>
 
@@ -215,7 +216,7 @@
 			<dependency>
 				<groupId>joda-time</groupId>
 				<artifactId>joda-time</artifactId>
-				<version>2.14.1</version>
+				<version>${joda-time.version}</version>
 			</dependency>
 			<!-- SLF4J -->
 			<dependency>
