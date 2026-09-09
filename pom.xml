@@ -85,7 +85,7 @@
 
 		<activation-api.version>2.1.4</activation-api.version>
 		<activation-imp.version>2.0.3</activation-imp.version>
-		<ant.version>1.10.17</ant.version>
+		<ant.version>1.10.18</ant.version>
 		<commons-io.version>2.22.0</commons-io.version>
 		<guice.version>5.1.0</guice.version>
 		<javaparser.version>1.0.11</javaparser.version>
@@ -103,7 +103,7 @@
 		<maven-resolver.version>1.9.13</maven-resolver.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<slf4j.version>2.0.18</slf4j.version>
+		<slf4j.version>2.0.19</slf4j.version>
 		<threeten-jaxb.version>2.2.0</threeten-jaxb.version>
 		<xmlunit.version>1.6</xmlunit.version>
 

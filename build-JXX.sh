@@ -36,7 +36,7 @@ else
   mvn ${JVM_SYS_PROPS} "$@"
 fi
 
-# Release to Maven Central via Sonatype Nexus Repository Manager
+# Release to Maven Central via Sonatype Central Portal (https://central.sonatype.com/)
 # 0) Pre-requisite: hisrc-basicjaxb-annox
 # 1) Set MVN_ARGS to "-T 1" and commit/push
 # 2) Exit mc, use the same TTY to reuse gpg signing daemon.
